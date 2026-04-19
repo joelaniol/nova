@@ -6,7 +6,7 @@
 
 ## English
 
-By using Nova Browser, you agree to the following terms. Violation of this policy may result in revocation of your license to use the software.
+By using Nova Cognitive Browser, you agree to the following terms. Violation of this policy may result in revocation of your license to use the software.
 
 ### Permitted Use
 
@@ -20,7 +20,7 @@ By using Nova Browser, you agree to the following terms. Violation of this polic
 
 **Rule #1: Don't do bad.**
 
-You may **not** use Nova Browser to:
+You may **not** use Nova Cognitive Browser to:
 
 - **Violate laws or regulations** — including but not limited to computer fraud, data protection (GDPR, CCPA), copyright, and telecommunications laws
 - **Unauthorized access** — access systems, accounts, or data without explicit authorization, even if technically possible through Nova's tools
@@ -45,13 +45,13 @@ You may **not** use Nova Browser to:
 
 ### No Warranty
 
-Nova Browser is provided "as is" without any warranty. The author is not responsible for damages caused by misuse, agent actions, or bugs in beta software. See [LICENSE](LICENSE) for full terms.
+Nova Cognitive Browser is provided "as is" without any warranty. The author is not responsible for damages caused by misuse, agent actions, or bugs in beta software. See [LICENSE](LICENSE) for full terms.
 
 ---
 
 ## Deutsch
 
-Mit der Nutzung von Nova Browser stimmst du den folgenden Bedingungen zu. Ein Verstoß gegen diese Richtlinie kann zum Entzug deiner Nutzungslizenz führen.
+Mit der Nutzung von Nova Cognitive Browser stimmst du den folgenden Bedingungen zu. Ein Verstoß gegen diese Richtlinie kann zum Entzug deiner Nutzungslizenz führen.
 
 ### Erlaubte Nutzung
 
@@ -65,7 +65,7 @@ Mit der Nutzung von Nova Browser stimmst du den folgenden Bedingungen zu. Ein Ve
 
 **Regel Nr. 1: Don't do bad.**
 
-Du darfst Nova Browser **nicht** verwenden für:
+Du darfst Nova Cognitive Browser **nicht** verwenden für:
 
 - **Gesetzes- oder Regelverstöße** — einschließlich Computerbetrug, Datenschutz (DSGVO, BDSG), Urheberrecht und Telekommunikationsrecht
 - **Unbefugten Zugriff** — Zugang zu Systemen, Konten oder Daten ohne ausdrückliche Genehmigung, auch wenn technisch über Novas Werkzeuge möglich
@@ -90,4 +90,4 @@ Du darfst Nova Browser **nicht** verwenden für:
 
 ### Keine Gewährleistung
 
-Nova Browser wird "wie besehen" ohne jegliche Gewährleistung bereitgestellt. Der Autor ist nicht verantwortlich für Schäden durch Missbrauch, Agentenaktionen oder Fehler in Beta-Software. Siehe [LICENSE](LICENSE) für die vollständigen Bedingungen.
+Nova Cognitive Browser wird "wie besehen" ohne jegliche Gewährleistung bereitgestellt. Der Autor ist nicht verantwortlich für Schäden durch Missbrauch, Agentenaktionen oder Fehler in Beta-Software. Siehe [LICENSE](LICENSE) für die vollständigen Bedingungen.

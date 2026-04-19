@@ -8,7 +8,7 @@
 
 ### Overview
 
-Nova Browser is designed to keep your data local. It does not collect usage analytics, does not track browsing behavior, and does not phone home during normal operation. The only network communication initiated by Nova itself is an optional, user-consented crash report after an unclean shutdown.
+Nova Cognitive Browser is designed to keep your data local. It does not collect usage analytics, does not track browsing behavior, and does not phone home during normal operation. The only network communication initiated by Nova itself is an optional, user-consented crash report after an unclean shutdown.
 
 ### What Nova Does NOT Collect
 
@@ -85,7 +85,7 @@ This includes settings, browser profiles, history, favorites, vault entries, kno
 
 ### Children
 
-Nova Browser is not directed at children under 13. We do not knowingly collect data from children.
+Nova Cognitive Browser is not directed at children under 13. We do not knowingly collect data from children.
 
 ### Contact
 
@@ -97,7 +97,7 @@ For privacy-related questions: [LinkedIn](https://www.linkedin.com/in/joelaniol/
 
 ### Überblick
 
-Nova Browser ist darauf ausgelegt, deine Daten lokal zu halten. Es werden keine Nutzungsanalysen gesammelt, kein Browserverlauf getrackt und während des normalen Betriebs keine Daten übermittelt. Die einzige von Nova selbst initiierte Netzwerkkommunikation ist ein optionaler, nutzerbestätigter Absturzbericht nach einem unsauberen Beenden.
+Nova Cognitive Browser ist darauf ausgelegt, deine Daten lokal zu halten. Es werden keine Nutzungsanalysen gesammelt, kein Browserverlauf getrackt und während des normalen Betriebs keine Daten übermittelt. Die einzige von Nova selbst initiierte Netzwerkkommunikation ist ein optionaler, nutzerbestätigter Absturzbericht nach einem unsauberen Beenden.
 
 ### Was Nova NICHT sammelt
 
@@ -174,7 +174,7 @@ Dies umfasst Einstellungen, Browser-Profile, Verlauf, Favoriten, Vault-Einträge
 
 ### Kinder
 
-Nova Browser richtet sich nicht an Kinder unter 13 Jahren. Es werden wissentlich keine Daten von Kindern erhoben.
+Nova Cognitive Browser richtet sich nicht an Kinder unter 13 Jahren. Es werden wissentlich keine Daten von Kindern erhoben.
 
 ### Kontakt
 
