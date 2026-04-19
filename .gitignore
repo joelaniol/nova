@@ -162,6 +162,15 @@ service-account*.json
 # Interne Docs (nur fuer Agents, nicht oeffentlich)
 # ------------------------------------------------------------
 docs/release-checklist.md
+docs/release-log.md
+
+# ------------------------------------------------------------
+# Installer (lokal, wird nicht gepusht)
+# ------------------------------------------------------------
+installer/
+*.iss
+*.exe
+!release/**/*.exe
 
 # ------------------------------------------------------------
 # Diverse

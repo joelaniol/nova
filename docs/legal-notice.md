@@ -44,10 +44,10 @@ Joel Aniol
 Copyright (c) 2025 Joel Aniol. Alle Rechte vorbehalten.
 
 ### Software-Lizenz
-Nova Browser ist proprietaere Software. Unbefugte Vervielfaeltigung, Verbreitung, Aenderung, Reverse Engineering, Dekompilierung oder Disassemblierung ist untersagt. Siehe [LICENSE](../LICENSE) fuer den vollstaendigen Lizenztext.
+Nova Browser ist proprietäre Software. Unbefugte Vervielfältigung, Verbreitung, Änderung, Reverse Engineering, Dekompilierung oder Disassemblierung ist untersagt. Siehe [LICENSE](../LICENSE) für den vollständigen Lizenztext.
 
 ### Drittanbieter-Komponenten
-Nova Browser enthaelt Open-Source-Komponenten unter deren jeweiligen Lizenzen:
+Nova Browser enthält Open-Source-Komponenten unter deren jeweiligen Lizenzen:
 
 | Komponente | Lizenz | Quelle |
 |---|---|---|
@@ -59,16 +59,16 @@ Nova Browser enthaelt Open-Source-Komponenten unter deren jeweiligen Lizenzen:
 | Jint | BSD 2-Clause | https://github.com/sebastienros/jint |
 | System.Security.Cryptography.ProtectedData | MIT | https://github.com/dotnet/runtime |
 
-Vollstaendige Lizenztexte befinden sich in `THIRD-PARTY-LICENSES.txt`, die jedem Release beiliegt.
+Vollständige Lizenztexte befinden sich in `THIRD-PARTY-LICENSES.txt`, die jedem Release beiliegt.
 
 ### Haftungsausschluss
-Die Software wird "wie besehen" ohne jegliche Gewaehrleistung bereitgestellt. Der Autor haftet nicht fuer Schaeden, die aus der Nutzung dieser Software entstehen.
+Die Software wird "wie besehen" ohne jegliche Gewährleistung bereitgestellt. Der Autor haftet nicht für Schäden, die aus der Nutzung dieser Software entstehen.
 
 ### Hinweis zu KI-Anbietern
 Nova Browser integriert Drittanbieter-KI-Dienste (Claude, Codex, Gemini). Bei Nutzung dieser Dienste gelten deren jeweilige Nutzungsbedingungen, Datenschutzrichtlinien und Datenverarbeitungspraktiken. Nova hat keinen Einfluss darauf, wie diese Anbieter an ihre APIs gesendete Daten verarbeiten.
 
 ### Beta-Software-Hinweis
-Nova Browser befindet sich derzeit in der Beta-Phase. Funktionen koennen sich aendern und die Software kann Fehler enthalten. Die Nutzung in Produktionsumgebungen erfolgt auf eigenes Risiko.
+Nova Browser befindet sich derzeit in der Beta-Phase. Funktionen können sich ändern und die Software kann Fehler enthalten. Die Nutzung in Produktionsumgebungen erfolgt auf eigenes Risiko.
 
 ### Kontakt
 Joel Aniol

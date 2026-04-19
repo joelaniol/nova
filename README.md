@@ -4,14 +4,14 @@
 >
 > Nova Browser is in active beta development. Bugs, crashes, data loss, and breaking changes
 > may occur. There is no warranty of any kind. Do not rely on this software for critical tasks.
-> By using Nova you accept the [Disclaimer](DISCLAIMER.md), [Acceptable Use Policy](ACCEPTABLE-USE.md), and the [License](LICENSE).
+> By using Nova you accept the [Disclaimer](DISCLAIMER.md), [Acceptable Use Policy](ACCEPTABLE-USE.md), [Privacy Policy](PRIVACY.md), and the [License](LICENSE).
 >
 > **BETA-SOFTWARE — NUTZUNG AUF EIGENE GEFAHR**
 >
-> Nova Browser befindet sich in aktiver Beta-Entwicklung. Fehler, Abstuerze, Datenverlust und
-> Breaking Changes koennen auftreten. Es gibt keinerlei Gewaehrleistung. Verwende diese Software
-> nicht fuer kritische Aufgaben. Mit der Nutzung akzeptierst du den
-> [Haftungsausschluss](DISCLAIMER.md), die [Nutzungsrichtlinie](ACCEPTABLE-USE.md) und die [Lizenz](LICENSE).
+> Nova Browser befindet sich in aktiver Beta-Entwicklung. Fehler, Abstürze, Datenverlust und
+> Breaking Changes können auftreten. Es gibt keinerlei Gewährleistung. Verwende diese Software
+> nicht für kritische Aufgaben. Mit der Nutzung akzeptierst du den
+> [Haftungsausschluss](DISCLAIMER.md), die [Nutzungsrichtlinie](ACCEPTABLE-USE.md), die [Datenschutzerklärung](PRIVACY.md) und die [Lizenz](LICENSE).
 
 ---
 
@@ -99,27 +99,27 @@ Joel Aniol — [LinkedIn](https://www.linkedin.com/in/joelaniol/)
 
 **Eine beaufsichtigte KI-Agenten-Runtime in einem echten Desktop-Browser.**
 
-Nova macht aus einem lokalen Windows-Browser einen kontrollierten Arbeitsraum fuer KI-Agenten. Es verbindet einen vollstaendigen Chromium-/WebView2-Browser, einen offenen lokalen MCP-Server, eingebaute Claude-/Codex-/Gemini-Sidecars, lokale Wissensspeicher, Discovery- und Crawler-Werkzeuge, geplante Automation und browserseitige Sicherheits-Gates.
+Nova macht aus einem lokalen Windows-Browser einen kontrollierten Arbeitsraum für KI-Agenten. Es verbindet einen vollständigen Chromium-/WebView2-Browser, einen offenen lokalen MCP-Server, eingebaute Claude-/Codex-/Gemini-Sidecars, lokale Wissensspeicher, Discovery- und Crawler-Werkzeuge, geplante Automation und browserseitige Sicherheits-Gates.
 
-Wichtig ist nicht, dass ein Agent auf einer Seite klicken kann. Wichtig ist, dass der Browser **sehen, begrenzen, verifizieren, erinnern und erklaeren** kann, was der Agent tut.
+Wichtig ist nicht, dass ein Agent auf einer Seite klicken kann. Wichtig ist, dass der Browser **sehen, begrenzen, verifizieren, erinnern und erklären** kann, was der Agent tut.
 
 ## Schnellstart
 
 1. Neuestes Release von [Releases](https://github.com/joelaniol/nova/releases) herunterladen
-2. ZIP entpacken (portabel) oder Installer ausfuehren
+2. ZIP entpacken (portabel) oder Installer ausführen
 3. `NovaBrowser.exe` starten
-4. In den Einstellungen Sprache, Browser-Identitaet, Sandboxes, KI-Provider-Konten, MCP-Zugriff und Agentenrechte konfigurieren
+4. In den Einstellungen Sprache, Browser-Identität, Sandboxes, KI-Provider-Konten, MCP-Zugriff und Agentenrechte konfigurieren
 
-> Beim ersten Start kann Windows SmartScreen melden, dass die App nicht signiert ist. Bei Beta-Builds ist das erwartbar. "Weitere Informationen" > "Trotzdem ausfuehren".
+> Beim ersten Start kann Windows SmartScreen melden, dass die App nicht signiert ist. Bei Beta-Builds ist das erwartbar. "Weitere Informationen" > "Trotzdem ausführen".
 
 ## Auf einen Blick
 
-- **Echter Desktop-Browser** — WebView2-Tabs, Sandboxes, History, Favoriten, Downloads, Zoom, Drucken, Suche, Site-Info, Session Restore, Proxy-Profile und Browser-Identitaet
-- **Offene Agenten-Plattform** — Ein lokaler MCP-Server stellt Novas Browser- und Wissenswerkzeuge fuer Claude Code, Cursor, Windsurf, eigene Scripts und jeden MCP-faehigen Agent bereit
+- **Echter Desktop-Browser** — WebView2-Tabs, Sandboxes, History, Favoriten, Downloads, Zoom, Drucken, Suche, Site-Info, Session Restore, Proxy-Profile und Browser-Identität
+- **Offene Agenten-Plattform** — Ein lokaler MCP-Server stellt Novas Browser- und Wissenswerkzeuge für Claude Code, Cursor, Windsurf, eigene Scripts und jeden MCP-fähigen Agent bereit
 - **Sichtbarer KI-Arbeitsraum** — Claude, Codex und Gemini laufen im selben Agentenpanel mit Live-Transcript, Tool-Cards, Approvals, Interrupt und Provider-Wechsel
-- **Lokales Web-Gedaechtnis** — LCJ, ALP, PKS, OK, Task Memory und Operator Notes helfen Agents, verifiziertes Website-Verhalten zu lernen
+- **Lokales Web-Gedächtnis** — LCJ, ALP, PKS, OK, Task Memory und Operator Notes helfen Agents, verifiziertes Website-Verhalten zu lernen
 - **Tiefe Exploration** — Website-MCP-Discovery, Hidden-WebView-Crawling, Live-Tab-Crawling und Surface Explorer
-- **Geplante Automation** — Tasks laufen nach Intervall, Dateiaenderung, manuellem Trigger oder Workflow-Kette
+- **Geplante Automation** — Tasks laufen nach Intervall, Dateiänderung, manuellem Trigger oder Workflow-Kette
 - **Browserseitige Sicherheit** — Domain-Regeln, Claims, Audit-Logs, Vault SecretRefs, Emergency Stop, Kill-Switches und strikte MCP-Validierung
 
 ## Voraussetzungen
@@ -130,22 +130,22 @@ Wichtig ist nicht, dass ein Agent auf einer Seite klicken kann. Wichtig ist, das
 
 Falls Nova wegen fehlender Windows App Runtime nicht startet:
 
-- **Option A:** `repair-windows-app-runtime.ps1` ausfuehren (im Release enthalten)
+- **Option A:** `repair-windows-app-runtime.ps1` ausführen (im Release enthalten)
 - **Option B:** Manuell herunterladen: [Microsoft](https://aka.ms/windowsappsdk/1.8/latest/windowsappruntimeinstall-x64.exe)
 
 ## MCP-Integration
 
-Nova betreibt waehrend der Laufzeit einen lokalen MCP-Server. Externe Clients verbinden sich ueber:
+Nova betreibt während der Laufzeit einen lokalen MCP-Server. Externe Clients verbinden sich über:
 
 ```
 %LOCALAPPDATA%\NovaBrowser\mcp.json
 ```
 
-Diese Datei enthaelt Endpunkt und Bearer-Token. Als lokales Credential behandeln.
+Diese Datei enthält Endpunkt und Bearer-Token. Als lokales Credential behandeln.
 
 ## Lokale Daten
 
-Alle Daten liegen lokal unter `%LOCALAPPDATA%\NovaBrowser\` — Einstellungen, Browser-Profile, History, Favoriten, Vault, Logs, Wissensspeicher, Crawler-Datenbanken, Task-Workspaces und Gespraechsarchive.
+Alle Daten liegen lokal unter `%LOCALAPPDATA%\NovaBrowser\` — Einstellungen, Browser-Profile, History, Favoriten, Vault, Logs, Wissensspeicher, Crawler-Datenbanken, Task-Workspaces und Gesprächsarchive.
 
 Nova braucht keinen Cloud-Dienst. Bei Nutzung von Drittanbieter-KI-Providern gelten deren Datenregeln.
 

@@ -75,63 +75,63 @@ By downloading, installing, or using Nova Browser, you acknowledge that you have
 
 ### Beta-Software
 
-Nova Browser ist **Beta-Software**. Sie ist unvollstaendig, enthaelt bekannte und unbekannte Fehler und wird aktiv weiterentwickelt. Funktionen koennen sich ohne Vorankuendigung aendern, fehlschlagen oder entfernt werden.
+Nova Browser ist **Beta-Software**. Sie ist unvollständig, enthält bekannte und unbekannte Fehler und wird aktiv weiterentwickelt. Funktionen können sich ohne Vorankündigung ändern, fehlschlagen oder entfernt werden.
 
-### Keine Gewaehrleistung
+### Keine Gewährleistung
 
-Nova Browser wird **"wie besehen" und "wie verfuegbar"** bereitgestellt, ohne jegliche ausdrueckliche oder stillschweigende Gewaehrleistung. Dies umfasst insbesondere Gewaehrleistungen fuer:
+Nova Browser wird **"wie besehen" und "wie verfügbar"** bereitgestellt, ohne jegliche ausdrückliche oder stillschweigende Gewährleistung. Dies umfasst insbesondere Gewährleistungen für:
 
-- Handelsueblichkeit
-- Eignung fuer einen bestimmten Zweck
-- Richtigkeit oder Zuverlaessigkeit
+- Handelsüblichkeit
+- Eignung für einen bestimmten Zweck
+- Richtigkeit oder Zuverlässigkeit
 - Unterbrechungsfreien oder fehlerfreien Betrieb
-- Sicherheit oder Datenintegritaet
+- Sicherheit oder Datenintegrität
 
-**Es gibt keine Garantie, dass Nova Browser frei von Maengeln, Schwachstellen oder Fehlern ist.**
+**Es gibt keine Garantie, dass Nova Browser frei von Mängeln, Schwachstellen oder Fehlern ist.**
 
-### Haftungsbeschraenkung
+### Haftungsbeschränkung
 
-Der Autor und Mitwirkende haften in keinem Fall fuer direkte, indirekte, zufaellige, besondere, beispielhafte oder Folgeschaeden, einschliesslich aber nicht beschraenkt auf:
+Der Autor und Mitwirkende haften in keinem Fall für direkte, indirekte, zufällige, besondere, beispielhafte oder Folgeschäden, einschließlich aber nicht beschränkt auf:
 
 - Datenverlust
 - Gewinn- oder Umsatzverlust
 - Betriebsunterbrechung
-- Schaeden an Systemen oder Drittanbieterdiensten
+- Schäden an Systemen oder Drittanbieterdiensten
 - Folgen von KI-Agenten-Aktionen
 - Unbefugte Datenoffenlegung durch Softwarefehler
 
-Dies gilt unabhaengig von der Ursache und unabhaengig davon, ob der Anspruch aus Vertrag, unerlaubter Handlung, Fahrlaessigkeit, Gefaehrdungshaftung oder einer anderen Rechtsgrundlage entsteht, selbst wenn der Autor auf die Moeglichkeit solcher Schaeden hingewiesen wurde.
+Dies gilt unabhängig von der Ursache und unabhängig davon, ob der Anspruch aus Vertrag, unerlaubter Handlung, Fahrlässigkeit, Gefährdungshaftung oder einer anderen Rechtsgrundlage entsteht, selbst wenn der Autor auf die Möglichkeit solcher Schäden hingewiesen wurde.
 
 ### KI-Agenten-Aktionen
 
-Nova Browser ermoeglicht KI-Agenten die Interaktion mit Websites, Diensten und lokalen Daten. **Du bist allein verantwortlich fuer:**
+Nova Browser ermöglicht KI-Agenten die Interaktion mit Websites, Diensten und lokalen Daten. **Du bist allein verantwortlich für:**
 
-- Alle Aktionen von KI-Agenten, die du konfigurierst, autorisierst oder laufen laesst
-- Die Pruefung und Genehmigung von Agentenanfragen vor Erteilung von Berechtigungen
-- Die Ueberwachung der Agentenaktivitaet waehrend der Ausfuehrung
+- Alle Aktionen von KI-Agenten, die du konfigurierst, autorisierst oder laufen lässt
+- Die Prüfung und Genehmigung von Agentenanfragen vor Erteilung von Berechtigungen
+- Die Überwachung der Agentenaktivität während der Ausführung
 - Alle Folgen von Agentenaktionen, ob beabsichtigt oder unbeabsichtigt
 
-Der Autor von Nova Browser hat keine Kontrolle ueber und uebernimmt keine Haftung fuer das Verhalten von Drittanbieter-KI-Modellen (Claude, Codex, Gemini oder andere), die ueber Nova genutzt werden.
+Der Autor von Nova Browser hat keine Kontrolle über und übernimmt keine Haftung für das Verhalten von Drittanbieter-KI-Modellen (Claude, Codex, Gemini oder andere), die über Nova genutzt werden.
 
-### Nicht fuer kritische Einsaetze
+### Nicht für kritische Einsätze
 
-**Verwende Nova Browser nicht in Umgebungen, in denen ein Ausfall Schaden verursachen koennte**, einschliesslich aber nicht beschraenkt auf:
+**Verwende Nova Browser nicht in Umgebungen, in denen ein Ausfall Schaden verursachen könnte**, einschließlich aber nicht beschränkt auf:
 
 - Medizinische, gesundheitliche oder lebenserhaltende Systeme
 - Finanzhandel oder Transaktionen mit erheblichen Summen
 - Rechts- oder compliance-kritische Workflows ohne menschliche Verifikation
 - Infrastrukturverwaltung ohne Absicherung
-- Jede Umgebung, in der unbeaufsichtigte Agentenfehler irreversible Schaeden verursachen koennten
+- Jede Umgebung, in der unbeaufsichtigte Agentenfehler irreversible Schäden verursachen könnten
 
 ### Drittanbieterdienste
 
-Nova Browser verbindet sich mit Drittanbieterdiensten wie KI-Providern, Websites und MCP-Endpunkten. Der Autor ist nicht verantwortlich fuer:
+Nova Browser verbindet sich mit Drittanbieterdiensten wie KI-Providern, Websites und MCP-Endpunkten. Der Autor ist nicht verantwortlich für:
 
-- Verfuegbarkeit, Richtigkeit oder Verhalten von Drittanbieterdiensten
+- Verfügbarkeit, Richtigkeit oder Verhalten von Drittanbieterdiensten
 - Daten, die von Drittanbieter-KI-Providern verarbeitet werden
-- Aenderungen an APIs oder Nutzungsbedingungen von Drittanbietern
+- Änderungen an APIs oder Nutzungsbedingungen von Drittanbietern
 - Kosten, die durch Nutzung von Drittanbieter-APIs entstehen
 
 ### Akzeptanz
 
-Mit dem Herunterladen, Installieren oder Nutzen von Nova Browser bestaetigst du, dass du diesen Haftungsausschluss gelesen und verstanden hast und seinen Bedingungen zustimmst. Wenn du nicht zustimmst, nutze die Software nicht.
+Mit dem Herunterladen, Installieren oder Nutzen von Nova Browser bestätigst du, dass du diesen Haftungsausschluss gelesen und verstanden hast und seinen Bedingungen zustimmst. Wenn du nicht zustimmst, nutze die Software nicht.

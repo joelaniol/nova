@@ -51,43 +51,43 @@ Nova Browser is provided "as is" without any warranty. The author is not respons
 
 ## Deutsch
 
-Mit der Nutzung von Nova Browser stimmst du den folgenden Bedingungen zu. Ein Verstoss gegen diese Richtlinie kann zum Entzug deiner Nutzungslizenz fuehren.
+Mit der Nutzung von Nova Browser stimmst du den folgenden Bedingungen zu. Ein Verstoß gegen diese Richtlinie kann zum Entzug deiner Nutzungslizenz führen.
 
 ### Erlaubte Nutzung
 
-- Persoenliches Browsen und Produktivitaet
+- Persönliches Browsen und Produktivität
 - Autorisiertes Testen und Automatisieren eigener Websites und Dienste
-- KI-Agenten-Workflows auf Websites, fuer die du ausdrueckliche Erlaubnis hast oder deren Nutzungsbedingungen automatisierten Zugriff erlauben
+- KI-Agenten-Workflows auf Websites, für die du ausdrückliche Erlaubnis hast oder deren Nutzungsbedingungen automatisierten Zugriff erlauben
 - Forschung und Entwicklung innerhalb gesetzlicher Grenzen
-- Anbindung MCP-kompatibler Tools und Agenten fuer legitime Zwecke
+- Anbindung MCP-kompatibler Tools und Agenten für legitime Zwecke
 
 ### Verbotene Nutzung
 
 **Regel Nr. 1: Don't do bad.**
 
-Du darfst Nova Browser **nicht** verwenden fuer:
+Du darfst Nova Browser **nicht** verwenden für:
 
-- **Gesetzes- oder Regelverstoesse** — einschliesslich Computerbetrug, Datenschutz (DSGVO, BDSG), Urheberrecht und Telekommunikationsrecht
-- **Unbefugten Zugriff** — Zugang zu Systemen, Konten oder Daten ohne ausdrueckliche Genehmigung, auch wenn technisch ueber Novas Werkzeuge moeglich
-- **Umgehung von Sicherheitsmassnahmen** — Umgehen von Authentifizierung, CAPTCHAs, Rate Limits oder Zugangskontrollen von Drittanbietern, es sei denn, der Dienstanbieter hat dies ausdruecklich genehmigt
-- **Daten-Scraping oder -Sammlung** unter Verstoss gegen Nutzungsbedingungen, robots.txt oder geltendes Recht einer Website
+- **Gesetzes- oder Regelverstöße** — einschließlich Computerbetrug, Datenschutz (DSGVO, BDSG), Urheberrecht und Telekommunikationsrecht
+- **Unbefugten Zugriff** — Zugang zu Systemen, Konten oder Daten ohne ausdrückliche Genehmigung, auch wenn technisch über Novas Werkzeuge möglich
+- **Umgehung von Sicherheitsmaßnahmen** — Umgehen von Authentifizierung, CAPTCHAs, Rate Limits oder Zugangskontrollen von Drittanbietern, es sei denn, der Dienstanbieter hat dies ausdrücklich genehmigt
+- **Daten-Scraping oder -Sammlung** unter Verstoß gegen Nutzungsbedingungen, robots.txt oder geltendes Recht einer Website
 - **Verbreitung von Schadsoftware** — Nutzung von Novas Automation, MCP-Server oder Agentenfunktionen zur Erstellung, Verbreitung oder Bereitstellung von Malware
-- **Spam oder Missbrauch** — Versand unerwuenschter Nachrichten, Erstellung gefaelschter Konten, Bewertungsmanipulation oder jede Form automatisierten Missbrauchs
-- **Identitaetstaeuschung** — Nutzung der Browser-Identitaetsfunktionen zur betruegerischen Nachahmung anderer Personen oder Organisationen
-- **Dienstverweigerungsangriffe** — Nutzung von Crawling, Automation oder Agentenfunktionen zur Ueberlastung oder Stoerung von Drittanbieterdiensten
-- **Ueberwachung** — Nutzung von Novas Faehigkeiten zur Beobachtung, Verfolgung oder Ueberwachung von Personen ohne deren Wissen und Zustimmung
-- **Schaedigung oder Belaestigung** — Nutzung von KI-Agentenfunktionen zur Erzeugung schaedlicher, missbraeuchlicher, bedrohlicher oder belaestigender Inhalte
-- **Credential-Missbrauch** — Nutzung von Novas Vault oder MCP-Tools zum Testen gestohlener Zugangsdaten oder fuer Credential-Stuffing-Angriffe
-- **Illegaler Handel** — Erleichterung von Transaktionen mit illegalen Guetern oder Dienstleistungen
+- **Spam oder Missbrauch** — Versand unerwünschter Nachrichten, Erstellung gefälschter Konten, Bewertungsmanipulation oder jede Form automatisierten Missbrauchs
+- **Identitätstäuschung** — Nutzung der Browser-Identitätsfunktionen zur betrügerischen Nachahmung anderer Personen oder Organisationen
+- **Dienstverweigerungsangriffe** — Nutzung von Crawling, Automation oder Agentenfunktionen zur Überlastung oder Störung von Drittanbieterdiensten
+- **Überwachung** — Nutzung von Novas Fähigkeiten zur Beobachtung, Verfolgung oder Überwachung von Personen ohne deren Wissen und Zustimmung
+- **Schädigung oder Belästigung** — Nutzung von KI-Agentenfunktionen zur Erzeugung schädlicher, missbräuchlicher, bedrohlicher oder belästigender Inhalte
+- **Credential-Missbrauch** — Nutzung von Novas Vault oder MCP-Tools zum Testen gestohlener Zugangsdaten oder für Credential-Stuffing-Angriffe
+- **Illegaler Handel** — Erleichterung von Transaktionen mit illegalen Gütern oder Dienstleistungen
 
 ### Deine Verantwortung
 
-- **Du bist verantwortlich** fuer alle Aktionen von KI-Agenten, die du konfigurierst, autorisierst oder ueber Nova laufen laesst
-- **Pruefe Berechtigungen sorgfaeltig** — Novas Approval-Prompts existieren zu deinem Schutz. Weitreichende Berechtigungen an Agenten bedeuten Verantwortung fuer deren Handlungen
-- **Ueberwache Agentenaktivitaet** — Nutze Novas Transcript, Audit-Logs und Aktivitaetsindikatoren, um informiert zu bleiben
-- **Drittanbieter-KI-Provider** — Bei Nutzung von Claude, Codex, Gemini oder anderen Anbietern ueber Nova muessen auch deren Nutzungsbedingungen eingehalten werden
+- **Du bist verantwortlich** für alle Aktionen von KI-Agenten, die du konfigurierst, autorisierst oder über Nova laufen lässt
+- **Prüfe Berechtigungen sorgfältig** — Novas Approval-Prompts existieren zu deinem Schutz. Weitreichende Berechtigungen an Agenten bedeuten Verantwortung für deren Handlungen
+- **Überwache Agentenaktivität** — Nutze Novas Transcript, Audit-Logs und Aktivitätsindikatoren, um informiert zu bleiben
+- **Drittanbieter-KI-Provider** — Bei Nutzung von Claude, Codex, Gemini oder anderen Anbietern über Nova müssen auch deren Nutzungsbedingungen eingehalten werden
 - **Emergency Stop existiert aus gutem Grund** — Bei unerwartetem Agentenverhalten sofort nutzen
 
-### Keine Gewaehrleistung
+### Keine Gewährleistung
 
-Nova Browser wird "wie besehen" ohne jegliche Gewaehrleistung bereitgestellt. Der Autor ist nicht verantwortlich fuer Schaeden durch Missbrauch, Agentenaktionen oder Fehler in Beta-Software. Siehe [LICENSE](LICENSE) fuer die vollstaendigen Bedingungen.
+Nova Browser wird "wie besehen" ohne jegliche Gewährleistung bereitgestellt. Der Autor ist nicht verantwortlich für Schäden durch Missbrauch, Agentenaktionen oder Fehler in Beta-Software. Siehe [LICENSE](LICENSE) für die vollständigen Bedingungen.
