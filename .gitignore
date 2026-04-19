@@ -151,12 +151,17 @@ token.json
 service-account*.json
 
 # ------------------------------------------------------------
-# Archiv / Komprimiert
+# Archiv / Komprimiert (Release-ZIPs sind erlaubt!)
 # ------------------------------------------------------------
-*.zip
 *.tar.gz
 *.rar
 *.7z
+# *.zip — NICHT blockieren, Release-ZIPs werden mit hochgeladen
+
+# ------------------------------------------------------------
+# Interne Docs (nur fuer Agents, nicht oeffentlich)
+# ------------------------------------------------------------
+docs/release-checklist.md
 
 # ------------------------------------------------------------
 # Diverse
