@@ -163,6 +163,7 @@ service-account*.json
 # ------------------------------------------------------------
 docs/release-checklist.md
 docs/release-log.md
+docs/internal-links.md
 
 # ------------------------------------------------------------
 # Installer (lokal, wird nicht gepusht)

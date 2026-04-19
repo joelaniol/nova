@@ -85,9 +85,18 @@ All rights reserved. See [LICENSE](LICENSE) for details.
 
 Third-party components are subject to their own licenses. See [THIRD-PARTY-LICENSES.txt](THIRD-PARTY-LICENSES.txt).
 
-## Contact
+## Videos
 
-Joel Aniol — [LinkedIn](https://www.linkedin.com/in/joelaniol/)
+See Nova in action: [YouTube Channel](https://www.youtube.com/@novainweb)
+
+Browse the full video index with descriptions and direct links in [docs/videos.md](docs/videos.md).
+
+## Links
+
+- **Website:** [nova-cognitive.com](http://nova-cognitive.com/)
+- **Releases:** [GitHub Releases](https://github.com/joelaniol/nova/releases)
+- **YouTube:** [@novainweb](https://www.youtube.com/@novainweb)
+- **Contact:** Joel Aniol — [LinkedIn](https://www.linkedin.com/in/joelaniol/)
 
 ---
 
@@ -162,6 +171,15 @@ Alle Rechte vorbehalten. Siehe [LICENSE](LICENSE).
 
 Drittanbieter-Komponenten unterliegen eigenen Lizenzen. Siehe [THIRD-PARTY-LICENSES.txt](THIRD-PARTY-LICENSES.txt).
 
-## Kontakt
+## Videos
 
-Joel Aniol — [LinkedIn](https://www.linkedin.com/in/joelaniol/)
+Nova in Aktion: [YouTube-Kanal](https://www.youtube.com/@novainweb)
+
+Alle Videos mit Beschreibungen und Direktlinks in [docs/videos.md](docs/videos.md).
+
+## Links
+
+- **Website:** [nova-cognitive.com](http://nova-cognitive.com/)
+- **Releases:** [GitHub Releases](https://github.com/joelaniol/nova/releases)
+- **YouTube:** [@novainweb](https://www.youtube.com/@novainweb)
+- **Kontakt:** Joel Aniol — [LinkedIn](https://www.linkedin.com/in/joelaniol/)
