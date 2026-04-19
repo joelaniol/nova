@@ -89,7 +89,7 @@ Third-party components are subject to their own licenses. See [THIRD-PARTY-LICEN
 
 See Nova in action: [YouTube Channel](https://www.youtube.com/@novainweb)
 
-Browse the full video index with descriptions and direct links in [docs/videos.md](docs/videos.md).
+Browse the full video index with thumbnails and direct links in [videos/](videos/).
 
 ## Links
 
@@ -175,7 +175,7 @@ Drittanbieter-Komponenten unterliegen eigenen Lizenzen. Siehe [THIRD-PARTY-LICEN
 
 Nova in Aktion: [YouTube-Kanal](https://www.youtube.com/@novainweb)
 
-Alle Videos mit Beschreibungen und Direktlinks in [docs/videos.md](docs/videos.md).
+Alle Videos mit Thumbnails und Direktlinks in [videos/](videos/).
 
 ## Links
 
