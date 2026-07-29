@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Known MCP tool quirks — please do NOT report these
+    url: https://github.com/joelaniol/nova#reporting-bugs--fehler-melden
+    about: MCP tool quirks during the alpha are already known and get fixed over time. No need to file them.
+  - name: Security vulnerability (report privately)
+    url: https://github.com/joelaniol/nova/blob/main/SECURITY.md
+    about: Do not open a public issue for security issues — see the Security Policy.
+  - name: Questions & feedback (Discussions)
+    url: https://github.com/joelaniol/nova/discussions
+    about: General questions, ideas and feedback belong here, not in Issues.

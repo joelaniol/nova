@@ -1,0 +1,45 @@
+name: Crash report · Absturz melden
+description: Report a crash (Nova closed unexpectedly). Please report ONLY crashes — not MCP tool quirks.
+title: "[Crash] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Please report crashes only.** Known MCP-tool quirks during the alpha are already tracked
+        and get fixed over time — no need to file those. · **Bitte nur Abstürze melden.** Bekannte
+        MCP-Tool-Eigenheiten sind erfasst und werden nach und nach behoben.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened? · Was ist passiert?
+      description: What were you doing when Nova crashed? · Was hast du gemacht, als Nova abstürzte?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce · Schritte zum Reproduzieren
+      description: If you can reproduce it, list the steps. · Falls reproduzierbar, die Schritte.
+    validations:
+      required: false
+  - type: input
+    id: version
+    attributes:
+      label: Nova version · Nova-Version
+      description: "Settings → About / Einstellungen → Info (e.g. 1.0.0-alpha.11)"
+    validations:
+      required: true
+  - type: input
+    id: windows
+    attributes:
+      label: Windows version
+      description: "e.g. Windows 11 23H2 / Windows 10 22H2"
+    validations:
+      required: false
+  - type: textarea
+    id: log
+    attributes:
+      label: Log (optional)
+      description: "Settings → About → Open app logs; attach the latest app-*.log if possible."
+    validations:
+      required: false
