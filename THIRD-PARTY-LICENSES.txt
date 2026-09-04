@@ -232,9 +232,137 @@ Copyright (c) 2015 Robin Rodricks and FluentFTP Contributors
 SSH.NET
 License: MIT
 Source:  https://github.com/sshnet/SSH.NET
-Package: SSH.NET 2025.1.0
+Package: SSH.NET 2026.0.0
 ----------------------------------------------------------------------
 
 Copyright (c) 2010, RENCI
 
 (Same MIT license text as .NET Runtime above.)
+
+----------------------------------------------------------------------
+Windows App SDK Runtime Installer (WindowsAppRuntimeInstall-x64.exe)
+License: Microsoft Software License Terms (redistributable)
+Source:  https://learn.microsoft.com/windows/apps/windows-app-sdk/downloads
+----------------------------------------------------------------------
+
+The Windows App Runtime installer is bundled with the Nova Browser setup
+installer and executed to provision the runtime required by the app.
+Redistribution of the runtime installer is permitted under the Microsoft
+Software License Terms for the Windows App SDK. The Windows App SDK
+sources themselves are MIT-licensed (see "Windows App SDK" above).
+
+----------------------------------------------------------------------
+Microsoft Edge WebView2 Runtime (Evergreen Bootstrapper / Standalone Installer)
+License: Microsoft Software License Terms (redistributable)
+Source:  https://developer.microsoft.com/microsoft-edge/webview2/
+----------------------------------------------------------------------
+
+The WebView2 Evergreen Bootstrapper (and, in the offline setup flavor, the
+Evergreen Standalone Installer) is bundled with the Nova Browser setup
+installer and executed only when no WebView2 runtime is present.
+Distribution of the WebView2 Runtime installers with applications is
+permitted under the Microsoft Edge WebView2 distribution terms:
+https://developer.microsoft.com/microsoft-edge/webview2/consumer/
+
+----------------------------------------------------------------------
+Whisper.net
+License: MIT
+Source:  https://github.com/sandrohanea/whisper.net
+----------------------------------------------------------------------
+
+Copyright (c) Sandro Hanea and contributors
+
+(Same MIT license text as above.)
+
+----------------------------------------------------------------------
+whisper.cpp / ggml (native runtime, shipped via Whisper.net.Runtime)
+License: MIT
+Source:  https://github.com/ggerganov/whisper.cpp
+----------------------------------------------------------------------
+
+Copyright (c) 2023-2024 The ggml authors
+
+(Same MIT license text as above.)
+
+----------------------------------------------------------------------
+Whisper model weights (ggml conversions)
+License: MIT
+Source:  https://github.com/openai/whisper
+----------------------------------------------------------------------
+
+Copyright (c) 2022 OpenAI
+
+The base model ships inside the installer as a baseline; larger models are
+offered during setup or added later, and Nova hosts them as its own release
+assets. MIT requires the copyright notice and license text to travel with
+redistribution in both cases.
+
+(Same MIT license text as above.)
+
+----------------------------------------------------------------------
+Concentus (managed Opus codec)
+License: BSD-3-Clause
+Source:  https://github.com/lostromb/concentus
+----------------------------------------------------------------------
+
+Copyright (c) by various holding parties, including (but not limited to):
+Skype Limited, Xiph.Org Foundation, CSIRO, Microsoft Corporation,
+Jean-Marc Valin, Gregory Maxwell, Mark Borgerding, Timothy B. Terriberry,
+Logan Stromberg. All rights are reserved by their respective holders.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+* Neither the name of Internet Society, IETF or IETF Trust, nor the names of
+  specific contributors, may be used to endorse or promote products derived
+  from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+
+----------------------------------------------------------------------
+Concentus.OggFile (Ogg container reader for Opus)
+License: MIT
+Source:  https://github.com/lostromb/concentus.oggfile
+----------------------------------------------------------------------
+
+Copyright (c) Logan Stromberg
+
+(Same MIT license text as above.)
+
+
+----------------------------------------------------------------------
+PdfPig (PDF text extraction for nova.read_pdf)
+License: Apache 2.0
+Source:  https://github.com/UglyToad/PdfPig
+----------------------------------------------------------------------
+
+Copyright UglyToad and PdfPig contributors
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
