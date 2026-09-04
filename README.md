@@ -143,7 +143,7 @@ learning across sessions.
 | **Action loop** | Dispatch an action and assume success | Check expectations, act, verify the real outcome, then adapt |
 | **Browser role** | Browser as an external tool, remote session or screenshot feed | Persistent full desktop Chromium runtime with tabs, sandboxes, sessions and browser identity |
 | **Autonomy** | Execution tied to a live client request or manually started workflow | Scheduled, chained and trigger-based runs with durable task progress and completion checks |
-| **Memory** | Context window or generic session memory | Procedural, operational, episodic and user-context memory |
+| **Memory** | Memory is owned by the model or client and is often one general store | Browser-owned local stores separate procedures, current state, task episodes and opt-in user context |
 | **Learning** | Start over when context is lost | Evidence-backed local knowledge that is promoted, monitored and revalidated |
 | **Exploration** | Scripted selectors | Autonomous discovery, crawling, surface exploration |
 | **Safety** | Prompt-based rules | Browser-enforced domain policy, claims, audit, kill switches |
@@ -265,7 +265,7 @@ wiederverwendbares Lernen über Sitzungen hinweg.
 | **Aktionskreislauf** | Aktion senden und Erfolg annehmen | Erwartung prüfen, handeln, tatsächliches Ergebnis verifizieren und daraus lernen |
 | **Browser-Rolle** | Browser als externes Werkzeug, Remote-Session oder Screenshot-Feed | Persistente vollwertige Desktop-Chromium-Laufzeit mit Tabs, Sandboxes, Sessions und Browser-Identität |
 | **Autonomie** | Ausführung an eine laufende Client-Anfrage oder einen manuell gestarteten Workflow gebunden | Geplante, verkettete und triggerbasierte Läufe mit dauerhaftem Aufgabenfortschritt und Abschlussprüfungen |
-| **Gedächtnis** | Kontextfenster oder allgemeines Sitzungsgedächtnis | Prozedurales, operatives, episodisches und Nutzerkontext-Gedächtnis |
+| **Gedächtnis** | Gedächtnis gehört dem Modell oder Client und ist häufig ein allgemeiner Speicher | Browser-eigene lokale Speicher trennen Abläufe, aktuellen Zustand, Aufgabenepisoden und optionalen Nutzerkontext |
 | **Lernen** | Bei Kontextverlust wieder von vorn beginnen | Belegtes lokales Wissen, das freigegeben, überwacht und erneut geprüft wird |
 | **Exploration** | Geskriptete Selektoren | Autonome Discovery, Crawling, Surface Exploration |
 | **Sicherheit** | Prompt-basierte Regeln | Browser-erzwungene Domain-Policy, Claims, Audit, Kill-Switches |
