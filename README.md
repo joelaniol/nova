@@ -141,7 +141,7 @@ learning across sessions.
 |---|---|---|
 | **Cognitive architecture** | Model plus browser controls | Perception, goals, multiple memory systems, evidence, reflection and learning |
 | **Action loop** | Dispatch an action and assume success | Check expectations, act, verify the real outcome, then adapt |
-| **Browser** | Headless or screenshot-based | Full desktop Chromium with tabs, sessions, identity |
+| **Browser role** | Browser as an external tool, remote session or screenshot feed | Persistent local browser runtime with tabs, sandboxes, sessions and browser identity |
 | **Autonomy** | Human triggers every action | Fully scheduled, chained, unattended execution |
 | **Memory** | Context window or generic session memory | Procedural, operational, episodic and user-context memory |
 | **Learning** | Start over when context is lost | Evidence-backed local knowledge that is promoted, monitored and revalidated |
@@ -263,7 +263,7 @@ wiederverwendbares Lernen über Sitzungen hinweg.
 |---|---|---|
 | **Kognitive Architektur** | Modell plus Browsersteuerung | Wahrnehmung, Ziele, mehrere Gedächtnissysteme, Belege, Reflexion und Lernen |
 | **Aktionskreislauf** | Aktion senden und Erfolg annehmen | Erwartung prüfen, handeln, tatsächliches Ergebnis verifizieren und daraus lernen |
-| **Browser** | Headless oder Screenshot-basiert | Voller Desktop-Chromium mit Tabs, Sessions, Identitaet |
+| **Browser-Rolle** | Browser als externes Werkzeug, Remote-Session oder Screenshot-Feed | Persistente lokale Browser-Laufzeit mit Tabs, Sandboxes, Sessions und Browser-Identität |
 | **Autonomie** | Mensch triggert jede Aktion | Voll geplant, verkettet, unbeaufsichtigte Ausfuehrung |
 | **Gedächtnis** | Kontextfenster oder allgemeines Sitzungsgedächtnis | Prozedurales, operatives, episodisches und Nutzerkontext-Gedächtnis |
 | **Lernen** | Bei Kontextverlust wieder von vorn beginnen | Belegtes lokales Wissen, das freigegeben, überwacht und erneut geprüft wird |
