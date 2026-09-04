@@ -125,13 +125,13 @@ reflection and learning work together inside the browser.
 | Cognitive function | What Nova contributes |
 |---|---|
 | **Perception** | Reads the live browser through DOM, accessibility, screenshots, network, console and runtime signals |
-| **Procedural memory** | The Phenomenological Knowledge Store (PKS) remembers how websites work: fingerprints, interaction recipes, health and drift |
-| **Operational awareness** | Operational Knowledge (OK) tracks what is true now: state, capabilities, connections and policies |
-| **Episodic task memory** | Episodic Task Memory (ETM) remembers recurring tasks, work units, progress, completion rules and learned guidance |
+| **Procedural memory** | The Phenomenological Knowledge Store (PKS) ([PKS video](https://www.youtube.com/watch?v=7NwRGC3l-r8)) remembers how websites work: fingerprints, interaction recipes, health and drift |
+| **Operational awareness** | Operational Knowledge (OK) ([OK video](https://www.youtube.com/watch?v=LgShkPaSW7I)) tracks what is true now: state, capabilities, connections and policies |
+| **Episodic task memory** | Episodic Task Memory (ETM) ([ETM video](https://www.youtube.com/watch?v=9qXrleOhPAw)) remembers recurring tasks, work units, progress, completion rules and learned guidance |
 | **User-context memory** | Opt-in Browser Memory preserves domain notes, preferences and session context across visits |
-| **Executive control** | Goal Register and awareness/reflection gates keep intent, steps, prerequisites and unfinished work visible |
-| **Evidence and verification** | The Closed-Loop System (CLS) checks expected state → action → actual outcome; Evidence Verification Mode (EVM) turns research into testable claims instead of guesses |
-| **Learning and adaptation** | Verified outcomes become traceable candidates, move into active knowledge only after evidence and are revalidated when sites drift |
+| **Executive control** | Goal Register and awareness/reflection gates ([AAG video](https://www.youtube.com/watch?v=xhicSiFxPdY)) keep intent, steps, prerequisites and unfinished work visible |
+| **Evidence and verification** | The Closed-Loop System (CLS) ([CLS video](https://www.youtube.com/watch?v=aKNp_74B8DE)) checks expected state → action → actual outcome; Evidence Verification Mode (EVM) turns research into testable claims instead of guesses |
+| **Learning and adaptation** | The Agent Learning Pipeline (ALP) ([ALP video](https://www.youtube.com/watch?v=6iM3TbOL9o0)) turns verified outcomes into traceable candidates that move into active knowledge only after evidence and are revalidated when sites drift |
 
 These functions do not replace the connected AI model. They give it durable cognition at the browser
 level: grounded perception, several kinds of memory, explicit goals, verified outcomes and reusable
@@ -141,8 +141,8 @@ learning across sessions.
 |---|---|---|
 | **Cognitive architecture** | Model plus browser controls | Perception, goals, multiple memory systems, evidence, reflection and learning |
 | **Action loop** | Dispatch an action and assume success | Check expectations, act, verify the real outcome, then adapt |
-| **Browser role** | Browser as an external tool, remote session or screenshot feed | Persistent local browser runtime with tabs, sandboxes, sessions and browser identity |
-| **Autonomy** | Human triggers every action | Fully scheduled, chained, unattended execution |
+| **Browser role** | Browser as an external tool, remote session or screenshot feed | Persistent full desktop Chromium runtime with tabs, sandboxes, sessions and browser identity |
+| **Autonomy** | Execution tied to a live client request or manually started workflow | Scheduled, chained and trigger-based runs with durable task progress and completion checks |
 | **Memory** | Context window or generic session memory | Procedural, operational, episodic and user-context memory |
 | **Learning** | Start over when context is lost | Evidence-backed local knowledge that is promoted, monitored and revalidated |
 | **Exploration** | Scripted selectors | Autonomous discovery, crawling, surface exploration |
@@ -247,13 +247,13 @@ Belege, Reflexion und Lernen arbeiten direkt im Browser zusammen.
 | Kognitive Funktion | Was Nova beiträgt |
 |---|---|
 | **Wahrnehmung** | Liest den Live-Browser über DOM, Barrierefreiheit, Screenshots, Netzwerk, Konsole und Runtime-Signale |
-| **Prozedurales Gedächtnis** | Der Phenomenological Knowledge Store (PKS) merkt sich, wie Websites funktionieren: Fingerprints, Interaktionsrezepte, Zustand und Drift |
-| **Operatives Bewusstsein** | Operational Knowledge (OK) verfolgt, was jetzt gilt: Zustand, Fähigkeiten, Verbindungen und Regeln |
-| **Episodisches Aufgabengedächtnis** | Episodic Task Memory (ETM) erinnert wiederkehrende Aufgaben, Arbeitseinheiten, Fortschritt, Abschlussregeln und gelernte Hinweise |
+| **Prozedurales Gedächtnis** | Der Phenomenological Knowledge Store (PKS) ([PKS-Video](https://www.youtube.com/watch?v=QFarrV8Xm9U)) merkt sich, wie Websites funktionieren: Fingerprints, Interaktionsrezepte, Zustand und Drift |
+| **Operatives Bewusstsein** | Operational Knowledge (OK) ([OK-Video](https://www.youtube.com/watch?v=jWex6QNs86Y)) verfolgt, was jetzt gilt: Zustand, Fähigkeiten, Verbindungen und Regeln |
+| **Episodisches Aufgabengedächtnis** | Episodic Task Memory (ETM) ([ETM-Video](https://www.youtube.com/watch?v=9bb_scVqb44)) erinnert wiederkehrende Aufgaben, Arbeitseinheiten, Fortschritt, Abschlussregeln und gelernte Hinweise |
 | **Nutzerkontext-Gedächtnis** | Das optionale Browser Memory bewahrt Domain-Notizen, Präferenzen und Sitzungskontext über Besuche hinweg |
-| **Exekutive Steuerung** | Goal Register sowie Awareness- und Reflexions-Gates halten Absicht, Schritte, Voraussetzungen und offene Arbeit sichtbar |
-| **Belege und Verifikation** | Das Closed-Loop System (CLS) prüft erwarteten Zustand → Aktion → tatsächliches Ergebnis; Evidence Verification Mode (EVM) zerlegt Recherche in prüfbare Aussagen statt zu raten |
-| **Lernen und Anpassung** | Verifizierte Ergebnisse werden nachvollziehbare Kandidaten, gelangen erst mit Belegen in aktives Wissen und werden bei Website-Drift erneut geprüft |
+| **Exekutive Steuerung** | Goal Register sowie Awareness- und Reflexions-Gates ([AAG-Video](https://www.youtube.com/watch?v=8LFYHSoygh4)) halten Absicht, Schritte, Voraussetzungen und offene Arbeit sichtbar |
+| **Belege und Verifikation** | Das Closed-Loop System (CLS) ([CLS-Video](https://www.youtube.com/watch?v=xUITcHwKkwA)) prüft erwarteten Zustand → Aktion → tatsächliches Ergebnis; Evidence Verification Mode (EVM) zerlegt Recherche in prüfbare Aussagen statt zu raten |
+| **Lernen und Anpassung** | Die Agent Learning Pipeline (ALP) ([ALP-Video](https://www.youtube.com/watch?v=Pl_doQWt-G8)) macht aus verifizierten Ergebnissen nachvollziehbare Kandidaten, die erst mit Belegen in aktives Wissen gelangen und bei Website-Drift erneut geprüft werden |
 
 Diese Funktionen ersetzen nicht das verbundene KI-Modell. Sie geben ihm Kognition auf Browser-Ebene:
 geerdete Wahrnehmung, mehrere Gedächtnisarten, explizite Ziele, verifizierte Ergebnisse und
@@ -263,8 +263,8 @@ wiederverwendbares Lernen über Sitzungen hinweg.
 |---|---|---|
 | **Kognitive Architektur** | Modell plus Browsersteuerung | Wahrnehmung, Ziele, mehrere Gedächtnissysteme, Belege, Reflexion und Lernen |
 | **Aktionskreislauf** | Aktion senden und Erfolg annehmen | Erwartung prüfen, handeln, tatsächliches Ergebnis verifizieren und daraus lernen |
-| **Browser-Rolle** | Browser als externes Werkzeug, Remote-Session oder Screenshot-Feed | Persistente lokale Browser-Laufzeit mit Tabs, Sandboxes, Sessions und Browser-Identität |
-| **Autonomie** | Mensch triggert jede Aktion | Voll geplant, verkettet, unbeaufsichtigte Ausfuehrung |
+| **Browser-Rolle** | Browser als externes Werkzeug, Remote-Session oder Screenshot-Feed | Persistente vollwertige Desktop-Chromium-Laufzeit mit Tabs, Sandboxes, Sessions und Browser-Identität |
+| **Autonomie** | Ausführung an eine laufende Client-Anfrage oder einen manuell gestarteten Workflow gebunden | Geplante, verkettete und triggerbasierte Läufe mit dauerhaftem Aufgabenfortschritt und Abschlussprüfungen |
 | **Gedächtnis** | Kontextfenster oder allgemeines Sitzungsgedächtnis | Prozedurales, operatives, episodisches und Nutzerkontext-Gedächtnis |
 | **Lernen** | Bei Kontextverlust wieder von vorn beginnen | Belegtes lokales Wissen, das freigegeben, überwacht und erneut geprüft wird |
 | **Exploration** | Geskriptete Selektoren | Autonome Discovery, Crawling, Surface Exploration |
