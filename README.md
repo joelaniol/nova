@@ -2,27 +2,36 @@
 
 # Nova Cognitive Browser
 
-**An AI-agent browser framework — built primarily for agents, not for people browsing by hand.**<br>
-**Ein Browser-Framework für KI-Agenten — primär für Agenten gebaut, nicht zum Surfen von Hand.**
+## EN — Built for AI agents
 
-**Open MCP server — any client, any model. · Offener MCP-Server — jeder Client, jedes Modell.**
+**An AI-agent browser framework — built primarily for agents, not for people browsing by hand.**
 
-Nova gives Claude Code, Codex, Cursor and other MCP agents a real Windows browser they can inspect
-and operate. **Developers, QA engineers and agent builders direct and review the work** while their
+Nova gives any MCP-compatible AI agent a real Windows browser it can inspect and operate.
+**Developers, QA engineers and agent builders direct and review the work** while their
 agents close the development loop: reproduce a web or UI bug, inspect DOM, accessibility, network
 and console evidence, use their coding tools to fix the project, then return to the same browser to
 verify the fix.
+
+**Open MCP server — any client, any model.**
 
 **Nova learns from verified work.** Confirmed site behaviour, successful interaction
 recipes, task memory and operator notes stay local with evidence and provenance, so later agent runs
 can reuse what Nova learned instead of starting over. This is a controlled local knowledge layer, not
 AI-model retraining.
 
-Nova gibt Claude Code, Codex, Cursor und anderen MCP-Agenten einen echten Windows-Browser, den sie
-untersuchen und bedienen können. **Entwickler, QA-Fachleute und Agent-Entwickler geben die Arbeit vor
-und prüfen sie**, während ihre Agenten den Entwicklungszyklus schließen: einen Web- oder UI-Fehler
-reproduzieren, DOM-, Barrierefreiheits-, Netzwerk- und Konsolenbelege untersuchen, den Projektcode mit
-ihren Coding-Werkzeugen korrigieren und den Fix anschließend im selben Browser verifizieren.
+**Agent loop:** `reproduce` → `inspect` → `fix` → `verify` → `learn`
+
+## DE — Für KI-Agenten gebaut
+
+**Ein Browser-Framework für KI-Agenten — primär für Agenten gebaut, nicht zum Surfen von Hand.**
+
+Nova gibt jedem MCP-kompatiblen KI-Agenten einen echten Windows-Browser, den er untersuchen und
+bedienen kann. **Entwickler, QA-Fachleute und Agent-Entwickler geben die Arbeit vor und prüfen sie**,
+während ihre Agenten den Entwicklungszyklus schließen: einen Web- oder UI-Fehler reproduzieren,
+DOM-, Barrierefreiheits-, Netzwerk- und Konsolenbelege untersuchen, den Projektcode mit ihren
+Coding-Werkzeugen korrigieren und den Fix anschließend im selben Browser verifizieren.
+
+**Offener MCP-Server — jeder Client, jedes Modell.**
 
 **Nova lernt aus verifizierter Arbeit.** Bestätigtes Website-Verhalten,
 erfolgreiche Interaktionsabläufe, Aufgabengedächtnis und Hinweise des Anwenders bleiben mit Belegen
@@ -30,8 +39,7 @@ und Herkunft lokal gespeichert. Spätere Agentenläufe können wiederverwenden, 
 statt von vorn anzufangen. Das ist eine kontrollierte lokale Wissensschicht; das KI-Modell selbst wird
 dabei nicht neu trainiert.
 
-**Developer-agent loop · Entwickler-Agenten-Loop:**<br>
-`reproduce · reproduzieren` → `inspect · untersuchen` → `fix · beheben` → `verify · verifizieren` → `learn · lernen`
+**Agenten-Loop:** `reproduzieren` → `untersuchen` → `beheben` → `verifizieren` → `lernen`
 
 ![Windows 10 / 11 (x64)](https://img.shields.io/badge/Windows-10%20%7C%2011%20(x64)-0078D4) ![Status: Alpha](https://img.shields.io/badge/status-alpha-orange) ![Local-first](https://img.shields.io/badge/data-local--first-2ea44f) ![MCP tools: 800+](https://img.shields.io/badge/MCP%20tools-800%2B-5865F2) ![Made in Germany](https://img.shields.io/badge/Made%20in-Germany-FFCC00?labelColor=DD0000)
 
@@ -108,11 +116,35 @@ Agents don't just respond. They plan, execute, learn, verify, and run on schedul
 
 ## What Makes Nova Different
 
+Traditional agent tools typically give a model a set of browser controls. Nova surrounds the model
+with a local cognitive runtime: specialized functions for perception, memory, goals, evidence,
+reflection and learning work together inside the browser.
+
+**In practical terms, Nova combines several brain-like functions instead of one generic “memory” box:**
+
+| Cognitive function | What Nova contributes |
+|---|---|
+| **Perception** | Reads the live browser through DOM, accessibility, screenshots, network, console and runtime signals |
+| **Procedural memory** | The Phenomenological Knowledge Store (PKS) remembers how websites work: fingerprints, interaction recipes, health and drift |
+| **Operational awareness** | Operational Knowledge (OK) tracks what is true now: state, capabilities, connections and policies |
+| **Episodic task memory** | Episodic Task Memory (ETM) remembers recurring tasks, work units, progress, completion rules and learned guidance |
+| **User-context memory** | Opt-in Browser Memory preserves domain notes, preferences and session context across visits |
+| **Executive control** | Goal Register and awareness/reflection gates keep intent, steps, prerequisites and unfinished work visible |
+| **Evidence and verification** | The Closed-Loop System (CLS) checks expected state → action → actual outcome; Evidence Verification Mode (EVM) turns research into testable claims instead of guesses |
+| **Learning and adaptation** | Verified outcomes become traceable candidates, move into active knowledge only after evidence and are revalidated when sites drift |
+
+These functions do not replace the connected AI model. They give it durable cognition at the browser
+level: grounded perception, several kinds of memory, explicit goals, verified outcomes and reusable
+learning across sessions.
+
 | | Traditional agent tools | Nova Cognitive Browser |
 |---|---|---|
+| **Cognitive architecture** | Model plus browser controls | Perception, goals, multiple memory systems, evidence, reflection and learning |
+| **Action loop** | Dispatch an action and assume success | Check expectations, act, verify the real outcome, then adapt |
 | **Browser** | Headless or screenshot-based | Full desktop Chromium with tabs, sessions, identity |
 | **Autonomy** | Human triggers every action | Fully scheduled, chained, unattended execution |
-| **Memory** | Stateless per session | Persistent local knowledge stores that grow over time |
+| **Memory** | Context window or generic session memory | Procedural, operational, episodic and user-context memory |
+| **Learning** | Start over when context is lost | Evidence-backed local knowledge that is promoted, monitored and revalidated |
 | **Exploration** | Scripted selectors | Autonomous discovery, crawling, surface exploration |
 | **Safety** | Prompt-based rules | Browser-enforced domain policy, claims, audit, kill switches |
 | **Integration** | Closed ecosystem | Open MCP server — any client, any model |
@@ -206,11 +238,35 @@ Agenten antworten nicht nur. Sie planen, führen aus, lernen, verifizieren und l
 
 ### Was Nova anders macht
 
+Traditionelle Agent-Tools geben einem Modell meist nur eine Browsersteuerung. Nova ergänzt das Modell
+um eine lokale kognitive Laufzeit: spezialisierte Funktionen für Wahrnehmung, Gedächtnis, Ziele,
+Belege, Reflexion und Lernen arbeiten direkt im Browser zusammen.
+
+**Praktisch kombiniert Nova mehrere gehirnähnliche Funktionen statt nur eines allgemeinen „Memory“-Speichers:**
+
+| Kognitive Funktion | Was Nova beiträgt |
+|---|---|
+| **Wahrnehmung** | Liest den Live-Browser über DOM, Barrierefreiheit, Screenshots, Netzwerk, Konsole und Runtime-Signale |
+| **Prozedurales Gedächtnis** | Der Phenomenological Knowledge Store (PKS) merkt sich, wie Websites funktionieren: Fingerprints, Interaktionsrezepte, Zustand und Drift |
+| **Operatives Bewusstsein** | Operational Knowledge (OK) verfolgt, was jetzt gilt: Zustand, Fähigkeiten, Verbindungen und Regeln |
+| **Episodisches Aufgabengedächtnis** | Episodic Task Memory (ETM) erinnert wiederkehrende Aufgaben, Arbeitseinheiten, Fortschritt, Abschlussregeln und gelernte Hinweise |
+| **Nutzerkontext-Gedächtnis** | Das optionale Browser Memory bewahrt Domain-Notizen, Präferenzen und Sitzungskontext über Besuche hinweg |
+| **Exekutive Steuerung** | Goal Register sowie Awareness- und Reflexions-Gates halten Absicht, Schritte, Voraussetzungen und offene Arbeit sichtbar |
+| **Belege und Verifikation** | Das Closed-Loop System (CLS) prüft erwarteten Zustand → Aktion → tatsächliches Ergebnis; Evidence Verification Mode (EVM) zerlegt Recherche in prüfbare Aussagen statt zu raten |
+| **Lernen und Anpassung** | Verifizierte Ergebnisse werden nachvollziehbare Kandidaten, gelangen erst mit Belegen in aktives Wissen und werden bei Website-Drift erneut geprüft |
+
+Diese Funktionen ersetzen nicht das verbundene KI-Modell. Sie geben ihm Kognition auf Browser-Ebene:
+geerdete Wahrnehmung, mehrere Gedächtnisarten, explizite Ziele, verifizierte Ergebnisse und
+wiederverwendbares Lernen über Sitzungen hinweg.
+
 | | Traditionelle Agent-Tools | Nova Cognitive Browser |
 |---|---|---|
+| **Kognitive Architektur** | Modell plus Browsersteuerung | Wahrnehmung, Ziele, mehrere Gedächtnissysteme, Belege, Reflexion und Lernen |
+| **Aktionskreislauf** | Aktion senden und Erfolg annehmen | Erwartung prüfen, handeln, tatsächliches Ergebnis verifizieren und daraus lernen |
 | **Browser** | Headless oder Screenshot-basiert | Voller Desktop-Chromium mit Tabs, Sessions, Identitaet |
 | **Autonomie** | Mensch triggert jede Aktion | Voll geplant, verkettet, unbeaufsichtigte Ausfuehrung |
-| **Gedaechtnis** | Zustandslos pro Sitzung | Persistente lokale Wissensspeicher die mitwachsen |
+| **Gedächtnis** | Kontextfenster oder allgemeines Sitzungsgedächtnis | Prozedurales, operatives, episodisches und Nutzerkontext-Gedächtnis |
+| **Lernen** | Bei Kontextverlust wieder von vorn beginnen | Belegtes lokales Wissen, das freigegeben, überwacht und erneut geprüft wird |
 | **Exploration** | Geskriptete Selektoren | Autonome Discovery, Crawling, Surface Exploration |
 | **Sicherheit** | Prompt-basierte Regeln | Browser-erzwungene Domain-Policy, Claims, Audit, Kill-Switches |
 | **Integration** | Geschlossenes Oekosystem | Offener MCP-Server — jeder Client, jedes Modell |
