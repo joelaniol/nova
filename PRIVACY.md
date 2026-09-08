@@ -1,6 +1,6 @@
 # Privacy Policy / Datenschutzerklärung
 
-*Last updated: July 2026*
+*Last updated: September 2026*
 
 ---
 
@@ -93,6 +93,24 @@ Nova does not send your AI conversations to nova-cognitive.com or any other Nova
 ### MCP Server
 
 Nova's local MCP server runs on localhost only by default. When enabled, it allows MCP-compatible tools on your machine to interact with Nova. This is a local communication channel — no data is sent to external servers through the MCP server unless you explicitly configure remote access.
+
+### Recorded Network Traffic
+
+Nova can record the requests a page makes, including headers and bodies, and an agent can replay or
+intercept them. This is off until you ask for it, and it changes nothing about where your data goes:
+
+- **Nova does not store recorded traffic.** The recording lives in the page while the tab is open. No
+  request, header or body is written to disk by this feature, and none of it is sent to
+  `nova-cognitive.com`
+- **The action log keeps metadata only** — which tool ran, on which host, whether it succeeded, how
+  long it took and, if you switch that on, how many bytes the answer had. Never headers or bodies
+- **What an agent receives, leaves your machine if that agent is a cloud service.** A recorded body
+  handed to Claude, Codex or Gemini reaches that provider like any other part of the conversation —
+  see "Third-Party AI Providers" above
+- **`redact` masks credentials before an agent sees them** — tokens, cookies and credentials in URLs.
+  Use it when the traffic is not yours to share
+- **An interception rule is visible and temporary** — the toolbar shows it while it is armed, it is
+  bound to one tab and a URL scope, and it expires on its own
 
 ### Local Data Storage
 
@@ -203,6 +221,26 @@ Nova sendet deine KI-Konversationen nicht an nova-cognitive.com oder andere Nova
 ### MCP-Server
 
 Novas lokaler MCP-Server läuft standardmäßig nur auf localhost. Wenn aktiviert, ermöglicht er MCP-kompatiblen Werkzeugen auf deinem Rechner die Interaktion mit Nova. Dies ist ein lokaler Kommunikationskanal — es werden keine Daten über den MCP-Server an externe Server gesendet, es sei denn, du konfigurierst ausdrücklich den Remote-Zugriff.
+
+### Aufgezeichneter Netzwerkverkehr
+
+Nova kann die Anfragen einer Seite aufzeichnen, inklusive Header und Inhalte, und ein Agent kann sie
+erneut senden oder abfangen. Das ist aus, bis du es verlangst, und es ändert nichts daran, wohin
+deine Daten gehen:
+
+- **Nova speichert aufgezeichneten Verkehr nicht.** Die Aufzeichnung lebt in der Seite, solange der
+  Tab offen ist. Diese Funktion schreibt keine Anfrage, keinen Header und keinen Inhalt auf die
+  Platte, und nichts davon geht an `nova-cognitive.com`
+- **Das Aktionsprotokoll führt nur Metadaten** — welches Werkzeug lief, auf welchem Host, ob es
+  erfolgreich war, wie lange es dauerte und, wenn du das einschaltest, wie viele Bytes die Antwort
+  hatte. Niemals Header oder Inhalte
+- **Was ein Agent bekommt, verlässt deinen Rechner, wenn dieser Agent ein Cloud-Dienst ist.** Ein
+  aufgezeichneter Inhalt, den du Claude, Codex oder Gemini übergibst, erreicht diesen Anbieter wie
+  jeder andere Teil des Gesprächs — siehe „Drittanbieter-KI-Provider" weiter oben
+- **`redact` schwärzt Zugangsdaten, bevor ein Agent sie sieht** — Tokens, Cookies und Zugangsdaten in
+  URLs. Nutze es, wenn der Verkehr nicht dir gehört
+- **Eine Abfang-Regel ist sichtbar und vorübergehend** — die Symbolleiste zeigt sie, solange sie
+  scharf ist, sie ist an einen Tab und einen URL-Bereich gebunden, und sie läuft von selbst ab
 
 ### Lokale Datenspeicherung
 
