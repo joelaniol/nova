@@ -22,6 +22,22 @@ keeps working on a schedule while you are away.
 **▶ [Watch Nova in action (YouTube)](https://www.youtube.com/@novainweb)** — the cognitive runtime,
 site learning, closed-loop verification and autonomous task runs, each in a short video.
 
+### Don't take our word for it — make your agent prove it
+
+[`demos/lab.html`](demos/) is a page built to be hard: a session that has to survive, 10 000 rows
+with twelve of them in the DOM, nested shadow roots, a frame, a drag that no click can replace,
+files in both directions, dialogs that stop the page, delays you cannot predict, and a value that
+exists only as pixels on a canvas.
+
+Open it with no server — just the file — and give your agent the same task twice: once with your
+current browser tooling, once with Nova.
+
+> "Sign in, find build 8472 in the list, move 'Deploy release' to Done, and tell me the
+> verification code on the canvas."
+
+An activity strip at the bottom records what actually reached the page, so the result is visible
+rather than claimed. [What each case tests, and the call that solves it →](demos/README.md)
+
 ## Try it — 3 minutes, no sign-up
 
 1. **[Download the setup](https://github.com/joelaniol/nova/releases)** — Windows 10 / 11 (x64).
