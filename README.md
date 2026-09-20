@@ -1,78 +1,50 @@
-![Nova Browser — autonomous AI-agent browser](assets/nova-banner.jpg)
+![Nova AI Workspace — the local browser workspace for AI agents](assets/nova-banner.jpg)
 
-# Nova Cognitive Browser
+# Nova AI Workspace
 
-## EN — Built for AI agents
+**Built for what's next.**
 
-**An AI-agent browser framework — built primarily for agents, not for people browsing by hand.**
+**The local browser workspace where your AI agents work.**
+Real browser sessions · terminal · memory · schedule · 800+ MCP tools — all local, all inspectable.
 
-Nova gives any MCP-compatible AI agent a real Windows browser it can inspect and operate.
-**Developers, QA engineers and agent builders direct and review the work** while their
-agents close the development loop: reproduce a web or UI bug, inspect DOM, accessibility, network
-and console evidence, use their coding tools to fix the project, then return to the same browser to
-verify the fix.
-
-**Open MCP server — any client, any model.**
-
-**Nova learns from verified work.** Confirmed site behaviour, successful interaction
-recipes, task memory and operator notes stay local with evidence and provenance, so later agent runs
-can reuse what Nova learned instead of starting over. This is a controlled local knowledge layer, not
-AI-model retraining.
-
-**Agent loop:** `reproduce` → `inspect` → `fix` → `verify` → `learn`
-
-## DE — Für KI-Agenten gebaut
-
-**Ein Browser-Framework für KI-Agenten — primär für Agenten gebaut, nicht zum Surfen von Hand.**
-
-Nova gibt jedem MCP-kompatiblen KI-Agenten einen echten Windows-Browser, den er untersuchen und
-bedienen kann. **Entwickler, QA-Fachleute und Agent-Entwickler geben die Arbeit vor und prüfen sie**,
-während ihre Agenten den Entwicklungszyklus schließen: einen Web- oder UI-Fehler reproduzieren,
-DOM-, Barrierefreiheits-, Netzwerk- und Konsolenbelege untersuchen, den Projektcode mit ihren
-Coding-Werkzeugen korrigieren und den Fix anschließend im selben Browser verifizieren.
-
-**Offener MCP-Server — jeder Client, jedes Modell.**
-
-**Nova lernt aus verifizierter Arbeit.** Bestätigtes Website-Verhalten,
-erfolgreiche Interaktionsabläufe, Aufgabengedächtnis und Hinweise des Anwenders bleiben mit Belegen
-und Herkunft lokal gespeichert. Spätere Agentenläufe können wiederverwenden, was Nova gelernt hat,
-statt von vorn anzufangen. Das ist eine kontrollierte lokale Wissensschicht; das KI-Modell selbst wird
-dabei nicht neu trainiert.
-
-**Agenten-Loop:** `reproduzieren` → `untersuchen` → `beheben` → `verifizieren` → `lernen`
+Works with **Claude Code · Codex · Gemini · Cursor · Windsurf** — any MCP client, any model.
 
 ![Windows 10 / 11 (x64)](https://img.shields.io/badge/Windows-10%20%7C%2011%20(x64)-0078D4) ![Status: Alpha](https://img.shields.io/badge/status-alpha-orange) ![Local-first](https://img.shields.io/badge/data-local--first-2ea44f) ![MCP tools: 800+](https://img.shields.io/badge/MCP%20tools-800%2B-5865F2) ![Made in Germany](https://img.shields.io/badge/Made%20in-Germany-FFCC00?labelColor=DD0000)
 
-> **ALPHA SOFTWARE — USE AT YOUR OWN RISK**
->
-> Nova Cognitive Browser is in active alpha development. Bugs, crashes, data loss, and breaking changes
-> may occur. There is no warranty of any kind. Do not rely on this software for critical tasks.
-> By using Nova you accept the [Disclaimer](DISCLAIMER.md), [Acceptable Use Policy](ACCEPTABLE-USE.md), [Privacy Policy](PRIVACY.md), and the [License](LICENSE).
->
-> **ALPHA-SOFTWARE — NUTZUNG AUF EIGENE GEFAHR**
->
-> Nova Cognitive Browser befindet sich in aktiver Alpha-Entwicklung. Fehler, Abstuerze, Datenverlust und
-> Breaking Changes koennen auftreten. Es gibt keinerlei Gewaehrleistung. Verwende diese Software
-> nicht fuer kritische Aufgaben. Mit der Nutzung akzeptierst du den
-> [Haftungsausschluss](DISCLAIMER.md), die [Nutzungsrichtlinie](ACCEPTABLE-USE.md), die [Datenschutzerklaerung](PRIVACY.md) und die [Lizenz](LICENSE).
+---
 
-**ℹ️ [Alpha status & known issues → · Alpha-Status & bekannte Probleme](ALPHA.md)**
+## See it work
 
-## ⬇️ Download · Herunterladen
+Nova is not a browser with an AI button. It is the machine your agent works on: it opens your real
+logged-in sessions, reads the page as evidence, runs a terminal, remembers how sites behave, and
+keeps working on a schedule while you are away.
 
-**➡️ [Get the latest Nova Browser setup (Releases)](https://github.com/joelaniol/nova/releases)** — Windows 10 / 11 (x64). · Aktuelles Setup unter [Releases](https://github.com/joelaniol/nova/releases) laden.
+**▶ [Watch Nova in action (YouTube)](https://www.youtube.com/@novainweb)** — the cognitive runtime,
+site learning, closed-loop verification and autonomous task runs, each in a short video.
 
-## 🔑 Alpha trial — no sign-up needed · Alpha-Trial — ohne Anmeldung
+## Try it — 3 minutes, no sign-up
 
-**EN — No sign-up needed during the alpha.** Use this shared
-trial license, either on the setup's license page or in-app under **Settings → License / activation**:
+1. **[Download the setup](https://github.com/joelaniol/nova/releases)** — Windows 10 / 11 (x64).
+2. **Activate** with the shared alpha license — no account needed:
+   > **License key:** `NOVA-M89A9-JW3BT-RMTD7-Z4RWL-PQGT9`
+   > **Email:** `demo@example.com`
+3. **Connect your agent.** For Claude Code, Codex and Claude Desktop this happens by itself.
+   Restart your agent, then tell it: **"please run the Nova onboarding."**
 
-> **License key:** `NOVA-M89A9-JW3BT-RMTD7-Z4RWL-PQGT9`
-> **Email:** `demo@example.com`
+> On first launch Windows SmartScreen may warn that the app is not code-signed — expected for
+> independent alpha builds. Choose **"More info" → "Run anyway"**.
 
-**DE — Kein Konto nötig während der Alpha.** Nutze diese gemeinsame Trial-Lizenz —
-entweder auf der Lizenz-Seite im Setup oder in der App unter **Einstellungen → Lizenz / Aktivierung**
-(Key und E-Mail wie oben).
+> **ALPHA SOFTWARE — USE AT YOUR OWN RISK.** Nova is in active alpha development. Bugs, crashes,
+> data loss and breaking changes may occur. There is no warranty of any kind. Do not rely on this
+> software for critical tasks. By using Nova you accept the [Disclaimer](DISCLAIMER.md),
+> [Acceptable Use Policy](ACCEPTABLE-USE.md), [Privacy Policy](PRIVACY.md) and the [License](LICENSE).
+> · **ℹ️ [Alpha status & known issues →](ALPHA.md)**
+
+> **Formerly Nova Browser.** Renamed during the alpha: the product grew past the browser — it now
+> carries a terminal, a scheduler, connectors, credentials and a local knowledge layer — and the old
+> name collided with unrelated projects. Same product, same team, clearer name.
+
+**🇩🇪 [Diese Seite auf Deutsch →](#nova-ai-workspace-deutsch)**
 
 ---
 
@@ -137,7 +109,7 @@ These functions do not replace the connected AI model. They give it durable cogn
 level: grounded perception, several kinds of memory, explicit goals, verified outcomes and reusable
 learning across sessions.
 
-| | Traditional agent tools | Nova Cognitive Browser |
+| | Traditional agent tools | Nova AI Workspace |
 |---|---|---|
 | **Cognitive architecture** | Model plus browser controls | Perception, goals, multiple memory systems, evidence, reflection and learning |
 | **Action loop** | Dispatch an action and assume success | Check expectations, act, verify the real outcome, then adapt |
@@ -205,7 +177,16 @@ Browse the full video index with thumbnails and direct links in [videos/](videos
 
 ---
 
-## Nova Cognitive Browser (Deutsch)
+## Nova AI Workspace (Deutsch)
+
+**Built for what’s next.**
+
+**Der lokale Browser-Arbeitsplatz, in dem deine KI-Agenten arbeiten.**
+Echte Browser-Sitzungen · Terminal · Gedächtnis · Zeitplan · 800+ MCP-Tools — alles lokal, alles nachprüfbar.
+
+> **Früher Nova Browser.** Während der Alpha umbenannt: Das Produkt ist über den Browser
+> hinausgewachsen — Terminal, Zeitplaner, Konnektoren, Zugangsdaten und eine lokale Wissensschicht
+> gehören dazu — und der alte Name kollidierte mit fremden Projekten. Gleiches Produkt, klarerer Name.
 
 ### Für Entwickler und Agenten gebaut
 
@@ -259,7 +240,7 @@ Diese Funktionen ersetzen nicht das verbundene KI-Modell. Sie geben ihm Kognitio
 geerdete Wahrnehmung, mehrere Gedächtnisarten, explizite Ziele, verifizierte Ergebnisse und
 wiederverwendbares Lernen über Sitzungen hinweg.
 
-| | Traditionelle Agent-Tools | Nova Cognitive Browser |
+| | Traditionelle Agent-Tools | Nova AI Workspace |
 |---|---|---|
 | **Kognitive Architektur** | Modell plus Browsersteuerung | Wahrnehmung, Ziele, mehrere Gedächtnissysteme, Belege, Reflexion und Lernen |
 | **Aktionskreislauf** | Aktion senden und Erfolg annehmen | Erwartung prüfen, handeln, tatsächliches Ergebnis verifizieren und daraus lernen |
