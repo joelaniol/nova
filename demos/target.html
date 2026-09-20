@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nova Demo Lab — after navigation</title>
+<link rel="stylesheet" href="assets/lab.css" />
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brandline">
+      <h1>Another page entirely</h1>
+      <span class="sub">Different document, same session.</span>
+    </div>
+    <p class="lead">
+      A fresh automation run would arrive here signed out. The state below was established on the
+      previous page and is still valid.
+    </p>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="card">
+    <h3>Session as seen from here</h3>
+    <p class="why">Read straight from storage, not passed along in the URL.</p>
+    <p class="row"><span class="dot" id="dot"></span> <span id="state" class="mono">checking…</span></p>
+    <p style="margin-top:14px"><a class="act" style="text-decoration:none;display:inline-block" href="lab.html">Back to the lab</a></p>
+  </div>
+</main>
+
+<script>
+  (function () {
+    var s = null;
+    try { s = JSON.parse(localStorage.getItem("novaDemo.session") || "null"); } catch (e) { /* ignore */ }
+    var state = document.getElementById("state");
+    var dot = document.getElementById("dot");
+    if (s && s.user) {
+      state.textContent = "still signed in as " + s.user + " (since " + s.since + ")";
+      state.style.color = "var(--accent)";
+      dot.style.background = "var(--accent)";
+    } else {
+      state.textContent = "signed out — sign in on the lab page first";
+      dot.style.background = "var(--text-faint)";
+    }
+  })();
+</script>
+</body>
+</html>
