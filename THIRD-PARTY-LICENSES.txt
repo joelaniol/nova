@@ -1,8 +1,8 @@
-Third-Party Licenses for Nova Browser
+Third-Party Licenses for Nova AI Workspace
 ======================================
 
 This file lists the open-source components bundled with or used by
-Nova Browser and their respective licenses.
+Nova AI Workspace and their respective licenses.
 
 ----------------------------------------------------------------------
 .NET Runtime (self-contained)
@@ -147,6 +147,19 @@ Copyright (c) .NET Foundation and Contributors
 (Same MIT license text as .NET Runtime above.)
 
 ----------------------------------------------------------------------
+System.Text.Json / System.Text.Encodings.Web / System.IO.Pipelines
+License: MIT
+Source:  https://github.com/dotnet/runtime
+----------------------------------------------------------------------
+
+Copyright (c) .NET Foundation and Contributors
+(Same MIT license text as .NET Runtime above.)
+
+Pinned for every project at once in Directory.Build.props: Nova and its
+helper executables publish self-contained into one shared folder, so a
+shared assembly cannot differ per project without breaking a helper.
+
+----------------------------------------------------------------------
 Jint (JavaScript Interpreter for .NET)
 License: BSD 2-Clause
 Source:  https://github.com/sebastienros/jint
@@ -245,7 +258,7 @@ License: Microsoft Software License Terms (redistributable)
 Source:  https://learn.microsoft.com/windows/apps/windows-app-sdk/downloads
 ----------------------------------------------------------------------
 
-The Windows App Runtime installer is bundled with the Nova Browser setup
+The Windows App Runtime installer is bundled with the Nova AI Workspace setup
 installer and executed to provision the runtime required by the app.
 Redistribution of the runtime installer is permitted under the Microsoft
 Software License Terms for the Windows App SDK. The Windows App SDK
@@ -258,11 +271,25 @@ Source:  https://developer.microsoft.com/microsoft-edge/webview2/
 ----------------------------------------------------------------------
 
 The WebView2 Evergreen Bootstrapper (and, in the offline setup flavor, the
-Evergreen Standalone Installer) is bundled with the Nova Browser setup
+Evergreen Standalone Installer) is bundled with the Nova AI Workspace setup
 installer and executed only when no WebView2 runtime is present.
 Distribution of the WebView2 Runtime installers with applications is
 permitted under the Microsoft Edge WebView2 distribution terms:
 https://developer.microsoft.com/microsoft-edge/webview2/consumer/
+
+----------------------------------------------------------------------
+Microsoft Visual C++ Redistributable (VC_redist.x64.exe)
+License: Microsoft Software License Terms (redistributable)
+Source:  https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist
+----------------------------------------------------------------------
+
+The Visual C++ Redistributable installer is bundled with the Nova AI Workspace
+setup installer and executed only when the machine does not already carry a
+new enough runtime. It provides VCRUNTIME140, VCRUNTIME140_1, MSVCP140 and
+VCOMP140, which the native speech-recognition libraries (whisper.cpp / ggml,
+shipped via Whisper.net.Runtime) import and which Windows does not include.
+Redistribution of the Visual C++ Redistributable with applications is
+permitted under the Microsoft Software License Terms for Visual Studio.
 
 ----------------------------------------------------------------------
 Whisper.net
