@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nova Demo Lab</title>
+<link rel="stylesheet" href="assets/lab.css" />
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brandline">
+      <h1>Nova Demo Lab</h1>
+      <span class="sub">Every case here breaks ordinary browser automation.</span>
+    </div>
+    <p class="lead">
+      One page, eight kinds of trouble: state that must survive, a list that only exists while you
+      look at it, elements hidden behind shadow roots and frames, gestures instead of clicks, files
+      going both ways, dialogs the page cannot see, and an overlay that eats every click until it is
+      answered. The activity strip at the bottom records what actually happened.
+    </p>
+
+    <nav class="tabs" role="tablist" aria-label="Demo sections">
+      <button role="tab" id="tab-session"  aria-controls="panel-session"  aria-selected="true"  data-panel="session">Session</button>
+      <button role="tab" id="tab-lists"    aria-controls="panel-lists"    aria-selected="false" data-panel="lists">Deep list</button>
+      <button role="tab" id="tab-hidden"   aria-controls="panel-hidden"   aria-selected="false" data-panel="hidden">Hidden DOM</button>
+      <button role="tab" id="tab-gestures" aria-controls="panel-gestures" aria-selected="false" data-panel="gestures">Gestures</button>
+      <button role="tab" id="tab-files"    aria-controls="panel-files"    aria-selected="false" data-panel="files">Files</button>
+      <button role="tab" id="tab-dialogs"  aria-controls="panel-dialogs"  aria-selected="false" data-panel="dialogs">Dialogs</button>
+      <button role="tab" id="tab-timing"   aria-controls="panel-timing"   aria-selected="false" data-panel="timing">Timing</button>
+      <button role="tab" id="tab-data"     aria-controls="panel-data"     aria-selected="false" data-panel="data">Data</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- 1 ------------------------------------------------------------------ -->
+  <section class="panel" id="panel-session" role="tabpanel" aria-labelledby="tab-session">
+    <h2>State that has to survive</h2>
+    <p class="hint">
+      A headless run starts logged out every time. Sign in once — the session is kept, and it is
+      still there after a reload, after a navigation, and in the next run.
+    </p>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Sign in</h3>
+        <p class="why">Credentials are <code>demo</code> / <code>nova</code>. Nothing leaves the page.</p>
+        <form id="loginForm" autocomplete="off">
+          <label class="field"><span>User</span><input type="text" id="user" name="user" /></label>
+          <label class="field"><span>Password</span><input type="password" id="pass" name="pass" /></label>
+          <div class="row">
+            <button class="act primary" type="submit" id="loginBtn">Sign in</button>
+            <button class="act" type="button" id="logoutBtn">Sign out</button>
+          </div>
+          <p class="err" id="loginErr" hidden>Wrong user or password.</p>
+          <p class="ok" id="loginOk" hidden></p>
+        </form>
+      </div>
+
+      <div class="card">
+        <h3>Session state</h3>
+        <p class="why">Survives reload and navigation. Read it with <code>nova.storage_inspect</code>.</p>
+        <p class="row"><span class="dot" id="sessionDot"></span> <span id="sessionState" class="mono">signed out</span></p>
+        <div class="row">
+          <button class="act" type="button" id="reloadBtn">Reload page</button>
+          <a class="act" style="text-decoration:none;display:inline-block" href="target.html">Navigate away</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 ------------------------------------------------------------------ -->
+  <section class="panel" id="panel-lists" role="tabpanel" aria-labelledby="tab-lists" hidden>
+    <h2>A list that only exists while you look at it</h2>
+    <p class="hint">
+      10 000 rows, about twenty of them in the DOM at any moment. A selector for row 8 472 finds
+      nothing until something scrolls there — this is where "element not found" usually comes from.
+    </p>
+
+    <div class="card">
+      <h3>Virtualised rows</h3>
+      <p class="why">
+        Target: <code>#row-8472</code>. In the DOM right now: <span id="domCount" class="mono">0</span> rows.
+      </p>
+      <div class="row" style="margin-bottom:10px">
+        <button class="act" type="button" id="jumpTop">Back to top</button>
+        <span class="mono" id="vstatus" style="color:var(--text-faint)">not found yet</span>
+      </div>
+      <div class="vlist" id="vlist" tabindex="0" aria-label="Virtualised list of 10000 rows">
+        <div class="vlist-inner" id="vinner"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 ------------------------------------------------------------------ -->
+  <section class="panel" id="panel-hidden" role="tabpanel" aria-labelledby="tab-hidden" hidden>
+    <h2>Out of reach of an ordinary selector</h2>
+    <p class="hint">
+      A closed shadow tree and a frame. <code>document.querySelector</code> walks past both, so a
+      plain script sees nothing to click.
+    </p>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Nested shadow roots</h3>
+        <p class="why">Two levels deep. The button exists, just not in the main document.</p>
+        <div id="shadowHost"></div>
+        <p class="mono" id="shadowState" style="color:var(--text-faint);margin-top:10px">not pressed</p>
+      </div>
+
+      <div class="card">
+        <h3>Inside a frame</h3>
+        <p class="why">Its own document, its own selectors.</p>
+        <iframe id="demoFrame" title="Embedded form" style="width:100%;height:190px;border:1px solid var(--line-strong);border-radius:8px;background:#070809"
+          srcdoc='<!doctype html><meta charset="utf-8"><body style="margin:0;padding:14px;background:#070809;color:#dce8ec;font:14px/1.5 Segoe UI,system-ui,sans-serif">
+            <p style="margin:0 0 10px;color:#8b9aa3;font-size:13px">This form lives in the frame.</p>
+            <label style="display:block;font-size:13px;color:#8b9aa3">Ticket<br><input id="frameInput" style="width:100%;margin-top:4px;padding:7px 9px;border-radius:7px;border:1px solid #2f3a42;background:#0a0c0e;color:#dce8ec;font:inherit"></label>
+            <button id="frameBtn" style="margin-top:10px;padding:7px 12px;border-radius:7px;border:1px solid #2f3a42;background:#1b2228;color:#dce8ec;font:inherit;cursor:pointer">Submit in frame</button>
+            <p id="frameOut" style="margin:10px 0 0;font-family:Consolas,monospace;font-size:12.5px;color:#5d6a72">empty</p>
+            <script>
+              document.getElementById("frameBtn").addEventListener("click", function () {
+                var v = document.getElementById("frameInput").value || "(blank)";
+                document.getElementById("frameOut").textContent = "submitted: " + v;
+                parent.postMessage({ novaDemo: "frame-submit", value: v }, "*");
+              });
+            <\/script>'></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 ------------------------------------------------------------------ -->
+  <section class="panel" id="panel-gestures" role="tabpanel" aria-labelledby="tab-gestures" hidden>
+    <h2>Things a click cannot do</h2>
+    <p class="hint">
+      Dragging is a sequence of real pointer events at real coordinates. Dispatching a
+      <code>click</code> moves nothing.
+    </p>
+
+    <div class="card">
+      <h3>Move the card to Done</h3>
+      <p class="why">Target: <code>#chip-deploy</code> into <code>#col-done</code>.</p>
+      <div class="board" id="board">
+        <div class="col" id="col-todo" data-col="todo"><h4>TODO</h4>
+          <div class="chip" id="chip-deploy" draggable="true">Deploy release</div>
+          <div class="chip" id="chip-notes" draggable="true">Write notes</div>
+        </div>
+        <div class="col" id="col-doing" data-col="doing"><h4>DOING</h4></div>
+        <div class="col" id="col-done" data-col="done"><h4>DONE</h4></div>
+      </div>
+      <p class="mono" id="boardState" style="color:var(--text-faint);margin-top:10px">deploy: todo</p>
+    </div>
+  </section>
+
+  <!-- 5 ------------------------------------------------------------------ -->
+  <section class="panel" id="panel-files" role="tabpanel" aria-labelledby="tab-files" hidden>
+    <h2>Files in both directions</h2>
+    <p class="hint">
+      Picking a file opens an OS dialog the page cannot see or control. Saving one produces a file
+      that has to land somewhere and be read back.
+    </p>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Upload</h3>
+        <p class="why">Any file. Only name and size are read, nothing is sent.</p>
+        <label class="filelabel" style="display:inline-block">
+          Choose file<input type="file" id="fileInput" style="display:none" />
+        </label>
+        <p class="mono" id="fileState" style="color:var(--text-faint);margin-top:10px">no file</p>
+      </div>
+
+      <div class="card">
+        <h3>Download</h3>
+        <p class="why">Generates <code>nova-demo-report.csv</code> from the table data.</p>
+        <button class="act" type="button" id="downloadBtn">Download report</button>
+        <p class="mono" id="dlState" style="color:var(--text-faint);margin-top:10px">nothing generated</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 ------------------------------------------------------------------ -->
+  <section class="panel" id="panel-dialogs" role="tabpanel" aria-labelledby="tab-dialogs" hidden>
+    <h2>Blockers</h2>
+    <p class="hint">
+      A native dialog stops the page thread entirely. A consent wall and a modal swallow every click
+      until they are answered — and neither is visible to a page-level read.
+    </p>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Native dialogs</h3>
+        <p class="why">The page freezes until each one is answered.</p>
+        <div class="row">
+          <button class="act" type="button" id="alertBtn">alert</button>
+          <button class="act" type="button" id="confirmBtn">confirm</button>
+          <button class="act" type="button" id="promptBtn">prompt</button>
+        </div>
+        <p class="mono" id="dialogState" style="color:var(--text-faint);margin-top:10px">no answer yet</p>
+      </div>
+
+      <div class="card">
+        <h3>Consent wall</h3>
+        <p class="why">Reject and accept are deliberately unequal, as on real sites.</p>
+        <button class="act" type="button" id="cmpBtn">Show consent wall</button>
+        <p class="mono" id="cmpState" style="color:var(--text-faint);margin-top:10px">no decision</p>
+      </div>
+
+      <div class="card">
+        <h3>Click-eating modal</h3>
+        <p class="why">Covers the page; anything underneath ignores input.</p>
+        <button class="act" type="button" id="modalBtn">Open modal</button>
+        <p class="mono" id="modalState" style="color:var(--text-faint);margin-top:10px">closed</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 ------------------------------------------------------------------ -->
+  <section class="panel" id="panel-timing" role="tabpanel" aria-labelledby="tab-timing" hidden>
+    <h2>Arriving late</h2>
+    <p class="hint">
+      A fixed wait is either too short or wasted. These appear after a delay you do not know in
+      advance, and one of them replaces itself once more after that.
+    </p>
+
+    <div class="grid">
+      <div class="card">
+        <h3>Delayed button</h3>
+        <p class="why">Appears as <code>#lateBtn</code> somewhere between 2 and 6 seconds.</p>
+        <button class="act" type="button" id="startLate">Start</button>
+        <div id="lateSlot" style="margin-top:12px;min-height:38px"></div>
+      </div>
+
+      <div class="card">
+        <h3>Content that settles twice</h3>
+        <p class="why">First render is a placeholder; the real value replaces it later.</p>
+        <button class="act" type="button" id="startSettle">Load value</button>
+        <p class="mono" id="settleOut" style="color:var(--text-faint);margin-top:12px">idle</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 ------------------------------------------------------------------ -->
+  <section class="panel" id="panel-data" role="tabpanel" aria-labelledby="tab-data" hidden>
+    <h2>Reading what is there</h2>
+    <p class="hint">
+      A table to extract, and a canvas that holds no text at all — the value exists only as pixels,
+      so it has to be seen rather than parsed.
+    </p>
+
+    <div class="grid">
+      <div class="card" style="grid-column: 1 / -1">
+        <h3>Table</h3>
+        <p class="why">Six rows, mixed types. <code>nova.extract_table</code> turns it into rows.</p>
+        <div class="tablewrap">
+          <table id="dataTable">
+            <thead><tr><th>Release</th><th>Date</th><th>Downloads</th><th>Crash rate</th><th>Status</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Canvas</h3>
+        <p class="why">The code below is drawn, not written. No selector will ever return it.</p>
+        <canvas id="pixelCanvas" width="260" height="90" style="width:100%;max-width:260px;border:1px solid var(--line-strong);border-radius:8px"></canvas>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- overlays --------------------------------------------------------------- -->
+
+<div class="cmp" id="cmp" hidden role="dialog" aria-modal="true" aria-labelledby="cmpTitle">
+  <div class="sheet">
+    <h3 id="cmpTitle">We value your privacy</h3>
+    <p>We and 847 partners store and access information on your device to deliver a personalised experience.</p>
+    <div class="row">
+      <button class="act primary" type="button" id="cmpAccept">Accept all</button>
+      <button class="act" type="button" id="cmpManage">Manage options</button>
+      <button class="act" type="button" id="cmpReject" style="opacity:.7;font-size:13px">Continue without accepting</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="sheet">
+    <h3 id="modalTitle">Unsaved changes</h3>
+    <p>Everything behind this panel ignores clicks until you answer.</p>
+    <div class="row">
+      <button class="act primary" type="button" id="modalSave">Save and close</button>
+      <button class="act" type="button" id="modalDiscard">Discard</button>
+    </div>
+  </div>
+</div>
+
+<!-- activity --------------------------------------------------------------- -->
+
+<div class="wrap">
+  <div class="logwrap">
+    <header>
+      <span class="row" style="gap:8px"><span class="dot live"></span> Activity</span>
+      <button class="act" type="button" id="clearLog" style="padding:4px 10px;font-size:12.5px">Clear</button>
+    </header>
+    <ul id="log" aria-live="polite"></ul>
+  </div>
+</div>
+
+<script src="assets/lab.js"></script>
+</body>
+</html>
