@@ -1,0 +1,379 @@
+/* Nova Demo Lab — visual language borrowed from the Nova wordmark (cool greys, one green accent).
+   Dark by default because the video is recorded against Nova's own chrome; a bright page would
+   fight the browser frame around it. */
+
+:root {
+  color-scheme: dark;
+
+  --bg: #0a0c0e;
+  --bg-raised: #12161a;
+  --bg-sunken: #070809;
+  --line: #222a30;
+  --line-strong: #2f3a42;
+
+  --text: #dce8ec;
+  --text-dim: #8b9aa3;
+  --text-faint: #5d6a72;
+
+  --accent: #7bf5ac;
+  --accent-dim: #3f8c62;
+  --warn: #f5c97b;
+  --bad: #f57b8c;
+
+  --radius: 10px;
+  --gap: 16px;
+
+  /* One edge for the whole page: every block resolves to this width, no per-block max-widths. */
+  --content: 1280px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.55 "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+  padding-block: 0 64px;
+}
+
+.wrap {
+  width: min(var(--content), 100% - 32px);
+  margin-inline: auto;
+}
+
+/* ---------- header ---------- */
+
+header.top {
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg, #101418, var(--bg));
+  padding-block: 22px 18px;
+  margin-bottom: 24px;
+}
+
+.brandline {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.brandline h1 {
+  margin: 0;
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.brandline .sub {
+  color: var(--text-dim);
+  font-size: 13px;
+}
+
+.lead {
+  margin: 10px 0 0;
+  color: var(--text-dim);
+  max-width: 68ch;
+}
+
+/* ---------- tabs ---------- */
+
+nav.tabs {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+}
+
+nav.tabs button {
+  background: transparent;
+  border: 1px solid transparent;
+  border-bottom: 2px solid transparent;
+  color: var(--text-dim);
+  font: inherit;
+  padding: 8px 14px;
+  border-radius: 8px 8px 0 0;
+  cursor: pointer;
+}
+
+nav.tabs button:hover { color: var(--text); background: #151a1f; }
+
+nav.tabs button[aria-selected="true"] {
+  color: var(--text);
+  border-bottom-color: var(--accent);
+  background: #151a1f;
+}
+
+nav.tabs button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---------- panels ---------- */
+
+.panel[hidden] { display: none !important; }
+
+.panel > h2 {
+  font-size: 17px;
+  margin: 4px 0 2px;
+}
+
+.panel > p.hint {
+  margin: 0 0 18px;
+  color: var(--text-dim);
+  max-width: 72ch;
+}
+
+/* Equal-rank, independent blocks sit side by side and wrap on their own; single content is capped
+   by the shared edge instead of a private max-width. */
+.grid {
+  display: grid;
+  gap: var(--gap);
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  align-items: start;
+}
+
+.card {
+  background: var(--bg-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+
+.card h3 {
+  margin: 0 0 4px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.card .why {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: var(--text-faint);
+}
+
+/* ---------- controls ---------- */
+
+button.act,
+.filelabel {
+  background: #1b2228;
+  color: var(--text);
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  font: inherit;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+button.act:hover,
+.filelabel:hover { border-color: var(--accent-dim); }
+
+button.act:focus-visible,
+.filelabel:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+button.act.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #06210f;
+  font-weight: 600;
+}
+
+button.act[disabled] { opacity: 0.45; cursor: not-allowed; }
+
+.row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+select,
+textarea {
+  background: var(--bg-sunken);
+  border: 1px solid var(--line-strong);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font: inherit;
+  width: 100%;
+}
+
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+label.field { display: block; margin-bottom: 10px; }
+label.field > span { display: block; font-size: 13px; color: var(--text-dim); margin-bottom: 4px; }
+
+.err { color: var(--bad); font-size: 13px; margin-top: 6px; }
+.ok  { color: var(--accent); font-size: 13px; margin-top: 6px; }
+
+code, .mono {
+  font-family: "Cascadia Mono", Consolas, monospace;
+  font-size: 12.5px;
+}
+
+code {
+  background: var(--bg-sunken);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 1px 5px;
+}
+
+/* ---------- virtual list ---------- */
+
+.vlist {
+  height: 260px;
+  overflow-y: auto;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: var(--bg-sunken);
+}
+
+.vlist-inner { position: relative; }
+
+.vrow {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 12px;
+  border-bottom: 1px solid #161c21;
+  font-size: 13px;
+}
+
+.vrow .idx { color: var(--text-faint); width: 62px; flex: none; }
+.vrow.target { background: #14251b; color: var(--accent); }
+
+/* ---------- board (drag and drop) ---------- */
+
+.board { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+
+.col {
+  background: var(--bg-sunken);
+  border: 1px dashed var(--line-strong);
+  border-radius: 8px;
+  padding: 8px;
+  min-height: 120px;
+}
+
+.col.over { border-color: var(--accent); background: #101a14; }
+.col h4 { margin: 0 0 8px; font-size: 12px; color: var(--text-dim); letter-spacing: 0.04em; }
+
+.chip {
+  background: #1b2228;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  padding: 7px 10px;
+  margin-bottom: 6px;
+  cursor: grab;
+  font-size: 13px;
+}
+
+.chip:active { cursor: grabbing; }
+
+/* ---------- table ---------- */
+
+.tablewrap { overflow-x: auto; }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 13px;
+}
+
+th, td {
+  border-bottom: 1px solid var(--line);
+  padding: 7px 10px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+th { color: var(--text-dim); font-weight: 600; }
+
+/* ---------- overlays ---------- */
+
+.cmp, .modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 6, 8, 0.72);
+  display: grid;
+  place-items: center;
+  z-index: 50;
+  padding: 16px;
+}
+
+.cmp[hidden], .modal[hidden] { display: none !important; }
+
+.sheet {
+  background: var(--bg-raised);
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  padding: 20px;
+  width: min(520px, 100%);
+}
+
+.sheet h3 { margin: 0 0 8px; font-size: 16px; }
+.sheet p { color: var(--text-dim); margin: 0 0 16px; }
+
+/* ---------- activity log ---------- */
+
+.logwrap {
+  position: sticky;
+  bottom: 0;
+  margin-top: 28px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: #0c1013;
+  overflow: hidden;
+}
+
+.logwrap header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+#log {
+  margin: 0;
+  padding: 10px 14px;
+  max-height: 150px;
+  overflow-y: auto;
+  font-family: "Cascadia Mono", Consolas, monospace;
+  font-size: 12.5px;
+  line-height: 1.7;
+  list-style: none;
+}
+
+#log li { display: flex; gap: 10px; }
+#log time { color: var(--text-faint); flex: none; }
+#log .what { color: var(--text); }
+#log li.good .what { color: var(--accent); }
+
+.dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent);
+  display: inline-block;
+  flex: none;
+}
+
+/* Reduced motion is respected everywhere: the only animation here is the pulse on the log dot. */
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+.dot.live { animation: pulse 1.6s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .dot.live { animation: none; }
+}
