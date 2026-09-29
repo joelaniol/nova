@@ -29,8 +29,10 @@ Nova is a licensed application. To activate your license and keep it valid, Nova
 - A **device fingerprint hash** (SHA-256) derived from your Windows installation ID, Windows user SID, and Windows MachineGuid. The raw values are **never** sent — only the one-way hash. It is used solely to identify and count license seats (which device an activation belongs to), not to track you.
 - Your **device name** (Windows hostname) in plain text, so you can recognize your own devices when managing activations
 - Basic **environment info**: Windows edition and build, CPU architecture, and UI language
+- The **Nova version** you are running
+- Whether Nova's **data folder** has already been moved to its current location (one of two fixed words, `current` or `legacy` — never a path or user name)
 
-**Why this data is used:** to validate the license, enforce the number of allowed devices per license, and let you manage your own activations and deactivations. It is **not** used for advertising, cross-site tracking, or behavioral profiling.
+**Why this data is used:** to validate the license, enforce the number of allowed devices per license, and let you manage your own activations and deactivations. The Nova version and the data-folder state are also used to **plan updates**: they tell us when compatibility code for older installations can be removed without leaving anyone's data behind. It is **not** used for advertising, cross-site tracking, or behavioral profiling.
 
 **Where it is sent:**
 - Endpoint: `nova-cognitive.com`
@@ -157,8 +159,10 @@ Nova ist eine lizenzierte Anwendung. Um deine Lizenz zu aktivieren und gültig z
 - Ein **Geräte-Fingerprint-Hash** (SHA-256), abgeleitet aus deiner Windows-Installations-ID, deiner Windows-Benutzer-SID und der Windows-MachineGuid. Die Rohwerte werden **nie** gesendet — nur der Einweg-Hash. Er dient ausschließlich dazu, Lizenzplätze zu identifizieren und zu zählen (welchem Gerät eine Aktivierung gehört), nicht um dich zu tracken.
 - Dein **Gerätename** (Windows-Hostname) im Klartext, damit du deine eigenen Geräte bei der Verwaltung der Aktivierungen wiedererkennst
 - Grundlegende **Umgebungsinfos**: Windows-Edition und -Build, CPU-Architektur und UI-Sprache
+- Die **Nova-Version**, die du nutzt
+- Ob Novas **Datenordner** schon an seinem aktuellen Ort liegt (eines von zwei festen Wörtern, `current` oder `legacy` — nie ein Pfad oder Benutzername)
 
-**Wozu diese Daten dienen:** um die Lizenz zu validieren, die Anzahl erlaubter Geräte pro Lizenz durchzusetzen und dir die Verwaltung deiner eigenen Aktivierungen/Deaktivierungen zu ermöglichen. Sie werden **nicht** für Werbung, seitenübergreifendes Tracking oder Verhaltensprofiling verwendet.
+**Wozu diese Daten dienen:** um die Lizenz zu validieren, die Anzahl erlaubter Geräte pro Lizenz durchzusetzen und dir die Verwaltung deiner eigenen Aktivierungen/Deaktivierungen zu ermöglichen. Nova-Version und Lage des Datenordners dienen außerdem der **Update-Planung**: Sie zeigen, wann Kompatibilitätscode für ältere Installationen entfernt werden kann, ohne dass jemandes Daten zurückbleiben. Sie werden **nicht** für Werbung, seitenübergreifendes Tracking oder Verhaltensprofiling verwendet.
 
 **Wohin es gesendet wird:**
 - Endpunkt: `nova-cognitive.com`
