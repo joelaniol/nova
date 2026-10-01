@@ -1,6 +1,6 @@
 # Privacy Policy / Datenschutzerklärung
 
-*Last updated: September 2026*
+*Last updated: October 2026*
 
 ---
 
@@ -119,8 +119,10 @@ intercept them. This is off until you ask for it, and it changes nothing about w
 All application data is stored locally on your machine:
 
 ```
-%LOCALAPPDATA%\NovaBrowser\
+%LOCALAPPDATA%\nova-cognitive\Nova\
 ```
+
+Installations up to version 1.0.0-alpha.17 used `%LOCALAPPDATA%\NovaBrowser\`. The setup of a newer version moves that folder to the new location; if the move is not possible, the data stays in the old folder.
 
 This includes settings, browser profiles, history, favorites, vault entries, knowledge stores, conversation archives, logs, and task workspaces. You can delete this folder at any time to remove all Nova data. The uninstaller offers this option as well.
 
@@ -251,8 +253,10 @@ deine Daten gehen:
 Alle Anwendungsdaten werden lokal auf deinem Rechner gespeichert:
 
 ```
-%LOCALAPPDATA%\NovaBrowser\
+%LOCALAPPDATA%\nova-cognitive\Nova\
 ```
+
+Installationen bis Version 1.0.0-alpha.17 nutzten `%LOCALAPPDATA%\NovaBrowser\`. Das Setup einer neueren Version verschiebt diesen Ordner an den neuen Ort; ist das nicht möglich, bleiben die Daten im alten Ordner.
 
 Dies umfasst Einstellungen, Browser-Profile, Verlauf, Favoriten, Vault-Einträge, Wissensspeicher, Gesprächsarchive, Logs und Task-Workspaces. Du kannst diesen Ordner jederzeit löschen, um alle Nova-Daten zu entfernen. Der Deinstaller bietet diese Option ebenfalls an.
 
