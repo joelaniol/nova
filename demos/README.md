@@ -1,14 +1,13 @@
 # Nova Demo Lab
 
-Stand: 2026-09-20
+Stand: 2026-10-01
 
 Eine Seite zum Vorführen — gebaut für Videoaufnahmen und für den ersten Eindruck bei jemandem, der
 Nova noch nicht kennt. Sie läuft **ohne Server**: `demos/lab.html` im Browser öffnen, fertig.
 
 ```
-dist\NovaBrowser.exe          # Nova starten
-# dann im Agenten:
-nova.navigate url="file:///E:/-=Entwicklung=-/NovaBrowser/demos/lab.html"
+# Nova starten, dann im Agenten (Pfad zum heruntergeladenen Ordner einsetzen):
+nova.navigate url="file:///C:/Pfad/zu/demos/lab.html"
 ```
 
 ## Wozu das Ganze
