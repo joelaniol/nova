@@ -150,16 +150,16 @@ While Nova is open it runs a local MCP server and exposes 800+ tools to your age
 **Other clients (Cursor, Windsurf, VS Code, your own):** open **Settings → AI & agents → Connection & setup** and copy the ready-made setup prompt — paste it into your agent and it wires itself up (a dedicated VS Code prompt is included). Advanced clients can read the endpoint and bearer token directly from the discovery file:
 
 ```
-%LOCALAPPDATA%\NovaBrowser\mcp.json
+%LOCALAPPDATA%\nova-cognitive\Nova\mcp.json
 ```
 
-Treat that file as a local credential.
+Treat that file as a local credential. Installations up to 1.0.0-alpha.17 used `%LOCALAPPDATA%\NovaBrowser\`; the setup of a newer version moves the folder.
 
 **Troubleshooting.** The same **Connection & setup** page has **Sync now** (re-writes the client configs) and **Reinstall runner** (repairs the connector after moving or reinstalling Nova). Keep Nova open while your agent is working, and leave **Developer options** enabled — turning it off disables the MCP server. Agent connected but not using Nova's tools, or seeing no data? See [MCP troubleshooting](docs/mcp-troubleshooting/README.md).
 
 ## Local Data
 
-All data is stored locally under `%LOCALAPPDATA%\NovaBrowser\` — settings, browser profiles, history, favorites, vault, logs, knowledge stores, crawler databases, task workspaces, and conversation archives.
+All data is stored locally under `%LOCALAPPDATA%\nova-cognitive\Nova\` (up to 1.0.0-alpha.17: `%LOCALAPPDATA%\NovaBrowser\`) — settings, browser profiles, history, favorites, vault, logs, knowledge stores, crawler databases, task workspaces, and conversation archives.
 
 Nova does not require a remote cloud service. When using third-party AI providers, their own data policies apply.
 
@@ -274,16 +274,16 @@ Solange Nova geöffnet ist, betreibt es einen lokalen MCP-Server und stellt dein
 **Andere Clients (Cursor, Windsurf, VS Code, eigene):** **Einstellungen → KI & Agenten → Verbindung & Einrichtung** öffnen und den fertigen Einrichtungs-Prompt kopieren — in den Agenten einfügen, er richtet sich selbst ein (ein eigener VS-Code-Prompt ist dabei). Fortgeschrittene Clients können Endpunkt und Bearer-Token direkt aus der Discovery-Datei lesen:
 
 ```
-%LOCALAPPDATA%\NovaBrowser\mcp.json
+%LOCALAPPDATA%\nova-cognitive\Nova\mcp.json
 ```
 
-Diese Datei wie ein lokales Credential behandeln.
+Diese Datei wie ein lokales Credential behandeln. Installationen bis 1.0.0-alpha.17 nutzten `%LOCALAPPDATA%\NovaBrowser\`; das Setup einer neueren Version verschiebt den Ordner.
 
 **Fehlerbehebung.** Dieselbe Seite **Verbindung & Einrichtung** hat **Jetzt synchronisieren** (schreibt die Client-Konfigs neu) und **Runner neu installieren** (repariert die Verbindung nach Verschieben oder Neuinstallation von Nova). Nova geöffnet lassen, während der Agent arbeitet, und **Entwickleroptionen** aktiviert lassen — ausschalten deaktiviert den MCP-Server. Agent verbunden, nutzt aber Novas Werkzeuge nicht oder sieht keine Daten? Siehe [MCP-Fehlerbehebung](docs/mcp-troubleshooting/README.md#mcp-fehlerbehebung).
 
 ### Lokale Daten
 
-Alle Daten liegen lokal unter `%LOCALAPPDATA%\NovaBrowser\` — Einstellungen, Browser-Profile, History, Favoriten, Vault, Logs, Wissensspeicher, Crawler-Datenbanken, Task-Workspaces und Gespraechsarchive.
+Alle Daten liegen lokal unter `%LOCALAPPDATA%\nova-cognitive\Nova\` (bis 1.0.0-alpha.17: `%LOCALAPPDATA%\NovaBrowser\`) — Einstellungen, Browser-Profile, History, Favoriten, Vault, Logs, Wissensspeicher, Crawler-Datenbanken, Task-Workspaces und Gespraechsarchive.
 
 Nova braucht keinen Cloud-Dienst. Bei Nutzung von Drittanbieter-KI-Providern gelten deren Datenregeln.
 
