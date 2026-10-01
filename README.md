@@ -164,7 +164,7 @@ While Nova is open it runs a local MCP server and exposes 800+ tools to your age
 
 Treat that file as a local credential.
 
-**Troubleshooting.** The same **Connection & setup** page has **Sync now** (re-writes the client configs) and **Reinstall runner** (repairs the connector after moving or reinstalling Nova). Keep Nova open while your agent is working, and leave **Developer options** enabled — turning it off disables the MCP server.
+**Troubleshooting.** The same **Connection & setup** page has **Sync now** (re-writes the client configs) and **Reinstall runner** (repairs the connector after moving or reinstalling Nova). Keep Nova open while your agent is working, and leave **Developer options** enabled — turning it off disables the MCP server. Agent connected but not using Nova's tools, or seeing no data? See [MCP troubleshooting](docs/mcp-troubleshooting/README.md).
 
 ## Local Data
 
@@ -295,7 +295,7 @@ Solange Nova geöffnet ist, betreibt es einen lokalen MCP-Server und stellt dein
 
 Diese Datei wie ein lokales Credential behandeln.
 
-**Fehlerbehebung.** Dieselbe Seite **Verbindung & Einrichtung** hat **Jetzt synchronisieren** (schreibt die Client-Konfigs neu) und **Runner neu installieren** (repariert die Verbindung nach Verschieben oder Neuinstallation von Nova). Nova geöffnet lassen, während der Agent arbeitet, und **Entwickleroptionen** aktiviert lassen — ausschalten deaktiviert den MCP-Server.
+**Fehlerbehebung.** Dieselbe Seite **Verbindung & Einrichtung** hat **Jetzt synchronisieren** (schreibt die Client-Konfigs neu) und **Runner neu installieren** (repariert die Verbindung nach Verschieben oder Neuinstallation von Nova). Nova geöffnet lassen, während der Agent arbeitet, und **Entwickleroptionen** aktiviert lassen — ausschalten deaktiviert den MCP-Server. Agent verbunden, nutzt aber Novas Werkzeuge nicht oder sieht keine Daten? Siehe [MCP-Fehlerbehebung](docs/mcp-troubleshooting/README.md#mcp-fehlerbehebung).
 
 ### Lokale Daten
 
