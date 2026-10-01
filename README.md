@@ -44,7 +44,7 @@ rather than claimed. [What each case tests, and the call that solves it →](dem
 2. **Activate** with the shared alpha license — no account needed:
    > **License key:** `NOVA-M89A9-JW3BT-RMTD7-Z4RWL-PQGT9`
    > **Email:** `demo@example.com`
-3. **Connect your agent.** For Claude Code, Codex and Claude Desktop this happens by itself.
+3. **Connect your agent.** For Claude Code, Codex, Claude Desktop and Google Antigravity this happens by itself.
    Restart your agent, then tell it: **"please run the Nova onboarding."**
 
 > On first launch Windows SmartScreen may warn that the app is not code-signed — expected for
@@ -84,17 +84,12 @@ Agents don't just respond. They plan, execute, learn, verify, and run on schedul
 
 ## Quick Start
 
-1. Download the latest release from [Releases](https://github.com/joelaniol/nova/releases)
-2. Extract the ZIP (portable) or run the installer
-3. Run `NovaBrowser.exe`
-4. Open Settings to configure language, sandboxes, AI provider accounts, MCP access, and agent permissions
-
-5. **Connect your AI agent** — for Claude Code, Codex, and Claude Desktop this happens automatically. Restart your agent, then tell it **"please run the Nova onboarding"**. Details and other clients: see [Connect your AI agent](#connect-your-ai-agent-mcp) below.
+Download the setup from [Releases](https://github.com/joelaniol/nova/releases), run it, and follow the
+setup for AI programs that opens on first start. Step by step — including connecting your AI agent
+manually, updates and what to do if Nova does not start — in the
+**[installation guide](docs/installation.md)**.
 
 > 📚 **Full documentation and video guides are coming soon.**
-
-> On first launch, Windows SmartScreen may warn that the app is not code-signed.
-> For independent alpha builds this is expected. Choose "More info" > "Run anyway".
 
 ## Reporting bugs · Fehler melden
 
@@ -139,21 +134,17 @@ learning across sessions.
 
 ## Requirements
 
-- Windows 10 or Windows 11
-- Windows App SDK Runtime 1.8
-- Microsoft Edge WebView2 Runtime
+- Windows 10 or Windows 11 (x64)
+- Microsoft Edge WebView2 Runtime and Windows App Runtime 1.8 — the setup installs both if they are missing
 
-If Nova does not start because the Windows App Runtime is missing:
-
-- **Option A:** Run `repair-windows-app-runtime.ps1` (included in the release)
-- **Option B:** Download manually from [Microsoft](https://aka.ms/windowsappsdk/1.8/latest/windowsappruntimeinstall-x64.exe)
+If Nova does not start, see [installation guide → If Nova does not start](docs/installation.md#if-nova-does-not-start).
 
 ## Connect your AI agent (MCP)
 
-While Nova is open it runs a local MCP server and exposes 800+ tools to your agent. For **Claude Code, Codex, and Claude Desktop this is automatic — no manual config, no copying tokens:**
+While Nova is open it runs a local MCP server and exposes 800+ tools to your agent. For **Claude Code, Codex, Claude Desktop, and Google Antigravity this is automatic — no manual config, no copying tokens:**
 
-1. **Install and launch Nova once.** The local MCP server starts on its own and writes the Nova connection into the config of Claude Code, Codex, and Claude Desktop for you. It never touches your other MCP servers or your permission allowlist.
-2. **Restart your agent** so it reloads its config — Nova then appears as the `novabrowser` server. *This restart is the step most people forget: if Nova doesn't show up, restart the agent, not Nova.*
+1. **Install and launch Nova once.** The local MCP server starts on its own and writes the Nova connection into the config of Claude Code, Codex, Claude Desktop, and Google Antigravity for you. It never touches your other MCP servers or your permission allowlist.
+2. **Restart your agent** so it reloads its config — Nova then appears as the `nova` server. *This restart is the step most people forget: if Nova doesn't show up, restart the agent, not Nova.*
 3. In your agent, say **"please run the Nova onboarding"**. Nova drops a short reference into your project so the agent knows what it can do and how.
 
 **Other clients (Cursor, Windsurf, VS Code, your own):** open **Settings → AI & agents → Connection & setup** and copy the ready-made setup prompt — paste it into your agent and it wires itself up (a dedicated VS Code prompt is included). Advanced clients can read the endpoint and bearer token directly from the discovery file:
@@ -225,13 +216,10 @@ Agenten antworten nicht nur. Sie planen, führen aus, lernen, verifizieren und l
 
 ### Schnellstart
 
-1. Neuestes Release von [Releases](https://github.com/joelaniol/nova/releases) herunterladen
-2. ZIP entpacken (portabel) oder Installer ausfuehren
-3. `NovaBrowser.exe` starten
-4. In den Einstellungen Sprache, Sandboxes, KI-Provider-Konten, MCP-Zugriff und Agentenrechte konfigurieren
-5. **KI-Agent verbinden** — für Claude Code, Codex und Claude Desktop passiert das automatisch. Agenten neu starten, dann **„bitte führe das Nova-Onboarding aus“** sagen. Details und andere Clients: siehe [KI-Agent verbinden](#ki-agent-verbinden-mcp) weiter unten.
-
-> Beim ersten Start kann Windows SmartScreen melden, dass die App nicht signiert ist. Bei Alpha-Builds ist das erwartbar. "Weitere Informationen" > "Trotzdem ausfuehren".
+Setup unter [Releases](https://github.com/joelaniol/nova/releases) herunterladen, ausführen und der
+Einrichtung für KI-Programme folgen, die sich beim ersten Start öffnet. Schritt für Schritt — samt
+manuellem Verbinden des KI-Agenten, Updates und was zu tun ist, wenn Nova nicht startet — in der
+**[Installationsanleitung](docs/installation.md#nova-ai-workspace-installieren)**.
 
 ### Was Nova anders macht
 
@@ -270,21 +258,17 @@ wiederverwendbares Lernen über Sitzungen hinweg.
 
 ### Voraussetzungen
 
-- Windows 10 oder Windows 11
-- Windows App SDK Runtime 1.8
-- Microsoft Edge WebView2 Runtime
+- Windows 10 oder Windows 11 (x64)
+- Microsoft Edge WebView2 Runtime und Windows App Runtime 1.8 — das Setup installiert beide, falls sie fehlen
 
-Falls Nova wegen fehlender Windows App Runtime nicht startet:
-
-- **Option A:** `repair-windows-app-runtime.ps1` ausfuehren (im Release enthalten)
-- **Option B:** Manuell herunterladen: [Microsoft](https://aka.ms/windowsappsdk/1.8/latest/windowsappruntimeinstall-x64.exe)
+Startet Nova nicht, siehe [Installationsanleitung → Wenn Nova nicht startet](docs/installation.md#wenn-nova-nicht-startet).
 
 ### KI-Agent verbinden (MCP)
 
-Solange Nova geöffnet ist, betreibt es einen lokalen MCP-Server und stellt deinem Agenten 800+ Tools bereit. Für **Claude Code, Codex und Claude Desktop läuft das automatisch — keine manuelle Konfiguration, kein Token-Kopieren:**
+Solange Nova geöffnet ist, betreibt es einen lokalen MCP-Server und stellt deinem Agenten 800+ Tools bereit. Für **Claude Code, Codex, Claude Desktop und Google Antigravity läuft das automatisch — keine manuelle Konfiguration, kein Token-Kopieren:**
 
-1. **Nova einmal installieren und starten.** Der lokale MCP-Server startet von selbst und trägt die Nova-Verbindung für dich in die Konfiguration von Claude Code, Codex und Claude Desktop ein. Deine anderen MCP-Server und deine Rechte-Freigaben bleiben unangetastet.
-2. **Agenten neu starten**, damit er seine Konfiguration neu lädt — Nova erscheint dann als Server `novabrowser`. *Diesen Neustart vergisst man am ehesten: Wenn Nova nicht auftaucht, den Agenten neu starten, nicht Nova.*
+1. **Nova einmal installieren und starten.** Der lokale MCP-Server startet von selbst und trägt die Nova-Verbindung für dich in die Konfiguration von Claude Code, Codex, Claude Desktop und Google Antigravity ein. Deine anderen MCP-Server und deine Rechte-Freigaben bleiben unangetastet.
+2. **Agenten neu starten**, damit er seine Konfiguration neu lädt — Nova erscheint dann als Server `nova`. *Diesen Neustart vergisst man am ehesten: Wenn Nova nicht auftaucht, den Agenten neu starten, nicht Nova.*
 3. Im Agenten sagen: **„bitte führe das Nova-Onboarding aus“**. Nova legt eine kurze Referenz in dein Projekt, damit der Agent weiß, was er kann und wie.
 
 **Andere Clients (Cursor, Windsurf, VS Code, eigene):** **Einstellungen → KI & Agenten → Verbindung & Einrichtung** öffnen und den fertigen Einrichtungs-Prompt kopieren — in den Agenten einfügen, er richtet sich selbst ein (ein eigener VS-Code-Prompt ist dabei). Fortgeschrittene Clients können Endpunkt und Bearer-Token direkt aus der Discovery-Datei lesen:
