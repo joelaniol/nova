@@ -4,6 +4,34 @@ Every tool exposed by **Nova AI Workspace**, grouped by operational domain. Clic
 
 **Reading the Parameters column:** a plain name is required; a name ending in `?` is optional and can be left out (for example `url` must be given, `targetId?` may be omitted). Every tool also accepts the optional `_meta` object, which is not listed here.
 
+**Sections**
+
+<!-- generated:catalog-toc (from the section headings below; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+- [1. Browser Navigation & Tab Strip](#1-browser-navigation--tab-strip) (22)
+- [2. DOM Perception & Content Extraction](#2-dom-perception--content-extraction) (20)
+- [3. Layout Quality & Measuring QA](#3-layout-quality--measuring-qa) (7)
+- [4. Humanized Input & Interaction](#4-humanized-input--interaction) (18)
+- [5. Guarded Actions & Blocker Clearance](#5-guarded-actions--blocker-clearance) (7)
+- [6. Visual Evidence & Screenshots](#6-visual-evidence--screenshots) (7)
+- [7. Knowledge & Phenomenological Store (PKS)](#7-knowledge--phenomenological-store-pks) (21)
+- [8. Credentials & Secure Vault](#8-credentials--secure-vault) (9)
+- [9. Terminal Workspaces & Headless CLI](#9-terminal-workspaces--headless-cli) (12)
+- [10. Downloads Management & Queue Control](#10-downloads-management--queue-control) (15)
+- [11. Desktop Notifications & Alerts](#11-desktop-notifications--alerts) (11)
+- [12. Device Emulation & Responsive Testing](#12-device-emulation--responsive-testing) (10)
+- [13. External MCP Servers & Secondary Tool Bridging](#13-external-mcp-servers--secondary-tool-bridging) (10)
+- [14. Proxy Routing & Network Interception](#14-proxy-routing--network-interception) (15)
+- [15. Site Crawler & URL Discovery Index](#15-site-crawler--url-discovery-index) (14)
+- [16. Session Tracing & DOM Event Recording](#16-session-tracing--dom-event-recording) (14)
+- [17. Scheduled Tasks, Cron & Workspaces](#17-scheduled-tasks-cron--workspaces) (25)
+- [18. Connectors, Mail & File Transfer](#18-connectors-mail--file-transfer) (31)
+- [19. Media Intelligence & Whisper Speech-to-Text](#19-media-intelligence--whisper-speech-to-text) (24)
+- [20. Site Data, Fingerprinting & Sandboxes](#20-site-data-fingerprinting--sandboxes) (23)
+- [21. Episodic Task Memory & Guidance](#21-episodic-task-memory--guidance) (34)
+- [22. App Shell, Dialogs & DevTools](#22-app-shell-dialogs--devtools) (59)
+- [23. Agent-Authored Plugins](#23-agent-authored-plugins) (22)
+<!-- /generated:catalog-toc -->
+
 ---
 
 ## 1. Browser Navigation & Tab Strip
