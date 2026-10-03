@@ -89,7 +89,7 @@ flowchart TD
         HardProbes["Hardware & Device Probes"]
     end
 
-    Agents <-->|JSON-RPC 2.0 (Named Pipe / HTTP)| MCPServer
+    Agents <-->|"JSON-RPC 2.0 (Named Pipe / HTTP)"| MCPServer
     MCPServer --> AAG
     AAG --> WebView
     AAG --> WinUI
