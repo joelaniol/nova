@@ -1,4 +1,4 @@
-![Nova AI Workspace — the local browser workspace for AI agents](assets/nova-banner.jpg)
+﻿![Nova AI Workspace — the local browser workspace for AI agents](assets/nova-banner.jpg)
 
 # Nova AI Workspace
 
@@ -87,9 +87,21 @@ Agents don't just respond. They plan, execute, learn, verify, and run on schedul
 Download the setup from [Releases](https://github.com/joelaniol/nova/releases), run it, and follow the
 setup for AI programs that opens on first start. Step by step — including connecting your AI agent
 manually, updates and what to do if Nova does not start — in the
-**[installation guide](docs/installation.md)**.
+**[installation guide](docs/getting-started/installation.md)**.
 
-> 📚 **Full documentation and video guides are coming soon.**
+## 📚 Complete Documentation & Guides
+
+Explore the comprehensive documentation for operators, developers, and AI agents:
+
+| Section | Focus Area | Key Documents |
+| :--- | :--- | :--- |
+| **[Getting Started](docs/getting-started/README.md)** | Installation & Onboarding | [Installation](docs/getting-started/installation.md) • [First Run Tour](docs/getting-started/first-run.md) • [Quickstart](docs/getting-started/quickstart.md) |
+| **[User Guide](docs/user-guide/README.md)** | Human Workspace & UI Controls | [Workspace Layout](docs/user-guide/workspace-layout.md) • [Sandboxes](docs/user-guide/sandboxes-and-profiles.md) • [Terminal Dock](docs/user-guide/terminal-dock.md) • [Spectator Mode](docs/user-guide/live-assist-and-spectator.md) • [Shortcuts](docs/user-guide/keyboard-shortcuts.md) |
+| **[Core Features](docs/core-features/README.md)** | Deep Architecture & Systems | [AAG Gates](docs/core-features/aag.md) • [PKS Knowledge Store](docs/core-features/pks.md) • [Outrider Boundary](docs/core-features/outrider-boundary.md) • [Vault & Secrets](docs/core-features/vault-and-secrets.md) • [Session Recording](docs/core-features/session-recording.md) |
+| **[MCP Reference](docs/mcp-reference/README.md)** | 408 Tool Schemas & API | [Tool Catalog](docs/mcp-reference/tool-catalog.md) • [Protocol & Transport](docs/mcp-reference/protocol-and-transport.md) • [Dedicated Tool Guides](docs/mcp-reference/tools/) |
+| **[Integration](docs/integration/README.md)** | AI Assistants & Clients | [Claude Code](docs/integration/claude-code.md) • [Claude Desktop](docs/integration/claude-desktop.md) • [Codex & Antigravity](docs/integration/codex-and-antigravity.md) • [Custom Agents](docs/integration/custom-agents.md) |
+| **[Developer Guide](docs/developer-guide/README.md)** | Building & Contributing | [Building from Source](docs/developer-guide/building-from-source.md) • [Running Tests](docs/developer-guide/running-tests.md) • [Outrider IPC](docs/developer-guide/outrider-architecture.md) |
+| **[Troubleshooting](docs/troubleshooting/README.md)** | Diagnostics & Error Recovery | [Connection Issues](docs/troubleshooting/agent-connection-issues.md) • [Diagnostics Logs](docs/troubleshooting/diagnostics.md) • [Session Recovery](docs/troubleshooting/sandbox-and-session-recovery.md) |
 
 ## Reporting bugs · Fehler melden
 
@@ -108,13 +120,13 @@ reflection and learning work together inside the browser.
 | Cognitive function | What Nova contributes |
 |---|---|
 | **Perception** | Reads the live browser through DOM, accessibility, screenshots, network, console and runtime signals |
-| **Procedural memory** | The Phenomenological Knowledge Store (PKS) ([PKS video](https://www.youtube.com/watch?v=7NwRGC3l-r8)) remembers how websites work: fingerprints, interaction recipes, health and drift |
-| **Operational awareness** | Operational Knowledge (OK) ([OK video](https://www.youtube.com/watch?v=LgShkPaSW7I)) tracks what is true now: state, capabilities, connections and policies |
-| **Episodic task memory** | Episodic Task Memory (ETM) ([ETM video](https://www.youtube.com/watch?v=9qXrleOhPAw)) remembers recurring tasks, work units, progress, completion rules and learned guidance |
-| **User-context memory** | Opt-in Browser Memory preserves domain notes, preferences and session context across visits |
-| **Executive control** | Goal Register and awareness/reflection gates ([AAG video](https://www.youtube.com/watch?v=xhicSiFxPdY)) keep intent, steps, prerequisites and unfinished work visible |
-| **Evidence and verification** | The Closed-Loop System (CLS) ([CLS video](https://www.youtube.com/watch?v=aKNp_74B8DE)) checks expected state → action → actual outcome; Evidence Verification Mode (EVM) turns research into testable claims instead of guesses |
-| **Learning and adaptation** | The Agent Learning Pipeline (ALP) ([ALP video](https://www.youtube.com/watch?v=6iM3TbOL9o0)) turns verified outcomes into traceable candidates that move into active knowledge only after evidence and are revalidated when sites drift |
+| **Procedural memory** | The [Phenomenological Knowledge Store (PKS)](docs/core-features/pks.md) ([PKS video](https://www.youtube.com/watch?v=7NwRGC3l-r8)) remembers how websites work: fingerprints, interaction recipes, health and drift |
+| **Operational awareness** | [Operational Knowledge (OK)](docs/core-features/operational-knowledge.md) ([OK video](https://www.youtube.com/watch?v=LgShkPaSW7I)) tracks what is true now: state, capabilities, connections and policies |
+| **Episodic task memory** | [Episodic Task Memory (ETM)](docs/core-features/etm-and-task-memory.md) ([ETM video](https://www.youtube.com/watch?v=9qXrleOhPAw)) remembers recurring tasks, work units, progress, completion rules and learned guidance |
+| **User-context memory** | Opt-in [Browser Memory](docs/core-features/browser-memory-and-board.md) preserves domain notes, preferences and session context across visits |
+| **Executive control** | Goal Register and [awareness/reflection gates (AAG)](docs/core-features/aag.md) ([AAG video](https://www.youtube.com/watch?v=xhicSiFxPdY)) keep intent, steps, prerequisites and unfinished work visible |
+| **Evidence and verification** | The [Closed-Loop System (CLS)](docs/core-features/closed-loop-system.md) ([CLS video](https://www.youtube.com/watch?v=aKNp_74B8DE)) checks expected state → action → actual outcome; [Evidence Verification Mode (EVM)](docs/core-features/evm-and-visual-evidence.md) turns research into testable claims instead of guesses |
+| **Learning and adaptation** | The [Agent Learning Pipeline (ALP)](docs/core-features/learning-pipeline-alp.md) ([ALP video](https://www.youtube.com/watch?v=6iM3TbOL9o0)) turns verified outcomes into traceable candidates that move into active knowledge only after evidence and are revalidated when sites drift |
 
 These functions do not replace the connected AI model. They give it durable cognition at the browser
 level: grounded perception, several kinds of memory, explicit goals, verified outcomes and reusable
@@ -219,7 +231,7 @@ Agenten antworten nicht nur. Sie planen, führen aus, lernen, verifizieren und l
 Setup unter [Releases](https://github.com/joelaniol/nova/releases) herunterladen, ausführen und der
 Einrichtung für KI-Programme folgen, die sich beim ersten Start öffnet. Schritt für Schritt — samt
 manuellem Verbinden des KI-Agenten, Updates und was zu tun ist, wenn Nova nicht startet — in der
-**[Installationsanleitung](docs/installation.md#nova-ai-workspace-installieren)**.
+**[Installationsanleitung](docs/getting-started/installation.md)**.
 
 ### Was Nova anders macht
 
@@ -232,13 +244,13 @@ Belege, Reflexion und Lernen arbeiten direkt im Browser zusammen.
 | Kognitive Funktion | Was Nova beiträgt |
 |---|---|
 | **Wahrnehmung** | Liest den Live-Browser über DOM, Barrierefreiheit, Screenshots, Netzwerk, Konsole und Runtime-Signale |
-| **Prozedurales Gedächtnis** | Der Phenomenological Knowledge Store (PKS) ([PKS-Video](https://www.youtube.com/watch?v=QFarrV8Xm9U)) merkt sich, wie Websites funktionieren: Fingerprints, Interaktionsrezepte, Zustand und Drift |
-| **Operatives Bewusstsein** | Operational Knowledge (OK) ([OK-Video](https://www.youtube.com/watch?v=jWex6QNs86Y)) verfolgt, was jetzt gilt: Zustand, Fähigkeiten, Verbindungen und Regeln |
-| **Episodisches Aufgabengedächtnis** | Episodic Task Memory (ETM) ([ETM-Video](https://www.youtube.com/watch?v=9bb_scVqb44)) erinnert wiederkehrende Aufgaben, Arbeitseinheiten, Fortschritt, Abschlussregeln und gelernte Hinweise |
-| **Nutzerkontext-Gedächtnis** | Das optionale Browser Memory bewahrt Domain-Notizen, Präferenzen und Sitzungskontext über Besuche hinweg |
-| **Exekutive Steuerung** | Goal Register sowie Awareness- und Reflexions-Gates ([AAG-Video](https://www.youtube.com/watch?v=8LFYHSoygh4)) halten Absicht, Schritte, Voraussetzungen und offene Arbeit sichtbar |
-| **Belege und Verifikation** | Das Closed-Loop System (CLS) ([CLS-Video](https://www.youtube.com/watch?v=xUITcHwKkwA)) prüft erwarteten Zustand → Aktion → tatsächliches Ergebnis; Evidence Verification Mode (EVM) zerlegt Recherche in prüfbare Aussagen statt zu raten |
-| **Lernen und Anpassung** | Die Agent Learning Pipeline (ALP) ([ALP-Video](https://www.youtube.com/watch?v=Pl_doQWt-G8)) macht aus verifizierten Ergebnissen nachvollziehbare Kandidaten, die erst mit Belegen in aktives Wissen gelangen und bei Website-Drift erneut geprüft werden |
+| **Prozedurales Gedächtnis** | Der [Phenomenological Knowledge Store (PKS)](docs/core-features/pks.md) ([PKS-Video](https://www.youtube.com/watch?v=QFarrV8Xm9U)) merkt sich, wie Websites funktionieren: Fingerprints, Interaktionsrezepte, Zustand und Drift |
+| **Operatives Bewusstsein** | [Operational Knowledge (OK)](docs/core-features/operational-knowledge.md) ([OK-Video](https://www.youtube.com/watch?v=jWex6QNs86Y)) verfolgt, was jetzt gilt: Zustand, Fähigkeiten, Verbindungen und Regeln |
+| **Episodisches Aufgabengedächtnis** | [Episodic Task Memory (ETM)](docs/core-features/etm-and-task-memory.md) ([ETM-Video](https://www.youtube.com/watch?v=9bb_scVqb44)) erinnert wiederkehrende Aufgaben, Arbeitseinheiten, Fortschritt, Abschlussregeln und gelernte Hinweise |
+| **Nutzerkontext-Gedächtnis** | Das optionale [Browser Memory](docs/core-features/browser-memory-and-board.md) bewahrt Domain-Notizen, Präferenzen und Sitzungskontext über Besuche hinweg |
+| **Exekutive Steuerung** | Goal Register sowie [Awareness- und Reflexions-Gates (AAG)](docs/core-features/aag.md) ([AAG-Video](https://www.youtube.com/watch?v=8LFYHSoygh4)) halten Absicht, Schritte, Voraussetzungen und offene Arbeit sichtbar |
+| **Belege und Verifikation** | Das [Closed-Loop System (CLS)](docs/core-features/closed-loop-system.md) ([CLS-Video](https://www.youtube.com/watch?v=xUITcHwKkwA)) prüft erwarteten Zustand → Aktion → tatsächliches Ergebnis; [Evidence Verification Mode (EVM)](docs/core-features/evm-and-visual-evidence.md) zerlegt Recherche in prüfbare Aussagen statt zu raten |
+| **Lernen und Anpassung** | Die [Agent Learning Pipeline (ALP)](docs/core-features/learning-pipeline-alp.md) ([ALP-Video](https://www.youtube.com/watch?v=Pl_doQWt-G8)) macht aus verifizierten Ergebnissen nachvollziehbare Kandidaten, die erst mit Belegen in aktives Wissen gelangen und bei Website-Drift erneut geprüft werden |
 
 Diese Funktionen ersetzen nicht das verbundene KI-Modell. Sie geben ihm Kognition auf Browser-Ebene:
 geerdete Wahrnehmung, mehrere Gedächtnisarten, explizite Ziele, verifizierte Ergebnisse und

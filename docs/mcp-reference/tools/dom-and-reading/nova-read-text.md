@@ -1,0 +1,73 @@
+﻿# `nova.read_text`
+
+> **Extracts clean visible plain text from the document or a specified selector container.**
+
+* **Capability Bundle:** `page_read_debug`
+* **Security Tier:** Tier 1 (Read-Only Extraction)
+* **Core Feature Guide:** [DOM Perception & Semantic Extraction](../../../core-features/tob.md)
+* **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
+
+---
+
+## 1. Overview
+
+`nova.read_text` strips HTML tags and returns formatted plain text representing visible content on the page, with whitespace preserved.
+
+---
+
+## 2. Parameter Reference
+
+| Parameter | Type | Required | Description |
+| :--- | :---: | :---: | :--- |
+| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
+| `agentId` | `string` | No | Optional agent identity for claim authorization at the MCP entry point. Defaults to 'default'. |
+| `continuationToken` | `string` | No | Token from a previous response's continuation block. Carries the next position plus a fingerprint of that document; a changed page is rejected with reasonCode='read.source_changed' instead of returning text from elsewhere. Mutually exclusive with offset. |
+| `maxChars` | `integer` | No | Maximum characters to return. Defaults shrink automatically under context pressure unless explicitly provided. |
+| `offset` | `integer` | No | Start reading at this character position. Unverified - use continuationToken when the page may have changed. Mutually exclusive with continuationToken. |
+| `selector` | `string` | No | Optional CSS selector to scope text extraction. Omit to read entire document body. Supports ' >>> ' shadow DOM combinator. |
+| `targetId` | `string` | No | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+
+---
+
+## 3. Protocol Usage
+
+### JSON-RPC Request
+```json
+{
+  "name": "nova_read_text",
+  "arguments": {
+    "targetId": "tab-1",
+    "selector": "article.main-content"
+  }
+}
+```
+
+### JSON-RPC Response
+```json
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Extracted 1,450 characters of article text."
+    }
+  ],
+  "structuredContent": {
+    "ok": true,
+    "selector": "article.main-content",
+    "text": "Quantum computing advances in 2026..."
+  }
+}
+```
+
+---
+
+## 4. Operational Best Practices
+
+* **Fast Summarization:** Extract body text directly without parsing heavy DOM trees.
+
+---
+
+## 5. Related Tools
+
+* [`nova.read_text_structured`](nova-read-text-structured.md)
+* [`nova.search_text`](nova-search-text.md)

@@ -1,4 +1,4 @@
-# Google Antigravity
+﻿# Google Antigravity
 
 Status: 2026-10-01 · Deutsche Fassung weiter unten.
 

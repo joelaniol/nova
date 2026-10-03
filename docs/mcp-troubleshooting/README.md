@@ -1,4 +1,4 @@
-# MCP troubleshooting
+﻿# MCP troubleshooting
 
 Status: 2026-10-01 · Deutsche Fassung weiter unten.
 

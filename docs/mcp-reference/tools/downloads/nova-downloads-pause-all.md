@@ -1,0 +1,72 @@
+﻿# `nova.downloads_pause_all`
+
+Pauses all in-progress WebView2-native downloads that support pausing.
+
+---
+
+## 1. Overview
+
+`nova.downloads_pause_all` iterates through all currently active downloads and dispatches pause commands to those supporting suspension, providing bandwidth relief for critical foreground operations.
+
+* **Capability Bundle:** `app_shell_recovery`
+* **Security Tier:** Tier 2 (Bulk Control)
+* **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts.md)
+
+---
+
+## 2. Parameter Reference
+
+| Parameter | Type | Required | Default | Description |
+| :--- | :--- | :---: | :---: | :--- |
+| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+
+---
+
+## 3. Protocol Examples
+
+### JSON-RPC Request
+```json
+{
+  "name": "nova.downloads_pause_all",
+  "arguments": {}
+}
+```
+
+### JSON-RPC Response
+```json
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "pause requested: 2 dispatched, 1 skipped."
+    }
+  ],
+  "structuredContent": {
+    "paused": [
+      "dl-1",
+      "dl-2"
+    ],
+    "skipped": [
+      {
+        "id": "dl-3",
+        "reason": "not_eligible"
+      }
+    ]
+  }
+}
+```
+
+---
+
+## 4. Operational Best Practices
+
+* **Bandwidth Prioritization:** Call before large media transcription model downloads or heavy web crawls to dedicate full socket capacity to the priority task.
+
+---
+
+## See Also
+
+* [`nova.downloads_resume_all`](nova-downloads-resume-all.md) - Resume all paused transfers.
+* [`nova.downloads_pause`](nova-downloads-pause.md) - Pause a single download.
+* [Downloads Management Category](README.md)
+* [MCP Tool Catalog](../../tool-catalog.md)

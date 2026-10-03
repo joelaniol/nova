@@ -1,0 +1,88 @@
+﻿# `nova.input_click`
+
+> **Dispatches a physical mouse click at exact viewport X/Y coordinates.**
+
+* **Capability Bundle:** `browser_automation`
+* **Security Tier:** Tier 2 (Physical Input)
+* **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
+* **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
+
+---
+
+## 1. Overview
+
+`nova.input_click` simulates native hardware mouse events (mousedown, mouseup, click) at precise screen coordinates, triggering canvas widgets and non-DOM targets.
+
+---
+
+## 2. Parameter Reference
+
+| Parameter | Type | Required | Description |
+| :--- | :---: | :---: | :--- |
+| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
+| `activateIfNeeded` | `boolean` | No | For an explicit concrete inactive targetId, temporarily activate that Nova target before physical pointer dispatch. Defaults true. Omitted/'active' targets are never auto-retargeted, and Nova never foregrounds the app window. |
+| `agentId` | `string` | No | Optional agent identity for claim authorization at the MCP entry point. Defaults to 'default'. |
+| `button` | `string` | No | Mouse button to click. |
+| `clickCount` | `integer` | No | Click count: 1=single, 2=double, 3=triple click. |
+| `includeScreenshot` | `boolean` | No | If true and navigation completes, include a screenshot in the response. |
+| `restoreActiveTarget` | `boolean` | No | After automatic activation and an unambiguous non-navigation success, restore the previously active Nova target if no user or competing target switch occurred. Ignored when no automatic activation happened. |
+| `screenshotFormat` | `string` | No | Screenshot format. Use 'auto' to fall back to the tool-intent default (e.g. jpeg q=72 for confirm-shots). |
+| `screenshotMaxHeight` | `integer` | No | Max screenshot height in pixels. |
+| `screenshotMaxWidth` | `integer` | No | Max screenshot width in pixels. |
+| `screenshotQuality` | `integer` | No | JPEG quality (1-100). Only used when screenshotFormat is 'jpeg'. |
+| `screenshotResponseMode` | `string` | No | Override default delivery mode for the screenshot. Default comes from the tool-intent profile (e.g. confirm-shots default 'thumbnail+reference' for token efficiency). Use 'inline' to force full image bytes, 'auto' to let the server pick based on projected token cost and session budget. |
+| `targetId` | `string` | No | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `waitForNavigation` | `boolean` | No | If true, wait for URL change + page load after clicking. |
+| `waitForNavigationTimeoutMs` | `integer` | No | Max ms to wait for navigation (0-30000). Only used when waitForNavigation=true. |
+| `x` | `number` | **Yes** | X coordinate in CSS pixels relative to viewport left edge. |
+| `y` | `number` | **Yes** | Y coordinate in CSS pixels relative to viewport top edge. |
+
+---
+
+## 3. Protocol Usage
+
+### JSON-RPC Request
+```json
+{
+  "name": "nova_input_click",
+  "arguments": {
+    "targetId": "tab-1",
+    "x": 450,
+    "y": 320,
+    "button": "left",
+    "clickCount": 1
+  }
+}
+```
+
+### JSON-RPC Response
+```json
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Clicked at coordinates (450, 320)."
+    }
+  ],
+  "structuredContent": {
+    "ok": true,
+    "targetId": "tab-1",
+    "x": 450,
+    "y": 320
+  }
+}
+```
+
+---
+
+## 4. Operational Best Practices
+
+* **Prefer Selectors:** Prefer `nova.click_selector` for DOM elements; reserve `nova.input_click` for canvas, WebGL, or SVG drag handles.
+* **DPI Scaling:** Ensure coordinates align with WebView2 layout metrics.
+
+---
+
+## 5. Related Tools
+
+* [`nova.click_selector`](nova-click-selector.md)
+* [`nova.input_move`](nova-input-move.md)

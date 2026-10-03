@@ -1,0 +1,70 @@
+﻿# `nova.input_text`
+
+> **Sends a raw text string into the currently focused DOM element.**
+
+* **Capability Bundle:** `browser_automation`
+* **Security Tier:** Tier 2 (Keyboard Input)
+* **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
+* **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
+
+---
+
+## 1. Overview
+
+`nova.input_text` emits keyboard character events directly to the focused input field, handling unicode text and emoji sequences.
+
+---
+
+## 2. Parameter Reference
+
+| Parameter | Type | Required | Description |
+| :--- | :---: | :---: | :--- |
+| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
+| `agentId` | `string` | No | Optional agent identity for claim authorization at the MCP entry point. Defaults to 'default'. |
+| `targetId` | `string` | No | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `text` | `string` | **Yes** | Text to type. Maximum 500000 characters; use nova.type_selector for selector-focused typing. |
+
+---
+
+## 3. Protocol Usage
+
+### JSON-RPC Request
+```json
+{
+  "name": "nova_input_text",
+  "arguments": {
+    "targetId": "tab-1",
+    "text": "Hello, World!"
+  }
+}
+```
+
+### JSON-RPC Response
+```json
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Typed 13 characters into focused element."
+    }
+  ],
+  "structuredContent": {
+    "ok": true,
+    "targetId": "tab-1",
+    "charactersTyped": 13
+  }
+}
+```
+
+---
+
+## 4. Operational Best Practices
+
+* **Requires Focus:** Ensure target input is focused first (via `nova.click_selector`) or use `nova.type_selector` directly.
+
+---
+
+## 5. Related Tools
+
+* [`nova.type_selector`](nova-type-selector.md)
+* [`nova.input_key`](nova-input-key.md)

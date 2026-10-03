@@ -1,0 +1,71 @@
+﻿# `nova.mail_move`
+
+Moves up to 200 messages from one mail account to an exact IMAP destination folder.
+
+---
+
+## 1. Overview
+
+`nova.mail_move` transfers messages between IMAP folders (e.g. from `INBOX` to `Archive` or `Processed`). Requires the account's `organize` capability grant.
+
+* **Capability Bundle:** `connector_ops`
+* **Security Tier:** Tier 2 (Mail Organization)
+* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
+
+---
+
+## 2. Parameter Reference
+
+| Parameter | Type | Required | Default | Description |
+| :--- | :--- | :---: | :---: | :--- |
+| **`allowInsecure`** | `boolean` | No | `false` | Required as true only when this account's IMAP endpoint explicitly uses plaintext or disabled certificate validation, and only after the user enabled insecure connector connections in Settings. |
+| **`messageIds`** | `array` | Yes | `null` | One to 200 handles from one mail account. Duplicate handles are coalesced. Runtime compatibility accepts one string and the singular messageId alias as a one-item batch. |
+| **`targetFolder`** | `string` | Yes | `null` | Exact destination folder fullName returned by nova.mail_folders. It must already exist and be selectable. |
+| **`unattended`** | `boolean` | No | `false` | Optional fail-closed hint for a non-interactive caller. Host-attested scheduled-task sessions are unattended even when omitted and can never be made interactive by this field. |
+
+---
+
+## 3. Protocol Examples
+
+### JSON-RPC Request
+```json
+{
+  "name": "nova.mail_move",
+  "arguments": {
+    "messageIds": [
+      "msg-h9a12b"
+    ],
+    "targetFolder": "Archive"
+  }
+}
+```
+
+### JSON-RPC Response
+```json
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Moved 1 message to Archive."
+    }
+  ],
+  "structuredContent": {
+    "ok": true,
+    "movedCount": 1,
+    "destination": "Archive"
+  }
+}
+```
+
+---
+
+## 4. Operational Best Practices
+
+* **Folder Verification:** Always verify target folder existence using [`nova.mail_folders`](nova-mail-folders.md) before moving messages.
+
+---
+
+## 5. Related Tools
+
+* [`nova.mail_folders`](nova-mail-folders.md)
+* [`nova.mail_delete`](nova-mail-delete.md)

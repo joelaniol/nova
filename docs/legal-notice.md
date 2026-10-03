@@ -1,4 +1,4 @@
-# Legal Notice / Rechtliche Hinweise
+﻿# Legal Notice / Rechtliche Hinweise
 
 ## English
 
