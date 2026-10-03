@@ -1,4 +1,4 @@
-﻿# `nova.wait_for_modal`
+# `nova.wait_for_modal`
 
 > **Blocks execution until a modal dialog or overlay appears or closes in the document.**
 

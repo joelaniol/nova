@@ -1,4 +1,4 @@
-﻿# `nova.downloads_resume_all`
+# `nova.downloads_resume_all`
 
 Resumes all paused downloads whose underlying WebView2 operation supports resumption.
 

@@ -1,4 +1,4 @@
-﻿# `nova.mail_backup_stop`
+# `nova.mail_backup_stop`
 
 Gracefully stops an in-flight mail backup job, committing all downloaded messages.
 

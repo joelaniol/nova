@@ -1,4 +1,4 @@
-﻿# Agent & MCP Connection Issues
+# Agent & MCP Connection Issues
 
 This guide resolves common connection, discovery, and handshake failures across **Anthropic Claude**, **Google Antigravity / Gemini**, **OpenAI Codex**, and custom MCP clients.
 

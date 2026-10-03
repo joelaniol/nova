@@ -1,4 +1,4 @@
-﻿# `nova.cookie_clear`
+# `nova.cookie_clear`
 
 Clears cookies across the target profile, with optional domain filtering.
 

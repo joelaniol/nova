@@ -1,4 +1,4 @@
-﻿# `nova.auto_reload_get`
+# `nova.auto_reload_get`
 
 > **Reads the native auto-reload configuration and countdown timer for the target tab.**
 

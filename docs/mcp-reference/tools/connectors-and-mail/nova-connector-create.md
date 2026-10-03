@@ -1,4 +1,4 @@
-﻿# `nova.connector_create`
+# `nova.connector_create`
 
 Creates an E-Mail account (IMAP/SMTP) or remote server connection (SFTP/FTP).
 

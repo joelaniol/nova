@@ -1,4 +1,4 @@
-﻿# `nova.scheduled_task_runs`
+# `nova.scheduled_task_runs`
 
 Retrieves the run execution history (status, duration, exit code, cost) of a scheduled task.
 

@@ -1,4 +1,4 @@
-﻿# Agent Awareness Gates (AAG) & Execution Verification Framework
+# Agent Awareness Gates (AAG) & Execution Verification Framework
 
 > [!NOTE]
 > The Agent Awareness Gates (AAG) framework protects against accidental destruction, race conditions, and done hallucinations. It enforces deterministic preconditions before an action executes and requires empirical proof in the DOM or network before an agent is allowed to declare a step complete.

@@ -1,4 +1,4 @@
-﻿# Site Data, Fingerprinting & Sandboxes
+# Site Data, Fingerprinting & Sandboxes
 
 Cookie jars, localStorage/sessionStorage, cache purging, browser fingerprint spoofing, and sandbox isolation.
 

@@ -1,4 +1,4 @@
-﻿# `nova.favorites_list`
+# `nova.favorites_list`
 
 > **Lists saved browser favorites, optionally filtered by bookmark folder.**
 

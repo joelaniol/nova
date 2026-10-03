@@ -1,4 +1,4 @@
-﻿# `nova.notifications_get`
+# `nova.notifications_get`
 
 Retrieves complete metadata and payload for a single notification by ID.
 

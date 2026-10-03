@@ -1,4 +1,4 @@
-﻿# `nova.terminal_close`
+# `nova.terminal_close`
 
 Terminates an agent-owned terminal session and cleans up its process tree and temporary directory.
 

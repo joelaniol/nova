@@ -1,4 +1,4 @@
-﻿# Tool Observation Bus (TOB) — Server-Side Truth & Evidence Ledger
+# Tool Observation Bus (TOB) — Server-Side Truth & Evidence Ledger
 
 > [!NOTE]
 > The **Tool Observation Bus (TOB)** (`NovaBrowser.Core.Tob`) is the server-side observation and evidence engine of Nova AI Workspace. It creates a tamper-proof record of what agents actually execute at runtime, calculates objective visit windows, and provides verified evidence to AAG, PKS, and the task completion ledger.

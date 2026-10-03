@@ -1,4 +1,4 @@
-﻿# `nova.emulation_clear_locale`
+# `nova.emulation_clear_locale`
 
 Clears all locale, timezone, and geolocation overrides, reverting to host system settings.
 

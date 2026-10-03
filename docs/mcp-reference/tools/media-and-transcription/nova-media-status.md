@@ -1,4 +1,4 @@
-﻿# `nova.media_status`
+# `nova.media_status`
 
 Inspects playback status, current timestamp, duration, and volume of in-page audio/video elements.
 

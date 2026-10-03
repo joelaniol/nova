@@ -1,4 +1,4 @@
-﻿# `nova.terminal_settings_get`
+# `nova.terminal_settings_get`
 
 Reads terminal appearance settings and reports why ANSI colour output is enabled or disabled.
 

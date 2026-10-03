@@ -1,4 +1,4 @@
-﻿# `nova.phenomenon_apply`
+# `nova.phenomenon_apply`
 
 > **Executes a stored PKS phenomenon fast-path interaction sequence directly on the page.**
 

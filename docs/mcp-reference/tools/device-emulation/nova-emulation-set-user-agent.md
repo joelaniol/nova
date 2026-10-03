@@ -1,4 +1,4 @@
-﻿# `nova.emulation_set_user_agent`
+# `nova.emulation_set_user_agent`
 
 Overrides the HTTP User-Agent header, navigator.userAgent, and client hints for a tab.
 

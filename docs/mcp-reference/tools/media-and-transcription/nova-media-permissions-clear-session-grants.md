@@ -1,4 +1,4 @@
-﻿# `nova.media_permissions_clear_session_grants`
+# `nova.media_permissions_clear_session_grants`
 
 Drops all temporary session permissions and halts any live media tracks relying on them.
 

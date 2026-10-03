@@ -1,4 +1,4 @@
-﻿# `nova.app_quit`
+# `nova.app_quit`
 
 > **Gracefully terminates the Nova host application process and all child WebView2 runtimes.**
 

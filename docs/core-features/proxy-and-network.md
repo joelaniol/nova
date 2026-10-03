@@ -1,4 +1,4 @@
-﻿# Proxy Routing & Stealth Network Engine
+# Proxy Routing & Stealth Network Engine
 
 > [!NOTE]
 > The Proxy and Network subsystem enables granular routing over SOCKS5 and HTTP proxies per sandbox, eliminates WebRTC and DNS leaks, and equips agents with native network interception for mocking and API debugging.

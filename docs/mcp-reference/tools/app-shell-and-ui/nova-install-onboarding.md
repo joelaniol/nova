@@ -1,4 +1,4 @@
-﻿# `nova.install_onboarding`
+# `nova.install_onboarding`
 
 > **Automatically injects Nova MCP server configurations and reference docs into the current agent workspace.**
 

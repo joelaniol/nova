@@ -1,4 +1,4 @@
-﻿# `nova.forward`
+# `nova.forward`
 
 Navigates forward in browser history with automated SPA session preservation, DOM settlement tracking, and guarded navigation gates.
 

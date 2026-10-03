@@ -1,4 +1,4 @@
-﻿# `nova.tab_close`
+# `nova.tab_close`
 
 Closes an open browser tab or background WebView, releasing its system resources and associated leases.
 

@@ -1,4 +1,4 @@
-﻿# `nova.screenshot_baseline`
+# `nova.screenshot_baseline`
 
 Manages named, persistent visual baselines on disk and automates snapshot comparison, providing the equivalent of Playwright's `toHaveScreenshot()` for autonomous browser testing.
 

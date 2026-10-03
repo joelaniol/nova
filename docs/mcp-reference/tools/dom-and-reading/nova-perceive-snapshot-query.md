@@ -1,4 +1,4 @@
-﻿# `nova.perceive_snapshot_query`
+# `nova.perceive_snapshot_query`
 
 > **Queries structured state and elements from a cached perceive snapshot without re-rendering.**
 

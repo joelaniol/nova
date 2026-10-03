@@ -1,4 +1,4 @@
-﻿# `nova.explain`
+# `nova.explain`
 
 Explains why a PKS phenomenon resides at its current learning level, returning a detailed per-gate breakdown of promotion requirements, failure reasons, and remediation hints.
 

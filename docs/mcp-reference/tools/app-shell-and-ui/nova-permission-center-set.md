@@ -1,4 +1,4 @@
-﻿# `nova.permission_center_set`
+# `nova.permission_center_set`
 
 > **Configures global Permission Center default policies and preferred media hardware devices.**
 

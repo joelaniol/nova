@@ -1,4 +1,4 @@
-﻿# Auth Surface Detection (ASD) & Universal Login Verification
+# Auth Surface Detection (ASD) & Universal Login Verification
 
 > [!NOTE]
 > The **Auth Surface Detection (ASD)** system (`NovaBrowser.Core.AuthDetectors`) universally identifies authentication interfaces across arbitrary websites: login walls, authenticated user sessions, MFA challenges, and auth error states. It replaces fragile site-specific selectors with a heuristic signal architecture governed by Tri-State safety logic.

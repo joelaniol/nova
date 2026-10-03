@@ -1,4 +1,4 @@
-﻿# `nova.revalidate`
+# `nova.revalidate`
 
 > **Re-verifies validity of a learned phenomenon against current live website markup.**
 

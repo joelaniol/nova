@@ -1,4 +1,4 @@
-﻿# `nova.telemetry_report`
+# `nova.telemetry_report`
 
 Reports empirical execution outcomes (`success`, `failure`, or `not_applicable`) for a PKS phenomenon interaction, updating health scores and driving automatic promotion and deprecation gates.
 

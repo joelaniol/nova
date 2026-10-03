@@ -1,4 +1,4 @@
-﻿# `nova.mcp_transport_log`
+# `nova.mcp_transport_log`
 
 > **Reads recent redacted entries from Nova's internal MCP JSON-RPC transport log.**
 

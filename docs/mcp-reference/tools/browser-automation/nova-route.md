@@ -1,4 +1,4 @@
-﻿# `nova.route`
+# `nova.route`
 
 Performs Single Page Application (SPA) client-side routing within the same document, preserving in-memory JavaScript frameworks, Vue/React component states, and ephemeral authentication tokens.
 

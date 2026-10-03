@@ -1,4 +1,4 @@
-﻿# `nova.crawl_links`
+# `nova.crawl_links`
 
 Instantly extracts and classifies all hyperlinks from an existing active browser tab.
 

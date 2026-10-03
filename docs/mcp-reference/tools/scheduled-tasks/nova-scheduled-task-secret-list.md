@@ -1,4 +1,4 @@
-﻿# `nova.scheduled_task_secret_list`
+# `nova.scheduled_task_secret_list`
 
 Lists registered secret key names for a task without exposing plaintext secret values.
 

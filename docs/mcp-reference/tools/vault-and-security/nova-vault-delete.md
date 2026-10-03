@@ -1,4 +1,4 @@
-﻿# `nova.vault_delete`
+# `nova.vault_delete`
 
 > **Deletes a stored website login credential entry from the encrypted vault.**
 

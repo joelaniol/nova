@@ -1,4 +1,4 @@
-﻿# `nova.ok_signal_schema`
+# `nova.ok_signal_schema`
 
 > **Lists the canonical Operational Knowledge signal keys accepted by nova.ok_observe.**
 

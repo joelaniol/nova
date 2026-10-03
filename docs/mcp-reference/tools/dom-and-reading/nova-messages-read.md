@@ -1,4 +1,4 @@
-﻿# `nova.messages_read`
+# `nova.messages_read`
 
 > **Reads captured window postMessage and cross-frame messaging traffic.**
 

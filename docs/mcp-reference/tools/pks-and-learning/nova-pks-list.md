@@ -1,4 +1,4 @@
-﻿# `nova.pks_list`
+# `nova.pks_list`
 
 > **Lists stored phenomenological knowledge playbooks with pagination and domain filters.**
 

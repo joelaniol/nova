@@ -1,4 +1,4 @@
-﻿# Scheduled Tasks & Background Automation Engine
+# Scheduled Tasks & Background Automation Engine
 
 > [!NOTE]
 > The Scheduled Tasks engine turns Nova AI Workspace into an autonomous background runner. Tasks execute on customizable schedules (Cron or interval), collect structured outputs, and maintain persistent state and variables — completely unattended.

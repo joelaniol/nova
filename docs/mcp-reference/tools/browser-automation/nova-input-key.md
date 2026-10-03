@@ -1,4 +1,4 @@
-﻿# `nova.input_key`
+# `nova.input_key`
 
 Dispatches a physical keyboard keypress (`keydown` followed by `keyup`) to the currently focused DOM element or active viewport.
 

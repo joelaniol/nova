@@ -1,4 +1,4 @@
-﻿# `nova.storage_set`
+# `nova.storage_set`
 
 Sets a key-value pair in localStorage or sessionStorage for the target page.
 

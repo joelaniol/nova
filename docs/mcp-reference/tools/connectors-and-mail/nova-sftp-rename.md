@@ -1,4 +1,4 @@
-﻿# `nova.sftp_rename`
+# `nova.sftp_rename`
 
 Renames or moves a remote file or directory over SFTP.
 

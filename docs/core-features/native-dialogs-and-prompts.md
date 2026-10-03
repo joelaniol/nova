@@ -1,4 +1,4 @@
-﻿# Native Dialogs & UI Prompts Automation Engine
+# Native Dialogs & UI Prompts Automation Engine
 
 > [!NOTE]
 > The **Native Dialogs & UI Prompts Automation Engine** (`NovaBrowser.Core.NativeDialogAutomationHeuristics`, `ScriptDialogInterceptionPolicy`) overcomes the steepest hurdle in browser automation: authentic Win32 and WebView2 system dialogs that exist outside the DOM and would otherwise deadlock the host thread.

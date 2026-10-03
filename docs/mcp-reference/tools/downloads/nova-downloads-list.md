@@ -1,4 +1,4 @@
-﻿# `nova.downloads_list`
+# `nova.downloads_list`
 
 Lists recent downloads tracked by the browser with status, progress, speed, and error categorization.
 

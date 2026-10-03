@@ -1,4 +1,4 @@
-﻿# `nova.mail_mark`
+# `nova.mail_mark`
 
 Updates seen and/or flagged status flags for up to 200 messages.
 

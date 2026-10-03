@@ -1,4 +1,4 @@
-﻿# `nova.downloads_cancel`
+# `nova.downloads_cancel`
 
 Cancels an active in-progress or queued download by ID.
 

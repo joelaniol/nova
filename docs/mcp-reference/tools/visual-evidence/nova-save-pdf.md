@@ -1,4 +1,4 @@
-﻿# `nova.save_pdf`
+# `nova.save_pdf`
 
 Renders the active web page to a vector PDF document on disk via Chrome DevTools Protocol (`Page.printToPDF`), providing zero-token document archiving and export capabilities.
 

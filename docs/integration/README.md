@@ -1,4 +1,4 @@
-﻿# Agent Integration Hub
+# Agent Integration Hub
 
 Nova AI Workspace was built from the ground up to pair seamlessly with autonomous AI agents and developer tooling over the open **Model Context Protocol (MCP)**.
 

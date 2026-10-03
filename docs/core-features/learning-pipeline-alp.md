@@ -1,4 +1,4 @@
-﻿# Agent Learning Pipeline (ALP) & Lightweight Candidate Journal (LCJ)
+# Agent Learning Pipeline (ALP) & Lightweight Candidate Journal (LCJ)
 
 > [!NOTE]
 > The **Agent Learning Pipeline (ALP)** (`NovaBrowser.Core.Learning`) serves as the intelligent bridge between the runtime observation journal (**LCJ**, Lightweight Candidate Journal) and durable long-term memory (**PKS**). It filters transient DOM telemetry, calculates mathematical relevance scores, and promotes validated interaction patterns into permanent fast-paths with quality guarantees.

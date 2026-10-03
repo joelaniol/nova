@@ -1,4 +1,4 @@
-﻿# `nova.emulation_set_media`
+# `nova.emulation_set_media`
 
 Emulates CSS media features like dark mode, reduced motion, high contrast, and print media.
 

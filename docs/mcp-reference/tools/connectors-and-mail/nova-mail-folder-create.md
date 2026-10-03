@@ -1,4 +1,4 @@
-﻿# `nova.mail_folder_create`
+# `nova.mail_folder_create`
 
 Creates a top-level personal IMAP message folder.
 

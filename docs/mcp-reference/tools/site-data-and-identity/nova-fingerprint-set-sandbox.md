@@ -1,4 +1,4 @@
-﻿# `nova.fingerprint_set_sandbox`
+# `nova.fingerprint_set_sandbox`
 
 Sets or clears the per-sandbox fingerprint protection override.
 

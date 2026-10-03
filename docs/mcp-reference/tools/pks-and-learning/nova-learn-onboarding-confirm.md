@@ -1,4 +1,4 @@
-﻿# `nova.learn_onboarding_confirm`
+# `nova.learn_onboarding_confirm`
 
 > **Confirms that a learned onboarding flow step was successfully completed.**
 

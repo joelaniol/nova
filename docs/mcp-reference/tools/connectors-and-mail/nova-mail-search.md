@@ -1,4 +1,4 @@
-﻿# `nova.mail_search`
+# `nova.mail_search`
 
 Searches mail metadata across the IMAP server and local encrypted search archives.
 

@@ -1,4 +1,4 @@
-﻿# Device Emulation & Responsive Testing
+# Device Emulation & Responsive Testing
 
 Mobile viewport simulation, touch event emulation, user agent overriding, and dark mode toggles.
 

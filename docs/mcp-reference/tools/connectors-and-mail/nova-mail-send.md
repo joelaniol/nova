@@ -1,4 +1,4 @@
-﻿# `nova.mail_send`
+# `nova.mail_send`
 
 Sends an email with optional HTML body, CC/BCC, priority, and attachments via SMTP.
 

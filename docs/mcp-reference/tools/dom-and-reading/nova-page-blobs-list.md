@@ -1,4 +1,4 @@
-﻿# `nova.page_blobs_list`
+# `nova.page_blobs_list`
 
 > **Lists in-memory Blob and Object URLs (blob:http://...) created by the page.**
 

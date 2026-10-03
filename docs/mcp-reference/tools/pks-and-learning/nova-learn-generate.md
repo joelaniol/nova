@@ -1,4 +1,4 @@
-﻿# `nova.learn_generate`
+# `nova.learn_generate`
 
 > **Synthesizes a proposed phenomenon interaction playbook from recorded execution trajectories.**
 

@@ -1,4 +1,4 @@
-﻿# `nova.proxy_log`
+# `nova.proxy_log`
 
 Reads recent redacted proxy routing and diagnostic log entries from disk.
 

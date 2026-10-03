@@ -1,4 +1,4 @@
-﻿# `nova.sandbox_create`
+# `nova.sandbox_create`
 
 Creates a new isolated sandbox profile with dedicated storage, cookies, and cache.
 

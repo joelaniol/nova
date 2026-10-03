@@ -1,4 +1,4 @@
-﻿# `nova.scheduled_task_templates`
+# `nova.scheduled_task_templates`
 
 Lists pre-built task templates for common automation scenarios (monitoring, scraping, backups).
 

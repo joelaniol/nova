@@ -1,4 +1,4 @@
-﻿# `nova.task_instance_create`
+# `nova.task_instance_create`
 
 Creates a new episodic task instance from a profile or ad-hoc context with snapshot state.
 

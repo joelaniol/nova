@@ -1,4 +1,4 @@
-﻿# Media Intelligence & Speech Transcription
+# Media Intelligence & Speech Transcription
 
 > [!NOTE]
 > Nova AI Workspace provides an integrated media processing pipeline: from local, privacy-compliant speech transcription via **Whisper.cpp** in the supervised Outrider process to WebAudio/MSE stream capture and rigorously audited hardware permissions (microphone/camera).

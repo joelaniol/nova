@@ -1,4 +1,4 @@
-﻿# `nova.downloads_clear`
+# `nova.downloads_clear`
 
 Clears terminal download history from the UI and persistent storage.
 

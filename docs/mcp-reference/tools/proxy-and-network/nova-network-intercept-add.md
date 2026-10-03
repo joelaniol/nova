@@ -1,4 +1,4 @@
-﻿# `nova.network_intercept_add`
+# `nova.network_intercept_add`
 
 Deposits a CDP network interception rule to mock responses, inject delays, modify headers, or fail requests.
 

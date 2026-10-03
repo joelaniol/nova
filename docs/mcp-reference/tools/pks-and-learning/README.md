@@ -1,4 +1,4 @@
-﻿# Phenomenological Knowledge Store & Self-Learning
+# Phenomenological Knowledge Store & Self-Learning
 
 Cross-session procedural UI memory, learned interaction playbooks, fingerprint matching, and health telemetry.
 

@@ -1,4 +1,4 @@
-﻿# `nova.proxy_create`
+# `nova.proxy_create`
 
 Creates a new proxy profile with host, port, protocol, and optional credentials.
 

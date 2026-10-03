@@ -1,4 +1,4 @@
-﻿# `nova.auto_reload_set`
+# `nova.auto_reload_set`
 
 > **Configures native periodic reloading for a tab with a specified interval in seconds.**
 

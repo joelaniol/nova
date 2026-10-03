@@ -1,4 +1,4 @@
-﻿# `nova.responsive_screenshots`
+# `nova.responsive_screenshots`
 
 > **Captures responsive screenshots across multiple breakpoint widths (mobile, tablet, desktop) in parallel.**
 

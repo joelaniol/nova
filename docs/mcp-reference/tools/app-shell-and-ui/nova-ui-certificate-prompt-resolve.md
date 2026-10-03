@@ -1,4 +1,4 @@
-﻿# `nova.ui_certificate_prompt_resolve`
+# `nova.ui_certificate_prompt_resolve`
 
 > **Resolves an untrusted or invalid SSL/TLS server certificate security dialog.**
 

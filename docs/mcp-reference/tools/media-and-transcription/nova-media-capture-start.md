@@ -1,4 +1,4 @@
-﻿# `nova.media_capture_start`
+# `nova.media_capture_start`
 
 Starts streaming capture of live audio/video playing in a tab (WebAudio, MSE, dynamic blobs).
 

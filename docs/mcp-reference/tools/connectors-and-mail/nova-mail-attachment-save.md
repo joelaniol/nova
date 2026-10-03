@@ -1,4 +1,4 @@
-﻿# `nova.mail_attachment_save`
+# `nova.mail_attachment_save`
 
 Saves a specific email attachment to Downloads or the workspace directory.
 

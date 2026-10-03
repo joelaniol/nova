@@ -1,4 +1,4 @@
-﻿# `nova.crawl_diff`
+# `nova.crawl_diff`
 
 Compares two completed crawls of the same site to detect added, removed, or modified pages.
 

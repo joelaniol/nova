@@ -1,4 +1,4 @@
-﻿# `nova.console_read`
+# `nova.console_read`
 
 > **Reads recent JavaScript console log messages (log, info, warn, error) from the page.**
 

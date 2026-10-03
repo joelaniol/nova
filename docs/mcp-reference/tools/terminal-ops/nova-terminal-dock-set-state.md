@@ -1,4 +1,4 @@
-﻿# `nova.terminal_dock_set_state`
+# `nova.terminal_dock_set_state`
 
 Sets the visual presentation of the Nova terminal dock to expanded, collapsed, or hidden.
 

@@ -1,4 +1,4 @@
-﻿# `nova.downloads_wait`
+# `nova.downloads_wait`
 
 Blocks until downloads reach a terminal state (completed, failed, or cancelled) and returns disk file paths.
 

@@ -1,4 +1,4 @@
-﻿# `nova.navigate`
+# `nova.navigate`
 
 Navigates an existing browser tab to a specified absolute URL with optional load synchronization, SPA settlement, and screenshot delivery.
 

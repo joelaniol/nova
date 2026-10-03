@@ -1,4 +1,4 @@
-﻿# `nova.cache_clear`
+# `nova.cache_clear`
 
 Clears HTTP cache, cookies, DOM storage, and indexedDB for the target profile.
 

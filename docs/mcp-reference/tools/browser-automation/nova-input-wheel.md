@@ -1,4 +1,4 @@
-﻿# `nova.input_wheel`
+# `nova.input_wheel`
 
 > **Dispatches a physical mouse wheel scroll event at specific coordinates with deltaX and deltaY.**
 

@@ -1,4 +1,4 @@
-﻿# `nova.force_pseudo_state`
+# `nova.force_pseudo_state`
 
 > **Forces CSS pseudo-class states (:hover, :focus, :active, :visited) on an element.**
 

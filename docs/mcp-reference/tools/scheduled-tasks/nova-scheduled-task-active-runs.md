@@ -1,4 +1,4 @@
-﻿# `nova.scheduled_task_active_runs`
+# `nova.scheduled_task_active_runs`
 
 Lists all currently executing task runs across all background tasks.
 

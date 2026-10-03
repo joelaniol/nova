@@ -1,4 +1,4 @@
-﻿# Sandboxes & Profile Isolation
+# Sandboxes & Profile Isolation
 
 > [!NOTE]
 > In Nova AI Workspace, you never need to launch separate browser instances or manage cumbersome profile windows. Nova introduces **In-Window Sandboxes** — multi-account session isolation within a single unified tab strip.

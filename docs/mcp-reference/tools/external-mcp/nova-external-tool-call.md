@@ -1,4 +1,4 @@
-﻿# `nova.external_tool_call`
+# `nova.external_tool_call`
 
 Invokes a specific tool on a connected external MCP server and returns the raw response.
 

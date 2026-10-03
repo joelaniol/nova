@@ -1,4 +1,4 @@
-﻿# `nova.task_search`
+# `nova.task_search`
 
 Searches for matching task profiles by free-text query with keyword ranking.
 

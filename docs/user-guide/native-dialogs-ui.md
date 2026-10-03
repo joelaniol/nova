@@ -1,4 +1,4 @@
-﻿# Native Dialogs & System Prompts
+# Native Dialogs & System Prompts
 
 > [!NOTE]
 > How Nova AI Workspace presents native operating system file pickers, basic HTTP authentication, and SSL security prompts to operators — and how AI agents handle them without freezing.

@@ -1,4 +1,4 @@
-﻿# `nova.session_record_dom_snapshot`
+# `nova.session_record_dom_snapshot`
 
 Retrieves and decrypts a previously stored DOM snapshot HTML payload by snapshot ID.
 

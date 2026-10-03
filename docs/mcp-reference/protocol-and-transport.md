@@ -1,4 +1,4 @@
-﻿# Protocol, Framing & Transport Contract
+# Protocol, Framing & Transport Contract
 
 This document specifies the wire-level communication standards, transport mechanisms, and error handling contracts used by **Nova AI Workspace**.
 

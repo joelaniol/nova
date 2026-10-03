@@ -1,4 +1,4 @@
-﻿# `nova.network_intercept_clear`
+# `nova.network_intercept_clear`
 
 Disarms network interception rules: by rule ID, by tab ID, or globally across the entire browser.
 

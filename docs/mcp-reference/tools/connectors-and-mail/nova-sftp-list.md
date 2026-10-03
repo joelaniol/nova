@@ -1,4 +1,4 @@
-﻿# `nova.sftp_list`
+# `nova.sftp_list`
 
 Lists remote directory entries or inspects file metadata through an SFTP connector.
 

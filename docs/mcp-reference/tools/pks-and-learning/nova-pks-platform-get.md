@@ -1,4 +1,4 @@
-﻿# `nova.pks_platform_get`
+# `nova.pks_platform_get`
 
 > **Retrieves pre-trained platform-level UI pattern definitions (Shopify, WordPress, Jira).**
 

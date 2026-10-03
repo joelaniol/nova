@@ -1,4 +1,4 @@
-﻿# `nova.app_info`
+# `nova.app_info`
 
 > **Returns runtime environment metadata, version numbers, process uptime, and storage paths.**
 

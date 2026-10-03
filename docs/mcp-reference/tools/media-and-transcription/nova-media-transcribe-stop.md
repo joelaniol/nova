@@ -1,4 +1,4 @@
-﻿# `nova.media_transcribe_stop`
+# `nova.media_transcribe_stop`
 
 Stops an in-flight transcription job and returns recognized text segments up to the cancellation point.
 

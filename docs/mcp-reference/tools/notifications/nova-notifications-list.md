@@ -1,4 +1,4 @@
-﻿# `nova.notifications_list`
+# `nova.notifications_list`
 
 Queries the Nova notification inbox with filtering by source, website origin, and read status.
 

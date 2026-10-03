@@ -1,4 +1,4 @@
-﻿# Outrider Subprocess Boundary
+# Outrider Subprocess Boundary
 
 > [!NOTE]
 > `NovaBrowser.Outrider.exe` is Nova's canonical isolated child process designed to protect the browser host and UI thread from driver hangs, native crashes, and untrusted hardware probes.

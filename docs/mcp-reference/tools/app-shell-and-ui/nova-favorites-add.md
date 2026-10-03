@@ -1,4 +1,4 @@
-﻿# `nova.favorites_add`
+# `nova.favorites_add`
 
 > **Adds a URL to the browser favorites collection with optional title and target folder.**
 

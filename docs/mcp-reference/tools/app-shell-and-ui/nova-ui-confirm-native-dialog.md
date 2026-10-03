@@ -1,4 +1,4 @@
-﻿# `nova.ui_confirm_native_dialog`
+# `nova.ui_confirm_native_dialog`
 
 > **Triggers the primary affirmative action on the currently active host-owned Win32 native dialog.**
 

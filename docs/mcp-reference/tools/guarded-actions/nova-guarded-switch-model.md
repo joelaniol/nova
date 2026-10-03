@@ -1,4 +1,4 @@
-﻿# `nova.guarded_switch_model`
+# `nova.guarded_switch_model`
 
 > **Safely switches the model in an AI web provider interface (ChatGPT, Claude, Gemini) with verification.**
 

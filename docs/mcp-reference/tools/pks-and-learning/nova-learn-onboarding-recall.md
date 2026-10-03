@@ -1,4 +1,4 @@
-﻿# `nova.learn_onboarding_recall`
+# `nova.learn_onboarding_recall`
 
 > **Recalls learned onboarding tutorial dismissal steps for a domain.**
 

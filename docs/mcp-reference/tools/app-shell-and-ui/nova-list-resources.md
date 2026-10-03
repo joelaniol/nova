@@ -1,4 +1,4 @@
-﻿# `nova.list_resources`
+# `nova.list_resources`
 
 > **Lists all network resources (scripts, stylesheets, frames, images) loaded by the target tab.**
 

@@ -1,4 +1,4 @@
-﻿# `nova.media_device_preferences_list`
+# `nova.media_device_preferences_list`
 
 Lists stored per-site preferred device IDs (camera, microphone, speaker).
 

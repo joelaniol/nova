@@ -1,4 +1,4 @@
-﻿# `nova.hardware_diagnostics_start`
+# `nova.hardware_diagnostics_start`
 
 Initiates in-page hardware diagnostic loop for camera, microphone, or audio speaker output.
 

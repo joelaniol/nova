@@ -1,4 +1,4 @@
-﻿# `nova.goal_register`
+# `nova.goal_register`
 
 Manages closed-loop task goals, verifying step advancement and milestone criteria.
 

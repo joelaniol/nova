@@ -1,4 +1,4 @@
-﻿# `nova.site_urls_report`
+# `nova.site_urls_report`
 
 Reports live navigation observations (new pages, 404s, redirects) to the Site-URL-Index.
 

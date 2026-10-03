@@ -1,4 +1,4 @@
-﻿# `nova.domain_note_ack`
+# `nova.domain_note_ack`
 
 Explicitly acknowledges a MUST-read domain note block to unblock subsequent tool calls.
 

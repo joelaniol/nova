@@ -1,4 +1,4 @@
-﻿# `nova.fingerprint_get`
+# `nova.fingerprint_get`
 
 Reads the active browser fingerprint protection level (global, sandbox, or tab override).
 

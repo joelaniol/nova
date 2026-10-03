@@ -1,4 +1,4 @@
-﻿# `nova.webview_reset_zoom`
+# `nova.webview_reset_zoom`
 
 > **Resets the target tab's WebView2 zoom factor back to the default 1.0 (100%).**
 

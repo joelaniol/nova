@@ -1,4 +1,4 @@
-﻿# `nova.crawl_results`
+# `nova.crawl_results`
 
 Retrieves paginated page details, extracted text, metadata, and screenshots from a crawl job.
 

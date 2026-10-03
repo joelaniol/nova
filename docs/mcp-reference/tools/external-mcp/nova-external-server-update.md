@@ -1,4 +1,4 @@
-﻿# `nova.external_server_update`
+# `nova.external_server_update`
 
 Updates configuration, environment variables, or transport settings of an existing server.
 

@@ -1,4 +1,4 @@
-﻿# `nova.devtools_open`
+# `nova.devtools_open`
 
 > **Opens the Chromium DevTools inspection window for a specified browser tab.**
 

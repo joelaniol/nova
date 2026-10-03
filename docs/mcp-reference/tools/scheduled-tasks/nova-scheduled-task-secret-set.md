@@ -1,4 +1,4 @@
-﻿# `nova.scheduled_task_secret_set`
+# `nova.scheduled_task_secret_set`
 
 Stores an encrypted secret (API key, auth token) for a task using Windows DPAPI encryption.
 

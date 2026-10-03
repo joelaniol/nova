@@ -1,4 +1,4 @@
-﻿# External MCP Servers & Tool Bridging
+# External MCP Servers & Tool Bridging
 
 Registering, running, and dynamically calling secondary MCP servers through Nova's unified host.
 

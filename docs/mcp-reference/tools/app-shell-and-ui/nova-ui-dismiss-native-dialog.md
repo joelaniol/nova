@@ -1,4 +1,4 @@
-﻿# `nova.ui_dismiss_native_dialog`
+# `nova.ui_dismiss_native_dialog`
 
 > **Dismisses or cancels the currently active host-owned Win32 native dialog.**
 

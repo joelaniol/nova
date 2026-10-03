@@ -1,4 +1,4 @@
-﻿# `nova.task_match`
+# `nova.task_match`
 
 Finds the best matching task profiles for a task description with score breakdowns.
 

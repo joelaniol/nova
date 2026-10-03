@@ -1,4 +1,4 @@
-﻿# `nova.session_record_purge`
+# `nova.session_record_purge`
 
 Destructively deletes finalized session recordings older than a specified day threshold.
 

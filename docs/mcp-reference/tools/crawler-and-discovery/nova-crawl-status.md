@@ -1,4 +1,4 @@
-﻿# `nova.crawl_status`
+# `nova.crawl_status`
 
 Checks the live progress, active phase, and error metrics of a background crawl job.
 

@@ -1,4 +1,4 @@
-﻿# `nova.downloads_pause`
+# `nova.downloads_pause`
 
 Pauses an active WebView2-native download by ID.
 

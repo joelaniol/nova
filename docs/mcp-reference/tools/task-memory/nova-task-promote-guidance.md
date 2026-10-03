@@ -1,4 +1,4 @@
-﻿# `nova.task_promote_guidance`
+# `nova.task_promote_guidance`
 
 Explicitly promotes a guidance log entry into a profile’s stable guidance.
 

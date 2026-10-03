@@ -1,4 +1,4 @@
-﻿# `nova.capture_screenshot`
+# `nova.capture_screenshot`
 
 Captures visual screenshot evidence of the active page, a specific DOM element, or a bounded pixel region, with support for cryptographic SHA-256 hashing, visual callout highlights, and token-saving delivery modes.
 

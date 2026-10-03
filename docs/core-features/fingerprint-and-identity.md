@@ -1,4 +1,4 @@
-﻿# Anti-Fingerprint Protection & Stealth Identity Engine
+# Anti-Fingerprint Protection & Stealth Identity Engine
 
 > [!NOTE]
 > The Anti-Fingerprint and Identity Engine of Nova AI Workspace (`NovaBrowser.Core.Browser.FingerprintProtection`) protects automated sessions from bot detection and cross-site tracking. It combines a 3-tier configuration hierarchy, mathematically deterministic noise seeding, and consistent high-entropy Client Hints.

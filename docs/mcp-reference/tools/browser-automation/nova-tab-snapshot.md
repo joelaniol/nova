@@ -1,4 +1,4 @@
-﻿# `nova.tab_snapshot`
+# `nova.tab_snapshot`
 
 > **Captures a full tab state snapshot including URL, scroll position, and form state.**
 

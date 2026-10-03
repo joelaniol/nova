@@ -1,4 +1,4 @@
-﻿# `nova.site_discovery_probe`
+# `nova.site_discovery_probe`
 
 Probes a website for modern AI and MCP discovery endpoints (llms.txt, /.well-known/mcp.json, A2A).
 

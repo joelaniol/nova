@@ -1,4 +1,4 @@
-﻿# `nova.external_servers`
+# `nova.external_servers`
 
 Lists all configured external MCP servers with runtime status, health, and tool count.
 

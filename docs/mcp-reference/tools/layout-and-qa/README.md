@@ -1,4 +1,4 @@
-﻿# Layout Quality, Geometry & Web Vitals
+# Layout Quality, Geometry & Web Vitals
 
 Bounding box measurements, container width constraints, text clipping, WCAG accessibility audits, and Core Web Vitals.
 

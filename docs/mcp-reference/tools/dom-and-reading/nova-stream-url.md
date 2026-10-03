@@ -1,4 +1,4 @@
-﻿# `nova.stream_url`
+# `nova.stream_url`
 
 > **Subscribes to Server-Sent Events (SSE) or WebSocket streaming traffic on the page.**
 

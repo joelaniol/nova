@@ -1,4 +1,4 @@
-﻿# `nova.capture_app_screenshot`
+# `nova.capture_app_screenshot`
 
 > **Captures a screenshot of the entire Nova host application window including tabs and window chrome.**
 

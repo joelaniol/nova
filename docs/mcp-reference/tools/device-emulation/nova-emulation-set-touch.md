@@ -1,4 +1,4 @@
-﻿# `nova.emulation_set_touch`
+# `nova.emulation_set_touch`
 
 Enables or disables touch event simulation and sets the maximum touch points reported by the browser.
 

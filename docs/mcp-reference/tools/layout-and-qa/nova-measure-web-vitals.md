@@ -1,4 +1,4 @@
-﻿# `nova.measure_web_vitals`
+# `nova.measure_web_vitals`
 
 Measures live Google Core Web Vitals (LCP, CLS, INP, FCP, TTFB) for the active page, providing categorized ratings (`good`, `needs-improvement`, or `poor`) for automated performance gating.
 

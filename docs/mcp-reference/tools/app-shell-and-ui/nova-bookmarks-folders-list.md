@@ -1,4 +1,4 @@
-﻿# `nova.bookmarks_folders_list`
+# `nova.bookmarks_folders_list`
 
 > **Lists all bookmark folders with hierarchical parent-child relationships and depths.**
 

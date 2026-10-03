@@ -1,4 +1,4 @@
-﻿# Nova MCP Tool Catalog
+# Nova MCP Tool Catalog
 
 This catalog provides a functional reference for the primary tools exposed by **Nova AI Workspace**, categorized by operational domain. Click on any tool name to view its dedicated reference documentation, parameter table, JSON examples, and error handling notes.
 

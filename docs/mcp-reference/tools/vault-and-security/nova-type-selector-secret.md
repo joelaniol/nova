@@ -1,4 +1,4 @@
-﻿# `nova.type_selector_secret`
+# `nova.type_selector_secret`
 
 Types a vault password into a target form field using an ephemeral `SecretRef` token, injecting keystrokes directly via CDP without exposing plaintext secrets to the agent.
 

@@ -1,4 +1,4 @@
-﻿# `nova.session_record_interactions`
+# `nova.session_record_interactions`
 
 Reads the chronological interaction timeline (clicks, typing, form submits) from a recording.
 

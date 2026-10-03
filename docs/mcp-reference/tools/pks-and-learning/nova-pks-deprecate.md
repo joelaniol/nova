@@ -1,4 +1,4 @@
-﻿# `nova.pks_deprecate`
+# `nova.pks_deprecate`
 
 > **Marks an obsolete or broken PKS phenomenon playbook as deprecated.**
 

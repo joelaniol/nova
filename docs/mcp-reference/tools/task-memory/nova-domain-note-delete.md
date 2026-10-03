@@ -1,4 +1,4 @@
-﻿# `nova.domain_note_delete`
+# `nova.domain_note_delete`
 
 Deletes a domain note by domain name and key.
 

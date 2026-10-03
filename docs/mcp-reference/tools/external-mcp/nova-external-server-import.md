@@ -1,4 +1,4 @@
-﻿# `nova.external_server_import`
+# `nova.external_server_import`
 
 Imports MCP server definitions from Claude Desktop, VS Code, Claude Code, or JSON config files.
 

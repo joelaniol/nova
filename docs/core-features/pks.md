@@ -1,4 +1,4 @@
-﻿# Phenomenological Knowledge Store (PKS) & Continuous Learning Engine
+# Phenomenological Knowledge Store (PKS) & Continuous Learning Engine
 
 > [!NOTE]
 > PKS is the self-learning procedural long-term memory of Nova AI Workspace. It converts verified DOM observations and interaction sequences into persistent, self-healing fast-paths across agent sessions.

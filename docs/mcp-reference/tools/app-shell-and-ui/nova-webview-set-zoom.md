@@ -1,4 +1,4 @@
-﻿# `nova.webview_set_zoom`
+# `nova.webview_set_zoom`
 
 > **Sets the zoom factor for a target tab's WebView2 instance.**
 

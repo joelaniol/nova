@@ -1,4 +1,4 @@
-﻿# `nova.input_shortcut`
+# `nova.input_shortcut`
 
 > **Dispatches a multi-key keyboard shortcut (e.g. Ctrl+A, Control+C, Shift+Enter) to the active element.**
 

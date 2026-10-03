@@ -1,4 +1,4 @@
-﻿# `nova.media_file_info`
+# `nova.media_file_info`
 
 Inspects media container metadata, duration, channels, and codecs from a local file without ffmpeg.
 

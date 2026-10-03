@@ -1,4 +1,4 @@
-﻿# `nova.network_intercept_list`
+# `nova.network_intercept_list`
 
 Lists currently armed network interception rules with remaining hit budgets and expiration timers.
 

@@ -1,4 +1,4 @@
-﻿# Integrating OpenAI Codex CLI
+# Integrating OpenAI Codex CLI
 
 > [!NOTE]
 > This guide covers setting up **OpenAI Codex CLI** to control **Nova AI Workspace**, including configuration, task execution, and multi-agent coordination.

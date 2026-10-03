@@ -1,4 +1,4 @@
-﻿# Autonomous Crawler & Surface Explorer
+# Autonomous Crawler & Surface Explorer
 
 > [!NOTE]
 > Nova AI Workspace's embedded crawler and surface exploration subsystem equips AI agents with structured site discovery capabilities: Breadth-First Search (BFS), automated JavaScript settlement detection, and persistent URL indexing in a separate, hidden background WebView2 instance.

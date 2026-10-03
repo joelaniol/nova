@@ -1,4 +1,4 @@
-﻿# `nova.task_profile_get`
+# `nova.task_profile_get`
 
 Retrieves full details of a task profile: guidance, mandatory checks, and completion conditions.
 

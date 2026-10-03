@@ -1,4 +1,4 @@
-﻿# `nova.scheduled_task_run_cancel`
+# `nova.scheduled_task_run_cancel`
 
 Cancels an in-flight background task run asynchronously.
 

@@ -1,4 +1,4 @@
-﻿# `nova.emulation_clear_device_metrics`
+# `nova.emulation_clear_device_metrics`
 
 Clears viewport device metrics overrides, restoring normal window-sized rendering.
 

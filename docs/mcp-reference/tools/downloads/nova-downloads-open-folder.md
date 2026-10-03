@@ -1,4 +1,4 @@
-﻿# `nova.downloads_open_folder`
+# `nova.downloads_open_folder`
 
 Reveals the downloaded file in Windows Explorer with the item selected.
 

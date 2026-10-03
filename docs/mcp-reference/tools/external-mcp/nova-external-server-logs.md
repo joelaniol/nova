@@ -1,4 +1,4 @@
-﻿# `nova.external_server_logs`
+# `nova.external_server_logs`
 
 Reads recent stderr log lines captured from an external MCP server process.
 

@@ -1,4 +1,4 @@
-﻿# App Shell, Dialogs & DevTools
+# App Shell, Dialogs & DevTools
 
 WinUI window controls, native OS dialog handling, DevTools panels, setup wizard, and onboarding injection.
 

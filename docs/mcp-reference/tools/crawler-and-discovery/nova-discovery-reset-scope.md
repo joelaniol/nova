@@ -1,4 +1,4 @@
-﻿# `nova.discovery_reset_scope`
+# `nova.discovery_reset_scope`
 
 Destructively clears all persisted crawl history, results, and URL indexes for a site scope.
 

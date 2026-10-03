@@ -1,4 +1,4 @@
-﻿# `nova.cdp`
+# `nova.cdp`
 
 > **Executes a raw Chrome DevTools Protocol (CDP) method directly on the target WebView2 instance.**
 

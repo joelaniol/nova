@@ -1,4 +1,4 @@
-﻿# Running Tests & Quality Gates
+# Running Tests & Quality Gates
 
 > [!NOTE]
 > Nova AI Workspace enforces a rigorous testing regimen: unit tests, smoke tests, profile-isolated self-tests, and static code scans.

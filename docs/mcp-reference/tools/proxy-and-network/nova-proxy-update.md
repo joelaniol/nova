@@ -1,4 +1,4 @@
-﻿# `nova.proxy_update`
+# `nova.proxy_update`
 
 Updates host, port, protocol, or bypass list of an existing proxy profile.
 

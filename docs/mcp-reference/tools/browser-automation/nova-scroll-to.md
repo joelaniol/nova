@@ -1,4 +1,4 @@
-﻿# `nova.scroll_to`
+# `nova.scroll_to`
 
 > **Scrolls the target tab viewport to absolute pixel coordinates (top, left).**
 

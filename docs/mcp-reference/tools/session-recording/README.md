@@ -1,4 +1,4 @@
-﻿# Session Tracing & DOM Event Recording
+# Session Tracing & DOM Event Recording
 
 Network HAR capture, user interaction timelines, DOM change snapshots, and replay verification.
 

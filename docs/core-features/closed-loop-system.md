@@ -1,4 +1,4 @@
-﻿# Closed-Loop System (CLS) & Ambient Auto-Apply
+# Closed-Loop System (CLS) & Ambient Auto-Apply
 
 > [!NOTE]
 > The Closed-Loop System (CLS) of Nova AI Workspace (`NovaBrowser.Core.AutoApply`) transforms browser automation from error-prone open-loop actions ("click dispatched, fingers crossed") into mathematically verified state transitions. In conjunction with **Ambient Auto-Apply**, Nova autonomously resolves recurring disruptions (cookie consent walls, modals, surveys) in the background.

@@ -1,4 +1,4 @@
-﻿# `nova.tab_transfer`
+# `nova.tab_transfer`
 
 > **Moves an open browser tab from one sandbox container profile to another.**
 

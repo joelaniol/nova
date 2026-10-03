@@ -1,4 +1,4 @@
-﻿# `nova.terminal_read`
+# `nova.terminal_read`
 
 Reads the recent raw output tail of a terminal session scrollback buffer.
 

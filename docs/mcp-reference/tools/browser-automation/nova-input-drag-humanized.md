@@ -1,4 +1,4 @@
-﻿# `nova.input_drag_humanized`
+# `nova.input_drag_humanized`
 
 > **Performs a bot-resilient drag-and-drop gesture along a natural Bézier physics curve with micro-jitters.**
 

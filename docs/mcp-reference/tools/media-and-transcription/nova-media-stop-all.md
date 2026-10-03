@@ -1,4 +1,4 @@
-﻿# `nova.media_stop_all`
+# `nova.media_stop_all`
 
 Emergency kill switch terminating all active camera, microphone, and screen-sharing tracks browser-wide.
 

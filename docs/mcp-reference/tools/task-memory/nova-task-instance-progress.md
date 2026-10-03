@@ -1,4 +1,4 @@
-﻿# `nova.task_instance_progress`
+# `nova.task_instance_progress`
 
 Commits progress deltas, completed work units, and observations to a task instance.
 

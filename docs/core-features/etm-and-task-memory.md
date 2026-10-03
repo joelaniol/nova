@@ -1,4 +1,4 @@
-﻿# Episodic Task Memory (ETM) & Task URL Coverage (TUC)
+# Episodic Task Memory (ETM) & Task URL Coverage (TUC)
 
 > [!NOTE]
 > The episodic task memory system of Nova AI Workspace (**ETM**, `NovaBrowser.Core.McpTaskMemoryHandler`) and **Task URL Coverage** (**TUC**, `NovaBrowser.Core.Knowledge.TaskUrlCoverageTracker`) anchor mission goals, work units, and progress checkpoints durably in the system. They prevent agents from abandoning long-running audits prematurely or suffering from session amnesia.

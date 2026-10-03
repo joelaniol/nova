@@ -1,4 +1,4 @@
-﻿# `nova.board_get`
+# `nova.board_get`
 
 Reads an Agent Knowledge Board laboratory topic by ID or exact structured anchor.
 

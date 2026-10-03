@@ -1,4 +1,4 @@
-﻿# `nova.session_reset_screenshot_budget`
+# `nova.session_reset_screenshot_budget`
 
 Resets the session screenshot budget counter to allow fresh visual captures.
 

@@ -1,4 +1,4 @@
-﻿# `nova.get_layout_metrics`
+# `nova.get_layout_metrics`
 
 > **Retrieves layout viewport dimensions, document scroll boundaries, and device scale factor.**
 

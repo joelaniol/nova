@@ -1,4 +1,4 @@
-﻿# `nova.downloads_resume`
+# `nova.downloads_resume`
 
 Resumes a paused live WebView2-native download by ID.
 

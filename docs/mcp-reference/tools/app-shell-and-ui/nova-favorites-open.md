@@ -1,4 +1,4 @@
-﻿# `nova.favorites_open`
+# `nova.favorites_open`
 
 > **Navigates to a stored favorite bookmark in the current or a new browser tab.**
 

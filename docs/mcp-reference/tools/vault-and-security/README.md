@@ -1,4 +1,4 @@
-﻿# Credentials, Vault & DPAPI Secret Keystore
+# Credentials, Vault & DPAPI Secret Keystore
 
 Password autofill via ephemeral origin-bound SecretRef tokens, credential discovery, and write-only encrypted environment variables.
 

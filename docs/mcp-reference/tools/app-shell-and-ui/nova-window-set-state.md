@@ -1,4 +1,4 @@
-﻿# `nova.window_set_state`
+# `nova.window_set_state`
 
 > **Sets host application window state: minimize, maximize, restore, or bring to foreground.**
 

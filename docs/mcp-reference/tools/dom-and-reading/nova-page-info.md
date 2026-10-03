@@ -1,4 +1,4 @@
-﻿# `nova.page_info`
+# `nova.page_info`
 
 Retrieves essential page metadata (URL, title, DOM ready state, viewport dimensions, scroll offsets, and active focused element) with minimal token overhead.
 

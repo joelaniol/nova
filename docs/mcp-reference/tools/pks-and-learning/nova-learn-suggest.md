@@ -1,4 +1,4 @@
-﻿# `nova.learn_suggest`
+# `nova.learn_suggest`
 
 > **Suggests alternative interaction selectors based on historical pattern performance.**
 

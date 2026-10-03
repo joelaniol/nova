@@ -1,4 +1,4 @@
-﻿# Getting Started with Nova AI Workspace
+# Getting Started with Nova AI Workspace
 
 Welcome to **Nova AI Workspace** — the native, cognitive desktop and browser environment built specifically for autonomous AI agents and modern human-agent pairing.
 

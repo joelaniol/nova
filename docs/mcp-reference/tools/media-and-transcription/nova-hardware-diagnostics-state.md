@@ -1,4 +1,4 @@
-﻿# `nova.hardware_diagnostics_state`
+# `nova.hardware_diagnostics_state`
 
 Returns current live hardware diagnostic metrics including microphone audio levels and peak decibels.
 

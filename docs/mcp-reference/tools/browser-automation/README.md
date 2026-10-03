@@ -1,4 +1,4 @@
-﻿# Browser Navigation & Physical Automation
+# Browser Navigation & Physical Automation
 
 Page navigation, tab strip lifecycle management, physical clicks, humanized typing, scroll mechanics, and file uploads.
 

@@ -1,4 +1,4 @@
-﻿# `nova.pks_platform_list`
+# `nova.pks_platform_list`
 
 > **Lists supported platform UI frameworks and common component models.**
 

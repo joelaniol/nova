@@ -1,4 +1,4 @@
-﻿# `nova.bookmarks_folder_create`
+# `nova.bookmarks_folder_create`
 
 > **Creates a hierarchical folder in the browser bookmark collection.**
 

@@ -1,4 +1,4 @@
-﻿# `nova.connector_delete`
+# `nova.connector_delete`
 
 Deletes a connector profile, associated capability grants, and backing DPAPI secrets.
 

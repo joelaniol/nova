@@ -1,4 +1,4 @@
-﻿# `nova.vault_get`
+# `nova.vault_get`
 
 Retrieves metadata and account identifiers for a stored vault entry, resolving username ambiguity without exposing password credentials.
 

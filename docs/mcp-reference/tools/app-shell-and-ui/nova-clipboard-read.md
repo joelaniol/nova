@@ -1,4 +1,4 @@
-﻿# `nova.clipboard_read`
+# `nova.clipboard_read`
 
 > **Reads the current plain text contents from the Windows OS system clipboard.**
 

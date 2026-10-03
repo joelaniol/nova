@@ -1,4 +1,4 @@
-﻿# `nova.traces_list`
+# `nova.traces_list`
 
 Lists recent host operation traces with execution timing, phases, and outcome status for debugging.
 

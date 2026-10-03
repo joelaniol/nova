@@ -1,4 +1,4 @@
-﻿# `nova.network_replay`
+# `nova.network_replay`
 
 Targeted HTTP request repeater for replaying, editing, and comparing network payloads out-of-band.
 

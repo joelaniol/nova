@@ -1,4 +1,4 @@
-﻿# `nova.history_go`
+# `nova.history_go`
 
 > **Navigates forward or backward in tab history by a relative delta offset.**
 

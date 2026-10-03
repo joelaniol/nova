@@ -1,4 +1,4 @@
-﻿# Site Data & Privacy Management (Cookies, Storage, Cache)
+# Site Data & Privacy Management (Cookies, Storage, Cache)
 
 > [!NOTE]
 > The Site Data Management subsystem provides AI agents and operators with precise, programmatic control over cookies (including HttpOnly), LocalStorage, SessionStorage, and browser caches—secured by Public Suffix validation and audit logging.

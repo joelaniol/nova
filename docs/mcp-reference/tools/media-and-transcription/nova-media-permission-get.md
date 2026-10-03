@@ -1,4 +1,4 @@
-﻿# `nova.media_permission_get`
+# `nova.media_permission_get`
 
 Reads the effective and stored media permissions for a specific web origin.
 

@@ -1,4 +1,4 @@
-﻿# Integrating Google Antigravity & Gemini CLI
+# Integrating Google Antigravity & Gemini CLI
 
 > [!NOTE]
 > This guide covers setting up **Google Antigravity (AGY)** and **Gemini CLI** to control **Nova AI Workspace**, detailing client-specific adapter flags (`--antigravity-tool-names`, `--mirror-structured-content`), lazy schema loading, and subagent swarm coordination.

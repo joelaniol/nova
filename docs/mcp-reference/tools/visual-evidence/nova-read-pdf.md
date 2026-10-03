@@ -1,4 +1,4 @@
-﻿# `nova.read_pdf`
+# `nova.read_pdf`
 
 > **Extracts plain text and page metadata from a locally saved PDF document.**
 

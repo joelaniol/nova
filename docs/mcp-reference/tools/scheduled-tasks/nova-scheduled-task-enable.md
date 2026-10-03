@@ -1,4 +1,4 @@
-﻿# `nova.scheduled_task_enable`
+# `nova.scheduled_task_enable`
 
 Enables a paused or circuit-broken scheduled task and resets failure counters.
 

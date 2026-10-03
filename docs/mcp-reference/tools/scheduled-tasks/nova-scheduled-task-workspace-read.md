@@ -1,4 +1,4 @@
-﻿# `nova.scheduled_task_workspace_read`
+# `nova.scheduled_task_workspace_read`
 
 Reads a UTF-8 text file from a task’s shared workspace folder.
 

@@ -1,4 +1,4 @@
-﻿# `nova.scheduled_task_disable`
+# `nova.scheduled_task_disable`
 
 Pauses execution of a scheduled task without modifying its configuration or history.
 

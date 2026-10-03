@@ -1,4 +1,4 @@
-﻿# `nova.notifications_dismiss`
+# `nova.notifications_dismiss`
 
 Dismisses a notification, hiding it from the default inbox view.
 

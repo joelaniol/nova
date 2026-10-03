@@ -1,4 +1,4 @@
-﻿# `nova.operator_notes_query`
+# `nova.operator_notes_query`
 
 Queries operator notes by keywords with tag-intersection and TF-IDF relevance scoring.
 

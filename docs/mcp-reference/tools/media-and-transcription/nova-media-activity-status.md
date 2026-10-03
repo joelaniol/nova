@@ -1,4 +1,4 @@
-﻿# `nova.media_activity_status`
+# `nova.media_activity_status`
 
 Returns an O(1) instant snapshot of currently active camera, microphone, and screen-sharing streams.
 

@@ -1,4 +1,4 @@
-﻿# `nova.domain_note`
+# `nova.domain_note`
 
 Stores or updates a domain-scoped operational note automatically surfaced during navigation.
 

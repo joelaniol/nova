@@ -1,4 +1,4 @@
-﻿# `nova.session_record_snapshot_dom`
+# `nova.session_record_snapshot_dom`
 
 Triggers a fresh encrypted DOM snapshot on an active live recording bound to a tab.
 

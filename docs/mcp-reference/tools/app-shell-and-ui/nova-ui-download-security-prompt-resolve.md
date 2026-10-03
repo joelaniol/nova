@@ -1,4 +1,4 @@
-﻿# `nova.ui_download_security_prompt_resolve`
+# `nova.ui_download_security_prompt_resolve`
 
 > **Resolves Nova's executable download security warning dialog (.exe, .msi, .ps1, .bat).**
 

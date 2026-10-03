@@ -1,4 +1,4 @@
-﻿# `nova.crawl_start`
+# `nova.crawl_start`
 
 Starts a background breadth-first search (BFS) crawl from a root URL using isolated hidden WebViews.
 

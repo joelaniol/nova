@@ -1,4 +1,4 @@
-﻿# `nova.mail_backup_status`
+# `nova.mail_backup_status`
 
 Reports progress, downloaded message counts, and active phase of a mail backup job.
 

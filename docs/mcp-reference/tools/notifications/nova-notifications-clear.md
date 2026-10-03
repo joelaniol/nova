@@ -1,4 +1,4 @@
-﻿# `nova.notifications_clear`
+# `nova.notifications_clear`
 
 Bulk-dismisses notifications matching source or age criteria.
 

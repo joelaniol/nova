@@ -1,4 +1,4 @@
-﻿# `nova.site_urls`
+# `nova.site_urls`
 
 Queries the persistent Site-URL-Index for known endpoints, utility scores, and route candidates.
 

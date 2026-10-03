@@ -1,4 +1,4 @@
-﻿# Nova Outrider — Native Process Boundary & Hardware Resilience
+# Nova Outrider — Native Process Boundary & Hardware Resilience
 
 > [!NOTE]
 > Nova Outrider (`NovaBrowser.Outrider.exe`) is the canonical external helper process for high-risk native Windows, hardware, and driver operations. It protects the main browser process and WebView2 runtimes from unpredictable driver hangs, COM deadlocks, and native crashes.

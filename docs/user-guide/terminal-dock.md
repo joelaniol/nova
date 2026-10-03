@@ -1,4 +1,4 @@
-﻿# Integrated Terminal Dock
+# Integrated Terminal Dock
 
 > [!NOTE]
 > Nova AI Workspace embeds a full-featured Windows ConPTY terminal dock directly beneath the browser canvas. Run PowerShell 7, Git CLI, build scripts, or agent CLI tools without ever leaving your browser workspace.

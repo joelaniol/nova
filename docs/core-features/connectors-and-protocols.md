@@ -1,4 +1,4 @@
-﻿# Connectors & External Protocol Gateways
+# Connectors & External Protocol Gateways
 
 > [!NOTE]
 > Nova AI Workspace's connectors engine (`NovaBrowser.Core.Connectors`) provides secure, audited interfaces to external protocols and servers: email (IMAP/SMTP), file transfer (SFTP/FTP), and external MCP server aggregation — backed by strict secret separation (SecretRef) and fine-grained capability permissions.

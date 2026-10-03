@@ -1,4 +1,4 @@
-﻿# `nova.get_element_rect`
+# `nova.get_element_rect`
 
 > **Returns the exact bounding client rectangle (x, y, width, height) of an element.**
 

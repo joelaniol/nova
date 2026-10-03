@@ -1,4 +1,4 @@
-﻿# 5-Minute Quickstart
+# 5-Minute Quickstart
 
 This walkthrough takes you from a freshly launched **Nova AI Workspace** to your first autonomous, verified web interaction in under five minutes.
 

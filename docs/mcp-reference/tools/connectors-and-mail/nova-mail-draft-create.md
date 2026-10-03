@@ -1,4 +1,4 @@
-﻿# `nova.mail_draft_create`
+# `nova.mail_draft_create`
 
 Saves an email draft to the server's Drafts folder without sending.
 

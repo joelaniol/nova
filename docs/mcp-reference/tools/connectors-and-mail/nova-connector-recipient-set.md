@@ -1,4 +1,4 @@
-﻿# `nova.connector_recipient_set`
+# `nova.connector_recipient_set`
 
 Configures recipient allow-lists for autonomous email sending without human prompts.
 

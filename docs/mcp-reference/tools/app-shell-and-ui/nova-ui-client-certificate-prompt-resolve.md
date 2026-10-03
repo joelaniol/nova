@@ -1,4 +1,4 @@
-﻿# `nova.ui_client_certificate_prompt_resolve`
+# `nova.ui_client_certificate_prompt_resolve`
 
 > **Selects a client certificate or cancels a mutual TLS (mTLS) authentication prompt.**
 

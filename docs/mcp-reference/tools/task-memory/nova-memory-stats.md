@@ -1,4 +1,4 @@
-﻿# `nova.memory_stats`
+# `nova.memory_stats`
 
 Reports memory engine metrics, commit rates, verification health, and outbox queues.
 

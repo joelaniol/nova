@@ -1,4 +1,4 @@
-﻿# `nova.media_permission_activity_list`
+# `nova.media_permission_activity_list`
 
 Reads the complete in-memory ring buffer audit log of camera, mic, and screen permission decisions.
 

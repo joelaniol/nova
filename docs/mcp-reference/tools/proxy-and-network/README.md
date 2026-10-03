@@ -1,4 +1,4 @@
-﻿# Proxy Routing & Network Interception
+# Proxy Routing & Network Interception
 
 Proxy profile management, authentication, traffic redirection, and CDP network request/response interception.
 

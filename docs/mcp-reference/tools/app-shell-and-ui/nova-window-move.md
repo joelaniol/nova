@@ -1,4 +1,4 @@
-﻿# `nova.window_move`
+# `nova.window_move`
 
 > **Moves the Nova application window to a specific monitor or coordinate offset.**
 

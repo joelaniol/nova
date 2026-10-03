@@ -1,4 +1,4 @@
-﻿# `nova.mail_backup_start`
+# `nova.mail_backup_start`
 
 Launches a background job to back up an entire mail account or specific folders.
 

@@ -1,4 +1,4 @@
-﻿# `nova.tabs`
+# `nova.tabs`
 
 Lists all open tabs, WebViews, and sandbox surfaces across the workspace with filtering, claim status, and ownership details.
 

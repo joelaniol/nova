@@ -1,4 +1,4 @@
-﻿# `nova.input_text`
+# `nova.input_text`
 
 > **Sends a raw text string into the currently focused DOM element.**
 

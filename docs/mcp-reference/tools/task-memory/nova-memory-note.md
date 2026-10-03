@@ -1,4 +1,4 @@
-﻿# `nova.memory_note`
+# `nova.memory_note`
 
 Saves a persistent browsing memory (user preference, workflow hint, domain context).
 

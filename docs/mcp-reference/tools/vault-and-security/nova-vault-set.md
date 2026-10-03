@@ -1,4 +1,4 @@
-﻿# `nova.vault_set`
+# `nova.vault_set`
 
 > **Stores or updates a username and password login credential in the encrypted vault.**
 

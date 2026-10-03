@@ -1,4 +1,4 @@
-﻿# `nova.input_click`
+# `nova.input_click`
 
 > **Dispatches a physical mouse click at exact viewport X/Y coordinates.**
 

@@ -1,4 +1,4 @@
-﻿# `nova.measure_elements`
+# `nova.measure_elements`
 
 Measures geometric dimensions, client/scroll metrics, overflow flags, and constraining ancestor boundaries across multiple CSS selectors in a single round-trip.
 

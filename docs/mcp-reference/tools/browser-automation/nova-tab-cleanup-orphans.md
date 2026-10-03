@@ -1,4 +1,4 @@
-﻿# `nova.tab_cleanup_orphans`
+# `nova.tab_cleanup_orphans`
 
 Scans for and safely closes abandoned MCP-created tabs whose lease has expired, preserving user-opened tabs and preventing memory leaks in autonomous multi-agent environments.
 

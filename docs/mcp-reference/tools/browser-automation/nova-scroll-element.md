@@ -1,4 +1,4 @@
-﻿# `nova.scroll_element`
+# `nova.scroll_element`
 
 > **Scrolls a specific DOM element container into view or shifts its internal scroll offset.**
 

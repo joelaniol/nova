@@ -1,4 +1,4 @@
-﻿# `nova.wait_for_selector`
+# `nova.wait_for_selector`
 
 Waits for a DOM element matching a CSS selector to appear, become visible, or disappear, returning its exact bounding rectangle and settlement state.
 

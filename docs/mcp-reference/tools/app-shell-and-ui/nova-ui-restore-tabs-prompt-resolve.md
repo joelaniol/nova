@@ -1,4 +1,4 @@
-﻿# `nova.ui_restore_tabs_prompt_resolve`
+# `nova.ui_restore_tabs_prompt_resolve`
 
 > **Resolves the startup tab restoration prompt modal after an abnormal browser termination.**
 

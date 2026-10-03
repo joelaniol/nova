@@ -1,4 +1,4 @@
-﻿# `nova.tab_release`
+# `nova.tab_release`
 
 Releases an active exclusive lease on a browser tab, optionally logging finalization decisions, task outcomes, or coverage status.
 

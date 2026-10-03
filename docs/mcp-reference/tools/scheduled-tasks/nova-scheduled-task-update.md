@@ -1,4 +1,4 @@
-﻿# `nova.scheduled_task_update`
+# `nova.scheduled_task_update`
 
 Updates fields (prompt, schedule, budget, timeouts, chaining) of an existing scheduled task.
 

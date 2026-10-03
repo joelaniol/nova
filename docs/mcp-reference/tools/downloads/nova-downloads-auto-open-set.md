@@ -1,4 +1,4 @@
-﻿# `nova.downloads_auto_open_set`
+# `nova.downloads_auto_open_set`
 
 Bulk-replaces the list of file extensions that auto-open with the OS default application.
 

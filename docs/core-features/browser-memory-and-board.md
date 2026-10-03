@@ -1,4 +1,4 @@
-﻿# Browser Memory & Knowledge Board (User Context & Team Collaboration)
+# Browser Memory & Knowledge Board (User Context & Team Collaboration)
 
 > [!NOTE]
 > **Browser Memory** (`NovaBrowser.Core.BrowsingMemoryRepository`) and the **Knowledge Board** (`NovaBrowser.Core.KnowledgeBoard`) form the user-centric and collaborative memory tier of Nova AI Workspace. They preserve cross-session operator preferences with biological time-decay and allow multi-agent swarms to share intermediate findings on a synchronized whiteboard.

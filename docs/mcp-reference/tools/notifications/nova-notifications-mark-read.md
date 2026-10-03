@@ -1,4 +1,4 @@
-﻿# `nova.notifications_mark_read`
+# `nova.notifications_mark_read`
 
 Marks a notification as read without dismissing it from the inbox.
 

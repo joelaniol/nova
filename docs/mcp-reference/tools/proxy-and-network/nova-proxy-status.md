@@ -1,4 +1,4 @@
-﻿# `nova.proxy_status`
+# `nova.proxy_status`
 
 Queries real-time connectivity status, latency, and external IP for a proxy profile.
 

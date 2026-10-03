@@ -1,4 +1,4 @@
-﻿# `nova.get_onboarding`
+# `nova.get_onboarding`
 
 > **Retrieves manual onboarding instructions and template markdown files for external AI agents.**
 

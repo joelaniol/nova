@@ -1,4 +1,4 @@
-﻿# `nova.mail_delete`
+# `nova.mail_delete`
 
 Moves up to 200 messages into the account's Trash folder (non-permanent delete).
 

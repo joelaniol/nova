@@ -1,4 +1,4 @@
-﻿# `nova.external_server_start`
+# `nova.external_server_start`
 
 Launches an external MCP server, runs initialize handshake, and discovers available tools.
 

@@ -1,4 +1,4 @@
-﻿# `nova.reference_doc_read`
+# `nova.reference_doc_read`
 
 > **Reads the complete text content of an allowlisted internal Nova reference document.**
 

@@ -1,4 +1,4 @@
-﻿# `nova.site_discovery_get`
+# `nova.site_discovery_get`
 
 Retrieves cached MCP and AI discovery probe results for a domain without network traffic.
 

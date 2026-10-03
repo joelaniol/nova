@@ -1,4 +1,4 @@
-﻿# `nova.cookie_set`
+# `nova.cookie_set`
 
 Sets or updates a cookie in the target sandbox profile's cookie jar.
 

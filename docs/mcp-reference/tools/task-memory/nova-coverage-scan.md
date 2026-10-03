@@ -1,4 +1,4 @@
-﻿# `nova.coverage_scan`
+# `nova.coverage_scan`
 
 Runs a server-registered Coverage Scan script to discover and audit all interactive surfaces.
 

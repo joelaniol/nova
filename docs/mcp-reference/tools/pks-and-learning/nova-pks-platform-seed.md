@@ -1,4 +1,4 @@
-﻿# `nova.pks_platform_seed`
+# `nova.pks_platform_seed`
 
 > **Seeds the platform knowledge base with pre-trained platform component models.**
 

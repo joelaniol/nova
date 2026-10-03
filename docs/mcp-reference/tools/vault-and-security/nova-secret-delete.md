@@ -1,4 +1,4 @@
-﻿# `nova.secret_delete`
+# `nova.secret_delete`
 
 > **Deletes an encrypted environment variable or API key secret from the DPAPI store.**
 

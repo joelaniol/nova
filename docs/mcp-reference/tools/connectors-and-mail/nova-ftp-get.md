@@ -1,4 +1,4 @@
-﻿# `nova.ftp_get`
+# `nova.ftp_get`
 
 Downloads a remote regular file over FTP/FTPS into Downloads or the workspace.
 

@@ -1,4 +1,4 @@
-﻿# Building Nova AI Workspace from Source
+# Building Nova AI Workspace from Source
 
 > [!NOTE]
 > Instructions for configuring your local development environment and compiling Nova AI Workspace from source on Windows.

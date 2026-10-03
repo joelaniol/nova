@@ -1,4 +1,4 @@
-﻿# `nova.scheduled_task_workspace_list`
+# `nova.scheduled_task_workspace_list`
 
 Lists files and subdirectories located within a task’s shared workspace folder.
 

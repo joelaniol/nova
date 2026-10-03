@@ -1,4 +1,4 @@
-﻿# `nova.ui_open_downloads`
+# `nova.ui_open_downloads`
 
 > **Opens the download manager drawer panel in the Nova host user interface.**
 

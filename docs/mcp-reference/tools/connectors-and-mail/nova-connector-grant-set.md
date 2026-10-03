@@ -1,4 +1,4 @@
-﻿# `nova.connector_grant_set`
+# `nova.connector_grant_set`
 
 Sets capability access modes (ask, allow, blocked) for a connector.
 

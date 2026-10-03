@@ -1,4 +1,4 @@
-﻿# `nova.notifications_unread_count`
+# `nova.notifications_unread_count`
 
 Returns the count of unread, non-dismissed notifications currently in the inbox.
 

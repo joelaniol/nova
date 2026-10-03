@@ -1,4 +1,4 @@
-﻿# Headless Terminal Workspaces & TTY
+# Headless Terminal Workspaces & TTY
 
 Isolated pseudo-terminals (ConPTY), command execution streams, terminal dock control, and session persistence.
 

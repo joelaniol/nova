@@ -1,4 +1,4 @@
-﻿# `nova.bookmarks_folder_rename`
+# `nova.bookmarks_folder_rename`
 
 > **Renames an existing bookmark folder.**
 

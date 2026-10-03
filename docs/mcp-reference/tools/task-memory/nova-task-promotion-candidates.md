@@ -1,4 +1,4 @@
-﻿# `nova.task_promotion_candidates`
+# `nova.task_promotion_candidates`
 
 Lists guidance log entries and override patterns that are candidates for profile promotion.
 

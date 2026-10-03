@@ -1,4 +1,4 @@
-﻿# `nova.scheduled_task_var_list`
+# `nova.scheduled_task_var_list`
 
 Lists persistent variable keys and value previews configured for a task.
 

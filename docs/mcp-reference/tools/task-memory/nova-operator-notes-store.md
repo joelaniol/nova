@@ -1,4 +1,4 @@
-﻿# `nova.operator_notes_store`
+# `nova.operator_notes_store`
 
 Stores or updates a persistent operator note with search tags and priority.
 

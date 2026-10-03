@@ -1,4 +1,4 @@
-﻿# `nova.mail_list`
+# `nova.mail_list`
 
 Lists bounded message metadata (headers, dates, senders) from an exact IMAP folder.
 

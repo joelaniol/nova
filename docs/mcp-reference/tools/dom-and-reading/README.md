@@ -1,4 +1,4 @@
-﻿# DOM Perception & Semantic Extraction
+# DOM Perception & Semantic Extraction
 
 Token-efficient text extraction, structured landmark reading, typed DOM attributes, and multi-modal fusion perception.
 

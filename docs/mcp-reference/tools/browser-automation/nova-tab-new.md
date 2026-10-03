@@ -1,4 +1,4 @@
-﻿# `nova.tab_new`
+# `nova.tab_new`
 
 Creates a new browser tab with optional immediate navigation, private (incognito) browsing isolation, and automatic lease claiming.
 

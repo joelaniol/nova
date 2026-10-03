@@ -1,4 +1,4 @@
-﻿# `nova.agent_activity_summary`
+# `nova.agent_activity_summary`
 
 > **Returns an aggregated summary of active MCP sessions, tool execution counts, and failure rates.**
 

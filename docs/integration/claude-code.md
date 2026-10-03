@@ -1,4 +1,4 @@
-﻿# Integrating Anthropic Claude Code
+# Integrating Anthropic Claude Code
 
 This guide explains how to connect Anthropic's **Claude Code** CLI assistant with **Nova AI Workspace** for autonomous, verified browser automation.
 

@@ -1,4 +1,4 @@
-﻿# `nova.permission_prompt`
+# `nova.permission_prompt`
 
 > **Raises an interactive permission dialog asking the Nova human operator to approve a high-risk action.**
 

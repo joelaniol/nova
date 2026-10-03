@@ -1,4 +1,4 @@
-﻿# `nova.terminal_get_state`
+# `nova.terminal_get_state`
 
 Queries lifecycle status, working directory, and exit code for a specific session.
 

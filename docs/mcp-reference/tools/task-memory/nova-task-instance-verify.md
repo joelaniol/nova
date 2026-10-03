@@ -1,4 +1,4 @@
-﻿# `nova.task_instance_verify`
+# `nova.task_instance_verify`
 
 Retrieves the verification contract steps, assertions, and checks required for task completion.
 

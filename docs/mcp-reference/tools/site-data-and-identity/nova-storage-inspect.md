@@ -1,4 +1,4 @@
-﻿# `nova.storage_inspect`
+# `nova.storage_inspect`
 
 Reads localStorage or sessionStorage key-value pairs for the target page.
 

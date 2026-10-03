@@ -1,4 +1,4 @@
-﻿# `nova.terminal_open`
+# `nova.terminal_open`
 
 Opens a new agent-owned PowerShell session in an isolated working directory and returns its unique sessionId.
 

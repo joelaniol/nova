@@ -1,4 +1,4 @@
-﻿# `nova.scheduled_task_var_delete`
+# `nova.scheduled_task_var_delete`
 
 Deletes a persistent state variable from a task.
 

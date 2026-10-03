@@ -1,4 +1,4 @@
-﻿# `nova.scheduled_task_var_set`
+# `nova.scheduled_task_var_set`
 
 Sets a persistent key-value state variable for a task that survives across runs.
 

@@ -1,4 +1,4 @@
-﻿# `nova.tab_pin`
+# `nova.tab_pin`
 
 > **Pins or unpins a tab in the browser tab bar to prevent accidental closure.**
 

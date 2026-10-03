@@ -1,4 +1,4 @@
-﻿# `nova.session_record_stop`
+# `nova.session_record_stop`
 
 Stops an active session recording, flushes memory channels, and generates cryptographic integrity manifests.
 

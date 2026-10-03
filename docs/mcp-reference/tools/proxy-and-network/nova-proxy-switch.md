@@ -1,4 +1,4 @@
-﻿# `nova.proxy_switch`
+# `nova.proxy_switch`
 
 Dynamically switches the active proxy for global tabs or a specific sandbox without restarting Nova.
 

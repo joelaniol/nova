@@ -1,4 +1,4 @@
-﻿# `nova.ui_open_settings`
+# `nova.ui_open_settings`
 
 > **Opens the settings drawer overlay in the Nova host user interface.**
 

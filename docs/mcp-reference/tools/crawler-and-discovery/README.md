@@ -1,4 +1,4 @@
-﻿# Site Crawler & URL Discovery Index
+# Site Crawler & URL Discovery Index
 
 Broad-surface website crawling, URL indexing, sitemap verification, and discovery probes.
 

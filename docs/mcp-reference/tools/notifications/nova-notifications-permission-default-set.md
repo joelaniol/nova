@@ -1,4 +1,4 @@
-﻿# `nova.notifications_permission_default_set`
+# `nova.notifications_permission_default_set`
 
 Sets the global website notification permission default (Ask, Allow, or Deny).
 

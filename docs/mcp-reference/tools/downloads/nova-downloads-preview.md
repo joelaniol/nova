@@ -1,4 +1,4 @@
-﻿# `nova.downloads_preview`
+# `nova.downloads_preview`
 
 Opens a completed download inline in a new browser tab using a secure file:// URL.
 

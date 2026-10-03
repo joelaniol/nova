@@ -1,4 +1,4 @@
-﻿# Workspace Layout & Visual Chrome
+# Workspace Layout & Visual Chrome
 
 > [!NOTE]
 > Nova AI Workspace combines the familiar simplicity of a modern Windows 11 browser with specialized instrumentation for monitoring background agent automation and developer workflows.

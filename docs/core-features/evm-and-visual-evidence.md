@@ -1,4 +1,4 @@
-﻿# Evidence Verification Mode (EVM) & Visual Ground Truth
+# Evidence Verification Mode (EVM) & Visual Ground Truth
 
 > [!NOTE]
 > Evidence Verification Mode (EVM) and the Visual Ground Truth pipeline protect agents from hallucinations during research and visual inspection tasks. Factual assertions must be supported by empirical evidence, while visual evidence remains pixel-sharp and token-efficient through targeted region crops.

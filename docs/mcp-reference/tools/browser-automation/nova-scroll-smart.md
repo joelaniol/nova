@@ -1,4 +1,4 @@
-﻿# `nova.scroll_smart`
+# `nova.scroll_smart`
 
 Executes natural, CDP-level mouse wheel scrolls to trigger dynamic lazy-loading and virtualized lists, reporting scroll saturation and completeness.
 

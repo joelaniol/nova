@@ -1,4 +1,4 @@
-﻿# `nova.notifications_send`
+# `nova.notifications_send`
 
 Dispatches a host-authored Windows toast notification and persists it to the Nova notification inbox.
 

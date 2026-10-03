@@ -1,4 +1,4 @@
-﻿# `nova.dom_extract`
+# `nova.dom_extract`
 
 Extracts a bounded set of fixed, strongly-typed DOM properties and bounding geometry for all elements matching a CSS selector, without executing arbitrary JavaScript.
 

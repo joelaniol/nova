@@ -1,4 +1,4 @@
-﻿# `nova.vault_list`
+# `nova.vault_list`
 
 Lists stored credential entries (site domain, associated usernames, and creation source) without returning passwords.
 

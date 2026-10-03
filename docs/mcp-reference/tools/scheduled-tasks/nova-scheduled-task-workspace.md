@@ -1,4 +1,4 @@
-﻿# `nova.scheduled_task_workspace`
+# `nova.scheduled_task_workspace`
 
 Returns directory metadata, file count, and last run status for a task’s isolated workspace.
 

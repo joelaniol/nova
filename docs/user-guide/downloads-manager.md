@@ -1,4 +1,4 @@
-﻿# Downloads Manager & Safety Shield
+# Downloads Manager & Safety Shield
 
 > [!NOTE]
 > Nova AI Workspace includes a sliding download drawer with integrated Windows SmartScreen protection, automated cryptographic hash verification (SHA-256), and granular agent download policies.

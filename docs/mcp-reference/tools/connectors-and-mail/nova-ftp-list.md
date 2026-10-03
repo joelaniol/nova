@@ -1,4 +1,4 @@
-﻿# `nova.ftp_list`
+# `nova.ftp_list`
 
 Lists remote directory entries or inspects file metadata through an FTP/FTPS connector.
 

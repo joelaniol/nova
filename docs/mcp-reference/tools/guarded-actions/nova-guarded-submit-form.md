@@ -1,4 +1,4 @@
-﻿# `nova.guarded_submit_form`
+# `nova.guarded_submit_form`
 
 High-level guarded macro for form submissions, wrapping click dispatch in an automated transition contract to verify validation rules, prevent duplicate submissions, and confirm post-submit transitions.
 

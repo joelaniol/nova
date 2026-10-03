@@ -1,4 +1,4 @@
-﻿# `nova.cmp_apply`
+# `nova.cmp_apply`
 
 Applies a typed privacy consent policy directly through recognized Consent Management Platform (CMP) vendor JavaScript APIs (OneTrust, Sourcepoint, Cookiebot), verifying consent vector state before and after execution.
 

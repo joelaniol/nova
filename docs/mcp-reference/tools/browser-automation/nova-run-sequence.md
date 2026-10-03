@@ -1,4 +1,4 @@
-﻿# `nova.run_sequence`
+# `nova.run_sequence`
 
 > **Executes an atomic sequence of navigation, click, type, and wait steps in a single RPC round-trip.**
 

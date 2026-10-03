@@ -1,4 +1,4 @@
-﻿# Session Recording & Time-Travel Debugging
+# Session Recording & Time-Travel Debugging
 
 > [!NOTE]
 > Nova AI Workspace's session recording engine (`NovaBrowser.Core.SessionRecording`) provides forensically exact browser session recordings, capturing DOM mutations, CDP network traffic, console logs, IndexedDB states, and native user interactions — with integrated privacy redaction and time-scoped DEK encryption.

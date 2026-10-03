@@ -1,4 +1,4 @@
-﻿# `nova.identity_get`
+# `nova.identity_get`
 
 Reads the active browser identity profile, spoofed User-Agent, and client hints.
 

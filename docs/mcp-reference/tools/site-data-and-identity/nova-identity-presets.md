@@ -1,4 +1,4 @@
-﻿# `nova.identity_presets`
+# `nova.identity_presets`
 
 Lists available browser identity presets and selectable browser engine versions.
 

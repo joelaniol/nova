@@ -1,4 +1,4 @@
-﻿# `nova.terminal_run_command`
+# `nova.terminal_run_command`
 
 Executes a single command line in an existing session and waits synchronously for its completion.
 

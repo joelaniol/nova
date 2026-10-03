@@ -1,4 +1,4 @@
-﻿# `nova.mail_read`
+# `nova.mail_read`
 
 Reads the parsed body (text, HTML, markdown) and attachment inventory of a specific email.
 

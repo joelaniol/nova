@@ -1,4 +1,4 @@
-﻿# `nova.ui_auth_prompt_resolve`
+# `nova.ui_auth_prompt_resolve`
 
 > **Resolves an active HTTP 401 Basic or Digest authentication challenge dialog.**
 

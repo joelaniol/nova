@@ -1,4 +1,4 @@
-﻿# `nova.proxy_remove`
+# `nova.proxy_remove`
 
 Deletes a proxy profile and resets any sandbox bindings back to the global default.
 

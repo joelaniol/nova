@@ -1,4 +1,4 @@
-﻿# `nova.sftp_put`
+# `nova.sftp_put`
 
 Uploads a local file or directory tree over SFTP to a remote destination.
 

@@ -1,4 +1,4 @@
-﻿# `nova.downloads_auto_open_get`
+# `nova.downloads_auto_open_get`
 
 Retrieves the list of file extensions configured to open automatically upon download completion.
 

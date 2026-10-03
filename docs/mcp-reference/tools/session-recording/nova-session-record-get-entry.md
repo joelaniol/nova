@@ -1,4 +1,4 @@
-﻿# `nova.session_record_get_entry`
+# `nova.session_record_get_entry`
 
 Retrieves the complete event timeline, headers, and decoded payload for a single CDP request ID.
 

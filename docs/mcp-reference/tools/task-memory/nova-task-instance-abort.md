@@ -1,4 +1,4 @@
-﻿# `nova.task_instance_abort`
+# `nova.task_instance_abort`
 
 Ends a task instance without meeting completion conditions (site offline, unsolvable error).
 

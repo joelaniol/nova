@@ -1,4 +1,4 @@
-﻿# Integrating Anthropic Claude Desktop
+# Integrating Anthropic Claude Desktop
 
 This guide explains how to connect Anthropic's official **Claude Desktop** application on Windows with **Nova AI Workspace**.
 

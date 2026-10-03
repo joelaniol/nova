@@ -1,4 +1,4 @@
-﻿# `nova.operator_notes_list`
+# `nova.operator_notes_list`
 
 Lists all persistent operator notes with tags and sandbox scopes.
 

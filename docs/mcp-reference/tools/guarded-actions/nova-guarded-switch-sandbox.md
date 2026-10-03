@@ -1,4 +1,4 @@
-﻿# `nova.guarded_switch_sandbox`
+# `nova.guarded_switch_sandbox`
 
 > **Switches the active sandbox container for a tab while verifying session state and cookies.**
 

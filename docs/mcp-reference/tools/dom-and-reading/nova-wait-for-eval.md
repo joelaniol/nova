@@ -1,4 +1,4 @@
-﻿# `nova.wait_for_eval`
+# `nova.wait_for_eval`
 
 > **Polls the target tab until a JavaScript expression evaluates to a truthy value or times out.**
 

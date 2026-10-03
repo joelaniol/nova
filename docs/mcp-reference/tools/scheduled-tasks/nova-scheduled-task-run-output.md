@@ -1,4 +1,4 @@
-﻿# `nova.scheduled_task_run_output`
+# `nova.scheduled_task_run_output`
 
 Memory-safe tail reader for stdout and stderr log streams of a specific task run.
 

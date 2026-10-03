@@ -1,4 +1,4 @@
-﻿# `nova.vault_prepare_fill`
+# `nova.vault_prepare_fill`
 
 Prepares stored credentials from the secure Vault for automated form-filling, returning an ephemeral, origin-bound, and single-use `SecretRef` token instead of the raw password string.
 

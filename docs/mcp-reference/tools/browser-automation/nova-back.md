@@ -1,4 +1,4 @@
-﻿# `nova.back`
+# `nova.back`
 
 Navigates backward in browser history with automated SPA session preservation, DOM settlement tracking, and guarded navigation gates.
 

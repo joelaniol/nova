@@ -1,4 +1,4 @@
-﻿# Terminal Workspaces & ConPTY Integration
+# Terminal Workspaces & ConPTY Integration
 
 > [!NOTE]
 > The Terminal Workspace subsystem embeds native Windows Pseudo Consoles (ConPTY) directly into Nova AI Workspace. By delegating console processes to the standalone `NovaBrowser.TerminalRunner.exe`, active shells, dev servers, and build jobs survive restarts and UI reloads of the main browser application.

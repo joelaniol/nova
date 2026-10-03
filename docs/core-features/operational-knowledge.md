@@ -1,4 +1,4 @@
-﻿# Operational Knowledge (OK) & Real-Time Environment State
+# Operational Knowledge (OK) & Real-Time Environment State
 
 > [!NOTE]
 > The Operational Knowledge (OK) system is the real-time dynamic semantic telemetry engine of Nova AI Workspace. While PKS stores durable, multi-session interaction playbooks, OK tracks the live, ephemeral state of every tab (authentication status, active account tier, selected AI model, available UI capabilities).

@@ -1,4 +1,4 @@
-﻿# `nova.task_guidance_log_add`
+# `nova.task_guidance_log_add`
 
 Logs a guidance observation or proposal without directly mutating task profiles.
 

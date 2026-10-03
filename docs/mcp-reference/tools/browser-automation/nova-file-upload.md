@@ -1,4 +1,4 @@
-﻿# `nova.file_upload`
+# `nova.file_upload`
 
 Attaches one or more local files directly to an HTML `<input type="file">` element via Chrome DevTools Protocol (CDP), bypassing native OS file picker dialogs.
 

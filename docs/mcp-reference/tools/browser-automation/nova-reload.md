@@ -1,4 +1,4 @@
-﻿# `nova.reload`
+# `nova.reload`
 
 Reloads the active tab with configurable cache bypassing, SPA settlement verification, session-destruction protection, and stuck-renderer recovery.
 

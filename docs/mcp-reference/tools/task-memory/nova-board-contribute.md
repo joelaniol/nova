@@ -1,4 +1,4 @@
-﻿# `nova.board_contribute`
+# `nova.board_contribute`
 
 Opens a new Agent Knowledge Board topic or appends an evidence-bound research contribution.
 

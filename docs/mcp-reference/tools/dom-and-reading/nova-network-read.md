@@ -1,4 +1,4 @@
-﻿# `nova.network_read`
+# `nova.network_read`
 
 > **Reads captured HTTP network requests and responses matching URL filters or status codes.**
 

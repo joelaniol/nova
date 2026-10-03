@@ -1,4 +1,4 @@
-﻿# `nova.composer_state`
+# `nova.composer_state`
 
 > **Inspects visual state, selection range, and placeholder text of rich text composers.**
 

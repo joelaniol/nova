@@ -1,4 +1,4 @@
-﻿# `nova.read_dom`
+# `nova.read_dom`
 
 Reads a sanitized snapshot of the document's outer HTML from a tab, bounded by a configurable character cap and mirrored in structured content.
 

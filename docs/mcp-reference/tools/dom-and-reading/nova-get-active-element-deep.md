@@ -1,4 +1,4 @@
-﻿# `nova.get_active_element_deep`
+# `nova.get_active_element_deep`
 
 > **Traverses through nested Shadow DOM boundaries to find the truly focused interactive element.**
 

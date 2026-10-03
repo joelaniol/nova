@@ -1,4 +1,4 @@
-﻿# `nova.emulation_set_viewport_frame`
+# `nova.emulation_set_viewport_frame`
 
 Configures the visual outline rendered around an emulated device viewport in the host UI.
 

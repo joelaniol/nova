@@ -1,4 +1,4 @@
-﻿# `nova.fingerprint_set_tab`
+# `nova.fingerprint_set_tab`
 
 Sets an ephemeral per-tab fingerprint protection override that expires on tab close.
 

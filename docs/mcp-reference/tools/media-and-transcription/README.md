@@ -1,4 +1,4 @@
-﻿# Media Intelligence & Whisper Speech-to-Text
+# Media Intelligence & Whisper Speech-to-Text
 
 In-browser audio/video recording, local OpenAI Whisper transcription, model management, and camera/mic permissions.
 

@@ -1,4 +1,4 @@
-﻿# `nova.input_drag`
+# `nova.input_drag`
 
 > **Executes a physical mouse drag-and-drop gesture from source coordinates to destination.**
 

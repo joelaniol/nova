@@ -1,4 +1,4 @@
-﻿# `nova.media_activity_delta`
+# `nova.media_activity_delta`
 
 Performs an incremental read of the in-memory media permission activity ring buffer.
 

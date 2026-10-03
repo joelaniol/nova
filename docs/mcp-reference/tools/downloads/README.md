@@ -1,4 +1,4 @@
-﻿# Downloads Management & Queue Control
+# Downloads Management & Queue Control
 
 Download tracking, pause/resume, security prompt resolution, and directory management.
 

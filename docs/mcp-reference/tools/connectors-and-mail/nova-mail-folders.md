@@ -1,4 +1,4 @@
-﻿# `nova.mail_folders`
+# `nova.mail_folders`
 
 Lists the personal IMAP folder tree with total and unread message counts.
 

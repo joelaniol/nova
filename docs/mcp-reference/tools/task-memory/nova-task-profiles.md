@@ -1,4 +1,4 @@
-﻿# `nova.task_profiles`
+# `nova.task_profiles`
 
 Lists known task profiles, optionally filtered by taskType, domain, or platform.
 

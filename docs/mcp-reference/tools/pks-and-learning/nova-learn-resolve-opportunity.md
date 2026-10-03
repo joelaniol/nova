@@ -1,4 +1,4 @@
-﻿# `nova.learn_resolve_opportunity`
+# `nova.learn_resolve_opportunity`
 
 > **Resolves or closes a learning opportunity opportunity flagged during autonomous browsing.**
 

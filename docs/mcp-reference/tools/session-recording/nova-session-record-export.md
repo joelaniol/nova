@@ -1,4 +1,4 @@
-﻿# `nova.session_record_export`
+# `nova.session_record_export`
 
 Decodes a finalized encrypted recording to plaintext files on disk for debugging or archival.
 

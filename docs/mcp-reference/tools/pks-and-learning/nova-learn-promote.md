@@ -1,4 +1,4 @@
-﻿# `nova.learn_promote`
+# `nova.learn_promote`
 
 > **Promotes a candidate phenomenon playbook from staging into active production PKS memory.**
 

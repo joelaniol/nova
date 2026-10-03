@@ -1,4 +1,4 @@
-﻿# `nova.tab_claim`
+# `nova.tab_claim`
 
 Claims exclusive write ownership (lease) over a specified browser tab to prevent multi-agent collisions and race conditions.
 

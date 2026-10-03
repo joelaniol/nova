@@ -1,4 +1,4 @@
-﻿# `nova.reference_docs_list`
+# `nova.reference_docs_list`
 
 > **Lists all internal Nova reference documents available for in-session reading.**
 

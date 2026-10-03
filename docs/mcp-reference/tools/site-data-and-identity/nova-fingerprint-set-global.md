@@ -1,4 +1,4 @@
-﻿# `nova.fingerprint_set_global`
+# `nova.fingerprint_set_global`
 
 Sets the global browser fingerprint protection level across all sandboxes.
 

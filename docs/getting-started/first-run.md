@@ -1,4 +1,4 @@
-﻿# First Run & UI Tour
+# First Run & UI Tour
 
 When you launch **Nova AI Workspace** for the first time, you are presented with a unified workspace combining modern browser ergonomics with native agentic controls.
 

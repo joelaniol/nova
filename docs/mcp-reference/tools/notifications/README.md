@@ -1,4 +1,4 @@
-﻿# Desktop Notifications & Alerts
+# Desktop Notifications & Alerts
 
 Native OS notification dispatch, unread inbox management, and per-origin notification permissions.
 

@@ -1,4 +1,4 @@
-﻿# `nova.task_instance_reconcile_coverage`
+# `nova.task_instance_reconcile_coverage`
 
 Replays an instance’s observation log against the unit table to propose discovered-to-checked upgrades.
 

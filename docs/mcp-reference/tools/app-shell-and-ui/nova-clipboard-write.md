@@ -1,4 +1,4 @@
-﻿# `nova.clipboard_write`
+# `nova.clipboard_write`
 
 > **Writes plain text to the Windows OS system clipboard.**
 

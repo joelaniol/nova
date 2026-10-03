@@ -1,4 +1,4 @@
-﻿# `nova.eval`
+# `nova.eval`
 
 > **Evaluates an arbitrary JavaScript expression in the main page world or isolated world.**
 

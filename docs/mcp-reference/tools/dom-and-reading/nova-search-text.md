@@ -1,4 +1,4 @@
-﻿# `nova.search_text`
+# `nova.search_text`
 
 Searches the page for visible text occurrences and returns matching DOM elements with actionable CSS selectors, bounding geometry, and Shadow-DOM traversal chains.
 

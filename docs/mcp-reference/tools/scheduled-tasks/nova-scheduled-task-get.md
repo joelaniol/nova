@@ -1,4 +1,4 @@
-﻿# `nova.scheduled_task_get`
+# `nova.scheduled_task_get`
 
 Retrieves full details of a scheduled task including prompt, schedule, chaining, and budget settings.
 

@@ -1,4 +1,4 @@
-﻿# `nova.get_instructions`
+# `nova.get_instructions`
 
 > **Retrieves the complete Nova AI operational contract, conventions, and agent guidelines.**
 

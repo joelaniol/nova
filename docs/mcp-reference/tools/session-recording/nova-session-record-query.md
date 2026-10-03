@@ -1,4 +1,4 @@
-﻿# `nova.session_record_query`
+# `nova.session_record_query`
 
 Queries the complete CDP network stream of a finalized recording with rich filters (URL regex, status, headers).
 

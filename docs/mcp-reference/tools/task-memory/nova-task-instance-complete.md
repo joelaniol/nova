@@ -1,4 +1,4 @@
-﻿# `nova.task_instance_complete`
+# `nova.task_instance_complete`
 
 Requests server evaluation and completion for an episodic task instance.
 

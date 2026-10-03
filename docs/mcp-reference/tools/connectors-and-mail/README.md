@@ -1,4 +1,4 @@
-﻿# Connectors, Mail & File Transfer
+# Connectors, Mail & File Transfer
 
 IMAP/SMTP email client automation, EML exports, SFTP/FTP server operations, and credential access grants.
 

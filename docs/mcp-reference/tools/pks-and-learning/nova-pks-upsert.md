@@ -1,4 +1,4 @@
-﻿# `nova.pks_upsert`
+# `nova.pks_upsert`
 
 Stores or updates a verified phenomenon, behavioral playbook, and detection fingerprint in the Phenomenological Knowledge Store (PKS).
 

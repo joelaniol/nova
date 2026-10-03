@@ -1,4 +1,4 @@
-﻿# `nova.create_dump`
+# `nova.create_dump`
 
 > **Generates a forensic debug bundle for a browser tab (screenshot, DOM snapshot, console logs, resources).**
 

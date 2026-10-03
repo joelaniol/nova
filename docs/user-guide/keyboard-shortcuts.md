@@ -1,4 +1,4 @@
-﻿# Complete Keyboard Shortcuts Reference
+# Complete Keyboard Shortcuts Reference
 
 > [!NOTE]
 > Boost your productivity with Nova AI Workspace's comprehensive keyboard shortcuts. Control tabs, terminal docks, agent execution, and navigation without touching the mouse.

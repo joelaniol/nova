@@ -1,4 +1,4 @@
-﻿# `nova.get_computed_style`
+# `nova.get_computed_style`
 
 Reads the fully resolved CSS computed style and box-model geometry of a specific DOM element, providing authoritative styling data without executing arbitrary JavaScript.
 

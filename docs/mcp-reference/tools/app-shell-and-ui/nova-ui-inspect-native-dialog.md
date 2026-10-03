@@ -1,4 +1,4 @@
-﻿# `nova.ui_inspect_native_dialog`
+# `nova.ui_inspect_native_dialog`
 
 > **Inspects details of the currently active host-owned Win32 native dialog (title, class, control types).**
 

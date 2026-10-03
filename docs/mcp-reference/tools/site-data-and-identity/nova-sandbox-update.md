@@ -1,4 +1,4 @@
-﻿# `nova.sandbox_update`
+# `nova.sandbox_update`
 
 Updates configuration, display name, color tag, or purpose of an existing sandbox.
 

@@ -1,4 +1,4 @@
-﻿# `nova.cookie_delete`
+# `nova.cookie_delete`
 
 Deletes a specific cookie by cookieId or by name, domain, and path tuple.
 

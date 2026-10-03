@@ -1,4 +1,4 @@
-﻿# `nova.memory_add_candidate`
+# `nova.memory_add_candidate`
 
 Proposes a lightweight candidate memory claim for the currently claimed task and tab.
 

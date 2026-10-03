@@ -1,4 +1,4 @@
-﻿# `nova.input_move`
+# `nova.input_move`
 
 > **Moves the mouse cursor smoothly to specified viewport coordinates.**
 

@@ -1,4 +1,4 @@
-﻿# `nova.sftp_delete`
+# `nova.sftp_delete`
 
 Deletes a remote file, empty directory, or bounded directory tree over SFTP.
 

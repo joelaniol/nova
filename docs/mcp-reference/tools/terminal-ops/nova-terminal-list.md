@@ -1,4 +1,4 @@
-﻿# `nova.terminal_list`
+# `nova.terminal_list`
 
 Lists all open agent-owned terminal sessions with status, shell type, and exit codes.
 

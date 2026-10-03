@@ -1,4 +1,4 @@
-﻿# `nova.scheduled_task_workspace_write`
+# `nova.scheduled_task_workspace_write`
 
 Atomically writes a UTF-8 text file into a task’s shared workspace folder (temp-file + rename).
 

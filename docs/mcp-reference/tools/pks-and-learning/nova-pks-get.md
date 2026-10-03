@@ -1,4 +1,4 @@
-﻿# `nova.pks_get`
+# `nova.pks_get`
 
 Retrieves domain-scoped Phenomenological Knowledge Store (PKS) entries, playbooks, interaction fingerprints, and contextual environment markers.
 

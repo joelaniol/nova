@@ -1,4 +1,4 @@
-﻿# `nova.favorites_remove`
+# `nova.favorites_remove`
 
 > **Removes a bookmark favorite by its unique identifier.**
 

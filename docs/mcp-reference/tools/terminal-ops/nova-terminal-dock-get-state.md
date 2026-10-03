@@ -1,4 +1,4 @@
-﻿# `nova.terminal_dock_get_state`
+# `nova.terminal_dock_get_state`
 
 Reads the presentation state of the visible terminal dock in the Nova application shell.
 

@@ -1,4 +1,4 @@
-﻿# Troubleshooting & Diagnostics Hub
+# Troubleshooting & Diagnostics Hub
 
 Welcome to the **Nova AI Workspace Troubleshooting & Diagnostics Hub**. This section provides actionable guidance, log locations, and proven recovery procedures for common runtime issues, agent disconnections, and system diagnostics.
 

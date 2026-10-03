@@ -1,4 +1,4 @@
-﻿# `nova.session_record_start`
+# `nova.session_record_start`
 
 Initiates encrypted background recording of CDP network, DOM mutations, console logs, and user interactions on a tab.
 

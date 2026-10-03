@@ -1,4 +1,4 @@
-﻿# `nova.media_transcribe_model_install`
+# `nova.media_transcribe_model_install`
 
 Downloads a Whisper speech model or adopts an existing local GGML model file.
 

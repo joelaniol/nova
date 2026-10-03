@@ -1,4 +1,4 @@
-﻿# `nova.hardware_diagnostics_stop`
+# `nova.hardware_diagnostics_stop`
 
 Stops in-page hardware diagnostics and releases active camera, microphone, or speaker handles.
 

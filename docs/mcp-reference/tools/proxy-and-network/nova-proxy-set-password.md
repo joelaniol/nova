@@ -1,4 +1,4 @@
-﻿# `nova.proxy_set_password`
+# `nova.proxy_set_password`
 
 Stores or clears encrypted proxy authentication credentials using Windows DPAPI.
 

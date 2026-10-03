@@ -1,4 +1,4 @@
-﻿# `nova.scroll_by`
+# `nova.scroll_by`
 
 > **Scrolls the page or active container by relative pixel offsets (deltaX, deltaY).**
 

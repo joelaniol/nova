@@ -1,4 +1,4 @@
-﻿# `nova.external_tools`
+# `nova.external_tools`
 
 Lists all tools available on an external MCP server, with optional full inputSchema.
 

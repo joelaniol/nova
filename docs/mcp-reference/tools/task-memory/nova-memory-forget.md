@@ -1,4 +1,4 @@
-﻿# `nova.memory_forget`
+# `nova.memory_forget`
 
 Deletes browsing memories matching domain, memoryType, or text query filters.
 

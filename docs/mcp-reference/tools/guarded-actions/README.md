@@ -1,4 +1,4 @@
-﻿# Guarded Actions & Blocker Clearance
+# Guarded Actions & Blocker Clearance
 
 High-impact interaction macros with pre-flight safety gates, auth surface verification, and cookie banner dismissals.
 

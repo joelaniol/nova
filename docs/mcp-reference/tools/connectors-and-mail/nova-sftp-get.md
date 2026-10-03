@@ -1,4 +1,4 @@
-﻿# `nova.sftp_get`
+# `nova.sftp_get`
 
 Downloads a remote file or directory tree over SFTP into Downloads or the workspace.
 

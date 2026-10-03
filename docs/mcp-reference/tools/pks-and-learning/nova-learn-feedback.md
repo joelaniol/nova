@@ -1,4 +1,4 @@
-﻿# `nova.learn_feedback`
+# `nova.learn_feedback`
 
 > **Submits reinforcement feedback (positive or negative) on a learned phenomenon pattern.**
 

@@ -1,4 +1,4 @@
-﻿# Live Assist & Spectator Mode
+# Live Assist & Spectator Mode
 
 > [!NOTE]
 > Watch your AI agents browse, fill forms, and solve complex multi-step tasks in real time. Nova AI Workspace features visual indicators, action overlays, and an instantaneous manual takeover mechanism.

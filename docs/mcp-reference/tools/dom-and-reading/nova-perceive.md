@@ -1,4 +1,4 @@
-﻿# `nova.perceive`
+# `nova.perceive`
 
 Fusion multi-modal perception engine: captures visual screenshot evidence and extracts structured semantic DOM data in a single coordinated atomic operation.
 

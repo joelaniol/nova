@@ -1,4 +1,4 @@
-﻿# `nova.secret_set`
+# `nova.secret_set`
 
 Stores an encrypted secret (such as API keys, tokens, or private credentials) into Nova's user-managed secure store with Windows DPAPI encryption.
 

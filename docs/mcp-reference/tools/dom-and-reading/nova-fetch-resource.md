@@ -1,4 +1,4 @@
-﻿# `nova.fetch_resource`
+# `nova.fetch_resource`
 
 > **Fetches content from a URL inside the browser tab context, inheriting session cookies and origin credentials.**
 

@@ -1,4 +1,4 @@
-﻿# `nova.click_selector`
+# `nova.click_selector`
 
 Executes a verified click on a DOM element matching a CSS selector or CTA handle, featuring deep Shadow-DOM piercing, backdrop dismissal, and postcondition verification.
 

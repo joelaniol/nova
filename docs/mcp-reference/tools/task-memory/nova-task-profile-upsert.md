@@ -1,4 +1,4 @@
-﻿# `nova.task_profile_upsert`
+# `nova.task_profile_upsert`
 
 Creates or updates a task profile with semantic content revision tracking.
 

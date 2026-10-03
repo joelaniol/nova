@@ -1,4 +1,4 @@
-﻿# Settings & Agent Connection Wizard
+# Settings & Agent Connection Wizard
 
 > [!NOTE]
 > Setting up AI agents to control Nova takes less than 60 seconds. Use the built-in Connection Wizard to integrate Anthropic Claude Code, OpenAI Codex, or Google Antigravity with a single click.

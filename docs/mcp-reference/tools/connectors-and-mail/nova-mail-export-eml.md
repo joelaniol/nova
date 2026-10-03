@@ -1,4 +1,4 @@
-﻿# `nova.mail_export_eml`
+# `nova.mail_export_eml`
 
 Exports raw RFC 822 EML files preserving complete MIME headers and original parts.
 

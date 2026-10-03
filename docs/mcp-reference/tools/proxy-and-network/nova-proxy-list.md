@@ -1,4 +1,4 @@
-﻿# `nova.proxy_list`
+# `nova.proxy_list`
 
 Lists all configured proxy profiles with connection settings, protocols, and sandbox bindings.
 

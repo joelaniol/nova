@@ -1,4 +1,4 @@
-﻿# Sandbox & Session Recovery
+# Sandbox & Session Recovery
 
 This guide covers recovery procedures when tabs hang, subagents crash mid-execution, background processes leak resources, or browser sandboxes require restoration.
 

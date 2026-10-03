@@ -1,4 +1,4 @@
-﻿# `nova.select_option`
+# `nova.select_option`
 
 > **Selects an option in a standard HTML <select> dropdown by its value attribute.**
 

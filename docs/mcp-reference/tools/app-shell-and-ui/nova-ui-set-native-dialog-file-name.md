@@ -1,4 +1,4 @@
-﻿# `nova.ui_set_native_dialog_file_name`
+# `nova.ui_set_native_dialog_file_name`
 
 > **Fills the file path or name field of an active Win32 native file picker dialog.**
 

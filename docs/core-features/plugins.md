@@ -1,4 +1,4 @@
-﻿# Agent-Authored Plugins (AAP) & Dynamic Jint VM Runtime
+# Agent-Authored Plugins (AAP) & Dynamic Jint VM Runtime
 
 > [!NOTE]
 > Agent-Authored Plugins (AAP) allow AI agents to author, test, and run tailored browser extensions in JavaScript at runtime — without needing C# recompilation or browser restarts.

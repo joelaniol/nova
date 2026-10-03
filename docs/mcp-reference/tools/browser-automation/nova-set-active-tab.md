@@ -1,4 +1,4 @@
-﻿# `nova.set_active_tab`
+# `nova.set_active_tab`
 
 Switches the active visual presentation and input focus in the Nova application shell to the specified sandbox surface or browser tab.
 

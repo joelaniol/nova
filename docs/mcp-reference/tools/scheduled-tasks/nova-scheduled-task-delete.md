@@ -1,4 +1,4 @@
-﻿# `nova.scheduled_task_delete`
+# `nova.scheduled_task_delete`
 
 Permanently deletes a scheduled task, its configuration, and associated run history.
 

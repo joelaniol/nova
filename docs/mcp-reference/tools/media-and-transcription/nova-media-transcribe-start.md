@@ -1,4 +1,4 @@
-﻿# `nova.media_transcribe_start`
+# `nova.media_transcribe_start`
 
 Transcribes local audio or video files into text entirely on-device using local Whisper.cpp.
 

@@ -1,4 +1,4 @@
-﻿# `nova.memory_recall`
+# `nova.memory_recall`
 
 Recalls browsing memories and stored preferences for a domain or across all sites.
 

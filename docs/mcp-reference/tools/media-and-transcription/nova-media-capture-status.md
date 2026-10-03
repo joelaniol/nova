@@ -1,4 +1,4 @@
-﻿# `nova.media_capture_status`
+# `nova.media_capture_status`
 
 Reports progress, elapsed time, and bytes written for an active in-tab media capture.
 

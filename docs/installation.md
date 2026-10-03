@@ -1,4 +1,4 @@
-﻿# Installing Nova AI Workspace
+# Installing Nova AI Workspace
 
 > [!NOTE]
 > The installation guide has moved to the new Getting Started section:

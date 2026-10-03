@@ -1,4 +1,4 @@
-﻿# `nova.session_record_extend`
+# `nova.session_record_extend`
 
 Extends an active recording’s time-to-live (TTL) to prevent premature expiration during long workflows.
 

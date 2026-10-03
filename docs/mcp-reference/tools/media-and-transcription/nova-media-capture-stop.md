@@ -1,4 +1,4 @@
-﻿# `nova.media_capture_stop`
+# `nova.media_capture_stop`
 
 Stops in-tab media capture, flushes pending segments, closes files, and returns completed paths.
 

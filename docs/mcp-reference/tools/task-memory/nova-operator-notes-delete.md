@@ -1,4 +1,4 @@
-﻿# `nova.operator_notes_delete`
+# `nova.operator_notes_delete`
 
 Deletes an operator note by unique ID.
 

@@ -1,4 +1,4 @@
-﻿# `nova.media_transcribe_status`
+# `nova.media_transcribe_status`
 
 Reports progress, elapsed percentage, and recognized text segments of an active transcription.
 

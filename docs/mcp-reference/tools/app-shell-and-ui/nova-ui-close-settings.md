@@ -1,4 +1,4 @@
-﻿# `nova.ui_close_settings`
+# `nova.ui_close_settings`
 
 > **Closes the settings drawer overlay in the Nova host user interface.**
 

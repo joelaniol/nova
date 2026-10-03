@@ -1,4 +1,4 @@
-﻿# `nova.webview_get_zoom`
+# `nova.webview_get_zoom`
 
 > **Retrieves the current zoom factor of the target tab's WebView2 control.**
 

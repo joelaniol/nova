@@ -1,4 +1,4 @@
-﻿# `nova.cookie_list`
+# `nova.cookie_list`
 
 Lists cookies for the target tab's profile with metadata (domain, path, flags, expiry).
 

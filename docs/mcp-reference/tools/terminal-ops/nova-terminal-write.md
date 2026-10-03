@@ -1,4 +1,4 @@
-﻿# `nova.terminal_write`
+# `nova.terminal_write`
 
 Writes raw characters to the session stdin without appending an implicit newline.
 

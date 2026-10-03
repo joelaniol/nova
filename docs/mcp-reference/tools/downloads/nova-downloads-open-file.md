@@ -1,4 +1,4 @@
-﻿# `nova.downloads_open_file`
+# `nova.downloads_open_file`
 
 Opens a completed download using the operating system default application.
 

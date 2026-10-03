@@ -1,4 +1,4 @@
-﻿# `nova.guarded_login`
+# `nova.guarded_login`
 
 High-level guarded macro for login form submissions, featuring integrated Auth Surface Detection (ASD) that distinguishes between authentication rejections and multi-factor (2FA/MFA) follow-up states.
 

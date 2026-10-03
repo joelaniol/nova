@@ -1,4 +1,4 @@
-﻿# `nova.scheduled_task_list`
+# `nova.scheduled_task_list`
 
 Lists all scheduled tasks with execution status, next run times, last results, and cumulative costs.
 

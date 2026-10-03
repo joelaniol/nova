@@ -1,4 +1,4 @@
-﻿# `nova.sandbox_delete`
+# `nova.sandbox_delete`
 
 Permanently removes a sandbox profile and deletes its storage, cookies, and cache.
 

@@ -1,4 +1,4 @@
-﻿# Episodic Task Memory & Guidance
+# Episodic Task Memory & Guidance
 
 Task instance tracking, guidance logs, coverage scans, surface exploration, and operator domain notes.
 

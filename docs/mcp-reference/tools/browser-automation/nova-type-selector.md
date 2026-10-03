@@ -1,4 +1,4 @@
-﻿# `nova.type_selector`
+# `nova.type_selector`
 
 Focuses an input field or contenteditable element, clears existing text, and enters characters with realistic keystroke intervals and input events.
 

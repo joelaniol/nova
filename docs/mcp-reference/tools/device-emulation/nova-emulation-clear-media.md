@@ -1,4 +1,4 @@
-﻿# `nova.emulation_clear_media`
+# `nova.emulation_clear_media`
 
 Clears all emulated CSS media features, reverting to host system theme and display settings.
 

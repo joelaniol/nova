@@ -1,4 +1,4 @@
-﻿# `nova.ui_permission_prompt_resolve`
+# `nova.ui_permission_prompt_resolve`
 
 > **Resolves an active web permission prompt modal (camera, microphone, geolocation, notifications).**
 

@@ -1,4 +1,4 @@
-﻿# `nova.scheduled_task_trigger`
+# `nova.scheduled_task_trigger`
 
 Manually triggers an immediate run of a scheduled task with optional dynamic inputs.
 

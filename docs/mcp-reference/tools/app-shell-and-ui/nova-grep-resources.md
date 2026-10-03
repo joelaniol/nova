@@ -1,4 +1,4 @@
-﻿# `nova.grep_resources`
+# `nova.grep_resources`
 
 > **Searches loaded page resources (scripts, stylesheets, HTML) for matching literal text or regex patterns.**
 

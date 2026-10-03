@@ -1,4 +1,4 @@
-﻿# `nova.downloads_cancel_all`
+# `nova.downloads_cancel_all`
 
 Cancels every non-terminal download currently queued, in progress, or paused.
 

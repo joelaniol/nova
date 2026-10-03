@@ -1,4 +1,4 @@
-﻿# `nova.setup_status`
+# `nova.setup_status`
 
 > **Reports the connection and configuration health of AI agent runtimes on the host machine.**
 

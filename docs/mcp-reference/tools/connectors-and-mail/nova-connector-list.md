@@ -1,4 +1,4 @@
-﻿# `nova.connector_list`
+# `nova.connector_list`
 
 Lists configured E-Mail accounts and remote file transfer server connections.
 

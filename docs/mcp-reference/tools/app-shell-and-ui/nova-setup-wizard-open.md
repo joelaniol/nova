@@ -1,4 +1,4 @@
-﻿# `nova.setup_wizard_open`
+# `nova.setup_wizard_open`
 
 > **Opens Nova's guided connection setup wizard dialog in the graphical user interface.**
 

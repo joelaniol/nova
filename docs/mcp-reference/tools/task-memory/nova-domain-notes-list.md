@@ -1,4 +1,4 @@
-﻿# `nova.domain_notes_list`
+# `nova.domain_notes_list`
 
 Lists all stored procedural notes and operator instructions for a specific domain.
 

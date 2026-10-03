@@ -1,4 +1,4 @@
-﻿# `nova.choose_option`
+# `nova.choose_option`
 
 > **Selects an option from a custom UI or standard dropdown by visible text or index.**
 

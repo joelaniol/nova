@@ -1,4 +1,4 @@
-﻿# `nova.media_permission_set`
+# `nova.media_permission_set`
 
 Sets or clears persistent or session-based camera, mic, speaker, and geolocation permissions.
 

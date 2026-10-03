@@ -1,4 +1,4 @@
-﻿# Nova AI Workspace — User Guide
+# Nova AI Workspace — User Guide
 
 > [!NOTE]
 > Welcome to the Nova AI Workspace User Guide. While Nova is designed for deep programmatic control by AI agents via the Model Context Protocol (MCP), it is equally a high-performance, modern Windows browser for human operators, developers, and power users.

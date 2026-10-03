@@ -1,4 +1,4 @@
-﻿# `nova.proxy_disconnect`
+# `nova.proxy_disconnect`
 
 Manually disconnects the proxy for a target scope, blocking all HTTP(S) traffic as an emergency kill switch.
 

@@ -1,4 +1,4 @@
-﻿# `nova.extract_table`
+# `nova.extract_table`
 
 Extracts HTML `<table>` elements into structured JSON objects containing column headers (`headers[]`) and data rows (`rows[][]`), eliminating manual DOM looping and complex JavaScript evaluation.
 

@@ -1,4 +1,4 @@
-﻿# `nova.window_set_size`
+# `nova.window_set_size`
 
 > **Resizes the Nova application window to specified pixel width and height.**
 

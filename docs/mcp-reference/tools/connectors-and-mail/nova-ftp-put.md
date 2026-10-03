@@ -1,4 +1,4 @@
-﻿# `nova.ftp_put`
+# `nova.ftp_put`
 
 Uploads a local regular file over FTP/FTPS to a remote server.
 

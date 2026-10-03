@@ -1,4 +1,4 @@
-﻿# `nova.dismiss_blockers`
+# `nova.dismiss_blockers`
 
 Identifies and removes click-blocking overlays, cookie consent banners, notification prompts, and modal backdrops.
 

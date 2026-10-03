@@ -1,4 +1,4 @@
-﻿# `nova.read_text`
+# `nova.read_text`
 
 > **Extracts clean visible plain text from the document or a specified selector container.**
 

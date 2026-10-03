@@ -1,4 +1,4 @@
-﻿# `nova.emulation_set_locale`
+# `nova.emulation_set_locale`
 
 Emulates browser locale, timezone, and geolocation coordinates for testing localized content.
 

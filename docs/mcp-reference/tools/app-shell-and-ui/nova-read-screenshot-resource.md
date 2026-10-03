@@ -1,4 +1,4 @@
-﻿# `nova.read_screenshot_resource`
+# `nova.read_screenshot_resource`
 
 > **Reads an in-memory screenshot artifact URI (nova://screenshot/...) and returns base64 image data.**
 

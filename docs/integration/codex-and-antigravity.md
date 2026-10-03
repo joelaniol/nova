@@ -1,4 +1,4 @@
-﻿# OpenAI Codex & Google Antigravity Guides
+# OpenAI Codex & Google Antigravity Guides
 
 > [!NOTE]
 > This guide has been split into dedicated documentation pages to address client-specific requirements and adapter flags:

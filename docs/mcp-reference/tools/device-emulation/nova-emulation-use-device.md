@@ -1,4 +1,4 @@
-﻿# `nova.emulation_use_device`
+# `nova.emulation_use_device`
 
 Applies a named device preset (viewport, DPR, touch capabilities, and user agent) in a single atomic call.
 

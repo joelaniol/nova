@@ -1,4 +1,4 @@
-﻿# Multi-Sandbox Session Isolation & Profile Security
+# Multi-Sandbox Session Isolation & Profile Security
 
 > [!NOTE]
 > The multi-sandbox architecture of Nova AI Workspace allows concurrent, interference-free execution of multiple isolated user profiles, authentication sessions, and network routing configurations within a single WinUI 3 desktop application.

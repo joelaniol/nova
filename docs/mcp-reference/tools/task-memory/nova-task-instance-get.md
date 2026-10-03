@@ -1,4 +1,4 @@
-﻿# `nova.task_instance_get`
+# `nova.task_instance_get`
 
 Loads a task instance snapshot for session-crossing resume and progress inspection.
 

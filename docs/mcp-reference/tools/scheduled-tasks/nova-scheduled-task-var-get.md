@@ -1,4 +1,4 @@
-﻿# `nova.scheduled_task_var_get`
+# `nova.scheduled_task_var_get`
 
 Retrieves the current value of a persistent state variable for a task.
 

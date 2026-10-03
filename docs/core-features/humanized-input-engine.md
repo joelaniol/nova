@@ -1,4 +1,4 @@
-﻿# Humanized Input & Shadow DOM Traversal Engine
+# Humanized Input & Shadow DOM Traversal Engine
 
 > [!NOTE]
 > The **Humanized Input & Shadow DOM Traversal Engine** (`NovaBrowser.Core.ShadowDomSelectorEngine`, `DragDropPolyfillScript`) combines deep, seamless Shadow DOM traversal with natural, bot-resilient physical mouse execution (Bézier physics curves, micro-jitter) and native Win32 keyboard emulation.

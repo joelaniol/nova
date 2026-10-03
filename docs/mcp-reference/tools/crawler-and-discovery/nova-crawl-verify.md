@@ -1,4 +1,4 @@
-﻿# `nova.crawl_verify`
+# `nova.crawl_verify`
 
 Performs targeted, non-traversal verification and DOM extraction against a specific list of URLs.
 

@@ -1,4 +1,4 @@
-﻿# `nova.session_record_events`
+# `nova.session_record_events`
 
 Decrypts and streams generic event logs (console, errors, lifecycle, IndexedDB) from a recording.
 

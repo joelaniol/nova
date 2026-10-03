@@ -1,4 +1,4 @@
-﻿# `nova.site_permissions_reset_origin`
+# `nova.site_permissions_reset_origin`
 
 One-click reset of all stored permissions (media, notifications, geolocation) for an origin.
 

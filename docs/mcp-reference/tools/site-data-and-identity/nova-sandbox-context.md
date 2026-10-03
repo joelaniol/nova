@@ -1,4 +1,4 @@
-﻿# `nova.sandbox_context`
+# `nova.sandbox_context`
 
 Returns detailed identity, cookie jar bounds, and context metadata for a specific sandbox.
 

@@ -1,4 +1,4 @@
-﻿# `nova.scheduled_task_export`
+# `nova.scheduled_task_export`
 
 Exports all scheduled task definitions as a portable JSON array (excluding secrets and history).
 

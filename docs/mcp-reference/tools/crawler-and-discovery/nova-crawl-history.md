@@ -1,4 +1,4 @@
-﻿# `nova.crawl_history`
+# `nova.crawl_history`
 
 Lists past crawl jobs and high-level summaries from the persistent crawler database.
 

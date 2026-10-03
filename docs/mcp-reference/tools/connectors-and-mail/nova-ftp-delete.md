@@ -1,4 +1,4 @@
-﻿# `nova.ftp_delete`
+# `nova.ftp_delete`
 
 Deletes a remote regular file or empty directory on an FTP/FTPS server.
 

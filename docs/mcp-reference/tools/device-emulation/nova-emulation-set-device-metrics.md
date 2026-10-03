@@ -1,4 +1,4 @@
-﻿# `nova.emulation_set_device_metrics`
+# `nova.emulation_set_device_metrics`
 
 Overrides the viewport dimensions, device scale factor (DPR), and mobile layout behavior for a tab.
 

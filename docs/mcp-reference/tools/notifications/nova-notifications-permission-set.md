@@ -1,4 +1,4 @@
-﻿# `nova.notifications_permission_set`
+# `nova.notifications_permission_set`
 
 Configures notification permission (Ask, Allow, or Deny) for a specific website origin.
 

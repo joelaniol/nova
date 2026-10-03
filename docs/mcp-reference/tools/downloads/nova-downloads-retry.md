@@ -1,4 +1,4 @@
-﻿# `nova.downloads_retry`
+# `nova.downloads_retry`
 
 Retries a failed download by re-navigating to its original URL.
 

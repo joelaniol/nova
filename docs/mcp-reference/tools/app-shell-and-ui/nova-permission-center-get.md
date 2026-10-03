@@ -1,4 +1,4 @@
-﻿# `nova.permission_center_get`
+# `nova.permission_center_get`
 
 > **Retrieves global Permission Center default policies and detected hardware media devices.**
 

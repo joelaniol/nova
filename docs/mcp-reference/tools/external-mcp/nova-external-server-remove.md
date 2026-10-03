@@ -1,4 +1,4 @@
-﻿# `nova.external_server_remove`
+# `nova.external_server_remove`
 
 Deletes an external MCP server registration, stopping it if running.
 

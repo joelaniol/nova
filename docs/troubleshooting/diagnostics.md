@@ -1,4 +1,4 @@
-﻿# Diagnostics & Log Analysis
+# Diagnostics & Log Analysis
 
 This guide provides developers and system operators with the tools and filesystem locations necessary to diagnose, inspect, and resolve issues in **Nova AI Workspace**.
 

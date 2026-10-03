@@ -1,4 +1,4 @@
-﻿# `nova.resolve_sandbox`
+# `nova.resolve_sandbox`
 
 Resolves the best matching sandbox container for a given workflow intent.
 

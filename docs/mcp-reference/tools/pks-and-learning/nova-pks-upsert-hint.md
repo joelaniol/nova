@@ -1,4 +1,4 @@
-﻿# `nova.pks_upsert_hint`
+# `nova.pks_upsert_hint`
 
 > **Attaches or updates a human operator guidance hint on a phenomenon pattern.**
 

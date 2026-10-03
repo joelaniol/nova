@@ -1,4 +1,4 @@
-﻿# `nova.bookmarks_folder_delete`
+# `nova.bookmarks_folder_delete`
 
 > **Deletes a bookmark folder and optionally its contained bookmarks and subfolders.**
 

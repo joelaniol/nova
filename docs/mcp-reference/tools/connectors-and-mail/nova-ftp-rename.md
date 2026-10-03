@@ -1,4 +1,4 @@
-﻿# `nova.ftp_rename`
+# `nova.ftp_rename`
 
 Renames or moves a remote file or directory on an FTP/FTPS server.
 

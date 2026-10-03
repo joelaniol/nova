@@ -1,4 +1,4 @@
-﻿# Installation & System Requirements
+# Installation & System Requirements
 
 This guide outlines system requirements and step-by-step instructions for installing **Nova AI Workspace** on Windows.
 

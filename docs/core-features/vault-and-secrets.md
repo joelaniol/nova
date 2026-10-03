@@ -1,4 +1,4 @@
-﻿# Secure Vault & Zero-Leak Secret Injection
+# Secure Vault & Zero-Leak Secret Injection
 
 > [!NOTE]
 > The Nova Vault and Secret Management System (`NovaBrowser.Core.Security.VaultStore`) protects sensitive operator credentials, API keys, and passwords from LLM exposure. Using the **Zero-Leak Injection Pattern**, agents can authenticate web forms without plaintext passwords ever entering prompt context or tool outputs.

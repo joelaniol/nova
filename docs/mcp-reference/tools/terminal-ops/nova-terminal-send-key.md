@@ -1,4 +1,4 @@
-﻿# `nova.terminal_send_key`
+# `nova.terminal_send_key`
 
 Sends a named control key or key combination to the active terminal session.
 

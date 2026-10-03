@@ -1,4 +1,4 @@
-﻿# `nova.pks_patch`
+# `nova.pks_patch`
 
 > **Applies partial updates or selector refinements to an existing PKS phenomenon playbook.**
 

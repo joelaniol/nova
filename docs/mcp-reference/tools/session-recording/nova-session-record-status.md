@@ -1,4 +1,4 @@
-﻿# `nova.session_record_status`
+# `nova.session_record_status`
 
 Returns the live state, expiry timestamp, active permission classes, and byte counts of a recording.
 

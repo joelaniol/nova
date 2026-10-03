@@ -1,4 +1,4 @@
-﻿# `nova.notifications_open`
+# `nova.notifications_open`
 
 Navigates to the originating tab, website, or resource referenced by a notification.
 

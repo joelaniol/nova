@@ -1,4 +1,4 @@
-﻿# `nova.site_mcp_inspect`
+# `nova.site_mcp_inspect`
 
 Inspects a discovered MCP server from cached discovery metadata (identity, transport, auth status).
 

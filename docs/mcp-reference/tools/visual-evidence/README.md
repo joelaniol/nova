@@ -1,4 +1,4 @@
-﻿# Visual Evidence, Screenshots & Archiving
+# Visual Evidence, Screenshots & Archiving
 
 Lossless cropped screenshots, pixel-by-pixel diffing, persistent baselines, and print-to-PDF generation.
 

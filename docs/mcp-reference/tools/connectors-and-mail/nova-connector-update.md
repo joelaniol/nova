@@ -1,4 +1,4 @@
-﻿# `nova.connector_update`
+# `nova.connector_update`
 
 Updates configuration, endpoints, credentials, or signatures of an existing connection.
 

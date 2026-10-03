@@ -1,4 +1,4 @@
-﻿# `nova.site_mcp_connect_request`
+# `nova.site_mcp_connect_request`
 
 Requests an authenticated OAuth 2.1 connection to a website's discovered MCP server.
 

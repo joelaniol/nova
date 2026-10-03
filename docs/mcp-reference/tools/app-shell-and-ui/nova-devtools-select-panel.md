@@ -1,4 +1,4 @@
-﻿# `nova.devtools_select_panel`
+# `nova.devtools_select_panel`
 
 > **Focuses a specific panel within an open DevTools window (Console, Elements, Network, Sources).**
 

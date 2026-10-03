@@ -1,4 +1,4 @@
-﻿# `nova.ui_get_state`
+# `nova.ui_get_state`
 
 > **Inspects host application UI state: active tab, overlay visibility, responsiveness, and open dialogs.**
 

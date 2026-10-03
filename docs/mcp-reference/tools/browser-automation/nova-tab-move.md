@@ -1,4 +1,4 @@
-﻿# `nova.tab_move`
+# `nova.tab_move`
 
 > **Reorders a tab position within the browser tab strip by index.**
 

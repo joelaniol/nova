@@ -1,4 +1,4 @@
-﻿# `nova.downloads_pause_all`
+# `nova.downloads_pause_all`
 
 Pauses all in-progress WebView2-native downloads that support pausing.
 

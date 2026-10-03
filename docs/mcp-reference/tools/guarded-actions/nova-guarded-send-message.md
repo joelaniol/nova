@@ -1,4 +1,4 @@
-﻿# `nova.guarded_send_message`
+# `nova.guarded_send_message`
 
 High-level guarded macro for chat interfaces (ChatGPT, Claude.ai, Gemini, Slack, Teams): auto-discovers the composer, types text with read-back verification, resolves the send button, clicks it, and verifies delivery in a single atomic operation.
 

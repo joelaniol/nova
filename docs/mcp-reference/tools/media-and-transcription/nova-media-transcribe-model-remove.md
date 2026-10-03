@@ -1,4 +1,4 @@
-﻿# `nova.media_transcribe_model_remove`
+# `nova.media_transcribe_model_remove`
 
 Deletes an installed speech model file to reclaim disk space or prepare for re-download.
 

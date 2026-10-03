@@ -1,4 +1,4 @@
-﻿# `nova.detect_overflow`
+# `nova.detect_overflow`
 
 Scans the page or a scoped subtree for layout defects, clipped text, overflowing containers, and elements bleeding past the viewport edge.
 

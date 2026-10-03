@@ -1,4 +1,4 @@
-﻿# `nova.media_permissions_list`
+# `nova.media_permissions_list`
 
 Lists all stored per-origin permission overrides along with global default policies.
 

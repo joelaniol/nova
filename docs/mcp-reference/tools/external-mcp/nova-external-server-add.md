@@ -1,4 +1,4 @@
-﻿# `nova.external_server_add`
+# `nova.external_server_add`
 
 Registers a new external MCP server with stdio, HTTP, or SSE transport.
 

@@ -1,4 +1,4 @@
-﻿![Nova AI Workspace — the local browser workspace for AI agents](assets/nova-banner.jpg)
+![Nova AI Workspace — the local browser workspace for AI agents](assets/nova-banner.jpg)
 
 # Nova AI Workspace
 

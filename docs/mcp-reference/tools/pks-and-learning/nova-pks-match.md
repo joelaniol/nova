@@ -1,4 +1,4 @@
-﻿# `nova.pks_match`
+# `nova.pks_match`
 
 Matches live page observations against registered Phenomenological Knowledge Store (PKS) fingerprints and global platform templates to identify active UI phenomena.
 

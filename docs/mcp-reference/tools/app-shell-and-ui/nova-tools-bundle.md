@@ -1,4 +1,4 @@
-﻿# `nova.tools_bundle`
+# `nova.tools_bundle`
 
 > **Discovers, searches, and activates curated MCP tool capability bundles or queries tools by natural language.**
 

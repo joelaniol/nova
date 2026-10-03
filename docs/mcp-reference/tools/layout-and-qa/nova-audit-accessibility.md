@@ -1,4 +1,4 @@
-﻿# `nova.audit_accessibility`
+# `nova.audit_accessibility`
 
 Runs an automated Accessibility (a11y) and UX compliance audit over the DOM, checking for WCAG color contrast failures, undersized tap targets, and missing accessible labels.
 

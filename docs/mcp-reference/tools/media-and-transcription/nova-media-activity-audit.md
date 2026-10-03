@@ -1,4 +1,4 @@
-﻿# `nova.media_activity_audit`
+# `nova.media_activity_audit`
 
 Retrieves an audit trail of stored media permissions joined with recent decision records per origin.
 

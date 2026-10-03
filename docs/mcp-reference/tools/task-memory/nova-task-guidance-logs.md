@@ -1,4 +1,4 @@
-﻿# `nova.task_guidance_logs`
+# `nova.task_guidance_logs`
 
 Lists guidance log entries filtered by profile, domain, or guidance kind.
 

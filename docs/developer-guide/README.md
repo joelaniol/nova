@@ -1,4 +1,4 @@
-﻿# Nova AI Workspace — Developer Guide
+# Nova AI Workspace — Developer Guide
 
 > [!NOTE]
 > Welcome to the Nova AI Workspace Developer and Contributor Guide. This documentation covers the architecture, build pipeline, testing suites, safety boundaries, and development workflows for engineers contributing to Nova.
@@ -58,4 +58,4 @@ flowchart TD
 1. **Quality & Precision Over Speed:** Code changes must be deliberate, thoroughly tested, and accompanied by automated regression tests.
 2. **Strict Test Profile Isolation:** Never run integration tests against the live user profile in `%LOCALAPPDATA%\NovaBrowser`. Always set `NOVA_TEST_LOCALAPPDATA_DIR`.
 3. **No AI Attribution Trailers:** Commit messages and pull request descriptions must never include AI attribution lines (such as `Co-Authored-By: Claude`).
-4. **UTF-8 BOM Encoding:** All files must maintain UTF-8 encoding with BOM (`\ufeff`) to ensure seamless execution across PowerShell 5.1 and modern tooling.
+4. **UTF-8 Without BOM, LF Line Endings:** Text files are UTF-8 without a byte order mark and use LF line endings (`.bat`/`.cmd` stay CRLF). A pre-commit hook rejects files that start with a BOM.

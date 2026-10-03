@@ -1,4 +1,4 @@
-﻿# `nova.history_get`
+# `nova.history_get`
 
 > **Retrieves session navigation history entries, active index, and title metadata for a tab.**
 

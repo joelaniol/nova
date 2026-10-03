@@ -1,4 +1,4 @@
-﻿# Nova AI Workspace — Core Features & Architectural Hub
+# Nova AI Workspace — Core Features & Architectural Hub
 
 > [!NOTE]
 > This hub provides a structured architectural overview of all 25 core technologies powering **Nova AI Workspace** (`NovaAIWorkspace.exe`). It connects high-level system architecture with in-depth subsystem specifications and production implementations.

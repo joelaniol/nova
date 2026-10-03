@@ -1,4 +1,4 @@
-﻿# `nova.external_server_stop`
+# `nova.external_server_stop`
 
 Stops a running external MCP server gracefully with force-kill fallback.
 

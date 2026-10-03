@@ -1,4 +1,4 @@
-﻿# `nova.secret_list`
+# `nova.secret_list`
 
 Lists registered secret names, scopes, and association identifiers from Nova's user-managed keystore without disclosing secret values.
 

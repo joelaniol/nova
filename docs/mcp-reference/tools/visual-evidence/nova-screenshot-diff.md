@@ -1,4 +1,4 @@
-﻿# `nova.screenshot_diff`
+# `nova.screenshot_diff`
 
 Performs pixel-by-pixel visual comparison between two screenshot images or resource URIs, returning changed pixel percentages, cluster bounding boxes, and visual diff overlays.
 

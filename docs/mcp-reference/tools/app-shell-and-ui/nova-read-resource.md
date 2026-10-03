@@ -1,4 +1,4 @@
-﻿# `nova.read_resource`
+# `nova.read_resource`
 
 > **Fetches the raw text content of a loaded web resource by its URL.**
 

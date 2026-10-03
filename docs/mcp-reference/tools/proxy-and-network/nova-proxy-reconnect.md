@@ -1,4 +1,4 @@
-﻿# `nova.proxy_reconnect`
+# `nova.proxy_reconnect`
 
 Reconnects a disconnected proxy and verifies connectivity before unblocking network traffic.
 

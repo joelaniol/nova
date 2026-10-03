@@ -1,4 +1,4 @@
-﻿# `nova.scheduled_task_create`
+# `nova.scheduled_task_create`
 
 Creates a new scheduled task running on cron expressions, intervals, or filesystem change events.
 

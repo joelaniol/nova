@@ -1,4 +1,4 @@
-﻿# `nova.crawl_stop`
+# `nova.crawl_stop`
 
 Requests cancellation of an active crawl job, safely draining in-flight workers.
 

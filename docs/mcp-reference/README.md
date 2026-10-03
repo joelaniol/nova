@@ -1,4 +1,4 @@
-﻿# Nova MCP Reference & Tool Index
+# Nova MCP Reference & Tool Index
 
 Nova AI Workspace exposes over 800 native tools over the **Model Context Protocol (MCP)**, making it the most comprehensive browser automation and cognitive workspace platform in existence.
 

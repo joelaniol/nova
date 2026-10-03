@@ -1,4 +1,4 @@
-﻿# `nova.read_text_structured`
+# `nova.read_text_structured`
 
 Extracts visible page text organized by semantic HTML landmark regions (`header`, `nav`, `main`, `aside`, `footer`, and `modals`), eliminating monolithic text dumps and saving LLM context tokens.
 

@@ -1,4 +1,4 @@
-﻿# `nova.mail_move`
+# `nova.mail_move`
 
 Moves up to 200 messages from one mail account to an exact IMAP destination folder.
 

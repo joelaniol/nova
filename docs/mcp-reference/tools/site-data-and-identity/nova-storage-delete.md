@@ -1,4 +1,4 @@
-﻿# `nova.storage_delete`
+# `nova.storage_delete`
 
 Deletes a key from localStorage or sessionStorage for the target page.
 

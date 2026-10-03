@@ -1,4 +1,4 @@
-﻿# `nova.notifications_permissions_list`
+# `nova.notifications_permissions_list`
 
 Lists website origin notification permissions and reports the effective global default.
 

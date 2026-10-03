@@ -1,4 +1,4 @@
-﻿# Building Custom Agents (Python & Node.js)
+# Building Custom Agents (Python & Node.js)
 
 This guide shows developers how to connect custom AI agents, automated test harnesses, and backend services directly to **Nova AI Workspace** using Python, TypeScript/Node.js, or raw JSON-RPC 2.0.
 

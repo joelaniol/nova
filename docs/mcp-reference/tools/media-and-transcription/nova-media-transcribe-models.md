@@ -1,4 +1,4 @@
-﻿# `nova.media_transcribe_models`
+# `nova.media_transcribe_models`
 
 Lists known Whisper speech models, installation statuses, and machine CPU/AVX2 capabilities.
 

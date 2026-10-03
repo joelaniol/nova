@@ -1,4 +1,4 @@
-﻿# `nova.favorites_move`
+# `nova.favorites_move`
 
 > **Moves a bookmark favorite into a different folder or to the root collection.**
 

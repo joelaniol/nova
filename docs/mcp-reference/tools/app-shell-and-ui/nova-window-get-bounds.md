@@ -1,4 +1,4 @@
-﻿# `nova.window_get_bounds`
+# `nova.window_get_bounds`
 
 > **Returns host application window boundaries (position, size) and monitor inventory metadata.**
 

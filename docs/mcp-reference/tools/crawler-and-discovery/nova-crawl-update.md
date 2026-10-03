@@ -1,4 +1,4 @@
-﻿# `nova.crawl_update`
+# `nova.crawl_update`
 
 Dynamically modifies parameters (rate limits, filters, depth, pauses) of an active crawl mid-flight.
 

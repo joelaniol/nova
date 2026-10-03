@@ -1,4 +1,4 @@
-﻿# `nova.terminal_settings_set`
+# `nova.terminal_settings_set`
 
 Updates terminal appearance settings such as color theme, font size, and program color rules.
 

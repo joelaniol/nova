@@ -1,4 +1,4 @@
-﻿# `nova.proxy_test`
+# `nova.proxy_test`
 
 Executes an active network diagnostic probe through a proxy profile to verify connectivity and external IP.
 

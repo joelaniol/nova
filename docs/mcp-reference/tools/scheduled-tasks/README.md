@@ -1,4 +1,4 @@
-﻿# Scheduled Tasks, Cron & Workspaces
+# Scheduled Tasks, Cron & Workspaces
 
 Background task automation, cron expressions, file-system watches, task workspaces, and execution logs.
 

@@ -1,4 +1,4 @@
-﻿# `nova.scheduled_task_import`
+# `nova.scheduled_task_import`
 
 Imports scheduled task definitions from a JSON array, creating fresh task IDs and isolated workspaces.
 

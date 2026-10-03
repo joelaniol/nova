@@ -1,4 +1,4 @@
-﻿# `nova.identity_set`
+# `nova.identity_set`
 
 Configures and persists a new browser identity profile (preset + version/custom UA).
 

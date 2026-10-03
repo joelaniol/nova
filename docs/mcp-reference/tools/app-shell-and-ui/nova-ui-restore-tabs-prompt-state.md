@@ -1,4 +1,4 @@
-﻿# `nova.ui_restore_tabs_prompt_state`
+# `nova.ui_restore_tabs_prompt_state`
 
 > **Inspects whether a startup tab restoration prompt is active and previews saved session tabs.**
 

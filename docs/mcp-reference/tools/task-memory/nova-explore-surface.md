@@ -1,4 +1,4 @@
-﻿# `nova.explore_surface`
+# `nova.explore_surface`
 
 Discovers interactive UI triggers (buttons, tabs, accordions) and activates them to reveal hidden DOM.
 

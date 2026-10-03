@@ -1,4 +1,4 @@
-﻿# `nova.ok_observe`
+# `nova.ok_observe`
 
 > **Pushes a structured Operational Knowledge (OK) signal about page state, blocking patterns, or layout shifts.**
 
