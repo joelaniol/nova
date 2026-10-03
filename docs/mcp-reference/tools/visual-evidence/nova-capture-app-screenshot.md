@@ -2,7 +2,6 @@
 
 > **Captures a screenshot of the entire Nova host application window including tabs and window chrome.**
 
-* **Capability Bundle:** `visual_evidence`
 * **Security Tier:** Tier 1 (Read-Only Capture)
 * **Core Feature Guide:** [Visual Evidence & Auditing](../../../core-features/evm-and-visual-evidence.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -29,6 +28,8 @@
 | `format` | `string` | No | — | `png`, `jpeg` | Image format override. Default jpeg (Tool-Intent-Profile). |
 | `quality` | `integer` | No | — | 1–100 | JPEG quality 1-100. Ignored for png. Default 72 (Tool-Intent-Profile). |
 | `responseMode` | `string` | No | — | `inline`, `reference`, `thumbnail+reference`, `auto` | Wire-mode for the screenshot. Default 'thumbnail+reference' (Tool-Intent-Profile): full image stored as resource (read via nova.read_screenshot_resource(uri=...) or MCP resources/read) plus a small inline thumbnail. 'auto' resolves to inline or thumbnail+reference based on projected vision-tokens and session-budget headroom. |
+
+Capability bundles: `app_shell_recovery`, `page_read_debug`, `visual_evidence`.
 <!-- /generated:parameters -->
 
 ---

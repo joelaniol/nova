@@ -8,7 +8,6 @@ Extracts visible page text organized by semantic HTML landmark regions (`header`
 
 `nova.read_text_structured` is designed for agents that need to inspect page contents, verify textual messages, or conduct quality-assurance audits without downloading raw HTML or unformatted string blobs. Instead of flat dumps, Nova groups text by semantic landmarks, allowing agents to focus directly on `main` content or inspect `modals` specifically.
 
-* **Capability Bundle:** `dom_reading`, `quality_inspection`
 * **Landmark-Scoped Extraction:** Automatically categorizes text into `header`, `nav`, `main`, `aside`, `footer`, and open `modals`.
 * **Subtree Scoping (`selector`):** Target a specific container or shadow root (` >>> `) rather than reading the entire page.
 * **Token Efficiency:** Drops scripts, stylesheets, hidden DOM nodes, and decorative whitespace.
@@ -45,6 +44,8 @@ Enforces predictable payload bounds (default `10,000` characters per region). Lo
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
 | `selector` | `string` | No | — | ≤ 10000 characters | Optional CSS selector scoping the scan to the first matched element's subtree. Supports the ' >>> ' shadow DOM combinator. Landmarks and modals inside that subtree are reported; a subtree without landmarks comes back as a single 'scope' region. Errors if it matches nothing instead of falling back to the whole page. Omit to scan the entire document. |
 | `maxCharsPerRegion` | `integer` | No | `10000` | 100–200000 | Maximum characters per region. Regions exceeding this limit are truncated. |
+
+Capability bundles: `browser_automation`, `page_read_debug`.
 <!-- /generated:parameters -->
 
 ---

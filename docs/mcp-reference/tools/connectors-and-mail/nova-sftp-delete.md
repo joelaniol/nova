@@ -8,7 +8,6 @@ Deletes a remote file, empty directory, or bounded directory tree over SFTP.
 
 `nova.sftp_delete` removes files or directories on an SFTP server. Supports recursive directory deletion when explicitly configured.
 
-* **Capability Bundle:** `connector_ops`
 * **Security Tier:** Tier 3 (Destructive File Deletion)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
@@ -27,6 +26,8 @@ Deletes a remote file, empty directory, or bounded directory tree over SFTP.
 | `unattended` | `boolean` | No | `false` | — | Fail closed instead of opening account/policy prompts. Scheduled-task hosts enforce unattended mode even when omitted; this flag can only reduce authority. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
 <!-- /generated:parameters -->
 
 ---

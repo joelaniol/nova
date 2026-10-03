@@ -8,7 +8,6 @@ Dispatches a physical keyboard keypress (`keydown` followed by `keyup`) to the c
 
 `nova.input_key` simulates low-level physical keystrokes for control keys, navigation keys, and shortcuts that cannot be sent via standard text input (e.g. `Enter` to submit a form, `Escape` to dismiss a popover, `Tab` to navigate focus rings, or arrow keys to navigate autocomplete menus).
 
-* **Capability Bundle:** `browser_automation`, `humanized_input`
 * **Hardware-Level Dispatch:** Uses direct CDP keyboard input events with correct virtual key codes and scan codes.
 * **Focused Target:** Sends keys to whatever element currently has focus.
 
@@ -39,6 +38,8 @@ When navigating custom comboboxes or dropdown search bars (e.g. search bars with
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
 | `key` | `string` | Yes | — | — | Key name: Enter, Tab, Escape, Backspace, Delete, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Home, End, PageUp, PageDown, F1-F12, Space. |
+
+Capability bundles: `browser_automation`, `form_submission`.
 <!-- /generated:parameters -->
 
 ---

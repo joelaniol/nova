@@ -8,7 +8,6 @@ Extracts HTML `<table>` elements into structured JSON objects containing column 
 
 Parsing tabular data using general-purpose DOM dumps or `eval` scripts is slow, brittle, and token-expensive. `nova.extract_table` is a dedicated tabular extraction engine that parses `<thead>`, `<tbody>`, `<th>`, and `<td>` elements directly into typed JSON rows with configurable cell length and row limits.
 
-* **Capability Bundle:** `dom_reading`, `data_extraction`
 * **Structured Output:** Clean `{ headers: [...], rows: [[...]] }` representation per table.
 * **Header Auto-Detection:** Automatically extracts column names from `<thead>` or leading `<th>` row cells.
 * **Scoped or Multi-Table:** Extract all tables on the page, or target a specific table or container via `selector`.
@@ -50,6 +49,8 @@ If a page contains multiple tables or embeds a table inside a specific dashboard
 | `maxRows` | `integer` | No | `500` | 1–10000 | Maximum body rows per table. Excess rows are dropped and that table's 'truncated' flag is set. |
 | `maxCols` | `integer` | No | `100` | 1–1000 | Maximum cells per row (and header columns) to return. |
 | `maxCellChars` | `integer` | No | `500` | 1–20000 | Maximum characters of trimmed text per cell; longer cell text is truncated. |
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

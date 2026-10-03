@@ -8,7 +8,6 @@ Exports all scheduled task definitions as a portable JSON array (excluding secre
 
 `nova.scheduled_task_export` dumps all task definitions into a portable JSON array string. It captures prompts, schedules, executor configurations, budget caps, and chaining rules while omitting ephemeral runtime state, run history, and DPAPI-encrypted secrets.
 
-* **Capability Bundle:** `scheduled_tasks`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
@@ -20,6 +19,8 @@ Exports all scheduled task definitions as a portable JSON array (excluding secre
 This tool takes no parameters.
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
 <!-- /generated:parameters -->
 
 ---

@@ -8,7 +8,6 @@ Retrieves cached MCP and AI discovery probe results for a domain without network
 
 `nova.site_discovery_get` reads previously cached AI/MCP discovery probe findings for a domain from local storage. It does not initiate any network requests, returning `null` if no probe has been executed yet.
 
-* **Capability Bundle:** `crawler_ops`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Autonomous Crawler & Surface Explorer](../../../core-features/crawler-and-discovery.md)
 
@@ -22,6 +21,8 @@ Retrieves cached MCP and AI discovery probe results for a domain without network
 | `domain` | `string` | Yes | — | — | Target domain or URL (e.g. 'example.com', 'https://example.com'). Required. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 <!-- /generated:parameters -->
 
 ---

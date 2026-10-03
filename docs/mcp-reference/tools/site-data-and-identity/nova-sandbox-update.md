@@ -8,7 +8,6 @@ Updates configuration, display name, color tag, or purpose of an existing sandbo
 
 `nova.sandbox_update` modifies metadata for a sandbox profile. It can update display names, color tags, preferred routing keywords, or pause/resume background scheduling for the container.
 
-* **Capability Bundle:** `site_data_management`
 * **Security Tier:** Tier 2 (Sandbox Mutation)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
@@ -30,6 +29,8 @@ Updates configuration, display name, color tag, or purpose of an existing sandbo
 | `isPaused` | `boolean` | No | — | — | Pause (true) or unpause (false) the sandbox. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 <!-- /generated:parameters -->
 
 ---

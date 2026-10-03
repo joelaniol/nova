@@ -8,7 +8,6 @@ Resolves the best matching sandbox container for a given workflow intent.
 
 `nova.resolve_sandbox` evaluates registered sandbox profiles against a task intent key (e.g. `email.compose`, `crm.salesforce`, `personal.shopping`) to route agents to the correct isolated cookie jar and login session.
 
-* **Capability Bundle:** `site_data_management`
 * **Security Tier:** Tier 1 (Resolution Routing)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
@@ -24,6 +23,8 @@ Resolves the best matching sandbox container for a given workflow intent.
 | `accountHint` | `string` | No | — | — | Optional account label hint (e.g. 'work', 'personal', 'pro'). Boosts sandboxes with matching detected account. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
 <!-- /generated:parameters -->
 
 ---

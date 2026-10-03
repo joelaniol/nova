@@ -8,7 +8,6 @@ Saves a specific email attachment to Downloads or the workspace directory.
 
 `nova.mail_attachment_save` extracts an attachment by its numeric index (from `nova.mail_read`) and writes it to disk. Enforces boundary validation to prevent path traversal.
 
-* **Capability Bundle:** `connector_ops`
 * **Security Tier:** Tier 2 (File Download)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
@@ -26,6 +25,8 @@ Saves a specific email attachment to Downloads or the workspace directory.
 | `allowInsecure` | `boolean` | No | `false` | — | Required as true only when this account's IMAP endpoint explicitly uses plaintext or disabled certificate validation, and only after the user enabled insecure connector connections in Settings. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
 <!-- /generated:parameters -->
 
 ---

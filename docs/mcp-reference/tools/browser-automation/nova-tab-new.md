@@ -8,7 +8,6 @@ Creates a new browser tab with optional immediate navigation, private (incognito
 
 `nova.tab_new` instantiates a fresh browser tab inside Nova AI Workspace. It supports opening URLs immediately, selecting the host sandbox, spawning ephemeral private sessions that leave zero disk footprints, and claiming the tab in a single atomic operation.
 
-* **Capability Bundle:** `browser_automation`
 * **Target Scope:** Creates a new target and returns its `targetId`.
 * **Atomicity:** Combines creation, sandbox routing, navigation, and claiming into one call.
 
@@ -58,6 +57,8 @@ By passing `claim: true`, Nova assigns the new tab's write lease directly to you
 | `claim.ttlMs` | `integer` | No | `120000` | 5000–1800000 | Lease duration in ms. Defaults to 120s. Must be between 5s and 30min; out-of-range values fail with -32602 before the tab is created. |
 
 **`_meta.intent` is required for certain arguments.** Passing a short reason in `_meta.intent` is always safe; a rejected call names the argument that made it required.
+
+Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
 <!-- /generated:parameters -->
 
 ---

@@ -8,7 +8,6 @@ Queries the complete CDP network stream of a finalized recording with rich filte
 
 `nova.session_record_query` inspects the decrypted network timeline of a finalized recording. Unlike page-level observers, this tool reads the complete CDP Network domain stream, capturing every asset, API call, redirect chain, and background fetch, including requests from web workers and cross-origin iframes.
 
-* **Capability Bundle:** `session_recording`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
 
@@ -30,6 +29,8 @@ Queries the complete CDP network stream of a finalized recording with rich filte
 | `hasBody` | `boolean` | No | — | — | Filter entries with/without captured body. |
 | `vaultMatched` | `boolean` | No | — | — | Filter entries where the redaction pipeline matched a vault fingerprint in the body. |
 | `limit` | `integer` | No | `50` | 1–1000 | Max entries returned (totalMatchCount reports the full match count). |
+
+Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='session_recording')`).
 <!-- /generated:parameters -->
 
 ---

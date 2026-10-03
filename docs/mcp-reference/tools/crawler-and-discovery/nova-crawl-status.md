@@ -8,7 +8,6 @@ Checks the live progress, active phase, and error metrics of a background crawl 
 
 `nova.crawl_status` queries the current operational status of an active or completed crawl job. It provides real-time counts of discovered, visited, failed, and remaining URLs, as well as circuit breaker status and poll hints.
 
-* **Capability Bundle:** `crawler_ops`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Autonomous Crawler & Surface Explorer](../../../core-features/crawler-and-discovery.md)
 
@@ -22,6 +21,8 @@ Checks the live progress, active phase, and error metrics of a background crawl 
 | `agentId` | `string` | No | `"default"` | — | Optional agent identity for crawl ownership checks. Must match the agentId that started the crawl. Defaults to 'default'. |
 | `crawlId` | `string` | Yes | — | — | Crawl job ID returned by crawl_start. |
 | `outputDetail` | `string` | No | `"full"` | `minimal`, `summary`, `full` | Status projection. 'minimal' keeps state/counts/watermarks/phase/error/poll and compact rate control. 'summary' adds compact config and session/readiness/script counters without raw customScript. 'full' preserves complete config and diagnostics. |
+
+Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawler_ops')`).
 <!-- /generated:parameters -->
 
 ---

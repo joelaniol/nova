@@ -2,7 +2,6 @@
 
 > **Evaluates an arbitrary JavaScript expression in the main page world or isolated world.**
 
-* **Capability Bundle:** `page_read_debug`
 * **Security Tier:** Tier 2 (JavaScript Execution)
 * **Core Feature Guide:** [DOM Perception & Semantic Extraction](../../../core-features/tob.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -32,6 +31,8 @@
 | `redact` | `array` of `string` | No | — | ≤ 20 items | Property names whose values come back as [redacted], e.g. ['accessHash','token']. Matching is by name (case-insensitive substring), never by value - guessing what a secret looks like would hide things you did not ask to hide. Off unless you pass it: for debugging, the plain value is usually the point. The masking runs in the page before serialization, so a redacted value never reaches the transport or Nova's action log. Needs a wrapped expression: worldMode='isolated' (the default) or isolate=true. |
 | `maxChars` | `integer` | No | `50000` | 1000–5000000 | Maximum characters for the serialized result. Defaults shrink automatically under context pressure unless explicitly provided. |
 | `outputDetail` | `string` | No | `"full"` | `full`, `compact` | Response verbosity. 'compact' omits the echoes of your own arguments (isolate, frameScope, frameId, worldMode, includeShadow) and 'chars', which outputBudget.returnedChars already reports. result, truncated, outputBudget and every warning field are unaffected - this setting can never hide a warning. |
+
+Capability bundles: `browser_automation`, `visual_evidence`.
 <!-- /generated:parameters -->
 
 ---

@@ -2,7 +2,6 @@
 
 > **Executes a physical mouse drag-and-drop gesture from source coordinates to destination.**
 
-* **Capability Bundle:** `browser_automation`
 * **Security Tier:** Tier 2 (Physical Input)
 * **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -33,6 +32,8 @@
 | `toY` | `number` | No | — | — | Legacy alias for endY. Prefer endY. If both are provided, values must match. |
 | `steps` | `integer` | No | `10` | 1–100 | Number of intermediate mouse move steps (more = smoother drag). |
 | `button` | `string` | No | `"left"` | `left`, `middle`, `right` | Mouse button held during drag. |
+
+Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
 <!-- /generated:parameters -->
 
 ---

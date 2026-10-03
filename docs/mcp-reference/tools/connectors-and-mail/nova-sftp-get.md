@@ -8,7 +8,6 @@ Downloads a remote file or directory tree over SFTP into Downloads or the worksp
 
 `nova.sftp_get` securely transfers files from a remote SFTP server to the local system. Supports single file downloads or bounded recursive directory tree fetching.
 
-* **Capability Bundle:** `connector_ops`
 * **Security Tier:** Tier 2 (File Transfer)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
@@ -29,6 +28,8 @@ Downloads a remote file or directory tree over SFTP into Downloads or the worksp
 | `unattended` | `boolean` | No | `false` | — | Fail closed instead of opening account/policy prompts. Scheduled-task hosts enforce unattended mode even when omitted; this flag can only reduce authority. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
 <!-- /generated:parameters -->
 
 ---

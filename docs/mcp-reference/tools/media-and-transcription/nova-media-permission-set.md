@@ -8,7 +8,6 @@ Sets or clears persistent or session-based camera, mic, speaker, and geolocation
 
 `nova.media_permission_set` configures origin-specific overrides for media and hardware devices. Supports persistent storage or session-scoped grants with automatic expiration upon tab closure.
 
-* **Capability Bundle:** `system_tools`
 * **Security Tier:** Tier 2 (Permission Mutation)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
@@ -30,6 +29,8 @@ Sets or clears persistent or session-based camera, mic, speaker, and geolocation
 | `clearAll` | `boolean` | No | — | — | Remove the entire stored override for this origin. Cannot be combined with axis modes or lifetime. |
 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+
+Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 <!-- /generated:parameters -->
 
 ---

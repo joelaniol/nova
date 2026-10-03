@@ -2,7 +2,6 @@
 
 > **Recalls learned onboarding tutorial dismissal steps for a domain.**
 
-* **Capability Bundle:** `pks_learning`
 * **Security Tier:** Tier 1 (Read-Only Learning)
 * **Core Feature Guide:** [Phenomenological Knowledge Store (PKS)](../../../core-features/pks.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -21,6 +20,8 @@
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `domain` | `string` | No | — | — | Optional. When omitted, the session's currently activated learn-mode domain is used. |
+
+Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
 <!-- /generated:parameters -->
 
 ---

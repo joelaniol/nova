@@ -2,7 +2,6 @@
 
 > **Focuses a specific panel within an open DevTools window (Console, Elements, Network, Sources).**
 
-* **Capability Bundle:** `app_shell_recovery, onboarding`
 * **Security Tier:** Tier 2 (Developer Tooling)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -22,6 +21,8 @@
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `targetId` | `string` | No | `"active"` | — | Target ID or 'active'. |
 | `panel` | `string` | Yes | — | `elements`, `console`, `sources`, `network`, `performance`, `memory`, `application`, `security`, `lighthouse`, `next`, `previous` | Canonical DevTools panel to activate. Use one of the enum values; alias spellings are not part of the discovery contract. |
+
+Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
 <!-- /generated:parameters -->
 
 ---

@@ -10,7 +10,6 @@ Creates a new scheduled task running on cron expressions, intervals, or filesyst
 
 Supported executors include `ClaudeCode`, `CodexCli`, `Shell` (PowerShell 7), `CustomCommand`, and `HttpWebhook`. Tasks run in dedicated sandboxed workspaces with isolated SQLite state, atomic file sharing, and encrypted DPAPI secret storage.
 
-* **Capability Bundle:** `scheduled_tasks`
 * **Security Tier:** Tier 2 (Background Automation)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
@@ -50,6 +49,8 @@ Supported executors include `ClaudeCode`, `CodexCli`, `Shell` (PowerShell 7), `C
 | `installOnboarding` | `boolean` | No | `true` | — | Optional: whether the auto-created workspace and its task run workspace install Nova onboarding files (CLAUDE.md, AGENTS.md, .nova). Only used when workspaceId is omitted. Default: true. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
 <!-- /generated:parameters -->
 
 ---

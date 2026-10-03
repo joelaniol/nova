@@ -2,7 +2,6 @@
 
 > **Removes a bookmark favorite by its unique identifier.**
 
-* **Capability Bundle:** `app_shell_recovery, onboarding`
 * **Security Tier:** Tier 2 (Bookmark Management)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -22,6 +21,8 @@
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `id` | `string` | No | — | — | Stable favorite id (from nova.favorites_list). Targets exactly one entry. Preferred over url. |
 | `url` | `string` | No | — | — | URL to remove (first match). Used when id is omitted. |
+
+Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 <!-- /generated:parameters -->
 
 ---

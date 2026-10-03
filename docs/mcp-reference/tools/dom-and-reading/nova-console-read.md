@@ -2,7 +2,6 @@
 
 > **Reads recent JavaScript console log messages (log, info, warn, error) from the page.**
 
-* **Capability Bundle:** `page_read_debug`
 * **Security Tier:** Tier 1 (Read-Only Diagnostics)
 * **Core Feature Guide:** [DOM Perception & Semantic Extraction](../../../core-features/tob.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -26,6 +25,8 @@
 | `clear` | `boolean` | No | `false` | — | If true, clears the internal buffer after reading. |
 | `engineSinceId` | `integer` | No | `0` | ≥ 0 | Cursor for engineEntries only; independent of sinceId. Continue from nextEngineSinceId. |
 | `maxChars` | `integer` | No | `50000` | 1000–5000000 | Maximum serialized response characters before truncation. Defaults shrink automatically under context pressure unless explicitly provided. |
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

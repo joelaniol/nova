@@ -8,7 +8,6 @@ Runs a server-registered Coverage Scan script to discover and audit all interact
 
 `nova.coverage_scan` runs an isolated, server-trusted audit script on the active tab. It discovers links, inputs, and interactive widgets to populate the Task URL Coverage (TUC) unit table.
 
-* **Capability Bundle:** `task_memory`
 * **Security Tier:** Tier 2 (Coverage Audit)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
@@ -26,6 +25,8 @@ Runs a server-registered Coverage Scan script to discover and audit all interact
 | `scopeOptions.includeIframes` | `boolean` | No | — | — | Recurse into same-origin iframes. Default: false. Required for full coverage on iframe-heavy pages. |
 | `scopeOptions.waitForHydration` | `boolean` | No | — | — | Wait for the document to reach a stable readyState before scanning. Default: true. |
 | `scopeOptions.hydrationTimeoutMs` | `integer` | No | — | 0–30000 | Max milliseconds to wait for hydration. Default: 5000. |
+
+Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
 <!-- /generated:parameters -->
 
 ---

@@ -8,7 +8,6 @@ Returns detailed identity, cookie jar bounds, and context metadata for a specifi
 
 `nova.sandbox_context` returns raw profile metadata for a sandbox container: directory paths, assigned color tags, purpose declarations, preferred URL patterns, and active tab counts.
 
-* **Capability Bundle:** `site_data_management`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
@@ -22,6 +21,8 @@ Returns detailed identity, cookie jar bounds, and context metadata for a specifi
 | `targetId` | `string` | Yes | — | — | Sandbox target ID from nova.tabs (e.g. 'A', 'B'). |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
 <!-- /generated:parameters -->
 
 ---

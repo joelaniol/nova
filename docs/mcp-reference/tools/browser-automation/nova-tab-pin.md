@@ -2,7 +2,6 @@
 
 > **Pins or unpins a tab in the browser tab bar to prevent accidental closure.**
 
-* **Capability Bundle:** `browser_automation`
 * **Security Tier:** Tier 2 (Tab Strip Management)
 * **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -23,6 +22,8 @@
 | `targetId` | `string` | Yes | `"active"` | — | Browser tab ID to pin or unpin, or 'active'. |
 | `pinned` | `boolean` | Yes | — | — | true pins the tab, false unpins it. Required - there is no toggle and no default. |
 | `agentId` | `string` | No | — | — | Calling agent's ID for attribution in logs. |
+
+Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
 <!-- /generated:parameters -->
 
 ---

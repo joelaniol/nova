@@ -8,7 +8,6 @@ Recalls browsing memories and stored preferences for a domain or across all site
 
 `nova.memory_recall` retrieves relevant user preferences, session contexts, and domain notes using semantic relevance and keyword scoring.
 
-* **Capability Bundle:** `task_memory`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
@@ -24,6 +23,8 @@ Recalls browsing memories and stored preferences for a domain or across all site
 | `memoryType` | `string` | No | — | `note`, `preference`, `context` | Filter by memory type. note = explicit agent/user notes, preference = user behavioral preferences, context = last session state on a domain. |
 | `limit` | `integer` | No | `10` | 1–50 | Max results to return. Defaults to 10. |
 | `includeExpired` | `boolean` | No | `false` | — | Include memories with very low decay scores that would normally be filtered. Defaults to false. |
+
+Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 <!-- /generated:parameters -->
 
 ---

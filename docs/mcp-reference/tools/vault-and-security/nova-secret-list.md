@@ -8,7 +8,6 @@ Lists registered secret names, scopes, and association identifiers from Nova's u
 
 `nova.secret_list` provides inventory visibility into environment variables and secrets configured across workspaces and scheduled tasks. In accordance with zero-trust architectural design, secret values are omitted entirely from response payloads, guaranteeing that no LLM or prompt inspection can leak credentials.
 
-* **Capability Bundle:** `vault_and_security`, `system_and_recovery`
 * **Zero Value Disclosures:** Only names, scopes, and creation metadata are returned.
 * **Granular Filtering:** Filter by `scope` (`global`, `workspace`, or `task`), or restrict to a specific `workspaceId` or `taskId`.
 * **Paginated Output:** Supports `limit` and `offset` for large corporate deployments.
@@ -27,6 +26,8 @@ Lists registered secret names, scopes, and association identifiers from Nova's u
 | `offset` | `integer` | No | `0` | ≥ 0 | Number of entries to skip before returning this page. Default: 0. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `secret_store` (load it with `nova.tools_bundle(bundle='secret_store')`).
 <!-- /generated:parameters -->
 
 ---

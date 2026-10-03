@@ -13,7 +13,6 @@ Clicking a form submit button naively often leads to undetected failures: client
 2. **Atomic Dispatch:** Dispatches a physical CDP click to trigger standard browser form submission.
 3. **Postcondition Settlement:** Asserts that either navigation away from the form completed, a success banner appeared, or validation errors fired. If validation errors occur, Nova reports them immediately with retry advice rather than falsely reporting success.
 
-* **Capability Bundle:** `form_submission`, `guarded_actions`
 * **Automated Postconditions:** Pre-configured to detect navigation away from the form or appearance of confirmation modals.
 * **Idempotency Safeguard:** Prevents agents from rapidly double-clicking payment or order buttons.
 * **Iframe Scoping (`frameId`):** Can submit forms embedded inside cross-origin checkout or login frames.
@@ -59,6 +58,8 @@ Clicking a form submit button naively often leads to undetected failures: client
 | `transitionContract.ambiguityPolicy` | `string` | No | `"signal"` | `signal`, `retry_once`, `abort` | How ambiguous postcondition matches should be labeled. 'signal' reports indeterminate, 'retry_once' prefers one safe retry when retryPolicy allows it, 'abort' reports do_not_retry. |
 | `transitionContract.stabilityWindowMs` | `integer` | No | — | — | Optional stability observation window in milliseconds. Runtime clamps extreme values to guarded-safe bounds. |
 | `transitionContract.stabilityMs` | `integer` | No | — | — | Optional stability hold duration in milliseconds. Success must remain true for this long before verification passes. |
+
+Capability bundles: `browser_automation`, `form_submission`.
 <!-- /generated:parameters -->
 
 ---

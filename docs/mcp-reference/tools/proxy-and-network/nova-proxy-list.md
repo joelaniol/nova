@@ -8,7 +8,6 @@ Lists all configured proxy profiles with connection settings, protocols, and san
 
 `nova.proxy_list` inventories all proxy profiles registered in Nova. Passwords are never returned; it reports profile IDs, hostnames, ports, protocols (HTTP, HTTPS, SOCKS4, SOCKS5), active status, and sandbox bindings.
 
-* **Capability Bundle:** `proxy_management`
 * **Security Tier:** Tier 1 (Safe)
 * **Core Architecture Guide:** [Proxy Routing & Stealth Network Engine](../../../core-features/proxy-and-network.md)
 
@@ -18,6 +17,8 @@ Lists all configured proxy profiles with connection settings, protocols, and san
 
 <!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 This tool takes no parameters.
+
+Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='proxy_management')`).
 <!-- /generated:parameters -->
 
 ---

@@ -8,7 +8,6 @@ Sets the visual presentation of the Nova terminal dock to expanded, collapsed, o
 
 `nova.terminal_dock_set_state` toggles the visible dock state. When set to `hidden` or `collapsed`, all active shell sessions continue running in the background without termination.
 
-* **Capability Bundle:** `terminal_ops`
 * **Security Tier:** Tier 2 (UI Control)
 * **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces.md)
 
@@ -20,6 +19,8 @@ Sets the visual presentation of the Nova terminal dock to expanded, collapsed, o
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `state` | `string` | Yes | — | `expanded`, `collapsed`, `hidden` | Requested dock state. 'expanded' shows the full dock, 'collapsed' leaves only the tab strip, and 'hidden' hides the dock while preserving running sessions. |
+
+Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
 <!-- /generated:parameters -->
 
 ---

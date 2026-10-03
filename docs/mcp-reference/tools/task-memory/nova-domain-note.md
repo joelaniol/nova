@@ -8,7 +8,6 @@ Stores or updates a domain-scoped operational note automatically surfaced during
 
 `nova.domain_note` registers persistent instructions, warnings, or credentials hints for a website. Whenever an agent navigates to this domain via `nova.navigate`, these notes are injected automatically into the response.
 
-* **Capability Bundle:** `task_memory`
 * **Security Tier:** Tier 2 (Domain Note Storage)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
@@ -27,6 +26,8 @@ Stores or updates a domain-scoped operational note automatically surfaced during
 | `repeatToolCalls` | `integer or null` | No | — | ≥ 0 | Optional re-acknowledge interval in tool calls on the domain. After this many calls since the last acknowledge, the next tool call triggers another acknowledge-block. 0 = never repeat. null/omitted = use the global default. |
 | `sandboxId` | `string` | No | — | — | Optional sandbox letter-id (e.g. 'A', 'B') to bind this note to a specific sandbox. Omit for global note. Required together with sandboxRef. |
 | `sandboxRef` | `string` | No | — | — | Opaque PersistentUid token from nova.tabs / nova.sandbox_context / perceive.targetContext. Mandatory when sandboxId is set; protects against letter-id recycling races. Mismatch with current sandbox UID → -32602 stale_sandbox_reference. |
+
+Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 <!-- /generated:parameters -->
 
 ---

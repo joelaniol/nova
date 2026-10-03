@@ -8,7 +8,6 @@ Replays an instance’s observation log against the unit table to propose discov
 
 `nova.task_instance_reconcile_coverage` reconciles recorded page visits and interactions against the Task URL Coverage table, upgrading discovered URLs to checked status.
 
-* **Capability Bundle:** `task_memory`
 * **Security Tier:** Tier 2 (Coverage Reconciliation)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
@@ -22,6 +21,8 @@ Replays an instance’s observation log against the unit table to propose discov
 | `instanceId` | `string` | Yes | — | — | The instance to reconcile. |
 | `dryRun` | `boolean` | No | `true` | — | True (default): propose upgrades without persisting. False: apply upgrades — requires developer setting. |
 | `observationCutoff` | `string` | No | — | — | Optional ISO timestamp; observations after this point are ignored. Defaults to now. |
+
+Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
 <!-- /generated:parameters -->
 
 ---

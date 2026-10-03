@@ -8,7 +8,6 @@ Returns current live hardware diagnostic metrics including microphone audio leve
 
 `nova.hardware_diagnostics_state` polls live measurements from an active diagnostic channel on a tab. It reports running channels, real-time microphone input volume (0.0 - 1.0), and peak decibels.
 
-* **Capability Bundle:** `system_tools`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
@@ -20,6 +19,8 @@ Returns current live hardware diagnostic metrics including microphone audio leve
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+
+Capability bundles: `browser_automation`, `page_read_debug`.
 <!-- /generated:parameters -->
 
 ---

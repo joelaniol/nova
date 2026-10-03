@@ -8,7 +8,6 @@ Renders the active web page to a vector PDF document on disk via Chrome DevTools
 
 Exporting contracts, receipts, articles, or multi-page documentation as visual screenshots is cumbersome and lossy. `nova.save_pdf` renders pages directly into searchable, vector PDF files. Because the generated PDF is written directly to disk, large multi-page reports consume **zero response tokens** in the agent conversation context.
 
-* **Capability Bundle:** `visual_evidence`, `data_extraction`
 * **Zero Response Tokens:** Returns the on-disk file path in `structuredContent.filePath` rather than base64 bytes.
 * **Background Tab Execution:** Unlike screenshots, PDF generation does not require the tab to be focused or visible on screen.
 * **Print Styling & CSS Page Rules:** Honors `@media print` stylesheets and `@page` size rules (`preferCSSPageSize: true`).
@@ -60,6 +59,8 @@ Generating accessible tagged PDFs requires snapshotting the browser's accessibil
 | `marginBottom` | `number` | No | — | ≥ 0 | Bottom margin in inches. |
 | `marginLeft` | `number` | No | — | ≥ 0 | Left margin in inches. |
 | `marginRight` | `number` | No | — | ≥ 0 | Right margin in inches. |
+
+Capability bundles: `page_read_debug`, `visual_evidence`.
 <!-- /generated:parameters -->
 
 ---

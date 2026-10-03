@@ -8,7 +8,6 @@ Updates host, port, protocol, or bypass list of an existing proxy profile.
 
 `nova.proxy_update` performs partial updates on an existing proxy profile without altering omitted fields or resetting stored credentials.
 
-* **Capability Bundle:** `proxy_management`
 * **Security Tier:** Tier 2 (Configuration)
 * **Core Architecture Guide:** [Proxy Routing & Stealth Network Engine](../../../core-features/proxy-and-network.md)
 
@@ -28,6 +27,8 @@ Updates host, port, protocol, or bypass list of an existing proxy profile.
 | `username` | `string` | No | — | — | New username. Empty string clears. |
 | `enabled` | `boolean` | No | — | — | Enable or disable the profile. |
 | `isGlobalDefault` | `boolean` | No | — | — | Set or unset as global default. |
+
+Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='proxy_management')`).
 <!-- /generated:parameters -->
 
 ---

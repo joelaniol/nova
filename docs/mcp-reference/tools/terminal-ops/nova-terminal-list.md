@@ -8,7 +8,6 @@ Lists all open agent-owned terminal sessions with status, shell type, and exit c
 
 `nova.terminal_list` queries the terminal session manager for active background sessions created by agents. It excludes the user's interactive dock terminals to maintain clear security and control boundaries.
 
-* **Capability Bundle:** `terminal_ops`
 * **Security Tier:** Tier 1 (Safe)
 * **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces.md)
 
@@ -20,6 +19,8 @@ Lists all open agent-owned terminal sessions with status, shell type, and exit c
 This tool takes no parameters.
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `terminal_ops` (load it with `nova.tools_bundle(bundle='terminal_ops')`).
 <!-- /generated:parameters -->
 
 ---

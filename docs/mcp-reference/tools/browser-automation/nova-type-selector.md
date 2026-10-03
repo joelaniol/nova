@@ -8,7 +8,6 @@ Focuses an input field or contenteditable element, clears existing text, and ent
 
 `nova.type_selector` handles keyboard input across textboxes, search inputs, textareas, and rich-text editors (`contenteditable`). Rather than injecting raw values directly into DOM properties (which often bypasses React/Vue `onChange` state synchronization), Nova generates authentic synthetic keyboard events (`keydown`, `keypress`, `input`, `keyup`).
 
-* **Capability Bundle:** `browser_automation`, `form_submission`
 * **Shadow-DOM Syntax:** Supports ` >>> ` combinator for encapsulated inputs.
 * **Typing Modes:** Supports humanized intervals, fast typing, and clipboard paste injection.
 
@@ -67,6 +66,8 @@ Search bars and command palettes frequently submit upon pressing the Enter key. 
 | `transitionContract.ambiguityPolicy` | `string` | No | `"signal"` | `signal`, `retry_once`, `abort` | How ambiguous postcondition matches should be labeled. 'signal' reports indeterminate, 'retry_once' prefers one safe retry when retryPolicy allows it, 'abort' reports do_not_retry. |
 | `transitionContract.stabilityWindowMs` | `integer` | No | — | — | Optional stability observation window in milliseconds. Runtime clamps extreme values to guarded-safe bounds. |
 | `transitionContract.stabilityMs` | `integer` | No | — | — | Optional stability hold duration in milliseconds. Success must remain true for this long before verification passes. |
+
+Capability bundles: `browser_automation`, `form_submission`.
 <!-- /generated:parameters -->
 
 ---

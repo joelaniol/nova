@@ -2,7 +2,6 @@
 
 > **Reorders a tab position within the browser tab strip by index.**
 
-* **Capability Bundle:** `browser_automation`
 * **Security Tier:** Tier 2 (Tab Strip Management)
 * **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -24,6 +23,8 @@
 | `targetTabId` | `string` | Yes | — | — | Browser tab ID to move it next to (must be a different tab in the same sandbox). 'active' is accepted. |
 | `insertAfter` | `boolean` | No | `true` | — | true places the moved tab to the right of targetTabId, false to its left. |
 | `agentId` | `string` | No | — | — | Calling agent's ID for attribution in logs. |
+
+Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
 <!-- /generated:parameters -->
 
 ---

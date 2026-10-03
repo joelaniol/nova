@@ -8,7 +8,6 @@ Commits progress deltas, completed work units, and observations to a task instan
 
 `nova.task_instance_progress` appends completed work units and observations to a task instance using compare-and-set revision concurrency.
 
-* **Capability Bundle:** `task_memory`
 * **Security Tier:** Tier 2 (Progress Commit)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
@@ -33,6 +32,8 @@ Commits progress deltas, completed work units, and observations to a task instan
 | `resumeStateDelta.checkpoint` | `string` | No | — | — | Optional named checkpoint label for operator-facing resumes. |
 | `setDiscoveryState` | `string` | No | — | `unknown`, `partial`, `frozen` | Transition discovery state. 'unknown' = discovery has not started or was reset, 'partial' = discovery is in progress and more units may still appear, 'frozen' = discovery is intentionally closed and no further automatic unit discovery is expected. |
 | `note` | `string` | No | — | — | Optional free-text note for the event log. |
+
+Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
 <!-- /generated:parameters -->
 
 ---

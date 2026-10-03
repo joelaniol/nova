@@ -8,7 +8,6 @@ Invokes a specific tool on a connected external MCP server and returns the raw r
 
 `nova.external_tool_call` bridges execution to an external MCP server. It passes arguments transparently, tracks latency and correlation IDs, and formats tool output and errors.
 
-* **Capability Bundle:** `external_mcp`
 * **Security Tier:** Tier 2 (External Invocation)
 * **Core Architecture Guide:** [Plugins & External Extensions](../../../core-features/plugins.md)
 
@@ -25,6 +24,8 @@ Invokes a specific tool on a connected external MCP server and returns the raw r
 | `timeoutMs` | `integer` | No | — | — | Per-call timeout override in ms. Default: server's configured timeout (120s). Min: 5000, Max: 600000 (10 min hard cap). |
 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+
+Capability bundle: `external_mcp` (load it with `nova.tools_bundle(bundle='external_mcp')`).
 <!-- /generated:parameters -->
 
 ---
@@ -46,12 +47,15 @@ Invokes a specific tool on a connected external MCP server and returns the raw r
 ```
 
 ### JSON-RPC Response
+
+`content` carries the external tool's own content blocks unchanged, so text and images from the external server reach the client directly. `structuredContent.result` holds the full external result; for image and audio blocks the base64 `data` is left out there (`dataForwardedToContent: true`) because it already travels in `content`. When the external tool reports `isError: true`, a status line (`Tool 'query' on 'a1b2c3d4' completed in 45ms (tool returned error).`) comes first in `content`.
+
 ```json
 {
   "content": [
     {
       "type": "text",
-      "text": "Tool 'query' on 'a1b2c3d4' completed in 45ms."
+      "text": "[{\"count\": 1420}]"
     }
   ],
   "structuredContent": {

@@ -8,7 +8,6 @@ Disarms network interception rules: by rule ID, by tab ID, or globally across th
 
 `nova.network_intercept_clear` removes active network interception rules. Called with no arguments, it acts as an emergency stop disarming every interception rule across all tabs.
 
-* **Capability Bundle:** `proxy_management`
 * **Security Tier:** Tier 2 (Control)
 * **Core Architecture Guide:** [Proxy Routing & Stealth Network Engine](../../../core-features/proxy-and-network.md)
 
@@ -23,6 +22,8 @@ Disarms network interception rules: by rule ID, by tab ID, or globally across th
 | `ruleId` | `string` | No | — | — | Clear only this rule. Reports intercept_rule_not_found when it already ended on its own. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

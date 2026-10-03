@@ -8,7 +8,6 @@ Clears terminal download history from the UI and persistent storage.
 
 `nova.downloads_clear` removes completed, cancelled, and failed download entries from the downloads manager history. Active transfers (queued, in progress, paused) are preserved and never cleared.
 
-* **Capability Bundle:** `app_shell_recovery`
 * **Security Tier:** Tier 2 (Cleanup)
 * **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts.md)
 
@@ -22,6 +21,8 @@ Clears terminal download history from the UI and persistent storage.
 | `filter` | `string` | No | — | `all` | Filter: only 'all' is currently supported (default). Clears all terminal entries (completed/cancelled/failed). |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
 <!-- /generated:parameters -->
 
 ---

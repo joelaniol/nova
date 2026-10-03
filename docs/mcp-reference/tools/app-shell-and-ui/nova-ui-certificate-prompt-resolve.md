@@ -2,7 +2,6 @@
 
 > **Resolves an untrusted or invalid SSL/TLS server certificate security dialog.**
 
-* **Capability Bundle:** `app_shell_recovery, onboarding`
 * **Security Tier:** Tier 2 (Security Gate Resolution)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -21,6 +20,8 @@
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `decision` | `string` | Yes | — | `proceed`, `refuse` | refuse: decline the connection (safe, unblocks browsing). proceed: continue with an unverified certificate for this session. |
+
+Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
 <!-- /generated:parameters -->
 
 ---

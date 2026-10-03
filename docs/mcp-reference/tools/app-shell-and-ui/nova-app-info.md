@@ -2,7 +2,6 @@
 
 > **Returns runtime environment metadata, version numbers, process uptime, and storage paths.**
 
-* **Capability Bundle:** `app_shell_recovery, onboarding`
 * **Security Tier:** Tier 1 (Environment Diagnostics)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -19,6 +18,8 @@
 
 <!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 This tool takes no parameters.
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

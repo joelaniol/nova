@@ -2,7 +2,6 @@
 
 > **Subscribes to Server-Sent Events (SSE) or WebSocket streaming traffic on the page.**
 
-* **Capability Bundle:** `page_read_debug`
 * **Security Tier:** Tier 2 (Streaming Network)
 * **Core Feature Guide:** [DOM Perception & Semantic Extraction](../../../core-features/tob.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -29,6 +28,8 @@
 | `maxHeight` | `integer` | No | — | 1–10000 | Legacy alias for screenshotMaxHeight. Max frame height in pixels. |
 | `screenshotMaxWidth` | `integer` | No | — | 1–10000 | Preferred frame width limit in pixels. Must match maxWidth if both are provided. |
 | `screenshotMaxHeight` | `integer` | No | — | 1–10000 | Preferred frame height limit in pixels. Must match maxHeight if both are provided. |
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

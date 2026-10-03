@@ -8,7 +8,6 @@ Lists stored per-site preferred device IDs (camera, microphone, speaker).
 
 `nova.media_device_preferences_list` inspects stored audio/video hardware device mappings configured for specific websites.
 
-* **Capability Bundle:** `system_tools`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
@@ -22,6 +21,8 @@ Lists stored per-site preferred device IDs (camera, microphone, speaker).
 | `origin` | `string` | No | — | — | Optional filter — only return preferences for this origin. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 <!-- /generated:parameters -->
 
 ---

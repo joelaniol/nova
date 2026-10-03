@@ -8,7 +8,6 @@ Extends an active recording’s time-to-live (TTL) to prevent premature expirati
 
 `nova.session_record_extend` adds additional time in milliseconds to a running session recording's expiry deadline. To prevent runaway disk consumption, extensions are strictly bounded by a 60-minute hard cap measured from the recording's original start timestamp.
 
-* **Capability Bundle:** `session_recording`
 * **Security Tier:** Tier 2 (Session Management)
 * **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
 
@@ -21,6 +20,8 @@ Extends an active recording’s time-to-live (TTL) to prevent premature expirati
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `recordingId` | `string` | Yes | — | — | Recording ID returned from session_record_start. |
 | `additionalMs` | `integer` | Yes | — | 1000–3600000 | Additional time to add to the recording's expiry, in milliseconds. |
+
+Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='session_recording')`).
 <!-- /generated:parameters -->
 
 ---

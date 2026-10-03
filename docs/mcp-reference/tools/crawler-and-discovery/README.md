@@ -2,13 +2,15 @@
 
 Broad-surface website crawling, URL indexing, sitemap verification, and discovery probes.
 
-* **Capability Bundle(s):** `crawler_ops`
 * **Core Architecture Guide:** [Core Features: crawler-and-discovery.md](../../../core-features/crawler-and-discovery.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
+<!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 ## Tool Inventory (14 Tools)
+
+Capability bundles of these tools: `crawler_ops`, `system_tools`.
 
 | Tool | What it does |
 | :--- | :--- |
@@ -26,6 +28,7 @@ Broad-surface website crawling, URL indexing, sitemap verification, and discover
 | **[`nova.site_discovery_probe`](nova-site-discovery-probe.md)** | Probes a website for modern AI and MCP discovery endpoints (llms.txt, /.well-known/mcp.json, A2A). |
 | **[`nova.site_urls`](nova-site-urls.md)** | Queries the persistent Site-URL-Index for known endpoints, utility scores, and route candidates. |
 | **[`nova.site_urls_report`](nova-site-urls-report.md)** | Reports live navigation observations (new pages, 404s, redirects) to the Site-URL-Index. |
+<!-- /generated:tool-list -->
 
 ---
 

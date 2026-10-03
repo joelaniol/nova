@@ -2,7 +2,6 @@
 
 > **Configures native periodic reloading for a tab with a specified interval in seconds.**
 
-* **Capability Bundle:** `browser_automation`
 * **Security Tier:** Tier 2 (Navigation Control)
 * **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -26,6 +25,8 @@
 | `expectedRevision` | `integer` | Yes | — | 0–2147483647 | Optimistic-concurrency revision from nova.auto_reload_get (0-2147483647). Use 0 only when no schedule exists. |
 | `clientRequestId` | `string` | Yes | — | 1–128 characters | Caller-generated idempotency key scoped to this agent and target. Retrying identical arguments is safe; reuse with different arguments for the same target conflicts. |
 | `agentId` | `string` | No | `"default"` | — | Agent identity that already owns the explicit target claim. |
+
+Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
 <!-- /generated:parameters -->
 
 ---

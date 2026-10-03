@@ -2,7 +2,6 @@
 
 > **Returns the exact bounding client rectangle (x, y, width, height) of an element.**
 
-* **Capability Bundle:** `page_read_debug`
 * **Security Tier:** Tier 1 (Read-Only Geometry)
 * **Core Feature Guide:** [DOM Perception & Semantic Extraction](../../../core-features/tob.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -35,6 +34,8 @@
 | `contextPaddingPx` | `integer` | No | — | 0–200 | Alias for cropPaddingPx. |
 | `cropPadding` | `string` | No | — | `tight`, `comfortable`, `debug` | Preset padding for the element crop. 'tight'=0 CSS px, 'comfortable'=18 CSS px, 'debug'=32 CSS px. Numeric cropPaddingPx/contextPaddingPx wins when provided. |
 | `outputDetail` | `string` | No | `"full"` | `full`, `compact` | 'compact' omits fields that repeat a value carried elsewhere in the same response (the duplicate file path, and inlinePreview when it describes the same image as evidenceImage) plus the delivery telemetry: byteAccounting (byte counts of what you just received) and tokens (per-provider vision-token estimates). The image, coordinateMeta and every warning are unaffected - no setting can hide a warning. |
+
+Capability bundles: `browser_automation`, `visual_evidence`.
 <!-- /generated:parameters -->
 
 ---

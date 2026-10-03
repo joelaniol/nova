@@ -8,7 +8,6 @@ Reads the presentation state of the visible terminal dock in the Nova applicatio
 
 `nova.terminal_dock_get_state` inspects the visual state of the interactive terminal dock inside the Nova desktop window. This is purely UI chrome inspection and does not alter or inspect terminal content.
 
-* **Capability Bundle:** `terminal_ops`
 * **Security Tier:** Tier 1 (Safe)
 * **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces.md)
 
@@ -18,6 +17,8 @@ Reads the presentation state of the visible terminal dock in the Nova applicatio
 
 <!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 This tool takes no parameters.
+
+Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
 <!-- /generated:parameters -->
 
 ---

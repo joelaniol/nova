@@ -8,7 +8,6 @@ Lists website origin notification permissions and reports the effective global d
 
 `nova.notifications_permissions_list` inspects which web origins have been granted or denied permission to push browser notifications, along with the global fallback default.
 
-* **Capability Bundle:** `notifications`
 * **Security Tier:** Tier 1 (Safe)
 * **Core Architecture Guide:** [Closed-Loop System & Event Propagation](../../../core-features/closed-loop-system.md)
 
@@ -23,6 +22,8 @@ Lists website origin notification permissions and reports the effective global d
 | `origin` | `string` | No | — | — | Filter by origin prefix (e.g. 'https://chat'). |
 | `limit` | `integer` | No | — | 1–500 | Max results. Default: 100. |
 | `offset` | `integer` | No | — | ≥ 0 | Pagination offset. |
+
+Capability bundle: `notifications` (load it with `nova.tools_bundle(bundle='notifications')`).
 <!-- /generated:parameters -->
 
 ---

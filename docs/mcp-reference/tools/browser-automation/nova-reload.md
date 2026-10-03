@@ -13,7 +13,6 @@ Reloading a tab during automated operations must be handled with extreme care: i
 * **Hard Reload (`hard: true`):** Bypasses browser HTTP caching to fetch fresh assets.
 * **Renderer Crash Recovery (`recoverRenderer: true`):** If a heavy script or GPU deadlock freezes the WebView2 renderer process (returning `cdp.renderer_stalled`), passing `recoverRenderer: true` terminates and respawns a fresh renderer process at the same URL.
 
-* **Capability Bundle:** `browser_automation`, `app_shell_recovery`
 * **Safe Same-Origin Defaults:** Reload is evaluated as same-origin rather than cross-origin navigation.
 * **Renderer Deadlock Self-Healing:** Seamlessly recovers tabs frozen by infinite loops or memory pressure.
 * **Settlement Tracking:** Waits for DOM mutation queues to settle (`waitForSettlement: true`).
@@ -41,6 +40,8 @@ Reloading a tab during automated operations must be handled with extreme care: i
 | `outputDetail` | `string` | No | `"full"` | `full`, `compact`, `minimal` | Response verbosity. 'full' (default) is the unchanged payload. 'compact' drops the advisory blocks you did not ask for (pks/pksMeta, discoverySignals, routingHint, taskDiscoveryWarning, byte accounting) and keeps everything you did - state, screenshot, settlement. 'minimal' is the lean envelope: core contract (ok/status/reasonCode/stage/retryable), the navigation proof (url/requestedUrl/loadCompleted/navigationFailed/webErrorStatus/settlement), target and page info, claim/private state, screenshot sidecar status, and the never-suppressible safety warnings. No setting can hide a warning. |
 | `recoverRenderer` | `boolean` | No | `false` | — | Recreate the tab's renderer and load the same URL in a fresh one - Chrome's 'Exit page' for an unresponsive tab. Unsaved input on the page is lost. Only on a tab you claimed, and only while the tab is known not to answer (its calls return cdp.renderer_stalled); otherwise refused with reload.recover_renderer_not_claimed / reload.recover_renderer_not_stalled. hard/force are ignored with it; waitForLoad applies. |
 | `agentId` | `string` | No | `"default"` | — | Your agent identity. recoverRenderer requires that this agent holds the claim on the tab. |
+
+Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
 <!-- /generated:parameters -->
 
 ---

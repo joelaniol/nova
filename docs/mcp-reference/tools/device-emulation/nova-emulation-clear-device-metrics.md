@@ -8,7 +8,6 @@ Clears viewport device metrics overrides, restoring normal window-sized renderin
 
 `nova.emulation_clear_device_metrics` clears any active `Emulation.setDeviceMetricsOverride` on the target tab, returning the layout and CSS viewport to standard host window proportions.
 
-* **Capability Bundle:** `device_emulation`
 * **Security Tier:** Tier 2 (Emulation Reset)
 * **Core Architecture Guide:** [Fingerprint & Identity Systems](../../../core-features/fingerprint-and-identity.md)
 
@@ -20,6 +19,8 @@ Clears viewport device metrics overrides, restoring normal window-sized renderin
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+
+Capability bundle: `device_emulation` (load it with `nova.tools_bundle(bundle='device_emulation')`).
 <!-- /generated:parameters -->
 
 ---

@@ -8,7 +8,6 @@ Lists known task profiles, optionally filtered by taskType, domain, or platform.
 
 `nova.task_profiles` returns an inventory of registered task profiles with summaries of goals and verification criteria.
 
-* **Capability Bundle:** `task_memory`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
@@ -24,6 +23,8 @@ Lists known task profiles, optionally filtered by taskType, domain, or platform.
 | `platform` | `string` | No | — | — | Filter by platform (exact match), e.g. 'vxmodels', 'chatgpt.com'. |
 | `includeArchived` | `boolean` | No | `false` | — | Include archived profiles. Default: false. |
 | `limit` | `integer` | No | `100` | 1–500 | Maximum number of profiles to return. Default: 100. |
+
+Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
 <!-- /generated:parameters -->
 
 ---

@@ -8,7 +8,6 @@ Updates seen and/or flagged status flags for up to 200 messages.
 
 `nova.mail_mark` updates IMAP server flags (`\Seen`, `\Flagged`) on messages. It supports batch marking of up to 200 messages in a single operation.
 
-* **Capability Bundle:** `connector_ops`
 * **Security Tier:** Tier 2 (Flag Mutation)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
@@ -26,6 +25,8 @@ Updates seen and/or flagged status flags for up to 200 messages.
 | `allowInsecure` | `boolean` | No | `false` | — | Required as true only when this account's IMAP endpoint explicitly uses plaintext or disabled certificate validation, and only after the user enabled insecure connector connections in Settings. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
 <!-- /generated:parameters -->
 
 ---

@@ -8,7 +8,6 @@ Decodes a finalized encrypted recording to plaintext files on disk for debugging
 
 `nova.session_record_export` decrypts all JSONL event streams in a finalized recording using its DEK and writes them as human-readable plaintext files into an export directory. It generates a verified export folder containing plaintext `network.jsonl`, `console.jsonl`, `interactions.jsonl`, and integrity manifests.
 
-* **Capability Bundle:** `session_recording`
 * **Security Tier:** Tier 2 (Export Decryption)
 * **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
 
@@ -22,6 +21,8 @@ Decodes a finalized encrypted recording to plaintext files on disk for debugging
 | `recordingId` | `string` | Yes | — | — | Recording ID (the dir under %LOCALAPPDATA%/NovaBrowser/Recordings). |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='session_recording')`).
 <!-- /generated:parameters -->
 
 ---

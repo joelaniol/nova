@@ -2,7 +2,6 @@
 
 > **Submits reinforcement feedback (positive or negative) on a learned phenomenon pattern.**
 
-* **Capability Bundle:** `pks_learning`
 * **Security Tier:** Tier 2 (Reinforcement Telemetry)
 * **Core Feature Guide:** [Phenomenological Knowledge Store (PKS)](../../../core-features/pks.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -23,6 +22,8 @@
 | `scope` | `string` | No | — | — | Optional domain scope filter. |
 | `since` | `integer` | No | — | — | Optional Unix timestamp in milliseconds. Returns events since this time. Default: last 7 days. |
 | `limit` | `integer` | No | `20` | 1–100 | Maximum number of events to return (1-100). Default 20. |
+
+Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_learning')`).
 <!-- /generated:parameters -->
 
 ---

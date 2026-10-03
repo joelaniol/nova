@@ -8,7 +8,6 @@ Inspects playback status, current timestamp, duration, and volume of in-page aud
 
 `nova.media_status` inspects HTML5 `<video>` and `<audio>` elements on the active page. It reports whether media is playing, buffered time ranges, current playback position, total duration, volume, and muted state.
 
-* **Capability Bundle:** `system_tools`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
@@ -20,6 +19,8 @@ Inspects playback status, current timestamp, duration, and volume of in-page aud
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

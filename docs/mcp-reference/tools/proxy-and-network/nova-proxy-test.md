@@ -8,7 +8,6 @@ Executes an active network diagnostic probe through a proxy profile to verify co
 
 `nova.proxy_test` sends a probe request through the specified proxy server, measuring TCP handshake time, SSL negotiation latency, and detecting whether credentials are valid.
 
-* **Capability Bundle:** `proxy_management`
 * **Security Tier:** Tier 1 (Safe Diagnostics)
 * **Core Architecture Guide:** [Proxy Routing & Stealth Network Engine](../../../core-features/proxy-and-network.md)
 
@@ -21,6 +20,8 @@ Executes an active network diagnostic probe through a proxy profile to verify co
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `profileId` | `string` | Yes | — | — | ID of the proxy profile to test. |
 | `probeUrl` | `string` | No | — | — | Custom probe URL. Default: 'https://api.ipify.org/?format=json'. |
+
+Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='proxy_management')`).
 <!-- /generated:parameters -->
 
 ---

@@ -8,7 +8,6 @@ Waits for a DOM element matching a CSS selector to appear, become visible, or di
 
 `nova.wait_for_selector` provides deterministic synchronization for dynamic web pages, Single Page Applications (SPAs), streaming LLM responses, and modal workflows. Instead of fragile arbitrary delays (`sleep(3000)`), agents wait explicitly for DOM elements to exist, become visible, or disappear completely.
 
-* **Capability Bundle:** `browser_automation`, `element_inspection`
 * **Inversion Support (`absent: true`):** Wait for spinners, overlays, or modals to disappear.
 * **Shadow-DOM Piercing:** Deep selector traversal across shadow boundaries using ` >>> `.
 * **Blocker Dismissal:** Optional automatic dismissal of consent banners or backdrops encountered during polling.
@@ -75,6 +74,8 @@ If a newly rendered consent dialog or marketing overlay blocks the view while po
 | `screenshotQuality` | `integer` | No | `80` | 1–100 | JPEG quality (1-100). Only used when screenshotFormat is 'jpeg'. |
 | `screenshotResponseMode` | `string` | No | — | `inline`, `reference`, `thumbnail+reference`, `auto` | Override default delivery mode for the screenshot. Default comes from the tool-intent profile (e.g. confirm-shots default 'thumbnail+reference' for token efficiency). Use 'inline' to force full image bytes, 'auto' to let the server pick based on projected token cost and session budget. |
 | `outputDetail` | `string` | No | `"full"` | `full`, `compact` | 'compact' omits fields that repeat a value carried elsewhere in the same response (the duplicate file path, and inlinePreview when it describes the same image as evidenceImage) plus the delivery telemetry: byteAccounting (byte counts of what you just received) and tokens (per-provider vision-token estimates). The image, coordinateMeta and every warning are unaffected - no setting can hide a warning. |
+
+Capability bundles: `browser_automation`, `form_submission`.
 <!-- /generated:parameters -->
 
 ---

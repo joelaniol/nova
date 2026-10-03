@@ -8,7 +8,6 @@ Inspects media container metadata, duration, channels, and codecs from a local f
 
 `nova.media_file_info` reads audio and video container headers directly in C#. It extracts duration, bitrate, sample rate, audio channels, and video dimensions without spawning external CLI tools.
 
-* **Capability Bundle:** `system_tools`
 * **Security Tier:** Tier 1 (Read-Only File Probe)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
@@ -22,6 +21,8 @@ Inspects media container metadata, duration, channels, and codecs from a local f
 | `path` | `string` | Yes | — | — | Absolute path of the media file to inspect. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

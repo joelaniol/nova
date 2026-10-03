@@ -8,7 +8,6 @@ Enables a paused or circuit-broken scheduled task and resets failure counters.
 
 `nova.scheduled_task_enable` resumes automatic scheduling for a task that was previously disabled or tripped by Nova's circuit breaker. It resets the consecutive failure count and schedules the next run based on the task's cron or interval expression.
 
-* **Capability Bundle:** `scheduled_tasks`
 * **Security Tier:** Tier 2 (Task Control)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
@@ -22,6 +21,8 @@ Enables a paused or circuit-broken scheduled task and resets failure counters.
 | `taskId` | `string` | Yes | — | — | The task ID to enable. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
 <!-- /generated:parameters -->
 
 ---

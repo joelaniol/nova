@@ -10,7 +10,6 @@ LLM-driven browser automation poses a severe credential security risk: if an age
 
 `nova.vault_prepare_fill` solves this by issuing an ephemeral **`SecretRef`** handle. The agent receives only an opaque token (e.g. `sref_98a7f1...`), which is cryptographically bound to the target tab's origin and expires automatically. The agent then passes this token to [`nova.type_selector_secret`](nova-type-selector-secret.md) to type the password directly into the browser without ever knowing the underlying plaintext.
 
-* **Capability Bundle:** `vault_and_security`, `form_submission`
 * **Zero Plaintext Exposure:** Passwords never touch the LLM conversation context or prompt logs.
 * **Origin Binding:** Tokens are strictly bound to the target tab's active origin (e.g. `https://github.com`); redemption on any other domain is rejected.
 * **Single-Use & Time-Bounded:** Tokens expire after 120 minutes and can only be redeemed once.
@@ -51,6 +50,8 @@ sequenceDiagram
 | `username` | `string` | No | — | — | Optional: specific username to match. |
 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+
+Capability bundle: `vault_auth` (load it with `nova.tools_bundle(bundle='vault_auth')`).
 <!-- /generated:parameters -->
 
 ---

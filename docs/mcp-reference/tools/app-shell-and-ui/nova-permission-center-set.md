@@ -2,7 +2,6 @@
 
 > **Configures global Permission Center default policies and preferred media hardware devices.**
 
-* **Capability Bundle:** `app_shell_recovery, onboarding`
 * **Security Tier:** Tier 2 (Permission Administration)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -29,6 +28,8 @@
 | `preferredSpeakerDeviceId` | `string` | No | — | — | Preferred speaker device ID — must come from the latest permission_center_get output of this Nova session. Empty string clears. |
 | `clearPreferredDevices` | `boolean` | No | `false` | — | If true, clears all preferred device IDs before applying explicit IDs. |
 | `validateDeviceIds` | `boolean` | No | `true` | — | If true, reject unknown device IDs based on current OS media inventory plus cached Chromium enumerateDevices IDs. |
+
+Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 <!-- /generated:parameters -->
 
 ---

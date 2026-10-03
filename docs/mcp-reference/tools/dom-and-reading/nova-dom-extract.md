@@ -8,7 +8,6 @@ Extracts a bounded set of fixed, strongly-typed DOM properties and bounding geom
 
 `nova.dom_extract` is the preferred tool for high-speed, structured element inspection. Instead of evaluating ad-hoc JavaScript snippets via `eval`—which can crash pages, trigger CSP violations, or leak side effects—`nova.dom_extract` runs a native, read-only extraction pipeline over matched DOM nodes.
 
-* **Capability Bundle:** `dom_reading`, `element_inspection`
 * **Safe Read-Only Properties:** Extracts fixed properties (`text`, `href`, `rect`, `ariaLabel`, etc.) with zero runtime script execution.
 * **Shadow-DOM Piercing:** Traverses custom Web Components using ` >>> `.
 * **Bounded Output:** Hard limits on items (`maxItems`) and total character count (`maxChars`) prevent LLM buffer overflows.
@@ -50,6 +49,8 @@ The `properties` array accepts any combination of the following 16 fixed propert
 | `properties` | `array` of `string` | Yes | — | 1–16 items | Fixed read-only fields to extract in the requested order. Unsupported names are rejected instead of evaluated as JavaScript. |
 | `maxItems` | `integer` | No | `20` | 1–100 | Maximum matching elements returned in document order. Over-limit runtime fallbacks are clamped to 100 and reported through limits.maxItems. |
 | `maxChars` | `integer` | No | `20000` | 1000–200000 | Maximum total characters across returned string values. Structural JSON overhead is not counted; truncation is reported truthfully. |
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

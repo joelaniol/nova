@@ -2,13 +2,15 @@
 
 Registering, running, and dynamically calling secondary MCP servers through Nova's unified host.
 
-* **Capability Bundle(s):** `external_mcp`
 * **Core Architecture Guide:** [Core Features: plugins.md](../../../core-features/plugins.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
+<!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 ## Tool Inventory (10 Tools)
+
+Capability bundles of these tools: `external_mcp`.
 
 | Tool | What it does |
 | :--- | :--- |
@@ -22,6 +24,7 @@ Registering, running, and dynamically calling secondary MCP servers through Nova
 | **[`nova.external_servers`](nova-external-servers.md)** | Lists all configured external MCP servers with runtime status, health, and tool count. |
 | **[`nova.external_tool_call`](nova-external-tool-call.md)** | Invokes a specific tool on a connected external MCP server and returns the raw response. |
 | **[`nova.external_tools`](nova-external-tools.md)** | Lists all tools available on an external MCP server, with optional full inputSchema. |
+<!-- /generated:tool-list -->
 
 ---
 

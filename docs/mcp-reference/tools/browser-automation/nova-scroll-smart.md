@@ -10,7 +10,6 @@ Many modern web applications (social feeds, e-commerce listings, search results)
 
 `nova.scroll_smart` emits physical wheel events directly via the Chrome DevTools Protocol (CDP). It measures the resulting scroll delta and reports **saturation metrics** (`moved: true/false`, `atEnd: true/false`), allowing agents to scroll feeds deterministically without getting stuck in infinite loops.
 
-* **Capability Bundle:** `browser_automation`
 * **Underlying Mechanism:** CDP `Input.dispatchMouseEvent` with `type: "mouseWheel"`.
 * **Directionality:** Supports downward scrolls (`deltaY > 0`) and upward scrolls (`deltaY < 0`, crucial for chat history virtualization).
 
@@ -47,6 +46,8 @@ In chat apps (Slack, Discord, ChatGPT), older messages load **upwards**. Passing
 | `useRouteCache` | `boolean` | No | `true` | — | If true, reuse and update last-known-good scroll container per host/route key. |
 | `cachePriority` | `string` | No | `"normal"` | `low`, `normal`, `high` | Bias strength for cached selector candidates. |
 | `suggestPksHint` | `boolean` | No | `true` | — | If true, include pksSuggestions when a stable scroll container is observed repeatedly. |
+
+Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
 <!-- /generated:parameters -->
 
 ---

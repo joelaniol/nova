@@ -10,7 +10,6 @@ Nova's Phenomenological Knowledge Store (PKS) uses empirical quality gates to go
 
 `nova.explain` provides transparent visibility into these internal decisions. If an agent wonders: *"Why is this playbook not running automatically?"* or *"What evidence is missing to promote this candidate?"*, `nova.explain` answers with exact mathematical deltas, gate evaluations, and actionable instructions.
 
-* **Capability Bundle:** `pks_and_learning`, `domain_knowledge`
 * **Per-Gate Breakdown:** Evaluates sample size, consecutive successes, failure ratios, and multi-session consistency.
 * **Delta to Pass:** Identifies exactly how many additional successful runs are required to graduate.
 * **Fingerprint Breakdown:** When `observedSignals` are supplied, highlights which signals matched and which failed during live page detection.
@@ -46,6 +45,8 @@ Nova's Phenomenological Knowledge Store (PKS) uses empirical quality gates to go
 | `stable_id` | `string` | No | — | — | Legacy alias for stableId. Phenomenon stable ID to explain. |
 | `observedSignals` | `array` of `string` | No | — | — | Preferred alias for observed_signals. Must match observed_signals if both are provided. |
 | `observed_signals` | `array` of `string` | No | — | — | Legacy alias for observedSignals. Optional DOM/text/vendor/layout signals to compute match breakdown against this phenomenon's fingerprint. |
+
+Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_learning')`).
 <!-- /generated:parameters -->
 
 ---

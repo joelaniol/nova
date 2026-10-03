@@ -8,7 +8,6 @@ Dynamically switches the active proxy for global tabs or a specific sandbox with
 
 `nova.proxy_switch` reconfigures routing for a target sandbox or global tabs. Nova seamlessly recreates affected WebView2 instances so new proxy startup arguments take effect immediately.
 
-* **Capability Bundle:** `proxy_management`
 * **Security Tier:** Tier 2 (Routing Control)
 * **Core Architecture Guide:** [Proxy Routing & Stealth Network Engine](../../../core-features/proxy-and-network.md)
 
@@ -22,6 +21,8 @@ Dynamically switches the active proxy for global tabs or a specific sandbox with
 | `profileId` | `string or null` | No | — | — | Proxy profile ID to activate. Use null to disable proxy (direct connection). |
 | `sandboxId` | `string` | No | — | — | Sandbox ID to switch proxy for. Omit for global default switch. |
 | `mode` | `string` | No | — | `global`, `none`, `profile` | Sandbox proxy scope: 'global' follows the global default, 'none' requests a direct connection, 'profile' uses profileId. Requires sandboxId. Omit for the legacy behaviour where profileId alone decides between 'profile' and 'none'. |
+
+Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='proxy_management')`).
 <!-- /generated:parameters -->
 
 ---

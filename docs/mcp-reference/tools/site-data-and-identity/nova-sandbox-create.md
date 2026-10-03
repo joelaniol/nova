@@ -8,7 +8,6 @@ Creates a new isolated sandbox profile with dedicated storage, cookies, and cach
 
 `nova.sandbox_create` provisions a new isolated browser profile container. Each sandbox maintains its own distinct CoreWebView2 profile directory, pristine cookie jar, and isolated localStorage, preventing cross-profile tracking and account collisions.
 
-* **Capability Bundle:** `site_data_management`
 * **Security Tier:** Tier 2 (Sandbox Provisioning)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
@@ -28,6 +27,8 @@ Creates a new isolated sandbox profile with dedicated storage, cookies, and cach
 | `preferredFor` | `array` of `string` | No | — | — | Intent keys this sandbox prefers (e.g. 'email.compose', 'chat.ask'). |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 <!-- /generated:parameters -->
 
 ---

@@ -2,7 +2,6 @@
 
 > **Moves the mouse cursor smoothly to specified viewport coordinates.**
 
-* **Capability Bundle:** `browser_automation`
 * **Security Tier:** Tier 2 (Physical Input)
 * **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -25,6 +24,8 @@
 | `restoreActiveTarget` | `boolean` | No | `true` | — | After automatic activation and an unambiguous non-navigation success, restore the previously active Nova target if no user or competing target switch occurred. Ignored when no automatic activation happened. |
 | `x` | `number` | Yes | — | — | Mouse X coordinate in CSS pixels (viewport-relative). |
 | `y` | `number` | Yes | — | — | Mouse Y coordinate in CSS pixels (viewport-relative). |
+
+Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
 <!-- /generated:parameters -->
 
 ---

@@ -8,7 +8,6 @@ Searches for matching task profiles by free-text query with keyword ranking.
 
 `nova.task_search` performs text search across profile goals, display names, and guidance hints, returning ranked candidates.
 
-* **Capability Bundle:** `task_memory`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
@@ -24,6 +23,8 @@ Searches for matching task profiles by free-text query with keyword ranking.
 | `platform` | `string` | No | — | — | Optional: filter/boost by platform. |
 | `taskType` | `string` | No | — | — | Optional: filter by task type. |
 | `limit` | `integer` | No | `10` | 1–50 | Max candidates to return (default 10). |
+
+Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
 <!-- /generated:parameters -->
 
 ---

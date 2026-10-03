@@ -8,7 +8,6 @@ Updates terminal appearance settings such as color theme, font size, and program
 
 `nova.terminal_settings_set` modifies terminal presentation properties. Changes to theme and font size update open sessions immediately, while `programColors` applies to sessions opened afterwards.
 
-* **Capability Bundle:** `terminal_ops`
 * **Security Tier:** Tier 2 (Configuration)
 * **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces.md)
 
@@ -22,6 +21,8 @@ Updates terminal appearance settings such as color theme, font size, and program
 | `theme` | `string` | No | — | `nova`, `dark` | Terminal colour scheme. |
 | `fontSize` | `string` | No | — | `small`, `medium`, `large`, `xlarge` | Terminal font size. |
 | `programColors` | `string` | No | — | `auto`, `off` | 'auto' states no preference and lets the program decide; 'off' sets the NO_COLOR standard for every shell Nova starts. There is deliberately no 'always on' - that would mean FORCE_COLOR, which also writes escape sequences into files and pipes the user redirects to. |
+
+Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
 <!-- /generated:parameters -->
 
 ---

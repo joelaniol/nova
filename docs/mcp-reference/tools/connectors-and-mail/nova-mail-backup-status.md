@@ -8,7 +8,6 @@ Reports progress, downloaded message counts, and active phase of a mail backup j
 
 `nova.mail_backup_status` monitors active and completed mail backup jobs, reporting progress percentages, folders processed, and error counters.
 
-* **Capability Bundle:** `connector_ops`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
@@ -24,6 +23,8 @@ Reports progress, downloaded message counts, and active phase of a mail backup j
 | `acknowledge` | `boolean` | No | `false` | — | With profileId: acknowledge that account's backup alarm (failed/incomplete/interrupted), which removes backupIntegrityWarning from every answer. Only after the user was told what is missing. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
 <!-- /generated:parameters -->
 
 ---

@@ -8,7 +8,6 @@ Lists configured E-Mail accounts and remote file transfer server connections.
 
 `nova.connector_list` retrieves all active connector profiles available to the current workspace or global session. It reports connection IDs, types, host endpoints, usernames, and granted capability permissions without disclosing secrets.
 
-* **Capability Bundle:** `connector_ops`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
@@ -22,6 +21,8 @@ Lists configured E-Mail accounts and remote file transfer server connections.
 | `type` | `string` | No | — | `mail`, `sftp`, `ftp` | Optional: only list connectors of this type. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
 <!-- /generated:parameters -->
 
 ---

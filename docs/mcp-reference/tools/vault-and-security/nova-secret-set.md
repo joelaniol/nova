@@ -10,7 +10,6 @@ Autonomous agents executing terminal commands, shell scripts, or scheduled tasks
 
 `nova.secret_set` stores credentials directly into Nova's encrypted keystore. Secrets are encrypted at rest using Windows Data Protection API (DPAPI) tied to the current OS user. Once stored, **the secret value is never returned by any MCP tool**. Instead, Nova injects the secret directly as an environment variable into authorized terminal sessions and background task executions.
 
-* **Capability Bundle:** `vault_and_security`, `system_and_recovery`
 * **DPAPI Encryption at Rest:** Protected by the operating system's cryptographic infrastructure.
 * **Write-Only Security Guarantee:** No tool, log, or MCP RPC can read back the plaintext value.
 * **Three Strict Injection Scopes:** `workspace`, `task`, and `global`.
@@ -40,6 +39,8 @@ Autonomous agents executing terminal commands, shell scripts, or scheduled tasks
 | `taskId` | `string` | No | — | — | Task id (required for scope='task'). |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `secret_store` (load it with `nova.tools_bundle(bundle='secret_store')`).
 <!-- /generated:parameters -->
 
 ---

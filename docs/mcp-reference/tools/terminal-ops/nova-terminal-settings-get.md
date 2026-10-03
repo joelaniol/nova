@@ -8,7 +8,6 @@ Reads terminal appearance settings and reports why ANSI colour output is enabled
 
 `nova.terminal_settings_get` retrieves terminal UI styling (theme, font size, color preference) and diagnoses the exact reason behind color availability (`colorsReasonCode`).
 
-* **Capability Bundle:** `terminal_ops`
 * **Security Tier:** Tier 1 (Safe)
 * **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces.md)
 
@@ -18,6 +17,8 @@ Reads terminal appearance settings and reports why ANSI colour output is enabled
 
 <!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 This tool takes no parameters.
+
+Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
 <!-- /generated:parameters -->
 
 ---

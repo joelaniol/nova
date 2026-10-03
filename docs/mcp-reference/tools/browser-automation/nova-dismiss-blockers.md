@@ -10,7 +10,6 @@ Autonomously operating agents are frequently halted by popups, promotional modal
 
 `nova.dismiss_blockers` is an active remediation tool that inspects the page for common blocker patterns, triggers polite close buttons or Escape keys, and optionally hides persistent blocking roots to restore page clickability.
 
-* **Capability Bundle:** `browser_automation`, `system_tools`
 * **Modes:** Supports `"polite"` (clicks close/reject buttons) and `"aggressive"` (hides stubborn backdrop roots).
 * **Return Value:** Reports how many blockers were found, how many were dismissed, and whether the page surface is now clear.
 
@@ -37,6 +36,8 @@ If a cookie consent banner belongs to a known vendor (OneTrust, Cookiebot, Klaro
 | `mode` | `string` | No | `"conservative"` | `conservative`, `aggressive` | Dismissal strategy. 'conservative': targets common consent/cookie/GDPR banners only. 'aggressive': also removes overlay divs, fixed-position blockers, and backdrop elements. Start conservative; escalate only if needed. |
 | `maxPasses` | `integer` | No | `2` | 1–5 | Maximum dismissal iterations. Each pass scans for and removes one layer of blockers. More passes = more thorough but slower. |
 | `pressEscape` | `boolean` | No | `true` | — | If true, also press Escape key to dismiss keyboard-closable modals/dialogs. |
+
+Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
 <!-- /generated:parameters -->
 
 ---

@@ -8,7 +8,6 @@ Configures recipient allow-lists for autonomous email sending without human prom
 
 `nova.connector_recipient_set` establishes trusted recipient email addresses or domain wildcards. Outbound emails sent to approved recipients proceed autonomously; emails to unlisted recipients trigger interactive confirmation prompts.
 
-* **Capability Bundle:** `connector_ops`
 * **Security Tier:** Tier 2 (Permission Configuration)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
@@ -23,6 +22,8 @@ Configures recipient allow-lists for autonomous email sending without human prom
 | `recipients` | `array` of `string` | Yes | — | ≤ 200 items | The full new allow-list (addresses and/or bare domains). Replaces the existing list; [] clears it. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
 <!-- /generated:parameters -->
 
 ---

@@ -89,6 +89,7 @@ Deutsch: [weiter unten](#dokumentation-auf-deutsch).
 | [Connectors and mail](mcp-reference/tools/connectors-and-mail/) | Mail, FTP and SFTP |
 | [Terminal](mcp-reference/tools/terminal-ops/) | Opening and driving terminals |
 | [External MCP servers](mcp-reference/tools/external-mcp/) | Other MCP servers run through Nova |
+| [Plugins](mcp-reference/tools/plugins/) | Plugins an agent writes, tests and installs for a site |
 
 ## Core features
 

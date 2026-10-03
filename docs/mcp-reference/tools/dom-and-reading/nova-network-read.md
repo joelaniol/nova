@@ -2,7 +2,6 @@
 
 > **Reads captured HTTP network requests and responses matching URL filters or status codes.**
 
-* **Capability Bundle:** `page_read_debug`
 * **Security Tier:** Tier 1 (Read-Only Network)
 * **Core Feature Guide:** [DOM Perception & Semantic Extraction](../../../core-features/tob.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -42,6 +41,8 @@
 | `pollIntervalMs` | `integer` | No | `250` | 50–5000 | How often the filtered read is repeated while waiting. Only used with waitForMatchMs. |
 | `groupBy` | `string` | No | `"endpoint"` | `endpoint`, `url`, `status`, `kind` | Grouping key when summarize=true. 'endpoint' (default) groups by method plus path with numeric, uuid and long opaque segments collapsed, so calls that differ only by id land in one group; 'url' keeps the exact URL. |
 | `maxChars` | `integer` | No | `50000` | 1000–5000000 | Maximum serialized response characters before truncation. Defaults shrink automatically under context pressure unless explicitly provided. |
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

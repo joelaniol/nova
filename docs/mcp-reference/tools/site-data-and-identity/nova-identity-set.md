@@ -8,7 +8,6 @@ Configures and persists a new browser identity profile (preset + version/custom 
 
 `nova.identity_set` persists a new browser persona into `settings.json`. It configures the browser to emulate specific User-Agent strings, platform navigator properties, and client hints across future WebView instantiations.
 
-* **Capability Bundle:** `site_data_management`
 * **Security Tier:** Tier 2 (Identity Configuration)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
@@ -22,6 +21,8 @@ Configures and persists a new browser identity profile (preset + version/custom 
 | `preset` | `string` | No | — | `default`, `chrome`, `firefox`, `safari`, `custom` | Browser identity preset. 'default' = native WebView2/Edge UA. 'chrome'/'firefox'/'safari' = spoofed UA for that browser. 'custom' = free-form UA string (requires customUserAgent). |
 | `version` | `string` | No | — | — | Version string for chrome/firefox/safari presets. 'latest' or omit for the newest available version. Ignored for 'default' and 'custom' presets. Use nova.identity_presets to see valid version strings. |
 | `customUserAgent` | `string or null` | No | — | — | Custom user-agent string. Required when preset='custom'. Set to null or an empty string to clear a stored custom user-agent. Max 1024 characters. Control characters are stripped automatically. |
+
+Capability bundle: `identity_management` (load it with `nova.tools_bundle(bundle='identity_management')`).
 <!-- /generated:parameters -->
 
 ---

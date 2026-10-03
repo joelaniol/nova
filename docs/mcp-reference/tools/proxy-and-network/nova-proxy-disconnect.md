@@ -8,7 +8,6 @@ Manually disconnects the proxy for a target scope, blocking all HTTP(S) traffic 
 
 `nova.proxy_disconnect` acts as an emergency network kill switch. It severs the proxy route and blocks all outgoing HTTP(S) requests until `nova.proxy_reconnect` succeeds, preventing IP leaks.
 
-* **Capability Bundle:** `proxy_management`
 * **Security Tier:** Tier 2 (Kill Switch)
 * **Core Architecture Guide:** [Proxy Routing & Stealth Network Engine](../../../core-features/proxy-and-network.md)
 
@@ -20,6 +19,8 @@ Manually disconnects the proxy for a target scope, blocking all HTTP(S) traffic 
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `targetId` | `string` | Yes | — | — | Target ID: sandbox ID or 'browser-tabs' for the global browser scope. |
+
+Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='proxy_management')`).
 <!-- /generated:parameters -->
 
 ---

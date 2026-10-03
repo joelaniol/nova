@@ -8,7 +8,6 @@ Lists guidance log entries filtered by profile, domain, or guidance kind.
 
 `nova.task_guidance_logs` queries the guidance observation history to review proposed playbooks, learning traces, and execution anomalies.
 
-* **Capability Bundle:** `task_memory`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
@@ -24,6 +23,8 @@ Lists guidance log entries filtered by profile, domain, or guidance kind.
 | `guidanceKind` | `string` | No | — | — | Filter by kind: style, terminology, scope_rule, workflow, quality, match_telemetry, custom. |
 | `status` | `string` | No | — | — | Filter by status: logged, proposed, accepted, rejected, promoted. |
 | `limit` | `integer` | No | `50` | 1–200 | Max entries to return. Default: 50. |
+
+Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
 <!-- /generated:parameters -->
 
 ---

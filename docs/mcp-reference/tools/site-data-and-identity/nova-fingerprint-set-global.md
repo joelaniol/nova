@@ -8,7 +8,6 @@ Sets the global browser fingerprint protection level across all sandboxes.
 
 `nova.fingerprint_set_global` configures baseline fingerprint protection (`Off`, `Balanced`, `Strict`) across all sandboxes and tabs that do not specify overrides. Persisted in `settings.json`.
 
-* **Capability Bundle:** `site_data_management`
 * **Security Tier:** Tier 2 (Global Privacy Configuration)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
@@ -20,6 +19,8 @@ Sets the global browser fingerprint protection level across all sandboxes.
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `level` | `string` | Yes | — | `off`, `standard`, `strict` | New global protection level. |
+
+Capability bundle: `fingerprint_protection` (load it with `nova.tools_bundle(bundle='fingerprint_protection')`).
 <!-- /generated:parameters -->
 
 ---

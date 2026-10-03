@@ -8,7 +8,6 @@ Renames or moves a remote file or directory on an FTP/FTPS server.
 
 `nova.ftp_rename` renames or relocates a file or directory on an FTP/FTPS host.
 
-* **Capability Bundle:** `connector_ops`
 * **Security Tier:** Tier 2 (Remote Mutation)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
@@ -27,6 +26,8 @@ Renames or moves a remote file or directory on an FTP/FTPS server.
 | `allowInsecure` | `boolean` | No | `false` | — | Required as true only when this profile explicitly uses plaintext FTP. The user's separate debug/legacy option must also be enabled. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
 <!-- /generated:parameters -->
 
 ---

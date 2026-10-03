@@ -8,7 +8,6 @@ Sets a persistent key-value state variable for a task that survives across runs.
 
 `nova.scheduled_task_var_set` stores lightweight persistent state for a task. Variables are retained across runs and browser restarts, enabling tasks to track watermarks, last-seen timestamps, pagination cursors, and running counters without creating extra files.
 
-* **Capability Bundle:** `scheduled_tasks`
 * **Security Tier:** Tier 2 (State Mutation)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
@@ -24,6 +23,8 @@ Sets a persistent key-value state variable for a task that survives across runs.
 | `value` | `string` | Yes | — | — | Variable value (max 64 KB). Use JSON strings for structured data. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
 <!-- /generated:parameters -->
 
 ---

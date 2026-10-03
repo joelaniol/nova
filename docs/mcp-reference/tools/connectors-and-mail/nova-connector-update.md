@@ -8,7 +8,6 @@ Updates configuration, endpoints, credentials, or signatures of an existing conn
 
 `nova.connector_update` modifies settings for a previously registered connector. Only specified fields are updated; omitted fields retain their existing values.
 
-* **Capability Bundle:** `connector_ops`
 * **Security Tier:** Tier 2 (Connector Mutation)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
@@ -43,6 +42,8 @@ Updates configuration, endpoints, credentials, or signatures of an existing conn
 | `allowInsecure` | `boolean` | No | `false` | — | Required as true when the resulting profile uses security=none or allows an invalid mail TLS certificate; the user's separate Settings option must also be enabled. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
 <!-- /generated:parameters -->
 
 ---

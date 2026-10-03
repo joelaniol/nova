@@ -8,7 +8,6 @@ Terminates an agent-owned terminal session and cleans up its process tree and te
 
 `nova.terminal_close` gracefully shuts down the PTY and forcefully terminates any remaining child processes in the session tree. Subsequent calls referencing the session ID return `terminal_not_found`.
 
-* **Capability Bundle:** `terminal_ops`
 * **Security Tier:** Tier 2 (Destructive)
 * **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces.md)
 
@@ -22,6 +21,8 @@ Terminates an agent-owned terminal session and cleans up its process tree and te
 | `sessionId` | `string` | Yes | — | — | Session id from terminal_open. |
 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+
+Capability bundle: `terminal_ops` (load it with `nova.tools_bundle(bundle='terminal_ops')`).
 <!-- /generated:parameters -->
 
 ---

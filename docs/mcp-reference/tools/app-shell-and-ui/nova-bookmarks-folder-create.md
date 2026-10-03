@@ -2,7 +2,6 @@
 
 > **Creates a hierarchical folder in the browser bookmark collection.**
 
-* **Capability Bundle:** `app_shell_recovery, onboarding`
 * **Security Tier:** Tier 2 (Bookmark Management)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -22,6 +21,8 @@
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `name` | `string` | Yes | — | — | Folder name (1..64 printable characters). |
 | `parentId` | `string` | No | — | — | Optional parent folder id. |
+
+Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 <!-- /generated:parameters -->
 
 ---

@@ -8,7 +8,6 @@ Requests an authenticated OAuth 2.1 connection to a website's discovered MCP ser
 
 `nova.site_mcp_connect_request` triggers an interactive OAuth 2.1 authorization flow with a discovered MCP server. Nova opens a user consent tab, completes the authorization code exchange with PKCE, and registers the server into Nova's external MCP host.
 
-* **Capability Bundle:** `site_data_management`
 * **Security Tier:** Tier 2 (OAuth Bridge)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
@@ -22,6 +21,8 @@ Requests an authenticated OAuth 2.1 connection to a website's discovered MCP ser
 | `domain` | `string` | Yes | — | — | Target domain or URL. Must have OAuth metadata from a prior site_discovery_probe. Required. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 <!-- /generated:parameters -->
 
 ---

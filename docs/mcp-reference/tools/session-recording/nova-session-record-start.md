@@ -10,7 +10,6 @@ Initiates encrypted background recording of CDP network, DOM mutations, console 
 
 All sensitive data (passwords, auth tokens, session cookies, DPAPI vault secrets) is automatically redacted at ingestion time prior to disk serialization. Recordings are protected with an ephemeral AES-GCM Data Encryption Key (DEK).
 
-* **Capability Bundle:** `session_recording`
 * **Security Tier:** Tier 2 (Session Capture & Tracing)
 * **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
 
@@ -26,6 +25,8 @@ All sensitive data (passwords, auth tokens, session cookies, DPAPI vault secrets
 | `permissionClasses` | `array` of `string` | No | — | — | Permission classes to grant for this recording. Defaults to ['metadata', 'interactions_mcp', 'dom_snapshots']. Available classes: metadata, network_timing_detail, headers_sensitive, request_bodies, response_bodies, storage_values, performance_marks, worker_messages, interactions_mcp, interactions_native, dom_snapshots, websocket_payloads, indexeddb_values [secret-bearing], dom_mutations, streaming_bodies [Wave R4 conditional], fetch_interception [reserved non-grantable — returns permission_request_denied_reserved_active_mode]. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='session_recording')`).
 <!-- /generated:parameters -->
 
 ---

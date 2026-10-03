@@ -2,13 +2,15 @@
 
 Password autofill via ephemeral origin-bound SecretRef tokens, credential discovery, and write-only encrypted environment variables.
 
-* **Capability Bundle(s):** `vault_auth, secret_store`
 * **Core Architecture Guide:** [Core Features: vault-and-secrets.md](../../../core-features/vault-and-secrets.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
+<!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 ## Tool Inventory (9 Tools)
+
+Capability bundles of these tools: `secret_store`, `vault_auth`.
 
 | Tool | What it does |
 | :--- | :--- |
@@ -21,6 +23,7 @@ Password autofill via ephemeral origin-bound SecretRef tokens, credential discov
 | **[`nova.vault_list`](nova-vault-list.md)** | Lists stored credential entries (site domain, associated usernames, and creation source) without returning passwords. |
 | **[`nova.vault_prepare_fill`](nova-vault-prepare-fill.md)** | Prepares stored credentials from the secure Vault for automated form-filling, returning an ephemeral, origin-bound, and single-use `SecretRef` token instead of the raw password string. |
 | **[`nova.vault_set`](nova-vault-set.md)** | Stores or updates a username and password login credential in the encrypted vault. |
+<!-- /generated:tool-list -->
 
 ---
 

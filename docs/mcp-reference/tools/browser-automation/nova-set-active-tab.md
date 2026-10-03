@@ -8,7 +8,6 @@ Switches the active visual presentation and input focus in the Nova application 
 
 `nova.set_active_tab` brings a background tab or sandbox into active focus in the primary UI window. While agents can perform headless CDP operations on background tabs by passing `targetId`, visual screenshots, human inspection, and certain focus-dependent UI elements require foreground activation.
 
-* **Capability Bundle:** `browser_automation`, `app_shell_recovery`
 * **Target Resolution:** Accepts concrete browser tab IDs (e.g. `"tab-102"`) or sandbox identifiers (`"A"`, `"B"`).
 * **Focus Presentation:** Updates WinUI tab strip selection and brings the associated WebView2 composition to the foreground.
 
@@ -20,6 +19,8 @@ Switches the active visual presentation and input focus in the Nova application 
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `targetId` | `string` | Yes | — | — | Target ID to switch to (sandbox ID or browser tab ID). |
+
+Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
 <!-- /generated:parameters -->
 
 ---

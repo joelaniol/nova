@@ -8,7 +8,6 @@ One-click reset of all stored permissions (media, notifications, geolocation) fo
 
 `nova.site_permissions_reset_origin` provides a comprehensive single-call purge of all permissions configured for a web domain: camera, microphone, speaker, screen sharing, desktop notifications, and geolocation.
 
-* **Capability Bundle:** `site_data_management`
 * **Security Tier:** Tier 2 (Permission Reset)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
@@ -22,6 +21,8 @@ One-click reset of all stored permissions (media, notifications, geolocation) fo
 | `origin` | `string` | Yes | — | — | Absolute http/https origin (no path/query). |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 <!-- /generated:parameters -->
 
 ---

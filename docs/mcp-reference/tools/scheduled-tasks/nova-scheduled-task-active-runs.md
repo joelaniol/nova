@@ -8,7 +8,6 @@ Lists all currently executing task runs across all background tasks.
 
 `nova.scheduled_task_active_runs` queries the scheduler for all tasks currently executing. It reports process IDs, elapsed execution time, memory usage, and assigned worker slots.
 
-* **Capability Bundle:** `scheduled_tasks`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
@@ -20,6 +19,8 @@ Lists all currently executing task runs across all background tasks.
 This tool takes no parameters.
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
 <!-- /generated:parameters -->
 
 ---

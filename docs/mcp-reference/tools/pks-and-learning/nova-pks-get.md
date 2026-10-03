@@ -10,7 +10,6 @@ The **Phenomenological Knowledge Store (PKS)** is Nova's shared, self-learning d
 
 `nova.pks_get` fetches registered phenomena for a domain scope. It supports lightweight existence checks (`outputDetail: "summary"`) or full extraction (`outputDetail: "full"`), with optional filtering by individual phenomenon ID.
 
-* **Capability Bundle:** `pks_and_learning`, `domain_knowledge`
 * **Two Detail Levels:** `"summary"` returns compact IDs, types, and health stats (~90% token reduction); `"full"` returns playbooks, action sequences, and fingerprint signals.
 * **Context Compatibility Checks:** Compares the active agent context (device, locale, auth state) against the stored domain context, reporting mismatches transparently.
 * **Single Phenomenon Querying (`phenomenonId`):** Retrieve only the needed phenomenon without downloading the entire domain scope.
@@ -51,6 +50,8 @@ The response indicates `contextMatch: true` or details specific divergences.
 | `context.device` | `any` | No | — | — | Device type for context-specific filtering. Use null or omit to leave the device filter unset. |
 | `context.locale` | `string or null` | No | — | ≥ 1 characters | Optional locale filter such as 'de-DE'. Use null or omit to leave the locale filter unset. |
 | `context.auth` | `any` | No | — | — | Authentication state. 'anonymous' = not signed in, 'logged_in' = signed in, 'unknown' = not enough evidence to classify. Use null or omit to leave the auth filter unset. |
+
+Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_learning')`).
 <!-- /generated:parameters -->
 
 ---

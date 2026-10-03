@@ -8,7 +8,6 @@ Updates configuration, environment variables, or transport settings of an existi
 
 `nova.external_server_update` updates configuration for a registered server identified by `serverKey`. Running servers must be restarted for updated environment variables or arguments to take effect.
 
-* **Capability Bundle:** `external_mcp`
 * **Security Tier:** Tier 3 (High-Impact)
 * **Core Architecture Guide:** [Plugins & External Extensions](../../../core-features/plugins.md)
 
@@ -36,6 +35,8 @@ Updates configuration, environment variables, or transport settings of an existi
 | `startupTimeoutMs` | `integer` | No | — | — | New startup timeout in ms. |
 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+
+Capability bundle: `external_mcp` (load it with `nova.tools_bundle(bundle='external_mcp')`).
 <!-- /generated:parameters -->
 
 ---

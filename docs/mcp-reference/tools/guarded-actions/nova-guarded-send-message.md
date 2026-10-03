@@ -14,7 +14,6 @@ Sending a prompt or chat message in modern AI interfaces involves complex intera
 3. **Send-Button Resolution:** Automatically pairs the composer with its nearby send button, tolerating `disabled` buttons that activate only after typing.
 4. **Closed-Loop Postcondition Verification:** Asserts that the composer cleared, the send button transitioned to a stop/streaming state, or the user's message bubble appeared in the transcript feed.
 
-* **Capability Bundle:** `form_submission`, `guarded_actions`
 * **Zero Selector Guessing:** When `selector` is omitted, Nova automatically locates both the composer input and the send button.
 * **Closed-Loop Safety:** Injects an automated `transitionContract` ensuring messages are never submitted blindly or duplicated.
 * **Blocker Clearance:** Can automatically clear cookie banners or dialogs obscuring the composer (`autoDismissBlockers: true`).
@@ -62,6 +61,8 @@ Sending a prompt or chat message in modern AI interfaces involves complex intera
 | `transitionContract.stabilityMs` | `integer` | No | — | — | Optional stability hold duration in milliseconds. Success must remain true for this long before verification passes. |
 | `text` | `string` | No | — | — | Optional text to type into the chat composer before sending. When provided, Nova auto-discovers the input field, types the text, verifies via read-back, then clicks send. No length limit — long text is auto-chunked. When text is set, selector/ctaRef are ignored for input discovery but can still override send-button resolution. |
 | `message` | `string` | No | — | — | Alias for 'text'. Accepted for convenience — many agents use 'message' instinctively. If both 'text' and 'message' are provided, 'text' wins. |
+
+Capability bundles: `browser_automation`, `form_submission`.
 <!-- /generated:parameters -->
 
 ---

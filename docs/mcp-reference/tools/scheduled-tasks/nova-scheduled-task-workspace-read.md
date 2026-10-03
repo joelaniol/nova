@@ -8,7 +8,6 @@ Reads a UTF-8 text file from a task’s shared workspace folder.
 
 `nova.scheduled_task_workspace_read` reads text content from a file inside the task's `shared/` directory. It returns the complete file string, encoding information, and byte size.
 
-* **Capability Bundle:** `scheduled_tasks`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
@@ -23,6 +22,8 @@ Reads a UTF-8 text file from a task’s shared workspace folder.
 | `relativePath` | `string` | Yes | — | — | Path relative to the shared/ directory (e.g. 'latest-report.json', 'result.json'). Only files inside shared/ are accessible. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
 <!-- /generated:parameters -->
 
 ---

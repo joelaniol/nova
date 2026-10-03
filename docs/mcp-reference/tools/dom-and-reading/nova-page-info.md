@@ -8,7 +8,6 @@ Retrieves essential page metadata (URL, title, DOM ready state, viewport dimensi
 
 `nova.page_info` is an ultra-lightweight status inspection tool. When an agent needs to verify navigation success, check if a document has settled, read current viewport coordinates, or determine which element currently holds focus, `nova.page_info` returns these essentials without extracting full DOM trees or generating screenshots.
 
-* **Capability Bundle:** `dom_reading`, `element_inspection`
 * **Zero Visual Overhead:** Never generates image artifacts or consumes vision tokens.
 * **Settlement & Focus Tracking:** Returns `document.readyState` and detailed descriptors for the currently focused active element.
 * **Auto-Shrinking Under Context Pressure:** Dynamically optimizes response payload size when the conversation approaches token limits.
@@ -45,6 +44,8 @@ Identifies the element currently holding keyboard focus:
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
 | `maxChars` | `integer` | No | `20000` | 1000–5000000 | Maximum characters to return. Defaults shrink automatically under context pressure unless explicitly provided. |
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

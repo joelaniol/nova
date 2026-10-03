@@ -8,7 +8,6 @@ Starts streaming capture of live audio/video playing in a tab (WebAudio, MSE, dy
 
 `nova.media_capture_start` intercepts and records audio or video playing inside a tab that cannot be downloaded via standard URL fetching (e.g. MSE streams, WebAudio graphs, encrypted media). It captures audio chunks directly and writes them to local disk files.
 
-* **Capability Bundle:** `system_tools`
 * **Security Tier:** Tier 2 (Media Stream Capture)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
@@ -27,6 +26,8 @@ Starts streaming capture of live audio/video playing in a tab (WebAudio, MSE, dy
 | `source` | `string` | No | `"both"` | `both`, `mse`, `webaudio` | Which playback paths to record. Default both, so you need not know how the page plays its media: mse covers HLS/DASH streaming, webaudio covers decodeAudioData (messenger voice messages). Narrow it only to avoid installing a recorder you know is useless. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

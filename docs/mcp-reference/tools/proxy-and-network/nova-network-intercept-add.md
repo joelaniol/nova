@@ -8,7 +8,6 @@ Deposits a CDP network interception rule to mock responses, inject delays, modif
 
 `nova.network_intercept_add` intercepts live network requests matching a URL pattern on the target tab. Nova answers matching requests immediately from this rule without waiting for LLM turns, ensuring page JavaScript never hangs. Rules expire automatically by TTL, hit count, or tab closure.
 
-* **Capability Bundle:** `proxy_management`
 * **Security Tier:** Tier 2 (Network Interception)
 * **Core Architecture Guide:** [Proxy Routing & Stealth Network Engine](../../../core-features/proxy-and-network.md)
 
@@ -43,6 +42,8 @@ Deposits a CDP network interception rule to mock responses, inject delays, modif
 | `note` | `string` | No | — | — | Free text shown in the rule list and in Nova's own interception indicator, so a human can tell what this rule is for. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

@@ -2,7 +2,6 @@
 
 > **Fetches the raw text content of a loaded web resource by its URL.**
 
-* **Capability Bundle:** `app_shell_recovery, onboarding`
 * **Security Tier:** Tier 1 (Read-Only Resource Extraction)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -26,6 +25,8 @@
 | `maxChars` | `integer` | No | `100000` | 1000–5000000 | Maximum characters for text resource content. |
 | `maxBytes` | `integer` | No | `1048576` | 1024–50000000 | Maximum bytes for binary resource content (base64-encoded). |
 | `charOffset` | `integer` | No | `0` | 0–50000000 | Start reading a TEXT resource this many characters in, so a match found by nova.grep_resources (which reports index) can be widened without searching again: charOffset=index-500 with maxChars=1200 puts the hit in the middle. The result carries charOffset, nextCharOffset (charOffset + chars) for paging, and sourceChars for the total. An offset at or past the end returns an empty window instead of the file's head; a binary resource has no character window and answers charOffsetApplied=false with charOffsetSkippedReason. |
+
+Capability bundles: `page_read_debug`, `visual_evidence`.
 <!-- /generated:parameters -->
 
 ---

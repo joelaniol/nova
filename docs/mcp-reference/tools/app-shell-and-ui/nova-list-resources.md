@@ -2,7 +2,6 @@
 
 > **Lists all network resources (scripts, stylesheets, frames, images) loaded by the target tab.**
 
-* **Capability Bundle:** `app_shell_recovery, onboarding`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -24,6 +23,8 @@
 | `source` | `string` | No | `"auto"` | `auto`, `cdp`, `performance`, `dom` | Discovery method. 'auto': merges the CDP resource tree with the Performance timeline (deduplicated by URL) and falls back to DOM tags - use it, because a tree rebuilt after a reattach forgets lazily loaded chunks the timeline still knows. 'cdp': CDP resource tree only. 'performance': Performance API entries only. 'dom': scans DOM tags (script/link/img). The result reports sources/sourceCounts and a hint when the merge added entries. |
 | `types` | `array` of `string` | No | `["Script","Stylesheet","Document"]` | — | Resource types to include. Common values: Script, Stylesheet, Document, Image, Font, XHR, Fetch, Media, WebSocket. |
 | `maxItems` | `integer` | No | `200` | 1–2000 | Maximum number of resources to return. |
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

@@ -2,7 +2,6 @@
 
 > **Resolves or closes a learning opportunity opportunity flagged during autonomous browsing.**
 
-* **Capability Bundle:** `pks_learning`
 * **Security Tier:** Tier 2 (Learning Maintenance)
 * **Core Feature Guide:** [Phenomenological Knowledge Store (PKS)](../../../core-features/pks.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -23,6 +22,8 @@
 | `opportunityId` | `string` | Yes | — | — | Stable ID emitted in pksSemanticLearning.opportunityId, format sem:{kind}:{origin}:{fingerprint}. |
 | `verdict` | `string` | Yes | — | `upsert`, `not_applicable`, `unsafe`, `already_known`, `defer` | How the agent handled the opportunity. |
 | `reason` | `string` | No | — | ≤ 500 characters | Optional short rationale (≤500 chars) for telemetry. |
+
+Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_learning')`).
 <!-- /generated:parameters -->
 
 ---

@@ -2,7 +2,6 @@
 
 > **Executes a raw Chrome DevTools Protocol (CDP) method directly on the target WebView2 instance.**
 
-* **Capability Bundle:** `app_shell_recovery, onboarding`
 * **Security Tier:** Tier 3 (Low-Level Diagnostic & Protocol Passthrough)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -55,6 +54,8 @@
 | `maxChars` | `integer` | No | `800000` | 1000–5000000 | Maximum characters for the CDP response. |
 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

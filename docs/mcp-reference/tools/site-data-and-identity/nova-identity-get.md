@@ -8,7 +8,6 @@ Reads the active browser identity profile, spoofed User-Agent, and client hints.
 
 `nova.identity_get` returns the current browser persona configuration: active preset (`ChromeWindows`, `EdgeWindows`, `SafariMac`), version strings, custom User-Agent, and Sec-CH-UA client hint headers.
 
-* **Capability Bundle:** `site_data_management`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
@@ -18,6 +17,8 @@ Reads the active browser identity profile, spoofed User-Agent, and client hints.
 
 <!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 This tool takes no parameters.
+
+Capability bundle: `identity_management` (load it with `nova.tools_bundle(bundle='identity_management')`).
 <!-- /generated:parameters -->
 
 ---

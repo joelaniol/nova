@@ -8,7 +8,6 @@ Reports memory engine metrics, commit rates, verification health, and outbox que
 
 `nova.memory_stats` reads health and performance metrics from Nova's cognitive memory subsystem: candidate intake, verification rates, curation quality, and outbox sync status.
 
-* **Capability Bundle:** `task_memory`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
@@ -26,6 +25,8 @@ Reports memory engine metrics, commit rates, verification health, and outbox que
 | `topHosts` | `integer` | No | `8` | — | Top scroll_smart hosts to include (1-20). Default 8. |
 | `topSelectors` | `integer` | No | `8` | — | Top scroll_smart selector candidates to include (1-20). Default 8. |
 | `componentFilter` | `string` | No | — | — | Optional LCJ component filter. When set, LCJ candidate/curation aggregates are scoped to this component only (e.g. 'evm'). |
+
+Capability bundles: `pks_learning`, `task_memory`.
 <!-- /generated:parameters -->
 
 ---

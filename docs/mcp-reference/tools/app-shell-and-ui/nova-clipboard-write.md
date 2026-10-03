@@ -2,7 +2,6 @@
 
 > **Writes plain text to the Windows OS system clipboard.**
 
-* **Capability Bundle:** `app_shell_recovery, onboarding`
 * **Security Tier:** Tier 2 (OS Integration)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -23,6 +22,8 @@
 | `text` | `string` | Yes | — | — | Required text payload to write into the clipboard. Must be a JSON string; explicit null is invalid. Empty or whitespace-only strings intentionally clear/overwrite the current clipboard text. The runtime sanitizes dangerous invisible/control characters before writing and rejects payloads longer than 65536 characters. |
 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+
+Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 <!-- /generated:parameters -->
 
 ---

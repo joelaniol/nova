@@ -2,7 +2,6 @@
 
 > **Retrieves layout viewport dimensions, document scroll boundaries, and device scale factor.**
 
-* **Capability Bundle:** `page_read_debug`
 * **Security Tier:** Tier 1 (Read-Only Geometry)
 * **Core Feature Guide:** [DOM Perception & Semantic Extraction](../../../core-features/tob.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -21,6 +20,8 @@
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+
+Capability bundles: `browser_automation`, `page_read_debug`.
 <!-- /generated:parameters -->
 
 ---

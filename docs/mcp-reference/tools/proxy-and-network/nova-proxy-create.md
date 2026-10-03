@@ -8,7 +8,6 @@ Creates a new proxy profile with host, port, protocol, and optional credentials.
 
 `nova.proxy_create` defines a new proxy configuration in Nova (up to 12 profiles). Supports HTTP, HTTPS, SOCKS4, and SOCKS5 protocols with custom bypass lists.
 
-* **Capability Bundle:** `proxy_management`
 * **Security Tier:** Tier 2 (Configuration)
 * **Core Architecture Guide:** [Proxy Routing & Stealth Network Engine](../../../core-features/proxy-and-network.md)
 
@@ -27,6 +26,8 @@ Creates a new proxy profile with host, port, protocol, and optional credentials.
 | `username` | `string` | No | — | — | Username for proxy authentication (HTTP/HTTPS only; SOCKS auth is not supported by Chromium). |
 | `enabled` | `boolean` | No | `true` | — | Whether the profile is enabled. Default: true. |
 | `isGlobalDefault` | `boolean` | No | `false` | — | Set as the global default proxy for normal browser tabs. Only one profile can be global default. |
+
+Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='proxy_management')`).
 <!-- /generated:parameters -->
 
 ---

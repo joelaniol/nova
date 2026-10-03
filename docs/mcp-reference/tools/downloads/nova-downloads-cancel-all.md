@@ -8,7 +8,6 @@ Cancels every non-terminal download currently queued, in progress, or paused.
 
 `nova.downloads_cancel_all` bulk-dispatches abort signals to all pending and active download operations, clearing network queues during emergency stops or workflow resets.
 
-* **Capability Bundle:** `app_shell_recovery`
 * **Security Tier:** Tier 2 (Bulk Control)
 * **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts.md)
 
@@ -20,6 +19,8 @@ Cancels every non-terminal download currently queued, in progress, or paused.
 This tool takes no parameters.
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
 <!-- /generated:parameters -->
 
 ---

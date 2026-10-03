@@ -8,7 +8,6 @@ Proposes a lightweight candidate memory claim for the currently claimed task and
 
 `nova.memory_add_candidate` records an unverified hypothesis or observation during task execution for subsequent offline verification.
 
-* **Capability Bundle:** `task_memory`
 * **Security Tier:** Tier 2 (Memory Ingestion)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
@@ -25,6 +24,8 @@ Proposes a lightweight candidate memory claim for the currently claimed task and
 | `claim` | `string` | Yes | — | — | One-line reusable insight (max 280 chars). |
 | `status` | `string` | No | `"unverified"` | `unverified`, `verified`, `disproven` | Claim verification status. 'unverified' stores a fresh claim that still needs confirmation, 'verified' marks a claim that was reproduced or proven true, and 'disproven' records a claim that was checked and found false, outdated, or no longer applicable. |
 | `confidence` | `number` | No | `0.65` | — | Confidence score 0.0-1.0. Default 0.65. |
+
+Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_learning')`).
 <!-- /generated:parameters -->
 
 ---

@@ -8,7 +8,6 @@ Stores an encrypted secret (API key, auth token) for a task using Windows DPAPI 
 
 `nova.scheduled_task_secret_set` associates an encrypted credential with a task. Secrets are encrypted using Windows Data Protection API (DPAPI) tied to the current OS user and decrypted only in-memory during task execution. Secret values are write-only and cannot be retrieved via MCP tools.
 
-* **Capability Bundle:** `scheduled_tasks`
 * **Security Tier:** Tier 2 (Encrypted Secret Storage)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
@@ -24,6 +23,8 @@ Stores an encrypted secret (API key, auth token) for a task using Windows DPAPI 
 | `value` | `string` | Yes | — | — | Secret value (will be DPAPI-encrypted, never stored in plaintext). |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
 <!-- /generated:parameters -->
 
 ---

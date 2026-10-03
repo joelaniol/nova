@@ -2,7 +2,6 @@
 
 > **Resolves an active web permission prompt modal (camera, microphone, geolocation, notifications).**
 
-* **Capability Bundle:** `app_shell_recovery, onboarding`
 * **Security Tier:** Tier 2 (Permission Resolution)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -23,6 +22,8 @@
 | `decision` | `string` | No | — | `defer`, `allow`, `deny` | defer = postpone without deciding (default, always available); allow/deny = answer for the user. |
 
 **`_meta.intent` is required for certain arguments.** Passing a short reason in `_meta.intent` is always safe; a rejected call names the argument that made it required.
+
+Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
 <!-- /generated:parameters -->
 
 ---

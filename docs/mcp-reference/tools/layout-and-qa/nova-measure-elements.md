@@ -13,7 +13,6 @@ Diagnosing responsive layout bugs, clipped text, or unexpected wrapping usually 
 
 This reveals `usedWidthRatio`—a metric that CSS media queries cannot detect and screenshots cannot explain.
 
-* **Capability Bundle:** `layout_and_qa`, `element_inspection`
 * **Zero Scrolling:** Measuring never shifts or scrolls the page viewport.
 * **Batch Execution:** Evaluates up to 25 distinct selectors in one call.
 * **Partial Match Resilience:** If one selector misses or is unparseable, valid selectors are still measured with individual `found: false` reporting.
@@ -51,6 +50,8 @@ Pass up to 20 specific CSS property names (e.g. `max-width`, `min-width`, `box-s
 | `properties` | `array` of `string` | No | — | ≤ 20 items | Optional computed-style properties to read per element; returned under each result's 'properties'. |
 | `matchMode` | `string` | No | `"first"` | `first`, `all` | 'first' (default) measures only the first match per selector; 'all' measures up to maxMatchesPerSelector and reports truncated=true when a selector had more. |
 | `maxMatchesPerSelector` | `integer` | No | `5` | 1–25 | Upper bound on measured matches per selector when matchMode='all'. matchCount always reports how many the selector really had, so a bound is visible rather than silent. |
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

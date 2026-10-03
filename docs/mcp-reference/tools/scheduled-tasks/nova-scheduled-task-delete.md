@@ -8,7 +8,6 @@ Permanently deletes a scheduled task, its configuration, and associated run hist
 
 `nova.scheduled_task_delete` removes a scheduled task from the database. It cancels any in-flight runs, cancels scheduled timer events, and cleans up the task's metadata.
 
-* **Capability Bundle:** `scheduled_tasks`
 * **Security Tier:** Tier 3 (Destructive Task Deletion)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
@@ -23,6 +22,8 @@ Permanently deletes a scheduled task, its configuration, and associated run hist
 | `cleanupWorkspace` | `boolean` | No | `false` | — | If true, also delete the task's workspace directory. Default: false. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
 <!-- /generated:parameters -->
 
 ---

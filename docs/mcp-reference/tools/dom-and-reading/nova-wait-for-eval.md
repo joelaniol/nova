@@ -2,7 +2,6 @@
 
 > **Polls the target tab until a JavaScript expression evaluates to a truthy value or times out.**
 
-* **Capability Bundle:** `page_read_debug`
 * **Security Tier:** Tier 1 (Synchronization)
 * **Core Feature Guide:** [DOM Perception & Semantic Extraction](../../../core-features/tob.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -30,6 +29,8 @@
 | `screenshotFormat` | `string` | No | `"png"` | `png`, `jpeg`, `auto` | Screenshot format; 'auto' picks PNG or JPEG per region. |
 | `screenshotQuality` | `integer` | No | `80` | 1–100 | JPEG quality (1-100). Only used when screenshotFormat is 'jpeg'. |
 | `screenshotResponseMode` | `string` | No | `"inline"` | `inline`, `reference`, `thumbnail+reference`, `auto` | Screenshot delivery mode when includeScreenshot=true. inline returns the image directly; reference stores a nova://screenshot resource; thumbnail+reference returns a small preview plus resource; auto lets Nova choose based on budget. |
+
+Capability bundles: `browser_automation`, `form_submission`, `page_read_debug`.
 <!-- /generated:parameters -->
 
 ---

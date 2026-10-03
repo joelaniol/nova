@@ -2,7 +2,6 @@
 
 > **Lists stored phenomenological knowledge playbooks with pagination and domain filters.**
 
-* **Capability Bundle:** `pks_learning`
 * **Security Tier:** Tier 1 (Read-Only Catalog)
 * **Core Feature Guide:** [Phenomenological Knowledge Store (PKS)](../../../core-features/pks.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -27,6 +26,8 @@
 | `serviceCategory` | `string` | No | — | `adult`, `ai`, `banking`, `communication`, `community_forum`, `creator_platform`, `dating`, `developer`, `education`, `email`, `entertainment`, `gambling`, `gaming`, `government`, `health`, `marketplace`, `news`, `productivity`, `search`, `shopping`, `social`, `streaming`, `travel`, `other` | Optional service-category filter. Service category. 'adult' = adult content, 'ai' = AI assistants/tools, 'banking' = finance or payments, 'communication' = chat/messaging/meetings, 'community_forum' = discussion forum/community, 'creator_platform' = publishing or creator backend, 'dating' = matchmaking, 'developer' = developer docs/tools/repos, 'education' = learning/course platform, 'email' = mail service, 'entertainment' = general media/entertainment, 'gambling' = betting/casino, 'gaming' = games or launchers, 'government' = public-sector service, 'health' = health or medical service, 'marketplace' = multi-seller marketplace, 'news' = news/publishing, 'productivity' = work/productivity app, 'search' = search/discovery, 'shopping' = retail/e-commerce, 'social' = social network, 'streaming' = video/audio streaming, 'travel' = travel/maps/transport, 'other' = uncategorized service. |
 | `limit` | `integer` | No | `200` | 1–500 | Optional page size (1-500). Default 200. |
 | `offset` | `integer` | No | `0` | ≥ 0 | Optional pagination offset (>=0). Default 0. |
+
+Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_learning')`).
 <!-- /generated:parameters -->
 
 ---

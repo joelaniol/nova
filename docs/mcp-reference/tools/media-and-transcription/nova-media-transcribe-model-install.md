@@ -8,7 +8,6 @@ Downloads a Whisper speech model or adopts an existing local GGML model file.
 
 `nova.media_transcribe_model_install` acquires a speech recognition model for local offline transcription. It can download official Whisper GGML models directly from HuggingFace/GitHub mirrors or adopt an existing model file from disk.
 
-* **Capability Bundle:** `system_tools`
 * **Security Tier:** Tier 2 (Model Management)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
@@ -23,6 +22,8 @@ Downloads a Whisper speech model or adopts an existing local GGML model file.
 | `path` | `string` | No | — | — | Absolute path of a ggml .bin model file to adopt. Requires 'Allow local files'. Mutually exclusive with modelId. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

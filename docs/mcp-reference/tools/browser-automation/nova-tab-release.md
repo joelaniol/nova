@@ -8,7 +8,6 @@ Releases an active exclusive lease on a browser tab, optionally logging finaliza
 
 `nova.tab_release` relinquishes write ownership of a tab previously acquired via `nova.tab_claim` or an implicit auto-claim. Releasing a tab makes it immediately available for interaction by other AI agents or the human operator without waiting for the lease TTL to expire.
 
-* **Capability Bundle:** `browser_automation`
 * **Target Scope:** Tab-specific (`targetId` required).
 * **Audit Trail:** Supports attaching finalization tokens, task success decisions, and coverage exhaustion notes to Nova's evidence ledger.
 
@@ -62,6 +61,8 @@ When releasing a tab as part of an **Episodic Task Memory (ETM)** workflow:
 | `finalizeOutboxPayload.targetId` | `string` | No | — | — | Claim target ID for 'finalize.memory.promote'. Must match the active claimed target. Canonical field for new calls. |
 | `finalizeOutboxPayload.tabId` | `string` | No | — | — | Legacy alias for targetId in 'finalize.memory.promote'. Must match targetId when both are provided. |
 | `finalizeOutboxPayload.candidateIds` | `array` of `integer` | No | — | — | LCJ candidate IDs to promote for 'finalize.memory.promote'. |
+
+Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
 <!-- /generated:parameters -->
 
 ---

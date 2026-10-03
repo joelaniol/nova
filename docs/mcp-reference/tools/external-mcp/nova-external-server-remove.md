@@ -8,7 +8,6 @@ Deletes an external MCP server registration, stopping it if running.
 
 `nova.external_server_remove` unregisters a server from Nova. If the server is currently running, it is stopped before removal.
 
-* **Capability Bundle:** `external_mcp`
 * **Security Tier:** Tier 3 (High-Impact)
 * **Core Architecture Guide:** [Plugins & External Extensions](../../../core-features/plugins.md)
 
@@ -22,6 +21,8 @@ Deletes an external MCP server registration, stopping it if running.
 | `serverKey` | `string` | Yes | — | — | Stable server identity (8-char hex). Get from nova.external_servers(). |
 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+
+Capability bundle: `external_mcp` (load it with `nova.tools_bundle(bundle='external_mcp')`).
 <!-- /generated:parameters -->
 
 ---

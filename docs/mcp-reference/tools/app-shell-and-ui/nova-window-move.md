@@ -2,7 +2,6 @@
 
 > **Moves the Nova application window to a specific monitor or coordinate offset.**
 
-* **Capability Bundle:** `app_shell_recovery, onboarding`
 * **Security Tier:** Tier 2 (Window Positioning)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -22,6 +21,8 @@
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `monitorIndex` | `integer` | Yes | — | ≥ 0 | Target monitor index from window_get_bounds.availableMonitors (primary monitor is typically index 0). |
 | `position` | `string` | No | `"center"` | `center`, `top_left`, `keep_offset` | Target placement inside the monitor work area: center the window, align to the work-area top-left corner, or keep the current offset relative to the source monitor work area. |
+
+Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
 <!-- /generated:parameters -->
 
 ---

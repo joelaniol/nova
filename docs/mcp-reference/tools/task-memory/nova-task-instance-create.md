@@ -8,7 +8,6 @@ Creates a new episodic task instance from a profile or ad-hoc context with snaps
 
 `nova.task_instance_create` initializes an episodic task instance. It snapshots effective context, anchors mandatory verification checks, and binds the task to a Task URL Coverage tracker.
 
-* **Capability Bundle:** `task_memory`
 * **Security Tier:** Tier 2 (Instance Creation)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
@@ -60,6 +59,8 @@ Creates a new episodic task instance from a profile or ad-hoc context with snaps
 | `unitSource.scopeDomain` | `string` | No | — | — | Domain or origin anchor for site_urls/crawler lookup. Required when kind is site_urls or crawler. |
 | `unitSource.explicitUrls` | `array` of `string` | No | — | — | Required when kind='explicit'. Each URL is normalized via TaskUrlNormalizer before insertion. |
 | `unitSource.freezeAfterPopulate` | `boolean` | No | — | — | When true, transitions discoveryState to 'frozen' once units are written. Default: false. |
+
+Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
 <!-- /generated:parameters -->
 
 ---

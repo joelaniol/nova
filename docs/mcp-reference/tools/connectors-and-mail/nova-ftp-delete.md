@@ -8,7 +8,6 @@ Deletes a remote regular file or empty directory on an FTP/FTPS server.
 
 `nova.ftp_delete` removes a file or empty folder on an FTP/FTPS host. Destructive operations require transfer full access capability.
 
-* **Capability Bundle:** `connector_ops`
 * **Security Tier:** Tier 3 (Destructive Deletion)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
@@ -25,6 +24,8 @@ Deletes a remote regular file or empty directory on an FTP/FTPS server.
 | `allowInsecure` | `boolean` | No | `false` | — | Required as true only when this profile explicitly uses plaintext FTP. The user's separate debug/legacy option must also be enabled. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
 <!-- /generated:parameters -->
 
 ---

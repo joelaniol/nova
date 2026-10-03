@@ -8,7 +8,6 @@ Moves up to 200 messages into the account's Trash folder (non-permanent delete).
 
 `nova.mail_delete` moves messages to the server's detected Trash folder. It deliberately avoids permanent IMAP expunge operations to ensure deleted messages can be recovered by the user.
 
-* **Capability Bundle:** `connector_ops`
 * **Security Tier:** Tier 2 (Trash Move)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
@@ -24,6 +23,8 @@ Moves up to 200 messages into the account's Trash folder (non-permanent delete).
 | `allowInsecure` | `boolean` | No | `false` | — | Required as true only when this account's IMAP endpoint explicitly uses plaintext or disabled certificate validation, and only after the user enabled insecure connector connections in Settings. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
 <!-- /generated:parameters -->
 
 ---

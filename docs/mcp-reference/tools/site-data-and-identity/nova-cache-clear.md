@@ -8,7 +8,6 @@ Clears HTTP cache, cookies, DOM storage, and indexedDB for the target profile.
 
 `nova.cache_clear` performs a comprehensive purge of browser data for the target sandbox profile. As a high-impact destructive tool, it requires explicit confirmation or user intent.
 
-* **Capability Bundle:** `site_data_management`
 * **Security Tier:** Tier 3 (Destructive Cache Clearance)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
@@ -23,6 +22,8 @@ Clears HTTP cache, cookies, DOM storage, and indexedDB for the target profile.
 | `dataTypes` | `array` of `string` | Yes | — | ≥ 1 items | Data types to clear. Maps 1:1 to CoreWebView2BrowsingDataKinds. |
 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+
+Capability bundle: `site_data_management` (load it with `nova.tools_bundle(bundle='site_data_management')`).
 <!-- /generated:parameters -->
 
 ---

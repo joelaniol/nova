@@ -8,7 +8,6 @@ Moves up to 200 messages from one mail account to an exact IMAP destination fold
 
 `nova.mail_move` transfers messages between IMAP folders (e.g. from `INBOX` to `Archive` or `Processed`). Requires the account's `organize` capability grant.
 
-* **Capability Bundle:** `connector_ops`
 * **Security Tier:** Tier 2 (Mail Organization)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
@@ -25,6 +24,8 @@ Moves up to 200 messages from one mail account to an exact IMAP destination fold
 | `allowInsecure` | `boolean` | No | `false` | — | Required as true only when this account's IMAP endpoint explicitly uses plaintext or disabled certificate validation, and only after the user enabled insecure connector connections in Settings. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
 <!-- /generated:parameters -->
 
 ---

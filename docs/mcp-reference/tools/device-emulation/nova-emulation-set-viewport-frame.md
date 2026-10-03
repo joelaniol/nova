@@ -8,7 +8,6 @@ Configures the visual outline rendered around an emulated device viewport in the
 
 `nova.emulation_set_viewport_frame` styles the visible border outline around a device-emulated page within the Nova window, making empty surrounding area clearly recognizable during human or visual agent reviews.
 
-* **Capability Bundle:** `device_emulation`
 * **Security Tier:** Tier 1 (Host UI Appearance)
 * **Core Architecture Guide:** [Fingerprint & Identity Systems](../../../core-features/fingerprint-and-identity.md)
 
@@ -21,6 +20,8 @@ Configures the visual outline rendered around an emulated device viewport in the
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `enabled` | `boolean` | No | — | — | Whether the outline is drawn at all. Omit to keep the current setting. |
 | `color` | `string` | No | — | — | Outline color as '#RRGGBB' or '#AARRGGBB' (6-digit values are treated as fully opaque), or 'default' to restore Nova's accent color. Omit to keep the current color. |
+
+Capability bundle: `device_emulation` (load it with `nova.tools_bundle(bundle='device_emulation')`).
 <!-- /generated:parameters -->
 
 ---

@@ -8,7 +8,6 @@ Queries real-time connectivity status, latency, and external IP for a proxy prof
 
 `nova.proxy_status` runs a non-destructive health probe against a proxy profile or the active global proxy, reporting visual health states (`healthy`, `slow`, `degraded`, `failed`, `disconnected`).
 
-* **Capability Bundle:** `proxy_management`
 * **Security Tier:** Tier 1 (Safe Diagnostics)
 * **Core Architecture Guide:** [Proxy Routing & Stealth Network Engine](../../../core-features/proxy-and-network.md)
 
@@ -21,6 +20,8 @@ Queries real-time connectivity status, latency, and external IP for a proxy prof
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `profileId` | `string` | No | — | — | Proxy profile ID. Omit to query the active global default proxy. |
 | `targetId` | `string` | No | — | — | Target ID (sandbox ID or 'browser-tabs') to get status for a specific tab scope. |
+
+Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='proxy_management')`).
 <!-- /generated:parameters -->
 
 ---

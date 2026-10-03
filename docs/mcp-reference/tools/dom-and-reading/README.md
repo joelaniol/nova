@@ -2,13 +2,15 @@
 
 Token-efficient text extraction, structured landmark reading, typed DOM attributes, and multi-modal fusion perception.
 
-* **Capability Bundle(s):** `page_read_debug`
 * **Core Architecture Guide:** [Core Features: tob.md](../../../core-features/tob.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
+<!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 ## Tool Inventory (20 Tools)
+
+Capability bundles of these tools: `browser_automation`, `form_submission`, `page_read_debug`, `vault_auth`, `visual_evidence`.
 
 | Tool | What it does |
 | :--- | :--- |
@@ -32,6 +34,7 @@ Token-efficient text extraction, structured landmark reading, typed DOM attribut
 | **[`nova.search_text`](nova-search-text.md)** | Searches the page for visible text occurrences and returns matching DOM elements with actionable CSS selectors, bounding geometry, and Shadow-DOM traversal chains. |
 | **[`nova.stream_url`](nova-stream-url.md)** | Subscribes to Server-Sent Events (SSE) or WebSocket streaming traffic on the page. |
 | **[`nova.wait_for_eval`](nova-wait-for-eval.md)** | Polls the target tab until a JavaScript expression evaluates to a truthy value or times out. |
+<!-- /generated:tool-list -->
 
 ---
 

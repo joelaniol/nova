@@ -8,7 +8,6 @@ Queries the persistent Site-URL-Index for known endpoints, utility scores, and r
 
 `nova.site_urls` queries the persistent cross-crawl URL index maintained in `crawl.db`. As Nova crawls websites, navigates pages, and executes tasks, it indexes discovered endpoints along with utility scores, observed HTTP statuses, and content freshness. Agents use this index to locate routes instantly without crawling from scratch.
 
-* **Capability Bundle:** `crawler_ops`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Autonomous Crawler & Surface Explorer](../../../core-features/crawler-and-discovery.md)
 
@@ -27,6 +26,8 @@ Queries the persistent Site-URL-Index for known endpoints, utility scores, and r
 | `includeStale` | `boolean` | No | `false` | — | If true, include URLs marked as stale (not seen in recent crawls but not confirmed dead). |
 | `includeDead` | `boolean` | No | `false` | — | If true, include URLs confirmed dead (404/410). Useful for debugging or verifying removals. |
 | `limit` | `integer` | No | `50` | 1–200 | Maximum number of URLs to return. Sorted by utility_score descending. |
+
+Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawler_ops')`).
 <!-- /generated:parameters -->
 
 ---

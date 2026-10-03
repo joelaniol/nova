@@ -8,7 +8,6 @@ Resumes all paused downloads whose underlying WebView2 operation supports resump
 
 `nova.downloads_resume_all` bulk-resumes paused transfers once priority tasks finish or network connectivity is restored.
 
-* **Capability Bundle:** `app_shell_recovery`
 * **Security Tier:** Tier 2 (Bulk Control)
 * **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts.md)
 
@@ -20,6 +19,8 @@ Resumes all paused downloads whose underlying WebView2 operation supports resump
 This tool takes no parameters.
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
 <!-- /generated:parameters -->
 
 ---

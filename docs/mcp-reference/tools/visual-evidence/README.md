@@ -2,13 +2,15 @@
 
 Lossless cropped screenshots, pixel-by-pixel diffing, persistent baselines, and print-to-PDF generation.
 
-* **Capability Bundle(s):** `visual_evidence`
 * **Core Architecture Guide:** [Core Features: evm-and-visual-evidence.md](../../../core-features/evm-and-visual-evidence.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
+<!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 ## Tool Inventory (7 Tools)
+
+Capability bundles of these tools: `app_shell_recovery`, `browser_automation`, `device_emulation`, `form_submission`, `page_read_debug`, `system_tools`, `visual_evidence`.
 
 | Tool | What it does |
 | :--- | :--- |
@@ -19,6 +21,7 @@ Lossless cropped screenshots, pixel-by-pixel diffing, persistent baselines, and 
 | **[`nova.save_pdf`](nova-save-pdf.md)** | Renders the active web page to a vector PDF document on disk via Chrome DevTools Protocol (`Page.printToPDF`), providing zero-token document archiving and export capabilities. |
 | **[`nova.screenshot_baseline`](nova-screenshot-baseline.md)** | Manages named, persistent visual baselines on disk and automates snapshot comparison, providing the equivalent of Playwright's `toHaveScreenshot()` for autonomous browser testing. |
 | **[`nova.screenshot_diff`](nova-screenshot-diff.md)** | Performs pixel-by-pixel visual comparison between two screenshot images or resource URIs, returning changed pixel percentages, cluster bounding boxes, and visual diff overlays. |
+<!-- /generated:tool-list -->
 
 ---
 

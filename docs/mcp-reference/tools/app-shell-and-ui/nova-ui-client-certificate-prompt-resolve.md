@@ -2,7 +2,6 @@
 
 > **Selects a client certificate or cancels a mutual TLS (mTLS) authentication prompt.**
 
-* **Capability Bundle:** `app_shell_recovery, onboarding`
 * **Security Tier:** Tier 2 (Security Gate Resolution)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -22,6 +21,8 @@
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `decision` | `string` | Yes | — | `send`, `send_none` | send_none: identify with no certificate. send: present the certificate named by 'subject'. |
 | `subject` | `string` | No | — | ≤ 512 characters | Required for 'send'. Matched case-insensitively against the subject of the offered certificates; the failure response lists them. |
+
+Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
 <!-- /generated:parameters -->
 
 ---

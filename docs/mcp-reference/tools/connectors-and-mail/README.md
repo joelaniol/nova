@@ -2,13 +2,15 @@
 
 IMAP/SMTP email client automation, EML exports, SFTP/FTP server operations, and credential access grants.
 
-* **Capability Bundle(s):** `connector_ops`
 * **Core Architecture Guide:** [Core Features: connectors-and-protocols.md](../../../core-features/connectors-and-protocols.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
+<!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 ## Tool Inventory (31 Tools)
+
+Capability bundles of these tools: `connector_ops`.
 
 | Tool | What it does |
 | :--- | :--- |
@@ -43,6 +45,7 @@ IMAP/SMTP email client automation, EML exports, SFTP/FTP server operations, and 
 | **[`nova.sftp_list`](nova-sftp-list.md)** | Lists remote directory entries or inspects file metadata through an SFTP connector. |
 | **[`nova.sftp_put`](nova-sftp-put.md)** | Uploads a local file or directory tree over SFTP to a remote destination. |
 | **[`nova.sftp_rename`](nova-sftp-rename.md)** | Renames or moves a remote file or directory over SFTP. |
+<!-- /generated:tool-list -->
 
 ---
 

@@ -8,7 +8,6 @@ Blocks until downloads reach a terminal state (completed, failed, or cancelled) 
 
 `nova.downloads_wait` is the missing synchronization join point for download automation. Instead of guessing polling intervals after a download click, agents call `nova.downloads_wait` to deterministically pause execution until the download completes or times out, returning exact disk destinations.
 
-* **Capability Bundle:** `app_shell_recovery`
 * **Security Tier:** Tier 1 (Safe / Synchronization)
 * **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts.md)
 
@@ -24,6 +23,8 @@ Blocks until downloads reach a terminal state (completed, failed, or cancelled) 
 | `timeoutMs` | `integer` | No | `60000` | 1000–300000 | Maximum time to wait in milliseconds (1000-300000, default 60000). On timeout the current state is returned with status='timeout' — never an error. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
 <!-- /generated:parameters -->
 
 ---

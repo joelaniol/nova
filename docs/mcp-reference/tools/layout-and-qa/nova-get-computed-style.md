@@ -8,7 +8,6 @@ Reads the fully resolved CSS computed style and box-model geometry of a specific
 
 Testing whether a button is visually disabled, checking font family hierarchy, or verifying exact margin and padding values often leads agents to write fragile `window.getComputedStyle(el)` scripts via `eval`. `nova.get_computed_style` provides a dedicated, read-only interface that returns both a curated core design set (colors, typography, dimensions, display, visibility) and any requested custom CSS properties.
 
-* **Capability Bundle:** `layout_and_qa`, `element_inspection`
 * **Zero Script Execution:** Safe, read-only CSSOM extraction.
 * **Curated Core Styles:** Automatically returns common design properties (colors, fonts, box model, z-index, visibility).
 * **Custom Property Support (`properties`):** Request any specific CSS property (e.g. `grid-template-columns`, `flex-direction`, `backdrop-filter`).
@@ -35,6 +34,8 @@ When called, Nova always returns the following primary design properties:
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
 | `selector` | `string` | Yes | — | — | CSS selector for the element to inspect. |
 | `properties` | `array` of `string` | No | — | — | Optional extra CSS property names to return under result.requested (in addition to the curated set). |
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

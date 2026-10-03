@@ -8,7 +8,6 @@ Retrieves the verification contract steps, assertions, and checks required for t
 
 `nova.task_instance_verify` returns the exact verification checks required by the instance's task profile (mandatory assertions, screenshot proofs, URL coverage minimums).
 
-* **Capability Bundle:** `task_memory`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
@@ -20,6 +19,8 @@ Retrieves the verification contract steps, assertions, and checks required for t
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `instanceId` | `string` | Yes | — | — | The instance to verify. |
+
+Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
 <!-- /generated:parameters -->
 
 ---

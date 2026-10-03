@@ -8,7 +8,6 @@ Lists bounded message metadata (headers, dates, senders) from an exact IMAP fold
 
 `nova.mail_list` returns lightweight message summaries from an IMAP folder without altering server read flags. It supports pagination cursors, sorting, and header previews.
 
-* **Capability Bundle:** `connector_ops`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
@@ -29,6 +28,8 @@ Lists bounded message metadata (headers, dates, senders) from an exact IMAP fold
 | `allowInsecure` | `boolean` | No | `false` | — | Required as true only when this account's IMAP endpoint explicitly uses plaintext or disabled certificate validation, and only after the user enabled insecure connector connections in Settings. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
 <!-- /generated:parameters -->
 
 ---

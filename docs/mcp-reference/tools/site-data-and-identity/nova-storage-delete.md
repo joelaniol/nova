@@ -8,7 +8,6 @@ Deletes a key from localStorage or sessionStorage for the target page.
 
 `nova.storage_delete` removes a single key from `localStorage` or `sessionStorage` for the active page origin.
 
-* **Capability Bundle:** `site_data_management`
 * **Security Tier:** Tier 2 (Storage Deletion)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
@@ -22,6 +21,8 @@ Deletes a key from localStorage or sessionStorage for the target page.
 | `targetId` | `string` | Yes | — | — | Tab or sandbox ID. Required. |
 | `storageType` | `string` | Yes | — | `local`, `session` | Storage type. |
 | `key` | `string` | Yes | — | — | Storage key to delete. Required. |
+
+Capability bundle: `site_data_management` (load it with `nova.tools_bundle(bundle='site_data_management')`).
 <!-- /generated:parameters -->
 
 ---

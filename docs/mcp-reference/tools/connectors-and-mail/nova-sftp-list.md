@@ -8,7 +8,6 @@ Lists remote directory entries or inspects file metadata through an SFTP connect
 
 `nova.sftp_list` connects over SSH File Transfer Protocol (SFTP) to list files, directories, symlinks, file sizes, and modification timestamps.
 
-* **Capability Bundle:** `connector_ops`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
@@ -25,6 +24,8 @@ Lists remote directory entries or inspects file metadata through an SFTP connect
 | `unattended` | `boolean` | No | `false` | — | Fail closed instead of opening account/policy prompts. Scheduled-task hosts enforce unattended mode even when omitted; this flag can only reduce authority. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
 <!-- /generated:parameters -->
 
 ---

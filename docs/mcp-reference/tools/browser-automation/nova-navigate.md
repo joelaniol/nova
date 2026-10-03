@@ -8,7 +8,6 @@ Navigates an existing browser tab to a specified absolute URL with optional load
 
 `nova.navigate` is the primary tool for directing browser tabs to web destinations. Beyond traditional browser navigation, Nova integrates **SPA Settlement Detection**, **Session-Preservation Guards**, and **Integrated Visual Proof Sidecars**.
 
-* **Capability Bundle:** `browser_automation`
 * **Target Scope:** Tab-specific (defaults to the currently active tab).
 * **Guards Enforced:** Agent Awareness Gates (AAG) prevent accidental destruction of `sessionStorage`-backed logins unless explicitly confirmed.
 
@@ -59,6 +58,8 @@ Allows capturing a visual proof crop in the exact same round-trip. If screenshot
 | `forceAuthProbe` | `boolean` | No | `false` | — | When true, invalidate the current target-scoped auth persistence cache entry and run a fresh live probe on the current page. Use after login/logout or when you suspect the cached auth classification is stale. The response includes authPersistenceCached=false to confirm a live probe was used. |
 
 **`_meta.intent` is required for certain arguments.** Passing a short reason in `_meta.intent` is always safe; a rejected call names the argument that made it required.
+
+Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
 <!-- /generated:parameters -->
 
 ---

@@ -2,7 +2,6 @@
 
 > **Reads the complete text content of an allowlisted internal Nova reference document.**
 
-* **Capability Bundle:** `app_shell_recovery, onboarding`
 * **Security Tier:** Tier 1 (Read-Only Documentation)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -23,6 +22,8 @@
 | `docId` | `string` | Yes | — | — | Document id from nova.reference_docs_list, e.g. 'mcp', 'pks', 'plugins', or 'browser_memory'. |
 | `cursor` | `integer` | No | `0` | ≥ 0 | Zero-based character offset to start reading from. Use nextCursor from the previous response to continue. |
 | `maxChars` | `integer` | No | `60000` | 1–200000 | Maximum characters to return in this page. Values above Nova's maximum are clamped and reported as maxChars in the response. |
+
+Capability bundles: `onboarding`, `system_tools`.
 <!-- /generated:parameters -->
 
 ---

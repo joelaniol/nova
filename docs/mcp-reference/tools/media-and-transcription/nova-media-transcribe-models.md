@@ -8,7 +8,6 @@ Lists known Whisper speech models, installation statuses, and machine CPU/AVX2 c
 
 `nova.media_transcribe_models` queries Nova's local speech model catalog. It details installed GGML models (e.g. `ggml-base.bin`, `ggml-small.bin`), sizes, supported languages, and reports hardware acceleration capabilities (AVX2, AVX512, NEON) on the host machine.
 
-* **Capability Bundle:** `system_tools`
 * **Security Tier:** Tier 1 (Read-Only Model Catalog)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
@@ -20,6 +19,8 @@ Lists known Whisper speech models, installation statuses, and machine CPU/AVX2 c
 This tool takes no parameters.
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

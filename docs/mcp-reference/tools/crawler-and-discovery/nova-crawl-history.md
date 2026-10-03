@@ -8,7 +8,6 @@ Lists past crawl jobs and high-level summaries from the persistent crawler datab
 
 `nova.crawl_history` queries the local SQLite `crawl.db` index for past crawl jobs. It returns lightweight summaries (status, URLs discovered, start/finish timestamps, error counts) without loading large page text blobs into memory.
 
-* **Capability Bundle:** `crawler_ops`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Autonomous Crawler & Surface Explorer](../../../core-features/crawler-and-discovery.md)
 
@@ -25,6 +24,8 @@ Lists past crawl jobs and high-level summaries from the persistent crawler datab
 | `status` | `string` | No | — | `running`, `completed`, `failed`, `cancelled`, `interrupted` | Filter by crawl status. |
 | `taskInstanceId` | `string` | No | — | — | Optional ETM task-instance filter. Returns only crawls bound to this taskInstanceId. |
 | `limit` | `integer` | No | `20` | 1–100 | Maximum number of crawl summaries to return. |
+
+Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawler_ops')`).
 <!-- /generated:parameters -->
 
 ---

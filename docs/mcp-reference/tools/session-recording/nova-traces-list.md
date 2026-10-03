@@ -8,7 +8,6 @@ Lists recent host operation traces with execution timing, phases, and outcome st
 
 `nova.traces_list` retrieves recent internal operation traces from Nova's host runtime. It exposes low-level lifecycle execution records, tool invocation durations, sub-phase timestamps, and error classifications, facilitating deep performance tuning and debugging.
 
-* **Capability Bundle:** `session_recording`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
 
@@ -21,6 +20,8 @@ Lists recent host operation traces with execution timing, phases, and outcome st
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `limit` | `integer` | No | `20` | 1–50 | Maximum traces to return. |
 | `status` | `string` | No | — | `ok`, `failed`, `blocked`, `running` | Optional status filter. 'ok' returns successful traces, 'failed' returns tool/runtime failures, 'blocked' returns policy/claim/approval denials, and 'running' returns traces that have not completed yet. |
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

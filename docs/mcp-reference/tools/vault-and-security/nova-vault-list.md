@@ -8,7 +8,6 @@ Lists stored credential entries (site domain, associated usernames, and creation
 
 `nova.vault_list` enables agents to discover available stored credentials in the secure Vault. To adhere to least-privilege principles, the tool never returns secret values. Furthermore, passing an optional `site` filter restricts results to relevant domains, preventing the exposure of unrelated user accounts to the agent's context window.
 
-* **Capability Bundle:** `vault_and_security`
 * **Zero Password Exposure:** Returns only metadata: `site`, `username`, and `createdBy`.
 * **Domain Substring Filtering (`site`):** Narrow search to a specific provider (e.g. `github.com`).
 * **Multi-Account Discovery:** Quickly identify which accounts are configured for a given service.
@@ -23,6 +22,8 @@ Lists stored credential entries (site domain, associated usernames, and creation
 | `site` | `string` | No | — | — | Optional: only list entries whose site matches this fragment (e.g. 'linkedin.com'). Substring, case-insensitive. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `vault_auth` (load it with `nova.tools_bundle(bundle='vault_auth')`).
 <!-- /generated:parameters -->
 
 ---

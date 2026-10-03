@@ -2,13 +2,15 @@
 
 WinUI window controls, native OS dialog handling, DevTools panels, setup wizard, and onboarding injection.
 
-* **Capability Bundle(s):** `app_shell_recovery, onboarding`
 * **Core Architecture Guide:** [Core Features: native-dialogs-and-prompts.md](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
+<!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 ## Tool Inventory (59 Tools)
+
+Capability bundles of these tools: `app_shell_recovery`, `onboarding`, `page_read_debug`, `system_tools`, `visual_evidence`.
 
 | Tool | What it does |
 | :--- | :--- |
@@ -71,6 +73,7 @@ WinUI window controls, native OS dialog handling, DevTools panels, setup wizard,
 | **[`nova.window_move`](nova-window-move.md)** | Moves the Nova application window to a specific monitor or coordinate offset. |
 | **[`nova.window_set_size`](nova-window-set-size.md)** | Resizes the Nova application window to specified pixel width and height. |
 | **[`nova.window_set_state`](nova-window-set-state.md)** | Sets host application window state: minimize, maximize, restore, or bring to foreground. |
+<!-- /generated:tool-list -->
 
 ---
 

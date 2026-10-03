@@ -8,7 +8,6 @@ Opens a completed download inline in a new browser tab using a secure file:// UR
 
 `nova.downloads_preview` renders images, PDFs, videos, audio, and structured text files directly inside a new browser tab without launching external applications. For security, SVG and HTML files are strictly excluded to prevent script injection.
 
-* **Capability Bundle:** `app_shell_recovery`
 * **Security Tier:** Tier 1 (Safe Preview)
 * **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts.md)
 
@@ -22,6 +21,8 @@ Opens a completed download inline in a new browser tab using a secure file:// UR
 | `id` | `string` | Yes | — | — | The download ID (from nova.downloads_list). |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
 <!-- /generated:parameters -->
 
 ---

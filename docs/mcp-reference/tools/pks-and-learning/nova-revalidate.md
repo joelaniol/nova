@@ -2,7 +2,6 @@
 
 > **Re-verifies validity of a learned phenomenon against current live website markup.**
 
-* **Capability Bundle:** `pks_learning`
 * **Security Tier:** Tier 2 (Verification Gate)
 * **Core Feature Guide:** [Phenomenological Knowledge Store (PKS)](../../../core-features/pks.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -23,6 +22,8 @@
 | `scope` | `string` | No | — | — | Domain scope to revalidate (e.g. 'example.com'). If omitted, revalidation is scoped to the current target host. |
 | `limit` | `integer` | No | — | 1–5 | Max phenomena to check (default 3, max 5). |
 | `targetId` | `string` | Yes | — | — | Tab/sandbox to run DOM checks in. |
+
+Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_learning')`).
 <!-- /generated:parameters -->
 
 ---

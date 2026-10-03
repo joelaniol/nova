@@ -2,13 +2,15 @@
 
 Cookie jars, localStorage/sessionStorage, cache purging, browser fingerprint spoofing, and sandbox isolation.
 
-* **Capability Bundle(s):** `site_data_management, fingerprint_protection`
 * **Core Architecture Guide:** [Core Features: sandbox-isolation.md](../../../core-features/sandbox-isolation.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
+<!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 ## Tool Inventory (23 Tools)
+
+Capability bundles of these tools: `browser_automation`, `fingerprint_protection`, `identity_management`, `site_data_management`, `system_tools`.
 
 | Tool | What it does |
 | :--- | :--- |
@@ -35,6 +37,7 @@ Cookie jars, localStorage/sessionStorage, cache purging, browser fingerprint spo
 | **[`nova.storage_delete`](nova-storage-delete.md)** | Deletes a key from localStorage or sessionStorage for the target page. |
 | **[`nova.storage_inspect`](nova-storage-inspect.md)** | Reads localStorage or sessionStorage key-value pairs for the target page. |
 | **[`nova.storage_set`](nova-storage-set.md)** | Sets a key-value pair in localStorage or sessionStorage for the target page. |
+<!-- /generated:tool-list -->
 
 ---
 

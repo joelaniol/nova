@@ -8,7 +8,6 @@ Navigates forward in browser history with automated SPA session preservation, DO
 
 `nova.forward` advances the browsing context forward along the back/forward history stack. Matching the architecture of [`nova.back`](nova-back.md), Nova distinguishes between safe same-document SPA steps (`pushState`/`popstate`) and hard cross-document unloads.
 
-* **Capability Bundle:** `browser_automation`
 * **SPA Settlement Engine:** Waits for microtasks, DOM mutations, and network activity to stabilize (`waitForSettlement: true`).
 * **Session Preservation Gate:** Prevents accidental session destruction unless explicitly bypassed via `force: true`.
 * **Output Tiers:** Supports `"full"`, `"compact"`, or `"minimal"` response envelopes.
@@ -32,6 +31,8 @@ Navigates forward in browser history with automated SPA session preservation, DO
 | `screenshotFormat` | `string` | No | `"png"` | `png`, `jpeg`, `auto` | Screenshot format; 'auto' picks PNG or JPEG per region. |
 | `screenshotQuality` | `integer` | No | `80` | 1–100 | JPEG quality (1-100). Only used when screenshotFormat is 'jpeg'. |
 | `outputDetail` | `string` | No | `"full"` | `full`, `compact`, `minimal` | Response verbosity. 'full' (default) is the unchanged payload. 'compact' drops the advisory blocks you did not ask for (pks/pksMeta, discoverySignals, routingHint, taskDiscoveryWarning, byte accounting) and keeps everything you did - state, screenshot, settlement. 'minimal' is the lean envelope: core contract (ok/status/reasonCode/stage/retryable), the navigation proof (url/requestedUrl/loadCompleted/navigationFailed/webErrorStatus/settlement), target and page info, claim/private state, screenshot sidecar status, and the never-suppressible safety warnings. No setting can hide a warning. |
+
+Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
 <!-- /generated:parameters -->
 
 ---

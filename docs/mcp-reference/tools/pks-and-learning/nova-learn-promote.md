@@ -2,7 +2,6 @@
 
 > **Promotes a candidate phenomenon playbook from staging into active production PKS memory.**
 
-* **Capability Bundle:** `pks_learning`
 * **Security Tier:** Tier 2 (Knowledge Promotion)
 * **Core Feature Guide:** [Phenomenological Knowledge Store (PKS)](../../../core-features/pks.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -24,6 +23,8 @@
 | `stableIds` | `array` of `string` | No | — | — | Stable IDs to evaluate. Pass ["all"] to evaluate all entries for the scope. If omitted, evaluates all. |
 | `transition` | `string` | No | — | `l0_to_l1`, `l1_to_l2`, `demotion`, `deprecation`, `revive` | Transition type to evaluate: 'l0_to_l1', 'l1_to_l2', 'demotion', 'deprecation', 'revive'. If omitted, evaluates all applicable transitions. |
 | `dryRun` | `boolean` | No | `false` | — | If true, evaluate gates without executing transitions. Default false. |
+
+Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_learning')`).
 <!-- /generated:parameters -->
 
 ---

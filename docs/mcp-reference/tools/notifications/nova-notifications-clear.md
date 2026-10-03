@@ -8,7 +8,6 @@ Bulk-dismisses notifications matching source or age criteria.
 
 `nova.notifications_clear` performs batch dismissal across notifications. Without arguments, it dismisses all current notifications. Filters can restrict dismissal to a specific source or age threshold.
 
-* **Capability Bundle:** `notifications`
 * **Security Tier:** Tier 2 (Bulk State Change)
 * **Core Architecture Guide:** [Closed-Loop System & Event Propagation](../../../core-features/closed-loop-system.md)
 
@@ -21,6 +20,8 @@ Bulk-dismisses notifications matching source or age criteria.
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `sourceKind` | `string` | No | — | `website`, `nova`, `agent` | Only clear notifications from this source. |
 | `olderThanDays` | `integer` | No | — | ≥ 0 | Only clear notifications older than N days. |
+
+Capability bundle: `notifications` (load it with `nova.tools_bundle(bundle='notifications')`).
 <!-- /generated:parameters -->
 
 ---

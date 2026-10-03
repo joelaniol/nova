@@ -8,7 +8,6 @@ Enables or disables touch event simulation and sets the maximum touch points rep
 
 `nova.emulation_set_touch` configures CDP touch emulation, switching pointer input events to touch events and updating `navigator.maxTouchPoints`.
 
-* **Capability Bundle:** `device_emulation`
 * **Security Tier:** Tier 2 (Input Emulation)
 * **Core Architecture Guide:** [Fingerprint & Identity Systems](../../../core-features/fingerprint-and-identity.md)
 
@@ -22,6 +21,8 @@ Enables or disables touch event simulation and sets the maximum touch points rep
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
 | `enabled` | `boolean` | Yes | — | — | If true, enable touch event emulation (touch events dispatched instead of mouse). If false, disable and revert to mouse input. |
 | `maxTouchPoints` | `integer` | No | `5` | 1–10 | Maximum simultaneous touch points reported by navigator.maxTouchPoints. |
+
+Capability bundle: `device_emulation` (load it with `nova.tools_bundle(bundle='device_emulation')`).
 <!-- /generated:parameters -->
 
 ---

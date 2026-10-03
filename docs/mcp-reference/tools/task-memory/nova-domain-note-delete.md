@@ -8,7 +8,6 @@ Deletes a domain note by domain name and key.
 
 `nova.domain_note_delete` removes an obsolete note for a specific domain and scope.
 
-* **Capability Bundle:** `task_memory`
 * **Security Tier:** Tier 2 (Note Deletion)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
@@ -24,6 +23,8 @@ Deletes a domain note by domain name and key.
 | `scope` | `string` | No | — | `current_sandbox`, `global`, `all`, `orphaned` | Disambiguation scope. 'global' deletes only the global note; 'current_sandbox' (default) deletes global + active-sandbox match; 'all' deletes every matching note regardless of scope; 'orphaned' deletes only notes anchored to deleted sandboxes. |
 | `sandboxId` | `string` | No | — | — | Optional explicit sandbox letter-id. Without explicit scope, sandboxId-only delete removes only the sandbox-specific note (not the global twin). Requires sandboxRef. |
 | `sandboxRef` | `string` | No | — | — | Opaque PersistentUid token from nova.tabs / nova.sandbox_context. Mandatory when sandboxId is set. |
+
+Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 <!-- /generated:parameters -->
 
 ---

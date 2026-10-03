@@ -8,7 +8,6 @@ Opens a new agent-owned PowerShell session in an isolated working directory and 
 
 `nova.terminal_open` launches a headless Windows Pseudo Console (ConPTY) session hosted by `NovaBrowser.TerminalRunner`. The session operates in an isolated environment, separate from the user's interactive terminal dock, and persists across browser UI reloads.
 
-* **Capability Bundle:** `terminal_ops`
 * **Security Tier:** Tier 2 (Execute)
 * **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces.md)
 
@@ -25,6 +24,8 @@ Opens a new agent-owned PowerShell session in an isolated working directory and 
 | `rows` | `integer` | No | — | 24–200 | Initial height in rows. Default 30; values below 24 are raised to 24 for a stable renderer. |
 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+
+Capability bundle: `terminal_ops` (load it with `nova.tools_bundle(bundle='terminal_ops')`).
 <!-- /generated:parameters -->
 
 ---

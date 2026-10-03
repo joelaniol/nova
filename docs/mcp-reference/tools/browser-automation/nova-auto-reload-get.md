@@ -2,7 +2,6 @@
 
 > **Reads the native auto-reload configuration and countdown timer for the target tab.**
 
-* **Capability Bundle:** `browser_automation`
 * **Security Tier:** Tier 1 (Read-Only State)
 * **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -22,6 +21,8 @@
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `targetId` | `string` | Yes | — | — | Required stable sandbox ID or browser-tab ID from nova.tabs. Active aliases are not accepted. |
 | `agentId` | `string` | No | `"default"` | — | Optional agent identity. Reads may observe an unclaimed target but must match any existing claim. |
+
+Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
 <!-- /generated:parameters -->
 
 ---

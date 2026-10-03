@@ -8,7 +8,6 @@ Emulates browser locale, timezone, and geolocation coordinates for testing local
 
 `nova.emulation_set_locale` sets the browser language headers, IANA timezone, and GPS coordinates for internationalization and geolocation testing.
 
-* **Capability Bundle:** `device_emulation`
 * **Security Tier:** Tier 2 (Locale Emulation)
 * **Core Architecture Guide:** [Fingerprint & Identity Systems](../../../core-features/fingerprint-and-identity.md)
 
@@ -25,6 +24,8 @@ Emulates browser locale, timezone, and geolocation coordinates for testing local
 | `latitude` | `number` | No | — | -90–90 | Geolocation latitude. Requires longitude. |
 | `longitude` | `number` | No | — | -180–180 | Geolocation longitude. Requires latitude. |
 | `accuracy` | `number` | No | `1` | ≥ 0 | Geolocation accuracy in meters (default 1). Only used when latitude+longitude are set. |
+
+Capability bundle: `device_emulation` (load it with `nova.tools_bundle(bundle='device_emulation')`).
 <!-- /generated:parameters -->
 
 ---

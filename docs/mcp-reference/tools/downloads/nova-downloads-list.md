@@ -8,7 +8,6 @@ Lists recent downloads tracked by the browser with status, progress, speed, and 
 
 `nova.downloads_list` inspects download history and live in-progress transfers across all sandboxes. It reports detailed telemetry including byte counts, transfer rates, estimated remaining time, network/disk error categories, and live operation capabilities (`canPause`, `canResume`).
 
-* **Capability Bundle:** `app_shell_recovery`
 * **Security Tier:** Tier 1 (Safe)
 * **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts.md)
 
@@ -25,6 +24,8 @@ Lists recent downloads tracked by the browser with status, progress, speed, and 
 | `offset` | `integer` | No | — | — | Optional: skip N entries (default: 0). Combine with limit for pagination. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
 <!-- /generated:parameters -->
 
 ---

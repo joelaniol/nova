@@ -8,7 +8,6 @@ Ends a task instance without meeting completion conditions (site offline, unsolv
 
 `nova.task_instance_abort` terminates an episodic task instance when the stated goal cannot be achieved. It records the failure classification and final state.
 
-* **Capability Bundle:** `task_memory`
 * **Security Tier:** Tier 2 (Task Abort)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
@@ -24,6 +23,8 @@ Ends a task instance without meeting completion conditions (site offline, unsolv
 | `clientEventId` | `string` | Yes | — | — | Client-generated unique event ID for idempotency. |
 | `reason` | `string` | Yes | — | — | Why the task cannot be completed. Stored on the instance event log. |
 | `outcome` | `string` | No | — | `aborted`, `failed` | aborted (default): stopped on purpose or by an external blocker. failed: attempted and did not work. |
+
+Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
 <!-- /generated:parameters -->
 
 ---

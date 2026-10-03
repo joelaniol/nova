@@ -12,7 +12,6 @@ Standard browser navigation (`window.location.href = ...` or [`nova.navigate`](n
 1. **DOM-Click Mode (`selector`):** Clicks a sidebar menu or navigation link using CDP pointer physics and waits for a `pushState`/`replaceState` event.
 2. **PushState Mode (`url`):** Dispatches a client-side `history.pushState()` call and asserts that the UI surface actually renders new content (`route.surface_not_changed` check).
 
-* **Capability Bundle:** `browser_automation`
 * **Session Preservation:** In-memory auth tokens and active WebSocket connections remain alive.
 * **Hard Navigation Guard:** If a clicked link attempts a full-page document reload, Nova automatically intercepts and cancels the navigation, returning `route.hard_navigate_intercepted`.
 * **Surface Change Verification:** In pushState mode, Nova verifies that the primary page container updated visually before declaring success.
@@ -45,6 +44,8 @@ Standard browser navigation (`window.location.href = ...` or [`nova.navigate`](n
 | `screenshotQuality` | `integer` | No | `80` | 1–100 | JPEG quality (1-100). Only used when screenshotFormat is 'jpeg'. |
 | `pksInclude` | `string` | No | `"auto"` | `auto`, `off`, `summary`, `full` | PKS payload detail level in structuredContent.pks. Default is server setting (initial: auto). |
 | `agentId` | `string` | No | `"default"` | — | Optional agent identity for claim authorization against the target tab. Defaults to 'default'. |
+
+Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
 <!-- /generated:parameters -->
 
 ---

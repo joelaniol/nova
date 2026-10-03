@@ -8,7 +8,6 @@ Destructively deletes finalized session recordings older than a specified day th
 
 `nova.session_record_purge` deletes expired recording folders from `%LOCALAPPDATA%\NovaBrowser\Recordings`. It permanently frees disk space by removing historical chunk files, encrypted keys, and index artifacts older than the specified age in days.
 
-* **Capability Bundle:** `session_recording`
 * **Security Tier:** Tier 3 (Destructive Purge)
 * **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
 
@@ -22,6 +21,8 @@ Destructively deletes finalized session recordings older than a specified day th
 | `olderThanDays` | `integer` | Yes | — | 1–3650 | Required threshold in days — recordings older than this are deleted. |
 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+
+Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='session_recording')`).
 <!-- /generated:parameters -->
 
 ---

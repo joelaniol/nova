@@ -2,7 +2,6 @@
 
 > **Discovers, searches, and activates curated MCP tool capability bundles or queries tools by natural language.**
 
-* **Capability Bundle:** `app_shell_recovery, onboarding`
 * **Security Tier:** Tier 1 (Tool Discovery & Bundle Management)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -28,6 +27,8 @@
 | `includeInputSchema` | `boolean` | No | — | — | If true, include inputSchema for each tool (larger payload); exact toolName lookup also includes a declared outputSchema. Runtime default: true for exact lookup, false for bundle lookup; no unconditional schema default is published. |
 | `includeUnavailable` | `boolean` | No | `true` | — | If true, include tool names that are part of the bundle but not available in the current runtime. |
 | `includeCatalog` | `boolean` | No | `true` | — | If true (default), a bundle lookup also returns the discovery index: knownBundles plus bundleCatalog. Pass false once you have read it - the tools of the requested bundle are returned either way, so nothing you need to call them is lost. |
+
+Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 <!-- /generated:parameters -->
 
 ---

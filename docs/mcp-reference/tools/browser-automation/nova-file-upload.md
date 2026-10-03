@@ -8,7 +8,6 @@ Attaches one or more local files directly to an HTML `<input type="file">` eleme
 
 Traditional browser automation fails when clicking an `<input type="file">` because it triggers a modal Windows File Open dialog that freezes DOM execution. `nova.file_upload` bypasses the native dialog entirely by assigning file handles directly via CDP (`DOM.setFileInputFiles`).
 
-* **Capability Bundle:** `browser_automation`, `form_submission`
 * **Native Dialog Bypass:** No OS file picker is opened; execution never hangs on Win32 modal loops.
 * **Batch Uploads:** Supports attaching multiple files in a single invocation via `filePaths`.
 * **Iframe Support:** Can target file inputs inside embedded cross-frame components (e.g. job application wizards) via `frameId`.
@@ -56,6 +55,8 @@ When uploading documents, passing `previewPdf: true` renders page 1 of each atta
 | `previewPdf` | `boolean` | No | `false` | — | If true, page 1 of each uploaded PDF (up to 3) comes back as an image content item (JPEG, at most 900 px wide), so you can see what you attached before sending - e.g. leftover page CSS in a PDF made with nova.save_pdf. structuredContent.pdfPreviews[] lists index, fileName, pageCount and a reason when a PDF could not be rendered (damaged, password-protected). The upload itself never fails because of the preview. Costs one image per PDF, hence off by default. |
 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+
+Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
 <!-- /generated:parameters -->
 
 ---

@@ -8,7 +8,6 @@ Executes a verified click on a DOM element matching a CSS selector or CTA handle
 
 `nova.click_selector` is the primary interaction tool for activating buttons, links, toggles, and interactive DOM nodes. Unlike naive browser clicks, Nova enforces **Pre-Click Visibility & Clickability Verification**, **Deep Shadow-DOM Piercing**, and **Postcondition Settlement** to eliminate silent click failures.
 
-* **Capability Bundle:** `browser_automation`, `form_submission`
 * **Shadow-DOM Syntax:** Uses ` >>> ` to pierce through open and closed shadow roots cleanly.
 * **Pre-Check Safety:** Verifies element is not covered by modal backdrops or cookie banners.
 
@@ -77,6 +76,8 @@ If multiple elements match the selector and `strict: true` is passed, Nova fails
 | `transitionContract.ambiguityPolicy` | `string` | No | `"signal"` | `signal`, `retry_once`, `abort` | How ambiguous postcondition matches should be labeled. 'signal' reports indeterminate, 'retry_once' prefers one safe retry when retryPolicy allows it, 'abort' reports do_not_retry. |
 | `transitionContract.stabilityWindowMs` | `integer` | No | — | — | Optional stability observation window in milliseconds. Runtime clamps extreme values to guarded-safe bounds. |
 | `transitionContract.stabilityMs` | `integer` | No | — | — | Optional stability hold duration in milliseconds. Success must remain true for this long before verification passes. |
+
+Capability bundles: `browser_automation`, `form_submission`.
 <!-- /generated:parameters -->
 
 ---

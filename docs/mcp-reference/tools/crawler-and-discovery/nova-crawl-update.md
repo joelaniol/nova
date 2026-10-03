@@ -8,7 +8,6 @@ Dynamically modifies parameters (rate limits, filters, depth, pauses) of an acti
 
 `nova.crawl_update` adjusts the operational behavior of a running or paused crawl job without cancelling or restarting it. It allows agents to throttle rate limits, pause execution, change depth boundaries, or update regex patterns on the fly.
 
-* **Capability Bundle:** `crawler_ops`
 * **Security Tier:** Tier 2 (Crawl Control)
 * **Core Architecture Guide:** [Autonomous Crawler & Surface Explorer](../../../core-features/crawler-and-discovery.md)
 
@@ -34,6 +33,8 @@ Dynamically modifies parameters (rate limits, filters, depth, pauses) of an acti
 | `maxConsecutiveErrors` | `integer` | No | — | 1–50 | Update circuit breaker threshold. After this many consecutive failures on a domain, remaining URLs are skipped. |
 | `backoffStrategy` | `string` | No | — | `none`, `linear`, `exponential` | Update adaptive delay strategy. |
 | `maxBackoffMs` | `integer` | No | — | 1000–60000 | Update maximum adaptive delay cap in ms. |
+
+Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawler_ops')`).
 <!-- /generated:parameters -->
 
 ---

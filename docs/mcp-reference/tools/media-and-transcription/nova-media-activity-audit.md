@@ -8,7 +8,6 @@ Retrieves an audit trail of stored media permissions joined with recent decision
 
 `nova.media_activity_audit` compiles stored per-site media permissions joined with timestamped decisions from Nova's in-memory permission activity log.
 
-* **Capability Bundle:** `system_tools`
 * **Security Tier:** Tier 1 (Read-Only Audit)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
@@ -23,6 +22,8 @@ Retrieves an audit trail of stored media permissions joined with recent decision
 | `limit` | `integer` | No | — | 1–500 | Max entries returned. Default 100. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 <!-- /generated:parameters -->
 
 ---

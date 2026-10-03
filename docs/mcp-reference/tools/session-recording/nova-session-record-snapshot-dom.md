@@ -8,7 +8,6 @@ Triggers a fresh encrypted DOM snapshot on an active live recording bound to a t
 
 `nova.session_record_snapshot_dom` captures a complete DOM state snapshot while a recording is actively running. It serializes the live DOM hierarchy into an encrypted artifact inside the recording directory and indexes it with a unique `snapshotId`.
 
-* **Capability Bundle:** `session_recording`
 * **Security Tier:** Tier 2 (Live DOM Capture)
 * **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
 
@@ -23,6 +22,8 @@ Triggers a fresh encrypted DOM snapshot on an active live recording bound to a t
 | `tabId` | `string` | No | — | — | Browser tab ID. The active recording on that tab is used. Mutually exclusive with recordingId. |
 | `selector` | `string` | No | — | — | Optional CSS selector. When omitted, captures document.activeElement (falling back to document.body). |
 | `fullPage` | `boolean` | No | `false` | — | When true, capture document.documentElement instead of a single node. |
+
+Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='session_recording')`).
 <!-- /generated:parameters -->
 
 ---

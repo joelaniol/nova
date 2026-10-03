@@ -8,7 +8,6 @@ Resumes a paused live WebView2-native download by ID.
 
 `nova.downloads_resume` resumes transfer on a paused download. This differs fundamentally from `nova.downloads_retry`: `resume` continues an existing socket/range stream, whereas `retry` navigates to the original URL again.
 
-* **Capability Bundle:** `app_shell_recovery`
 * **Security Tier:** Tier 2 (Control)
 * **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts.md)
 
@@ -22,6 +21,8 @@ Resumes a paused live WebView2-native download by ID.
 | `id` | `string` | Yes | — | — | The download ID to resume (from nova.downloads_list). The item should have canResume=true. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
 <!-- /generated:parameters -->
 
 ---

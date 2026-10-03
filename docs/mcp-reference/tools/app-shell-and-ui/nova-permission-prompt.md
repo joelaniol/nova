@@ -2,7 +2,6 @@
 
 > **Raises an interactive permission dialog asking the Nova human operator to approve a high-risk action.**
 
-* **Capability Bundle:** `app_shell_recovery, onboarding`
 * **Security Tier:** Tier 2 (Interactive Authorization Gate)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -24,6 +23,8 @@
 | `tool_name` | `string` | Yes | — | — | The name of the tool that requires approval (e.g. 'Bash', 'Write'). |
 | `description` | `string` | Yes | — | — | Human-readable description of what the tool will do (e.g. "Run 'npm test'"). |
 | `risk_level` | `string` | No | — | `low`, `medium`, `high` | Estimated risk level of the action. |
+
+Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 <!-- /generated:parameters -->
 
 ---

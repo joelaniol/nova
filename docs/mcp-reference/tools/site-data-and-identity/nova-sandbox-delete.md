@@ -8,7 +8,6 @@ Permanently removes a sandbox profile and deletes its storage, cookies, and cach
 
 `nova.sandbox_delete` deletes a sandbox profile and permanently removes its browser data directory from disk. All tabs belonging to the sandbox are immediately closed.
 
-* **Capability Bundle:** `site_data_management`
 * **Security Tier:** Tier 3 (Destructive Sandbox Deletion)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
@@ -23,6 +22,8 @@ Permanently removes a sandbox profile and deletes its storage, cookies, and cach
 | `confirm` | `boolean` | Yes | — | — | Safety confirmation. Must be true to proceed with deletion. |
 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+
+Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 <!-- /generated:parameters -->
 
 ---

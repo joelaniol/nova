@@ -8,7 +8,6 @@ Retrieves full details of a scheduled task including prompt, schedule, chaining,
 
 `nova.scheduled_task_get` returns the complete configuration for a specific background task. It exposes the prompt text, executor arguments, timezone, retry behavior, workspace path, and chaining dependencies.
 
-* **Capability Bundle:** `scheduled_tasks`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
@@ -22,6 +21,8 @@ Retrieves full details of a scheduled task including prompt, schedule, chaining,
 | `taskId` | `string` | Yes | — | — | The task ID to retrieve. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
 <!-- /generated:parameters -->
 
 ---

@@ -8,7 +8,6 @@ Lists currently armed network interception rules with remaining hit budgets and 
 
 `nova.network_intercept_list` inspects which interception rules are currently active. Rules that have expired via TTL or hit budgets are automatically omitted.
 
-* **Capability Bundle:** `proxy_management`
 * **Security Tier:** Tier 1 (Safe)
 * **Core Architecture Guide:** [Proxy Routing & Stealth Network Engine](../../../core-features/proxy-and-network.md)
 
@@ -22,6 +21,8 @@ Lists currently armed network interception rules with remaining hit budgets and 
 | `targetId` | `string` | No | — | — | Restrict to one tab. Omit to list every rule in the browser. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

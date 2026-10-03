@@ -8,7 +8,6 @@ Lists all tools available on an external MCP server, with optional full inputSch
 
 `nova.external_tools` discovers capabilities exposed by a connected external server. By default, it returns tool names and descriptions; passing `includeSchema: true` returns complete JSON Schema definitions required for invocation.
 
-* **Capability Bundle:** `external_mcp`
 * **Security Tier:** Tier 1 (Safe Discovery)
 * **Core Architecture Guide:** [Plugins & External Extensions](../../../core-features/plugins.md)
 
@@ -24,6 +23,8 @@ Lists all tools available on an external MCP server, with optional full inputSch
 | `refresh` | `boolean` | No | — | — | Force fresh tools/list fetch from server instead of using cache. Default: false. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `external_mcp` (load it with `nova.tools_bundle(bundle='external_mcp')`).
 <!-- /generated:parameters -->
 
 ---

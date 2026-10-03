@@ -8,7 +8,6 @@ Retrieves the run execution history (status, duration, exit code, cost) of a sch
 
 `nova.scheduled_task_runs` queries the historical executions of a task. It provides status (`Completed`, `Failed`, `TimedOut`, `Cancelled`), execution duration, exit codes, consumed tokens, cost in USD, and structured output summaries.
 
-* **Capability Bundle:** `scheduled_tasks`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
@@ -23,6 +22,8 @@ Retrieves the run execution history (status, duration, exit code, cost) of a sch
 | `limit` | `integer` | No | `10` | 1–100 | Maximum number of runs to return (1-100). Default: 10. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
 <!-- /generated:parameters -->
 
 ---

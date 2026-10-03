@@ -8,7 +8,6 @@ Reports progress, elapsed time, and bytes written for an active in-tab media cap
 
 `nova.media_capture_status` monitors an ongoing streaming capture, reporting elapsed recording time, bytes written per track, and buffer health.
 
-* **Capability Bundle:** `system_tools`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
@@ -22,6 +21,8 @@ Reports progress, elapsed time, and bytes written for an active in-tab media cap
 | `targetId` | `string` | No | `"active"` | — | Target ID of the capturing tab, or 'active' / 'activeBrowserTab'. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

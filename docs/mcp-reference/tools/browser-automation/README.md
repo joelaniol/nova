@@ -2,13 +2,15 @@
 
 Page navigation, tab strip lifecycle management, physical clicks, humanized typing, scroll mechanics, and file uploads.
 
-* **Capability Bundle(s):** `browser_automation`
 * **Core Architecture Guide:** [Core Features: humanized-input-engine.md](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
+<!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 ## Tool Inventory (41 Tools)
+
+Capability bundles of these tools: `browser_automation`, `form_submission`, `page_read_debug`, `visual_evidence`.
 
 | Tool | What it does |
 | :--- | :--- |
@@ -17,8 +19,8 @@ Page navigation, tab strip lifecycle management, physical clicks, humanized typi
 | **[`nova.back`](nova-back.md)** | Navigates backward in browser history with automated SPA session preservation, DOM settlement tracking, and guarded navigation gates. |
 | **[`nova.choose_option`](nova-choose-option.md)** | Selects an option from a custom UI or standard dropdown by visible text or index. |
 | **[`nova.click_selector`](nova-click-selector.md)** | Executes a verified click on a DOM element matching a CSS selector or CTA handle, featuring deep Shadow-DOM piercing, backdrop dismissal, and postcondition verification. |
-| **[`nova.file_upload`](nova-file-upload.md)** | Attaches one or more local files directly to an HTML `<input type="file">` element via Chrome DevTools Protocol (CDP), bypassing native OS file picker dialogs. |
 | **[`nova.dismiss_blockers`](nova-dismiss-blockers.md)** | Identifies and removes click-blocking overlays, cookie consent banners, notification prompts, and modal backdrops. |
+| **[`nova.file_upload`](nova-file-upload.md)** | Attaches one or more local files directly to an HTML `<input type="file">` element via Chrome DevTools Protocol (CDP), bypassing native OS file picker dialogs. |
 | **[`nova.forward`](nova-forward.md)** | Navigates forward in browser history with automated SPA session preservation, DOM settlement tracking, and guarded navigation gates. |
 | **[`nova.history_get`](nova-history-get.md)** | Retrieves session navigation history entries, active index, and title metadata for a tab. |
 | **[`nova.history_go`](nova-history-go.md)** | Navigates forward or backward in tab history by a relative delta offset. |
@@ -51,9 +53,9 @@ Page navigation, tab strip lifecycle management, physical clicks, humanized typi
 | **[`nova.tab_transfer`](nova-tab-transfer.md)** | Moves an open browser tab from one sandbox container profile to another. |
 | **[`nova.tabs`](nova-tabs.md)** | Lists all open tabs, WebViews, and sandbox surfaces across the workspace with filtering, claim status, and ownership details. |
 | **[`nova.type_selector`](nova-type-selector.md)** | Focuses an input field or contenteditable element, clears existing text, and enters characters with realistic keystroke intervals and input events. |
-| **[`nova.type_selector_secret`](../vault-and-security/nova-type-selector-secret.md)** | Types a vault password into a target form field using an ephemeral `SecretRef` token, injecting keystrokes directly via CDP without exposing plaintext secrets to the agent. |
 | **[`nova.wait_for_modal`](nova-wait-for-modal.md)** | Blocks execution until a modal dialog or overlay appears or closes in the document. |
 | **[`nova.wait_for_selector`](nova-wait-for-selector.md)** | Waits for a DOM element matching a CSS selector to appear, become visible, or disappear, returning its exact bounding rectangle and settlement state. |
+<!-- /generated:tool-list -->
 
 ---
 

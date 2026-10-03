@@ -8,7 +8,6 @@ Launches an external MCP server, runs initialize handshake, and discovers availa
 
 `nova.external_server_start` initiates the server process or network connection, exchanges MCP initialization capabilities, and queries tools/list. Returns PID, duration, and tool count on success.
 
-* **Capability Bundle:** `external_mcp`
 * **Security Tier:** Tier 2 (Server Lifecycle)
 * **Core Architecture Guide:** [Plugins & External Extensions](../../../core-features/plugins.md)
 
@@ -22,6 +21,8 @@ Launches an external MCP server, runs initialize handshake, and discovers availa
 | `serverKey` | `string` | Yes | — | — | Stable server identity (8-char hex). Get from nova.external_servers(). |
 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+
+Capability bundle: `external_mcp` (load it with `nova.tools_bundle(bundle='external_mcp')`).
 <!-- /generated:parameters -->
 
 ---

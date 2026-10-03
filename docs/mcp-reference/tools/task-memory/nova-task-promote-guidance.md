@@ -8,7 +8,6 @@ Explicitly promotes a guidance log entry into a profile’s stable guidance.
 
 `nova.task_promote_guidance` promotes an observed workaround or tip from `task_guidance_logs` into the permanent `stableGuidance` of a task profile.
 
-* **Capability Bundle:** `task_memory`
 * **Security Tier:** Tier 2 (Guidance Promotion)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
@@ -21,6 +20,8 @@ Explicitly promotes a guidance log entry into a profile’s stable guidance.
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `guidanceLogId` | `string` | Yes | — | — | The guidance log entry to promote. |
 | `profileId` | `string` | Yes | — | — | The profile to promote the guidance into. |
+
+Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
 <!-- /generated:parameters -->
 
 ---

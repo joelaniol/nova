@@ -8,7 +8,6 @@ Logs a guidance observation or proposal without directly mutating task profiles.
 
 `nova.task_guidance_log_add` records procedural findings, unexpected DOM drift, or failure workarounds into the guidance audit log. Entries are reviewed for promotion to stable profiles.
 
-* **Capability Bundle:** `task_memory`
 * **Security Tier:** Tier 2 (Guidance Logging)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
@@ -39,6 +38,8 @@ Logs a guidance observation or proposal without directly mutating task profiles.
 | `payload.overrides` | `object` | No | — | — | Optional override payload observed together with the guidance entry. |
 | `sourceKind` | `string` | Yes | — | `user`, `agent`, `reviewer`, `migration`, `system` | Who created this guidance entry. 'user' = direct operator input, 'agent' = autonomous or assistant-generated guidance, 'reviewer' = human review decision, 'migration' = imported historical data, 'system' = runtime-generated guidance or telemetry. |
 | `sourceRef` | `string` | No | — | — | Optional reference to the source (e.g. conversation ID, user name). |
+
+Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
 <!-- /generated:parameters -->
 
 ---

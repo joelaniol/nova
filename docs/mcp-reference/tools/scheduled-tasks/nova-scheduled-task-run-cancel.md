@@ -8,7 +8,6 @@ Cancels an in-flight background task run asynchronously.
 
 `nova.scheduled_task_run_cancel` sends a graceful termination signal to the executor process of a running task. If the process does not terminate within a safety grace window, Nova forces a process tree kill to prevent hung background workers.
 
-* **Capability Bundle:** `scheduled_tasks`
 * **Security Tier:** Tier 2 (Process Control)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
@@ -22,6 +21,8 @@ Cancels an in-flight background task run asynchronously.
 | `runId` | `string` | Yes | — | — | ID of the run to cancel. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
 <!-- /generated:parameters -->
 
 ---

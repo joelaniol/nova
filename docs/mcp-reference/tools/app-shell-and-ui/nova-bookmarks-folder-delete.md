@@ -2,7 +2,6 @@
 
 > **Deletes a bookmark folder and optionally its contained bookmarks and subfolders.**
 
-* **Capability Bundle:** `app_shell_recovery, onboarding`
 * **Security Tier:** Tier 2 (Destructive Bookmark Management)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -22,6 +21,8 @@
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `id` | `string` | Yes | — | — | Folder id. |
 | `mode` | `string` | No | `"moveToRoot"` | `moveToRoot`, `deleteContents` | Behavior for the folder's contents. |
+
+Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 <!-- /generated:parameters -->
 
 ---

@@ -8,7 +8,6 @@ Clears cookies across the target profile, with optional domain filtering.
 
 `nova.cookie_clear` purges cookies from the target sandbox container. When `domain` is specified, only matching cookies are removed; omitting `domain` clears all cookies in the profile.
 
-* **Capability Bundle:** `site_data_management`
 * **Security Tier:** Tier 3 (Batch Cookie Clearance)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
@@ -23,6 +22,8 @@ Clears cookies across the target profile, with optional domain filtering.
 | `domain` | `string` | No | — | — | Optional domain scope. When set, only cookies whose domain matches this value or is a subdomain of it are deleted (e.g. 'example.com' matches '.example.com' and 'sub.example.com'). Omit to clear ALL cookies (profile-wide). |
 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+
+Capability bundle: `site_data_management` (load it with `nova.tools_bundle(bundle='site_data_management')`).
 <!-- /generated:parameters -->
 
 ---

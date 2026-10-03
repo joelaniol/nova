@@ -8,7 +8,6 @@ Deletes browsing memories matching domain, memoryType, or text query filters.
 
 `nova.memory_forget` removes outdated or incorrect browsing memories from Nova's long-term semantic store.
 
-* **Capability Bundle:** `task_memory`
 * **Security Tier:** Tier 2 (Memory Deletion)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
@@ -23,6 +22,8 @@ Deletes browsing memories matching domain, memoryType, or text query filters.
 | `memoryId` | `integer` | No | — | ≥ 1 | Delete a single memory by its ID. |
 | `memoryType` | `string` | No | — | `note`, `preference`, `context` | Delete all memories of this type across all domains, or only within domain when domain is also provided. |
 | `all` | `boolean` | No | `false` | — | Delete ALL browsing memories. Use with care. |
+
+Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 <!-- /generated:parameters -->
 
 ---

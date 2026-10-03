@@ -8,7 +8,6 @@ Registers a new external MCP server with stdio, HTTP, or SSE transport.
 
 `nova.external_server_add` registers a secondary MCP server. For `stdio`, Nova launches and monitors a local sub-process with an isolated workspace; for `http` and `sse`, Nova connects over network streams.
 
-* **Capability Bundle:** `external_mcp`
 * **Security Tier:** Tier 3 (High-Impact)
 * **Core Architecture Guide:** [Plugins & External Extensions](../../../core-features/plugins.md)
 
@@ -36,6 +35,8 @@ Registers a new external MCP server with stdio, HTTP, or SSE transport.
 | `startupTimeoutMs` | `integer` | No | — | — | Timeout in ms for the MCP initialize handshake. Default: 30000. Min: 5000, Max: 120000. |
 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+
+Capability bundle: `external_mcp` (load it with `nova.tools_bundle(bundle='external_mcp')`).
 <!-- /generated:parameters -->
 
 ---

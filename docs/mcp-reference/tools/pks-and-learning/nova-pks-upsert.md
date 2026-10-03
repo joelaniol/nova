@@ -8,7 +8,6 @@ Stores or updates a verified phenomenon, behavioral playbook, and detection fing
 
 `nova.pks_upsert` persists empirical web knowledge so future agents can navigate recurring domain phenomena deterministically. Because PKS is a shared memory system, Nova enforces strict **Empirical Verification**, **Polarity Invariants**, and **Scope Boundaries** to prevent hallucinated or malicious entries from polluting the store.
 
-* **Capability Bundle:** `pks_and_learning`, `domain_knowledge`
 * **Mandatory Verification Workflow:** Never guess selectors. The agent must:
   1. Execute the interaction on the live page.
   2. Verify that the interaction succeeded.
@@ -50,6 +49,8 @@ For `consent_cmp` phenomena (cookie banners), Nova enforces four non-negotiable 
 | `phenomenon.fingerprint` | `object` | No | — | — | Fingerprint signals used to detect the phenomenon later. |
 | `phenomenon.playbook` | `object` | No | — | — | Structured response plan for the phenomenon, including execution and verification. |
 | `phenomenon.context` | `object` | No | — | — | Optional phenomenon-level context override. Missing keys fallback to domain context keys. When updating an existing phenomenon, the deprecated flag is automatically cleared (reactivated). |
+
+Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_learning')`).
 <!-- /generated:parameters -->
 
 ---

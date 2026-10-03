@@ -8,7 +8,6 @@ Closes an open browser tab or background WebView, releasing its system resources
 
 `nova.tab_close` terminates a specified browser tab inside Nova AI Workspace. It cleans up the underlying Microsoft WebView2 controller, releases network handles, unregisters any active tab leases, and restores focus to the nearest remaining tab.
 
-* **Capability Bundle:** `browser_automation`
 * **Target Scope:** Tab-specific (defaults to the currently active tab).
 * **Cleanup:** Frees DOM trees, GPU compositing memory, and temporary session state.
 
@@ -32,6 +31,8 @@ Closing a regular browser tab will not exit Nova AI Workspace even if it was the
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `targetId` | `string` | No | `"active"` | — | Browser tab ID or 'active' (must resolve to a browser tab). |
+
+Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
 <!-- /generated:parameters -->
 
 ---

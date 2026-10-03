@@ -8,7 +8,6 @@ Sets the global website notification permission default (Ask, Allow, or Deny).
 
 `nova.notifications_permission_default_set` sets the baseline behavior for web origins that do not have an explicit rule in `nova.notifications_permissions_list`. Setting this to `deny` suppresses all notification prompts across the browser.
 
-* **Capability Bundle:** `notifications`
 * **Security Tier:** Tier 2 (Configuration)
 * **Core Architecture Guide:** [Closed-Loop System & Event Propagation](../../../core-features/closed-loop-system.md)
 
@@ -22,6 +21,8 @@ Sets the global website notification permission default (Ask, Allow, or Deny).
 | `mode` | `string` | Yes | — | `ask`, `allow`, `deny` | Global notification permission default to set. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `notifications` (load it with `nova.tools_bundle(bundle='notifications')`).
 <!-- /generated:parameters -->
 
 ---

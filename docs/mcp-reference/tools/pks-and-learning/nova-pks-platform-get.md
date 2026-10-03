@@ -2,7 +2,6 @@
 
 > **Retrieves pre-trained platform-level UI pattern definitions (Shopify, WordPress, Jira).**
 
-* **Capability Bundle:** `pks_learning`
 * **Security Tier:** Tier 1 (Read-Only Platform Models)
 * **Core Feature Guide:** [Phenomenological Knowledge Store (PKS)](../../../core-features/pks.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -21,6 +20,8 @@
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `stableId` | `string` | Yes | — | ≥ 1 characters | Non-empty platform stable ID. The runtime trims and lowercases it before lookup. |
+
+Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_learning')`).
 <!-- /generated:parameters -->
 
 ---

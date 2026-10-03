@@ -2,7 +2,6 @@
 
 > **Resolves an active HTTP 401 Basic or Digest authentication challenge dialog.**
 
-* **Capability Bundle:** `app_shell_recovery, onboarding`
 * **Security Tier:** Tier 2 (Modal & Dialog Resolution)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -22,6 +21,8 @@
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `decision` | `string` | Yes | — | `use_vault`, `cancel` | use_vault: sign in with a stored entry for this origin. cancel: decline the challenge and unblock browsing. |
 | `username` | `string` | No | — | ≤ 256 characters | Optional. Selects one vault entry when the origin has several. Ignored for 'cancel'. A name that matches no stored entry fails with 'auth.vault_entry_not_found' rather than falling back to another entry. |
+
+Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
 <!-- /generated:parameters -->
 
 ---

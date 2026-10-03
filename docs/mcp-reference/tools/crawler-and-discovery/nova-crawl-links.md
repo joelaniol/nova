@@ -8,7 +8,6 @@ Instantly extracts and classifies all hyperlinks from an existing active browser
 
 `nova.crawl_links` performs fast, synchronous hyperlink extraction from an open tab without launching a background crawl job. It categorizes links by relation, external vs internal domain status, and navigation intent, while optionally penetrating Shadow DOM roots and iframes.
 
-* **Capability Bundle:** `crawler_ops`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Autonomous Crawler & Surface Explorer](../../../core-features/crawler-and-discovery.md)
 
@@ -25,6 +24,8 @@ Instantly extracts and classifies all hyperlinks from an existing active browser
 | `sameScopeOnly` | `boolean` | No | `false` | — | Preferred alias for sameDomainOnly. For crawl_links this means exact-origin only, not alias-aware same-site merging. Must match sameDomainOnly if both are provided. |
 | `includeText` | `boolean` | No | `true` | — | If true, include the visible text of each link. |
 | `deep` | `boolean` | No | `false` | — | If true, also search iframes and shadow DOM for links. |
+
+Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawler_ops')`).
 <!-- /generated:parameters -->
 
 ---

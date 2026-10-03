@@ -8,7 +8,6 @@ Lists registered secret key names for a task without exposing plaintext secret v
 
 `nova.scheduled_task_secret_list` returns the names of all secrets currently configured for a task. In accordance with zero-trust security guidelines, plaintext secret values are never disclosed in the response.
 
-* **Capability Bundle:** `scheduled_tasks`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
@@ -24,6 +23,8 @@ Lists registered secret key names for a task without exposing plaintext secret v
 | `offset` | `integer` | No | `0` | ≥ 0 | Number of secret keys to skip before returning this page. Default: 0. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
 <!-- /generated:parameters -->
 
 ---

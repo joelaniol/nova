@@ -2,13 +2,15 @@
 
 Cross-session procedural UI memory, learned interaction playbooks, fingerprint matching, and health telemetry.
 
-* **Capability Bundle(s):** `pks_learning`
 * **Core Architecture Guide:** [Core Features: pks.md](../../../core-features/pks.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
+<!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 ## Tool Inventory (21 Tools)
+
+Capability bundles of these tools: `pks_learning`, `task_memory`.
 
 | Tool | What it does |
 | :--- | :--- |
@@ -33,6 +35,7 @@ Cross-session procedural UI memory, learned interaction playbooks, fingerprint m
 | **[`nova.pks_upsert_hint`](nova-pks-upsert-hint.md)** | Attaches or updates a human operator guidance hint on a phenomenon pattern. |
 | **[`nova.revalidate`](nova-revalidate.md)** | Re-verifies validity of a learned phenomenon against current live website markup. |
 | **[`nova.telemetry_report`](nova-telemetry-report.md)** | Reports empirical execution outcomes (`success`, `failure`, or `not_applicable`) for a PKS phenomenon interaction, updating health scores and driving automatic promotion and deprecation gates. |
+<!-- /generated:tool-list -->
 
 ---
 

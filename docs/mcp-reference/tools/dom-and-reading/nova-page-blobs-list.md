@@ -2,7 +2,6 @@
 
 > **Lists in-memory Blob and Object URLs (blob:http://...) created by the page.**
 
-* **Capability Bundle:** `page_read_debug`
 * **Security Tier:** Tier 1 (Read-Only Resource State)
 * **Core Feature Guide:** [DOM Perception & Semantic Extraction](../../../core-features/tob.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -26,6 +25,8 @@
 | `limit` | `integer` | No | `50` | 1–200 | Maximum number of blobs to return (1-200, default 50). totalFound and truncated report the overflow. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

@@ -8,7 +8,6 @@ Deletes a connector profile, associated capability grants, and backing DPAPI sec
 
 `nova.connector_delete` removes a connector profile from the system. If no other connector references the backing credential secret, the encrypted secret is permanently removed from the keystore.
 
-* **Capability Bundle:** `connector_ops`
 * **Security Tier:** Tier 3 (Destructive Deletion)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
@@ -22,6 +21,8 @@ Deletes a connector profile, associated capability grants, and backing DPAPI sec
 | `id` | `string` | Yes | — | — | Connector id to delete. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
 <!-- /generated:parameters -->
 
 ---

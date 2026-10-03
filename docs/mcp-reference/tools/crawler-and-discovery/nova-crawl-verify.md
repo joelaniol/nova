@@ -8,7 +8,6 @@ Performs targeted, non-traversal verification and DOM extraction against a speci
 
 `nova.crawl_verify` visits an explicit list of URLs in isolated hidden WebViews without following outbound hyperlinks. It is designed for regression testing, link health validation, selector assertions, and deterministic data scraping across up to 50 URLs in a single call.
 
-* **Capability Bundle:** `crawler_ops`
 * **Security Tier:** Tier 2 (Targeted Verification)
 * **Core Architecture Guide:** [Autonomous Crawler & Surface Explorer](../../../core-features/crawler-and-discovery.md)
 
@@ -71,6 +70,8 @@ Performs targeted, non-traversal verification and DOM extraction against a speci
 | `research.recordSchema` | `object` | No | — | — | Strict typed schema applied to every record before any dataset commit. The configured key field provides exactly-once record identity across resume attempts. |
 | `research.sink` | `object` | No | — | — | Atomically replaced export snapshot under Nova's own Exports/Research directory. crawl.db remains the authoritative checkpoint across crashes. |
 | `research.replayCases` | `array` of `object` | No | — | ≤ 20 items | Optional deterministic replay assertions. scriptResult revalidates a legacy stored result envelope; pageState.html loads a CSP-isolated offline Chromium DOM and executes the exact recipe customScript before any live URL navigation. |
+
+Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawler_ops')`).
 <!-- /generated:parameters -->
 
 ---

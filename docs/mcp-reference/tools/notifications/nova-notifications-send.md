@@ -8,7 +8,6 @@ Dispatches a host-authored Windows toast notification and persists it to the Nov
 
 `nova.notifications_send` presents native Windows desktop toast notifications to the user and stores them in Nova's persistent notification drawer. It includes rate-limiting (10 requests per 30 seconds) and blocks website impersonation (`sourceKind: "website"` is rejected).
 
-* **Capability Bundle:** `notifications`
 * **Security Tier:** Tier 3 (High-Impact)
 * **Core Architecture Guide:** [Closed-Loop System & Event Propagation](../../../core-features/closed-loop-system.md)
 
@@ -28,6 +27,8 @@ Dispatches a host-authored Windows toast notification and persists it to the Nov
 | `urgent` | `boolean` | No | — | — | If true, mark the notification important (Windows 'Urgent' scenario) so it breaks through Focus Assist / Do-Not-Disturb and pops a banner even under 'priority only'. Reserve for genuinely important events; default false. |
 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+
+Capability bundle: `notifications` (load it with `nova.tools_bundle(bundle='notifications')`).
 <!-- /generated:parameters -->
 
 ---

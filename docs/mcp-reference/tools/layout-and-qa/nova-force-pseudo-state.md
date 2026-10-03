@@ -2,7 +2,6 @@
 
 > **Forces CSS pseudo-class states (:hover, :focus, :active, :visited) on an element.**
 
-* **Capability Bundle:** `page_read_debug`
 * **Security Tier:** Tier 2 (CSS Emulation)
 * **Core Feature Guide:** [Visual Evidence & Layout QA](../../../core-features/evm-and-visual-evidence.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -23,6 +22,8 @@
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
 | `selector` | `string` | Yes | — | — | CSS selector for the element whose state should be held. |
 | `states` | `array` of `string` | No | — | — | Pseudo-classes to force. Omit or pass an empty array to clear the element's forced state and return it to normal. An unsupported name is rejected rather than ignored, because a silently ignored state looks like a page that does not style it. |
+
+Capability bundle: `visual_evidence` (load it with `nova.tools_bundle(bundle='visual_evidence')`).
 <!-- /generated:parameters -->
 
 ---

@@ -8,7 +8,6 @@ Returns directory metadata, file count, and last run status for a task’s isola
 
 `nova.scheduled_task_workspace` inspects the filesystem container dedicated to a task (`%LOCALAPPDATA%\ScheduledTasks\<taskId>\`). It summarizes total files in the `shared/` folder, storage consumed, and the status of the last completed run.
 
-* **Capability Bundle:** `scheduled_tasks`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
@@ -22,6 +21,8 @@ Returns directory metadata, file count, and last run status for a task’s isola
 | `taskId` | `string` | Yes | — | — | The task ID. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
 <!-- /generated:parameters -->
 
 ---

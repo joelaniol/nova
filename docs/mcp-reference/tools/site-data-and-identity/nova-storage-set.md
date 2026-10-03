@@ -8,7 +8,6 @@ Sets a key-value pair in localStorage or sessionStorage for the target page.
 
 `nova.storage_set` writes data into `localStorage` or `sessionStorage` on the target page's origin via the CoreWebView2 storage API.
 
-* **Capability Bundle:** `site_data_management`
 * **Security Tier:** Tier 2 (Storage Mutation)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
@@ -23,6 +22,8 @@ Sets a key-value pair in localStorage or sessionStorage for the target page.
 | `storageType` | `string` | Yes | — | `local`, `session` | Storage type. |
 | `key` | `string` | Yes | — | — | Storage key. Required. |
 | `value` | `string` | Yes | — | — | Storage value. Required. |
+
+Capability bundle: `site_data_management` (load it with `nova.tools_bundle(bundle='site_data_management')`).
 <!-- /generated:parameters -->
 
 ---

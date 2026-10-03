@@ -2,13 +2,15 @@
 
 In-browser audio/video recording, local OpenAI Whisper transcription, model management, and camera/mic permissions.
 
-* **Capability Bundle(s):** `system_tools`
 * **Core Architecture Guide:** [Core Features: media-intelligence.md](../../../core-features/media-intelligence.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
+<!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 ## Tool Inventory (24 Tools)
+
+Capability bundles of these tools: `browser_automation`, `page_read_debug`, `system_tools`.
 
 | Tool | What it does |
 | :--- | :--- |
@@ -36,6 +38,7 @@ In-browser audio/video recording, local OpenAI Whisper transcription, model mana
 | **[`nova.media_transcribe_start`](nova-media-transcribe-start.md)** | Transcribes local audio or video files into text entirely on-device using local Whisper.cpp. |
 | **[`nova.media_transcribe_status`](nova-media-transcribe-status.md)** | Reports progress, elapsed percentage, and recognized text segments of an active transcription. |
 | **[`nova.media_transcribe_stop`](nova-media-transcribe-stop.md)** | Stops an in-flight transcription job and returns recognized text segments up to the cancellation point. |
+<!-- /generated:tool-list -->
 
 ---
 

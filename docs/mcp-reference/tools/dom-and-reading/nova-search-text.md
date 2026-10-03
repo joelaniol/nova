@@ -8,7 +8,6 @@ Searches the page for visible text occurrences and returns matching DOM elements
 
 When an agent knows the visible label of an element (such as a button text "Add to Cart", a menu item "Settings", or a heading "Billing History") but does not know its selector, running a full `perceive` or `read_dom` call is unnecessarily token-heavy. `nova.search_text` provides targeted, low-cost text queries that return precise, ready-to-use CSS selectors.
 
-* **Capability Bundle:** `dom_reading`, `element_inspection`
 * **Targeted Selector Discovery:** Returns actionable selectors for immediate use in [`nova.click_selector`](../browser-automation/nova-click-selector.md) or [`nova.type_selector`](../browser-automation/nova-type-selector.md).
 * **Deep Shadow-DOM Traversal (`deep: true`):** Returns multi-level ` >>> ` piercing chains when matching text resides inside Web Components.
 * **Match Modes:** Supports `contains`, `exact`, `starts_with`, and `regex`.
@@ -64,6 +63,8 @@ If the matching text lives inside an open shadow root or same-origin iframe:
 | `caseSensitive` | `boolean` | No | `false` | — | If true, text matching is case-sensitive. |
 | `visibleOnly` | `boolean` | No | `true` | — | Only return elements that are visible on the page. |
 | `deep` | `boolean` | No | `false` | — | If true, searches in same-origin iframes and open shadow roots in addition to the top document. Returns full >>> selector chains for shadow-contained elements. |
+
+Capability bundles: `browser_automation`, `form_submission`, `visual_evidence`.
 <!-- /generated:parameters -->
 
 ---

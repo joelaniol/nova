@@ -8,7 +8,6 @@ Queries lifecycle status, working directory, and exit code for a specific sessio
 
 `nova.terminal_get_state` inspects whether a terminal session is actively running, its working directory, and its process exit code if it has terminated.
 
-* **Capability Bundle:** `terminal_ops`
 * **Security Tier:** Tier 1 (Safe)
 * **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces.md)
 
@@ -22,6 +21,8 @@ Queries lifecycle status, working directory, and exit code for a specific sessio
 | `sessionId` | `string` | Yes | — | — | Session id from terminal_open. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `terminal_ops` (load it with `nova.tools_bundle(bundle='terminal_ops')`).
 <!-- /generated:parameters -->
 
 ---

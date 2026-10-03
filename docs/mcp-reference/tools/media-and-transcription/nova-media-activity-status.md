@@ -8,7 +8,6 @@ Returns an O(1) instant snapshot of currently active camera, microphone, and scr
 
 `nova.media_activity_status` performs a zero-overhead check of active media streams across all browser tabs. It returns origin lists and stream counts for camera, microphone, and desktop screen-sharing.
 
-* **Capability Bundle:** `system_tools`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
@@ -20,6 +19,8 @@ Returns an O(1) instant snapshot of currently active camera, microphone, and scr
 This tool takes no parameters.
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 <!-- /generated:parameters -->
 
 ---

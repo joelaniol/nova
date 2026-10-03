@@ -2,7 +2,6 @@
 
 > **Pushes a structured Operational Knowledge (OK) signal about page state, blocking patterns, or layout shifts.**
 
-* **Capability Bundle:** `app_shell_recovery, onboarding`
 * **Security Tier:** Tier 2 (Telemetry Ingestion)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -25,6 +24,8 @@
 | `claims` | `array` of `object` | Yes | — | ≥ 1 items | Structured observations about the current page state. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

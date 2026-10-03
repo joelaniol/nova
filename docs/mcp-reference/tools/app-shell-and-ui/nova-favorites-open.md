@@ -2,7 +2,6 @@
 
 > **Navigates to a stored favorite bookmark in the current or a new browser tab.**
 
-* **Capability Bundle:** `app_shell_recovery, onboarding`
 * **Security Tier:** Tier 2 (Navigation)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -22,6 +21,8 @@
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `url` | `string` | Yes | — | — | Saved favorite URL to open. |
 | `openInNewTab` | `boolean` | No | `false` | — | If true, open in a new browser tab instead of the current tab. |
+
+Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 <!-- /generated:parameters -->
 
 ---

@@ -2,13 +2,15 @@
 
 Download tracking, pause/resume, security prompt resolution, and directory management.
 
-* **Capability Bundle(s):** `app_shell_recovery`
 * **Core Architecture Guide:** [Core Features: native-dialogs-and-prompts.md](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
+<!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 ## Tool Inventory (15 Tools)
+
+Capability bundles of these tools: `app_shell_recovery`.
 
 | Tool | What it does |
 | :--- | :--- |
@@ -27,6 +29,7 @@ Download tracking, pause/resume, security prompt resolution, and directory manag
 | **[`nova.downloads_resume_all`](nova-downloads-resume-all.md)** | Resumes all paused downloads whose underlying WebView2 operation supports resumption. |
 | **[`nova.downloads_retry`](nova-downloads-retry.md)** | Retries a failed download by re-navigating to its original URL. |
 | **[`nova.downloads_wait`](nova-downloads-wait.md)** | Blocks until downloads reach a terminal state (completed, failed, or cancelled) and returns disk file paths. |
+<!-- /generated:tool-list -->
 
 ---
 

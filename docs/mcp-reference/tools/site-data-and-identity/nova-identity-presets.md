@@ -8,7 +8,6 @@ Lists available browser identity presets and selectable browser engine versions.
 
 `nova.identity_presets` returns the catalog of pre-configured browser identity presets, detailing platform OS, browser families, and verified User-Agent strings.
 
-* **Capability Bundle:** `site_data_management`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
@@ -18,6 +17,8 @@ Lists available browser identity presets and selectable browser engine versions.
 
 <!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 This tool takes no parameters.
+
+Capability bundle: `identity_management` (load it with `nova.tools_bundle(bundle='identity_management')`).
 <!-- /generated:parameters -->
 
 ---

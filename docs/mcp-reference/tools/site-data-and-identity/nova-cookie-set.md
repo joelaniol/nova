@@ -8,7 +8,6 @@ Sets or updates a cookie in the target sandbox profile's cookie jar.
 
 `nova.cookie_set` writes or updates a cookie for the target tab's sandbox container. Cookies are identified by the unique tuple `{name, domain, path}`.
 
-* **Capability Bundle:** `site_data_management`
 * **Security Tier:** Tier 2 (Cookie Mutation)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
@@ -29,6 +28,8 @@ Sets or updates a cookie in the target sandbox profile's cookie jar.
 | `secure` | `boolean` | No | `false` | — | Secure flag. Default: false. Required for __Secure- and __Host- prefixes and SameSite=None. |
 | `sameSite` | `string` | No | `"Lax"` | `None`, `Lax`, `Strict` | SameSite attribute. |
 | `dryRun` | `boolean` | No | `false` | — | Validate without writing. Returns wouldCreate/wouldReplace and warnings. |
+
+Capability bundle: `site_data_management` (load it with `nova.tools_bundle(bundle='site_data_management')`).
 <!-- /generated:parameters -->
 
 ---

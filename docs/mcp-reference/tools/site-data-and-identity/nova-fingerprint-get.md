@@ -8,7 +8,6 @@ Reads the active browser fingerprint protection level (global, sandbox, or tab o
 
 `nova.fingerprint_get` inspects the anti-fingerprinting configuration applied to the browser, returning the global level (`Off`, `Balanced`, `Strict`), per-sandbox overrides, and per-tab ephemeral overrides.
 
-* **Capability Bundle:** `site_data_management`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
@@ -21,6 +20,8 @@ Reads the active browser fingerprint protection level (global, sandbox, or tab o
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `sandboxId` | `string` | No | — | — | Sandbox letter id (e.g. 'A', 'B'). When provided, the response includes that sandbox's override. |
 | `tabId` | `string` | No | — | — | Browser tab id (8-char hex). When provided, the response includes that tab's ephemeral override. |
+
+Capability bundle: `fingerprint_protection` (load it with `nova.tools_bundle(bundle='fingerprint_protection')`).
 <!-- /generated:parameters -->
 
 ---

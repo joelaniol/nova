@@ -8,7 +8,6 @@ Clears all locale, timezone, and geolocation overrides, reverting to host system
 
 `nova.emulation_clear_locale` removes active timezone and geolocation overrides and restores the browser's default language preferences.
 
-* **Capability Bundle:** `device_emulation`
 * **Security Tier:** Tier 2 (Locale Reset)
 * **Core Architecture Guide:** [Fingerprint & Identity Systems](../../../core-features/fingerprint-and-identity.md)
 
@@ -20,6 +19,8 @@ Clears all locale, timezone, and geolocation overrides, reverting to host system
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+
+Capability bundle: `device_emulation` (load it with `nova.tools_bundle(bundle='device_emulation')`).
 <!-- /generated:parameters -->
 
 ---

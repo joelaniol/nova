@@ -2,7 +2,6 @@
 
 > **Extracts plain text and page metadata from a locally saved PDF document.**
 
-* **Capability Bundle:** `visual_evidence`
 * **Security Tier:** Tier 1 (Read-Only Document Extraction)
 * **Core Feature Guide:** [Visual Evidence & Auditing](../../../core-features/evm-and-visual-evidence.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -24,6 +23,8 @@
 | `pages` | `string` | No | — | — | Optional 1-based page selection, e.g. '1', '2-5' or '1,4-6'. Omit to read every page. Pages beyond the end are ignored rather than rejected, so '1-10' on a 3-page file reads those three. |
 | `maxChars` | `integer` | No | `50000` | 1000–2000000 | Character budget for the returned text. Extraction continues past it so totalChars stays exact; truncated=true then tells you how much was left out. |
 | `includePages` | `boolean` | No | `false` | — | Also return the text split per page (pages[{page,text}]) instead of only the concatenated text. Off by default because it roughly doubles the response size. |
+
+Capability bundles: `page_read_debug`, `visual_evidence`.
 <!-- /generated:parameters -->
 
 ---

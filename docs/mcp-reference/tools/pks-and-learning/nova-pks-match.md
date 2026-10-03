@@ -8,7 +8,6 @@ Matches live page observations against registered Phenomenological Knowledge Sto
 
 When an agent lands on a complex web page and detects an unfamiliar modal, login gate, or consent banner, it uses `nova.pks_match` to check whether this pattern has been previously solved and cataloged. Nova scores the observed signals against domain-specific phenomena first, and falls back to universal platform templates (e.g. standard OneTrust or Didomi cookie templates) if needed.
 
-* **Capability Bundle:** `pks_and_learning`, `domain_knowledge`
 * **Typed Signal Matching:** Compares DOM selectors, visible text fragments, vendor API markers, and layout metrics.
 * **Ranked Results (`topK`):** Returns the top candidate along with confidence scores and evidence breakdowns.
 * **Near-Miss Diagnostics:** When confidence falls just below the threshold, near-miss diagnostics help the agent determine whether a slight site redesign has occurred.
@@ -44,6 +43,8 @@ The `observation.signals` array accepts structured evidence items:
 | `context.locale` | `string or null` | No | — | ≥ 1 characters | Optional locale filter such as 'de-DE'. Use null or omit to leave the locale filter unset. |
 | `context.auth` | `any` | No | — | — | Authentication state. 'anonymous' = not signed in, 'logged_in' = signed in, 'unknown' = not enough evidence to classify. Use null or omit to leave the auth filter unset. |
 | `context.route` | `string or null` | No | — | ≥ 1 characters | Optional route segment filter. Examples: '_root', 'feed', '/jobs/list'. Use null or omit to leave the route filter unset. |
+
+Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_learning')`).
 <!-- /generated:parameters -->
 
 ---

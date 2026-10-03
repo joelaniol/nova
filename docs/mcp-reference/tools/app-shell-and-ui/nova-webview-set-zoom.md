@@ -2,7 +2,6 @@
 
 > **Sets the zoom factor for a target tab's WebView2 instance.**
 
-* **Capability Bundle:** `app_shell_recovery, onboarding`
 * **Security Tier:** Tier 2 (Viewport Configuration)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -23,6 +22,8 @@
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
 | `zoomFactor` | `number` | Yes | `1` | 0.25–5 | Zoom level: 1.0 = 100%, 0.5 = 50%, 2.0 = 200%. Valid range is 0.25-5.0. |
 | `persistForSite` | `boolean` | No | `false` | — | Store the level for this host so future visits reopen at it (same effect as Ctrl+Plus). Default false keeps the zoom to the current session, which is usually what a temporary screenshot or layout check wants. Ignored on private tabs, which never persist. |
+
+Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
 <!-- /generated:parameters -->
 
 ---

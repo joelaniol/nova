@@ -8,7 +8,6 @@ Requests server evaluation and completion for an episodic task instance.
 
 `nova.task_instance_complete` evaluates the task instance against its completion condition and mandatory checks. If checks fail or coverage is incomplete, Nova rejects completion (`completed: false`) with specific remediation reasons.
 
-* **Capability Bundle:** `task_memory`
 * **Security Tier:** Tier 2 (Completion Gate)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
@@ -25,6 +24,8 @@ Requests server evaluation and completion for an episodic task instance.
 | `note` | `string` | No | — | — | Optional note for the completion event. Canonical field for new calls. |
 | `completionNote` | `string` | No | — | — | Legacy alias for note. Prefer note in new calls. |
 | `evidenceReport` | `array` of `object` | No | — | — | Optional evidence from verification contract execution. Each entry is the result of executing a verification step's tool; failed required fast-gate steps can block completion. |
+
+Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
 <!-- /generated:parameters -->
 
 ---

@@ -8,7 +8,6 @@ Transcribes local audio or video files into text entirely on-device using local 
 
 `nova.media_transcribe_start` converts spoken audio from local files into structured text. Transcription runs locally inside the sandboxed Outrider process via whisper.cpp with SIMD acceleration. No audio ever leaves the user's computer.
 
-* **Capability Bundle:** `system_tools`
 * **Security Tier:** Tier 2 (Local AI Speech-to-Text)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
@@ -25,6 +24,8 @@ Transcribes local audio or video files into text entirely on-device using local 
 | `waitMs` | `integer` | No | `0` | 0–30000 | Wait up to this many milliseconds for the job to finish before returning, so a short recording needs only this one call. On timeout the jobId is returned and the job keeps running. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

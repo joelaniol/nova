@@ -8,7 +8,6 @@ Sets an ephemeral per-tab fingerprint protection override that expires on tab cl
 
 `nova.fingerprint_set_tab` sets a temporary, in-memory fingerprint protection level for a single browser tab. The override does not touch disk settings and automatically disappears when the tab closes.
 
-* **Capability Bundle:** `site_data_management`
 * **Security Tier:** Tier 2 (Ephemeral Override)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
@@ -21,6 +20,8 @@ Sets an ephemeral per-tab fingerprint protection override that expires on tab cl
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `tabId` | `string` | Yes | — | — | Existing browser tab id (8-char hex). Sandbox ids are rejected. |
 | `level` | `string or null` | Yes | — | `off`, `standard`, `strict`, `null` | Override level, or null to clear the override. |
+
+Capability bundle: `fingerprint_protection` (load it with `nova.tools_bundle(bundle='fingerprint_protection')`).
 <!-- /generated:parameters -->
 
 ---

@@ -8,7 +8,6 @@ Creates a top-level personal IMAP message folder.
 
 `nova.mail_folder_create` creates a new folder on the IMAP server under the account's personal namespace. Requires the account's `organize` capability.
 
-* **Capability Bundle:** `connector_ops`
 * **Security Tier:** Tier 2 (Folder Creation)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
@@ -25,6 +24,8 @@ Creates a top-level personal IMAP message folder.
 | `allowInsecure` | `boolean` | No | `false` | — | Required as true only when this account's IMAP endpoint explicitly uses plaintext or disabled certificate validation, and only after the user enabled insecure connector connections in Settings. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
 <!-- /generated:parameters -->
 
 ---

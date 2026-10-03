@@ -2,7 +2,6 @@
 
 > **Opens the Chromium DevTools inspection window for a specified browser tab.**
 
-* **Capability Bundle:** `app_shell_recovery, onboarding`
 * **Security Tier:** Tier 2 (Developer Tooling)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -22,6 +21,8 @@
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `targetId` | `string` | No | `"active"` | — | Target ID or 'active'. |
 | `mode` | `string` | No | — | `docked`, `popout` | DevTools display mode override. 'popout': separate window, the mode WebView2 supports natively. 'docked': attached to the bottom of Nova's browser surface — it overlays the lower part of the page instead of shrinking it, so page content underneath stays covered. If omitted, Nova uses the Settings default (fresh default: popout). |
+
+Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
 <!-- /generated:parameters -->
 
 ---

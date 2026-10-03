@@ -8,7 +8,6 @@ Launches a background job to back up an entire mail account or specific folders.
 
 `nova.mail_backup_start` initiates a resilient, pull-only background backup job. It streams emails into a local encrypted SQLite database and returns a `jobId` for monitoring.
 
-* **Capability Bundle:** `connector_ops`
 * **Security Tier:** Tier 2 (Background Backup)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
@@ -28,6 +27,8 @@ Launches a background job to back up an entire mail account or specific folders.
 | `allowInsecure` | `boolean` | No | `false` | — | Required as true only when this account's IMAP endpoint explicitly uses plaintext or disabled certificate validation, and only after the user enabled insecure connector connections in Settings. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
 <!-- /generated:parameters -->
 
 ---

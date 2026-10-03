@@ -8,7 +8,6 @@ Destructively clears all persisted crawl history, results, and URL indexes for a
 
 `nova.discovery_reset_scope` purges all stored crawler artifacts for a domain or canonical origin from `crawl.db`. This includes crawl job histories, extracted page text, screenshot artifacts, and Site-URL-Index rows. It is used when a website undergoes a complete redesign or during clean testing.
 
-* **Capability Bundle:** `crawler_ops`
 * **Security Tier:** Tier 3 (Destructive Purge)
 * **Core Architecture Guide:** [Autonomous Crawler & Surface Explorer](../../../core-features/crawler-and-discovery.md)
 
@@ -25,6 +24,8 @@ Destructively clears all persisted crawl history, results, and URL indexes for a
 | `origin` | `string` | No | — | — | Explicit origin-style alias for the reset scope (for example 'https://www.example.com:8443'). Must match domain/scopeKey if multiple aliases are provided. |
 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+
+Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawler_ops')`).
 <!-- /generated:parameters -->
 
 ---

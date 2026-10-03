@@ -8,7 +8,6 @@ Performs pixel-by-pixel visual comparison between two screenshot images or resou
 
 `nova.screenshot_diff` provides deterministic visual regression analysis. When verifying frontend changes, CSS refactors, or theme switches, manual inspection is slow and prone to oversight. This tool calculates Euclidean RGB distances across all pixels, groups mutations into connected clusters using 8-connectivity component labeling, and generates a visual diff overlay image.
 
-* **Capability Bundle:** `visual_evidence`, `quality_inspection`
 * **Resource URI & Disk Support:** Accepts local file paths or `nova://screenshot/...` URIs returned by [`nova.capture_screenshot`](nova-capture-screenshot.md).
 * **Anti-Flake Controls:** Built-in anti-aliasing edge suppression (`ignoreAntialiasing`) and exclusion masks (`mask`) for dynamic content like timestamps or avatars.
 * **Diff Overlay Artifact:** Generates an annotated PNG highlighting changed pixels in bright magenta.
@@ -54,6 +53,8 @@ Exclude dynamic UI zones (such as live clocks, user profile pictures, or rotatin
 | `maxDiffRatio` | `number` | No | `0` | 0–100 | Tolerance as a percentage of total pixels. If the changed fraction is <= this, the result reports withinTolerance=true and changed=false. Default 0 = any change counts. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundles: `system_tools`, `visual_evidence`.
 <!-- /generated:parameters -->
 
 ---

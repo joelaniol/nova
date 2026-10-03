@@ -8,7 +8,6 @@ Retrieves complete metadata and payload for a single notification by ID.
 
 `nova.notifications_get` fetches full details of a specific notification entry, including origin, target tab, sandbox association, delivery state, and timestamps.
 
-* **Capability Bundle:** `notifications`
 * **Security Tier:** Tier 1 (Safe)
 * **Core Architecture Guide:** [Closed-Loop System & Event Propagation](../../../core-features/closed-loop-system.md)
 
@@ -20,6 +19,8 @@ Retrieves complete metadata and payload for a single notification by ID.
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `notificationId` | `string` | Yes | — | — | The notification ID to retrieve. |
+
+Capability bundle: `notifications` (load it with `nova.tools_bundle(bundle='notifications')`).
 <!-- /generated:parameters -->
 
 ---

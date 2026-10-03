@@ -8,7 +8,6 @@ Retrieves the complete event timeline, headers, and decoded payload for a single
 
 `nova.session_record_get_entry` performs a deep lookup for a specific `requestId` identified via `nova.session_record_query`. It reconstructs the entire network lifecycle: request headers, response headers, redirect chains, timing breakdowns (DNS, TLS, TTFB), and optional base64 payload bytes.
 
-* **Capability Bundle:** `session_recording`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
 
@@ -22,6 +21,8 @@ Retrieves the complete event timeline, headers, and decoded payload for a single
 | `recordingId` | `string` | Yes | — | — | Recording ID. |
 | `requestId` | `string` | Yes | — | — | CDP requestId from a prior session_record_query result. |
 | `includeBody` | `boolean` | No | `false` | — | Include the inline base64-encoded body bytes. |
+
+Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='session_recording')`).
 <!-- /generated:parameters -->
 
 ---

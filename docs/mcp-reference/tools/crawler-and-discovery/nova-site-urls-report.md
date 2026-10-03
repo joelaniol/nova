@@ -8,7 +8,6 @@ Reports live navigation observations (new pages, 404s, redirects) to the Site-UR
 
 `nova.site_urls_report` allows agents to contribute live findings back to the shared Site-URL-Index. When an agent discovers a 404 dead link, a new page title, or a URL redirection during everyday navigation, reporting it keeps the persistent index fresh for future runs.
 
-* **Capability Bundle:** `crawler_ops`
 * **Security Tier:** Tier 2 (Index Mutation)
 * **Core Architecture Guide:** [Autonomous Crawler & Surface Explorer](../../../core-features/crawler-and-discovery.md)
 
@@ -21,6 +20,8 @@ Reports live navigation observations (new pages, 404s, redirects) to the Site-UR
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `agentId` | `string` | No | `"default"` | — | Optional agent identity. Defaults to 'default'. |
 | `reports` | `array` of `object` | Yes | — | — | Array of URL observations to report. |
+
+Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawler_ops')`).
 <!-- /generated:parameters -->
 
 ---

@@ -8,7 +8,6 @@ Sets capability access modes (ask, allow, blocked) for a connector.
 
 `nova.connector_grant_set` configures fine-grained capability gates for a connector. Grants control what operations an AI agent can execute autonomously without human prompts.
 
-* **Capability Bundle:** `connector_ops`
 * **Security Tier:** Tier 2 (Permission Granting)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
@@ -27,6 +26,8 @@ Sets capability access modes (ask, allow, blocked) for a connector.
 | `allowedMailSenders` | `array` of `string` | No | — | ≤ 200 items | Mail read + always only: sender addresses or bare domains this grant may read. Omit to preserve this axis; pass [] to allow all senders. No wildcard or regex syntax. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
 <!-- /generated:parameters -->
 
 ---

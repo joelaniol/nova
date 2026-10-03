@@ -2,13 +2,15 @@
 
 Native OS notification dispatch, unread inbox management, and per-origin notification permissions.
 
-* **Capability Bundle(s):** `notifications`
 * **Core Architecture Guide:** [Core Features: closed-loop-system.md](../../../core-features/closed-loop-system.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
+<!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 ## Tool Inventory (11 Tools)
+
+Capability bundles of these tools: `notifications`.
 
 | Tool | What it does |
 | :--- | :--- |
@@ -23,6 +25,7 @@ Native OS notification dispatch, unread inbox management, and per-origin notific
 | **[`nova.notifications_permissions_list`](nova-notifications-permissions-list.md)** | Lists website origin notification permissions and reports the effective global default. |
 | **[`nova.notifications_send`](nova-notifications-send.md)** | Dispatches a host-authored Windows toast notification and persists it to the Nova notification inbox. |
 | **[`nova.notifications_unread_count`](nova-notifications-unread-count.md)** | Returns the count of unread, non-dismissed notifications currently in the inbox. |
+<!-- /generated:tool-list -->
 
 ---
 

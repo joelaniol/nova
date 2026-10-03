@@ -14,7 +14,6 @@ Probes a website for modern AI and MCP discovery endpoints (llms.txt, /.well-kno
 
 Results are cached locally to provide sub-millisecond retrieval on future visits.
 
-* **Capability Bundle:** `crawler_ops`
 * **Security Tier:** Tier 1 (Discovery Probe)
 * **Core Architecture Guide:** [Autonomous Crawler & Surface Explorer](../../../core-features/crawler-and-discovery.md)
 
@@ -29,6 +28,8 @@ Results are cached locally to provide sub-millisecond retrieval on future visits
 | `forceRefresh` | `boolean` | No | — | — | If true, bypass cache and re-probe. Default: false. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 <!-- /generated:parameters -->
 
 ---

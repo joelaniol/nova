@@ -2,7 +2,6 @@
 
 > **Selects an option from a custom UI or standard dropdown by visible text or index.**
 
-* **Capability Bundle:** `browser_automation`
 * **Security Tier:** Tier 2 (DOM Input)
 * **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -35,6 +34,8 @@
 | `screenshotMaxHeight` | `integer` | No | — | — | Max screenshot height in pixels. |
 | `screenshotFormat` | `string` | No | `"png"` | `png`, `jpeg`, `auto` | Screenshot format. Use 'auto' to fall back to the tool-intent default. |
 | `screenshotQuality` | `integer` | No | `80` | 1–100 | JPEG quality (1-100). Only used when screenshotFormat is 'jpeg'. |
+
+Capability bundles: `browser_automation`, `form_submission`.
 <!-- /generated:parameters -->
 
 ---

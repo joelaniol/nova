@@ -8,7 +8,6 @@ Measures live Google Core Web Vitals (LCP, CLS, INP, FCP, TTFB) for the active p
 
 Frontend performance regressions directly damage SEO rankings and user retention. `nova.measure_web_vitals` installs in-browser `PerformanceObserver` listeners (backfilled with entries recorded since initial document navigation) to report accurate, standardized Core Web Vitals metrics without external lab proxies.
 
-* **Capability Bundle:** `layout_and_qa`, `quality_inspection`
 * **Official Google Thresholds:** Scores metrics as `"good"`, `"needs-improvement"`, or `"poor"`.
 * **Settlement Window (`durationMs`):** Allows page fonts, hero images, and layout shifts to settle (recommended `≥ 2000 ms`).
 * **Before / After Reset (`reset: true`):** Resets shift accumulators to measure the exact layout impact of an individual interaction.
@@ -35,6 +34,8 @@ Frontend performance regressions directly damage SEO rankings and user retention
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
 | `durationMs` | `integer` | No | `2000` | 0–10000 | Measurement window in milliseconds: how long to let LCP/CLS settle and interactions register after installing the observers. 0 = collect immediately (may miss late LCP shifts). |
 | `reset` | `boolean` | No | `true` | — | If true (default), CLS/INP accumulators are zeroed at the start of this call so it measures fresh — use for independent before/after measurements. false keeps accumulating across calls on the same tab (e.g. cumulative-since-load CLS). LCP is the page-load value and is never reset. |
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

@@ -2,7 +2,6 @@
 
 > **Executes an atomic sequence of navigation, click, type, and wait steps in a single RPC round-trip.**
 
-* **Capability Bundle:** `browser_automation`
 * **Security Tier:** Tier 2 (Composite Macro Execution)
 * **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -34,6 +33,8 @@
 | `options.verboseStepResults` | `boolean` | No | `false` | — | If true, include the full tool result in each step trace. This can be large. |
 | `options.maxTraceSteps` | `integer` | No | `200` | 1–500 | Maximum number of trace entries (including retries) before truncation. |
 | `options.pksMode` | `string` | No | `"match"` | `off`, `match`, `telemetry` | off suppresses PKS hints, match returns compact PKS hints, telemetry returns the full PKS payload and advice. |
+
+Capability bundles: `browser_automation`, `form_submission`.
 <!-- /generated:parameters -->
 
 ---

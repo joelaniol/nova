@@ -15,7 +15,6 @@ Dismissing cookie consent dialogs through naive UI clicking is fragile: consent 
 * **AcceptAll Safeguard:** Blanket acceptance of tracking cookies (`AcceptAll`) is hard-gated to prevent rogue autonomous consent inflation.
 * **User Choice Preservation:** If the human user previously made an explicit consent choice on this domain, Nova preserves the user's decision (`user_choice_preserved`) and prevents autonomous overrides.
 
-* **Capability Bundle:** `guarded_actions`, `system_tools`
 * **Cross-Origin Iframe Piercing:** Communicates with embedded iframe banners via top-frame `__tcfapi` messaging.
 * **Pre-Claim Requirement:** The calling agent must hold an active tab claim via [`nova.tab_claim`](../browser-automation/nova-tab-claim.md).
 * **Automatic Fallback:** If no recognized CMP adapter is detected (`failureCode: "no_adapter"`), agents fall back to visual blocker dismissal via [`nova.dismiss_blockers`](../browser-automation/nova-dismiss-blockers.md).
@@ -41,6 +40,8 @@ Dismissing cookie consent dialogs through naive UI clicking is fragile: consent 
 | `intent.frameworkHint` | `string` | No | — | `Unknown`, `TcfEu`, `GppUs`, `VendorCustom` | — |
 | `intent.userPolicyOrigin` | `string` | No | — | `user_per_site`, `user_global`, `agent_task`, `learned_default` | Provenance of the policy decision. Required token 'user_per_site' when calling AcceptAll. |
 | `mode` | `string` | No | — | `auto`, `dry_run` | Tool execution mode. 'auto' = run apply immediately. 'dry_run' = read ConsentStateVector and surface preState only, no mutation. Reserved value 'ask' returns -32002. |
+
+Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 <!-- /generated:parameters -->
 
 ---

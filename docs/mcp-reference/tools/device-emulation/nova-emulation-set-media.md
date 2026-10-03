@@ -8,7 +8,6 @@ Emulates CSS media features like dark mode, reduced motion, high contrast, and p
 
 `nova.emulation_set_media` overrides CSS media queries via CDP `Emulation.setEmulatedMedia`. It allows testing dark themes (`colorScheme: "dark"`), accessibility features, and print stylesheets.
 
-* **Capability Bundle:** `device_emulation`
 * **Security Tier:** Tier 2 (CSS Emulation)
 * **Core Architecture Guide:** [Fingerprint & Identity Systems](../../../core-features/fingerprint-and-identity.md)
 
@@ -25,6 +24,8 @@ Emulates CSS media features like dark mode, reduced motion, high contrast, and p
 | `forcedColors` | `string` | No | — | `active`, `none` | Emulate forced-colors — use 'active' to test Windows High Contrast / forced-colors mode. |
 | `contrast` | `string` | No | — | `more`, `less`, `custom`, `no-preference` | Emulate prefers-contrast. |
 | `media` | `string` | No | — | `screen`, `print` | Emulate the CSS media type — use 'print' to preview print stylesheets. |
+
+Capability bundle: `device_emulation` (load it with `nova.tools_bundle(bundle='device_emulation')`).
 <!-- /generated:parameters -->
 
 ---

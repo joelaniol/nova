@@ -8,7 +8,6 @@ Requests cancellation of an active crawl job, safely draining in-flight workers.
 
 `nova.crawl_stop` signals the crawl orchestrator to stop scheduling new URLs and gracefully drain active hidden WebView workers. Visited page records and extracted metadata accumulated prior to cancellation remain fully preserved in `crawl.db`.
 
-* **Capability Bundle:** `crawler_ops`
 * **Security Tier:** Tier 2 (Crawl Lifecycle Control)
 * **Core Architecture Guide:** [Autonomous Crawler & Surface Explorer](../../../core-features/crawler-and-discovery.md)
 
@@ -21,6 +20,8 @@ Requests cancellation of an active crawl job, safely draining in-flight workers.
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `agentId` | `string` | No | `"default"` | — | Optional agent identity for crawl ownership checks. Must match the agentId that started the crawl. Defaults to 'default'. |
 | `crawlId` | `string` | Yes | — | — | Crawl job ID returned by crawl_start. |
+
+Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawler_ops')`).
 <!-- /generated:parameters -->
 
 ---

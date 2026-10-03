@@ -8,7 +8,6 @@ Lists all scheduled tasks with execution status, next run times, last results, a
 
 `nova.scheduled_task_list` retrieves an inventory of all configured background tasks. It reports runtime states (`Enabled`, `Paused`, `Disabled`), next scheduled execution timestamps, consecutive failure counts, cumulative costs, and chaining configurations.
 
-* **Capability Bundle:** `scheduled_tasks`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
@@ -20,6 +19,8 @@ Lists all scheduled tasks with execution status, next run times, last results, a
 This tool takes no parameters.
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
 <!-- /generated:parameters -->
 
 ---

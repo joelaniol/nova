@@ -2,7 +2,6 @@
 
 > **Deletes an encrypted environment variable or API key secret from the DPAPI store.**
 
-* **Capability Bundle:** `secret_store`
 * **Security Tier:** Tier 2 (Destructive Secret Management)
 * **Core Feature Guide:** [Vault & Secret Keystore](../../../core-features/vault-and-secrets.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -26,6 +25,8 @@
 | `taskId` | `string` | No | — | — | Task id (required for scope='task'). |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `secret_store` (load it with `nova.tools_bundle(bundle='secret_store')`).
 <!-- /generated:parameters -->
 
 ---

@@ -8,7 +8,6 @@ Lists all open tabs, WebViews, and sandbox surfaces across the workspace with fi
 
 `nova.tabs` gives AI agents visibility into all active browser surfaces in the running Nova AI Workspace instance. It allows agents to choose targets, inspect current page URLs, check multi-agent claim leases, and avoid operating in the user's personal tabs.
 
-* **Capability Bundle:** `browser_automation`
 * **Target Scope:** Global workspace inventory.
 * **Token Optimization:** Supports `outputDetail: "minimal"` to return a lean inventory without bloating the LLM context.
 
@@ -46,6 +45,8 @@ Each tab in the response reports:
 | `agentId` | `string` | No | — | 1–256 characters | Your agent identity, used by mine=true. Defaults to 'default'. |
 | `targetIds` | `array` of `string` | No | — | ≤ 100 items | Optional set of target IDs to include, bounded to 100 items. |
 | `outputDetail` | `string` | No | `"full"` | `minimal`, `summary`, `full` | Projection size. minimal returns targetId, url, isActive, isPrivate/privateSessionId, and a short claim block; summary adds core identity/readiness fields; full preserves all tab diagnostics. Every size reports isPrivate, so a target can be picked without a second call. |
+
+Capability bundles: `browser_automation`, `page_read_debug`, `visual_evidence`.
 <!-- /generated:parameters -->
 
 ---

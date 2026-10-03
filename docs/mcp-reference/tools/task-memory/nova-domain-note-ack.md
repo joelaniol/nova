@@ -8,7 +8,6 @@ Explicitly acknowledges a MUST-read domain note block to unblock subsequent tool
 
 `nova.domain_note_ack` acknowledges a mandatory compliance or safety note encountered during navigation, satisfying the server-side safety gate.
 
-* **Capability Bundle:** `task_memory`
 * **Security Tier:** Tier 1 (Acknowledgment Gate)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
@@ -22,6 +21,8 @@ Explicitly acknowledges a MUST-read domain note block to unblock subsequent tool
 | `domain` | `string` | Yes | — | — | The domain of the note to acknowledge (must match the host of the active or specified tab). |
 | `key` | `string` | Yes | — | — | The note key as shown in the MUST-read block message (the 'Title' field). |
 | `targetId` | `string` | No | — | — | Optional tab targetId. Defaults to the active tab. Must point at a tab whose host matches `domain` for the acknowledge to apply where the gate fires. |
+
+Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 <!-- /generated:parameters -->
 
 ---

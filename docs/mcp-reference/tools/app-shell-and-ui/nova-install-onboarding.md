@@ -2,7 +2,6 @@
 
 > **Automatically injects Nova MCP server configurations and reference docs into the current agent workspace.**
 
-* **Capability Bundle:** `app_shell_recovery, onboarding`
 * **Security Tier:** Tier 2 (Workspace Onboarding)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -22,6 +21,8 @@
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `projectRoot` | `string` | Yes | — | — | Absolute path to the project root directory (worktree) where agent config files should be written. |
 | `confirmNewLocation` | `boolean` | No | — | — | Set true to onboard a directory Nova has not onboarded before. Already-onboarded worktrees update without it. |
+
+Capability bundles: `onboarding`, `system_tools`.
 <!-- /generated:parameters -->
 
 ---

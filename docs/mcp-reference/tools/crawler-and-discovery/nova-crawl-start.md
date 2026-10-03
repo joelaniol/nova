@@ -10,7 +10,6 @@ Starts a background breadth-first search (BFS) crawl from a root URL using isola
 
 The crawler automatically detects DOM settlement (waiting for MutationObserver quiescence and network idle), extracts structured page metadata, follows in-scope hyperlinks, respects rate limits, and persists results into the local SQLite `crawl.db` index.
 
-* **Capability Bundle:** `crawler_ops`
 * **Security Tier:** Tier 2 (Autonomous Navigation)
 * **Core Architecture Guide:** [Autonomous Crawler & Surface Explorer](../../../core-features/crawler-and-discovery.md)
 
@@ -56,6 +55,8 @@ The crawler automatically detects DOM settlement (waiting for MutationObserver q
 | `customScriptTimeoutMs` | `integer` | No | `5000` | 500–30000 | Timeout for awaited custom script execution per page in ms. |
 | `crawlMode` | `string` | No | `"hidden"` | `hidden`, `live_tab` | hidden: dedicated background WebView (default, fast, no auth). live_tab: crawl inside the visible target tab via SPA-route clicks (slow, sequential, preserves session/auth). live_tab requires targetId, forces sameDomainOnly=true and parallel=1, rejects screenshot capture plus robots/sitemap discovery flags, and keeps history scope on the effective origin instead of collapsing to host-only. |
 | `deltaMode` | `boolean` | No | `false` | — | If true, enable advisory Site-URL-Index delta seeding for hidden path-routed crawls only. Active path routes with a stored content hash are pre-skipped as already known; this does not pre-detect content changes, and hash-routed/hashbang SPA routes are excluded from delta seeding. Requires a prior crawl with extractContent=true to have populated hash-bearing Site-URL-Index entries. `crawlMode='live_tab'` rejects this flag with Invalid params. The response mirrors deltaMode only when eligible hidden-mode index hashes were actually found; otherwise the request proceeds normally without a deltaMode block. |
+
+Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawler_ops')`).
 <!-- /generated:parameters -->
 
 ---

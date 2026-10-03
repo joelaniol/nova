@@ -8,7 +8,6 @@ Manages named, persistent visual baselines on disk and automates snapshot compar
 
 Manually saving, organizing, and referencing "before" and "after" image paths makes visual regression testing tedious. `nova.screenshot_baseline` provides a persistent, named baseline repository. Agents can create baselines (`save`), update approved changes (`update`), list existing baselines (`list`), and verify live pages against baselines (`compare`) in a single command.
 
-* **Capability Bundle:** `visual_evidence`, `quality_inspection`
 * **Persistent Storage:** Baselines survive across agent restarts and browser reboots on disk.
 * **Playwright Parity:** Seamless replacement for Playwright's `expect(page).toHaveScreenshot()`.
 * **Scoped Namespaces (`scope`):** Store baselines globally (`scope: "global"`) or per target sandbox (`scope: "target"`).
@@ -45,6 +44,8 @@ Manually saving, organizing, and referencing "before" and "after" image paths ma
 | `maxDiffRatio` | `number` | No | `0` | 0–100 | compare: tolerance as percent of total pixels; <= this reports withinTolerance=true, changed=false. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundles: `system_tools`, `visual_evidence`.
 <!-- /generated:parameters -->
 
 ---

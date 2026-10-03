@@ -2,7 +2,6 @@
 
 > **Scrolls the target tab viewport to absolute pixel coordinates (top, left).**
 
-* **Capability Bundle:** `browser_automation`
 * **Security Tier:** Tier 2 (Viewport Manipulation)
 * **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -23,6 +22,8 @@
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
 | `x` | `number` | No | `0` | — | Target horizontal scroll position in pixels. |
 | `y` | `number` | Yes | — | — | Target vertical scroll position in pixels (0 = top of page). |
+
+Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
 <!-- /generated:parameters -->
 
 ---

@@ -8,7 +8,6 @@ Sends an email with optional HTML body, CC/BCC, priority, and attachments via SM
 
 `nova.mail_send` dispatches an email through the connector's configured SMTP gateway. Outbound transmissions are audited, rate-limited, and checked against the recipient allow-list.
 
-* **Capability Bundle:** `connector_ops`
 * **Security Tier:** Tier 2 (Outbound Email Dispatch)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
@@ -36,6 +35,8 @@ Sends an email with optional HTML body, CC/BCC, priority, and attachments via SM
 | `allowInsecure` | `boolean` | No | `false` | — | Required as true for a plaintext SMTP endpoint or one whose stored debug policy allows an invalid TLS certificate, and likewise for the IMAP source lookup of a threaded reply. It works only after the user separately enabled insecure connector connections in Settings; omit/false when every endpoint used by this call is strict TLS. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
 <!-- /generated:parameters -->
 
 ---

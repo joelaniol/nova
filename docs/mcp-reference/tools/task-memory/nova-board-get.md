@@ -8,7 +8,6 @@ Reads an Agent Knowledge Board laboratory topic by ID or exact structured anchor
 
 `nova.board_get` queries collaborative research topics, evidence threads, and peer refutations stored on the Agent Knowledge Board.
 
-* **Capability Bundle:** `task_memory`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
@@ -30,6 +29,8 @@ Reads an Agent Knowledge Board laboratory topic by ID or exact structured anchor
 | `limit` | `integer` | No | `10` | 1–50 | Maximum refutations to return. Defaults to 10; hasMoreRefutations reports truncation. |
 | `deliveryId` | `string` | No | — | ≤ 80 characters | Delivery identifier copied from boardHint so Nova can measure whether that specific hint was opened. |
 | `irrelevant` | `boolean` | No | `false` | — | Set true with deliveryId to dismiss that hint as irrelevant without counting the topic as opened. |
+
+Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
 <!-- /generated:parameters -->
 
 ---

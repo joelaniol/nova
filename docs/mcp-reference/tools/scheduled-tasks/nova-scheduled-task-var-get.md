@@ -8,7 +8,6 @@ Retrieves the current value of a persistent state variable for a task.
 
 `nova.scheduled_task_var_get` reads a persistent state variable stored for a task. It returns the exact string value, or `null` if the key does not exist.
 
-* **Capability Bundle:** `scheduled_tasks`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
@@ -23,6 +22,8 @@ Retrieves the current value of a persistent state variable for a task.
 | `key` | `string` | Yes | — | — | Variable name. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
 <!-- /generated:parameters -->
 
 ---

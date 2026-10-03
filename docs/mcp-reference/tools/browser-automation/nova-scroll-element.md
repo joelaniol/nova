@@ -2,7 +2,6 @@
 
 > **Scrolls a specific DOM element container into view or shifts its internal scroll offset.**
 
-* **Capability Bundle:** `browser_automation`
 * **Security Tier:** Tier 2 (DOM Manipulation)
 * **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -23,6 +22,8 @@
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
 | `selector` | `string` | Yes | — | — | CSS selector. Supports ' >>> ' combinator to pierce Shadow DOM boundaries (e.g. 'my-component >>> .inner-button'). |
 | `deltaY` | `number` | Yes | — | — | Vertical scroll delta in pixels. Positive = down, negative = up. |
+
+Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
 <!-- /generated:parameters -->
 
 ---

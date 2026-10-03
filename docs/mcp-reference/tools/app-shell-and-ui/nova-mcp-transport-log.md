@@ -2,7 +2,6 @@
 
 > **Reads recent redacted entries from Nova's internal MCP JSON-RPC transport log.**
 
-* **Capability Bundle:** `app_shell_recovery, onboarding`
 * **Security Tier:** Tier 1 (Read-Only Logging)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -25,6 +24,8 @@
 | `maxLines` | `integer` | No | `100` | 1–500 | Maximum lines or search matches to return. Default: 100. Max: 500. Values outside the range are clamped by the runtime. |
 | `contains` | `string` | No | — | — | Optional substring search. When set, Nova scans from startLine (or line 1) and returns up to maxLines matching line-numbered entries. |
 | `caseSensitive` | `boolean` | No | `false` | — | Whether contains matching is case-sensitive. Default false. |
+
+Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 <!-- /generated:parameters -->
 
 ---

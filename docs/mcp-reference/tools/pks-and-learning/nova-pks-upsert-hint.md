@@ -2,7 +2,6 @@
 
 > **Attaches or updates a human operator guidance hint on a phenomenon pattern.**
 
-* **Capability Bundle:** `pks_learning`
 * **Security Tier:** Tier 2 (Operator Guidance)
 * **Core Feature Guide:** [Phenomenological Knowledge Store (PKS)](../../../core-features/pks.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -30,6 +29,8 @@
 | `domainHint.extract` | `object` | No | — | — | Extraction config (result_item only). |
 | `domainHint.enumerateMax` | `integer` | No | `8` | 1–50 | Max instances to enumerate for result_item hints during Perceive/CTA scanning. Defaults to 8 when omitted. |
 | `domainHint.confidence` | `number` | No | `0.5` | 0–1 | Confidence 0.0-1.0 used as a ranking weight for this hint during Perceive/CTA scoring. Defaults to 0.5. |
+
+Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_learning')`).
 <!-- /generated:parameters -->
 
 ---

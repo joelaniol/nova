@@ -2,7 +2,6 @@
 
 > **Reads an in-memory screenshot artifact URI (nova://screenshot/...) and returns base64 image data.**
 
-* **Capability Bundle:** `app_shell_recovery, onboarding`
 * **Security Tier:** Tier 1 (Read-Only Visual Extraction)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -22,6 +21,8 @@
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `uri` | `string` | Yes | — | — | Screenshot resource URI returned by capture tools, starting with nova://screenshot/.... Aliases accepted before validation: resourceUri, fullImageResourceUrl, url. |
 | `maxBytes` | `integer` | No | `1048576` | 1024–50000000 | Maximum bytes of the full screenshot resource to return as base64. |
+
+Capability bundles: `page_read_debug`, `visual_evidence`.
 <!-- /generated:parameters -->
 
 ---

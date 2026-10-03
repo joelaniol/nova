@@ -8,7 +8,6 @@ Saves a persistent browsing memory (user preference, workflow hint, domain conte
 
 `nova.memory_note` records persistent notes and preferences that survive across sessions and tasks. Automatically recalled on future interactions.
 
-* **Capability Bundle:** `task_memory`
 * **Security Tier:** Tier 2 (Memory Storage)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
@@ -23,6 +22,8 @@ Saves a persistent browsing memory (user preference, workflow hint, domain conte
 | `memoryType` | `string` | No | `"note"` | `note`, `preference`, `context` | note = explicit observation/reminder, preference = user behavioral preference, context = session state snapshot. Defaults to 'note'. |
 | `domain` | `string` | No | — | — | Domain to bind this memory to (e.g. 'github.com'). Defaults to the active tab's domain. |
 | `urlPattern` | `string` | No | — | — | Optional URL path scope (e.g. '/pulls/*'). Memory applies only to matching paths on this domain. |
+
+Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 <!-- /generated:parameters -->
 
 ---

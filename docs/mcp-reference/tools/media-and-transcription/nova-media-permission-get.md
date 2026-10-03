@@ -8,7 +8,6 @@ Reads the effective and stored media permissions for a specific web origin.
 
 `nova.media_permission_get` evaluates the active permission state for an origin, factoring in stored overrides, iframe requesting origins, and global browser defaults.
 
-* **Capability Bundle:** `system_tools`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
@@ -21,6 +20,8 @@ Reads the effective and stored media permissions for a specific web origin.
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `origin` | `string` | Yes | — | — | Absolute http/https top-level origin (e.g. 'https://meet.google.com'). |
 | `requestingOrigin` | `string` | No | — | — | Optional iframe origin (P-4). When set and distinct from origin, the lookup tries tuple-match first, then falls back to top-level match. |
+
+Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 <!-- /generated:parameters -->
 
 ---

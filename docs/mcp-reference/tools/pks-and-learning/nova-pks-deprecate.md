@@ -2,7 +2,6 @@
 
 > **Marks an obsolete or broken PKS phenomenon playbook as deprecated.**
 
-* **Capability Bundle:** `pks_learning`
 * **Security Tier:** Tier 2 (Knowledge Deprecation)
 * **Core Feature Guide:** [Phenomenological Knowledge Store (PKS)](../../../core-features/pks.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -23,6 +22,8 @@
 | `scope` | `string` | Yes | — | — | Domain scope. |
 | `phenomenonId` | `string` | Yes | — | — | Phenomenon ID to deprecate. |
 | `reason` | `string` | No | — | — | Reason for deprecation (e.g. 'selector no longer matches', '5x consecutive failure'). |
+
+Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_learning')`).
 <!-- /generated:parameters -->
 
 ---

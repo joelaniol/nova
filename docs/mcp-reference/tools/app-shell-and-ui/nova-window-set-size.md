@@ -2,7 +2,6 @@
 
 > **Resizes the Nova application window to specified pixel width and height.**
 
-* **Capability Bundle:** `app_shell_recovery, onboarding`
 * **Security Tier:** Tier 2 (Window Geometry)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -22,6 +21,8 @@
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `width` | `integer` | Yes | — | 200–10000 | Target window width in logical (DPI-aware) pixels. |
 | `height` | `integer` | Yes | — | 200–10000 | Target window height in logical (DPI-aware) pixels. |
+
+Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
 <!-- /generated:parameters -->
 
 ---

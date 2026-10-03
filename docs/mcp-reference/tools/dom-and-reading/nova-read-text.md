@@ -2,7 +2,6 @@
 
 > **Extracts clean visible plain text from the document or a specified selector container.**
 
-* **Capability Bundle:** `page_read_debug`
 * **Security Tier:** Tier 1 (Read-Only Extraction)
 * **Core Feature Guide:** [DOM Perception & Semantic Extraction](../../../core-features/tob.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -25,6 +24,8 @@
 | `maxChars` | `integer` | No | `30000` | 1000–5000000 | Maximum characters to return. Defaults shrink automatically under context pressure unless explicitly provided. |
 | `offset` | `integer` | No | — | 0–5000000 | Start reading at this character position. Unverified - use continuationToken when the page may have changed. Mutually exclusive with continuationToken. |
 | `continuationToken` | `string` | No | — | ≤ 512 characters | Token from a previous response's continuation block. Carries the next position plus a fingerprint of that document; a changed page is rejected with reasonCode='read.source_changed' instead of returning text from elsewhere. Mutually exclusive with offset. |
+
+Capability bundles: `browser_automation`, `page_read_debug`.
 <!-- /generated:parameters -->
 
 ---

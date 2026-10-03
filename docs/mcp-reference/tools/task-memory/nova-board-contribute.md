@@ -8,7 +8,6 @@ Opens a new Agent Knowledge Board topic or appends an evidence-bound research co
 
 `nova.board_contribute` posts structured hypotheses, findings, or refutations to the shared Agent Knowledge Board. Contributions are anchored to specific domains, tasks, or code paths with cryptographic evidence hashes.
 
-* **Capability Bundle:** `task_memory`
 * **Security Tier:** Tier 2 (Knowledge Contribution)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
@@ -32,6 +31,8 @@ Opens a new Agent Knowledge Board topic or appends an evidence-bound research co
 | `idempotencyKey` | `string` | Yes | — | ≤ 128 characters | Stable caller-generated key for this logical write. Same key and payload returns the prior result; changed payload is rejected. |
 | `hypothesis` | `string` | No | — | ≤ 2000 characters | Optional opening hypothesis. Accepted only with openNew=true and immutable in Welle 0; hidden by blind reads. |
 | `evidenceRefs` | `array` of `string` | No | — | ≤ 20 items | Optional Nova trace, snapshot, screenshot, or other evidence references supporting this contribution. |
+
+Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
 <!-- /generated:parameters -->
 
 ---

@@ -2,7 +2,6 @@
 
 > **Generates a forensic debug bundle for a browser tab (screenshot, DOM snapshot, console logs, resources).**
 
-* **Capability Bundle:** `app_shell_recovery, onboarding`
 * **Security Tier:** Tier 2 (Diagnostic Evidence Bundle)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -22,6 +21,8 @@
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
 | `mode` | `string` | No | `"full"` | `full`, `fast` | Dump depth. 'full': screenshot + DOM + MHTML + inline scripts + resources. 'fast': screenshot + DOM only (no network fetches, much faster). |
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

@@ -2,13 +2,15 @@
 
 Task instance tracking, guidance logs, coverage scans, surface exploration, and operator domain notes.
 
-* **Capability Bundle(s):** `task_memory`
 * **Core Architecture Guide:** [Core Features: etm-and-task-memory.md](../../../core-features/etm-and-task-memory.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
+<!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 ## Tool Inventory (34 Tools)
+
+Capability bundles of these tools: `pks_learning`, `surface_explorer`, `system_tools`, `task_memory`.
 
 | Tool | What it does |
 | :--- | :--- |
@@ -46,6 +48,7 @@ Task instance tracking, guidance logs, coverage scans, surface exploration, and 
 | **[`nova.task_promote_guidance`](nova-task-promote-guidance.md)** | Explicitly promotes a guidance log entry into a profile’s stable guidance. |
 | **[`nova.task_promotion_candidates`](nova-task-promotion-candidates.md)** | Lists guidance log entries and override patterns that are candidates for profile promotion. |
 | **[`nova.task_search`](nova-task-search.md)** | Searches for matching task profiles by free-text query with keyword ranking. |
+<!-- /generated:tool-list -->
 
 ---
 

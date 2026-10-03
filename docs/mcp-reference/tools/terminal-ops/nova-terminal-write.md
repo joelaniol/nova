@@ -8,7 +8,6 @@ Writes raw characters to the session stdin without appending an implicit newline
 
 `nova.terminal_write` feeds raw bytes or strings directly into the ConPTY stdin stream. It does not wait for command completion or output generation.
 
-* **Capability Bundle:** `terminal_ops`
 * **Security Tier:** Tier 2 (Execute)
 * **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces.md)
 
@@ -23,6 +22,8 @@ Writes raw characters to the session stdin without appending an implicit newline
 | `data` | `string` | Yes | — | — | Text to send to stdin verbatim. |
 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+
+Capability bundle: `terminal_ops` (load it with `nova.tools_bundle(bundle='terminal_ops')`).
 <!-- /generated:parameters -->
 
 ---

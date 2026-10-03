@@ -8,7 +8,6 @@ Fusion multi-modal perception engine: captures visual screenshot evidence and ex
 
 `nova.perceive` is Nova's flagship inspection and perception tool. Instead of requiring separate round-trips for screenshots, accessibility trees, and DOM text dumps, `nova.perceive` coordinates visual pixels and semantic structure simultaneously. It provides specialized perception modes tailored to the agent's immediate operational goal.
 
-* **Capability Bundle:** `dom_reading`, `visual_evidence`, `quality_inspection`
 * **Multi-Modal Fusion:** Returns a lightweight visual thumbnail (JPEG 1280px by default) together with structured JSON page semantics.
 * **Six Specialized Modes:** `summary`, `state`, `form_analysis`, `cta_detection_v3`, `modals`, and `full`.
 * **Fold Completeness Accounting:** Discloses both `belowFoldPx` and `aboveFoldPx` so agents know if lazy feeds, reverse-scroll chat histories, or hidden content exist.
@@ -82,6 +81,8 @@ When rendering dynamic SPAs, DOM changes may occur between visual pixel capture 
 | `screenshotQuality` | `integer` | No | `55` | 1–100 | JPEG quality (1-100). Only used when screenshotFormat is 'jpeg'. |
 | `knownDomainNotesHash` | `string` | No | — | — | The domainNotes hash you already hold, from the 'hash' field of an earlier perceive response on this domain. When it matches the current notes you get the compact stub instead of the full text (the largest single item in a perceive response), no matter how long ago you last received it. Any edit to a note changes the hash, so a stale value simply returns the full text - this can never leave you without a note you have not seen. |
 | `responseDetail` | `string` | No | — | `full`, `essential` | Overall response metadata level. 'full' (default outside state): all metadata (PKS, OK hints, goals, framework, autofill, trusted state). 'essential': reduced metadata. mode='state' requires essential and returns only its requested status families plus the standard tool envelope. Oversized mode='full' responses may still emit overflow safety fields (`responseSizeWarning`, `overflowFallbackHint`, `snapshot`) so the bounded follow-up path stays available. |
+
+Capability bundles: `browser_automation`, `form_submission`, `vault_auth`.
 <!-- /generated:parameters -->
 
 ---

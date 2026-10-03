@@ -8,7 +8,6 @@ Reads a sanitized snapshot of the document's outer HTML from a tab, bounded by a
 
 `nova.read_dom` returns the raw serialized HTML of the current document. It is intended for scenarios where an agent needs full structural context, unusual attribute inspection, or when automated parsers require the raw markup hierarchy.
 
-* **Capability Bundle:** `dom_reading`
 * **Dual Output:** Returns HTML in both the standard response text and `structuredContent.domHtml`.
 * **Bounded Output (`maxChars`):** Prevents blowing agent context windows on megabyte-sized HTML dumps.
 * **Token Preservation Warning:** For targeted extraction, agents should prefer [`nova.dom_extract`](nova-dom-extract.md) or [`nova.read_text_structured`](nova-read-text-structured.md) to save up to 90% of tokens.
@@ -35,6 +34,8 @@ By default, extraction is capped at `30,000` characters. If the page exceeds thi
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
 | `maxChars` | `integer` | No | `30000` | 1000–5000000 | Maximum characters to return. Larger values = more detail but more tokens. |
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

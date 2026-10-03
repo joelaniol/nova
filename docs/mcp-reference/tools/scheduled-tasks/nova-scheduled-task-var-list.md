@@ -8,7 +8,6 @@ Lists persistent variable keys and value previews configured for a task.
 
 `nova.scheduled_task_var_list` returns a paginated list of all persistent state variables stored for a task, with value previews or full values.
 
-* **Capability Bundle:** `scheduled_tasks`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
@@ -25,6 +24,8 @@ Lists persistent variable keys and value previews configured for a task.
 | `includeValues` | `boolean` | No | `false` | — | Include full values for the returned page. Default: false; use var_get for a single full value. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
 <!-- /generated:parameters -->
 
 ---

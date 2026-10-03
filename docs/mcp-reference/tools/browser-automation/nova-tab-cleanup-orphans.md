@@ -24,6 +24,8 @@ In multi-agent workflows, agents frequently spawn temporary tabs via [`nova.tab_
 | `dryRun` | `boolean` | No | `false` | — | Preview only: list orphan candidates without closing anything. |
 | `graceMinutes` | `integer` | No | `15` | — | Idle window in minutes a tab must exceed (no tool activity, no live claim) to count as orphaned. Range 1-720. |
 | `agentId` | `string` | No | — | — | Calling agent's ID for attribution in logs. |
+
+Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
 <!-- /generated:parameters -->
 
 ---

@@ -8,7 +8,6 @@ Emergency kill switch terminating all active camera, microphone, and screen-shar
 
 `nova.media_stop_all` acts as an emergency cutoff for active hardware media streams. It shuts down camera sensors, microphone capture loops, and desktop capture sessions across all WebViews immediately.
 
-* **Capability Bundle:** `system_tools`
 * **Security Tier:** Tier 2 (Emergency Kill Switch)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
@@ -23,6 +22,8 @@ Emergency kill switch terminating all active camera, microphone, and screen-shar
 | `origin` | `string` | No | — | — | Required when scope='origin'. Absolute http/https origin. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 <!-- /generated:parameters -->
 
 ---

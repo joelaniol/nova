@@ -8,7 +8,6 @@ Retrieves metadata and account identifiers for a stored vault entry, resolving u
 
 `nova.vault_get` looks up vault metadata for a designated web service or URL. If multiple accounts exist for the requested site (e.g. a personal GitHub account and an organization service bot) and no username is provided, Nova returns the list of candidate usernames so the agent can select the correct account before form submission.
 
-* **Capability Bundle:** `vault_and_security`
 * **Zero Secret Exposure:** Passwords are never returned; use [`nova.vault_prepare_fill`](nova-vault-prepare-fill.md) to initiate fill workflows.
 * **Account Disambiguation:** Returns all valid usernames associated with a site when ambiguous.
 * **Metadata Insights:** Reports last updated timestamps, origin constraints, and custom metadata fields.
@@ -24,6 +23,8 @@ Retrieves metadata and account identifiers for a stored vault entry, resolving u
 | `username` | `string` | No | — | — | Optional specific username. Required after selecting one when multiple accounts remain for the site. |
 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+
+Capability bundle: `vault_auth` (load it with `nova.tools_bundle(bundle='vault_auth')`).
 <!-- /generated:parameters -->
 
 ---

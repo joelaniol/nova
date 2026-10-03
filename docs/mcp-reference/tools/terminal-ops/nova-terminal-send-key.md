@@ -8,7 +8,6 @@ Sends a named control key or key combination to the active terminal session.
 
 `nova.terminal_send_key` transmits special keyboard events to the ConPTY input pipe, allowing agents to interrupt running jobs, navigate interactive menus, or confirm prompts.
 
-* **Capability Bundle:** `terminal_ops`
 * **Security Tier:** Tier 2 (Control)
 * **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces.md)
 
@@ -23,6 +22,8 @@ Sends a named control key or key combination to the active terminal session.
 | `key` | `string` | Yes | — | — | Key name (e.g. 'Enter', 'Ctrl+C', 'ArrowUp'). |
 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+
+Capability bundle: `terminal_ops` (load it with `nova.tools_bundle(bundle='terminal_ops')`).
 <!-- /generated:parameters -->
 
 ---

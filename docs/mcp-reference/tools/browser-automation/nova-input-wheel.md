@@ -2,7 +2,6 @@
 
 > **Dispatches a physical mouse wheel scroll event at specific coordinates with deltaX and deltaY.**
 
-* **Capability Bundle:** `browser_automation`
 * **Security Tier:** Tier 2 (Physical Input)
 * **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -27,6 +26,8 @@
 | `y` | `number` | Yes | — | — | Viewport Y coordinate (CSS px) where the wheel event is dispatched. |
 | `deltaX` | `number` | No | `0` | — | Horizontal scroll delta in pixels. |
 | `deltaY` | `number` | Yes | — | — | Vertical scroll delta in pixels. Positive = scroll down. |
+
+Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
 <!-- /generated:parameters -->
 
 ---

@@ -2,7 +2,6 @@
 
 > **Seeds the platform knowledge base with pre-trained platform component models.**
 
-* **Capability Bundle:** `pks_learning`
 * **Security Tier:** Tier 2 (Platform Seeding)
 * **Core Feature Guide:** [Phenomenological Knowledge Store (PKS)](../../../core-features/pks.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -26,6 +25,8 @@
 | `homepageUrl` | `string` | No | — | — | Optional homepage URL. Whitespace-only values are normalized to null. |
 | `patterns` | `array` of `object` | No | — | ≥ 1 items | Pattern templates to upsert. When provided, the array must contain at least one entry. |
 | `aliases` | `array` of `object` | No | — | ≥ 1 items | Aliases for vendor/script domain lookups. When provided, the array must contain at least one entry. |
+
+Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_learning')`).
 <!-- /generated:parameters -->
 
 ---

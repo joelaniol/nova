@@ -8,7 +8,6 @@ Initiates in-page hardware diagnostic loop for camera, microphone, or audio spea
 
 `nova.hardware_diagnostics_start` starts an isolated hardware diagnostic probe inside the target page. It verifies device permissions, captures live audio levels, measures peak decibels, and renders diagnostic canvases for camera input.
 
-* **Capability Bundle:** `system_tools`
 * **Security Tier:** Tier 2 (Hardware Diagnostics)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
@@ -21,6 +20,8 @@ Initiates in-page hardware diagnostic loop for camera, microphone, or audio spea
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
 | `kind` | `string` | Yes | — | `video`, `microphone`, `speaker` | Diagnostic channel to start. |
+
+Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
 <!-- /generated:parameters -->
 
 ---

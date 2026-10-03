@@ -8,7 +8,6 @@ Updates fields (prompt, schedule, budget, timeouts, chaining) of an existing sch
 
 `nova.scheduled_task_update` modifies the configuration of a scheduled task. Only provided fields are updated; omitted fields retain their existing values. Updating the schedule recalculates the next execution timestamp immediately.
 
-* **Capability Bundle:** `scheduled_tasks`
 * **Security Tier:** Tier 2 (Task Mutation)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
@@ -47,6 +46,8 @@ Updates fields (prompt, schedule, budget, timeouts, chaining) of an existing sch
 | `workspaceId` | `string` | No | — | — | Re-bind the task to a different existing terminal workspace (its id). Future run artifacts will live under the new workspace; existing artifacts stay where they are. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
 <!-- /generated:parameters -->
 
 ---

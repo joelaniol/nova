@@ -2,7 +2,6 @@
 
 > **Synthesizes a proposed phenomenon interaction playbook from recorded execution trajectories.**
 
-* **Capability Bundle:** `pks_learning`
 * **Security Tier:** Tier 2 (Pattern Synthesis)
 * **Core Feature Guide:** [Phenomenological Knowledge Store (PKS)](../../../core-features/pks.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -22,6 +21,8 @@
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `scope` | `string` | Yes | — | — | Required domain scope (e.g. 'github.com'). |
 | `limit` | `integer` | No | `5` | 1–20 | Maximum number of candidates to generate (1-20). Default 5. |
+
+Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_learning')`).
 <!-- /generated:parameters -->
 
 ---

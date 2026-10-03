@@ -2,7 +2,6 @@
 
 > **Suggests alternative interaction selectors based on historical pattern performance.**
 
-* **Capability Bundle:** `pks_learning`
 * **Security Tier:** Tier 1 (Read-Only Suggestions)
 * **Core Feature Guide:** [Phenomenological Knowledge Store (PKS)](../../../core-features/pks.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -22,6 +21,8 @@
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `scope` | `string` | No | — | — | Domain scope to filter suggestions for (e.g. 'github.com'). If omitted, returns cross-domain opportunities. |
 | `limit` | `integer` | No | `5` | 1–20 | Maximum number of suggestions to return (1-20). Default 5. |
+
+Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_learning')`).
 <!-- /generated:parameters -->
 
 ---

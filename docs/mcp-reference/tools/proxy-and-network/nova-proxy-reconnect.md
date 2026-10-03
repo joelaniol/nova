@@ -8,7 +8,6 @@ Reconnects a disconnected proxy and verifies connectivity before unblocking netw
 
 `nova.proxy_reconnect` runs an immediate health probe against the proxy; traffic is only unblocked if the probe succeeds, guaranteeing that no unencrypted or non-proxied data leaks.
 
-* **Capability Bundle:** `proxy_management`
 * **Security Tier:** Tier 2 (Routing Recovery)
 * **Core Architecture Guide:** [Proxy Routing & Stealth Network Engine](../../../core-features/proxy-and-network.md)
 
@@ -20,6 +19,8 @@ Reconnects a disconnected proxy and verifies connectivity before unblocking netw
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `targetId` | `string` | Yes | — | — | Target ID: sandbox ID or 'browser-tabs' for the global browser scope. |
+
+Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='proxy_management')`).
 <!-- /generated:parameters -->
 
 ---

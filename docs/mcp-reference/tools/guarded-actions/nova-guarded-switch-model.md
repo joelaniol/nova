@@ -2,7 +2,6 @@
 
 > **Safely switches the model in an AI web provider interface (ChatGPT, Claude, Gemini) with verification.**
 
-* **Capability Bundle:** `form_submission`
 * **Security Tier:** Tier 2 (Provider UI Control)
 * **Core Feature Guide:** [Autonomous Agent Guard (AAG)](../../../core-features/aag.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -54,6 +53,8 @@
 | `transitionContract.ambiguityPolicy` | `string` | No | `"signal"` | `signal`, `retry_once`, `abort` | How ambiguous postcondition matches should be labeled. 'signal' reports indeterminate, 'retry_once' prefers one safe retry when retryPolicy allows it, 'abort' reports do_not_retry. |
 | `transitionContract.stabilityWindowMs` | `integer` | No | — | — | Optional stability observation window in milliseconds. Runtime clamps extreme values to guarded-safe bounds. |
 | `transitionContract.stabilityMs` | `integer` | No | — | — | Optional stability hold duration in milliseconds. Success must remain true for this long before verification passes. |
+
+Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
 <!-- /generated:parameters -->
 
 ---

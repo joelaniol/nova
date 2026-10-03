@@ -8,7 +8,6 @@ Stops an in-flight transcription job and returns recognized text segments up to 
 
 `nova.media_transcribe_stop` cancels an active transcription job. Unlike hard aborts, it preserves and returns all text segments processed up to the stop timestamp.
 
-* **Capability Bundle:** `system_tools`
 * **Security Tier:** Tier 2 (Job Control)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
@@ -22,6 +21,8 @@ Stops an in-flight transcription job and returns recognized text segments up to 
 | `jobId` | `string` | Yes | — | — | Job ID returned by nova.media_transcribe_start. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

@@ -8,7 +8,6 @@ Reads the complete in-memory ring buffer audit log of camera, mic, and screen pe
 
 `nova.media_permission_activity_list` retrieves historical prompt decisions, showing whether requests were allowed once, remembered, or denied.
 
-* **Capability Bundle:** `system_tools`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
@@ -23,6 +22,8 @@ Reads the complete in-memory ring buffer audit log of camera, mic, and screen pe
 | `origin` | `string` | No | — | — | Filter by origin prefix. Note: 'https://meet' also matches 'https://meeting.evil.com'. Use full origin for exact lookups. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 <!-- /generated:parameters -->
 
 ---

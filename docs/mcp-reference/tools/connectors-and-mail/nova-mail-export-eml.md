@@ -8,7 +8,6 @@ Exports raw RFC 822 EML files preserving complete MIME headers and original part
 
 `nova.mail_export_eml` downloads original, bit-for-bit email messages directly from the server. It exports raw `.eml` files suitable for compliance archiving, forensic review, or import into external mail clients.
 
-* **Capability Bundle:** `connector_ops`
 * **Security Tier:** Tier 1 (Read/Export)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
@@ -28,6 +27,8 @@ Exports raw RFC 822 EML files preserving complete MIME headers and original part
 | `allowInsecure` | `boolean` | No | `false` | — | Required as true only when this account's IMAP endpoint explicitly uses plaintext or disabled certificate validation, and only after the user enabled insecure connector connections in Settings. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
 <!-- /generated:parameters -->
 
 ---

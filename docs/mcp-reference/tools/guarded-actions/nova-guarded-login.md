@@ -13,7 +13,6 @@ Logging into websites autonomously is fraught with failure states: incorrect cre
 * **MFA Progression Handling:** If the submission succeeds but advances to a 2FA prompt, SMS code screen, or passkey verification, Nova treats this as an **ambiguous follow-up state** rather than a failure. The agent is guided to retrieve a TOTP code rather than aborting or retrying credentials.
 * **Auth State Verification:** Reconciles the tab's login status with Nova's Auth Surface Detection (ASD) engine.
 
-* **Capability Bundle:** `form_submission`, `vault_auth`, `guarded_actions`
 * **2FA / MFA Resilient:** Does not crash or panic when two-factor authentication is requested.
 * **Rate-Limit Prevention:** Strict `non_idempotent` retry policy prevents brute-force lockouts.
 * **Blocker Clearance:** Automatically removes cookie banners or marketing popups covering login buttons.
@@ -59,6 +58,8 @@ Logging into websites autonomously is fraught with failure states: incorrect cre
 | `transitionContract.ambiguityPolicy` | `string` | No | `"signal"` | `signal`, `retry_once`, `abort` | How ambiguous postcondition matches should be labeled. 'signal' reports indeterminate, 'retry_once' prefers one safe retry when retryPolicy allows it, 'abort' reports do_not_retry. |
 | `transitionContract.stabilityWindowMs` | `integer` | No | — | — | Optional stability observation window in milliseconds. Runtime clamps extreme values to guarded-safe bounds. |
 | `transitionContract.stabilityMs` | `integer` | No | — | — | Optional stability hold duration in milliseconds. Success must remain true for this long before verification passes. |
+
+Capability bundles: `browser_automation`, `form_submission`, `vault_auth`.
 <!-- /generated:parameters -->
 
 ---

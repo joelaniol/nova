@@ -2,7 +2,6 @@
 
 > **Returns an aggregated summary of active MCP sessions, tool execution counts, and failure rates.**
 
-* **Capability Bundle:** `app_shell_recovery, onboarding`
 * **Security Tier:** Tier 1 (Telemetry & Observability)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -22,6 +21,8 @@
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `agentId` | `string` | No | — | — | Only aggregate calls attributed to this agentId. Omit for all agents. |
 | `sinceMinutes` | `integer` | No | `240` | 1–10080 | Look-back window in minutes over the current session's action log. Default 240 (4h). |
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

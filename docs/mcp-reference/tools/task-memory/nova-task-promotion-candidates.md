@@ -8,7 +8,6 @@ Lists guidance log entries and override patterns that are candidates for profile
 
 `nova.task_promotion_candidates` surfaces frequently observed workarounds and high-confidence guidance entries that are ready for permanent promotion.
 
-* **Capability Bundle:** `task_memory`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
@@ -21,6 +20,8 @@ Lists guidance log entries and override patterns that are candidates for profile
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `profileId` | `string` | Yes | — | — | The profile ID to check for promotion candidates. |
 | `threshold` | `integer` | No | `3` | 1–100 | Minimum occurrence count to qualify as candidate. Default: 3. |
+
+Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
 <!-- /generated:parameters -->
 
 ---

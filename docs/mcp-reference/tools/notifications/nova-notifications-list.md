@@ -8,7 +8,6 @@ Queries the Nova notification inbox with filtering by source, website origin, an
 
 `nova.notifications_list` retrieves notifications stored in Nova's persistent database, allowing agents to monitor background alerts from websites, system events, and peer agents.
 
-* **Capability Bundle:** `notifications`
 * **Security Tier:** Tier 1 (Safe)
 * **Core Architecture Guide:** [Closed-Loop System & Event Propagation](../../../core-features/closed-loop-system.md)
 
@@ -25,6 +24,8 @@ Queries the Nova notification inbox with filtering by source, website origin, an
 | `includeDismissed` | `boolean` | No | — | — | If true, include dismissed notifications. Default: false. |
 | `limit` | `integer` | No | — | 1–200 | Maximum number of results. Default: 50, max: 200. |
 | `offset` | `integer` | No | — | ≥ 0 | Number of results to skip for pagination. Default: 0. |
+
+Capability bundle: `notifications` (load it with `nova.tools_bundle(bundle='notifications')`).
 <!-- /generated:parameters -->
 
 ---

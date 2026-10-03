@@ -2,7 +2,6 @@
 
 > **Searches loaded page resources (scripts, stylesheets, HTML) for matching literal text or regex patterns.**
 
-* **Capability Bundle:** `app_shell_recovery, onboarding`
 * **Security Tier:** Tier 1 (Read-Only Inspection)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -31,6 +30,8 @@
 | `maxMatches` | `integer` | No | `100` | 1–2000 | Maximum total matches to return across all resources. |
 | `contextChars` | `integer` | No | `120` | 0–2000 | Characters of context to include before and after each match. |
 | `maxChars` | `integer` | No | `100000` | 1000–5000000 | Maximum serialized response characters before truncation. Defaults shrink automatically under context pressure unless explicitly provided. |
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

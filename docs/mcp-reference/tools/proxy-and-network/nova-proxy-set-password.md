@@ -8,7 +8,6 @@ Stores or clears encrypted proxy authentication credentials using Windows DPAPI.
 
 `nova.proxy_set_password` encrypts proxy passwords using Windows Data Protection API (DPAPI). The plaintext secret is never returned in any MCP response or written to plaintext configuration files.
 
-* **Capability Bundle:** `proxy_management`
 * **Security Tier:** Tier 2 (Credential Management)
 * **Core Architecture Guide:** [Proxy Routing & Stealth Network Engine](../../../core-features/proxy-and-network.md)
 
@@ -21,6 +20,8 @@ Stores or clears encrypted proxy authentication credentials using Windows DPAPI.
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `profileId` | `string` | Yes | — | — | ID of the proxy profile. |
 | `password` | `string or null` | No | — | — | Password to store. Omit or null to clear the stored password. |
+
+Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='proxy_management')`).
 <!-- /generated:parameters -->
 
 ---

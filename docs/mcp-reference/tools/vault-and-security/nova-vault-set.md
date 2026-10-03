@@ -2,7 +2,6 @@
 
 > **Stores or updates a username and password login credential in the encrypted vault.**
 
-* **Capability Bundle:** `vault_auth`
 * **Security Tier:** Tier 2 (Credential Storage)
 * **Core Feature Guide:** [Vault & Secret Keystore](../../../core-features/vault-and-secrets.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -26,6 +25,8 @@
 | `createdBy` | `string` | No | `"agent"` | — | Client/agent name. Defaults to 'agent'. |
 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+
+Capability bundle: `vault_auth` (load it with `nova.tools_bundle(bundle='vault_auth')`).
 <!-- /generated:parameters -->
 
 ---

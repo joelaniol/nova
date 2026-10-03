@@ -11,7 +11,6 @@ Executing a browser back action in automated workflows can easily destroy unsave
 * If moving back would trigger a full-document unload on an authenticated or session-sensitive page, Nova's Agent Awareness Gates (AAG) intercept the leave and require explicit `force: true`.
 * Supports awaiting DOM settlement (`waitForSettlement: true`) so dynamic client-side rendering settles before subsequent tool calls.
 
-* **Capability Bundle:** `browser_automation`
 * **SPA Settlement Engine:** Waits for microtasks, DOM mutations, and network activity to stabilize.
 * **Session Preservation Gate:** Prevents accidental session destruction unless explicitly bypassed via `force: true`.
 * **Output Tiers:** Supports `"full"`, `"compact"`, or `"minimal"` response envelopes.
@@ -35,6 +34,8 @@ Executing a browser back action in automated workflows can easily destroy unsave
 | `screenshotFormat` | `string` | No | `"png"` | `png`, `jpeg`, `auto` | Screenshot format; 'auto' picks PNG or JPEG per region. |
 | `screenshotQuality` | `integer` | No | `80` | 1–100 | JPEG quality (1-100). Only used when screenshotFormat is 'jpeg'. |
 | `outputDetail` | `string` | No | `"full"` | `full`, `compact`, `minimal` | Response verbosity. 'full' (default) is the unchanged payload. 'compact' drops the advisory blocks you did not ask for (pks/pksMeta, discoverySignals, routingHint, taskDiscoveryWarning, byte accounting) and keeps everything you did - state, screenshot, settlement. 'minimal' is the lean envelope: core contract (ok/status/reasonCode/stage/retryable), the navigation proof (url/requestedUrl/loadCompleted/navigationFailed/webErrorStatus/settlement), target and page info, claim/private state, screenshot sidecar status, and the never-suppressible safety warnings. No setting can hide a warning. |
+
+Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
 <!-- /generated:parameters -->
 
 ---

@@ -8,7 +8,6 @@ Reads recent redacted proxy routing and diagnostic log entries from disk.
 
 `nova.proxy_log` returns diagnostic log lines from `Logs/proxy`. All credentials, basic auth tokens, and session secrets are automatically scrubbed and redacted.
 
-* **Capability Bundle:** `proxy_management`
 * **Security Tier:** Tier 1 (Safe Diagnostics)
 * **Core Architecture Guide:** [Proxy Routing & Stealth Network Engine](../../../core-features/proxy-and-network.md)
 
@@ -20,6 +19,8 @@ Reads recent redacted proxy routing and diagnostic log entries from disk.
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `maxLines` | `integer` | No | `100` | 1–500 | Maximum lines to return (1–500). Default: 100. |
+
+Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='proxy_management')`).
 <!-- /generated:parameters -->
 
 ---

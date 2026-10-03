@@ -2,13 +2,15 @@
 
 Isolated pseudo-terminals (ConPTY), command execution streams, terminal dock control, and session persistence.
 
-* **Capability Bundle(s):** `terminal_ops`
 * **Core Architecture Guide:** [Core Features: terminal-workspaces.md](../../../core-features/terminal-workspaces.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
+<!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 ## Tool Inventory (12 Tools)
+
+Capability bundles of these tools: `app_shell_recovery`, `terminal_ops`.
 
 | Tool | What it does |
 | :--- | :--- |
@@ -24,6 +26,7 @@ Isolated pseudo-terminals (ConPTY), command execution streams, terminal dock con
 | **[`nova.terminal_settings_get`](nova-terminal-settings-get.md)** | Reads terminal appearance settings and reports why ANSI colour output is enabled or disabled. |
 | **[`nova.terminal_settings_set`](nova-terminal-settings-set.md)** | Updates terminal appearance settings such as color theme, font size, and program color rules. |
 | **[`nova.terminal_write`](nova-terminal-write.md)** | Writes raw characters to the session stdin without appending an implicit newline. |
+<!-- /generated:tool-list -->
 
 ---
 

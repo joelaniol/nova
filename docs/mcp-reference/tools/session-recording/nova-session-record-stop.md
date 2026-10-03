@@ -8,7 +8,6 @@ Stops an active session recording, flushes memory channels, and generates crypto
 
 `nova.session_record_stop` cleanly terminates an ongoing session recording. It flushes in-memory streaming channels, finalizes encrypted chunk files on disk, computes SHA-256 checksums in `integrity.json`, and seals the recording for post-hoc forensic inspection.
 
-* **Capability Bundle:** `session_recording`
 * **Security Tier:** Tier 2 (Session Control)
 * **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
 
@@ -21,6 +20,8 @@ Stops an active session recording, flushes memory channels, and generates crypto
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `recordingId` | `string` | Yes | — | — | Recording ID returned from session_record_start. |
 | `reason` | `string` | No | — | — | Optional canonical reason code (default: agent_stop). |
+
+Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='session_recording')`).
 <!-- /generated:parameters -->
 
 ---

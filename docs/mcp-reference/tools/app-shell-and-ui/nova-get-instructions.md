@@ -2,7 +2,6 @@
 
 > **Retrieves the complete Nova AI operational contract, conventions, and agent guidelines.**
 
-* **Capability Bundle:** `app_shell_recovery, onboarding`
 * **Security Tier:** Tier 1 (Read-Only Guidance)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -29,6 +28,8 @@
 | `domainScope` | `string` | No | — | — | Compatibility alias for the domain-scoped hint target. Must match domain/scopeDomain if multiple aliases are provided. |
 | `taskKeywords` | `array` of `string` | No | — | — | Optional: 3-5 keywords from the user's request. Returns matching operator notes for task-relevant context. |
 | `detail` | `string` | No | `"compact"` | `full`, `compact` | Response detail level. 'compact' (default, ~5KB): safety essentials + bootstrap + domain hints + operator notes + task hints — small enough to always receive, including the mandatory bootstrap call #1. 'full': the complete agent contract with all operational, execution, claim, and memory sections (~50KB; the text is mirrored into structuredContent so it is roughly double on the wire — request it only when you actually need the full static contract). Oversized responses are truncated with a pointer rather than blocked. Trust & Safety + Session Bootstrap are always included regardless of detail level. |
+
+Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 <!-- /generated:parameters -->
 
 ---

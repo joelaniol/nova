@@ -2,13 +2,15 @@
 
 Proxy profile management, authentication, traffic redirection, and CDP network request/response interception.
 
-* **Capability Bundle(s):** `proxy_management`
 * **Core Architecture Guide:** [Core Features: proxy-and-network.md](../../../core-features/proxy-and-network.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
+<!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 ## Tool Inventory (15 Tools)
+
+Capability bundles of these tools: `page_read_debug`, `proxy_management`.
 
 | Tool | What it does |
 | :--- | :--- |
@@ -27,6 +29,7 @@ Proxy profile management, authentication, traffic redirection, and CDP network r
 | **[`nova.proxy_switch`](nova-proxy-switch.md)** | Dynamically switches the active proxy for global tabs or a specific sandbox without restarting Nova. |
 | **[`nova.proxy_test`](nova-proxy-test.md)** | Executes an active network diagnostic probe through a proxy profile to verify connectivity and external IP. |
 | **[`nova.proxy_update`](nova-proxy-update.md)** | Updates host, port, protocol, or bypass list of an existing proxy profile. |
+<!-- /generated:tool-list -->
 
 ---
 

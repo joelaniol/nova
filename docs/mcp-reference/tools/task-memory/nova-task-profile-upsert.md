@@ -8,7 +8,6 @@ Creates or updates a task profile with semantic content revision tracking.
 
 `nova.task_profile_upsert` registers a reusable task template. Bumps `contentRev` on semantic changes, preserving proven operational guidance across runs.
 
-* **Capability Bundle:** `task_memory`
 * **Security Tier:** Tier 2 (Profile Mutation)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
@@ -37,6 +36,8 @@ Creates or updates a task profile with semantic content revision tracking.
 | `knownExceptions` | `array` of `object` | No | — | — | Known exception rules or caveats that the agent should keep in mind for this task profile. |
 | `confidence` | `number` | No | — | 0–1 | Profile confidence score 0.0-1.0. Default: 0.5. |
 | `sourceInstanceId` | `string` | No | — | — | Optional: seed profile content from this instance's effectiveContextJson. |
+
+Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
 <!-- /generated:parameters -->
 
 ---

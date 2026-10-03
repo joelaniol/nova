@@ -8,7 +8,6 @@ Reports progress, elapsed percentage, and recognized text segments of an active 
 
 `nova.media_transcribe_status` inspects a running or completed transcription job. It provides completion percentages, processed audio seconds, and full recognized text segments with timestamps.
 
-* **Capability Bundle:** `system_tools`
 * **Security Tier:** Tier 1 (Read-Only Status)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
@@ -23,6 +22,8 @@ Reports progress, elapsed percentage, and recognized text segments of an active 
 | `includeText` | `boolean` | No | `false` | — | Include the segments and the full text in the response. Off by default because a long transcript crowds out everything else; the file at transcriptPath holds the same content. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

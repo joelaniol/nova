@@ -8,7 +8,6 @@ Executes a single command line in an existing session and waits synchronously fo
 
 `nova.terminal_run_command` submits a command to an active ConPTY session, monitors execution via an end-of-command sentinel, and returns both output and numeric exit code. If execution exceeds `timeoutSeconds`, the session remains open with `reasonCode: "command_timeout"`.
 
-* **Capability Bundle:** `terminal_ops`
 * **Security Tier:** Tier 2 (Execute)
 * **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces.md)
 
@@ -24,6 +23,8 @@ Executes a single command line in an existing session and waits synchronously fo
 | `timeoutSeconds` | `integer` | No | — | 1–3600 | Max seconds to wait for completion. Default 30. |
 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+
+Capability bundle: `terminal_ops` (load it with `nova.tools_bundle(bundle='terminal_ops')`).
 <!-- /generated:parameters -->
 
 ---

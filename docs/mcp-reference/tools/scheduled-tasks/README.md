@@ -2,13 +2,15 @@
 
 Background task automation, cron expressions, file-system watches, task workspaces, and execution logs.
 
-* **Capability Bundle(s):** `scheduled_tasks`
 * **Core Architecture Guide:** [Core Features: scheduled-tasks.md](../../../core-features/scheduled-tasks.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
+<!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 ## Tool Inventory (25 Tools)
+
+Capability bundles of these tools: `scheduled_tasks`.
 
 | Tool | What it does |
 | :--- | :--- |
@@ -37,6 +39,7 @@ Background task automation, cron expressions, file-system watches, task workspac
 | **[`nova.scheduled_task_workspace_list`](nova-scheduled-task-workspace-list.md)** | Lists files and subdirectories located within a task’s shared workspace folder. |
 | **[`nova.scheduled_task_workspace_read`](nova-scheduled-task-workspace-read.md)** | Reads a UTF-8 text file from a task’s shared workspace folder. |
 | **[`nova.scheduled_task_workspace_write`](nova-scheduled-task-workspace-write.md)** | Atomically writes a UTF-8 text file into a task’s shared workspace folder (temp-file + rename). |
+<!-- /generated:tool-list -->
 
 ---
 

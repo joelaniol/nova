@@ -2,7 +2,6 @@
 
 > **Performs a bot-resilient drag-and-drop gesture along a natural Bézier physics curve with micro-jitters.**
 
-* **Capability Bundle:** `browser_automation`
 * **Security Tier:** Tier 2 (Physical Input with Physics)
 * **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -32,6 +31,8 @@
 | `selector` | `string` | No | — | — | Optional CSS selector for the drag handle element. If set, startX/startY (or legacy fromX/fromY) are derived from the element's center. mousedown is dispatched on this element (not elementFromPoint). |
 | `durationMs` | `number` | No | — | 500–10000 | Target drag duration in ms (default: random 1800-2400). Affects interval timing. |
 | `jitterPx` | `number` | No | `2` | 0–10 | Vertical jitter amplitude in px (simulates muscle tremor). |
+
+Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
 <!-- /generated:parameters -->
 
 ---

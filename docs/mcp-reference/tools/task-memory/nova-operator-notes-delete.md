@@ -8,7 +8,6 @@ Deletes an operator note by unique ID.
 
 `nova.operator_notes_delete` removes an operator note from the persistent database.
 
-* **Capability Bundle:** `task_memory`
 * **Security Tier:** Tier 2 (Note Deletion)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
@@ -20,6 +19,8 @@ Deletes an operator note by unique ID.
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `id` | `string` | Yes | — | — | Note ID from nova.operator_notes_list. |
+
+Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 <!-- /generated:parameters -->
 
 ---

@@ -2,7 +2,6 @@
 
 > **Queries structured state and elements from a cached perceive snapshot without re-rendering.**
 
-* **Capability Bundle:** `page_read_debug`
 * **Security Tier:** Tier 1 (Read-Only Extraction)
 * **Core Feature Guide:** [DOM Perception & Semantic Extraction](../../../core-features/tob.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -31,6 +30,8 @@
 | `chunkChars` | `integer` | No | `4000` | 200–50000 | Maximum characters per returned chunk when reading path or node payloads. |
 | `maxResults` | `integer` | No | `10` | 1–100 | Maximum number of search matches to return for op='search'. |
 | `contextChars` | `integer` | No | `120` | 20–1000 | Number of surrounding characters to include before and after each search match snippet. |
+
+Capability bundles: `browser_automation`, `form_submission`, `page_read_debug`.
 <!-- /generated:parameters -->
 
 ---

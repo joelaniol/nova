@@ -2,7 +2,6 @@
 
 > **Captures responsive screenshots across multiple breakpoint widths (mobile, tablet, desktop) in parallel.**
 
-* **Capability Bundle:** `visual_evidence`
 * **Security Tier:** Tier 2 (Responsive Auditing)
 * **Core Feature Guide:** [Visual Evidence & Auditing](../../../core-features/evm-and-visual-evidence.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -28,6 +27,8 @@
 | `fullPage` | `boolean` | No | `false` | — | Capture the full scrollable page at each width instead of just the viewport. |
 | `format` | `string` | No | — | `png`, `jpeg`, `auto` | Image format for all shots. Defaults to the tool-intent profile. |
 | `quality` | `integer` | No | — | 1–100 | JPEG quality (1-100) when format is jpeg. |
+
+Capability bundles: `device_emulation`, `visual_evidence`.
 <!-- /generated:parameters -->
 
 ---

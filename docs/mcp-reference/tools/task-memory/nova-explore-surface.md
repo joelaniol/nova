@@ -8,7 +8,6 @@ Discovers interactive UI triggers (buttons, tabs, accordions) and activates them
 
 `nova.explore_surface` performs automated single-page surface exploration. It detects interactive elements, simulates clicks under strict safety guards, and maps out hidden menus and modals.
 
-* **Capability Bundle:** `task_memory`
 * **Security Tier:** Tier 2 (Surface Discovery)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
@@ -59,6 +58,8 @@ Discovers interactive UI triggers (buttons, tabs, accordions) and activates them
 | `hover.userApproved` | `boolean` | No | `false` | — | Mandatory approval for hover interaction. |
 
 **`_meta.intent` is required for certain arguments.** Passing a short reason in `_meta.intent` is always safe; a rejected call names the argument that made it required.
+
+Capability bundle: `surface_explorer` (load it with `nova.tools_bundle(bundle='surface_explorer')`).
 <!-- /generated:parameters -->
 
 ---

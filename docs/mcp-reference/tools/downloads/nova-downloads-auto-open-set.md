@@ -8,7 +8,6 @@ Bulk-replaces the list of file extensions that auto-open with the OS default app
 
 `nova.downloads_auto_open_set` updates the allowed auto-open file extensions. Any executable extensions in the request are automatically rejected for security.
 
-* **Capability Bundle:** `app_shell_recovery`
 * **Security Tier:** Tier 2 (Configuration)
 * **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts.md)
 
@@ -22,6 +21,8 @@ Bulk-replaces the list of file extensions that auto-open with the OS default app
 | `extensions` | `array` of `string` | Yes | — | — | Replacement list of extensions. Each entry is normalized (lowercase, leading dot). |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
 <!-- /generated:parameters -->
 
 ---

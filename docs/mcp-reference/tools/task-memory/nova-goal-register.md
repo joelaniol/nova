@@ -8,7 +8,6 @@ Manages closed-loop task goals, verifying step advancement and milestone criteri
 
 `nova.goal_register` registers, annotates, and tracks multi-step goals. The Nova runtime verifies goal criteria and step advancements against live browser observations.
 
-* **Capability Bundle:** `task_memory`
 * **Security Tier:** Tier 2 (Goal Management)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
@@ -39,6 +38,8 @@ Manages closed-loop task goals, verifying step advancement and milestone criteri
 | `state` | `string` | No | — | `completed`, `failed`, `aborted` | Final state for close. 'completed' = goal finished successfully, 'failed' = goal ended with an unrecovered failure, 'aborted' = goal was intentionally stopped before completion. |
 | `content` | `string` | No | — | — | Annotation content (required for annotate). |
 | `source` | `string` | No | `"agent"` | — | Annotation source identifier (default 'agent'). |
+
+Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
 <!-- /generated:parameters -->
 
 ---

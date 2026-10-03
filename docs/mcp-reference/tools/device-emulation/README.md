@@ -2,13 +2,15 @@
 
 Mobile viewport simulation, touch event emulation, user agent overriding, and dark mode toggles.
 
-* **Capability Bundle(s):** `device_emulation`
 * **Core Architecture Guide:** [Core Features: fingerprint-and-identity.md](../../../core-features/fingerprint-and-identity.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
+<!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 ## Tool Inventory (10 Tools)
+
+Capability bundles of these tools: `device_emulation`.
 
 | Tool | What it does |
 | :--- | :--- |
@@ -22,6 +24,7 @@ Mobile viewport simulation, touch event emulation, user agent overriding, and da
 | **[`nova.emulation_set_user_agent`](nova-emulation-set-user-agent.md)** | Overrides the HTTP User-Agent header, navigator.userAgent, and client hints for a tab. |
 | **[`nova.emulation_set_viewport_frame`](nova-emulation-set-viewport-frame.md)** | Configures the visual outline rendered around an emulated device viewport in the host UI. |
 | **[`nova.emulation_use_device`](nova-emulation-use-device.md)** | Applies a named device preset (viewport, DPR, touch capabilities, and user agent) in a single atomic call. |
+<!-- /generated:tool-list -->
 
 ---
 

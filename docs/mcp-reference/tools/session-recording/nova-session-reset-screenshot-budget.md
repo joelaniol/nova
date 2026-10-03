@@ -8,7 +8,6 @@ Resets the session screenshot budget counter to allow fresh visual captures.
 
 `nova.session_reset_screenshot_budget` clears the in-memory screenshot budget accumulator for the active MCP session. Nova enforces a bounded visual capture budget to prevent infinite visual capture loops or memory exhaustion; this tool re-arms the budget during extended testing sessions.
 
-* **Capability Bundle:** `session_recording`, `visual_evidence`
 * **Security Tier:** Tier 1 (Session Budget Control)
 * **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
 
@@ -18,6 +17,8 @@ Resets the session screenshot budget counter to allow fresh visual captures.
 
 <!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 This tool takes no parameters.
+
+Capability bundles: `page_read_debug`, `visual_evidence`.
 <!-- /generated:parameters -->
 
 ---

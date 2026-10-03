@@ -2,7 +2,6 @@
 
 > **Sets host application window state: minimize, maximize, restore, or bring to foreground.**
 
-* **Capability Bundle:** `app_shell_recovery, onboarding`
 * **Security Tier:** Tier 2 (Window State Control)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -21,6 +20,8 @@
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `state` | `string` | Yes | — | `minimize`, `maximize`, `restore`, `foreground` | Target state. 'minimize' uses normal OS minimize. 'foreground' restores if needed and brings the window to front. |
+
+Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
 <!-- /generated:parameters -->
 
 ---

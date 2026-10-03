@@ -2,7 +2,6 @@
 
 > **Scrolls the page or active container by relative pixel offsets (deltaX, deltaY).**
 
-* **Capability Bundle:** `browser_automation`
 * **Security Tier:** Tier 2 (Viewport Manipulation)
 * **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -24,6 +23,8 @@
 | `deltaX` | `number` | No | `0` | — | Horizontal scroll distance in pixels. Positive = right, negative = left. |
 | `deltaY` | `number` | Yes | — | — | Vertical scroll distance in pixels. Positive = down, negative = up. Typical page scroll: 500-800. |
 | `containerSelector` | `string` | No | — | — | Optional CSS selector for the scroll container. When provided, skips window.scrollBy and scrolls this container directly. |
+
+Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
 <!-- /generated:parameters -->
 
 ---

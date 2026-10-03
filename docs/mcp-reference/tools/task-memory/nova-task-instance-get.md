@@ -8,7 +8,6 @@ Loads a task instance snapshot for session-crossing resume and progress inspecti
 
 `nova.task_instance_get` retrieves the full state of a task instance: current revision, completed work units, pending mandatory checks, and execution logs.
 
-* **Capability Bundle:** `task_memory`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
@@ -26,6 +25,8 @@ Loads a task instance snapshot for session-crossing resume and progress inspecti
 | `discoveredUnitsPreviewLimit` | `integer` | No | `20` | 1–200 | Canonical limit for discoveredUnitsPreview. Default: 20. |
 | `includeRecentEvents` | `boolean` | No | `false` | — | Include recent event log entries. Default: false. |
 | `recentEventLimit` | `integer` | No | `10` | 1–100 | Max recent events to return. Default: 10. |
+
+Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
 <!-- /generated:parameters -->
 
 ---

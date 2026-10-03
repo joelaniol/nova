@@ -2,7 +2,6 @@
 
 > **Applies partial updates or selector refinements to an existing PKS phenomenon playbook.**
 
-* **Capability Bundle:** `pks_learning`
 * **Security Tier:** Tier 2 (Knowledge Refinement)
 * **Core Feature Guide:** [Phenomenological Knowledge Store (PKS)](../../../core-features/pks.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -28,6 +27,8 @@
 | `patch.playbook` | `object` | No | — | — | Playbook to merge. When provided, the full playbook payload replaces the existing playbook. |
 | `patch.context` | `any` | No | — | — | Optional phenomenon-level context override. Set null to clear and fallback to domain context keys. |
 | `patch.deprecated` | `boolean` | No | — | — | Set to false to reactivate a deprecated phenomenon. |
+
+Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_learning')`).
 <!-- /generated:parameters -->
 
 ---

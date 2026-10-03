@@ -2,7 +2,6 @@
 
 > **Captures a full tab state snapshot including URL, scroll position, and form state.**
 
-* **Capability Bundle:** `browser_automation`
 * **Security Tier:** Tier 1 (Read-Only Session State)
 * **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -24,6 +23,8 @@
 | `includeText` | `boolean` | No | `false` | — | If true, include a text snippet (innerText) for each tab. |
 | `maxCharsPerTab` | `integer` | No | `2000` | 100–50000 | Maximum characters of text content per tab (only when includeText=true). |
 | `includeOkFacts` | `boolean` | No | `false` | — | Reserved OK (Operational Knowledge) facts projection. Omit or pass false; current runtimes reject true instead of silently ignoring it. |
+
+Capability bundles: `browser_automation`, `page_read_debug`.
 <!-- /generated:parameters -->
 
 ---

@@ -2,7 +2,6 @@
 
 > **Moves an open browser tab from one sandbox container profile to another.**
 
-* **Capability Bundle:** `browser_automation`
 * **Security Tier:** Tier 2 (Sandbox Management)
 * **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -27,6 +26,8 @@
 | `transform` | `string` | No | `"none"` | `none`, `trim`, `number` | Optional transform: 'none' = raw text, 'trim' = whitespace trimmed, 'number' = extract first numeric value. |
 | `maxChars` | `integer` | No | `10000` | 1–50000 | Maximum characters to transfer. |
 | `agentId` | `string` | No | — | — | Agent identity for claim authorization on the destination tab. Defaults to 'default'. |
+
+Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
 <!-- /generated:parameters -->
 
 ---

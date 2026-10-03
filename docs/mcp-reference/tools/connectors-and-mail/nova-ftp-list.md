@@ -8,7 +8,6 @@ Lists remote directory entries or inspects file metadata through an FTP/FTPS con
 
 `nova.ftp_list` connects over FTP/FTPS to list directory contents, file sizes, and timestamps.
 
-* **Capability Bundle:** `connector_ops`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
@@ -26,6 +25,8 @@ Lists remote directory entries or inspects file metadata through an FTP/FTPS con
 | `allowInsecure` | `boolean` | No | `false` | — | Required as true only when this profile explicitly uses plaintext FTP. The user's separate debug/legacy option must also be enabled. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
 <!-- /generated:parameters -->
 
 ---

@@ -8,7 +8,6 @@ Stores or updates a persistent operator note with search tags and priority.
 
 `nova.operator_notes_store` saves human-authored operating instructions that are automatically indexed and surfaced to agents working in matching domains or tasks.
 
-* **Capability Bundle:** `task_memory`
 * **Security Tier:** Tier 2 (Note Storage)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
@@ -26,6 +25,8 @@ Stores or updates a persistent operator note with search tags and priority.
 | `id` | `string` | No | — | — | Optional: existing note ID to update instead of creating new. |
 | `sandboxId` | `string` | No | — | — | Optional sandbox letter-id (e.g. 'A', 'B') to bind this note to a specific sandbox. Omit for global note. Required together with sandboxRef. |
 | `sandboxRef` | `string` | No | — | — | Opaque PersistentUid token from nova.tabs / nova.sandbox_context / perceive.targetContext. Mandatory when sandboxId is set; protects against letter-id recycling races. Mismatch with current sandbox UID → -32602 stale_sandbox_reference. |
+
+Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 <!-- /generated:parameters -->
 
 ---

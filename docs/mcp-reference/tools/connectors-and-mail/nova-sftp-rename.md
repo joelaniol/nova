@@ -8,7 +8,6 @@ Renames or moves a remote file or directory over SFTP.
 
 `nova.sftp_rename` performs an atomic remote rename or move operation on an SFTP host. Requires full transfer capability.
 
-* **Capability Bundle:** `connector_ops`
 * **Security Tier:** Tier 2 (Remote File Mutation)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
@@ -26,6 +25,8 @@ Renames or moves a remote file or directory over SFTP.
 | `unattended` | `boolean` | No | `false` | — | Fail closed instead of opening account/policy prompts. Scheduled-task hosts enforce unattended mode even when omitted; this flag can only reduce authority. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
 <!-- /generated:parameters -->
 
 ---

@@ -8,7 +8,6 @@ Retrieves paginated page details, extracted text, metadata, and screenshots from
 
 `nova.crawl_results` reads discovered pages and extracted content from the persistent SQLite `crawl.db` index. It supports server-side pagination, URL filtering, incremental cursors via `sinceSequence`, and aggregated statistical summaries.
 
-* **Capability Bundle:** `crawler_ops`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Autonomous Crawler & Surface Explorer](../../../core-features/crawler-and-discovery.md)
 
@@ -32,6 +31,8 @@ Retrieves paginated page details, extracted text, metadata, and screenshots from
 | `maxTextChars` | `integer` | No | `10000` | 1000–200000 | Maximum textContent/customScriptResult/readOnlyPopover serialized characters per page. Defaults shrink automatically under context pressure unless explicitly provided; truncation flags remain explicit. |
 | `minConfidence` | `number` | No | — | 0–1 | Minimum confidence threshold. Pages below this value are excluded. Applied before sorting and pagination. |
 | `summary` | `boolean` | No | `false` | — | When true, return aggregated statistics instead of full page results. Includes totalPages, avgConfidence, avgLoadTimeMs, totalLinks, frameworks breakdown, depth distribution, duplicate content detection, hydration drift count, and screenshot coverage stats. Significantly cheaper in tokens than reading all pages. |
+
+Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawler_ops')`).
 <!-- /generated:parameters -->
 
 ---

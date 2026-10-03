@@ -2,7 +2,6 @@
 
 > **Lists supported platform UI frameworks and common component models.**
 
-* **Capability Bundle:** `pks_learning`
 * **Security Tier:** Tier 1 (Read-Only Platform Models)
 * **Core Feature Guide:** [Phenomenological Knowledge Store (PKS)](../../../core-features/pks.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -19,6 +18,8 @@
 
 <!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 This tool takes no parameters.
+
+Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_learning')`).
 <!-- /generated:parameters -->
 
 ---

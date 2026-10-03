@@ -2,7 +2,6 @@
 
 > **Confirms that a learned onboarding flow step was successfully completed.**
 
-* **Capability Bundle:** `pks_learning`
 * **Security Tier:** Tier 2 (Onboarding Learning)
 * **Core Feature Guide:** [Phenomenological Knowledge Store (PKS)](../../../core-features/pks.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -22,6 +21,8 @@
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `domain` | `string` | Yes | — | — | The domain the AAG gate fired against. Must match an active learn-mode activation for this session. |
 | `paraphrase` | `string` | Yes | — | 80–800 characters | Your restatement of the onboarding contract in your own words. 80-800 characters, no boilerplate, at least 4 distinct content tokens. |
+
+Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
 <!-- /generated:parameters -->
 
 ---

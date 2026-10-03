@@ -82,6 +82,8 @@ Stitches the entire scrollable document vertically (up to 20,000px). Combine wit
 | `highlightCenterMarker` | `boolean` | No | `false` | — | When true, draws a small crosshair at the target center. Useful when the target is tiny; ignored unless highlightSelector or includeContextImage is active. |
 | `outputDetail` | `string` | No | `"full"` | `full`, `compact` | Response verbosity. 'compact' omits screenshotFilePath (always identical to filePath), inlinePreview when it describes the same image as evidenceImage, and the delivery telemetry: byteAccounting (byte counts of what you just received) and tokens (per-provider vision-token estimates). The image, coordinateMeta and every warning are unaffected - no setting can hide a warning. |
 | `fullPage` | `boolean` | No | `false` | — | Capture the entire scrollable page instead of just the visible viewport (Playwright screenshot({fullPage:true})). Ignored when 'region' is set — a crop box already names what to capture. Very long pages are capped (~20000px tall / 20 MP); over that the capture falls back to the viewport. If full-page CDP capture times out, Nova degrades through a precomputed viewport CDP clip before CapturePreviewAsync. Combine with screenshotMaxWidth/Height to downscale the tall result. Tip: prefer responseMode='thumbnail+reference' for full-page shots — they are token-expensive inline. |
+
+Capability bundles: `browser_automation`, `form_submission`, `page_read_debug`, `visual_evidence`.
 <!-- /generated:parameters -->
 
 ---

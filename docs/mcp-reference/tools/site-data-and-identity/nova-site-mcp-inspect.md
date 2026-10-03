@@ -8,7 +8,6 @@ Inspects a discovered MCP server from cached discovery metadata (identity, trans
 
 `nova.site_mcp_inspect` reads cached site discovery data for an MCP server discovered at a web domain. It details transport protocols (SSE, WebSocket), OAuth 2.1 authorization requirements, and tool catalogs.
 
-* **Capability Bundle:** `site_data_management`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
@@ -22,6 +21,8 @@ Inspects a discovered MCP server from cached discovery metadata (identity, trans
 | `domain` | `string` | Yes | — | — | Target domain or URL (e.g. 'example.com'). Must have been previously probed via site_discovery_probe. Required. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 <!-- /generated:parameters -->
 
 ---

@@ -8,7 +8,6 @@ Gracefully stops an in-flight mail backup job, committing all downloaded message
 
 `nova.mail_backup_stop` signals a running mail backup job to halt. In-flight message downloads are cleanly committed so no downloaded progress is lost.
 
-* **Capability Bundle:** `connector_ops`
 * **Security Tier:** Tier 2 (Job Control)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
@@ -22,6 +21,8 @@ Gracefully stops an in-flight mail backup job, committing all downloaded message
 | `jobId` | `string` | Yes | — | — | Job id returned by nova.mail_backup_start. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
 <!-- /generated:parameters -->
 
 ---

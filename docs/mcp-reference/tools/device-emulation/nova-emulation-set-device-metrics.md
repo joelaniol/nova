@@ -8,7 +8,6 @@ Overrides the viewport dimensions, device scale factor (DPR), and mobile layout 
 
 `nova.emulation_set_device_metrics` invokes Chrome DevTools Protocol `Emulation.setDeviceMetricsOverride` to resize the browser rendering viewport independently of host window bounds.
 
-* **Capability Bundle:** `device_emulation`
 * **Security Tier:** Tier 2 (Emulation)
 * **Core Architecture Guide:** [Fingerprint & Identity Systems](../../../core-features/fingerprint-and-identity.md)
 
@@ -24,6 +23,8 @@ Overrides the viewport dimensions, device scale factor (DPR), and mobile layout 
 | `height` | `integer` | Yes | — | 100–10000 | Viewport height in CSS pixels (e.g. 812 for iPhone X, 1080 for desktop). |
 | `deviceScaleFactor` | `number` | No | `1` | 0.1–8 | Device pixel ratio / DPI multiplier (e.g. 2.0 for Retina, 3.0 for high-DPI mobile). Affects rendering resolution. |
 | `mobile` | `boolean` | No | `false` | — | If true, emulate mobile viewport behavior (viewport meta tag, touch scrolling, mobile layout). Effective layout width still depends on the page's own <meta viewport>; without it, the browser uses a ~980px layout viewport. |
+
+Capability bundle: `device_emulation` (load it with `nova.tools_bundle(bundle='device_emulation')`).
 <!-- /generated:parameters -->
 
 ---

@@ -10,7 +10,6 @@ The Phenomenological Knowledge Store (PKS) is a living, self-healing memory stor
 
 `nova.telemetry_report` is the feedback channel. Whenever an agent attempts to execute a playbook?or verifies an action sequence?it reports the outcome. High success rates promote playbooks from `Shadow` to `Active` status; repeated failures trigger automated demotion and deprecation warnings.
 
-* **Capability Bundle:** `pks_and_learning`, `domain_knowledge`
 * **Three Interaction Outcomes:**
   * `success`: Action sequence executed and verified correctly.
   * `failure`: Action timed out, selector missing, or postcondition check failed.
@@ -47,6 +46,8 @@ The Phenomenological Knowledge Store (PKS) is a living, self-healing memory stor
 | `features.matchedSelectors` | `array` of `string` | No | — | — | Selectors or element handles that matched during the interaction. |
 | `features.matchConfidence` | `number` | No | — | — | Aggregate confidence score for the observed signal bundle. |
 | `features.notes` | `string` | No | — | — | Short human-readable evidence note. |
+
+Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_learning')`).
 <!-- /generated:parameters -->
 
 ---

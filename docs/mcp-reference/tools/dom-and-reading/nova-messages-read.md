@@ -2,7 +2,6 @@
 
 > **Reads captured window postMessage and cross-frame messaging traffic.**
 
-* **Capability Bundle:** `page_read_debug`
 * **Security Tier:** Tier 1 (Read-Only Telemetry)
 * **Core Feature Guide:** [DOM Perception & Semantic Extraction](../../../core-features/tob.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -27,6 +26,8 @@
 | `includePayloads` | `boolean` | No | `true` | — | If true, include bounded payload previews. If false, return payload summaries only. |
 | `maxPayloadChars` | `integer` | No | `1000` | 0–100000 | Maximum characters per payload preview when includePayloads=true. Use 0 to keep summaries only. |
 | `maxChars` | `integer` | No | `50000` | 1000–5000000 | Maximum serialized response characters before truncation. Defaults shrink automatically under context pressure unless explicitly provided. |
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

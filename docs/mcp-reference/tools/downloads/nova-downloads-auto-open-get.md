@@ -8,7 +8,6 @@ Retrieves the list of file extensions configured to open automatically upon down
 
 `nova.downloads_auto_open_get` inspects which file extensions are registered to trigger OS launch immediately after download, along with the hardcoded security blocklist of non-executable extensions.
 
-* **Capability Bundle:** `app_shell_recovery`
 * **Security Tier:** Tier 1 (Safe)
 * **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts.md)
 
@@ -20,6 +19,8 @@ Retrieves the list of file extensions configured to open automatically upon down
 This tool takes no parameters.
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
 <!-- /generated:parameters -->
 
 ---

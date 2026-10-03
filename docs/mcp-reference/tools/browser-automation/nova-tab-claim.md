@@ -10,7 +10,6 @@ In modern multi-agent systems (e.g. Claude Code subagents, OpenAI Codex, or Anti
 
 `nova.tab_claim` establishes a **Hardware-Enforced Lease Lock** on a tab. While a claim is active, Nova's Agent Awareness Gates (AAG) reject mutating actions (`click_selector`, `type_selector`, `navigate`) from any agent whose `agentId` does not match the claim owner.
 
-* **Capability Bundle:** `browser_automation`
 * **Target Scope:** Tab-specific (`targetId` required).
 * **Expiration Policy:** Every lease has a finite TTL (default: 5 minutes / 300,000 ms) to prevent permanent deadlocks if an agent crashes.
 
@@ -40,6 +39,8 @@ If a previous session or crashed subagent left an active lease, a coordinator ag
 | `ttlMs` | `integer` | No | `120000` | 5000–1800000 | Lease duration in ms. Defaults to 120s. Must be between 5s and 30min; out-of-range values fail with -32602 before a claim is created or extended. |
 | `debugLabel` | `string` | No | — | — | Optional label for logging/debugging. On a same-owner re-claim, a non-empty value updates the existing metadata; omission or blank input preserves the current label. |
 | `reclaimReason` | `string` | No | — | — | Force-reclaim reason. When provided and another agent holds the tab, the existing claim is force-released and the displaced owner receives a one-shot AAG block notification with this reason. Omit to get the default owner-mismatch error. |
+
+Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
 <!-- /generated:parameters -->
 
 ---

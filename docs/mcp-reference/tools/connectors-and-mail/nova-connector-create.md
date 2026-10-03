@@ -8,7 +8,6 @@ Creates an E-Mail account (IMAP/SMTP) or remote server connection (SFTP/FTP).
 
 `nova.connector_create` provisions a new managed connector profile. Credentials (passwords, private key passphrases) are immediately encrypted using Windows DPAPI and stored in the Global Secret Store. Connection profiles can be scoped to specific workspaces.
 
-* **Capability Bundle:** `connector_ops`
 * **Security Tier:** Tier 2 (Connector Configuration)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
@@ -43,6 +42,8 @@ Creates an E-Mail account (IMAP/SMTP) or remote server connection (SFTP/FTP).
 | `allowInsecure` | `boolean` | No | `false` | — | Required as true on this call when any selected transport is none or a mail endpoint allows an invalid TLS certificate. It works only after the user separately enabled insecure connector connections in Settings. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
 <!-- /generated:parameters -->
 
 ---

@@ -8,7 +8,6 @@ Types a vault password into a target form field using an ephemeral `SecretRef` t
 
 `nova.type_selector_secret` is the counterpart to [`nova.vault_prepare_fill`](nova-vault-prepare-fill.md). It receives an opaque `SecretRef` token, verifies that the target tab's active origin matches the token's cryptographic grant, ensures the token has not expired or already been redeemed, and injects the password keystrokes into the designated input field.
 
-* **Capability Bundle:** `vault_and_security`, `form_submission`
 * **Zero Plaintext Leakage:** Neither the agent nor the MCP JSON-RPC protocol messages ever handle the plaintext password.
 * **Granular Failure Codes:** Distinguishes `not_found`, `expired`, `origin_mismatch`, and `already_used` so agents make intelligent retry decisions.
 * **Field Reset (`clear: true`):** Automatically clears any placeholder or residual characters in the password input prior to typing.
@@ -57,6 +56,8 @@ Types a vault password into a target form field using an ephemeral `SecretRef` t
 | `clear` | `boolean` | No | `true` | — | Clear field before typing. Default: true. |
 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+
+Capability bundle: `vault_auth` (load it with `nova.tools_bundle(bundle='vault_auth')`).
 <!-- /generated:parameters -->
 
 ---

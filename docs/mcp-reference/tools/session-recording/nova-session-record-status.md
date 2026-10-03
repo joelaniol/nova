@@ -8,7 +8,6 @@ Returns the live state, expiry timestamp, active permission classes, and byte co
 
 `nova.session_record_status` reports the current lifecycle phase (`running`, `finalised`, `expired`), storage usage, and configuration of a session recording. It is used to monitor recording health and detect approaching TTL expiration.
 
-* **Capability Bundle:** `session_recording`
 * **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
 
@@ -20,6 +19,8 @@ Returns the live state, expiry timestamp, active permission classes, and byte co
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `recordingId` | `string` | Yes | — | — | Recording ID returned from session_record_start. |
+
+Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='session_recording')`).
 <!-- /generated:parameters -->
 
 ---

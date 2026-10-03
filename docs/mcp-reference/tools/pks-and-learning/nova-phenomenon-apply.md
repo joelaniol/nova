@@ -2,7 +2,6 @@
 
 > **Executes a stored PKS phenomenon fast-path interaction sequence directly on the page.**
 
-* **Capability Bundle:** `pks_learning`
 * **Security Tier:** Tier 2 (Macro Execution)
 * **Core Feature Guide:** [Phenomenological Knowledge Store (PKS)](../../../core-features/pks.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -28,6 +27,8 @@
 | `observation` | `object` | No | — | — | Optional fresh fingerprint snapshot from a recent perceive/match pass. When provided, Nova evaluates drift against the phenomenon baseline before applying. |
 | `observation.signals` | `array` of `object` | No | — | — | Observed fingerprint signals used for drift evaluation. Each signal provides kind, match, and optional locale. |
 | `observation.minConfidence` | `number` | No | `0.5` | 0–1 | Minimum confidence for the provided observation snapshot. |
+
+Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_learning')`).
 <!-- /generated:parameters -->
 
 ---

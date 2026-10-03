@@ -8,7 +8,6 @@ Scans the page or a scoped subtree for layout defects, clipped text, overflowing
 
 Layout overflow issues—such as unintentional horizontal scrollbars, clipped text labels, or table columns breaking through container boundaries—are among the most common visual defects in web development. `nova.detect_overflow` runs an automated Quality Assurance scan over the DOM to pinpoint every overflowing element and return actionable coordinates and CSS selectors.
 
-* **Capability Bundle:** `layout_and_qa`, `quality_inspection`
 * **Four Issue Classes:** Detects container scroll overflows, viewport boundary bleeding, clipped text nodes, and page-level horizontal scroll.
 * **Component Scoping (`selector`):** Audit a specific component or modal subtree instead of the entire document.
 * **Read-Only:** Runs without mutating stylesheets, scrolling viewports, or altering DOM state.
@@ -34,6 +33,8 @@ Layout overflow issues—such as unintentional horizontal scrollbars, clipped te
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
 | `selector` | `string` | No | `"body"` | — | CSS selector for the root element to scan. Defaults to 'body' (whole page). |
 | `maxIssues` | `integer` | No | `200` | 1–2000 | Maximum number of issues to return; the scan stops early and sets truncated=true when reached. |
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

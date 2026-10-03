@@ -8,7 +8,6 @@ Stops in-tab media capture, flushes pending segments, closes files, and returns 
 
 `nova.media_capture_stop` cleanly terminates an active streaming capture. It performs a final buffer drain, writes container headers (e.g. WAV RIFF headers), and returns the finalized file paths on disk.
 
-* **Capability Bundle:** `system_tools`
 * **Security Tier:** Tier 2 (Capture Finalization)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
@@ -22,6 +21,8 @@ Stops in-tab media capture, flushes pending segments, closes files, and returns 
 | `targetId` | `string` | No | `"active"` | — | Target ID of the capturing tab, or 'active' / 'activeBrowserTab'. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

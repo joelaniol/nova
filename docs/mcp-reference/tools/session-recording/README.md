@@ -2,13 +2,15 @@
 
 Network HAR capture, user interaction timelines, DOM change snapshots, and replay verification.
 
-* **Capability Bundle(s):** `session_recording`
 * **Core Architecture Guide:** [Core Features: session-recording.md](../../../core-features/session-recording.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
+<!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 ## Tool Inventory (14 Tools)
+
+Capability bundles of these tools: `page_read_debug`, `session_recording`, `visual_evidence`.
 
 | Tool | What it does |
 | :--- | :--- |
@@ -26,6 +28,7 @@ Network HAR capture, user interaction timelines, DOM change snapshots, and repla
 | **[`nova.session_record_stop`](nova-session-record-stop.md)** | Stops an active session recording, flushes memory channels, and generates cryptographic integrity manifests. |
 | **[`nova.session_reset_screenshot_budget`](nova-session-reset-screenshot-budget.md)** | Resets the session screenshot budget counter to allow fresh visual captures. |
 | **[`nova.traces_list`](nova-traces-list.md)** | Lists recent host operation traces with execution timing, phases, and outcome status for debugging. |
+<!-- /generated:tool-list -->
 
 ---
 

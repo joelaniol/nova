@@ -8,7 +8,6 @@ Deletes a persistent state variable from a task.
 
 `nova.scheduled_task_var_delete` removes a key-value variable from a task's persistent SQLite storage.
 
-* **Capability Bundle:** `scheduled_tasks`
 * **Security Tier:** Tier 2 (State Deletion)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
@@ -23,6 +22,8 @@ Deletes a persistent state variable from a task.
 | `key` | `string` | Yes | — | — | Variable name to delete. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
 <!-- /generated:parameters -->
 
 ---

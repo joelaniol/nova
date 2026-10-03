@@ -8,7 +8,6 @@ Configures notification permission (Ask, Allow, or Deny) for a specific website 
 
 `nova.notifications_permission_set` overrides the global notification policy for a specific origin. Setting an origin to `allow` lets the website dispatch notifications without user consent prompts.
 
-* **Capability Bundle:** `notifications`
 * **Security Tier:** Tier 2 (Configuration)
 * **Core Architecture Guide:** [Closed-Loop System & Event Propagation](../../../core-features/closed-loop-system.md)
 
@@ -23,6 +22,8 @@ Configures notification permission (Ask, Allow, or Deny) for a specific website 
 | `mode` | `string` | Yes | — | `ask`, `allow`, `deny` | Permission mode to set. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+
+Capability bundle: `notifications` (load it with `nova.tools_bundle(bundle='notifications')`).
 <!-- /generated:parameters -->
 
 ---

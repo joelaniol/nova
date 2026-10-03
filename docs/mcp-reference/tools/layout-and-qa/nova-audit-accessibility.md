@@ -8,7 +8,6 @@ Runs an automated Accessibility (a11y) and UX compliance audit over the DOM, che
 
 `nova.audit_accessibility` provides built-in accessibility analysis without requiring third-party libraries (such as axe-core). It inspects the live rendered DOM for the most frequent usability violations: unreadable text contrast, tap targets too small for mobile fingertips, unlabelled form inputs, and icon-only buttons missing ARIA names.
 
-* **Capability Bundle:** `layout_and_qa`, `quality_inspection`
 * **Three Core Check Families:** WCAG Text Contrast, Tap Target Size, and Accessible Labels/Alt-Text.
 * **Component-Level Scoping (`selector`):** Audit an individual design component, modal, or form subtree.
 * **Dark Mode Compatible:** Works seamlessly with [`nova.emulation_set_media`](../browser-automation/nova-navigate.md) to audit both light and dark themes.
@@ -47,6 +46,8 @@ Identifies elements missing programmatic names for screen readers:
 | `includeContrast` | `boolean` | No | `true` | — | Include WCAG text-contrast checks. |
 | `includeTargetSize` | `boolean` | No | `true` | — | Include tap-target-size checks for interactive elements. |
 | `includeLabels` | `boolean` | No | `true` | — | Include missing alt-text / form-label / accessible-name checks. |
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---

@@ -2,7 +2,6 @@
 
 > **Fetches content from a URL inside the browser tab context, inheriting session cookies and origin credentials.**
 
-* **Capability Bundle:** `page_read_debug`
 * **Security Tier:** Tier 2 (Network Fetch)
 * **Core Feature Guide:** [DOM Perception & Semantic Extraction](../../../core-features/tob.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -27,6 +26,8 @@
 | `saveDir` | `string` | No | — | — | Bulk mode (or single): absolute directory to write resources into. Requires 'Allow local files'. Omit to use Nova's Exports folder. File names are derived from URL basenames — for blob: URLs from the handle plus an extension guessed from the MIME type — and made collision-free. |
 | `maxBytes` | `integer` | No | `10485760` | 1–26214400 | Maximum bytes per resource. Resources larger than this are reported as errors instead of saved. Default 10 MB, ceiling 25 MB (the body travels base64-through-CDP, so larger pulls cost multiplied transient memory). |
 | `timeoutMs` | `integer` | No | `30000` | 1000–120000 | Per-resource fetch timeout in milliseconds. |
+
+Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 <!-- /generated:parameters -->
 
 ---
