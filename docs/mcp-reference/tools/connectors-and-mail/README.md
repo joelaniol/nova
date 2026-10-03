@@ -10,39 +10,39 @@ IMAP/SMTP email client automation, EML exports, SFTP/FTP server operations, and 
 
 ## Tool Inventory (31 Tools)
 
-| Tool Name | Status | Description |
-| :--- | :---: | :--- |
-| **[`nova.connector_create`](nova-connector-create.md)** | Documented | Create an E-mail account or server connection. |
-| **[`nova.connector_delete`](nova-connector-delete.md)** | Documented | Delete a connection and clean up its grants + backing password secret. |
-| **[`nova.connector_grant_set`](nova-connector-grant-set.md)** | Documented | Set the access mode for one capability of a connection: 'ask', 'allow', or 'blocked'. |
-| **[`nova.connector_list`](nova-connector-list.md)** | Documented | List configured E-Mail accounts and server connections. |
-| **[`nova.connector_recipient_set`](nova-connector-recipient-set.md)** | Documented | Replace a mail account's recipient allow-list for unprompted sending. |
-| **[`nova.connector_update`](nova-connector-update.md)** | Documented | Update an existing connection. |
-| **[`nova.ftp_delete`](nova-ftp-delete.md)** | Documented | Delete one remote FTP/FTPS regular file or empty directory. |
-| **[`nova.ftp_get`](nova-ftp-get.md)** | Documented | Download one remote regular file over FTP/FTPS into Downloads or workspace. |
-| **[`nova.ftp_list`](nova-ftp-list.md)** | Documented | List one remote FTP/FTPS directory or inspect one remote regular file. |
-| **[`nova.ftp_put`](nova-ftp-put.md)** | Documented | Upload one policy-approved local regular file over FTP/FTPS. |
-| **[`nova.ftp_rename`](nova-ftp-rename.md)** | Documented | Rename or move one remote FTP/FTPS file or directory. |
-| **[`nova.mail_attachment_save`](nova-mail-attachment-save.md)** | Documented | Save exactly one attachment identified by attachmentIndex from a message. |
-| **[`nova.mail_backup_start`](nova-mail-backup-start.md)** | Documented | Back up a whole mail account (or chosen folders) as a background job. |
-| **[`nova.mail_backup_status`](nova-mail-backup-status.md)** | Documented | Progress of mail backups. |
-| **[`nova.mail_backup_stop`](nova-mail-backup-stop.md)** | Documented | Stop a running mail backup. |
-| **[`nova.mail_delete`](nova-mail-delete.md)** | Documented | Move up to 200 messages from one mail account into its detected Trash folder. |
-| **[`nova.mail_draft_create`](nova-mail-draft-create.md)** | Documented | Save one draft in the configured account's server Drafts folder. |
-| **[`nova.mail_export_eml`](nova-mail-export-eml.md)** | Documented | Export original RFC 822 EML messages preserving complete MIME parts. |
-| **[`nova.mail_folder_create`](nova-mail-folder-create.md)** | Documented | Create one top-level personal IMAP message folder. |
-| **[`nova.mail_folders`](nova-mail-folders.md)** | Documented | List the configured account's personal IMAP folder tree with message counts. |
-| **[`nova.mail_list`](nova-mail-list.md)** | Documented | List bounded message metadata from one exact IMAP folder without changing state. |
-| **[`nova.mail_mark`](nova-mail-mark.md)** | Documented | Set seen and/or flagged state for up to 200 messages from one mail account. |
-| **[`nova.mail_move`](nova-mail-move.md)** | Documented | Move up to 200 messages from one mail account to one exact IMAP folder. |
-| **[`nova.mail_read`](nova-mail-read.md)** | Documented | Read one message body and attachments through opaque messageId. |
-| **[`nova.mail_search`](nova-mail-search.md)** | Documented | Search mail metadata through the IMAP server and local encrypted archive. |
-| **[`nova.mail_send`](nova-mail-send.md)** | Documented | Send an e-mail with optional HTML body, CC/BCC, attachments, and priority. |
-| **[`nova.sftp_delete`](nova-sftp-delete.md)** | Documented | Delete one remote SFTP file, empty directory, or bounded directory tree. |
-| **[`nova.sftp_get`](nova-sftp-get.md)** | Documented | Download one remote SFTP file or directory tree into Downloads or workspace. |
-| **[`nova.sftp_list`](nova-sftp-list.md)** | Documented | List one remote SFTP directory or inspect one remote file through SFTP. |
-| **[`nova.sftp_put`](nova-sftp-put.md)** | Documented | Upload one local file or bounded directory tree over SFTP. |
-| **[`nova.sftp_rename`](nova-sftp-rename.md)** | Documented | Rename or move one remote SFTP path. |
+| Tool | What it does |
+| :--- | :--- |
+| **[`nova.connector_create`](nova-connector-create.md)** | Creates an E-Mail account (IMAP/SMTP) or remote server connection (SFTP/FTP). |
+| **[`nova.connector_delete`](nova-connector-delete.md)** | Deletes a connector profile, associated capability grants, and backing DPAPI secrets. |
+| **[`nova.connector_grant_set`](nova-connector-grant-set.md)** | Sets capability access modes (ask, allow, blocked) for a connector. |
+| **[`nova.connector_list`](nova-connector-list.md)** | Lists configured E-Mail accounts and remote file transfer server connections. |
+| **[`nova.connector_recipient_set`](nova-connector-recipient-set.md)** | Configures recipient allow-lists for autonomous email sending without human prompts. |
+| **[`nova.connector_update`](nova-connector-update.md)** | Updates configuration, endpoints, credentials, or signatures of an existing connection. |
+| **[`nova.ftp_delete`](nova-ftp-delete.md)** | Deletes a remote regular file or empty directory on an FTP/FTPS server. |
+| **[`nova.ftp_get`](nova-ftp-get.md)** | Downloads a remote regular file over FTP/FTPS into Downloads or the workspace. |
+| **[`nova.ftp_list`](nova-ftp-list.md)** | Lists remote directory entries or inspects file metadata through an FTP/FTPS connector. |
+| **[`nova.ftp_put`](nova-ftp-put.md)** | Uploads a local regular file over FTP/FTPS to a remote server. |
+| **[`nova.ftp_rename`](nova-ftp-rename.md)** | Renames or moves a remote file or directory on an FTP/FTPS server. |
+| **[`nova.mail_attachment_save`](nova-mail-attachment-save.md)** | Saves a specific email attachment to Downloads or the workspace directory. |
+| **[`nova.mail_backup_start`](nova-mail-backup-start.md)** | Launches a background job to back up an entire mail account or specific folders. |
+| **[`nova.mail_backup_status`](nova-mail-backup-status.md)** | Reports progress, downloaded message counts, and active phase of a mail backup job. |
+| **[`nova.mail_backup_stop`](nova-mail-backup-stop.md)** | Gracefully stops an in-flight mail backup job, committing all downloaded messages. |
+| **[`nova.mail_delete`](nova-mail-delete.md)** | Moves up to 200 messages into the account's Trash folder (non-permanent delete). |
+| **[`nova.mail_draft_create`](nova-mail-draft-create.md)** | Saves an email draft to the server's Drafts folder without sending. |
+| **[`nova.mail_export_eml`](nova-mail-export-eml.md)** | Exports raw RFC 822 EML files preserving complete MIME headers and original parts. |
+| **[`nova.mail_folder_create`](nova-mail-folder-create.md)** | Creates a top-level personal IMAP message folder. |
+| **[`nova.mail_folders`](nova-mail-folders.md)** | Lists the personal IMAP folder tree with total and unread message counts. |
+| **[`nova.mail_list`](nova-mail-list.md)** | Lists bounded message metadata (headers, dates, senders) from an exact IMAP folder. |
+| **[`nova.mail_mark`](nova-mail-mark.md)** | Updates seen and/or flagged status flags for up to 200 messages. |
+| **[`nova.mail_move`](nova-mail-move.md)** | Moves up to 200 messages from one mail account to an exact IMAP destination folder. |
+| **[`nova.mail_read`](nova-mail-read.md)** | Reads the parsed body (text, HTML, markdown) and attachment inventory of a specific email. |
+| **[`nova.mail_search`](nova-mail-search.md)** | Searches mail metadata across the IMAP server and local encrypted search archives. |
+| **[`nova.mail_send`](nova-mail-send.md)** | Sends an email with optional HTML body, CC/BCC, priority, and attachments via SMTP. |
+| **[`nova.sftp_delete`](nova-sftp-delete.md)** | Deletes a remote file, empty directory, or bounded directory tree over SFTP. |
+| **[`nova.sftp_get`](nova-sftp-get.md)** | Downloads a remote file or directory tree over SFTP into Downloads or the workspace. |
+| **[`nova.sftp_list`](nova-sftp-list.md)** | Lists remote directory entries or inspects file metadata through an SFTP connector. |
+| **[`nova.sftp_put`](nova-sftp-put.md)** | Uploads a local file or directory tree over SFTP to a remote destination. |
+| **[`nova.sftp_rename`](nova-sftp-rename.md)** | Renames or moves a remote file or directory over SFTP. |
 
 ---
 

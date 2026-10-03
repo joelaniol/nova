@@ -4,99 +4,89 @@ This guide resolves common connection, discovery, and handshake failures across 
 
 ---
 
-## 1. Named Pipe Errors (`Pipe not found` or `Access Denied`)
+## 1. The Agent Cannot Reach Nova
 
 ### Symptoms
-* Agent client hangs indefinitely on startup.
-* Stdio Proxy outputs: `Failed to connect to Named Pipe \\.\pipe\nova-mcp`.
+* The AI program lists Nova as failed or disconnected, or shows no Nova tools at all.
+* The agent says it has no browser tools, or its Nova calls time out.
 
-### Causes & Diagnosis
-1. **Nova is not running:** Nova creates its Named Pipe when `NovaAIWorkspace.exe` launches and **MCP Remote Control** is enabled.
-2. **User Context Mismatch:** Nova enforces Windows kernel-level `PipeOptions.CurrentUserOnly` security. If Nova runs under User Account A (or elevated as Administrator) and the CLI runs under User Account B (non-elevated), Windows kernel ACLs strictly block the connection.
+### How the connection works
+Your AI program starts Nova's stdio bridge, `NovaBrowser.McpProxy.exe`. The bridge reads Nova's current address and access token from Nova's profile folder and forwards every request to Nova's local server (`http://127.0.0.1:27183/mcp` by default). If Nova is not running, the bridge starts it and waits up to 90 seconds for it to become ready.
 
-### Resolution
-* Verify the pipe exists in your current user session using PowerShell:
-  ```powershell
-  Get-ChildItem \\.\pipe\ | Where-Object { $_.Name -match "nova" }
-  ```
-* If Nova and your agent CLI are running under different privilege levels (e.g. one as Admin and one normal), launch both from the same user context.
+Nova's profile folder is `%LOCALAPPDATA%\nova-cognitive\Nova`; installations from before the product rename use `%LOCALAPPDATA%\NovaBrowser`. Use whichever exists on your machine in the commands below.
+
+### Diagnosis, step by step
+1. **Is Nova's server up?** With Nova running:
+   ```powershell
+   Invoke-RestMethod http://127.0.0.1:27183/health
+   ```
+   `status : ready` means yes. If you changed Nova's port in the settings, use that port. No answer: start Nova and check that **Allow agents to control the browser** is ticked in its settings (it is by default).
+2. **Does the bridge exist and work?**
+   ```powershell
+   & "$env:LOCALAPPDATA\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe" --self-test
+   ```
+   Expected: `NovaBrowser.McpProxy self-test OK`. If the file is missing, start Nova once; it puts the bridge there.
+3. **Does your AI program point at that bridge?** Its `nova` entry must start exactly this file. An entry with `--pipe` or other unknown switches makes the bridge stop with exit code 2 — those come from outdated instructions; remove them. The only switches are `--antigravity-tool-names` (Antigravity only) and `--mirror-structured-content`.
+4. **Read the bridge log:** `<profile folder>\Logs\novabrowser-mcp-stdio-proxy.log` records each connection attempt and why it failed.
+5. **Same Windows user:** Nova and the AI program must run under the same Windows account. The bridge looks in the profile folder of the account it runs under.
+
+The simplest repair for steps 2–3 is the connection wizard in Nova's settings: it rewrites the entry for the AI program you choose. Restart the AI program afterwards — clients read their MCP configuration only at startup.
 
 ---
 
-## 2. Claude Desktop Hammer Icon Missing
-
-### Symptoms
-* Claude Desktop opens normally, but no hammer icon appears in the prompt composer.
+## 2. Claude Desktop Shows No Nova Tools
 
 ### Causes & Diagnosis
-1. **Invalid JSON Escaping:** In `%APPDATA%\Claude\claude_desktop_config.json`, single backslashes in Windows paths (e.g. `C:\Program Files\...`) break JSON parsing.
-2. **Missing MCP Proxy Binary:** Claude Desktop only communicates over `stdio`. Pointing directly to `NovaAIWorkspace.exe` fails because it is a GUI application, not a stdio server.
+1. **Invalid JSON escaping:** In `%APPDATA%\Claude\claude_desktop_config.json`, every backslash in a Windows path must be doubled. A single backslash makes the whole file invalid.
+2. **Wrong program:** The entry must start `NovaBrowser.McpProxy.exe`, not `NovaAIWorkspace.exe` — Nova itself is a window application, not an MCP server on stdio.
+3. **Claude Desktop still running in the tray:** it reads the config only when it starts. Quit it from the system tray, then start it again.
 
 ### Resolution
-* Ensure your configuration points to **`NovaBrowser.McpProxy.exe`** with escaped backslashes:
+* The entry should look like this (with your user name in place of `<you>`):
   ```json
   {
     "mcpServers": {
       "nova": {
-        "command": "C:\\Program Files\\Nova\\NovaBrowser.McpProxy.exe",
-        "args": ["--pipe", "nova-mcp"]
+        "command": "C:\\Users\\<you>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe"
       }
     }
   }
   ```
-* Inspect Claude Desktop log files in `%APPDATA%\Claude\logs\mcp.log` or `mcp-server-nova.log` for exact startup error traces.
+* Claude Desktop's own logs are in `%APPDATA%\Claude\logs\` (`mcp.log`, `mcp-server-nova.log`).
 
 ---
 
 ## 3. Google Antigravity & Gemini CLI Issues
 
-### Symptoms
-* Running `/mcp list` in Gemini CLI shows Nova as `DISCONNECTED` or tools fail with HTTP 401 Unauthorized.
+Antigravity has two quirks of its own: it rejects tool names with dots, and it passes only the text of a tool result to the model. Nova's entry for Antigravity therefore starts the bridge with `--antigravity-tool-names`, which handles both. Nova keeps that entry in `%USERPROFILE%\.gemini\config\mcp_config.json` up to date by itself.
 
-### Causes & Diagnosis
-1. **Terminal Caching Daemon:** Gemini CLI and Antigravity run background runner daemons that cache MCP configuration files (`.gemini/settings.json`). Editing the file while the daemon runs will not apply changes.
-2. **Rotating Bearer Token Mismatch:** When communicating over HTTP (`http://127.0.0.1:27183/mcp`), Nova rotates its cryptographic Bearer token on every workspace restart. If the configuration holds a stale token, requests return `401 Unauthorized`.
-
-### Resolution
-1. **Fetch Latest Bearer Token:**
-   Open the root `.mcp.json` file in your workspace directory and copy the current token from the `headers` block:
-   ```json
-   "headers": {
-     "Authorization": "Bearer <LATEST_TOKEN_HERE>"
-   }
-   ```
-2. **Reload or Restart Terminal:**
-   Inside Gemini CLI / Antigravity, trigger a reload:
-   ```
-   /mcp reload
-   ```
-   If tools remain unresponsive, fully close and restart the terminal window to terminate cached daemon child processes.
+Symptoms, causes and fixes are collected in **[MCP troubleshooting → Antigravity](../mcp-troubleshooting/antigravity.md)**.
 
 ---
 
-## 4. Client Reports "Empty Tool Output" (`--mirror-structured-content`)
+## 4. The Agent Sees Only Summaries Instead of Data (`--mirror-structured-content`)
 
 ### Symptoms
-* Nova executes a tool call successfully (e.g. `nova.tabs` or `nova.read_text_structured`), but the agent responds with: *"The tool returned no output"* or *"Empty response"*.
+* Nova executes a tool call successfully (e.g. `nova.tabs`), but the agent only sees a short summary such as *"Use structuredContent.tabs"*, or reports an empty result.
 
 ### Cause
-Modern Model Context Protocol specifications support **`structuredContent`** (native JSON objects returned alongside text blocks). Several client implementations (including Cursor, Kiro, Goose, and certain Continue versions) discard the `structuredContent` object and only parse `content[0].text`.
+Nova returns the actual data as **`structuredContent`** (a JSON object next to the text block), as the MCP specification allows. Some MCP clients pass only the text block to the model and drop `structuredContent`.
 
 ### Resolution
-Enable the Stdio Proxy's built-in compatibility mirror by appending the `--mirror-structured-content` switch:
+Add `--mirror-structured-content` to the `args` of that program's `nova` entry:
 
 ```json
 {
   "mcpServers": {
     "nova": {
-      "command": "NovaBrowser.McpProxy.exe",
-      "args": ["--pipe", "nova-mcp", "--mirror-structured-content"]
+      "command": "C:\\Users\\<you>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe",
+      "args": ["--mirror-structured-content"]
     }
   }
 }
 ```
 
-When this flag is active, Nova automatically serializes the structured JSON payload into the plain text content block, ensuring 100% visibility for legacy or restrictive agent clients.
+The bridge then copies the structured data into the text block, so the model sees it. Claude Code and Codex read `structuredContent` and do not need the switch; for Antigravity it is already part of `--antigravity-tool-names`.
 
 ---
 

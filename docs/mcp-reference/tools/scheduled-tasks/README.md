@@ -10,33 +10,33 @@ Background task automation, cron expressions, file-system watches, task workspac
 
 ## Tool Inventory (25 Tools)
 
-| Tool Name | Status | Description |
-| :--- | :---: | :--- |
-| **[`nova.scheduled_task_active_runs`](nova-scheduled-task-active-runs.md)** | Documented | List all currently in-flight task runs across all tasks. |
-| **[`nova.scheduled_task_create`](nova-scheduled-task-create.md)** | Documented | Create a new scheduled task. |
-| **[`nova.scheduled_task_delete`](nova-scheduled-task-delete.md)** | Documented | Delete a scheduled task. |
-| **[`nova.scheduled_task_disable`](nova-scheduled-task-disable.md)** | Documented | Disable/pause a scheduled task. |
-| **[`nova.scheduled_task_enable`](nova-scheduled-task-enable.md)** | Documented | Enable a paused/disabled scheduled task. |
-| **[`nova.scheduled_task_export`](nova-scheduled-task-export.md)** | Documented | Export all task definitions as a JSON array. |
-| **[`nova.scheduled_task_get`](nova-scheduled-task-get.md)** | Documented | Get full details of a scheduled task: prompt, executor, schedule, chaining config, budget caps, and status. |
-| **[`nova.scheduled_task_import`](nova-scheduled-task-import.md)** | Documented | Import task definitions from a JSON array (as produced by nova.scheduled_task_export). |
-| **[`nova.scheduled_task_list`](nova-scheduled-task-list.md)** | Documented | List all scheduled tasks with status, next run, last result, chain targets, cumulative cost, and budget cap info. |
-| **[`nova.scheduled_task_run_cancel`](nova-scheduled-task-run-cancel.md)** | Documented | Cancel a currently running task run. |
-| **[`nova.scheduled_task_run_output`](nova-scheduled-task-run-output.md)** | Documented | Read stdout or stderr output of a run (tail-read, memory-safe for large logs). |
-| **[`nova.scheduled_task_runs`](nova-scheduled-task-runs.md)** | Documented | Get the run history of a scheduled task (status, duration, exit code, cost, output summary). |
-| **[`nova.scheduled_task_secret_list`](nova-scheduled-task-secret-list.md)** | Documented | List a bounded page of secret key names stored for a task (values are never returned). |
-| **[`nova.scheduled_task_secret_set`](nova-scheduled-task-secret-set.md)** | Documented | Store an encrypted secret (API key, token) for a task using Windows DPAPI. |
-| **[`nova.scheduled_task_templates`](nova-scheduled-task-templates.md)** | Documented | List available pre-built task templates. |
-| **[`nova.scheduled_task_trigger`](nova-scheduled-task-trigger.md)** | Documented | Immediately trigger a manual run of a task, outside its regular schedule. |
-| **[`nova.scheduled_task_update`](nova-scheduled-task-update.md)** | Documented | Update fields of an existing scheduled task. |
-| **[`nova.scheduled_task_var_delete`](nova-scheduled-task-var-delete.md)** | Documented | Delete a persistent variable from a task. |
-| **[`nova.scheduled_task_var_get`](nova-scheduled-task-var-get.md)** | Documented | Get a persistent variable value for a task. |
-| **[`nova.scheduled_task_var_list`](nova-scheduled-task-var-list.md)** | Documented | List a bounded page of persistent variable keys and value previews for a task. |
-| **[`nova.scheduled_task_var_set`](nova-scheduled-task-var-set.md)** | Documented | Set a persistent key-value variable for a task. |
-| **[`nova.scheduled_task_workspace`](nova-scheduled-task-workspace.md)** | Documented | Get workspace info for a task: path, bounded shared directory summary, last run status. |
-| **[`nova.scheduled_task_workspace_list`](nova-scheduled-task-workspace-list.md)** | Documented | List a bounded page of files in a task's shared/ workspace directory. |
-| **[`nova.scheduled_task_workspace_read`](nova-scheduled-task-workspace-read.md)** | Documented | Read a UTF-8 text file from a task's shared/ workspace. |
-| **[`nova.scheduled_task_workspace_write`](nova-scheduled-task-workspace-write.md)** | Documented | Write a file into a task's shared/ directory using atomic writes (temp-file + rename). |
+| Tool | What it does |
+| :--- | :--- |
+| **[`nova.scheduled_task_active_runs`](nova-scheduled-task-active-runs.md)** | Lists all currently executing task runs across all background tasks. |
+| **[`nova.scheduled_task_create`](nova-scheduled-task-create.md)** | Creates a new scheduled task running on cron expressions, intervals, or filesystem change events. |
+| **[`nova.scheduled_task_delete`](nova-scheduled-task-delete.md)** | Permanently deletes a scheduled task, its configuration, and associated run history. |
+| **[`nova.scheduled_task_disable`](nova-scheduled-task-disable.md)** | Pauses execution of a scheduled task without modifying its configuration or history. |
+| **[`nova.scheduled_task_enable`](nova-scheduled-task-enable.md)** | Enables a paused or circuit-broken scheduled task and resets failure counters. |
+| **[`nova.scheduled_task_export`](nova-scheduled-task-export.md)** | Exports all scheduled task definitions as a portable JSON array (excluding secrets and history). |
+| **[`nova.scheduled_task_get`](nova-scheduled-task-get.md)** | Retrieves full details of a scheduled task including prompt, schedule, chaining, and budget settings. |
+| **[`nova.scheduled_task_import`](nova-scheduled-task-import.md)** | Imports scheduled task definitions from a JSON array, creating fresh task IDs and isolated workspaces. |
+| **[`nova.scheduled_task_list`](nova-scheduled-task-list.md)** | Lists all scheduled tasks with execution status, next run times, last results, and cumulative costs. |
+| **[`nova.scheduled_task_run_cancel`](nova-scheduled-task-run-cancel.md)** | Cancels an in-flight background task run asynchronously. |
+| **[`nova.scheduled_task_run_output`](nova-scheduled-task-run-output.md)** | Memory-safe tail reader for stdout and stderr log streams of a specific task run. |
+| **[`nova.scheduled_task_runs`](nova-scheduled-task-runs.md)** | Retrieves the run execution history (status, duration, exit code, cost) of a scheduled task. |
+| **[`nova.scheduled_task_secret_list`](nova-scheduled-task-secret-list.md)** | Lists registered secret key names for a task without exposing plaintext secret values. |
+| **[`nova.scheduled_task_secret_set`](nova-scheduled-task-secret-set.md)** | Stores an encrypted secret (API key, auth token) for a task using Windows DPAPI encryption. |
+| **[`nova.scheduled_task_templates`](nova-scheduled-task-templates.md)** | Lists pre-built task templates for common automation scenarios (monitoring, scraping, backups). |
+| **[`nova.scheduled_task_trigger`](nova-scheduled-task-trigger.md)** | Manually triggers an immediate run of a scheduled task with optional dynamic inputs. |
+| **[`nova.scheduled_task_update`](nova-scheduled-task-update.md)** | Updates fields (prompt, schedule, budget, timeouts, chaining) of an existing scheduled task. |
+| **[`nova.scheduled_task_var_delete`](nova-scheduled-task-var-delete.md)** | Deletes a persistent state variable from a task. |
+| **[`nova.scheduled_task_var_get`](nova-scheduled-task-var-get.md)** | Retrieves the current value of a persistent state variable for a task. |
+| **[`nova.scheduled_task_var_list`](nova-scheduled-task-var-list.md)** | Lists persistent variable keys and value previews configured for a task. |
+| **[`nova.scheduled_task_var_set`](nova-scheduled-task-var-set.md)** | Sets a persistent key-value state variable for a task that survives across runs. |
+| **[`nova.scheduled_task_workspace`](nova-scheduled-task-workspace.md)** | Returns directory metadata, file count, and last run status for a task’s isolated workspace. |
+| **[`nova.scheduled_task_workspace_list`](nova-scheduled-task-workspace-list.md)** | Lists files and subdirectories located within a task’s shared workspace folder. |
+| **[`nova.scheduled_task_workspace_read`](nova-scheduled-task-workspace-read.md)** | Reads a UTF-8 text file from a task’s shared workspace folder. |
+| **[`nova.scheduled_task_workspace_write`](nova-scheduled-task-workspace-write.md)** | Atomically writes a UTF-8 text file into a task’s shared workspace folder (temp-file + rename). |
 
 ---
 

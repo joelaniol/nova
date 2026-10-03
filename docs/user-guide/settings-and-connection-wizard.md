@@ -1,60 +1,44 @@
 # Settings & Agent Connection Wizard
 
 > [!NOTE]
-> Setting up AI agents to control Nova takes less than 60 seconds. Use the built-in Connection Wizard to integrate Anthropic Claude Code, OpenAI Codex, or Google Antigravity with a single click.
+> Most people never need to configure anything: Nova registers itself with the AI programs it finds on your computer. The connection wizard is there when you want to check that, connect a program later, or connect one Nova cannot set up by itself.
 
 ---
 
-## 1. Accessing Settings
+## 1. Opening the Wizard
 
-Press **`Ctrl+,`** or click the gear icon in the top-right corner to open the Settings panel.
-
-The Settings interface is organized into clean categories:
-* **General:** Default search engine, home page, startup behavior, hardware acceleration.
-* **Appearance:** Windows Mica backdrop, dark/light themes, accent color, UI scaling.
-* **MCP Remote Control:** Port configuration, bearer token rotation, connection security.
-* **Agent Integration:** One-click registration wizards for all supported AI development tools.
-* **Privacy & Sandboxes:** Default sandbox identities, cookie retention rules, ephemeral defaults.
-* **Terminal Dock:** Default shell executable, font family, font size, buffer scrollback depth.
+Nova shows the wizard on first start (**Welcome to Nova**). Later, open Nova's settings and click **Set up** in the navigation (*Set up the connection to your AI programs*).
 
 ---
 
-## 2. The 1-Click Connection Wizard
+## 2. What the Wizard Does
 
-To connect an AI coding assistant to Nova AI Workspace:
-
-1. Open **Settings** $
-ightarrow$ navigate to **Agent Integration**.
-2. Select your AI assistant:
-   * **Anthropic Claude Code (CLI)**
-   * **Anthropic Claude Desktop**
-   * **OpenAI Codex**
-   * **Google Antigravity**
-3. Click **Configure Automatically**.
+1. **Let your AI use Nova** — switches on agent access if it is off (**Enable AI access**).
+2. **How would you like to connect Nova?**
+   * **Easy setup (recommended):** Nova lists the AI programs it found — Claude Code, Claude Desktop, OpenAI Codex, Google Antigravity. Click **Connect** next to the one you want. Nova adds its entry to that program's settings and keeps it up to date. Restart the program afterwards so it picks Nova up.
+   * **Set up manually:** for experienced users who want to copy the connection details themselves.
+3. **Connect another program** — for a program Nova cannot set up by itself, **Copy setup text** gives you ready-made instructions to paste into that program.
+4. **How the connection is saved** — lists the exact files Nova writes to.
 
 ```mermaid
 flowchart TD
-    Wizard["Nova Connection Wizard<br>(Settings -> Agent Integration)"]
-    Wizard -->|Generate Transport Token| Host["Nova MCP Server"]
-    Wizard -->|Write Config File| ClaudeCode["~/.claude.json<br>(Claude Code CLI)"]
-    Wizard -->|Write Config File| ClaudeDesk["claude_desktop_config.json<br>(Claude Desktop GUI)"]
-    Wizard -->|Write Config File| Codex["~/.codex/config.toml<br>(Codex CLI)"]
-    Wizard -->|Write Config File| Antigrav[".gemini/antigravity-cli/mcp/nova<br>(Antigravity)"]
+    Wizard["Nova connection wizard<br>(Settings → Set up)"]
+    Wizard -->|adds the nova entry| ClaudeCode["~/.claude.json<br>(Claude Code)"]
+    Wizard -->|adds the nova entry| ClaudeDesk["%APPDATA%\Claude\claude_desktop_config.json<br>(Claude Desktop)"]
+    Wizard -->|adds the nova entry| Codex["~/.codex/config.toml<br>(Codex CLI)"]
+    Wizard -->|adds the nova entry| Antigrav["~/.gemini/config/mcp_config.json<br>(Antigravity)"]
 ```
+
+Nova only adds or updates its own entry in these files; other entries stay untouched. The entry starts Nova's stdio bridge (`NovaBrowser.McpProxy.exe` in Nova's profile folder), which finds Nova and its access key by itself — so no password or access key is written into your AI program's settings.
 
 ---
 
-## 3. Manual Connection & Token Configuration
+## 3. Manual Connection
 
-If you are using a custom agent or running on a separate machine across the local network:
+For your own scripts or a program the wizard does not know:
 
-1. In **Settings** $
-ightarrow$ **MCP Remote Control**:
-   * **Server Mode:** Named Pipe (fastest, local only) or HTTP/SSE (accessible over localhost or intranet).
-   * **Named Pipe Name:** `\\.\pipe\nova-mcp-workspace`
-   * **HTTP Port:** Default `63721`
-2. **Rotating Bearer Token:**
-   * Nova automatically generates a cryptographically secure 256-bit token on every launch.
-   * Click **Copy Bearer Token** or **Regenerate Token** to update external clients.
-3. **Emergency Disconnect:**
-   * Toggle **Enable Remote Control** to `OFF` to immediately sever all agent connections and close all external communication sockets.
+* **Easiest:** start Nova's stdio bridge from your program, exactly as the entries above do. See [Custom agents](../integration/custom-agents.md).
+* **Direct HTTP:** Nova's MCP server listens on `http://127.0.0.1:27183/mcp` by default. The port can be changed in the settings (**Local port**). Every request needs the access key as `Authorization: Bearer <key>`; the wizard step **Connect another program** shows the address and lets you copy the key (**Copy key**). Details: [Protocol and transport](../mcp-reference/protocol-and-transport.md).
+* **From another computer:** off by default. It needs **Allow access from other devices on the network** in the settings; only switch this on in a network you trust, because anyone with the key can then control your browser.
+
+To stop all agent access at once, untick **Allow agents to control the browser** in the settings.

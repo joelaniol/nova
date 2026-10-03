@@ -13,26 +13,30 @@ When connected to Nova AI Workspace over the Model Context Protocol (MCP), Codex
 
 ```mermaid
 flowchart LR
-    Codex["OpenAI Codex CLI<br>(~/.codex/config.toml)"] <-->|Stdio / Named Pipe| Proxy["NovaBrowser.McpProxy.exe<br>(Local Stdio Bridge)"]
-    Proxy <-->|Local Windows Named Pipe| Nova["Nova AI Workspace Host<br>(400+ MCP Tools)"]
+    Codex["OpenAI Codex CLI<br>(~/.codex/config.toml)"] <-->|stdio| Proxy["NovaBrowser.McpProxy.exe<br>(Nova's stdio bridge)"]
+    Proxy <-->|"HTTP + token (127.0.0.1)"| Nova["Nova AI Workspace Host<br>(400+ MCP Tools)"]
 ```
+
+The bridge reads Nova's current address and access token by itself, so the Codex config never contains a token, and it starts Nova if it is not running yet.
 
 ---
 
 ## 2. Configuration (`~/.codex/config.toml`)
 
-Codex CLI manages MCP server registrations via its central configuration file.
+### A. Automatic (recommended)
+When Nova starts, it adds a `[mcp_servers.nova]` block to `%USERPROFILE%\.codex\config.toml` and keeps it up to date. Start a new Codex session afterwards so it loads the entry. If the block is missing, open the connection wizard in Nova's settings and choose Codex.
 
+### B. Manual
 1. Open or create `%USERPROFILE%\.codex\config.toml`.
-2. Add the `[mcp_servers.nova]` configuration block:
+2. Add the block, with your Windows user name in place of `<you>`:
 
 ```toml
 [mcp_servers.nova]
-command = "C:\\Program Files\\Nova AI Workspace\\NovaBrowser.McpProxy.exe"
-args = []
+enabled = true
+command = "C:\\Users\\<you>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe"
 ```
 
-*(If running from a source checkout during development, point `command` to `dist\\NovaBrowser.McpProxy.exe`)*
+Installations from before the product rename keep their profile in `%LOCALAPPDATA%\NovaBrowser`; the bridge is then at `%LOCALAPPDATA%\NovaBrowser\bin\NovaBrowser.McpProxy.exe`.
 
 ### Supported Tool Naming
 Codex natively supports standard MCP tool names containing dots (e.g. `nova.tabs`, `nova.navigate`, `nova.dom_extract`). No name transformation flags are required.

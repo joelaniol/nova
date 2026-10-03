@@ -22,7 +22,7 @@ flowchart TD
     end
 
     subgraph McpInterface["MCP Control Interface (400+ Native Tools)"]
-        Server["Nova Local MCP Server (Named Pipe / Stdio Proxy)"]
+        Server["Nova Local MCP Server (HTTP on 127.0.0.1 / stdio bridge)"]
     end
 
     subgraph CorePillars["Nova Core Architecture"]

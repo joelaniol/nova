@@ -33,7 +33,7 @@ If a previous session or crashed subagent left an active lease, a coordinator ag
 
 | Parameter | Type | Required | Default | Description |
 | :--- | :--- | :---: | :---: | :--- |
-| **`targetId`** | `string` | **Yes** | � | Target tab ID to claim (e.g. `"tab-1"`). |
+| **`targetId`** | `string` | **Yes** | — | Target tab ID to claim (e.g. `"tab-1"`). |
 | **`agentId`** | `string` | No | `"default"` | Unique identity of the calling agent claiming the lease. |
 | **`ttlMs`** | `integer` | No | `300000` | Lease duration in milliseconds (default: 5 minutes). Max: 3,600,000 ms (1 hour). |
 | **`agentRole`** | `string` | No | `null` | Role description (e.g. `"MarketResearcher"`, `"CheckoutAuditor"`). |
@@ -80,6 +80,6 @@ If a previous session or crashed subagent left an active lease, a coordinator ag
 
 ## See Also
 
-* [`nova.tab_release`](nova-tab-release.md) � Release an active lease.
-* [`nova.tabs`](nova-tabs.md) � Check claim owners and lease remaining time.
+* [`nova.tab_release`](nova-tab-release.md) — Release an active lease.
+* [`nova.tabs`](nova-tabs.md) — Check claim owners and lease remaining time.
 * [Core Feature: Agent Awareness Gates (AAG)](../../../core-features/aag.md)

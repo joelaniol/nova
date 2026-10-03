@@ -76,7 +76,7 @@ flowchart TD
     end
 
     subgraph HostProcess["Nova AI Workspace Host (NovaAIWorkspace.exe)"]
-        MCPServer["MCP JSON-RPC 2.0 Server<br>(Named Pipes & HTTP/SSE)"]
+        MCPServer["MCP JSON-RPC 2.0 Server<br>(Streamable HTTP, 127.0.0.1)"]
         AAG["Agent Awareness Gates (AAG)<br>(Visual Halos & Safety Checks)"]
         WinUI["WinUI 3 Modern Chrome<br>(Mica Backdrop, Tab Strip)"]
         Terminal["Embedded ConPTY Dock<br>(PowerShell 7, Git CLI)"]
@@ -89,7 +89,7 @@ flowchart TD
         HardProbes["Hardware & Device Probes"]
     end
 
-    Agents <-->|"JSON-RPC 2.0 (Named Pipe / HTTP)"| MCPServer
+    Agents <-->|"JSON-RPC 2.0 (stdio bridge or HTTP)"| MCPServer
     MCPServer --> AAG
     AAG --> WebView
     AAG --> WinUI
@@ -146,35 +146,27 @@ Traditional agent tools provide raw browser automation commands. Nova surrounds 
 
 ## ⚡ 1-Minute Agent Quickstart
 
-Connecting your AI coding assistant to Nova AI Workspace is instant:
+**Usually there is nothing to configure.** When Nova starts, it registers itself with the supported AI
+programs it finds on your machine: Claude Code, Claude Desktop, OpenAI Codex and Google Antigravity.
+Restart the AI program once afterwards so it loads the new entry. For other programs, open the
+connection wizard in Nova's settings.
 
-### Option A: Anthropic Claude Code (CLI)
-Nova automatically registers Claude Code during setup. To add manually:
-```bash
-claude mcp add nova -- echo '{"jsonrpc":"2.0"}'
-```
-*(Or connect via local Windows Named Pipe: `\\.\pipe\nova-mcp-workspace`)*
+The entry Nova writes only starts its bridge program. The bridge finds the running Nova by itself and
+starts it if needed, so no password or port ends up in your AI program's config:
 
-### Option B: Google Antigravity
-Nova registers seamlessly in your project's `.mcp.json`:
 ```json
 {
   "mcpServers": {
     "nova": {
-      "command": "NovaBrowser.McpProxy.exe",
-      "args": ["--pipe", "nova-mcp-workspace"]
+      "command": "C:\\Users\\<you>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe"
     }
   }
 }
 ```
 
-### Option C: OpenAI Codex
-Add Nova to your `~/.codex/config.toml`:
-```toml
-[mcp_servers.nova]
-command = "NovaBrowser.McpProxy.exe"
-args = ["--pipe", "nova-mcp-workspace"]
-```
+Google Antigravity also gets `"args": ["--antigravity-tool-names"]`, because it does not accept the
+dots in names like `nova.tabs`. Installations from before the product rename use
+`%LOCALAPPDATA%\NovaBrowser` instead of `%LOCALAPPDATA%\nova-cognitive\Nova`.
 
 For detailed configuration of custom clients, see the [Agent Integration Hub](docs/integration/README.md).
 

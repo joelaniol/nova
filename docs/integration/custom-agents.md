@@ -6,32 +6,37 @@ This guide shows developers how to connect custom AI agents, automated test harn
 
 ## 1. Choosing a Transport
 
-Nova supports three distinct communication transports:
+Nova's MCP server speaks **Streamable HTTP** on the local machine. You can reach it in two ways:
 
-| Transport | Best For | Security & Performance |
+| Transport | Best For | What you have to handle |
 | :--- | :--- | :--- |
-| **Stdio Proxy (`NovaBrowser.McpProxy.exe`)** | Official Python & TypeScript MCP SDKs | Standard subprocess pipe, cross-platform SDK compatibility |
-| **Direct Windows Named Pipe (`\\.\pipe\nova-mcp`)** | Native Windows applications, low-latency loops | Zero TCP overhead, kernel-enforced `CurrentUserOnly` ACL |
-| **Streamable HTTP JSON-RPC (`http://127.0.0.1:port/mcp`)** | Web services, local Docker containers | Local loopback, authenticated via rotating Bearer token |
+| **Stdio bridge (`NovaBrowser.McpProxy.exe`)** | Official Python & TypeScript MCP SDKs, anything that can start a program | Nothing: the bridge finds Nova, adds the token, survives Nova restarts and starts Nova if needed |
+| **Streamable HTTP (`http://127.0.0.1:27183/mcp`)** | Services that cannot start a child process | Read endpoint and token from Nova's runtime file, send the `Mcp-Session-Id` header, re-read the file after a Nova restart |
+
+**Where things are.** Nova keeps its files in `%LOCALAPPDATA%\nova-cognitive\Nova` (installations from before the product rename: `%LOCALAPPDATA%\NovaBrowser`). Inside it:
+
+* `bin\NovaBrowser.McpProxy.exe` — the stdio bridge
+* `mcp.json` — runtime file with the current `endpoint` and the access token (`auth.token`); it only exists while Nova has been started at least once
+
+The server only listens on `127.0.0.1` unless you explicitly allow remote clients in Nova's settings, and every request needs the token.
 
 ---
 
 ## 2. Python Integration (Official MCP SDK)
 
-Using the official `mcp` Python package (`pip install mcp`):
+Using the official `mcp` Python package (`pip install mcp`). The examples on this page are written for version 2.x of the package; version 1.x names the result field `structuredContent` instead of `structured_content`.
 
 ```python
 import asyncio
+import os
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 
+# Nova's stdio bridge; use %LOCALAPPDATA%\NovaBrowser on installations from before the rename
+BRIDGE = os.path.expandvars(r"%LOCALAPPDATA%\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe")
+
 async def run_nova_agent():
-    # Configure the Stdio Proxy connection to Nova's Named Pipe
-    server_params = StdioServerParameters(
-        command="C:\\Program Files\\Nova\\NovaBrowser.McpProxy.exe",
-        args=["--pipe", "nova-mcp"],
-        env=None
-    )
+    server_params = StdioServerParameters(command=BRIDGE, args=[])
 
     async with stdio_client(server_params) as (read, write):
         async with ClientSession(read, write) as session:
@@ -48,13 +53,13 @@ async def run_nova_agent():
             tab_result = await session.call_tool("nova.tab_new", {
                 "url": "https://example.com"
             })
-            target_id = tab_result.content[0].text
+            target_id = tab_result.structured_content["targetId"]
             print(f"Opened tab: {target_id}")
 
             # 4. Extract page content
-            dom = await session.call_tool("nova.read_text_structured", {
+            dom = await session.call_tool("nova.read_text", {
                 "targetId": target_id,
-                "selector": "h1, p"
+                "selector": "body"
             })
             print("Extracted Content:", dom)
 
@@ -73,9 +78,10 @@ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 
 async function main() {
+  // Nova's stdio bridge; use %LOCALAPPDATA%\NovaBrowser on installations from before the rename
   const transport = new StdioClientTransport({
-    command: "C:\\Program Files\\Nova\\NovaBrowser.McpProxy.exe",
-    args: ["--pipe", "nova-mcp"]
+    command: `${process.env.LOCALAPPDATA}\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe`,
+    args: []
   });
 
   const client = new Client(
@@ -105,35 +111,47 @@ main().catch(console.error);
 
 ---
 
-## 4. Direct Named Pipe Client (Low Latency)
+## 4. Direct HTTP Client (no child process)
 
-For applications requiring ultra-low latency without launching child processes, connect directly to `\\.\pipe\nova-mcp`:
+If your agent cannot start a program, connect to Nova's Streamable HTTP endpoint directly. Read the endpoint and token from the runtime file each time you connect — both can change when Nova restarts.
 
-### Node.js Native Socket Example:
-```typescript
-import net from "net";
+### Python, official MCP SDK:
+```python
+import asyncio
+import json
+import os
+import httpx2
+from mcp import ClientSession
+from mcp.client.streamable_http import streamable_http_client
 
-const client = net.connect("\\\\.\\pipe\\nova-mcp", () => {
-  console.log("Connected directly to Nova Named Pipe!");
+# use %LOCALAPPDATA%\NovaBrowser on installations from before the rename
+RUNTIME_FILE = os.path.expandvars(r"%LOCALAPPDATA%\nova-cognitive\Nova\mcp.json")
 
-  const request = JSON.stringify({
-    jsonrpc: "2.0",
-    id: 1,
-    method: "tools/call",
-    params: {
-      name: "nova.tabs",
-      arguments: { outputDetail: "minimal" }
-    }
-  }) + "\n";
+async def main():
+    with open(RUNTIME_FILE, encoding="utf-8-sig") as f:
+        runtime = json.load(f)
+    http = httpx2.AsyncClient(
+        headers={"Authorization": f"Bearer {runtime['auth']['token']}"},
+        timeout=httpx2.Timeout(30, read=300),  # some Nova tools wait for pages; allow long reads
+    )
 
-  client.write(request);
-});
+    async with http, streamable_http_client(runtime["endpoint"], http_client=http) as (read, write):
+        async with ClientSession(read, write) as session:
+            await session.initialize()
+            tabs = await session.call_tool("nova.tabs", {"outputDetail": "minimal"})
+            print(tabs.structured_content)
 
-client.on("data", (data) => {
-  console.log("Nova Response:", data.toString());
-  client.end();
-});
+asyncio.run(main())
 ```
+
+### Rules for a hand-written HTTP client
+1. `POST` every JSON-RPC message to the `endpoint` from `mcp.json` with `Authorization: Bearer <auth.token>`, `Content-Type: application/json` and `Accept: application/json, text/event-stream`.
+2. Start with `initialize`. The response carries an `Mcp-Session-Id` header; send it, together with `MCP-Protocol-Version`, on every following request. Without it Nova answers `400 Missing Mcp-Session-Id`.
+3. Responses arrive as a server-sent event stream (`event: message` / `data: {...}`).
+4. `401 Unauthorized` means the token is missing or outdated: read `mcp.json` again.
+5. `GET /health` on the same host and port needs no token and tells you whether Nova is ready (`"status": "ready"`).
+
+Keep the token out of logs and source code; anyone who has it can control your browser.
 
 ---
 

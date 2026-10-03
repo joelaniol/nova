@@ -42,9 +42,7 @@ flowchart TD
 3. The newly opened tab immediately adopts the color theme and isolated storage of that sandbox.
 
 ### 2.2 Moving Tabs Between Sandboxes
-* Right-click any active tab $
-ightarrow$ select **Move to Sandbox** $
-ightarrow$ choose destination.
+* Right-click any active tab → select **Move to Sandbox** → choose destination.
 * Nova will preserve the URL and reload the page under the destination sandbox's cookie jar.
 
 ### 2.3 Ephemeral / Disposable Sandboxes

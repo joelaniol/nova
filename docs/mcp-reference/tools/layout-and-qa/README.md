@@ -10,15 +10,15 @@ Bounding box measurements, container width constraints, text clipping, WCAG acce
 
 ## Tool Inventory (7 Tools)
 
-| Tool Name | Status | Description |
-| :--- | :---: | :--- |
-| **[`nova.audit_accessibility`](nova-audit-accessibility.md)** | Documented | Audit a page (or a subtree) for accessibility/design issues and return a structured issue list — a lightweight in-house alterna... |
-| **[`nova.composer_state`](nova-composer-state.md)** | Documented | Read what is currently sitting in a chat composer: its text, its attachments, and whether the send control is ready. |
-| **[`nova.detect_overflow`](nova-detect-overflow.md)** | Documented | Scan a page (or a subtree) for layout-overflow issues — clipped text (text-overflow:ellipsis or hidden overflow cutting content... |
-| **[`nova.force_pseudo_state`](nova-force-pseudo-state.md)** | Documented | Hold a CSS state on one element so it can be screenshotted or inspected: :hover, :active, :focus, :focus-visible, :focus-within... |
-| **[`nova.get_computed_style`](nova-get-computed-style.md)** | Documented | Read the resolved getComputedStyle of one element plus its bounding box — the dedicated design-inspection tool (color, backgrou... |
-| **[`nova.measure_elements`](nova-measure-elements.md)** | Documented | Measure many selectors in ONE call: bounding rect, client/scroll size, overflow flags, optional computed-style properties, and ... |
-| **[`nova.measure_web_vitals`](nova-measure-web-vitals.md)** | Documented | Measure Core Web Vitals for the active page and return values with good/needs-improvement/poor ratings. |
+| Tool | What it does |
+| :--- | :--- |
+| **[`nova.audit_accessibility`](nova-audit-accessibility.md)** | Runs an automated Accessibility (a11y) and UX compliance audit over the DOM, checking for WCAG color contrast failures, undersized tap targets, and missing accessible labels. |
+| **[`nova.composer_state`](nova-composer-state.md)** | Inspects visual state, selection range, and placeholder text of rich text composers. |
+| **[`nova.detect_overflow`](nova-detect-overflow.md)** | Scans the page or a scoped subtree for layout defects, clipped text, overflowing containers, and elements bleeding past the viewport edge. |
+| **[`nova.force_pseudo_state`](nova-force-pseudo-state.md)** | Forces CSS pseudo-class states (:hover, :focus, :active, :visited) on an element. |
+| **[`nova.get_computed_style`](nova-get-computed-style.md)** | Reads the fully resolved CSS computed style and box-model geometry of a specific DOM element, providing authoritative styling data without executing arbitrary JavaScript. |
+| **[`nova.measure_elements`](nova-measure-elements.md)** | Measures geometric dimensions, client/scroll metrics, overflow flags, and constraining ancestor boundaries across multiple CSS selectors in a single round-trip. |
+| **[`nova.measure_web_vitals`](nova-measure-web-vitals.md)** | Measures live Google Core Web Vitals (LCP, CLS, INP, FCP, TTFB) for the active page, providing categorized ratings (`good`, `needs-improvement`, or `poor`) for automated performance gating. |
 
 ---
 

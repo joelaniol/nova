@@ -14,7 +14,7 @@ Because Antigravity and Gemini CLI enforce strict schema naming rules and handle
 ```mermaid
 flowchart LR
     AGY["Google Antigravity / Gemini CLI<br>(antigravity-cli)"] <-->|Stdio Bridge| Proxy["NovaBrowser.McpProxy.exe<br>• --antigravity-tool-names<br>• --mirror-structured-content"]
-    Proxy <-->|Local Windows Named Pipe| Nova["Nova AI Workspace Host<br>(400+ MCP Tools)"]
+    Proxy <-->|"HTTP + token (127.0.0.1)"| Nova["Nova AI Workspace Host<br>(400+ MCP Tools)"]
 ```
 
 ---
@@ -40,27 +40,27 @@ The Antigravity client has two architectural characteristics that require specif
 
 ## 3. Configuration Setup
 
-### Option A: Project-Level `.mcp.json` (Recommended)
-Place a `.mcp.json` in your active workspace root:
+### Option A: Automatic (recommended)
+When Nova starts and finds Antigravity installed, it adds a `nova` entry to Antigravity's global MCP config, `%USERPROFILE%\.gemini\config\mcp_config.json`, with `--antigravity-tool-names` already set. Restart Antigravity once afterwards. If the entry is missing, open the connection wizard in Nova's settings and choose Antigravity.
+
+### Option B: Manual
+Add the entry to `%USERPROFILE%\.gemini\config\mcp_config.json`, keeping any other servers that are already there, with your Windows user name in place of `<you>`:
 
 ```json
 {
   "mcpServers": {
     "nova": {
-      "command": "C:\\Program Files\\Nova AI Workspace\\NovaBrowser.McpProxy.exe",
-      "args": [
-        "--antigravity-tool-names",
-        "--mirror-structured-content"
-      ]
+      "command": "C:\\Users\\<you>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe",
+      "args": ["--antigravity-tool-names"]
     }
   }
 }
 ```
 
-### Option B: Global Antigravity Tool Registration
-For system-wide tool discovery across all projects, register Nova in Antigravity's global tools directory:
-* Path: `%USERPROFILE%\.gemini\antigravity-cli\mcp\nova\\`
-* Place schema descriptors and configuration files in this directory to allow Antigravity to lazy-load Nova tools.
+`--antigravity-tool-names` already includes `--mirror-structured-content`; you do not need to list both. Installations from before the product rename keep their profile in `%LOCALAPPDATA%\NovaBrowser`; the bridge is then at `%LOCALAPPDATA%\NovaBrowser\bin\NovaBrowser.McpProxy.exe`.
+
+> [!WARNING]
+> Add `--antigravity-tool-names` only to Antigravity's entry. Claude Code, Claude Desktop and Codex expect the normal dotted names (`nova.tabs`).
 
 ---
 
@@ -70,7 +70,7 @@ You can fine-tune proxy behavior via environment variables:
 
 | Variable | Default | Allowed Range | Description |
 | :--- | :---: | :---: | :--- |
-| **`NOVA_MCP_MIRROR_MAX_CHARS`** | `16,000` | 1,000 – 1,000,000 | Maximum character budget allocated for mirrored structured JSON blocks in `content.text`. |
+| **`NOVA_MCP_MIRROR_MAX_CHARS`** | `32,000` | 1,000 – 1,000,000 | Maximum character budget allocated for mirrored structured JSON blocks in `content.text`. |
 | **`NOVA_MCP_AUTOSTART`** | `1` | `0` or `1` | Set to `0` to prevent the proxy from automatically launching Nova if the browser is closed. |
 | **`NOVA_MCP_COLD_START_MS`** | `90,000` | 5,000 – 300,000 | Milliseconds the proxy waits for Nova to complete cold boot before timing out. |
 | **`NOVA_MCP_CALL_GRACE_MS`** | `1,500` | 0 – 5,000 | Grace period added to tool call timeouts during heavy page loads. |

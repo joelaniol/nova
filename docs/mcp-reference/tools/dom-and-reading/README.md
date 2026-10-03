@@ -10,28 +10,28 @@ Token-efficient text extraction, structured landmark reading, typed DOM attribut
 
 ## Tool Inventory (20 Tools)
 
-| Tool Name | Status | Description |
-| :--- | :---: | :--- |
-| **[`nova.console_read`](nova-console-read.md)** | Documented | Read recent console messages from the page. |
-| **[`nova.dom_extract`](nova-dom-extract.md)** | Documented | Extract a bounded set of fixed, read-only DOM properties for every element matching a CSS selector. |
-| **[`nova.eval`](nova-eval.md)** | Documented | Execute a JavaScript expression in the page context (returns JSON). |
-| **[`nova.extract_table`](nova-extract-table.md)** | Documented | Extract HTML tables from the page as structured { headers[], rows[][] } JSON — the dedicated tabular-read tool, instead of hand... |
-| **[`nova.fetch_resource`](nova-fetch-resource.md)** | Documented | Fetch one or more URLs using the tab's authenticated session and write the bytes to disk — the bridge from 'this tab is logged ... |
-| **[`nova.get_active_element_deep`](nova-get-active-element-deep.md)** | Documented | Get the active/focused element with deep traversal across open shadow roots and same-origin iframes.. |
-| **[`nova.get_element_rect`](nova-get-element-rect.md)** | Documented | Get an element's bounding rect (querySelector + getBoundingClientRect). |
-| **[`nova.get_layout_metrics`](nova-get-layout-metrics.md)** | Documented | Get viewport and scroll metrics (CDP Page.getLayoutMetrics). |
-| **[`nova.messages_read`](nova-messages-read.md)** | Documented | Read recent postMessage, MessagePort, and CustomEvent traffic captured by an opt-in page tap. |
-| **[`nova.network_read`](nova-network-read.md)** | Documented | Read recent in-page network activity captured by an opt-in tap for fetch, XHR, WebSocket, server-sent events, sendBeacon, and e... |
-| **[`nova.page_blobs_list`](nova-page-blobs-list.md)** | Documented | List the blob: URLs that are live in this page, so they can be saved with nova.fetch_resource. |
-| **[`nova.page_info`](nova-page-info.md)** | Documented | Read basic page info (href/title/readyState/scroll/viewport + active element).. |
-| **[`nova.perceive`](nova-perceive.md)** | Documented | Fusion perception tool: by default captures a screenshot AND extracts structured page data in one call. |
-| **[`nova.perceive_snapshot_query`](nova-perceive-snapshot-query.md)** | Documented | Query a saved oversized perceive(mode='full') snapshot without rerunning live DOM extraction. |
-| **[`nova.read_dom`](nova-read-dom.md)** | Documented | Read document outerHTML from a tab (best-effort; may be truncated). |
-| **[`nova.read_text`](nova-read-text.md)** | Documented | Read visible text content (best-effort; innerText). |
-| **[`nova.read_text_structured`](nova-read-text-structured.md)** | Documented | Extract visible text grouped by page landmark regions (header, nav, main, aside, footer, modals). |
-| **[`nova.search_text`](nova-search-text.md)** | Documented | Search for visible text on the page and return matching elements with CSS selectors. |
-| **[`nova.stream_url`](nova-stream-url.md)** | Documented | Build a local /stream URL (multipart PNG stream). |
-| **[`nova.wait_for_eval`](nova-wait-for-eval.md)** | Documented | Wait until a JavaScript expression returns a truthy value (polling). |
+| Tool | What it does |
+| :--- | :--- |
+| **[`nova.console_read`](nova-console-read.md)** | Reads recent JavaScript console log messages (log, info, warn, error) from the page. |
+| **[`nova.dom_extract`](nova-dom-extract.md)** | Extracts a bounded set of fixed, strongly-typed DOM properties and bounding geometry for all elements matching a CSS selector, without executing arbitrary JavaScript. |
+| **[`nova.eval`](nova-eval.md)** | Evaluates an arbitrary JavaScript expression in the main page world or isolated world. |
+| **[`nova.extract_table`](nova-extract-table.md)** | Extracts HTML `<table>` elements into structured JSON objects containing column headers (`headers[]`) and data rows (`rows[][]`), eliminating manual DOM looping and complex JavaScript evaluation. |
+| **[`nova.fetch_resource`](nova-fetch-resource.md)** | Fetches content from a URL inside the browser tab context, inheriting session cookies and origin credentials. |
+| **[`nova.get_active_element_deep`](nova-get-active-element-deep.md)** | Traverses through nested Shadow DOM boundaries to find the truly focused interactive element. |
+| **[`nova.get_element_rect`](nova-get-element-rect.md)** | Returns the exact bounding client rectangle (x, y, width, height) of an element. |
+| **[`nova.get_layout_metrics`](nova-get-layout-metrics.md)** | Retrieves layout viewport dimensions, document scroll boundaries, and device scale factor. |
+| **[`nova.messages_read`](nova-messages-read.md)** | Reads captured window postMessage and cross-frame messaging traffic. |
+| **[`nova.network_read`](nova-network-read.md)** | Reads captured HTTP network requests and responses matching URL filters or status codes. |
+| **[`nova.page_blobs_list`](nova-page-blobs-list.md)** | Lists in-memory Blob and Object URLs (blob:http://...) created by the page. |
+| **[`nova.page_info`](nova-page-info.md)** | Retrieves essential page metadata (URL, title, DOM ready state, viewport dimensions, scroll offsets, and active focused element) with minimal token overhead. |
+| **[`nova.perceive`](nova-perceive.md)** | Fusion multi-modal perception engine: captures visual screenshot evidence and extracts structured semantic DOM data in a single coordinated atomic operation. |
+| **[`nova.perceive_snapshot_query`](nova-perceive-snapshot-query.md)** | Queries structured state and elements from a cached perceive snapshot without re-rendering. |
+| **[`nova.read_dom`](nova-read-dom.md)** | Reads a sanitized snapshot of the document's outer HTML from a tab, bounded by a configurable character cap and mirrored in structured content. |
+| **[`nova.read_text`](nova-read-text.md)** | Extracts clean visible plain text from the document or a specified selector container. |
+| **[`nova.read_text_structured`](nova-read-text-structured.md)** | Extracts visible page text organized by semantic HTML landmark regions (`header`, `nav`, `main`, `aside`, `footer`, and `modals`), eliminating monolithic text dumps and saving LLM context tokens. |
+| **[`nova.search_text`](nova-search-text.md)** | Searches the page for visible text occurrences and returns matching DOM elements with actionable CSS selectors, bounding geometry, and Shadow-DOM traversal chains. |
+| **[`nova.stream_url`](nova-stream-url.md)** | Subscribes to Server-Sent Events (SSE) or WebSocket streaming traffic on the page. |
+| **[`nova.wait_for_eval`](nova-wait-for-eval.md)** | Polls the target tab until a JavaScript expression evaluates to a truthy value or times out. |
 
 ---
 

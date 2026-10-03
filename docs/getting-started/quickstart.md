@@ -16,7 +16,7 @@ This walkthrough takes you from a freshly launched **Nova AI Workspace** to your
 1. Start `NovaAIWorkspace.exe`.
 2. Check the bottom status indicator or open Settings (`Ctrl+,`).
 3. Ensure **MCP Remote Control** is toggled to **Enabled**.
-4. Nova automatically binds its local Named Pipe `\\.\pipe\nova-mcp` and generates a rotating bearer token for secure session authentication.
+4. Nova starts its local MCP server on `127.0.0.1` (port `27183` by default), protected by an access token, and registers itself with the AI programs it finds on your computer.
 
 ---
 

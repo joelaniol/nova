@@ -47,8 +47,8 @@ When uploading documents, passing `previewPdf: true` renders page 1 of each atta
 
 | Parameter | Type | Required | Default | Description |
 | :--- | :--- | :---: | :---: | :--- |
-| **`filePaths`** | `array<string>` | **Conditional** | � | Array of absolute local file paths to attach (preferred). |
-| **`filePath`** | `string` | **Conditional** | � | Legacy single-file path string. Exactly one of `filePaths` or `filePath` is required. |
+| **`filePaths`** | `array<string>` | **Conditional** | — | Array of absolute local file paths to attach (preferred). |
+| **`filePath`** | `string` | **Conditional** | — | Legacy single-file path string. Exactly one of `filePaths` or `filePath` is required. |
 | **`selector`** | `string` | No | `"input[type=file]"` | CSS selector for the file input. Auto-detects if omitted. |
 | **`targetId`** | `string` | No | `"active"` | Target tab ID from `nova.tabs`, or `"active"`. |
 | **`frameId`** | `string` | No | `null` | Optional frame ID (from `perceive.frames[]`) if input is inside an iframe. |
@@ -63,7 +63,7 @@ When uploading documents, passing `previewPdf: true` renders page 1 of each atta
 ```json
 {
   "selector": "#resume-upload-input",
-  "filePaths": ["C:/Users/Agent/Documents/candidate_cv.pdf"]
+  "filePaths": ["C:/Users/user/Documents/candidate_cv.pdf"]
 }
 ```
 
@@ -120,6 +120,6 @@ Nova validates file existence, size, and element `accept` filters before complet
 
 ## 7. Related Tools & Documentation
 
-* [`nova.click_selector`](nova-click-selector.md) � Click submit buttons after attaching files.
-* [`nova.perceive`](../dom-and-reading/nova-perceive.md) � Identify iframes and file upload widgets on the page.
-* [Native Dialog Handling](../../../core-features/native-dialogs-and-prompts.md) � Understanding how Nova handles file open/save dialogs.
+* [`nova.click_selector`](nova-click-selector.md) — Click submit buttons after attaching files.
+* [`nova.perceive`](../dom-and-reading/nova-perceive.md) — Identify iframes and file upload widgets on the page.
+* [Native Dialog Handling](../../../core-features/native-dialogs-and-prompts.md) — Understanding how Nova handles file open/save dialogs.

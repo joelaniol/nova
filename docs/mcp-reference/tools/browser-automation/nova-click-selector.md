@@ -41,7 +41,7 @@ If multiple elements match the selector and `strict: true` is passed, Nova fails
 
 | Parameter | Type | Required | Default | Description |
 | :--- | :--- | :---: | :---: | :--- |
-| **`selector`** | `string` | **Yes** | � | CSS selector or CTA handle. Supports ` >>> ` for shadow roots. |
+| **`selector`** | `string` | **Yes** | — | CSS selector or CTA handle. Supports ` >>> ` for shadow roots. |
 | **`targetId`** | `string` | No | `"active"` | Target tab ID. |
 | **`button`** | `string` | No | `"left"` | Mouse button: `"left"`, `"right"`, or `"middle"`. |
 | **`clickCount`** | `integer` | No | `1` | `1` for single-click, `2` for double-click. |
@@ -50,7 +50,7 @@ If multiple elements match the selector and `strict: true` is passed, Nova fails
 | **`waitForNavigation`**| `boolean` | No | `false` | Wait for a document navigation triggered by the click. |
 | **`verify`** | `object` | No | `null` | Postcondition assertion: `{ absent?: string, present?: string }`. |
 | **`includeScreenshot`**| `boolean` | No | `false` | Capture visual evidence crop after click settles. |
-| **`timeoutMs`** | `integer` | No | `5000` | Max milliseconds to wait for clickability (1,000�30,000 ms). |
+| **`timeoutMs`** | `integer` | No | `5000` | Max milliseconds to wait for clickability (1,000–30,000 ms). |
 
 ---
 
@@ -95,7 +95,7 @@ If multiple elements match the selector and `strict: true` is passed, Nova fails
 
 ## See Also
 
-* [`nova.type_selector`](nova-type-selector.md) � Type text into inputs.
-* [`nova.scroll_smart`](nova-scroll-smart.md) � Bring off-screen elements into view.
-* [`nova.dismiss_blockers`](nova-dismiss-blockers.md) � Standalone modal and banner dismissal.
+* [`nova.type_selector`](nova-type-selector.md) — Type text into inputs.
+* [`nova.scroll_smart`](nova-scroll-smart.md) — Bring off-screen elements into view.
+* [`nova.dismiss_blockers`](nova-dismiss-blockers.md) — Standalone modal and banner dismissal.
 * [Core Feature: Humanized Input Engine](../../../core-features/humanized-input-engine.md)

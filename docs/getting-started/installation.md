@@ -60,8 +60,9 @@ Nova AI Workspace/
 > [!IMPORTANT]
 > Keep these files where the setup put them. Nova starts `NovaBrowser.Outrider.exe` from its own
 > folder for risky native work (hardware diagnostics, local Whisper transcription, audio capture);
-> if it is missing, those features stay off. AI programs are pointed at
-> `tools\NovaBrowser.McpProxy.exe` by the connection wizard.
+> if it is missing, those features stay off. Nova copies `tools\NovaBrowser.McpProxy.exe` into your
+> profile folder (`%LOCALAPPDATA%\nova-cognitive\Nova\bin\`) and registers that copy with your AI
+> programs, so updates never break their configuration.
 
 ---
 
@@ -72,9 +73,9 @@ Nova AI Workspace/
    `127.0.0.1`, port `27183` by default (you can change it in the settings under **Local port**). In
    PowerShell:
    ```powershell
-   Test-NetConnection 127.0.0.1 -Port 27183
+   Invoke-RestMethod http://127.0.0.1:27183/health
    ```
-   `TcpTestSucceeded : True` means the server is up.
+   `status : ready` means the server is up.
 3. **Connect your AI program** with the connection wizard; see
    [Settings & connection wizard](../user-guide/settings-and-connection-wizard.md) and the
    [integration guides](../integration/README.md).
@@ -132,9 +133,9 @@ Nach der Installation sucht Nova selbst nach neuen Versionen und bietet das Upda
 1. Nova über das Startmenü starten.
 2. In PowerShell prüfen, ob Nova für KI-Programme erreichbar ist:
    ```powershell
-   Test-NetConnection 127.0.0.1 -Port 27183
+   Invoke-RestMethod http://127.0.0.1:27183/health
    ```
-   `TcpTestSucceeded : True` heißt: läuft. (27183 ist der Standard-Port; ändern lässt er sich in den
+   `status : ready` heißt: läuft. (27183 ist der Standard-Port; ändern lässt er sich in den
    Einstellungen unter **Lokaler Port**.)
 3. KI-Programm mit dem Verbindungsassistenten anbinden: [Integration](../integration/README.md).
 

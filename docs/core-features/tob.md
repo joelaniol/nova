@@ -123,7 +123,7 @@ The `EvidenceLedger` evaluates task completions against empirical criteria:
 
 While **AAG** is the **decision and protection policy layer** (gates, blockers, guarded tools), **TOB** is the **sensory nervous system and evidence archive**:
 
-* **AAG Queries TOB:** *"Did the agent actually perceive the page prior to submitting the form (`perceive_first`)?"* $ightarrow$ TOB checks the Prelude Buffer for a `strong` visit window.
+* **AAG Queries TOB:** *"Did the agent actually perceive the page prior to submitting the form (`perceive_first`)?"* → TOB checks the Prelude Buffer for a `strong` visit window.
 * **AAG Leverages TOB IDs:** When AAG blocks a call, TOB stores the rejection reason deterministically, eliminating phantom failures.
 * **PKS Selector Proof:** Following a successful click, TOB issues a cryptographic proof via `TobSelectorProofEmitter` (`selector_hash` + `dispatch_call_id`). PKS uses this proof to promote phenomena from L0 to L1/L2.
 

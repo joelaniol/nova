@@ -34,7 +34,7 @@ If a cookie consent banner belongs to a known vendor (OneTrust, Cookiebot, Klaro
 | :--- | :--- | :---: | :---: | :--- |
 | **`targetId`** | `string` | No | `"active"` | Target tab ID. |
 | **`mode`** | `string` | No | `"polite"` | `"polite"` (clicks close/dismiss buttons) or `"aggressive"` (hides sticky roots). |
-| **`maxPasses`** | `integer` | No | `3` | Maximum dismissal passes (1�5). |
+| **`maxPasses`** | `integer` | No | `3` | Maximum dismissal passes (1–5). |
 | **`pressEscape`** | `boolean` | No | `true` | Attempts an Escape key event on focused elements. |
 | **`agentId`** | `string` | No | `"default"` | Identity of the calling agent. |
 
@@ -78,6 +78,6 @@ If a cookie consent banner belongs to a known vendor (OneTrust, Cookiebot, Klaro
 
 ## See Also
 
-* [`nova.click_selector`](nova-click-selector.md) � Click elements with `autoDismissBlockers: true`.
-* [`nova.scroll_smart`](nova-scroll-smart.md) � Natural wheel scrolling.
+* [`nova.click_selector`](nova-click-selector.md) — Click elements with `autoDismissBlockers: true`.
+* [`nova.scroll_smart`](nova-scroll-smart.md) — Natural wheel scrolling.
 * [Core Feature: Closed-Loop System (CLS)](../../../core-features/closed-loop-system.md)

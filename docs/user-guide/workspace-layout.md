@@ -38,7 +38,7 @@ Nova's main interface is built using native **WinUI 3** and **Windows App SDK**,
 ### 2.2 Omnibox & Address Bar
 * **Navigation Field:** Standard URL navigation, local search engine queries, and custom internal scheme routing (`nova://settings`, `nova://downloads`).
 * **MCP Status Pill:** Shows the live connection state of the local MCP Remote Control server:
-  * 🟢 **Connected (Green):** MCP server active, agent connected via named pipe or HTTP transport.
+  * 🟢 **Connected (Green):** MCP server active, agent connected through the stdio bridge or over HTTP.
   * 🟡 **Idle (Yellow):** MCP server listening; no active agent session.
   * 🔴 **Disabled (Red):** Remote control disabled in Settings.
 * **AAG Security Badge:** Visual indicator of Agent Awareness Gates:

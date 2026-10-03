@@ -6,44 +6,43 @@ This guide explains how to connect Anthropic's **Claude Code** CLI assistant wit
 
 ## 1. Overview
 
-Claude Code communicates with Nova using the Model Context Protocol (MCP) via the bundled Stdio Proxy (`NovaBrowser.McpProxy.exe`). This proxy translates Claude Code's standard input/output streams into high-performance, asynchronous Windows Named Pipe frames.
+Claude Code talks to Nova over the Model Context Protocol (MCP) through Nova's stdio bridge, `NovaBrowser.McpProxy.exe`. Claude Code starts the bridge and speaks MCP with it over standard input/output; the bridge forwards every request to Nova's local MCP server (`http://127.0.0.1:27183/mcp` by default) and adds Nova's access token itself.
+
+Because the bridge reads the current address and token from Nova's runtime file on every connect, your Claude Code config never contains a token, keeps working after Nova restarts or changes its port, and starts Nova for you if it is not running yet.
 
 ---
 
 ## 2. Configuration Setup
 
-You can register Nova either at the **project level** (recommended for shared repositories) or at the **global user level**.
+### A. Automatic (recommended)
+Nothing to do: when Nova starts, it adds a `nova` entry to Claude Code's user config (`~/.claude.json`) and keeps it up to date. Restart Claude Code once afterwards, then run `/mcp` in Claude Code — `nova` should be listed as connected.
 
-### A. Project-Level Configuration (`.mcp.json`)
-Create or edit `.mcp.json` in your repository root:
+If the entry is missing, open the connection wizard in Nova's settings and choose Claude Code.
+
+### B. Manual
+If you prefer to add it yourself, point Claude Code at the bridge copy in your Nova profile folder:
+
+```powershell
+claude mcp add --scope user nova -- "$env:LOCALAPPDATA\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe"
+```
+
+The entry in `~/.claude.json` then looks like this:
 
 ```json
 {
   "mcpServers": {
     "nova": {
-      "command": "NovaBrowser.McpProxy.exe",
-      "args": ["--pipe", "nova-mcp"]
+      "command": "C:\\Users\\<you>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe"
     }
   }
 }
 ```
+
+> [!NOTE]
+> Installations from before the product rename keep their profile in `%LOCALAPPDATA%\NovaBrowser`; the bridge is then at `%LOCALAPPDATA%\NovaBrowser\bin\NovaBrowser.McpProxy.exe`. Use the folder that exists on your machine.
 
 > [!TIP]
-> If `NovaBrowser.McpProxy.exe` is not in your system `PATH`, specify its full absolute path (e.g., `C:\\Program Files\\Nova\\NovaBrowser.McpProxy.exe` or `E:\\Tools\\Nova\\NovaBrowser.McpProxy.exe`).
-
-### B. Global Configuration (`~/.claude.json`)
-To enable Nova across all Claude Code sessions on your workstation, add Nova to `~/.claude.json`:
-
-```json
-{
-  "mcpServers": {
-    "nova": {
-      "command": "C:\\Program Files\\Nova\\NovaBrowser.McpProxy.exe",
-      "args": ["--pipe", "nova-mcp"]
-    }
-  }
-}
-```
+> Prefer the user-level entry over a project `.mcp.json`. A project entry takes precedence inside that repository, so an outdated one there hides the working user entry.
 
 ---
 

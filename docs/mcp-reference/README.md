@@ -98,7 +98,7 @@ Across all 400+ tools, Nova follows strict, consistent parameter conventions:
 * **[Tool Catalog & Functional Breakdown (`tool-catalog.md`)](tool-catalog.md)**
   Comprehensive alphabetical and functional breakdown of all tools grouped by domain.
 * **[Protocol, Framing & Typing Contract (`protocol-and-transport.md`)](protocol-and-transport.md)**
-  Detailed specification of Named Pipe length-prefixed framing, Stdio Proxy communication, Streamable HTTP SSE, Bearer tokens, and error envelopes.
+  How the stdio bridge and the Streamable HTTP endpoint work: framing, switches, access token, session header, health probe and error envelopes.
 * **Dedicated Tool Domain Indexes (`tools/`):**
   * [Browser Navigation & Physical Automation](tools/browser-automation/README.md)
   * [DOM Perception & Semantic Extraction](tools/dom-and-reading/README.md)

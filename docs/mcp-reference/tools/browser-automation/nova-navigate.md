@@ -36,16 +36,16 @@ Allows capturing a visual proof crop in the exact same round-trip. If screenshot
 
 | Parameter | Type | Required | Default | Description |
 | :--- | :--- | :---: | :---: | :--- |
-| **`url`** | `string` | **Yes** | � | Absolute URL to navigate to (`https://...` or trusted `file://...`). |
+| **`url`** | `string` | **Yes** | — | Absolute URL to navigate to (`https://...` or trusted `file://...`). |
 | **`targetId`** | `string` | No | `"active"` | Target tab ID from `nova.tabs` or `"active"`. |
 | **`waitForLoad`** | `boolean` | No | `false` | Block until `document.readyState === 'complete'`. |
-| **`waitForLoadTimeoutMs`** | `integer` | No | `10000` | Max milliseconds to wait for load completion (0�30,000 ms). Heavy SPAs often need 15,000�20,000 ms. |
+| **`waitForLoadTimeoutMs`** | `integer` | No | `10000` | Max milliseconds to wait for load completion (0–30,000 ms). Heavy SPAs often need 15,000–20,000 ms. |
 | **`waitForSettlement`** | `boolean` | No | `false` | Wait for post-load DOM quietness and network idle. Implies `waitForLoad=true`. |
-| **`settlementTimeoutMs`** | `integer` | No | `5000` | Max milliseconds to wait for settlement (1,000�15,000 ms). |
+| **`settlementTimeoutMs`** | `integer` | No | `5000` | Max milliseconds to wait for settlement (1,000–15,000 ms). |
 | **`settlementReadiness`** | `object` | No | `null` | Explicit ready postcondition: `{ selector, minMatches?, stableForMs? }`. |
 | **`includeScreenshot`** | `boolean` | No | `false` | Attempt an immediate screenshot after navigation settles. |
 | **`screenshotFormat`** | `string` | No | `"png"` | `"png"` or `"jpeg"`. |
-| **`screenshotQuality`** | `integer` | No | `80` | JPEG quality (1�100). |
+| **`screenshotQuality`** | `integer` | No | `80` | JPEG quality (1–100). |
 | **`outputDetail`** | `string` | No | `"full"` | `"minimal"`, `"compact"`, or `"full"`. |
 | **`force`** | `boolean` | No | `false` | Bypass the SPA session-preservation gate. |
 | **`confirmSessionDestruction`**| `boolean` | No | `false` | Mandatory acknowledgement when `force=true` is used on authenticated pages. |
@@ -96,7 +96,7 @@ Allows capturing a visual proof crop in the exact same round-trip. If screenshot
 
 ## See Also
 
-* [`nova.route`](nova-navigate.md) � Client-side SPA navigation without document reload.
-* [`nova.tab_new`](nova-tab-new.md) � Create a new browser tab.
-* [`nova.scroll_smart`](nova-scroll-smart.md) � Natural wheel scrolling after landing.
+* [`nova.route`](nova-navigate.md) — Client-side SPA navigation without document reload.
+* [`nova.tab_new`](nova-tab-new.md) — Create a new browser tab.
+* [`nova.scroll_smart`](nova-scroll-smart.md) — Natural wheel scrolling after landing.
 * [Core Feature: Agent Awareness Gates (AAG)](../../../core-features/aag.md)

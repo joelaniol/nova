@@ -89,7 +89,7 @@ By passing `claim: true`, Nova assigns the new tab's write lease directly to you
 
 ## See Also
 
-* [`nova.tab_close`](nova-tab-close.md) � Close a tab.
-* [`nova.tab_claim`](nova-tab-claim.md) � Manage tab leases.
-* [`nova.navigate`](nova-navigate.md) � Navigate an existing tab.
+* [`nova.tab_close`](nova-tab-close.md) — Close a tab.
+* [`nova.tab_claim`](nova-tab-claim.md) — Manage tab leases.
+* [`nova.navigate`](nova-navigate.md) — Navigate an existing tab.
 * [Core Feature: Multi-Sandbox Isolation](../../../core-features/sandbox-isolation.md)

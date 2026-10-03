@@ -8,18 +8,19 @@ Password autofill via ephemeral origin-bound SecretRef tokens, credential discov
 
 ---
 
-## Tool Inventory (8 Tools)
+## Tool Inventory (9 Tools)
 
-| Tool Name | Status | Description |
-| :--- | :---: | :--- |
-| **[`nova.secret_delete`](nova-secret-delete.md)** | Documented | Delete a secret from the user-managed store. |
-| **[`nova.secret_list`](nova-secret-list.md)** | Documented | List secret names and scopes from the user-managed store (values are never returned). |
-| **[`nova.secret_set`](nova-secret-set.md)** | Documented | Store an encrypted secret in the user-managed store. |
-| **[`nova.vault_delete`](nova-vault-delete.md)** | Documented | Delete a vault entry by ID.. |
-| **[`nova.vault_get`](nova-vault-get.md)** | Documented | Get vault entry metadata for a site. |
-| **[`nova.vault_list`](nova-vault-list.md)** | Documented | List vault entries (site, username, createdBy). |
-| **[`nova.vault_prepare_fill`](nova-vault-prepare-fill.md)** | Documented | Prepare vault credentials for form filling. |
-| **[`nova.vault_set`](nova-vault-set.md)** | Documented | Store or update credentials. |
+| Tool | What it does |
+| :--- | :--- |
+| **[`nova.secret_delete`](nova-secret-delete.md)** | Deletes an encrypted environment variable or API key secret from the DPAPI store. |
+| **[`nova.secret_list`](nova-secret-list.md)** | Lists registered secret names, scopes, and association identifiers from Nova's user-managed keystore without disclosing secret values. |
+| **[`nova.secret_set`](nova-secret-set.md)** | Stores an encrypted secret (such as API keys, tokens, or private credentials) into Nova's user-managed secure store with Windows DPAPI encryption. |
+| **[`nova.type_selector_secret`](nova-type-selector-secret.md)** | Types a vault password into a target form field using an ephemeral `SecretRef` token, injecting keystrokes directly via CDP without exposing plaintext secrets to the agent. |
+| **[`nova.vault_delete`](nova-vault-delete.md)** | Deletes a stored website login credential entry from the encrypted vault. |
+| **[`nova.vault_get`](nova-vault-get.md)** | Retrieves metadata and account identifiers for a stored vault entry, resolving username ambiguity without exposing password credentials. |
+| **[`nova.vault_list`](nova-vault-list.md)** | Lists stored credential entries (site domain, associated usernames, and creation source) without returning passwords. |
+| **[`nova.vault_prepare_fill`](nova-vault-prepare-fill.md)** | Prepares stored credentials from the secure Vault for automated form-filling, returning an ephemeral, origin-bound, and single-use `SecretRef` token instead of the raw password string. |
+| **[`nova.vault_set`](nova-vault-set.md)** | Stores or updates a username and password login credential in the encrypted vault. |
 
 ---
 

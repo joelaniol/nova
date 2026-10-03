@@ -10,7 +10,7 @@ On its initial boot, Nova opens the **Setup Wizard** (`nova.setup_wizard_open`) 
 
 * **Theme Selection:** Dark Mode (default, optimized for developer ergonomics) or Light Mode.
 * **Search Engine & Start URL:** Configure your preferred landing surface.
-* **MCP Remote Control:** Enable the local Model Context Protocol engine so that external AI agents (Claude Code, Antigravity, Codex) can connect via Named Pipes and stdio proxies.
+* **MCP Remote Control:** Enable the local Model Context Protocol engine so that external AI agents (Claude Code, Antigravity, Codex) can connect through Nova's stdio bridge or over local HTTP.
 * **Initial Sandboxes:** Initialize your first isolated browsing environments (e.g., Sandbox A for work, Sandbox B for personal research).
 
 ---

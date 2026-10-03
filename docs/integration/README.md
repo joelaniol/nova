@@ -15,27 +15,26 @@ flowchart TD
         CD["Anthropic Claude Desktop<br>(GUI Application)"]
         Codex["OpenAI Codex CLI<br>(Autonomous Workspaces)"]
         AGY["Google Antigravity & Gemini<br>(CLI & IDE Extensions)"]
-        Custom["Custom Python & Node Agents<br>(SDK / HTTP / Pipes)"]
+        Custom["Custom Python & Node Agents<br>(SDK / HTTP)"]
     end
 
     subgraph Transports["Transport Layer"]
-        Pipe["Named Pipe (\\.\\pipe\\nova-mcp)<br>CurrentUserOnly, Zero-Port Overhead"]
-        Stdio["Stdio Proxy (NovaBrowser.McpProxy.exe)<br>Bridge for Stdio-only Clients"]
-        Http["Streamable HTTP JSON-RPC<br>Bearer Auth, Event Streaming"]
+        Stdio["Stdio bridge (NovaBrowser.McpProxy.exe)<br>finds Nova, adds the token, starts Nova if needed"]
+        Http["Streamable HTTP on 127.0.0.1<br>Bearer token, event streaming"]
     end
 
     subgraph Server["Nova AI Workspace Runtime"]
         Core["Local MCP Server (400+ Native Tools)<br>AAG Gates | TOB Evidence | PKS Memory"]
     end
 
-    CC -->|Named Pipe / Stdio| Pipe
-    CD -->|Stdio Proxy| Stdio
-    Codex -->|Named Pipe / Stdio| Pipe
-    AGY -->|Stdio Proxy / Named Pipe| Pipe
-    Custom -->|HTTP SSE / Named Pipe| Http
+    CC -->|stdio| Stdio
+    CD -->|stdio| Stdio
+    Codex -->|stdio| Stdio
+    AGY -->|stdio| Stdio
+    Custom -->|SDK via stdio| Stdio
+    Custom -->|direct HTTP| Http
 
-    Pipe --> Core
-    Stdio --> Pipe
+    Stdio --> Http
     Http --> Core
 ```
 
@@ -46,7 +45,7 @@ flowchart TD
 Choose the guide matching your agent client:
 
 1. **[Claude Code CLI (`claude-code.md`)](claude-code.md)**
-   Setup for Anthropic's autonomous terminal agent. Learn how to configure `.mcp.json`, run `nova.install_onboarding`, and structure agent instructions.
+   Setup for Anthropic's autonomous terminal agent. Learn how Nova registers itself, how to add it by hand, run `nova.install_onboarding`, and structure agent instructions.
 
 2. **[Claude Desktop (`claude-desktop.md`)](claude-desktop.md)**
    Configure Anthropic's official desktop application on Windows using `NovaBrowser.McpProxy.exe` as the stdio bridge.
@@ -55,12 +54,12 @@ Choose the guide matching your agent client:
    Configure OpenAI Codex CLI (`config.toml`) and Google Antigravity/Gemini agents for multi-agent workflows and parallel subagent execution.
 
 4. **[Custom Python & Node.js Agents (`custom-agents.md`)](custom-agents.md)**
-   Build custom agent loops using the official Python MCP SDK, Node.js MCP SDK, or direct Named Pipe / Streamable HTTP connections with rotating Bearer tokens.
+   Build custom agent loops using the official Python MCP SDK, Node.js MCP SDK, or a direct Streamable HTTP connection with Nova's access token.
 
 ---
 
 ## Transports & Security Principles
 
-* **CurrentUserOnly Isolation:** All Named Pipes (`\\.\pipe\nova-mcp`) enforce Windows ACLs restricted exclusively to the current user token. No other user session on the machine can access Nova's automation pipe.
-* **Rotating Bearer Tokens:** Nova generates an ephemeral 256-bit cryptographic bearer token upon every launch, written to the local project `.mcp.json`. Stale tokens are immediately rejected.
-* **Zero Cloud Bleed:** All MCP communications remain strictly on the local machine (`127.0.0.1` loopback). No browser telemetry, DOM snapshots, or user session data are ever transmitted to external cloud servers.
+* **Local only by default:** Nova's MCP server listens on `127.0.0.1`. Other machines cannot connect unless you explicitly allow remote clients in Nova's settings.
+* **Access token:** Every request needs Nova's access token. It is stored encrypted for your Windows account and stays the same across restarts, so registered AI programs keep working. The stdio bridge reads it by itself; it is never written into the config files of your AI programs.
+* **What leaves your machine:** The MCP connection itself stays on your computer. What your AI program reads through Nova goes on to that program's provider, under its terms. What Nova itself transmits is listed in the [privacy notice](../../PRIVACY.md).

@@ -31,7 +31,7 @@ When releasing a tab as part of an **Episodic Task Memory (ETM)** workflow:
 
 | Parameter | Type | Required | Default | Description |
 | :--- | :--- | :---: | :---: | :--- |
-| **`targetId`** | `string` | **Yes** | � | Target tab ID to release (e.g. `"tab-1"`). |
+| **`targetId`** | `string` | **Yes** | — | Target tab ID to release (e.g. `"tab-1"`). |
 | **`agentId`** | `string` | No | `"default"` | Identity of the calling agent holding the claim. |
 | **`finalizeDecision`** | `string` | No | `null` | Finalization outcome (e.g. `"success"`, `"aborted"`). |
 | **`finalizeReasonCode`**| `string` | No | `null` | Structured reason code (e.g. `"order_confirmed"`). |
@@ -68,6 +68,6 @@ When releasing a tab as part of an **Episodic Task Memory (ETM)** workflow:
 
 ## See Also
 
-* [`nova.tab_claim`](nova-tab-claim.md) � Claim an exclusive write lease.
-* [`nova.tabs`](nova-tabs.md) � Inspect active tab claims.
+* [`nova.tab_claim`](nova-tab-claim.md) — Claim an exclusive write lease.
+* [`nova.tabs`](nova-tabs.md) — Inspect active tab claims.
 * [Core Feature: Agent Awareness Gates (AAG)](../../../core-features/aag.md)

@@ -10,7 +10,7 @@
 Nova AI Workspace is a modern Windows application engineered from the ground up for hybrid human-agent operation:
 * **Host Process (`NovaAIWorkspace.exe`):** Built with .NET 8, WinUI 3 (Windows App SDK), and Microsoft Edge WebView2. Manages UI rendering, tab lifecycles, and window orchestration.
 * **Outrider Process (`NovaBrowser.Outrider.exe`):** Dedicated isolated child process for high-risk native OS, hardware, and audio inference tasks (Whisper.cpp). Protects the host UI thread from driver hangs or native crashes.
-* **MCP Remote Control Server:** High-throughput JSON-RPC 2.0 server supporting 400+ Model Context Protocol tools over authenticated Windows Named Pipes and HTTP/SSE.
+* **MCP Remote Control Server:** High-throughput JSON-RPC 2.0 server supporting 400+ Model Context Protocol tools over token-authenticated Streamable HTTP on `127.0.0.1`, with a stdio bridge for CLI and desktop clients.
 * **ConPTY Terminal Dock:** Native Windows pseudo-console dock embedded beneath the browser canvas.
 
 ```mermaid
@@ -35,7 +35,7 @@ flowchart TD
         Custom["Custom Python / Node MCP Clients"]
     end
 
-    ExternalAgents <-->|Named Pipe / HTTP| MCPServer
+    ExternalAgents <-->|"stdio bridge / HTTP"| MCPServer
     MCPServer --> WinUI
     MCPServer --> WebView
     UIThread <-->|Supervised Named Pipe| OutriderBoundary

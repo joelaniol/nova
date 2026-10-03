@@ -39,7 +39,7 @@ In chat apps (Slack, Discord, ChatGPT), older messages load **upwards**. Passing
 
 | Parameter | Type | Required | Default | Description |
 | :--- | :--- | :---: | :---: | :--- |
-| **`deltaY`** | `number` | **Yes** | � | Vertical scroll distance in pixels. Positive = down, Negative = up. |
+| **`deltaY`** | `number` | **Yes** | — | Vertical scroll distance in pixels. Positive = down, Negative = up. |
 | **`deltaX`** | `number` | No | `0` | Horizontal scroll distance in pixels. |
 | **`targetId`** | `string` | No | `"active"` | Target tab ID. |
 | **`containerSelector`**| `string` | No | `null` | Optional CSS selector of an inner scrollable element. |
@@ -96,6 +96,6 @@ In chat apps (Slack, Discord, ChatGPT), older messages load **upwards**. Passing
 
 ## See Also
 
-* [`nova.perceive`](nova-navigate.md) � Inspect page completeness (`belowFoldPx`, `aboveFoldPx`).
-* [`nova.click_selector`](nova-click-selector.md) � Click loaded elements.
+* [`nova.perceive`](nova-navigate.md) — Inspect page completeness (`belowFoldPx`, `aboveFoldPx`).
+* [`nova.click_selector`](nova-click-selector.md) — Click loaded elements.
 * [Core Feature: Humanized Input Engine](../../../core-features/humanized-input-engine.md)

@@ -46,7 +46,7 @@ Nova coordinates with the Windows security architecture:
 
 ### 2.3 Automated Checksum Verification
 * For developers downloading releases, ISOs, or SDK packages:
-* Right-click any completed download $ightarrow$ select **Verify SHA-256 Hash**.
+* Right-click any completed download → select **Verify SHA-256 Hash**.
 * Paste the expected checksum; Nova validates the file on disk and displays a clear green confirmation or red discrepancy warning.
 
 ---

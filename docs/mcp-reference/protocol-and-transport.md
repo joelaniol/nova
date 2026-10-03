@@ -6,40 +6,41 @@ This document specifies the wire-level communication standards, transport mechan
 
 ## 1. Supported Transports
 
-Nova implements three distinct transport interfaces under the Model Context Protocol:
+Nova's MCP server speaks **Streamable HTTP**. Clients reach it either directly or through Nova's stdio bridge:
 
 ```
 [Agent Client]
       |
-      +---> Stdio Streams --------> [NovaBrowser.McpProxy.exe]
+      +---> stdio ----------------> [NovaBrowser.McpProxy.exe]
       |                                       |
-      +---> Windows Named Pipe -------------> [Nova Named Pipe (\\.\pipe\nova-mcp)]
-      |                                       |
-      +---> Streamable HTTP / SSE ----------> [Nova HTTP Server (127.0.0.1:27183)]
+      |                                       v
+      +---> Streamable HTTP ------> [Nova MCP server, http://127.0.0.1:27183/mcp]
                                               |
                                      [Nova Core Engine]
 ```
 
-### A. Windows Named Pipe (`\\.\pipe\nova-mcp`)
-* **Default internal IPC transport.**
-* **Security:** Configured with `PipeOptions.CurrentUserOnly`. Windows kernel ACLs guarantee that only processes running in the identical Windows user token can open or read the pipe.
-* **Framing:** Standard UTF-8 JSON-RPC 2.0 messages separated by newline (`\n`) characters.
+### A. Stdio bridge (`NovaBrowser.McpProxy.exe`)
+* **Standard way in for CLI and desktop clients** (Claude Code, Claude Desktop, OpenAI Codex, Google Antigravity). Nova registers it with these clients automatically.
+* **Location:** `%LOCALAPPDATA%\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe` (installations from before the product rename: `%LOCALAPPDATA%\NovaBrowser\bin\`). Nova keeps this copy current; clients point here rather than into the installation folder, so updates do not break their config.
+* Reads JSON-RPC messages from standard input and writes responses to standard output. Both newline-delimited JSON and `Content-Length`-framed messages are accepted; answers use the framing the client sent.
+* Reads endpoint and access token from Nova's runtime file (`mcp.json` in the same profile folder) and reconnects transparently when Nova restarts. If Nova is not running, the bridge starts it.
+* **Command-line switches** (the first two can be combined; an unknown switch is refused with exit code 2 instead of being ignored):
+  * `--antigravity-tool-names`: advertises tool names with underscores (`nova_tabs`) for clients that reject dots, and maps calls back. Includes `--mirror-structured-content`.
+  * `--mirror-structured-content`: copies `structuredContent` into `content[].text` for clients that pass only the text to the model.
+  * `--version` or `--self-test`, each on its own: print the bridge version, or check that the bridge itself works, and exit.
+* **Environment variables:** see [Google Antigravity → Advanced Proxy Tuning](../integration/google-antigravity.md#4-advanced-proxy-tuning-environment-variables) (`NOVA_MCP_AUTOSTART`, `NOVA_MCP_COLD_START_MS`, …).
 
-### B. Stdio Proxy (`NovaBrowser.McpProxy.exe`)
-* **Standard bridge for CLI and desktop clients** (Claude Code, Claude Desktop, OpenAI Codex).
-* Reads JSON-RPC requests from standard input (`stdin`), relays them into Nova's Named Pipe, and writes responses to standard output (`stdout`).
-* **Command-line Switches:**
-  * `--pipe <name>`: Connects to a specific Named Pipe (default: `nova-mcp`).
-  * `--mirror-structured-content`: Automatically serializes `structuredContent` into plain text `content[0].text` for clients that do not parse structured objects.
-
-### C. Streamable HTTP JSON-RPC (`http://127.0.0.1:27183/mcp`)
-* **Local HTTP Loopback** for web services, containerized tools, and custom scripts.
-* **Binding:** Strictly bound to `127.0.0.1` (`IPAddress.Loopback`). It never listens on public interfaces (`0.0.0.0`).
-* **Authentication:** Requires an HTTP header:
+### B. Streamable HTTP (`http://127.0.0.1:27183/mcp`)
+* For services and scripts that cannot start a child process.
+* **Binding:** `127.0.0.1` only, unless remote clients are explicitly allowed in Nova's settings. The port (default `27183`) can be changed in the settings; the current endpoint is always in `mcp.json` (`endpoint`).
+* **Authentication:** every request to `/mcp` needs
   ```http
-  Authorization: Bearer <ROTATING_BEARER_TOKEN>
+  Authorization: Bearer <token>
   ```
-* Nova writes the active token to `.mcp.json` on workspace launch.
+  The token is in `mcp.json` (`auth.token`). It is stored encrypted for your Windows account and stays the same across Nova restarts.
+* **Session:** the response to `initialize` carries an `Mcp-Session-Id` header. Send it with `MCP-Protocol-Version` on every following request; requests without it are answered with `400 Missing Mcp-Session-Id`.
+* **Responses:** with `Accept: application/json, text/event-stream`, answers arrive as server-sent events (`event: message`).
+* **Health probe:** `GET /health` needs no token and returns `status` (`ready` once Nova accepts calls), the app version and the protocol version. It never contains the token.
 
 ---
 

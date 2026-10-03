@@ -10,29 +10,29 @@ Cross-session procedural UI memory, learned interaction playbooks, fingerprint m
 
 ## Tool Inventory (21 Tools)
 
-| Tool Name | Status | Description |
-| :--- | :---: | :--- |
-| **[`nova.explain`](nova-explain.md)** | Documented | Explain why a PKS phenomenon is at its current learning level. |
-| **[`nova.learn_feedback`](nova-learn-feedback.md)** | Documented | Return recent promotion/demotion/deprecation events as a learning feedback log. |
-| **[`nova.learn_generate`](nova-learn-generate.md)** | Documented | Generate candidate phenomena/hints from accumulated observations. |
-| **[`nova.learn_onboarding_confirm`](nova-learn-onboarding-confirm.md)** | Documented | Confirm the learn-mode onboarding for a domain. |
-| **[`nova.learn_onboarding_recall`](nova-learn-onboarding-recall.md)** | Documented | Read-only: fetch the current learn-mode onboarding payload for a domain (or, when domain is omitted, for the session's active l... |
-| **[`nova.learn_promote`](nova-learn-promote.md)** | Documented | Evaluate and execute staged promotions for PKS entries. |
-| **[`nova.learn_resolve_opportunity`](nova-learn-resolve-opportunity.md)** | Documented | Resolve a semantic learning opportunity. |
-| **[`nova.learn_suggest`](nova-learn-suggest.md)** | Documented | Return top learning opportunities from accumulated observations. |
-| **[`nova.phenomenon_apply`](nova-phenomenon-apply.md)** | Documented | Execute a PKS phenomenon playbook server-side. |
-| **[`nova.pks_deprecate`](nova-pks-deprecate.md)** | Documented | Mark a phenomenon as deprecated (soft-delete). |
-| **[`nova.pks_get`](nova-pks-get.md)** | Documented | Get PKS (Phenomenological Knowledge Store) data for a domain scope. |
-| **[`nova.pks_list`](nova-pks-list.md)** | Documented | List all known PKS domains with summary stats (active phenomenon counts plus per-domain health metrics). |
-| **[`nova.pks_match`](nova-pks-match.md)** | Documented | Match an observation against known phenomena for a domain. |
-| **[`nova.pks_patch`](nova-pks-patch.md)** | Documented | Partially update a phenomenon (merge fields without replacing the whole entry). |
-| **[`nova.pks_platform_get`](nova-pks-platform-get.md)** | Documented | Get a platform's details including platform metadata, active-vs-total pattern counts, status/freshness hints, and all stored pa... |
-| **[`nova.pks_platform_list`](nova-pks-platform-list.md)** | Documented | List all platforms with summary metadata including active-vs-total pattern counts plus status and freshness fields that explain... |
-| **[`nova.pks_platform_seed`](nova-pks-platform-seed.md)** | Documented | Seed or update a platform with patterns and aliases. |
-| **[`nova.pks_upsert`](nova-pks-upsert.md)** | Documented | Create or update a phenomenon entry in the PKS for a domain. |
-| **[`nova.pks_upsert_hint`](nova-pks-upsert-hint.md)** | Documented | Create or update a declarative domain hint for CTA detection scoring. |
-| **[`nova.revalidate`](nova-revalidate.md)** | Documented | Silent DOM-only revalidation of PKS phenomena. |
-| **[`nova.telemetry_report`](nova-telemetry-report.md)** | Documented | Report success, failure, or not_applicable for an interaction with a phenomenon. |
+| Tool | What it does |
+| :--- | :--- |
+| **[`nova.explain`](nova-explain.md)** | Explains why a PKS phenomenon resides at its current learning level, returning a detailed per-gate breakdown of promotion requirements, failure reasons, and remediation hints. |
+| **[`nova.learn_feedback`](nova-learn-feedback.md)** | Submits reinforcement feedback (positive or negative) on a learned phenomenon pattern. |
+| **[`nova.learn_generate`](nova-learn-generate.md)** | Synthesizes a proposed phenomenon interaction playbook from recorded execution trajectories. |
+| **[`nova.learn_onboarding_confirm`](nova-learn-onboarding-confirm.md)** | Confirms that a learned onboarding flow step was successfully completed. |
+| **[`nova.learn_onboarding_recall`](nova-learn-onboarding-recall.md)** | Recalls learned onboarding tutorial dismissal steps for a domain. |
+| **[`nova.learn_promote`](nova-learn-promote.md)** | Promotes a candidate phenomenon playbook from staging into active production PKS memory. |
+| **[`nova.learn_resolve_opportunity`](nova-learn-resolve-opportunity.md)** | Resolves or closes a learning opportunity opportunity flagged during autonomous browsing. |
+| **[`nova.learn_suggest`](nova-learn-suggest.md)** | Suggests alternative interaction selectors based on historical pattern performance. |
+| **[`nova.phenomenon_apply`](nova-phenomenon-apply.md)** | Executes a stored PKS phenomenon fast-path interaction sequence directly on the page. |
+| **[`nova.pks_deprecate`](nova-pks-deprecate.md)** | Marks an obsolete or broken PKS phenomenon playbook as deprecated. |
+| **[`nova.pks_get`](nova-pks-get.md)** | Retrieves domain-scoped Phenomenological Knowledge Store (PKS) entries, playbooks, interaction fingerprints, and contextual environment markers. |
+| **[`nova.pks_list`](nova-pks-list.md)** | Lists stored phenomenological knowledge playbooks with pagination and domain filters. |
+| **[`nova.pks_match`](nova-pks-match.md)** | Matches live page observations against registered Phenomenological Knowledge Store (PKS) fingerprints and global platform templates to identify active UI phenomena. |
+| **[`nova.pks_patch`](nova-pks-patch.md)** | Applies partial updates or selector refinements to an existing PKS phenomenon playbook. |
+| **[`nova.pks_platform_get`](nova-pks-platform-get.md)** | Retrieves pre-trained platform-level UI pattern definitions (Shopify, WordPress, Jira). |
+| **[`nova.pks_platform_list`](nova-pks-platform-list.md)** | Lists supported platform UI frameworks and common component models. |
+| **[`nova.pks_platform_seed`](nova-pks-platform-seed.md)** | Seeds the platform knowledge base with pre-trained platform component models. |
+| **[`nova.pks_upsert`](nova-pks-upsert.md)** | Stores or updates a verified phenomenon, behavioral playbook, and detection fingerprint in the Phenomenological Knowledge Store (PKS). |
+| **[`nova.pks_upsert_hint`](nova-pks-upsert-hint.md)** | Attaches or updates a human operator guidance hint on a phenomenon pattern. |
+| **[`nova.revalidate`](nova-revalidate.md)** | Re-verifies validity of a learned phenomenon against current live website markup. |
+| **[`nova.telemetry_report`](nova-telemetry-report.md)** | Reports empirical execution outcomes (`success`, `failure`, or `not_applicable`) for a PKS phenomenon interaction, updating health scores and driving automatic promotion and deprecation gates. |
 
 ---
 

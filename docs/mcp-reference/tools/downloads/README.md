@@ -10,23 +10,23 @@ Download tracking, pause/resume, security prompt resolution, and directory manag
 
 ## Tool Inventory (15 Tools)
 
-| Tool Name | Status | Description |
-| :--- | :---: | :--- |
-| **[`nova.downloads_auto_open_get`](nova-downloads-auto-open-get.md)** | Documented | Get the list of extensions that auto-open with the OS default app after a successful download, along with the hardcoded executa... |
-| **[`nova.downloads_auto_open_set`](nova-downloads-auto-open-set.md)** | Documented | Bulk-replace the list of extensions that auto-open after download. |
-| **[`nova.downloads_cancel`](nova-downloads-cancel.md)** | Documented | Cancel an active download by ID. |
-| **[`nova.downloads_cancel_all`](nova-downloads-cancel-all.md)** | Documented | Cancel every non-terminal download (queued/in_progress/paused). |
-| **[`nova.downloads_clear`](nova-downloads-clear.md)** | Documented | Clear download history. |
-| **[`nova.downloads_list`](nova-downloads-list.md)** | Documented | List recent downloads tracked by the browser. |
-| **[`nova.downloads_open_file`](nova-downloads-open-file.md)** | Documented | Open the downloaded file with the system default handler. |
-| **[`nova.downloads_open_folder`](nova-downloads-open-folder.md)** | Documented | Reveal the downloaded file in Windows Explorer. |
-| **[`nova.downloads_pause`](nova-downloads-pause.md)** | Documented | Pause a live WebView2-native download by ID. |
-| **[`nova.downloads_pause_all`](nova-downloads-pause-all.md)** | Documented | Pause every in-progress WebView2-native download that supports pausing. |
-| **[`nova.downloads_preview`](nova-downloads-preview.md)** | Documented | Open a completed download inline in a new browser tab using a file:// URL. |
-| **[`nova.downloads_resume`](nova-downloads-resume.md)** | Documented | Resume a paused live WebView2-native download by ID. |
-| **[`nova.downloads_resume_all`](nova-downloads-resume-all.md)** | Documented | Resume every paused download whose WebView2 operation reports CanResume=true. |
-| **[`nova.downloads_retry`](nova-downloads-retry.md)** | Documented | Retry a failed download by navigating to its original URL. |
-| **[`nova.downloads_wait`](nova-downloads-wait.md)** | Documented | Block until downloads reach a terminal state (completed/failed/cancelled) and return where the bytes landed. |
+| Tool | What it does |
+| :--- | :--- |
+| **[`nova.downloads_auto_open_get`](nova-downloads-auto-open-get.md)** | Retrieves the list of file extensions configured to open automatically upon download completion. |
+| **[`nova.downloads_auto_open_set`](nova-downloads-auto-open-set.md)** | Bulk-replaces the list of file extensions that auto-open with the OS default application. |
+| **[`nova.downloads_cancel`](nova-downloads-cancel.md)** | Cancels an active in-progress or queued download by ID. |
+| **[`nova.downloads_cancel_all`](nova-downloads-cancel-all.md)** | Cancels every non-terminal download currently queued, in progress, or paused. |
+| **[`nova.downloads_clear`](nova-downloads-clear.md)** | Clears terminal download history from the UI and persistent storage. |
+| **[`nova.downloads_list`](nova-downloads-list.md)** | Lists recent downloads tracked by the browser with status, progress, speed, and error categorization. |
+| **[`nova.downloads_open_file`](nova-downloads-open-file.md)** | Opens a completed download using the operating system default application. |
+| **[`nova.downloads_open_folder`](nova-downloads-open-folder.md)** | Reveals the downloaded file in Windows Explorer with the item selected. |
+| **[`nova.downloads_pause`](nova-downloads-pause.md)** | Pauses an active WebView2-native download by ID. |
+| **[`nova.downloads_pause_all`](nova-downloads-pause-all.md)** | Pauses all in-progress WebView2-native downloads that support pausing. |
+| **[`nova.downloads_preview`](nova-downloads-preview.md)** | Opens a completed download inline in a new browser tab using a secure file:// URL. |
+| **[`nova.downloads_resume`](nova-downloads-resume.md)** | Resumes a paused live WebView2-native download by ID. |
+| **[`nova.downloads_resume_all`](nova-downloads-resume-all.md)** | Resumes all paused downloads whose underlying WebView2 operation supports resumption. |
+| **[`nova.downloads_retry`](nova-downloads-retry.md)** | Retries a failed download by re-navigating to its original URL. |
+| **[`nova.downloads_wait`](nova-downloads-wait.md)** | Blocks until downloads reach a terminal state (completed, failed, or cancelled) and returns disk file paths. |
 
 ---
 

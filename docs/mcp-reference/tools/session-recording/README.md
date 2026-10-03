@@ -10,22 +10,22 @@ Network HAR capture, user interaction timelines, DOM change snapshots, and repla
 
 ## Tool Inventory (14 Tools)
 
-| Tool Name | Status | Description |
-| :--- | :---: | :--- |
-| **[`nova.session_record_dom_snapshot`](nova-session-record-dom-snapshot.md)** | Documented | Return a stored DOM snapshot blob by snapshotId. |
-| **[`nova.session_record_events`](nova-session-record-events.md)** | Documented | Decrypt and return a generic stream from a recording (console, errors, lifecycle, indexedDB). |
-| **[`nova.session_record_export`](nova-session-record-export.md)** | Documented | Decode a finalised recording to plaintext files on disk and return their paths. |
-| **[`nova.session_record_extend`](nova-session-record-extend.md)** | Documented | Extend a recording's TTL by additionalMs. |
-| **[`nova.session_record_get_entry`](nova-session-record-get-entry.md)** | Documented | Return the full event timeline for a single requestId in a recording. |
-| **[`nova.session_record_interactions`](nova-session-record-interactions.md)** | Documented | Read the interaction timeline from a finalised session recording. |
-| **[`nova.session_record_purge`](nova-session-record-purge.md)** | Documented | Delete finalised recordings older than the given threshold (whole dirs). |
-| **[`nova.session_record_query`](nova-session-record-query.md)** | Documented | Query a finalised session recording for network entries matching a filter. |
-| **[`nova.session_record_snapshot_dom`](nova-session-record-snapshot-dom.md)** | Documented | Trigger a fresh DOM snapshot on the live recording bound to a tab. |
-| **[`nova.session_record_start`](nova-session-record-start.md)** | Documented | Start a session recording on a browser tab. |
-| **[`nova.session_record_status`](nova-session-record-status.md)** | Documented | Return the current state, expiry timestamp, granted permission classes, and capture-waves for a recording. |
-| **[`nova.session_record_stop`](nova-session-record-stop.md)** | Documented | Stop an active session recording and finalize its artifacts. |
-| **[`nova.session_reset_screenshot_budget`](nova-session-reset-screenshot-budget.md)** | Documented | Reset the aag.screenshot_budget counters for the current MCP session only. |
-| **[`nova.traces_list`](nova-traces-list.md)** | Documented | List recent operation traces for debugging. |
+| Tool | What it does |
+| :--- | :--- |
+| **[`nova.session_record_dom_snapshot`](nova-session-record-dom-snapshot.md)** | Retrieves and decrypts a previously stored DOM snapshot HTML payload by snapshot ID. |
+| **[`nova.session_record_events`](nova-session-record-events.md)** | Decrypts and streams generic event logs (console, errors, lifecycle, IndexedDB) from a recording. |
+| **[`nova.session_record_export`](nova-session-record-export.md)** | Decodes a finalized encrypted recording to plaintext files on disk for debugging or archival. |
+| **[`nova.session_record_extend`](nova-session-record-extend.md)** | Extends an active recording’s time-to-live (TTL) to prevent premature expiration during long workflows. |
+| **[`nova.session_record_get_entry`](nova-session-record-get-entry.md)** | Retrieves the complete event timeline, headers, and decoded payload for a single CDP request ID. |
+| **[`nova.session_record_interactions`](nova-session-record-interactions.md)** | Reads the chronological interaction timeline (clicks, typing, form submits) from a recording. |
+| **[`nova.session_record_purge`](nova-session-record-purge.md)** | Destructively deletes finalized session recordings older than a specified day threshold. |
+| **[`nova.session_record_query`](nova-session-record-query.md)** | Queries the complete CDP network stream of a finalized recording with rich filters (URL regex, status, headers). |
+| **[`nova.session_record_snapshot_dom`](nova-session-record-snapshot-dom.md)** | Triggers a fresh encrypted DOM snapshot on an active live recording bound to a tab. |
+| **[`nova.session_record_start`](nova-session-record-start.md)** | Initiates encrypted background recording of CDP network, DOM mutations, console logs, and user interactions on a tab. |
+| **[`nova.session_record_status`](nova-session-record-status.md)** | Returns the live state, expiry timestamp, active permission classes, and byte counts of a recording. |
+| **[`nova.session_record_stop`](nova-session-record-stop.md)** | Stops an active session recording, flushes memory channels, and generates cryptographic integrity manifests. |
+| **[`nova.session_reset_screenshot_budget`](nova-session-reset-screenshot-budget.md)** | Resets the session screenshot budget counter to allow fresh visual captures. |
+| **[`nova.traces_list`](nova-traces-list.md)** | Lists recent host operation traces with execution timing, phases, and outcome status for debugging. |
 
 ---
 
