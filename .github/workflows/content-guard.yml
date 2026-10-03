@@ -1,0 +1,45 @@
+# Safety net for this repository: fails when a push brings in anything that is not public content.
+# The full rules live in the private repository (PublicFolderBoundaryTests) and run before every
+# sync; this workflow repeats the core checks here, so a push that bypasses the sync still gets caught.
+# .github/ and .gitignore are skipped by the content check: this workflow and the ignore list have to
+# name what they block.
+name: Content guard
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Only publishable file types
+        run: |
+          bad=$(git ls-files | grep -v -E '^(\.github/|\.gitignore$|LICENSE$)' \
+            | grep -v -i -E '\.(md|txt|html?|css|js|json|ya?ml|svg|png|jpe?g|gif|webp|ico|mp4|webm)$' || true)
+          if [ -n "$bad" ]; then
+            echo "::error::Files of a type that is never published:"
+            echo "$bad"
+            exit 1
+          fi
+
+      - name: No source references, local paths or tokens
+        run: |
+          pattern='[A-Za-z0-9_./-]*[A-Za-z0-9_]\.(cs|csproj|sln|slnx|xaml|resw|resx|props|targets|iss|ps1|psm1|bat|cmd)\b(?![A-Za-z0-9_-])'
+          pattern+='|\bNovaBrowser(\.[A-Za-z0-9_]+)?[\\/](Core|Views|Services|Strings|Assets|Properties)\b'
+          pattern+='|\bNovaBrowser\.(Core|Views|Services|Tests)\.[A-Za-z0-9_]+'
+          pattern+='|(?<![A-Za-z0-9_/.-])doc/[A-Za-z0-9_./-]+\.md\b'
+          pattern+='|[A-Za-z]:[\\/]-=|-=Entwicklung=-|[\\/]Users[\\/]GNetwork\b|dev-programme|nova_ai_workspace'
+          pattern+='|ghp_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|clk_[A-Za-z0-9]{16,}'
+          hits=$(git ls-files -z | grep -z -v -E '^(\.github/|\.gitignore$)' | xargs -0 grep -I -n -o -P "$pattern" 2>/dev/null || true)
+          if [ -n "$hits" ]; then
+            echo "::error::Private content or references into the private repository:"
+            echo "$hits"
+            exit 1
+          fi
+          echo "clean"
