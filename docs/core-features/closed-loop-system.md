@@ -1,7 +1,7 @@
 # Closed-Loop System (CLS) & Ambient Auto-Apply
 
 > [!NOTE]
-> The Closed-Loop System (CLS) of Nova AI Workspace (`NovaBrowser.Core.AutoApply`) transforms browser automation from error-prone open-loop actions ("click dispatched, fingers crossed") into mathematically verified state transitions. In conjunction with **Ambient Auto-Apply**, Nova autonomously resolves recurring disruptions (cookie consent walls, modals, surveys) in the background.
+> The Closed-Loop System (CLS) of Nova AI Workspace (`AutoApply`) transforms browser automation from error-prone open-loop actions ("click dispatched, fingers crossed") into mathematically verified state transitions. In conjunction with **Ambient Auto-Apply**, Nova autonomously resolves recurring disruptions (cookie consent walls, modals, surveys) in the background.
 
 ---
 
@@ -75,14 +75,13 @@ Beyond interactive agent commands, Nova features **Ambient Auto-Apply**:
 
 ---
 
-## 4. Production Code References
+## 4. Under the Hood
 
-| Component | Source File | Responsibility |
-| :--- | :--- | :--- |
-| **`AutoApplyController`** | `NovaBrowser/Core/AutoApply/AutoApplyController.cs` | Main controller for ambient actions: Scans DOM signals, matches L2 playbooks, and executes safe transitions. |
-| **`TransitionVerifier`** | `NovaBrowser/Core/Browser/TransitionVerifier.cs` | Verifies that expected DOM mutations (e.g. element removal, route change) actually occurred. |
-| **`AutoApplyEntry`** | `NovaBrowser/Core/AutoApply/AutoApplyEntry.cs` | Data models defining triggers, preconditions, and verification criteria for autonomous rules. |
-| **`ScopedSemanticFactKey`** | `NovaBrowser/Core/AutoApply/ScopedSemanticFactKey.cs` | Typed mapping of learned state facts to specific sandboxes and domains. |
+| Component | Responsibility |
+| :--- | :--- |
+| **`AutoApplyController`** | Main controller for ambient actions: Scans DOM signals, matches L2 playbooks, and executes safe transitions. |
+| **`TransitionVerifier`** | Verifies that expected DOM mutations (e.g. element removal, route change) actually occurred. |
+| **`ScopedSemanticFactKey`** | Typed mapping of learned state facts to specific sandboxes and domains. |
 
 ---
 

@@ -155,7 +155,7 @@ Source:  https://github.com/dotnet/runtime
 Copyright (c) .NET Foundation and Contributors
 (Same MIT license text as .NET Runtime above.)
 
-Pinned for every project at once in Directory.Build.props: Nova and its
+Pinned to one version for every Nova executable at once: Nova and its
 helper executables publish self-contained into one shared folder, so a
 shared assembly cannot differ per project without breaking a helper.
 

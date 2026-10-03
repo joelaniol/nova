@@ -23,7 +23,7 @@ flowchart LR
     subgraph BrowserProcess["Nova AI Workspace (NovaAIWorkspace.exe)"]
         UI["WinUI 3 UI Thread"]
         AgentCore["Agent & MCP Core"]
-        Client["NovaOutriderClient.cs
+        Client["NovaOutriderClient
 (Watchdog & Timeout)"]
         UI -.-> Client
         AgentCore --> Client
@@ -78,11 +78,11 @@ flowchart LR
 
 ---
 
-## 5. Production Code References
+## 5. Under the Hood
 
-* **Parent Host Client & Watchdog:** `NovaBrowser/Core/Runtime/NovaOutriderClient.cs`
+* **Parent Host Client & Watchdog:** `NovaOutriderClient`
 * **Worker Project:** `NovaBrowser.Outrider/`
-* **Release Contract:** `build.ps1` publishes `NovaBrowser.Outrider.exe` alongside `NovaAIWorkspace.exe` directly into `dist/`.
+* **Release Contract:** `NovaBrowser.Outrider.exe` ships next to `NovaAIWorkspace.exe` in every build and installation.
 
 ---
 

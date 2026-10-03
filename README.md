@@ -17,7 +17,7 @@
 [![Local-first](https://img.shields.io/badge/data-local--first-2ea44f)](#)
 [![Made in Germany](https://img.shields.io/badge/Made%20in-Germany-FFCC00?labelColor=DD0000)](#)
 
-[Quickstart](docs/getting-started/quickstart.md) • [User Guide](docs/user-guide/README.md) • [Core Features](docs/core-features/README.md) • [Tool Catalog (400+ Tools)](docs/mcp-reference/tool-catalog.md) • [Developer Guide](docs/developer-guide/README.md) • [Deutsch](#nova-ai-workspace-deutsch)
+[Quickstart](docs/getting-started/quickstart.md) • [User Guide](docs/user-guide/README.md) • [Core Features](docs/core-features/README.md) • [Tool Catalog (400+ Tools)](docs/mcp-reference/tool-catalog.md) • [Deutsch](#nova-ai-workspace-deutsch)
 
 </div>
 
@@ -183,7 +183,6 @@ Explore the comprehensive documentation for operators, developers, and AI agents
 | **[Core Features](docs/core-features/README.md)** | Deep Architecture & Systems | [AAG Gates](docs/core-features/aag.md) • [PKS Knowledge Store](docs/core-features/pks.md) • [Outrider Boundary](docs/core-features/outrider-boundary.md) • [Vault & Secrets](docs/core-features/vault-and-secrets.md) • [Session Recording](docs/core-features/session-recording.md) |
 | **[MCP Reference](docs/mcp-reference/README.md)** | 400+ Tool Schemas & API | [Tool Catalog](docs/mcp-reference/tool-catalog.md) • [Protocol & Transport](docs/mcp-reference/protocol-and-transport.md) • [Dedicated Tool Guides](docs/mcp-reference/tools/README.md) |
 | **[Integration](docs/integration/README.md)** | AI Assistants & Clients | [Claude Code](docs/integration/claude-code.md) • [Codex](docs/integration/openai-codex.md) • [Antigravity](docs/integration/google-antigravity.md) • [Claude Desktop](docs/integration/claude-desktop.md) • [Custom Agents](docs/integration/custom-agents.md) |
-| **[Developer Guide](docs/developer-guide/README.md)** | Building & Contributing | [Building from Source](docs/developer-guide/building-from-source.md) • [Running Tests](docs/developer-guide/running-tests.md) • [Outrider IPC](docs/developer-guide/outrider-architecture.md) |
 | **[Troubleshooting](docs/troubleshooting/README.md)** | Diagnostics & Error Recovery | [Connection Issues](docs/troubleshooting/agent-connection-issues.md) • [Diagnostics Logs](docs/troubleshooting/diagnostics.md) • [Session Recovery](docs/troubleshooting/sandbox-and-session-recovery.md) |
 
 ---

@@ -1,7 +1,7 @@
 # Agent Learning Pipeline (ALP) & Lightweight Candidate Journal (LCJ)
 
 > [!NOTE]
-> The **Agent Learning Pipeline (ALP)** (`NovaBrowser.Core.Learning`) serves as the intelligent bridge between the runtime observation journal (**LCJ**, Lightweight Candidate Journal) and durable long-term memory (**PKS**). It filters transient DOM telemetry, calculates mathematical relevance scores, and promotes validated interaction patterns into permanent fast-paths with quality guarantees.
+> The **Agent Learning Pipeline (ALP)** (`Learning`) serves as the intelligent bridge between the runtime observation journal (**LCJ**, Lightweight Candidate Journal) and durable long-term memory (**PKS**). It filters transient DOM telemetry, calculates mathematical relevance scores, and promotes validated interaction patterns into permanent fast-paths with quality guarantees.
 
 ---
 
@@ -86,15 +86,15 @@ $$\text{Score} = \text{SupportScore} + \text{SessionBonus} + \text{SuccessRateFa
 
 ---
 
-## 5. Production Code References
+## 5. Under the Hood
 
-| Component | Source File | Responsibility |
-| :--- | :--- | :--- |
-| **`LearningSuggestor`** | `NovaBrowser/Core/Learning/LearningSuggestor.cs` | Identifies and prioritizes high-value learning opportunities from raw observations. |
-| **`CandidateGenerator`** | `NovaBrowser/Core/Learning/CandidateGenerator.cs` | Synthesizes robust selectors and constructs typed L0 candidates. |
-| **`PromotionService`** | `NovaBrowser/Core/Learning/PromotionService.cs` | Enforces graduation gates for lifecycle transitions (`L0 -> L1 -> L2`). |
-| **`RevalidationBudget`** | `NovaBrowser/Core/Learning/RevalidationBudget.cs` | Throttles background verification traffic. |
-| **`SilentVerifyEngine`** | `NovaBrowser/Core/Learning/SilentVerifyEngine.cs` | Executes non-intrusive background verification checks. |
+| Component | Responsibility |
+| :--- | :--- |
+| **`LearningSuggestor`** | Identifies and prioritizes high-value learning opportunities from raw observations. |
+| **`CandidateGenerator`** | Synthesizes robust selectors and constructs typed L0 candidates. |
+| **`PromotionService`** | Enforces graduation gates for lifecycle transitions (`L0 -> L1 -> L2`). |
+| **`RevalidationBudget`** | Throttles background verification traffic. |
+| **`SilentVerifyEngine`** | Executes non-intrusive background verification checks. |
 
 ---
 

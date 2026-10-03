@@ -1,7 +1,7 @@
 # Anti-Fingerprint Protection & Stealth Identity Engine
 
 > [!NOTE]
-> The Anti-Fingerprint and Identity Engine of Nova AI Workspace (`NovaBrowser.Core.Browser.FingerprintProtection`) protects automated sessions from bot detection and cross-site tracking. It combines a 3-tier configuration hierarchy, mathematically deterministic noise seeding, and consistent high-entropy Client Hints.
+> The Anti-Fingerprint and Identity Engine of Nova AI Workspace (`FingerprintProtection`) protects automated sessions from bot detection and cross-site tracking. It combines a 3-tier configuration hierarchy, mathematically deterministic noise seeding, and consistent high-entropy Client Hints.
 
 ---
 
@@ -86,14 +86,14 @@ Following initialization, the injected script immediately deletes `window.__nova
 
 ---
 
-## 5. Production Code References
+## 5. Under the Hood
 
-| Component | Source File | Responsibility |
-| :--- | :--- | :--- |
-| **`FingerprintProtectionResolver`** | `NovaBrowser/Core/Browser/FingerprintProtection/FingerprintProtectionResolver.cs` | Resolves effective protection level following `Tab > Sandbox > Global` priority. |
-| **`FingerprintProtectionScriptBuilder`** | `NovaBrowser/Core/Browser/FingerprintProtection/FingerprintProtectionScriptBuilder.cs` | Generates the bootstrap script with seed and mitigation matrix. |
-| **`BrowserIdentityProfiles`** | `NovaBrowser/Core/Browser/BrowserIdentityProfiles.cs` | Canonical identity presets ensuring coherent User-Agents and Client Hints. |
-| **`PerTabFingerprintOverrides`** | `NovaBrowser/Core/Browser/PerTabFingerprintOverrides.cs` | Thread-safe in-memory store managing ephemeral tab-level overrides. |
+| Component | Responsibility |
+| :--- | :--- |
+| **`FingerprintProtectionResolver`** | Resolves effective protection level following `Tab > Sandbox > Global` priority. |
+| **`FingerprintProtectionScriptBuilder`** | Generates the bootstrap script with seed and mitigation matrix. |
+| **`BrowserIdentityProfiles`** | Canonical identity presets ensuring coherent User-Agents and Client Hints. |
+| **`PerTabFingerprintOverrides`** | Thread-safe in-memory store managing ephemeral tab-level overrides. |
 
 ---
 

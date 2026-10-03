@@ -78,11 +78,11 @@ flowchart LR
 
 ---
 
-## 5. Production Code References
+## 5. Under the Hood
 
-* **OK Pipeline & Fact Repository:** `NovaBrowser/Core/Knowledge/OkRepository.cs`
-* **MCP OK Observe Handler:** `NovaBrowser/Core/Mcp/McpOkObserveHandler.cs`
-* **Domain Notes Store:** `NovaBrowser/Core/Knowledge/DomainNotesStore.cs`
+* **OK Pipeline & Fact Repository:** `OkRepository`
+* **MCP OK Observe Handler:** `McpOkObserveHandler`
+* **Domain Notes Store:** `DomainNotesStore`
 
 ---
 

@@ -156,16 +156,6 @@ Deutsch: [weiter unten](#dokumentation-auf-deutsch).
 | [Diagnostics](troubleshooting/diagnostics.md) | Logs and where to find them |
 | [Sandbox and session recovery](troubleshooting/sandbox-and-session-recovery.md) | Hanging tabs, lost sessions, restoring sandboxes |
 
-## Developer guide
-
-[Overview](developer-guide/README.md)
-
-| Page | What it covers |
-|---|---|
-| [Building from source](developer-guide/building-from-source.md) | Requirements and build steps |
-| [Running tests](developer-guide/running-tests.md) | Test suites and quality gates |
-| [Outrider architecture](developer-guide/outrider-architecture.md) | How the helper process talks to Nova |
-
 ## More
 
 - [Demo lab](../demos/README.md) — a page with eight cases where usual browser automation fails

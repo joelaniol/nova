@@ -28,7 +28,7 @@ Dismissing cookie consent dialogs through naive UI clicking is fragile: consent 
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `targetId` | `string` | Yes | — | — | Target tab or sandbox id from nova.tabs. |
 | `agentId` | `string` | No | — | — | Agent identifier (used for audit trail; optional). |
-| `intent` | `object` | No | — | — | Typed consent intent. Omit to use the AppSettings.DefaultConsentPolicy default. |
+| `intent` | `object` | No | — | — | Typed consent intent. Omit to use the default cookie choice from Nova's settings. |
 | `intent.mode` | `string` | No | — | `RejectOptional`, `AcceptAll`, `OpenManage`, `PreserveExisting`, `Revoke` | Consent mode. RejectOptional = strict-necessary only (autonomous-safe default). AcceptAll is hard-gated. PreserveExisting = no-op verify (returns the current ConsentStateVector without mutating). OpenManage/Revoke are reserved values and rejected. |
 | `intent.allowStrictNecessary` | `boolean` | No | — | — | — |
 | `intent.allowPreferences` | `boolean` | No | — | — | — |

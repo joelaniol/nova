@@ -81,8 +81,7 @@ flowchart TD
 
 ---
 
-## 5. Codebase Implementation
+## 5. Under the Hood
 
-* **Task Engine & Background Loop:** `NovaBrowser/Core/ScheduledTasks/`
-* **MCP Scheduled Task Handler:** `NovaBrowser/Core/Mcp/McpScheduledTaskHandler.cs`
-* **Workspace Storage & Permissions:** `NovaBrowser/Core/ScheduledTasks/Workspace/`
+* **Task Engine & Background Loop:** `ScheduledTasks` subsystem
+* **MCP Scheduled Task Handler:** `McpScheduledTaskHandler`

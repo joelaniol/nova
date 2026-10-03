@@ -70,11 +70,11 @@ Instead of photographing the entire viewport, Nova utilizes targeted **element a
 
 ---
 
-## 5. Production Code References
+## 5. Under the Hood
 
-* **Screenshot Pipeline & AAG Budgets:** `NovaBrowser/Core/Mcp/McpServer.ExecutionScreenshots.cs`
-* **EVM Mode Instructions:** `NovaBrowser/Core/Mcp/McpServer.GetInstructionsHandler.cs`
-* **Accessibility Auditing & Metrics:** `NovaBrowser/Core/Diagnostics/`
+* **Screenshot Pipeline & AAG Budgets:** `McpServer`
+* **EVM Mode Instructions:** `McpServer`
+* **Accessibility Auditing & Metrics:** `Diagnostics` subsystem
 
 ---
 

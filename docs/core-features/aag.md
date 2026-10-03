@@ -85,13 +85,13 @@ Nova provides specialized high-level guarded tools for critical user interaction
 
 ---
 
-## 6. Production Implementation References
+## 6. Under the Hood
 
-* **AAG Block Results & Validation:** `NovaBrowser/Core/Mcp/McpServer.AagBlockResult.cs`
-* **Destructive Action Scanners:** `NovaBrowser/Core/Safety/DestructiveMenuScanner.cs`
-* **Evidence & Screenshot Budgets:** `NovaBrowser/Core/Mcp/McpServer.ExecutionScreenshots.AagBudget.cs`
-* **Tab Claims & Lease Locking:** `NovaBrowser/Core/Mcp/McpServer.ExecutionTabs.cs`
-* **Tool Observation Bus & Envelopes:** `NovaBrowser/Core/Tob/DispatchEnvelopeBuilder.cs`
+* **AAG Block Results & Validation:** `McpServer`
+* **Destructive Action Scanners:** `DestructiveMenuScanner`
+* **Evidence & Screenshot Budgets:** `McpServer`
+* **Tab Claims & Lease Locking:** `McpServer`
+* **Tool Observation Bus & Envelopes:** `DispatchEnvelopeBuilder`
 
 ---
 

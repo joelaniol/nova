@@ -83,12 +83,12 @@ Scope: sandbox:B"]
 
 ---
 
-## 5. Production Code References
+## 5. Under the Hood
 
-* **Site Data Service & Abstraction:** `NovaBrowser/Core/SiteData/SiteDataService.cs`
-* **Domain & Prefix Validation:** `NovaBrowser/Core/SiteData/CookieDomainValidator.cs`
-* **MCP Site Data Handler:** `NovaBrowser/Core/Mcp/McpSiteDataHandler.cs`
-* **Audit Logging:** `NovaBrowser/Core/SiteData/SiteDataAuditLog.cs`
+* **Site Data Service & Abstraction:** `SiteDataService`
+* **Domain & Prefix Validation:** `CookieDomainValidator`
+* **MCP Site Data Handler:** `McpSiteDataHandler`
+* **Audit Logging:** `SiteDataAuditLog`
 
 ---
 

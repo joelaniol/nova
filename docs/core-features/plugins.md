@@ -74,8 +74,8 @@ flowchart TD
 
 ---
 
-## 5. Codebase Implementation
+## 5. Under the Hood
 
-* **MCP Plugin Handler:** `NovaBrowser/Core/Mcp/McpPluginHandler.cs`
-* **Plugin Testing & Smoke:** `NovaBrowser/Core/Mcp/McpPluginHandler.Testing.cs`
-* **Plugin Runtime & Engine:** `NovaBrowser/Core/Plugins/`
+* **MCP Plugin Handler:** `McpPluginHandler`
+* **Plugin Testing & Smoke:** `McpPluginHandler`
+* **Plugin Runtime & Engine:** `Plugins` subsystem

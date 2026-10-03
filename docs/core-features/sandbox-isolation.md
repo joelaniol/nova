@@ -105,12 +105,12 @@ Nova enforces strict profile isolation for testing:
 
 ---
 
-## 6. Production Code References
+## 6. Under the Hood
 
-* **Sandbox Identity & Context:** `NovaBrowser/Core/Sandbox/`
-* **Storage & Profile Path Resolution:** `NovaBrowser/Core/Storage/StoragePaths.cs`
-* **WebView2 Lifecycle & Surface Hosting:** `NovaBrowser/Views/MainPage.WebViewLifecycle.cs`
-* **Tab & Session Management:** `NovaBrowser/Core/Browser/TabManager.cs`
+* **Sandbox Identity & Context:** `Sandbox` subsystem
+* **Storage & Profile Path Resolution:** `StoragePaths`
+* **WebView2 Lifecycle & Surface Hosting:** `MainPage`
+* **Tab & Session Management:** `TabManager`
 
 ---
 

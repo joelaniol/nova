@@ -1,7 +1,7 @@
 # Episodic Task Memory (ETM) & Task URL Coverage (TUC)
 
 > [!NOTE]
-> The episodic task memory system of Nova AI Workspace (**ETM**, `NovaBrowser.Core.McpTaskMemoryHandler`) and **Task URL Coverage** (**TUC**, `NovaBrowser.Core.Knowledge.TaskUrlCoverageTracker`) anchor mission goals, work units, and progress checkpoints durably in the system. They prevent agents from abandoning long-running audits prematurely or suffering from session amnesia.
+> The episodic task memory system of Nova AI Workspace (**ETM**, `McpTaskMemoryHandler`) and **Task URL Coverage** (**TUC**, `TaskUrlCoverageTracker`) anchor mission goals, work units, and progress checkpoints durably in the system. They prevent agents from abandoning long-running audits prematurely or suffering from session amnesia.
 
 ---
 
@@ -80,14 +80,14 @@ For exhaustive verification workflows (e.g. security audits, accessibility compl
 
 ---
 
-## 5. Production Code References
+## 5. Under the Hood
 
-| Component | Source File | Responsibility |
-| :--- | :--- | :--- |
-| **`McpTaskMemoryHandler`** | `NovaBrowser/Core/Mcp/McpTaskMemoryHandler.cs` | Main dispatcher for all 15 task memory tools: profiles, instances, progress, and promotion. |
-| **`TaskUrlCoverageTracker`** | `NovaBrowser/Core/Knowledge/TaskUrlCoverageTracker.cs` | Records coverage observations following tool calls and upgrades units to `checked`. |
-| **`TaskKindResolver`** | `NovaBrowser/Core/Knowledge/TaskKindResolver.cs` | Classifies missions by semantic nature (audit, extraction, navigation, form fill). |
-| **`EvidenceLedger`** | `NovaBrowser/Core/Tob/EvidenceLedger.cs` | Correlates real TOB visit windows with ETM work units during task completion evaluation. |
+| Component | Responsibility |
+| :--- | :--- |
+| **`McpTaskMemoryHandler`** | Main dispatcher for all 15 task memory tools: profiles, instances, progress, and promotion. |
+| **`TaskUrlCoverageTracker`** | Records coverage observations following tool calls and upgrades units to `checked`. |
+| **`TaskKindResolver`** | Classifies missions by semantic nature (audit, extraction, navigation, form fill). |
+| **`EvidenceLedger`** | Correlates real TOB visit windows with ETM work units during task completion evaluation. |
 
 ---
 

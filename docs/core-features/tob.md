@@ -1,7 +1,7 @@
 # Tool Observation Bus (TOB) — Server-Side Truth & Evidence Ledger
 
 > [!NOTE]
-> The **Tool Observation Bus (TOB)** (`NovaBrowser.Core.Tob`) is the server-side observation and evidence engine of Nova AI Workspace. It creates a tamper-proof record of what agents actually execute at runtime, calculates objective visit windows, and provides verified evidence to AAG, PKS, and the task completion ledger.
+> The **Tool Observation Bus (TOB)** (`Tob`) is the server-side observation and evidence engine of Nova AI Workspace. It creates a tamper-proof record of what agents actually execute at runtime, calculates objective visit windows, and provides verified evidence to AAG, PKS, and the task completion ledger.
 
 ---
 
@@ -85,7 +85,7 @@ Every single MCP tool execution in `DispatchToolCallAsync` is framed by the `Dis
 
 ---
 
-## 4. Signal Flags & Bitmask (`TobSignalFlags.cs`)
+## 4. Signal Flags & Bitmask (`TobSignalFlags`)
 
 TOB classifies each tool execution with a precise semantic bitmask:
 
@@ -129,16 +129,16 @@ While **AAG** is the **decision and protection policy layer** (gates, blockers, 
 
 ---
 
-## 7. Production Code References
+## 7. Under the Hood
 
-| Component | Source File | Responsibility |
-| :--- | :--- | :--- |
-| **`DispatchEnvelopeBuilder`** | `NovaBrowser/Core/Tob/DispatchEnvelopeBuilder.cs` | Encapsulates pre- and post-state snapshots for all MCP calls with UUIDs. |
-| **`ToolObservationProjector`**| `NovaBrowser/Core/Tob/ToolObservationProjector.cs` | Asynchronous projection of envelopes into the SQLite table `tob_tool_observation`. |
-| **`VisitWindowBuilder`** | `NovaBrowser/Core/Tob/VisitWindowBuilder.cs` | Aggregates calls into visit windows with dwell time and read signals. |
-| **`EvidenceLedger`** | `NovaBrowser/Core/Tob/EvidenceLedger.cs` | Computes evidence grades (`strong`/`weak`/`none`/`unknown`) for task verification. |
-| **`TobSelectorProofEmitter`**| `NovaBrowser/Core/Tob/TobSelectorProofEmitter.cs` | Delivers verified selector proofs to the PKS learning engine. |
-| **`PreludeBuffer`** | `NovaBrowser/Core/Tob/PreludeBuffer.cs` | In-memory ring buffer for low-latency gate checks without disk I/O. |
+| Component | Responsibility |
+| :--- | :--- |
+| **`DispatchEnvelopeBuilder`** | Encapsulates pre- and post-state snapshots for all MCP calls with UUIDs. |
+| **`ToolObservationProjector`**| Asynchronous projection of envelopes into the SQLite table `tob_tool_observation`. |
+| **`VisitWindowBuilder`** | Aggregates calls into visit windows with dwell time and read signals. |
+| **`EvidenceLedger`** | Computes evidence grades (`strong`/`weak`/`none`/`unknown`) for task verification. |
+| **`TobSelectorProofEmitter`**| Delivers verified selector proofs to the PKS learning engine. |
+| **`PreludeBuffer`** | In-memory ring buffer for low-latency gate checks without disk I/O. |
 
 ---
 

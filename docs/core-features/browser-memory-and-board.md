@@ -1,7 +1,7 @@
 # Browser Memory & Knowledge Board (User Context & Team Collaboration)
 
 > [!NOTE]
-> **Browser Memory** (`NovaBrowser.Core.BrowsingMemoryRepository`) and the **Knowledge Board** (`NovaBrowser.Core.KnowledgeBoard`) form the user-centric and collaborative memory tier of Nova AI Workspace. They preserve cross-session operator preferences with biological time-decay and allow multi-agent swarms to share intermediate findings on a synchronized whiteboard.
+> **Browser Memory** (`BrowsingMemoryRepository`) and the **Knowledge Board** (`KnowledgeBoard`) form the user-centric and collaborative memory tier of Nova AI Workspace. They preserve cross-session operator preferences with biological time-decay and allow multi-agent swarms to share intermediate findings on a synchronized whiteboard.
 
 ---
 
@@ -45,13 +45,13 @@ For multi-agent workflows requiring collaborative reasoning:
 
 ---
 
-## 4. Production Code References
+## 4. Under the Hood
 
-| Component | Source File | Responsibility |
-| :--- | :--- | :--- |
-| **`BrowsingMemoryRepository`** | `NovaBrowser/Core/Knowledge/BrowsingMemoryRepository.cs` | SQLite persistence (`pks_browsing_memory`), deduplication, relevance scoring, and decay. |
-| **`BrowsingMemoryService`** | `NovaBrowser/Core/Knowledge/BrowsingMemoryService.cs` | High-level memory service with caching and domain exclusion filtering. |
-| **`KnowledgeBoardStore`** | `NovaBrowser/Core/KnowledgeBoard/KnowledgeBoardStore.cs` | Thread-safe in-memory and persisted storage for multi-agent contributions. |
+| Component | Responsibility |
+| :--- | :--- |
+| **`BrowsingMemoryRepository`** | SQLite persistence (`pks_browsing_memory`), deduplication, relevance scoring, and decay. |
+| **`BrowsingMemoryService`** | High-level memory service with caching and domain exclusion filtering. |
+| **`KnowledgeBoardStore`** | Thread-safe in-memory and persisted storage for multi-agent contributions. |
 
 ---
 

@@ -1,6 +1,8 @@
 # Nova MCP Tool Catalog
 
-This catalog provides a functional reference for the primary tools exposed by **Nova AI Workspace**, categorized by operational domain. Click on any tool name to view its dedicated reference documentation, parameter table, JSON examples, and error handling notes.
+Every tool exposed by **Nova AI Workspace**, grouped by operational domain. Click a tool name for its own page with the full parameter table (types, defaults, allowed values).
+
+**Reading the Parameters column:** a plain name is required; a name ending in `?` is optional and can be left out (for example `url` must be given, `targetId?` may be omitted). Every tool also accepts the optional `_meta` object, which is not listed here.
 
 ---
 

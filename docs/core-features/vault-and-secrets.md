@@ -1,7 +1,7 @@
 # Secure Vault & Zero-Leak Secret Injection
 
 > [!NOTE]
-> The Nova Vault and Secret Management System (`NovaBrowser.Core.Security.VaultStore`) protects sensitive operator credentials, API keys, and passwords from LLM exposure. Using the **Zero-Leak Injection Pattern**, agents can authenticate web forms without plaintext passwords ever entering prompt context or tool outputs.
+> The Nova Vault and Secret Management System (`VaultStore`) protects sensitive operator credentials, API keys, and passwords from LLM exposure. Using the **Zero-Leak Injection Pattern**, agents can authenticate web forms without plaintext passwords ever entering prompt context or tool outputs.
 
 ---
 
@@ -82,14 +82,14 @@ flowchart TD
 
 ---
 
-## 4. Production Code References
+## 4. Under the Hood
 
-| Component | Source File | Responsibility |
-| :--- | :--- | :--- |
-| **`VaultStore`** | `NovaBrowser/Core/Security/VaultStore.cs` | DPAPI-encrypted persistence, atomic writes with backup rollback, and size limits (max 8 MB). |
-| **`VaultSecretFingerprintService`** | `NovaBrowser/Core/Security/VaultSecretFingerprintService.cs` | Generates cryptographic hash fingerprints of active secrets to detect leaks across all output channels. |
-| **`VaultFingerprintBoundaryRedactor`**| `NovaBrowser/Core/SessionRecording/VaultFingerprintBoundaryRedactor.cs` | Redacts accidentally reflected vault secrets in session recordings and network traces. |
-| **`DomainPermissionEvaluator`** | `NovaBrowser/Core/Browser/DomainPermissionEvaluator.cs` | Validates target domains against the Public Suffix List (PSL) to prevent subdomain and TLD spoofing. |
+| Component | Responsibility |
+| :--- | :--- |
+| **`VaultStore`** | DPAPI-encrypted persistence, atomic writes with backup rollback, and size limits (max 8 MB). |
+| **`VaultSecretFingerprintService`** | Generates cryptographic hash fingerprints of active secrets to detect leaks across all output channels. |
+| **`VaultFingerprintBoundaryRedactor`**| Redacts accidentally reflected vault secrets in session recordings and network traces. |
+| **`DomainPermissionEvaluator`** | Validates target domains against the Public Suffix List (PSL) to prevent subdomain and TLD spoofing. |
 
 ---
 

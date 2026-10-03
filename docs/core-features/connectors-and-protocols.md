@@ -1,7 +1,7 @@
 # Connectors & External Protocol Gateways
 
 > [!NOTE]
-> Nova AI Workspace's connectors engine (`NovaBrowser.Core.Connectors`) provides secure, audited interfaces to external protocols and servers: email (IMAP/SMTP), file transfer (SFTP/FTP), and external MCP server aggregation — backed by strict secret separation (SecretRef) and fine-grained capability permissions.
+> Nova AI Workspace's connectors engine (`Connectors`) provides secure, audited interfaces to external protocols and servers: email (IMAP/SMTP), file transfer (SFTP/FTP), and external MCP server aggregation — backed by strict secret separation (SecretRef) and fine-grained capability permissions.
 
 ---
 
@@ -51,22 +51,21 @@ flowchart TD
 ## 3. The Secret-Reference Pattern (SecretRef)
 
 A core security tenet of Nova: **Connector profiles never contain plain-text passwords or keys on disk or across MCP boundaries.**
-* **Reference over Value:** In a connector profile (`ConnectorProfileStore.cs`), only the symbolic secret identifier is stored (e.g., `secretRef: "prod-mail-pw"`).
+* **Reference over Value:** In a connector profile (`ConnectorProfileStore`), only the symbolic secret identifier is stored (e.g., `secretRef: "prod-mail-pw"`).
 * **Just-In-Time In-Memory Resolution:** The Nova host resolves the secret at the exact moment of connection establishment via the DPAPI-encrypted `GlobalSecretStore`.
 * **Zero MCP Exposure:** Agents cannot retrieve passwords through `connector_list` or any introspection tool.
 
 ---
 
-## 4. Core Codebase Components
+## 4. Under the Hood
 
-| Component | Source File | Responsibility |
-| :--- | :--- | :--- |
-| **`ConnectorModel`** | `NovaBrowser/Core/Connectors/ConnectorModel.cs` | Domain models for Mail, SFTP, and FTP profiles, transport security definitions, and capability enums. |
-| **`ConnectorMailClient`** | `NovaBrowser/Core/Connectors/ConnectorMailClient.cs` | Resilient IMAP/SMTP client managing folder trees, threading, structured parsing, and sanitized sending workflows. |
-| **`MailBackupService`** | `NovaBrowser/Core/Connectors/MailBackupService.cs` | Full offline mailbox backups into standards-compliant EML archives with resume checkpoints. |
-| **`ConnectorSftpClient`** | `NovaBrowser/Core/Connectors/ConnectorSftpClient.cs` | Managed SFTP connections with private-key authentication, bounded streams, and strict path-traversal prevention. |
-| **`MailSendRateLimiter`** | `NovaBrowser/Core/Connectors/MailSendRateLimiter.cs` | Guards against email storms and unbounded automated sending loops. |
-| **`MailAttachmentFilePolicy`** | `NovaBrowser/Core/Connectors/MailAttachmentFilePolicy.cs` | Enforces file extension and MIME type allowlists to prevent malware execution or malicious script downloads. |
+| Component | Responsibility |
+| :--- | :--- |
+| **`ConnectorMailClient`** | Resilient IMAP/SMTP client managing folder trees, threading, structured parsing, and sanitized sending workflows. |
+| **`MailBackupService`** | Full offline mailbox backups into standards-compliant EML archives with resume checkpoints. |
+| **`ConnectorSftpClient`** | Managed SFTP connections with private-key authentication, bounded streams, and strict path-traversal prevention. |
+| **`MailSendRateLimiter`** | Guards against email storms and unbounded automated sending loops. |
+| **`MailAttachmentFilePolicy`** | Enforces file extension and MIME type allowlists to prevent malware execution or malicious script downloads. |
 
 ---
 

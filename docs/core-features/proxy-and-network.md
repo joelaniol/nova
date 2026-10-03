@@ -80,12 +80,12 @@ flowchart TD
 
 ---
 
-## 5. Production Code References
+## 5. Under the Hood
 
-* **Proxy Settings & Profiles:** `NovaBrowser/Core/Settings/AppSettings.Proxies.cs`
-* **Proxy UI Integration:** `NovaBrowser/Views/MainPage.Proxy.cs`
-* **Network Interception Core:** `NovaBrowser/Core/Network/NetworkInterceptSession.cs`
-* **MCP Proxy Handler:** `NovaBrowser/Core/Mcp/McpProxyHandler.cs`
+* **Proxy Settings & Profiles:** `AppSettings`
+* **Proxy UI Integration:** `MainPage`
+* **Network Interception Core:** `NetworkInterceptSession`
+* **MCP Proxy Handler:** `McpProxyHandler`
 
 ---
 

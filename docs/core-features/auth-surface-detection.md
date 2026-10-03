@@ -1,7 +1,7 @@
 # Auth Surface Detection (ASD) & Universal Login Verification
 
 > [!NOTE]
-> The **Auth Surface Detection (ASD)** system (`NovaBrowser.Core.AuthDetectors`) universally identifies authentication interfaces across arbitrary websites: login walls, authenticated user sessions, MFA challenges, and auth error states. It replaces fragile site-specific selectors with a heuristic signal architecture governed by Tri-State safety logic.
+> The **Auth Surface Detection (ASD)** system (`AuthDetectors`) universally identifies authentication interfaces across arbitrary websites: login walls, authenticated user sessions, MFA challenges, and auth error states. It replaces fragile site-specific selectors with a heuristic signal architecture governed by Tri-State safety logic.
 
 ---
 
@@ -23,7 +23,7 @@ Whenever heuristics cannot produce an unambiguous verdict, Nova returns `Unknown
 ```mermaid
 flowchart TD
     subgraph BrowserDOM["WebView2 Injected Surface"]
-        Probe["AuthProbeScript.cs
+        Probe["AuthProbeScript
 (Single-Pass Multi-Signal Probe)"]
     end
 
@@ -66,14 +66,14 @@ ASD evaluates three core dimensions across every analyzed web surface:
 
 ---
 
-## 4. Production Code References
+## 4. Under the Hood
 
-| Component | Source File | Responsibility |
-| :--- | :--- | :--- |
-| **`AuthProbeScript`** | `NovaBrowser/Core/AuthDetectors/AuthProbeScript.cs` | Injected JavaScript probe: Single-pass extraction of passwords, autocomplete tokens, form actions, and storage keys. |
-| **`AccountSurfaceDetector`**| `NovaBrowser/Core/AuthDetectors/AccountSurfaceDetector.cs` | Evaluates profile indicators, user menus, and authenticated navigation chrome. |
-| **`PasswordFieldDetector`** | `NovaBrowser/Core/AuthDetectors/PasswordFieldDetector.cs` | Differentiates login password inputs from signup and confirmation fields. |
-| **`AuthAssessment`** | `NovaBrowser/Core/AuthDetectors/AuthAssessment.cs` | Data model representing aggregate verdicts with confidence scores (0.0 – 1.0). |
+| Component | Responsibility |
+| :--- | :--- |
+| **`AuthProbeScript`** | Injected JavaScript probe: Single-pass extraction of passwords, autocomplete tokens, form actions, and storage keys. |
+| **`AccountSurfaceDetector`**| Evaluates profile indicators, user menus, and authenticated navigation chrome. |
+| **`PasswordFieldDetector`** | Differentiates login password inputs from signup and confirmation fields. |
+| **`AuthAssessment`** | Data model representing aggregate verdicts with confidence scores (0.0 – 1.0). |
 
 ---
 

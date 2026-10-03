@@ -1,7 +1,7 @@
 # Humanized Input & Shadow DOM Traversal Engine
 
 > [!NOTE]
-> The **Humanized Input & Shadow DOM Traversal Engine** (`NovaBrowser.Core.ShadowDomSelectorEngine`, `DragDropPolyfillScript`) combines deep, seamless Shadow DOM traversal with natural, bot-resilient physical mouse execution (Bézier physics curves, micro-jitter) and native Win32 keyboard emulation.
+> The **Humanized Input & Shadow DOM Traversal Engine** (`ShadowDomSelectorEngine`, `DragDropPolyfillScript`) combines deep, seamless Shadow DOM traversal with natural, bot-resilient physical mouse execution (Bézier physics curves, micro-jitter) and native Win32 keyboard emulation.
 
 ---
 
@@ -18,7 +18,7 @@ Autonomous AI agents face two major obstacles when interacting with modern web a
 
 ## 2. Shadow DOM Piercing (` >>> `)
 
-Nova's selector engine (`ShadowDomSelectorEngine.cs`) extends the standard CSS selector syntax with the shadow-piercing operator:
+Nova's selector engine (`ShadowDomSelectorEngine`) extends the standard CSS selector syntax with the shadow-piercing operator:
 ```css
 /* Finds the button within the nested shadow root of the custom element */
 my-custom-dialog >>> user-avatar >>> button.save-btn
@@ -46,17 +46,17 @@ flowchart LR
 ```
 
 * **Fitts' Law Modeling:** Cursor velocity automatically adjusts based on distance and target area size (rapid movement over open stretches, smooth deceleration upon approaching target bounds).
-* **Hardware Keyboard Emulation:** Keystrokes (`nova.input_text`, `nova.input_key`) fire in strict physical order: `keydown` $\rightarrow$ `keypress` $\rightarrow$ `input` $\rightarrow$ `keyup`, complete with randomized inter-keystroke intervals and hardware scan-codes (`KeyMappingResolver.cs`).
+* **Hardware Keyboard Emulation:** Keystrokes (`nova.input_text`, `nova.input_key`) fire in strict physical order: `keydown` $\rightarrow$ `keypress` $\rightarrow$ `input` $\rightarrow$ `keyup`, complete with randomized inter-keystroke intervals and hardware scan-codes (`KeyMappingResolver`).
 
 ---
 
-## 4. Production Code References
+## 4. Under the Hood
 
-| Component | Source File | Responsibility |
-| :--- | :--- | :--- |
-| **`ShadowDomSelectorEngine`** | `NovaBrowser/Core/Browser/ShadowDomSelectorEngine.cs` | Generates optimized JS probes for Shadow DOM piercing (` >>> `) and tree pruning. |
-| **`DragDropPolyfillScript`** | `NovaBrowser/Core/Browser/DragDropPolyfillScript.cs` | Polyfill synthesizing authentic HTML5 DragEvents (`dragstart`, `dragover`, `drop`, `dragend`). |
-| **`KeyMappingResolver`** | `NovaBrowser/Core/Browser/KeyMappingResolver.cs` | Maps characters and control keys to Windows Virtual Key codes and CDP KeyEvents. |
+| Component | Responsibility |
+| :--- | :--- |
+| **`ShadowDomSelectorEngine`** | Generates optimized JS probes for Shadow DOM piercing (` >>> `) and tree pruning. |
+| **`DragDropPolyfillScript`** | Polyfill synthesizing authentic HTML5 DragEvents (`dragstart`, `dragover`, `drop`, `dragend`). |
+| **`KeyMappingResolver`** | Maps characters and control keys to Windows Virtual Key codes and CDP KeyEvents. |
 
 ---
 

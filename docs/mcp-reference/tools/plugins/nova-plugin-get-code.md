@@ -9,7 +9,7 @@
 
 ## 1. Overview
 
-Read the declared JavaScript source files of an installed plugin. Returns the legacy entry-point source plus sourceFiles\[\] for entryPoint and manifest.contentScripts\[\] files. Essential for the agent to debug, refactor, or improve existing plugins. Returns null source for missing files. See doc/plugins/README.md for plugin architecture.
+Read the declared JavaScript source files of an installed plugin. Returns the legacy entry-point source plus sourceFiles\[\] for entryPoint and manifest.contentScripts\[\] files. Essential for the agent to debug, refactor, or improve existing plugins. Returns null source for missing files. Read nova.reference_doc_read(docId='plugins') for the plugin architecture.
 
 ---
 

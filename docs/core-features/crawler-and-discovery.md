@@ -78,8 +78,8 @@ flowchart TD
 
 ---
 
-## 5. Codebase Implementation
+## 5. Under the Hood
 
-* **Crawler Engine & BFS Orchestrator:** `NovaBrowser/Core/Crawler/`
-* **MCP Crawler Handler:** `NovaBrowser/Core/Mcp/McpCrawlerHandler.cs`
-* **Surface Explorer:** `NovaBrowser/Core/Mcp/McpSurfaceExplorerHandler.cs` & `NovaBrowser/Core/Browser/SurfaceSafetyPipeline.cs`
+* **Crawler Engine & BFS Orchestrator:** `Crawler` subsystem
+* **MCP Crawler Handler:** `McpCrawlerHandler`
+* **Surface Explorer:** `McpSurfaceExplorerHandler` & `SurfaceSafetyPipeline`

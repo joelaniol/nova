@@ -24,7 +24,7 @@ flowchart TD
     subgraph BrowserProcess["Nova AI Workspace (NovaAIWorkspace.exe)"]
         Dock["Terminal Dock / Popout Panel
 (xterm.js Rendering & ANSI Theme Support)"]
-        TerminalCore["NovaBrowser/Core/Terminal/
+        TerminalCore["Terminal Core
 (Session Manager & Dispatcher)"]
         Dock <--> TerminalCore
     end
@@ -73,11 +73,11 @@ flowchart TD
 
 ---
 
-## 5. Production Code References
+## 5. Under the Hood
 
-* **Terminal Core & Session Manager:** `NovaBrowser/Core/Terminal/`
+* **Terminal Core & Session Manager:** `Terminal` subsystem
 * **Terminal Runner Process Project:** `NovaBrowser.TerminalRunner/`
-* **WinUI 3 Host & Docking Integration:** `NovaBrowser/Views/MainPage.TerminalShell.cs`
+* **WinUI 3 Host & Docking Integration:** `MainPage`
 
 ---
 

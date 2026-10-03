@@ -60,15 +60,15 @@ Speech recognition runs **100% offline and locally** using the optimized `whispe
 
 ---
 
-## 4. Core Codebase Components
+## 4. Under the Hood
 
-| Component | Source File | Responsibility |
-| :--- | :--- | :--- |
-| **`TranscriptionService`** | `NovaBrowser/Core/Media/TranscriptionService.cs` | Manages the global transcription queue, monitors inference timeouts, and aggregates text segment outputs. |
-| **`WhisperModelCatalog`** | `NovaBrowser/Core/Media/WhisperModelCatalog.cs` | Registry, version control, and disk storage management for GGML model weights. |
-| **`AudioDurationProbe`** | `NovaBrowser/Core/Media/AudioDurationProbe.cs` | Fast container header parser for MP3, AAC, FLAC, OGG, and WAV files to calculate duration prior to model execution. |
-| **`MseCaptureService`** | `NovaBrowser/Core/Media/MseCaptureService.cs` | Intercepts Media Source Extension buffers directly in the DOM to capture streamed web media. |
-| **`MediaDeviceInventoryService`** | `NovaBrowser/Core/Browser/MediaDeviceInventoryService.cs` | Discovers microphones, cameras, and audio output devices with persistent device-ID masking. |
+| Component | Responsibility |
+| :--- | :--- |
+| **`TranscriptionService`** | Manages the global transcription queue, monitors inference timeouts, and aggregates text segment outputs. |
+| **`WhisperModelCatalog`** | Registry, version control, and disk storage management for GGML model weights. |
+| **`AudioDurationProbe`** | Fast container header parser for MP3, AAC, FLAC, OGG, and WAV files to calculate duration prior to model execution. |
+| **`MseCaptureService`** | Intercepts Media Source Extension buffers directly in the DOM to capture streamed web media. |
+| **`MediaDeviceInventoryService`** | Discovers microphones, cameras, and audio output devices with persistent device-ID masking. |
 
 ---
 

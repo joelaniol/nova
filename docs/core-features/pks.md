@@ -93,12 +93,12 @@ For high-consequence phenomena (such as cookie consent banners `consent_cmp`), N
 
 ---
 
-## 7. Production Code References
+## 7. Under the Hood
 
-* **Storage & Schema:** `NovaBrowser/Core/Pks/PksDb.cs`
-* **Store & Public Facades:** `NovaBrowser/Core/Pks/PksStore.cs`
-* **Repository & Queries:** `NovaBrowser/Core/Pks/PksRepository.cs`
-* **MCP Integration:** `NovaBrowser/Core/Mcp/McpServer.ArgumentParsingAndPksModes.cs`
+* **Storage & Schema:** `PksDb`
+* **Store & Public Facades:** `PksStore`
+* **Repository & Queries:** `PksRepository`
+* **MCP Integration:** `McpServer`
 
 ---
 

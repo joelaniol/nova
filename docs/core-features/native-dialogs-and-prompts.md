@@ -1,7 +1,7 @@
 # Native Dialogs & UI Prompts Automation Engine
 
 > [!NOTE]
-> The **Native Dialogs & UI Prompts Automation Engine** (`NovaBrowser.Core.NativeDialogAutomationHeuristics`, `ScriptDialogInterceptionPolicy`) overcomes the steepest hurdle in browser automation: authentic Win32 and WebView2 system dialogs that exist outside the DOM and would otherwise deadlock the host thread.
+> The **Native Dialogs & UI Prompts Automation Engine** (`NativeDialogAutomationHeuristics`, `ScriptDialogInterceptionPolicy`) overcomes the steepest hurdle in browser automation: authentic Win32 and WebView2 system dialogs that exist outside the DOM and would otherwise deadlock the host thread.
 
 ---
 
@@ -53,7 +53,7 @@ flowchart TD
 
 ---
 
-## 3. Win32 Control Heuristics (`NativeDialogAutomationHeuristics.cs`)
+## 3. Win32 Control Heuristics (`NativeDialogAutomationHeuristics`)
 
 For native file open and save dialogs, Nova scans child controls of the dialog handle (`HWND`) and calculates confidence scores:
 * **Input Field Identification:** Analyzes geometry, window class (`Edit`), and layout placement (`MinimumFileNameEditScore = 50`).
@@ -64,12 +64,10 @@ For native file open and save dialogs, Nova scans child controls of the dialog h
 
 ---
 
-## 4. Production Code References
+## 4. Under the Hood
 
-| Component | Source File | Responsibility |
-| :--- | :--- | :--- |
-| **`NativeDialogAutomationHeuristics`** | `NovaBrowser/Core/Browser/NativeDialogAutomationHeuristics.cs` | Classifies controls, input fields, and buttons in native Win32 dialogs. |
-| **`NativeDialogAutomation`** | `NovaBrowser/Core/Mcp/McpServer.ExecutionNativeDialogAutomation.cs` | Exposes MCP tool endpoints for inspecting and resolving dialogs. |
+| Component | Responsibility |
+| :--- | :--- |
 
 ---
 
