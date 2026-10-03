@@ -17,11 +17,12 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `agentId` | `string` | No | Optional agent identity. Reads may observe an unclaimed target but must match any existing claim. |
-| `targetId` | `string` | **Yes** | Required stable sandbox ID or browser-tab ID from nova.tabs. Active aliases are not accepted. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | Yes | — | — | Required stable sandbox ID or browser-tab ID from nova.tabs. Active aliases are not accepted. |
+| `agentId` | `string` | No | `"default"` | — | Optional agent identity. Reads may observe an unclaimed target but must match any existing claim. |
+<!-- /generated:parameters -->
 
 ---
 

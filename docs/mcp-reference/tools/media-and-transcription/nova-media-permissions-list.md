@@ -16,13 +16,15 @@ Lists all stored per-origin permission overrides along with global default polic
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`axis`** | `string` | No | `null` | Filter by axis. Combine with mode to find rows where that axis equals the mode. |
-| **`limit`** | `integer` | No | `null` | Max results. Default 100. |
-| **`mode`** | `string` | No | `null` | Filter by mode. Without axis, matches rows where any axis carries the mode. |
-| **`offset`** | `integer` | No | `null` | Pagination offset. |
-| **`origin`** | `string` | No | `null` | Filter by origin prefix (e.g. 'https://meet'). |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `axis` | `string` | No | — | `camera`, `microphone`, `speaker`, `screenCapture`, `geolocation` | Filter by axis. Combine with mode to find rows where that axis equals the mode. |
+| `mode` | `string` | No | — | `ask`, `allow`, `deny` | Filter by mode. Without axis, matches rows where any axis carries the mode. |
+| `origin` | `string` | No | — | — | Filter by origin prefix (e.g. 'https://meet'). |
+| `limit` | `integer` | No | — | 1–500 | Max results. Default 100. |
+| `offset` | `integer` | No | — | ≥ 0 | Pagination offset. |
+<!-- /generated:parameters -->
 
 ---
 

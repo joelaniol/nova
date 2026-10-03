@@ -16,13 +16,16 @@ Imports MCP server definitions from Claude Desktop, VS Code, Claude Code, or JSO
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`source`** | `string` | Yes | `none` | Config source: `"claude_desktop"`, `"vscode"`, `"claude_code"`, or `"file"`. |
-| **`filePath`** | `string` | Conditional | `auto-detected` | File path to config. Auto-detected for standard clients; required when `source: "file"`. |
-| **`serverName`** | `string` | No | `all` | Import specific server by name. Omit to import all. |
-| **`autoStart`** | `boolean` | No | `false` | Automatically start imported servers after registration. |
-| **`_meta`** | `object` | Yes | `none` | Audit intent metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `source` | `string` | Yes | — | `claude_desktop`, `vscode`, `claude_code`, `file` | Config source to import from. |
+| `filePath` | `string` | No | — | — | Path to config file. Auto-detected if omitted (except for source='file'). |
+| `serverName` | `string` | No | — | — | Import only a specific server by name. Omit to import all. |
+| `autoStart` | `boolean` | No | — | — | Automatically start imported servers after import. Default: false. |
+
+**`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+<!-- /generated:parameters -->
 
 ---
 

@@ -41,15 +41,16 @@ If a page contains multiple tables or embeds a table inside a specific dashboard
 
 ## 3. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`selector`** | `string` | No | `null` | Optional CSS selector targeting a table or container element. |
-| **`maxTables`** | `integer` | No | `20` | Maximum number of tables to extract (1–200). Excess tables set `truncated: true`. |
-| **`maxRows`** | `integer` | No | `500` | Maximum body rows per table (1–10,000). Excess rows are dropped. |
-| **`maxCols`** | `integer` | No | `100` | Maximum cells per row (1–1,000). |
-| **`maxCellChars`** | `integer` | No | `500` | Maximum character length per cell (1–20,000 chars). |
-| **`targetId`** | `string` | No | `"active"` | Target tab ID from `nova.tabs`, or `"active"`. |
-| **`agentId`** | `string` | No | `"default"` | Agent identity for claim lease verification. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `selector` | `string` | No | — | — | Optional CSS selector. Scopes extraction to the matched table(s), or to <table> elements inside the matched container(s). Omit to extract all tables on the page. Errors if it matches nothing. |
+| `maxTables` | `integer` | No | `20` | 1–200 | Maximum number of tables to return. Excess tables are dropped and the top-level 'truncated' flag is set. |
+| `maxRows` | `integer` | No | `500` | 1–10000 | Maximum body rows per table. Excess rows are dropped and that table's 'truncated' flag is set. |
+| `maxCols` | `integer` | No | `100` | 1–1000 | Maximum cells per row (and header columns) to return. |
+| `maxCellChars` | `integer` | No | `500` | 1–20000 | Maximum characters of trimmed text per cell; longer cell text is truncated. |
+<!-- /generated:parameters -->
 
 ---
 

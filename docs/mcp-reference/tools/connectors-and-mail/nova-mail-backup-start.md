@@ -16,15 +16,19 @@ Launches a background job to back up an entire mail account or specific folders.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`allowInsecure`** | `boolean` | No | `false` | Required as true only when this account's IMAP endpoint explicitly uses plaintext or disabled certificate validation, and only after the user enabled insecure connector connections in Settings. |
-| **`folders`** | `array` | No | `null` | Optional exact folder fullNames. Omit for every selectable personal folder the grant allows. |
-| **`localPath`** | `string` | No | `null` | Optional absolute existing folder for the part files. Omit for Nova's default folder. |
-| **`mode`** | `string` | No | `"auto"` | auto: continue after the last backup or run in full; full: start over; incremental: only continue. |
-| **`profileId`** | `string` | Yes | `null` | Mail connector id (from nova.connector_list). |
-| **`since`** | `string` | No | `null` | Optional ISO date; only messages delivered on or after it. |
-| **`unattended`** | `boolean` | No | `false` | Optional fail-closed hint for a non-interactive caller. Host-attested scheduled-task sessions are unattended even when omitted and can never be made interactive by this field. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `profileId` | `string` | Yes | — | — | Mail connector id (from nova.connector_list). |
+| `mode` | `string` | No | `"auto"` | `auto`, `full`, `incremental` | auto: continue after the last backup or run in full; full: start over; incremental: only continue. |
+| `folders` | `array` of `string` | No | — | ≤ 200 items | Optional exact folder fullNames. Omit for every selectable personal folder the grant allows. |
+| `since` | `string` | No | — | — | Optional ISO date; only messages delivered on or after it. |
+| `localPath` | `string` | No | — | — | Optional absolute existing folder for the part files. Omit for Nova's default folder. |
+| `unattended` | `boolean` | No | `false` | — | Optional fail-closed hint for a non-interactive caller. Host-attested scheduled-task sessions are unattended even when omitted and can never be made interactive by this field. |
+| `allowInsecure` | `boolean` | No | `false` | — | Required as true only when this account's IMAP endpoint explicitly uses plaintext or disabled certificate validation, and only after the user enabled insecure connector connections in Settings. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

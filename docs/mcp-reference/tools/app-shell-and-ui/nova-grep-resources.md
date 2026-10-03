@@ -17,21 +17,21 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `agentId` | `string` | No | Optional agent identity for claim authorization at the MCP entry point. Defaults to 'default'. |
-| `caseSensitive` | `boolean` | No | If true, literal or regex matching is case-sensitive. |
-| `contextChars` | `integer` | No | Characters of context to include before and after each match. |
-| `maxChars` | `integer` | No | Maximum serialized response characters before truncation. Defaults shrink automatically under context pressure unless explicitly provided. |
-| `maxItems` | `integer` | No | Maximum resources to enumerate before searching. |
-| `maxMatches` | `integer` | No | Maximum total matches to return across all resources. |
-| `maxResourceChars` | `integer` | No | Maximum characters to read from each text resource before searching. |
-| `pattern` | `string` | **Yes** | Literal search text by default, or a .NET/ECMAScript-compatible regex when regex=true. |
-| `regex` | `boolean` | No | If true, treat pattern as a regex. Invalid regex patterns fail with -32602. |
-| `source` | `string` | No | Resource discovery method. 'auto': merges the CDP resource tree with the Performance timeline (deduplicated by URL), then falls back to DOM tags. 'cdp': CDP resource tree only. 'performance': Performance API entries only. 'dom': scans DOM tags. Only what discovery listed is scanned - discoverySources and completenessHint in the result say so. |
-| `targetId` | `string` | No | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
-| `types` | `array` | No | Resource types to search. Defaults to text-oriented scripts, stylesheets, and documents. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `pattern` | `string` | Yes | — | — | Literal search text by default, or a .NET/ECMAScript-compatible regex when regex=true. |
+| `source` | `string` | No | `"auto"` | `auto`, `cdp`, `performance`, `dom` | Resource discovery method. 'auto': merges the CDP resource tree with the Performance timeline (deduplicated by URL), then falls back to DOM tags. 'cdp': CDP resource tree only. 'performance': Performance API entries only. 'dom': scans DOM tags. Only what discovery listed is scanned - discoverySources and completenessHint in the result say so. |
+| `types` | `array` of `string` | No | `["Script","Stylesheet","Document"]` | — | Resource types to search. Defaults to text-oriented scripts, stylesheets, and documents. |
+| `caseSensitive` | `boolean` | No | `false` | — | If true, literal or regex matching is case-sensitive. |
+| `regex` | `boolean` | No | `false` | — | If true, treat pattern as a regex. Invalid regex patterns fail with -32602. |
+| `maxItems` | `integer` | No | `200` | 1–2000 | Maximum resources to enumerate before searching. |
+| `maxResourceChars` | `integer` | No | `100000` | 1000–5000000 | Maximum characters to read from each text resource before searching. |
+| `maxMatches` | `integer` | No | `100` | 1–2000 | Maximum total matches to return across all resources. |
+| `contextChars` | `integer` | No | `120` | 0–2000 | Characters of context to include before and after each match. |
+| `maxChars` | `integer` | No | `100000` | 1000–5000000 | Maximum serialized response characters before truncation. Defaults shrink automatically under context pressure unless explicitly provided. |
+<!-- /generated:parameters -->
 
 ---
 

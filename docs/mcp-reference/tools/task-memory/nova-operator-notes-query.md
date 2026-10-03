@@ -16,14 +16,16 @@ Queries operator notes by keywords with tag-intersection and TF-IDF relevance sc
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`keywords`** | `array` | Yes | `null` | Keywords to match against note tags. |
-| **`limit`** | `integer` | No | `10` | Maximum results. Default: 10. |
-| **`minScore`** | `number` | No | `0.3` | Minimum match score (0.0-1.0). Default: 0.3. |
-| **`sandboxId`** | `string` | No | `null` | Optional explicit sandbox letter-id to override the active-target resolution. Requires sandboxRef. |
-| **`sandboxRef`** | `string` | No | `null` | Opaque PersistentUid token from nova.tabs / nova.sandbox_context. Mandatory when sandboxId is set. |
-| **`scope`** | `string` | No | `"current_sandbox"` | Filter scope: 'current_sandbox' (default) = active sandbox + global; 'global' = only global notes; 'all' = no filter; 'orphaned' = notes anchored to deleted sandboxes (cleanup view). |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `keywords` | `array` of `string` | Yes | — | — | Keywords to match against note tags. |
+| `minScore` | `number` | No | `0.3` | 0–1 | Minimum match score (0.0-1.0). Default: 0.3. |
+| `limit` | `integer` | No | `10` | 1–50 | Maximum results. Default: 10. |
+| `scope` | `string` | No | `"current_sandbox"` | `current_sandbox`, `global`, `all`, `orphaned` | Filter scope: 'current_sandbox' (default) = active sandbox + global; 'global' = only global notes; 'all' = no filter; 'orphaned' = notes anchored to deleted sandboxes (cleanup view). |
+| `sandboxId` | `string` | No | — | — | Optional explicit sandbox letter-id to override the active-target resolution. Requires sandboxRef. |
+| `sandboxRef` | `string` | No | — | — | Opaque PersistentUid token from nova.tabs / nova.sandbox_context. Mandatory when sandboxId is set. |
+<!-- /generated:parameters -->
 
 ---
 

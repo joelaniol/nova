@@ -16,13 +16,15 @@ Executes a single command line in an existing session and waits synchronously fo
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`sessionId`** | `string` | Yes | `none` | Session identifier from `nova.terminal_open`. |
-| **`command`** | `string` | Yes | `none` | Single-line command to run. Embedded newlines are rejected (`command_rejected`). |
-| **`timeoutSeconds`** | `integer` | No | `30` | Maximum seconds to wait (1 - 3600). |
-| **`agentId`** | `string` | No | `"default"` | Optional agent identifier. |
-| **`_meta`** | `object` | No | `null` | Optional metadata with execution intent. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `sessionId` | `string` | Yes | — | — | Session id from terminal_open. |
+| `command` | `string` | Yes | — | — | Command line to run (e.g. 'dir', 'git status'). Single line only — embedded newlines are rejected (command_rejected); use terminal_write for raw multi-line input. |
+| `timeoutSeconds` | `integer` | No | — | 1–3600 | Max seconds to wait for completion. Default 30. |
+
+**`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+<!-- /generated:parameters -->
 
 ---
 

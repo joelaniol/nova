@@ -16,17 +16,19 @@ Updates host, port, protocol, or bypass list of an existing proxy profile.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`profileId`** | `string` | Yes | `none` | Proxy profile identifier. |
-| **`name`** | `string` | No | `unchanged` | New display name. |
-| **`host`** | `string` | No | `unchanged` | New hostname/IP. |
-| **`port`** | `integer` | No | `unchanged` | New port. |
-| **`protocol`** | `string` | No | `unchanged` | New protocol. |
-| **`username`** | `string` | No | `unchanged` | New username. |
-| **`bypassList`** | `string` | No | `unchanged` | New bypass list. |
-| **`enabled`** | `boolean` | No | `unchanged` | Enable/disable. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `profileId` | `string` | Yes | — | — | ID of the proxy profile to update. |
+| `name` | `string` | No | — | — | New display name. |
+| `protocol` | `string` | No | — | — | New protocol: 'http', 'https', 'socks4', or 'socks5'. |
+| `host` | `string` | No | — | — | New hostname or IP address. |
+| `port` | `integer` | No | — | 1–65535 | New port number (1–65535). |
+| `bypassList` | `string` | No | — | — | New bypass list (semicolon-separated). Empty string clears. |
+| `username` | `string` | No | — | — | New username. Empty string clears. |
+| `enabled` | `boolean` | No | — | — | Enable or disable the profile. |
+| `isGlobalDefault` | `boolean` | No | — | — | Set or unset as global default. |
+<!-- /generated:parameters -->
 
 ---
 

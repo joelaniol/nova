@@ -16,11 +16,12 @@ Queries real-time connectivity status, latency, and external IP for a proxy prof
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`profileId`** | `string` | No | `global default` | Proxy profile ID to inspect. |
-| **`targetId`** | `string` | No | `null` | Tab or sandbox ID whose effective proxy status to inspect. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `profileId` | `string` | No | — | — | Proxy profile ID. Omit to query the active global default proxy. |
+| `targetId` | `string` | No | — | — | Target ID (sandbox ID or 'browser-tabs') to get status for a specific tab scope. |
+<!-- /generated:parameters -->
 
 ---
 

@@ -16,10 +16,12 @@ Lists guidance log entries and override patterns that are candidates for profile
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`profileId`** | `string` | Yes | `null` | The profile ID to check for promotion candidates. |
-| **`threshold`** | `integer` | No | `3` | Minimum occurrence count to qualify as candidate. Default: 3. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `profileId` | `string` | Yes | — | — | The profile ID to check for promotion candidates. |
+| `threshold` | `integer` | No | `3` | 1–100 | Minimum occurrence count to qualify as candidate. Default: 3. |
+<!-- /generated:parameters -->
 
 ---
 

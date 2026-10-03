@@ -16,15 +16,16 @@ Instantly extracts and classifies all hyperlinks from an existing active browser
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`targetId`** | `string` | No | `"active"` | Target tab ID from `nova.tabs`, or `"active"`. |
-| **`sameDomainOnly`** | `boolean` | No | `false` | If true, only returns links matching the current tab's host. |
-| **`sameScopeOnly`** | `boolean` | No | `false` | Preferred alias: restricts returned links to the current origin. |
-| **`includeText`** | `boolean` | No | `true` | Include the visible anchor text for each link. |
-| **`deep`** | `boolean` | No | `false` | If true, penetrates Shadow DOM trees and same-origin iframes. |
-| **`urlPattern`** | `string` | No | `null` | JavaScript-compatible regex pattern to filter returned URLs. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `urlPattern` | `string` | No | — | — | Optional JavaScript-RegExp-compatible filter for extracted links by URL. Browser-incompatible patterns are rejected fail-fast instead of degrading to an empty result. |
+| `sameDomainOnly` | `boolean` | No | `false` | — | Legacy filter name. If true, only return links on the current page's exact origin (same scheme, host, and port). |
+| `sameScopeOnly` | `boolean` | No | `false` | — | Preferred alias for sameDomainOnly. For crawl_links this means exact-origin only, not alias-aware same-site merging. Must match sameDomainOnly if both are provided. |
+| `includeText` | `boolean` | No | `true` | — | If true, include the visible text of each link. |
+| `deep` | `boolean` | No | `false` | — | If true, also search iframes and shadow DOM for links. |
+<!-- /generated:parameters -->
 
 ---
 

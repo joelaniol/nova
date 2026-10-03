@@ -16,11 +16,12 @@ Lists recent host operation traces with execution timing, phases, and outcome st
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`limit`** | `integer` | No | `20` | Maximum number of traces to return (max 100). |
-| **`status`** | `string` | No | `null` | Optional status filter: `"ok"`, `"failed"`, or null for all. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `limit` | `integer` | No | `20` | 1–50 | Maximum traces to return. |
+| `status` | `string` | No | — | `ok`, `failed`, `blocked`, `running` | Optional status filter. 'ok' returns successful traces, 'failed' returns tool/runtime failures, 'blocked' returns policy/claim/approval denials, and 'running' returns traces that have not completed yet. |
+<!-- /generated:parameters -->
 
 ---
 

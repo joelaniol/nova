@@ -16,10 +16,12 @@ Reports live navigation observations (new pages, 404s, redirects) to the Site-UR
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`reports`** | `array of objects` | Yes | `none` | Array of observation objects containing `url`, `status`, and optional `title` or `redirectUrl`. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `agentId` | `string` | No | `"default"` | — | Optional agent identity. Defaults to 'default'. |
+| `reports` | `array` of `object` | Yes | — | — | Array of URL observations to report. |
+<!-- /generated:parameters -->
 
 ---
 

@@ -17,15 +17,16 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `agentId` | `string` | No | Agent identity that already owns the explicit target claim. |
-| `clientRequestId` | `string` | **Yes** | Caller-generated idempotency key scoped to this agent and target. Retrying identical arguments is safe; reuse with different arguments for the same target conflicts. |
-| `expectedRevision` | `integer` | **Yes** | Optimistic-concurrency revision from nova.auto_reload_get (0-2147483647). Use 0 only when no schedule exists. |
-| `intervalSeconds` | `integer` | No | Reload interval in seconds (30-86400). Required to create mode=running; optional when resuming an existing schedule; forbidden for paused/off. |
-| `mode` | `string` | **Yes** | Desired state. running starts or resumes, paused preserves the interval without reloading, and off removes the session schedule. |
-| `targetId` | `string` | **Yes** | Required stable sandbox ID or browser-tab ID from nova.tabs. The same agentId must already hold an explicit claim; active aliases and auto-claim are not accepted. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | Yes | — | — | Required stable sandbox ID or browser-tab ID from nova.tabs. The same agentId must already hold an explicit claim; active aliases and auto-claim are not accepted. |
+| `mode` | `string` | Yes | — | `running`, `paused`, `off` | Desired state. running starts or resumes, paused preserves the interval without reloading, and off removes the session schedule. |
+| `intervalSeconds` | `integer` | No | — | 30–86400 | Reload interval in seconds (30-86400). Required to create mode=running; optional when resuming an existing schedule; forbidden for paused/off. |
+| `expectedRevision` | `integer` | Yes | — | 0–2147483647 | Optimistic-concurrency revision from nova.auto_reload_get (0-2147483647). Use 0 only when no schedule exists. |
+| `clientRequestId` | `string` | Yes | — | 1–128 characters | Caller-generated idempotency key scoped to this agent and target. Retrying identical arguments is safe; reuse with different arguments for the same target conflicts. |
+| `agentId` | `string` | No | `"default"` | — | Agent identity that already owns the explicit target claim. |
+<!-- /generated:parameters -->
 
 ---
 

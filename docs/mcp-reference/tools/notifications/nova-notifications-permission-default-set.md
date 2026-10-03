@@ -16,10 +16,13 @@ Sets the global website notification permission default (Ask, Allow, or Deny).
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`mode`** | `string` | Yes | `none` | Global permission default: `"ask"`, `"allow"`, or `"deny"`. |
-| **`_meta`** | `object` | No | `null` | Optional metadata with configuration intent. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `mode` | `string` | Yes | — | `ask`, `allow`, `deny` | Global notification permission default to set. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

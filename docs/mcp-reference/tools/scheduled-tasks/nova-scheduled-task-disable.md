@@ -16,10 +16,13 @@ Pauses execution of a scheduled task without modifying its configuration or hist
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`taskId`** | `string` | Yes | `none` | The task ID to disable. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `taskId` | `string` | Yes | — | — | The task ID to disable. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

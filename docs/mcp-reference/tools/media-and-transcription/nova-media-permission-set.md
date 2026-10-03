@@ -16,17 +16,21 @@ Sets or clears persistent or session-based camera, mic, speaker, and geolocation
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`camera`** | `string` | No | `null` | Camera mode. |
-| **`clearAll`** | `boolean` | No | `null` | Remove the entire stored override for this origin. Cannot be combined with axis modes or lifetime. |
-| **`geolocation`** | `string` | No | `null` | Geolocation (navigator.geolocation) per-site override. lifetime='session' is not supported for this axis. |
-| **`lifetime`** | `string` | No | `null` | How long the grant lives. 'persistent' (default) survives restart; 'session' is in-memory only and only valid for camera/microphone/speaker. |
-| **`microphone`** | `string` | No | `null` | Microphone mode. |
-| **`origin`** | `string` | Yes | `null` | Absolute http/https top-level origin. |
-| **`requestingOrigin`** | `string` | No | `null` | Optional iframe origin (P-4). When set and distinct from origin, writes a tuple-specific override (an iframe-only entry that does not affect the top-level grant). Omit for classic top-level writes. |
-| **`screenCapture`** | `string` | No | `null` | Screen sharing (getDisplayMedia) per-site override. lifetime='session' is not supported for this axis. |
-| **`speaker`** | `string` | No | `null` | Speaker / audio output routing mode. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `origin` | `string` | Yes | — | — | Absolute http/https top-level origin. |
+| `requestingOrigin` | `string` | No | — | — | Optional iframe origin (P-4). When set and distinct from origin, writes a tuple-specific override (an iframe-only entry that does not affect the top-level grant). Omit for classic top-level writes. |
+| `camera` | `string` | No | — | `ask`, `allow`, `deny` | Camera mode. |
+| `microphone` | `string` | No | — | `ask`, `allow`, `deny` | Microphone mode. |
+| `speaker` | `string` | No | — | `ask`, `allow`, `deny` | Speaker / audio output routing mode. |
+| `screenCapture` | `string` | No | — | `ask`, `allow`, `deny` | Screen sharing (getDisplayMedia) per-site override. lifetime='session' is not supported for this axis. |
+| `geolocation` | `string` | No | — | `ask`, `allow`, `deny` | Geolocation (navigator.geolocation) per-site override. lifetime='session' is not supported for this axis. |
+| `lifetime` | `string` | No | — | `persistent`, `session` | How long the grant lives. 'persistent' (default) survives restart; 'session' is in-memory only and only valid for camera/microphone/speaker. |
+| `clearAll` | `boolean` | No | — | — | Remove the entire stored override for this origin. Cannot be combined with axis modes or lifetime. |
+
+**`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+<!-- /generated:parameters -->
 
 ---
 

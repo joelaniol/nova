@@ -56,20 +56,26 @@ If a newly rendered consent dialog or marketing overlay blocks the view while po
 
 ## 3. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`selector`** | `string` | **Yes** | ? | CSS selector. Supports ` >>> ` to pierce Shadow DOM boundaries. |
-| **`targetId`** | `string` | No | `"active"` | Target tab ID from `nova.tabs`, or `"active"`. |
-| **`absent`** | `boolean` | No | `false` | If `true`, wait for the element to disappear (removed or hidden). |
-| **`visible`** | `boolean` | No | `true` | If `true`, requires element visibility. If `false`, DOM presence is sufficient. |
-| **`timeoutMs`** | `integer` | No | `10000` | Maximum wait time in milliseconds (0?300,000 ms). |
-| **`pollMs`** | `integer` | No | `200` | Polling interval between checks (50?2,000 ms). |
-| **`scrollIntoView`** | `boolean` | No | `true` | If `true`, scrolls the element into view once found. |
-| **`autoDismissBlockers`** | `boolean` | No | `false` | Automatically dismiss overlay banners during polling. |
-| **`autoDismissMode`** | `string` | No | `"conservative"` | Blocker strategy: `"conservative"` or `"aggressive"`. |
-| **`includeScreenshot`** | `boolean` | No | `false` | Capture visual evidence screenshot once condition is satisfied. |
-| **`screenshotFormat`** | `string` | No | `"png"` | Format for screenshot: `"png"`, `"jpeg"`, or `"auto"`. |
-| **`agentId`** | `string` | No | `"default"` | Agent identity for claim lease verification. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `selector` | `string` | Yes | — | — | CSS selector. Supports ' >>> ' combinator to pierce Shadow DOM boundaries (e.g. 'my-component >>> .inner-button'). |
+| `visible` | `boolean` | No | `true` | — | If true (default), element must be visible (not just in DOM). If false, any DOM presence counts. |
+| `timeoutMs` | `integer` | No | `10000` | 0–300000 | Max wait time in ms before timing out. |
+| `pollMs` | `integer` | No | `200` | 50–2000 | Polling interval in ms between checks. |
+| `absent` | `boolean` | No | `false` | — | If true, wait for the element to DISAPPEAR (not exist or not visible). Useful for waiting on loading spinners, streaming indicators, or modal close. |
+| `scrollIntoView` | `boolean` | No | `true` | — | If true, scroll the element into view once found. |
+| `autoDismissBlockers` | `boolean` | No | `false` | — | If true, explicitly dismiss overlays/modals during polling that may hide the target element. Default false: use overlayDetected plus cmp_apply/dismiss_blockers for consent banners. |
+| `autoDismissMode` | `string` | No | `"conservative"` | `conservative`, `aggressive` | Blocker dismissal strategy during polling. 'conservative': common banners only. 'aggressive': all overlay/fixed-position blockers. |
+| `includeScreenshot` | `boolean` | No | `false` | — | If true, include a screenshot once the condition is met. |
+| `screenshotMaxWidth` | `integer` | No | — | — | Max screenshot width in pixels. |
+| `screenshotMaxHeight` | `integer` | No | — | — | Max screenshot height in pixels. |
+| `screenshotFormat` | `string` | No | `"png"` | `png`, `jpeg`, `auto` | Screenshot format. Use 'auto' to fall back to the tool-intent default (e.g. jpeg q=72 for confirm-shots). |
+| `screenshotQuality` | `integer` | No | `80` | 1–100 | JPEG quality (1-100). Only used when screenshotFormat is 'jpeg'. |
+| `screenshotResponseMode` | `string` | No | — | `inline`, `reference`, `thumbnail+reference`, `auto` | Override default delivery mode for the screenshot. Default comes from the tool-intent profile (e.g. confirm-shots default 'thumbnail+reference' for token efficiency). Use 'inline' to force full image bytes, 'auto' to let the server pick based on projected token cost and session budget. |
+| `outputDetail` | `string` | No | `"full"` | `full`, `compact` | 'compact' omits fields that repeat a value carried elsewhere in the same response (the duplicate file path, and inlinePreview when it describes the same image as evidenceImage) plus the delivery telemetry: byteAccounting (byte counts of what you just received) and tokens (per-provider vision-token estimates). The image, coordinateMeta and every warning are unaffected - no setting can hide a warning. |
+<!-- /generated:parameters -->
 
 ---
 

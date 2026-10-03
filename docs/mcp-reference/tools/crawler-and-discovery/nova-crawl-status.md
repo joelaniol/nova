@@ -16,11 +16,13 @@ Checks the live progress, active phase, and error metrics of a background crawl 
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`crawlId`** | `string` | Yes | `none` | Crawl job ID returned by `nova.crawl_start`. |
-| **`outputDetail`** | `string` | No | `"full"` | Projection detail: `"minimal"` (counts, status, phase) or `"full"` (includes rate limits, error breakdowns). |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `agentId` | `string` | No | `"default"` | — | Optional agent identity for crawl ownership checks. Must match the agentId that started the crawl. Defaults to 'default'. |
+| `crawlId` | `string` | Yes | — | — | Crawl job ID returned by crawl_start. |
+| `outputDetail` | `string` | No | `"full"` | `minimal`, `summary`, `full` | Status projection. 'minimal' keeps state/counts/watermarks/phase/error/poll and compact rate control. 'summary' adds compact config and session/readiness/script counters without raw customScript. 'full' preserves complete config and diagnostics. |
+<!-- /generated:parameters -->
 
 ---
 

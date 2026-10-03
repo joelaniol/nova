@@ -41,12 +41,17 @@ The response indicates `contextMatch: true` or details specific divergences.
 
 ## 3. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`scope`** | `string` | **Yes** | ? | Domain scope (e.g. `"spiegel.de"`, `"github.com"`). |
-| **`outputDetail`** | `string` | No | `"full"` | Detail level: `"summary"` (compact IDs/health) or `"full"` (complete playbooks). |
-| **`phenomenonId`** | `string` | No | `null` | Filter to a single phenomenon ID (e.g. `"consent-banner"`). Case-insensitive. |
-| **`context`** | `object` | No | `null` | Environment context: `{ auth?: string, device?: string, locale?: string }`. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `scope` | `string` | Yes | — | — | Domain scope (e.g. 'spiegel.de'). |
+| `phenomenonId` | `string` | No | — | — | Optional: filter to a single phenomenon by ID (e.g. 'model-selector'). Case-insensitive match. Returns only that phenomenon instead of the full domain payload. If not found, returns phenomenonFound=false with availableIds. If deprecated, returns deprecated=true with deprecatedReason. |
+| `outputDetail` | `string` | No | — | `full`, `summary` | Response detail level. 'summary' returns only IDs, types, and health stats (much smaller payload). 'full' returns complete phenomena with playbooks and fingerprints. Default: 'full'. |
+| `context` | `object` | No | — | — | Optional context for applicability diagnostics against stored domain context keys. |
+| `context.device` | `any` | No | — | — | Device type for context-specific filtering. Use null or omit to leave the device filter unset. |
+| `context.locale` | `string or null` | No | — | ≥ 1 characters | Optional locale filter such as 'de-DE'. Use null or omit to leave the locale filter unset. |
+| `context.auth` | `any` | No | — | — | Authentication state. 'anonymous' = not signed in, 'logged_in' = signed in, 'unknown' = not enough evidence to classify. Use null or omit to leave the auth filter unset. |
+<!-- /generated:parameters -->
 
 ---
 

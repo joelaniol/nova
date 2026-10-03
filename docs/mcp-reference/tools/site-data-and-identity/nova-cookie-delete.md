@@ -16,14 +16,16 @@ Deletes a specific cookie by cookieId or by name, domain, and path tuple.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`cookieId`** | `string` | No | `null` | Deterministic cookie ID from cookie_list. Takes priority over name/domain/path if both are supplied. |
-| **`domain`** | `string` | No | `null` | Cookie domain. Required if no cookieId. |
-| **`dryRun`** | `boolean` | No | `false` | Preview deletion without executing. Returns matchCount. |
-| **`name`** | `string` | No | `null` | Cookie name. Required if no cookieId. |
-| **`path`** | `string` | No | `"/"` | Cookie path. Default: '/'. |
-| **`targetId`** | `string` | Yes | `null` | Tab or sandbox ID. Required. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | Yes | — | — | Tab or sandbox ID. Required. |
+| `cookieId` | `string` | No | — | — | Deterministic cookie ID from cookie_list. Takes priority over name/domain/path if both are supplied. |
+| `name` | `string` | No | — | — | Cookie name. Required if no cookieId. |
+| `domain` | `string` | No | — | — | Cookie domain. Required if no cookieId. |
+| `path` | `string` | No | `"/"` | — | Cookie path. Default: '/'. |
+| `dryRun` | `boolean` | No | `false` | — | Preview deletion without executing. Returns matchCount. |
+<!-- /generated:parameters -->
 
 ---
 

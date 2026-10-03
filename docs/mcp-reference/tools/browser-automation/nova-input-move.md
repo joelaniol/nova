@@ -17,15 +17,15 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `activateIfNeeded` | `boolean` | No | For an explicit concrete inactive targetId, temporarily activate that Nova target before physical pointer dispatch. Defaults true. Omitted/'active' targets are never auto-retargeted, and Nova never foregrounds the app window. |
-| `agentId` | `string` | No | Optional agent identity for claim authorization at the MCP entry point. Defaults to 'default'. |
-| `restoreActiveTarget` | `boolean` | No | After automatic activation and an unambiguous non-navigation success, restore the previously active Nova target if no user or competing target switch occurred. Ignored when no automatic activation happened. |
-| `targetId` | `string` | No | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
-| `x` | `number` | **Yes** | Mouse X coordinate in CSS pixels (viewport-relative). |
-| `y` | `number` | **Yes** | Mouse Y coordinate in CSS pixels (viewport-relative). |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `activateIfNeeded` | `boolean` | No | `true` | — | For an explicit concrete inactive targetId, temporarily activate that Nova target before physical pointer dispatch. Defaults true. Omitted/'active' targets are never auto-retargeted, and Nova never foregrounds the app window. |
+| `restoreActiveTarget` | `boolean` | No | `true` | — | After automatic activation and an unambiguous non-navigation success, restore the previously active Nova target if no user or competing target switch occurred. Ignored when no automatic activation happened. |
+| `x` | `number` | Yes | — | — | Mouse X coordinate in CSS pixels (viewport-relative). |
+| `y` | `number` | Yes | — | — | Mouse Y coordinate in CSS pixels (viewport-relative). |
+<!-- /generated:parameters -->
 
 ---
 

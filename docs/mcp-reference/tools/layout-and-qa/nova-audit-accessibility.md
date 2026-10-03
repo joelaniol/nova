@@ -37,16 +37,17 @@ Identifies elements missing programmatic names for screen readers:
 
 ## 3. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`selector`** | `string` | No | `"body"` | Root element to audit. Defaults to `"body"`. Scope to a component to audit just that subtree. |
-| **`minTargetSize`** | `integer` | No | `24` | Minimum acceptable tap-target size in CSS pixels (1–200). Default `24` (AA); use `44` for AAA/mobile. |
-| **`includeContrast`** | `boolean` | No | `true` | Include WCAG text-contrast checks. |
-| **`includeTargetSize`**| `boolean` | No | `true` | Include tap-target-size checks. |
-| **`includeLabels`** | `boolean` | No | `true` | Include missing alt-text and accessible name checks. |
-| **`maxIssues`** | `integer` | No | `200` | Maximum issues to return (1–2,000). Excess sets `truncated: true`. |
-| **`targetId`** | `string` | No | `"active"` | Target tab ID from `nova.tabs`, or `"active"`. |
-| **`agentId`** | `string` | No | `"default"` | Agent identity for claim lease verification. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `selector` | `string` | No | `"body"` | — | CSS selector for the root element to audit. Defaults to 'body' (whole page). Scope to a component to audit just that subtree. |
+| `maxIssues` | `integer` | No | `200` | 1–2000 | Maximum number of issues to return; the scan stops early and sets truncated=true when reached. |
+| `minTargetSize` | `integer` | No | `24` | 1–200 | Minimum acceptable tap-target size in CSS pixels (smallest of width/height). Default 24 = WCAG 2.2 SC 2.5.8 Level AA; raise to 44 for the AAA / common mobile guidance. |
+| `includeContrast` | `boolean` | No | `true` | — | Include WCAG text-contrast checks. |
+| `includeTargetSize` | `boolean` | No | `true` | — | Include tap-target-size checks for interactive elements. |
+| `includeLabels` | `boolean` | No | `true` | — | Include missing alt-text / form-label / accessible-name checks. |
+<!-- /generated:parameters -->
 
 ---
 

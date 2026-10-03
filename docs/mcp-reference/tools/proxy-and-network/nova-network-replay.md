@@ -16,17 +16,28 @@ Targeted HTTP request repeater for replaying, editing, and comparing network pay
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`action`** | `string` | No | `"prepare"` | Replay action: `"prepare"`, `"send"`, `"get"`, or `"discard"`. |
-| **`url`** | `string` | Conditional | `none` | Destination HTTP(S) URL. |
-| **`method`** | `string` | No | `"GET"` | HTTP method (`GET`, `POST`, `PUT`, `DELETE`, etc.). |
-| **`headers`** | `object` | No | `{}` | Explicit HTTP headers map. |
-| **`body`** | `string` | No | `null` | Payload body text. |
-| **`replayId`** | `string` | Conditional | `none` | Draft or replay ID returned by `prepare`. |
-| **`compareTo`** | `string` | No | `null` | Baseline replay ID for differential response analysis. |
-| **`timeoutMs`** | `integer` | No | `30000` | Request timeout in ms. |
-| **`_meta`** | `object` | No | `null` | Audit intent metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `agentId` | `string` | No | — | — | Agent identity owning the draft/result. Use the same identity for prepare/send/get/discard; defaults to 'default'. Does not claim a tab. |
+| `action` | `string` | No | `"prepare"` | `prepare`, `send`, `get`, `discard` | prepare validates/freezes a request; send consumes replayId once; get reads status/result; discard releases an idle draft/result, never undoing server actions. |
+| `replayId` | `string` | No | — | — | Opaque ID returned by prepare; required for send/get/discard. Never replace it to retry an uncertain send. |
+| `url` | `string` | No | — | — | prepare: required absolute HTTP(S) URL, max 16384 characters, no userinfo or fragment. Destination is explicit, not taken from an active tab. |
+| `method` | `string` | No | `"GET"` | — | prepare: HTTP method token, max 32 characters. CONNECT is unsupported. |
+| `headers` | `object` | No | — | — | prepare: explicit request headers including Cookie/Authorization if desired; max 100 and 32768 total characters. Omit a header to remove it. Content-Length, Transfer-Encoding, Connection, Upgrade, Proxy-Authorization, Proxy-Connection, Trailer, TE and Expect are transport-owned and must be omitted. |
+| `body` | `string` | No | — | — | prepare: exact UTF-8 body, including empty string. Mutually exclusive with bodyBase64; max 1 MiB encoded. |
+| `bodyBase64` | `string` | No | — | — | prepare: binary body as base64, max 1 MiB decoded. Do not send truncated or redacted captures; supply the complete intended body. |
+| `timeoutMs` | `integer` | No | `8000` | 100–60000 | prepare: total send/read deadline in milliseconds. A timeout may occur after the server acted; never blindly create a new draft. If raised inside run_sequence, increase its outer step budget too. |
+| `maxResponseBytes` | `integer` | No | `262144` | 1–1048576 | prepare: maximum returned response-body bytes. One extra byte detects truncation; no full-body hash/equality is claimed when truncated. |
+| `compareTo` | `string` | No | — | — | prepare: completed replayId from this agent to compare response status, header names and complete body hash. Does not resend the baseline. |
+| `adoptSessionFrom` | `object` | No | — | — | prepare: let Nova fill the session of an open tab into this request instead of copying it by hand. This is the answer to "why does my own client see different data than the browser?" - the page's own reads cannot show a field the server sends only to other clients. Reading these values is permission-gated exactly like cookie_list/storage_inspect with values (the user may be prompted) and is written to the site-data audit log. The request host must be the tab's host or a sub/parent domain of it; Nova does not copy a session to an unrelated host. Adopted headers are sent but withheld from the preview (see adoptedHeaderNames and adoptedSession provenance), and a header you set yourself is never overwritten silently. |
+| `adoptSessionFrom.targetId` | `string` | Yes | — | — | Tab or sandbox ID whose session to adopt. Required. No claim is taken. |
+| `adoptSessionFrom.cookies` | `boolean` | No | `true` | — | Send the tab's cookies that apply to this url as one Cookie header. If no cookie applies, no header is added and the provenance says so. |
+| `adoptSessionFrom.headersFromStorage` | `object` | No | — | — | Header name -> storage key, e.g. {"Authorization":"auth_token"}. Nova cannot guess whether a token belongs in Authorization or X-Session-Id, so the mapping is explicit. A missing key fails the call instead of sending an empty header. Max 12 entries. Prefix the value with 'Bearer ' by setting the header yourself if the raw token is not the whole header value. |
+| `adoptSessionFrom.storageType` | `string` | No | `"local"` | `local`, `session` | Which storage the keys come from. |
+
+**`_meta.intent` is required for certain arguments.** Passing a short reason in `_meta.intent` is always safe; a rejected call names the argument that made it required.
+<!-- /generated:parameters -->
 
 ---
 

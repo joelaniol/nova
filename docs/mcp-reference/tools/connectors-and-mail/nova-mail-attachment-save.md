@@ -16,13 +16,17 @@ Saves a specific email attachment to Downloads or the workspace directory.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`allowInsecure`** | `boolean` | No | `false` | Required as true only when this account's IMAP endpoint explicitly uses plaintext or disabled certificate validation, and only after the user enabled insecure connector connections in Settings. |
-| **`attachmentIndex`** | `integer` | Yes | `null` | Zero-based attachmentIndex returned by nova.mail_read, 0..199. The runtime also accepts a parseable integer string. |
-| **`localPath`** | `string` | No | `null` | Optional absolute Windows destination inside Downloads, the host-verified workspace, or the signed task's shared directory. An existing directory uses the sanitized remote filename; otherwise this is the final filename and its parent must already exist. Omit for Nova's context-aware default. |
-| **`messageId`** | `string` | Yes | `null` | Opaque Nova message handle returned by nova.mail_list or nova.mail_search and resolved only in Nova's encrypted local locator index. |
-| **`unattended`** | `boolean` | No | `false` | Optional fail-closed hint for a non-interactive caller. Host-attested scheduled-task sessions are unattended even when omitted and can never be made interactive by this field. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `messageId` | `string` | Yes | — | — | Opaque Nova message handle returned by nova.mail_list or nova.mail_search and resolved only in Nova's encrypted local locator index. |
+| `attachmentIndex` | `integer` | Yes | — | 0–199 | Zero-based attachmentIndex returned by nova.mail_read, 0..199. The runtime also accepts a parseable integer string. |
+| `localPath` | `string` | No | — | — | Optional absolute Windows destination inside Downloads, the host-verified workspace, or the signed task's shared directory. An existing directory uses the sanitized remote filename; otherwise this is the final filename and its parent must already exist. Omit for Nova's context-aware default. |
+| `unattended` | `boolean` | No | `false` | — | Optional fail-closed hint for a non-interactive caller. Host-attested scheduled-task sessions are unattended even when omitted and can never be made interactive by this field. |
+| `allowInsecure` | `boolean` | No | `false` | — | Required as true only when this account's IMAP endpoint explicitly uses plaintext or disabled certificate validation, and only after the user enabled insecure connector connections in Settings. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

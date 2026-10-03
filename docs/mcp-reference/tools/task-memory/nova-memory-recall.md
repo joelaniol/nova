@@ -16,13 +16,15 @@ Recalls browsing memories and stored preferences for a domain or across all site
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`domain`** | `string` | No | `null` | Filter to this domain (e.g. 'github.com'). Omit to search across all domains. |
-| **`includeExpired`** | `boolean` | No | `false` | Include memories with very low decay scores that would normally be filtered. Defaults to false. |
-| **`limit`** | `integer` | No | `10` | Max results to return. Defaults to 10. |
-| **`memoryType`** | `string` | No | `null` | Filter by memory type. note = explicit agent/user notes, preference = user behavioral preferences, context = last session state on a domain. |
-| **`query`** | `string` | No | `null` | Free-text search in memory content. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `domain` | `string` | No | — | — | Filter to this domain (e.g. 'github.com'). Omit to search across all domains. |
+| `query` | `string` | No | — | — | Free-text search in memory content. |
+| `memoryType` | `string` | No | — | `note`, `preference`, `context` | Filter by memory type. note = explicit agent/user notes, preference = user behavioral preferences, context = last session state on a domain. |
+| `limit` | `integer` | No | `10` | 1–50 | Max results to return. Defaults to 10. |
+| `includeExpired` | `boolean` | No | `false` | — | Include memories with very low decay scores that would normally be filtered. Defaults to false. |
+<!-- /generated:parameters -->
 
 ---
 

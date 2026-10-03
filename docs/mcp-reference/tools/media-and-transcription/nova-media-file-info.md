@@ -16,9 +16,13 @@ Inspects media container metadata, duration, channels, and codecs from a local f
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`path`** | `string` | Yes | `null` | Absolute path of the media file to inspect. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `path` | `string` | Yes | — | — | Absolute path of the media file to inspect. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

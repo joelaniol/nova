@@ -16,12 +16,14 @@ Lists all stored procedural notes and operator instructions for a specific domai
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`domain`** | `string` | Yes | `null` | The domain to list notes for (e.g. 'vxlive.net'). |
-| **`sandboxId`** | `string` | No | `null` | Optional explicit sandbox letter-id to override the active-target resolution. Requires sandboxRef. On list this is additive (global + that sandbox); on domain_note_delete, sandboxId without scope is sandbox-only. |
-| **`sandboxRef`** | `string` | No | `null` | Opaque PersistentUid token from nova.tabs / nova.sandbox_context. Mandatory when sandboxId is set. |
-| **`scope`** | `string` | No | `"current_sandbox"` | Filter scope: 'current_sandbox' (default) = active sandbox + global; 'global' = only global notes; 'all' = no filter; 'orphaned' = notes anchored to deleted sandboxes (cleanup view). |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `domain` | `string` | Yes | — | — | The domain to list notes for (e.g. 'vxlive.net'). |
+| `scope` | `string` | No | `"current_sandbox"` | `current_sandbox`, `global`, `all`, `orphaned` | Filter scope: 'current_sandbox' (default) = active sandbox + global; 'global' = only global notes; 'all' = no filter; 'orphaned' = notes anchored to deleted sandboxes (cleanup view). |
+| `sandboxId` | `string` | No | — | — | Optional explicit sandbox letter-id to override the active-target resolution. Requires sandboxRef. On list this is additive (global + that sandbox); on domain_note_delete, sandboxId without scope is sandbox-only. |
+| `sandboxRef` | `string` | No | — | — | Opaque PersistentUid token from nova.tabs / nova.sandbox_context. Mandatory when sandboxId is set. |
+<!-- /generated:parameters -->
 
 ---
 

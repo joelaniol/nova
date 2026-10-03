@@ -17,12 +17,20 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `agentId` | `string` | No | Optional agent identity for claim authorization at the MCP entry point. Defaults to 'default'. |
-| `domainHint` | `object` | **Yes** | Domain hint to upsert (matched by id if existing). |
-| `scope` | `string` | **Yes** | Domain scope (e.g. 'youtube.com'). |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `scope` | `string` | Yes | — | — | Domain scope (e.g. 'youtube.com'). |
+| `domainHint` | `object` | Yes | — | — | Domain hint to upsert (matched by id if existing). |
+| `domainHint.id` | `string` | No | — | — | Hint ID (stable across updates). Omit to auto-generate. |
+| `domainHint.kind` | `string` | Yes | — | `content_filter.ad_container`, `noise_region`, `content_container.result_item` | Hint kind. |
+| `domainHint.mode` | `string` | No | `"ancestor"` | `ancestor`, `item_root` | ancestor (el.closest check) \| item_root (enumerate matching elements). |
+| `domainHint.selectors` | `array` of `string` | Yes | — | 1–10 items | CSS selectors (1..10, each non-empty string). For ancestor mode: checked via el.closest(). For item_root: enumerated via querySelectorAll(). |
+| `domainHint.effect` | `object` | No | — | — | Effect when hint matches (ad_container/noise_region only). |
+| `domainHint.extract` | `object` | No | — | — | Extraction config (result_item only). |
+| `domainHint.enumerateMax` | `integer` | No | `8` | 1–50 | Max instances to enumerate for result_item hints during Perceive/CTA scanning. Defaults to 8 when omitted. |
+| `domainHint.confidence` | `number` | No | `0.5` | 0–1 | Confidence 0.0-1.0 used as a ranking weight for this hint during Perceive/CTA scoring. Defaults to 0.5. |
+<!-- /generated:parameters -->
 
 ---
 

@@ -16,11 +16,13 @@ Stops in-page hardware diagnostics and releases active camera, microphone, or sp
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`kind`** | `string` | No | `"all"` | Diagnostic channel to stop. |
-| **`reason`** | `string` | No | `null` | Optional stop reason for diagnostics state tracking. |
-| **`targetId`** | `string` | No | `"active"` | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `kind` | `string` | No | `"all"` | `video`, `microphone`, `speaker`, `all` | Diagnostic channel to stop. |
+| `reason` | `string` | No | — | — | Optional stop reason for diagnostics state tracking. |
+<!-- /generated:parameters -->
 
 ---
 

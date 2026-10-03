@@ -16,23 +16,27 @@ Registers a new external MCP server with stdio, HTTP, or SSE transport.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`displayName`** | `string` | Yes | `none` | Human-readable server name. |
-| **`transport`** | `string` | Yes | `none` | Protocol transport: `"stdio"`, `"http"`, or `"sse"`. |
-| **`command`** | `string` | Conditional | `none` | Launch command for `stdio` (`npx`, `python`, `node`, `docker`, `uvx`). |
-| **`args`** | `string` | No | `null` | Command line arguments string for `stdio`. |
-| **`endpointUrl`** | `string` | Conditional | `none` | Endpoint URL for `http` or `sse`. |
-| **`cwd`** | `string` | No | `Workspace dir` | Working directory for `stdio` process. |
-| **`env`** | `object` | No | `null` | Environment variables map (e.g. `{"API_KEY": "..."}`). |
-| **`headers`** | `object` | No | `null` | Custom HTTP headers map. |
-| **`authMode`** | `string` | No | `"none"` | Authentication mode: `"none"` or `"bearer"`. |
-| **`bearerToken`** | `string` | No | `null` | Bearer token when `authMode: "bearer"`. |
-| **`autoStart`** | `boolean` | No | `false` | Auto-start process on Nova startup (`stdio`). |
-| **`autoConnect`** | `boolean` | No | `true` | Auto-connect on Nova startup (`http`/`sse`). |
-| **`restartOnCrash`** | `boolean` | No | `false` | Auto-restart if process crashes (`stdio`). |
-| **`startupTimeoutMs`** | `integer` | No | `30000` | Handshake timeout in ms (5,000 - 120,000). |
-| **`_meta`** | `object` | Yes | `none` | Audit intent metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `displayName` | `string` | Yes | — | — | Human-readable name for this server (e.g. 'Playwright', 'My DB Server'). |
+| `transport` | `string` | Yes | — | `stdio`, `http`, `sse` | Transport protocol. 'stdio' = Nova launches and manages the process. 'http' = Streamable HTTP (MCP 2025-03-26+). 'sse' = Legacy SSE (MCP 2024-11-05). |
+| `command` | `string` | No | — | — | Launch command for stdio transport (e.g. 'npx', 'python', 'node', 'docker', 'uvx'). Required when transport='stdio'. |
+| `args` | `string` | No | — | — | Command-line arguments as a single string (e.g. '-y @playwright/mcp'). Optional, stdio only. |
+| `cwd` | `string` | No | — | — | Working directory for the stdio process. Optional; defaults to a persistent Nova-owned per-server workspace outside the app install directory. |
+| `env` | `object` | No | — | — | Environment variables for the stdio process (e.g. {"API_KEY": "xxx"}). Optional. |
+| `endpointUrl` | `string` | No | — | — | Server endpoint URL (e.g. 'http://localhost:3000/mcp'). Required when transport='http' or 'sse'. |
+| `authMode` | `string` | No | — | `none`, `bearer` | Authentication mode. |
+| `bearerToken` | `string` | No | — | — | Bearer token for authentication. Only used when authMode='bearer'. |
+| `headers` | `object` | No | — | — | Custom HTTP headers (e.g. {"X-API-Key": "xxx"}). Optional, http/sse only. |
+| `enabled` | `boolean` | No | — | — | Whether this server definition is active. Default: true. |
+| `autoConnect` | `boolean` | No | — | — | Auto-connect on Nova startup (http/sse). Default: true. |
+| `autoStart` | `boolean` | No | — | — | Auto-start the process on Nova startup (stdio). Default: false. |
+| `restartOnCrash` | `boolean` | No | — | — | Automatically restart if the process crashes (stdio). Default: false. |
+| `startupTimeoutMs` | `integer` | No | — | — | Timeout in ms for the MCP initialize handshake. Default: 30000. Min: 5000, Max: 120000. |
+
+**`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+<!-- /generated:parameters -->
 
 ---
 

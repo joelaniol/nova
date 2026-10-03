@@ -17,11 +17,14 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Metadata. Provide _meta.intent (a short reason) — required for this high-impact tool. |
-| `force` | `boolean` | No | Exit immediately even if the UI thread is unresponsive (shortens the internal shutdown watchdog). Normal shutdown still runs cleanup; only set this if a graceful quit appears to hang. |
-| `reason` | `string` | No | Optional free-text reason recorded in the app log for diagnostics. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `force` | `boolean` | No | `false` | — | Exit immediately even if the UI thread is unresponsive (shortens the internal shutdown watchdog). Normal shutdown still runs cleanup; only set this if a graceful quit appears to hang. |
+| `reason` | `string` | No | — | — | Optional free-text reason recorded in the app log for diagnostics. |
+
+**`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+<!-- /generated:parameters -->
 
 ---
 

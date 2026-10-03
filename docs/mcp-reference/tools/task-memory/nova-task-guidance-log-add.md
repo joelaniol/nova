@@ -16,14 +16,30 @@ Logs a guidance observation or proposal without directly mutating task profiles.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`guidanceKind`** | `string` | Yes | `null` | Kind of guidance. Canonical MCP kinds are style, terminology, scope_rule, workflow, quality, match_telemetry, and custom. match_telemetry is the system telemetry kind used for match acceptance/rejection observations and imports. |
-| **`instanceId`** | `string` | No | `null` | Optional: associate with an instance. |
-| **`payload`** | `object` | No | `null` | Structured payload with guidance details. Common fields include text, appliesTo, rationale, notes, telemetry scores, evidenceRefs, and optional observed overrides; additional keys stay allowed for guidance-kind-specific metadata. |
-| **`profileId`** | `string` | No | `null` | Optional: associate with a profile. When omitted, the entry is stored as a proposal (`status=proposed`) instead of a profile-scoped log. |
-| **`sourceKind`** | `string` | Yes | `null` | Who created this guidance entry. 'user' = direct operator input, 'agent' = autonomous or assistant-generated guidance, 'reviewer' = human review decision, 'migration' = imported historical data, 'system' = runtime-generated guidance or telemetry. |
-| **`sourceRef`** | `string` | No | `null` | Optional reference to the source (e.g. conversation ID, user name). |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `profileId` | `string` | No | — | — | Optional: associate with a profile. When omitted, the entry is stored as a proposal (`status=proposed`) instead of a profile-scoped log. |
+| `instanceId` | `string` | No | — | — | Optional: associate with an instance. |
+| `guidanceKind` | `string` | Yes | — | — | Kind of guidance. Canonical MCP kinds are style, terminology, scope_rule, workflow, quality, match_telemetry, and custom. match_telemetry is the system telemetry kind used for match acceptance/rejection observations and imports. |
+| `payload` | `object` | No | — | — | Structured payload with guidance details. Common fields include text, appliesTo, rationale, notes, telemetry scores, evidenceRefs, and optional observed overrides; additional keys stay allowed for guidance-kind-specific metadata. |
+| `payload.text` | `string` | No | — | — | Primary guidance text, recommendation, or learning statement. |
+| `payload.appliesTo` | `string` | No | — | — | Optional scope hint such as locale, route, section, or unit kind. |
+| `payload.rationale` | `string` | No | — | — | Optional explanation for why this guidance exists. |
+| `payload.notes` | `string` | No | — | — | Optional extra note or reviewer comment. |
+| `payload.decision` | `string` | No | — | — | Optional decision marker such as accept, reject, prefer, avoid, or escalate. |
+| `payload.severity` | `string` | No | — | — | Optional severity or confidence bucket for the observation. |
+| `payload.selector` | `string` | No | — | — | Optional DOM selector related to the observation. |
+| `payload.url` | `string` | No | — | — | Optional URL or route where the guidance was observed. |
+| `payload.matchScore` | `number` | No | — | — | Optional normalized score, commonly used for match telemetry. |
+| `payload.accepted` | `boolean` | No | — | — | Optional match/review acceptance flag. |
+| `payload.rejected` | `boolean` | No | — | — | Optional explicit rejection flag. |
+| `payload.tags` | `array` of `string` | No | — | — | Optional free-form tags for grouping or later promotion review. |
+| `payload.evidenceRefs` | `array` of `string` | No | — | — | Optional evidence references such as screenshots, URLs, trace IDs, or note IDs. |
+| `payload.overrides` | `object` | No | — | — | Optional override payload observed together with the guidance entry. |
+| `sourceKind` | `string` | Yes | — | `user`, `agent`, `reviewer`, `migration`, `system` | Who created this guidance entry. 'user' = direct operator input, 'agent' = autonomous or assistant-generated guidance, 'reviewer' = human review decision, 'migration' = imported historical data, 'system' = runtime-generated guidance or telemetry. |
+| `sourceRef` | `string` | No | — | — | Optional reference to the source (e.g. conversation ID, user name). |
+<!-- /generated:parameters -->
 
 ---
 

@@ -17,16 +17,17 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `limit` | `integer` | No | Optional page size (1-500). Default 200. |
-| `minHealth` | `number` | No | Optional: only domains with avg success rate >= this value (0.0-1.0). |
-| `offset` | `integer` | No | Optional pagination offset (>=0). Default 0. |
-| `prefix` | `string` | No | Optional domain prefix filter. |
-| `serviceCategory` | `string` | No | Optional service-category filter. Service category. 'adult' = adult content, 'ai' = AI assistants/tools, 'banking' = finance or payments, 'communication' = chat/messaging/meetings, 'community_forum' = discussion forum/community, 'creator_platform' = publishing or creator backend, 'dating' = matchmaking, 'developer' = developer docs/tools/repos, 'education' = learning/course platform, 'email' = mail service, 'entertainment' = general media/entertainment, 'gambling' = betting/casino, 'gaming' = games or launchers, 'government' = public-sector service, 'health' = health or medical service, 'marketplace' = multi-seller marketplace, 'news' = news/publishing, 'productivity' = work/productivity app, 'search' = search/discovery, 'shopping' = retail/e-commerce, 'social' = social network, 'streaming' = video/audio streaming, 'travel' = travel/maps/transport, 'other' = uncategorized service. |
-| `trust` | `string` | No | Optional trust level filter. Trust level. 'unknown' = not reviewed yet, 'low' = weak or unstable evidence, 'medium' = usable but still needs confirmation, 'high' = repeatedly verified and reliable. |
-| `type` | `string` | No | Optional phenomenon type filter. Phenomenon type. 'consent_cmp' = cookie/consent manager surface, 'modal' = generic blocking overlay or dialog, 'paywall' = subscription/payment gate, 'login_wall' = sign-in gate, 'layout_shift' = disruptive UI shift without a classic overlay, 'native_dialog' = browser/native prompt such as permission or file picker, 'popover_open' = anchored popover/dropdown surface, 'custom' = uncategorized site-specific phenomenon. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `prefix` | `string` | No | — | — | Optional domain prefix filter. |
+| `type` | `string` | No | — | `consent_cmp`, `modal`, `paywall`, `login_wall`, `layout_shift`, `native_dialog`, `popover_open`, `custom` | Optional phenomenon type filter. Phenomenon type. 'consent_cmp' = cookie/consent manager surface, 'modal' = generic blocking overlay or dialog, 'paywall' = subscription/payment gate, 'login_wall' = sign-in gate, 'layout_shift' = disruptive UI shift without a classic overlay, 'native_dialog' = browser/native prompt such as permission or file picker, 'popover_open' = anchored popover/dropdown surface, 'custom' = uncategorized site-specific phenomenon. |
+| `minHealth` | `number` | No | — | 0–1 | Optional: only domains with avg success rate >= this value (0.0-1.0). |
+| `trust` | `string` | No | — | `unknown`, `low`, `medium`, `high` | Optional trust level filter. Trust level. 'unknown' = not reviewed yet, 'low' = weak or unstable evidence, 'medium' = usable but still needs confirmation, 'high' = repeatedly verified and reliable. |
+| `serviceCategory` | `string` | No | — | `adult`, `ai`, `banking`, `communication`, `community_forum`, `creator_platform`, `dating`, `developer`, `education`, `email`, `entertainment`, `gambling`, `gaming`, `government`, `health`, `marketplace`, `news`, `productivity`, `search`, `shopping`, `social`, `streaming`, `travel`, `other` | Optional service-category filter. Service category. 'adult' = adult content, 'ai' = AI assistants/tools, 'banking' = finance or payments, 'communication' = chat/messaging/meetings, 'community_forum' = discussion forum/community, 'creator_platform' = publishing or creator backend, 'dating' = matchmaking, 'developer' = developer docs/tools/repos, 'education' = learning/course platform, 'email' = mail service, 'entertainment' = general media/entertainment, 'gambling' = betting/casino, 'gaming' = games or launchers, 'government' = public-sector service, 'health' = health or medical service, 'marketplace' = multi-seller marketplace, 'news' = news/publishing, 'productivity' = work/productivity app, 'search' = search/discovery, 'shopping' = retail/e-commerce, 'social' = social network, 'streaming' = video/audio streaming, 'travel' = travel/maps/transport, 'other' = uncategorized service. |
+| `limit` | `integer` | No | `200` | 1–500 | Optional page size (1-500). Default 200. |
+| `offset` | `integer` | No | `0` | ≥ 0 | Optional pagination offset (>=0). Default 0. |
+<!-- /generated:parameters -->
 
 ---
 

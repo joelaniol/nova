@@ -48,14 +48,16 @@ Types a vault password into a target form field using an ephemeral `SecretRef` t
 
 ## 3. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`selector`** | `string` | **Yes** | ? | CSS selector for the password input field. Supports ` >>> `. |
-| **`secretRef`** | `string` | **Yes** | ? | Ephemeral token obtained from `nova.vault_prepare_fill`. |
-| **`clear`** | `boolean` | No | `true` | Clear existing field contents before typing. |
-| **`targetId`** | `string` | No | `"active"` | Target tab ID from `nova.tabs`, or `"active"`. |
-| **`_meta.intent`**| `string` | **Conditional**| ? | Audit trail statement explaining password injection. |
-| **`agentId`** | `string` | No | `"default"` | Agent identity for claim lease verification. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | — | — | Tab ID or 'active'. |
+| `selector` | `string` | Yes | — | — | CSS selector for the password input field. |
+| `secretRef` | `string` | Yes | — | — | SecretRef token from nova.vault_prepare_fill. |
+| `clear` | `boolean` | No | `true` | — | Clear field before typing. Default: true. |
+
+**`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+<!-- /generated:parameters -->
 
 ---
 

@@ -16,11 +16,17 @@ Runs a server-registered Coverage Scan script to discover and audit all interact
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`scanId`** | `string` | Yes | `null` | Registered scan identifier. Available scans include nova_full_page_text_v1 (visible text + ARIA + inputs + alt text), nova_structured_dom_v1 (DOM skeleton/tag-sequence/roles), and nova_i18n_spellcheck_v1 (visible text only). |
-| **`scopeOptions`** | `object` | No | `null` | Optional scope-options applied to the registered scan. Defaults from the registry are used when omitted. |
-| **`targetId`** | `string` | No | `null` | Target tab. Default: 'active'. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `scanId` | `string` | Yes | — | — | Registered scan identifier. Available scans include nova_full_page_text_v1 (visible text + ARIA + inputs + alt text), nova_structured_dom_v1 (DOM skeleton/tag-sequence/roles), and nova_i18n_spellcheck_v1 (visible text only). |
+| `targetId` | `string` | No | — | — | Target tab. Default: 'active'. |
+| `scopeOptions` | `object` | No | — | — | Optional scope-options applied to the registered scan. Defaults from the registry are used when omitted. |
+| `scopeOptions.includeShadowDom` | `boolean` | No | — | — | Walk Shadow DOM nodes when collecting visible text. Default: registry-defined, usually true. |
+| `scopeOptions.includeIframes` | `boolean` | No | — | — | Recurse into same-origin iframes. Default: false. Required for full coverage on iframe-heavy pages. |
+| `scopeOptions.waitForHydration` | `boolean` | No | — | — | Wait for the document to reach a stable readyState before scanning. Default: true. |
+| `scopeOptions.hydrationTimeoutMs` | `integer` | No | — | 0–30000 | Max milliseconds to wait for hydration. Default: 5000. |
+<!-- /generated:parameters -->
 
 ---
 

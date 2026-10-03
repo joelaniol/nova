@@ -17,16 +17,17 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `agentId` | `string` | No | Agent identity for claim authorization on the destination tab. Defaults to 'default'. |
-| `destSelector` | `string` | **Yes** | CSS selector on the destination tab to write into. Must be an input/textarea/contenteditable element. |
-| `destTargetId` | `string` | **Yes** | Destination tab target ID from nova.tabs. Data is written to this tab. Must be claimed by the calling agent. |
-| `maxChars` | `integer` | No | Maximum characters to transfer. |
-| `sourceSelector` | `string` | **Yes** | CSS selector on the source tab to extract text from. Reads innerText of the matched element. |
-| `sourceTargetId` | `string` | **Yes** | Source tab target ID from nova.tabs. Data is read from this tab. |
-| `transform` | `string` | No | Optional transform: 'none' = raw text, 'trim' = whitespace trimmed, 'number' = extract first numeric value. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `sourceTargetId` | `string` | Yes | — | — | Source tab target ID from nova.tabs. Data is read from this tab. |
+| `destTargetId` | `string` | Yes | — | — | Destination tab target ID from nova.tabs. Data is written to this tab. Must be claimed by the calling agent. |
+| `sourceSelector` | `string` | Yes | — | — | CSS selector on the source tab to extract text from. Reads innerText of the matched element. |
+| `destSelector` | `string` | Yes | — | — | CSS selector on the destination tab to write into. Must be an input/textarea/contenteditable element. |
+| `transform` | `string` | No | `"none"` | `none`, `trim`, `number` | Optional transform: 'none' = raw text, 'trim' = whitespace trimmed, 'number' = extract first numeric value. |
+| `maxChars` | `integer` | No | `10000` | 1–50000 | Maximum characters to transfer. |
+| `agentId` | `string` | No | — | — | Agent identity for claim authorization on the destination tab. Defaults to 'default'. |
+<!-- /generated:parameters -->
 
 ---
 

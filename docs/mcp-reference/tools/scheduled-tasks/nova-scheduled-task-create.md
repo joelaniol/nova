@@ -18,26 +18,39 @@ Supported executors include `ClaudeCode`, `CodexCli`, `Shell` (PowerShell 7), `C
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`displayName`** | `string` | Yes | `none` | Human-readable name for the task. |
-| **`prompt`** | `string` | Yes | `none` | Task instruction prompt or shell script to execute. |
-| **`executorKind`** | `string` | No | `"ClaudeCode"` | Executor engine: `"ClaudeCode"`, `"CodexCli"`, `"Shell"`, `"CustomCommand"`, or `"HttpWebhook"`. |
-| **`cronExpression`** | `string` | No | `null` | Schedule expression (e.g. `"daily 08:00"`, `"every 2 hours"`, or standard 5-part cron `"0 8 * * *"`). |
-| **`intervalSeconds`** | `integer` | No | `null` | Interval in seconds between runs (minimum 60s). Optional if cronExpression is provided. |
-| **`timeZoneId`** | `string` | No | `"UTC"` | IANA or Windows timezone (e.g. `"Europe/Berlin"`, `"America/New_York"`). |
-| **`watchPath`** | `string` | No | `null` | Directory path to monitor; file changes trigger an immediate run (2s debounce). |
-| **`mcpAccess`** | `boolean` | No | `false` | Grants the task execution process MCP access to Nova tools. |
-| **`timeoutSeconds`** | `integer` | No | `300` | Maximum run duration in seconds before termination (default 5 min). |
-| **`oneShot`** | `boolean` | No | `false` | If true, auto-disables after first successful completion. |
-| **`catchUpMissed`** | `boolean` | No | `true` | Catch up on missed executions if the machine was asleep or Nova was closed. |
-| **`concurrencyPolicy`** | `string` | No | `"Skip"` | Overlap policy: `"Skip"` (skip if prior run is still active) or `"Replace"`. |
-| **`maxTurns`** | `integer` | No | `50` | Maximum agent conversation turns for AI executors. |
-| **`maxBudgetUsd`** | `number` | No | `null` | Maximum cost budget per run in USD. |
-| **`totalBudgetCapUsd`** | `number` | No | `null` | Cumulative cost cap in USD across all runs before auto-disabling. |
-| **`triggerNextTaskId`** | `string` | No | `null` | Target task ID to trigger upon completion (chaining). |
-| **`triggerConditionKey`** | `string` | No | `null` | JSON key in structured_result that must evaluate to truthy to fire chain. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `displayName` | `string` | Yes | — | — | Human-readable task name. |
+| `prompt` | `string` | Yes | — | — | ClaudeCode/CustomCommand: the instruction/prompt. Shell executor: the PowerShell SCRIPT body (run via -File; exit code drives status, and the script may write JSON to $env:NOVA_TASK_RESULT_PATH for structured chaining). |
+| `intervalSeconds` | `integer` | No | — | ≥ 60 | Run interval in seconds. Minimum 60. Optional when cronExpression is set (defaults to 3600 as fallback). Required for interval-based tasks. |
+| `cronExpression` | `string` | No | — | — | Optional schedule expression (overrides intervalSeconds). Patterns: 'daily HH:MM', 'weekdays HH:MM', 'weekly mon/tue/wed/thu/fri/sat/sun HH:MM', 'hourly :MM', 'every Nh', 'every Nm'. |
+| `timeZoneId` | `string` | No | — | — | Optional IANA or Windows timezone for cron patterns (e.g. 'Europe/Berlin' or 'W. Europe Standard Time'). Default: UTC. Invalid identifiers are rejected. |
+| `executorKind` | `string` | No | `"ClaudeCode"` | `ClaudeCode`, `CodexCli`, `CustomCommand`, `HttpWebhook`, `Shell` | Executor type. Default: 'ClaudeCode'. 'CodexCli' runs the prompt through the user's Codex CLI (codex exec, requires Codex installed / on PATH). 'Shell' runs the prompt as a PowerShell script (requires the Shell task executor enabled in Settings). |
+| `autonomyMode` | `string` | No | `"Safe"` | `Safe`, `Unsafe` | Permission mode for ClaudeCode/CodexCli executors (Safe = sandboxed, no approval prompts; Unsafe = full access, requires ScheduledTaskUnsafeModeEnabled). Default: 'Safe'. |
+| `command` | `string` | No | — | — | For CustomCommand executor: the executable to run. |
+| `argsTemplate` | `string` | No | — | — | For CustomCommand: argument template with {PROMPT}, {TASK_ID}, {RUN_ID}, {TASK_WORKSPACE}, {TASK_WORKSPACE_SHARED}, {TASK_WORKSPACE_RUN}, and {SECRET:keyname} placeholders. Secrets are DPAPI-encrypted and resolved at execution time. |
+| `workingDirectory` | `string` | No | — | — | For CustomCommand: working directory for the process. |
+| `timeoutSeconds` | `integer` | No | `300` | — | Max run duration before timeout kill. Default: 300. |
+| `maxTurns` | `integer` | No | `50` | — | Max conversation turns for ClaudeCode. Default: 50. |
+| `maxBudgetUsd` | `number` | No | — | — | Optional: max cost budget per run in USD. |
+| `mcpAccess` | `boolean` | No | `false` | — | Whether the task gets MCP access to Nova tools. Default: false. |
+| `extraSystemPrompt` | `string` | No | — | — | Optional: additional system prompt prepended to the task prompt. |
+| `oneShot` | `boolean` | No | `false` | — | If true, task auto-disables after first successful run. Default: false. |
+| `catchUpMissed` | `boolean` | No | `true` | — | If true, a run missed while Nova was down/asleep is caught up once at next start (within a 24h window). Default: true. |
+| `triggerNextTaskId` | `string` | No | — | — | Optional: task ID to trigger when this task completes. Creates a run chain (max depth 5). |
+| `triggerOnStatus` | `string` | No | `"Completed"` | `Completed`, `Any` | When to trigger next task: 'Completed' (default) or 'Any'. |
+| `triggerConditionKey` | `string` | No | — | — | Optional: JSON key in structured_result that must be truthy for the chain to fire. E.g. 'alert' fires only if result contains {"alert": true}. Null = status-only check. |
+| `concurrencyPolicy` | `string` | No | `"Skip"` | `Skip`, `Replace` | Behavior when a new run overlaps an active one. Default: 'Skip'. |
+| `totalBudgetCapUsd` | `number` | No | — | — | Optional: cumulative cost cap in USD across all runs. Task auto-disables when exceeded. 0 or null = no cap. |
+| `watchPath` | `string` | No | — | — | Optional: filesystem directory to watch. Changes trigger a run (2s debounce). Null = time-based only. |
+| `taskProfileId` | `string` | No | — | — | Optional: ETM task profile ID. If set, a TaskMemory instance is auto-created on each run start. |
+| `workspaceId` | `string` | No | — | — | Optional: bind this task to an existing terminal workspace (its id). The task's run artifacts live under that workspace so it can be opened in the terminal dock. Omit to auto-create a dedicated workspace for this task. |
+| `workspaceDisplayName` | `string` | No | — | — | Optional: display name for the auto-created dedicated workspace (only used when workspaceId is omitted). Defaults to the task's displayName. |
+| `installOnboarding` | `boolean` | No | `true` | — | Optional: whether the auto-created workspace and its task run workspace install Nova onboarding files (CLAUDE.md, AGENTS.md, .nova). Only used when workspaceId is omitted. Default: true. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

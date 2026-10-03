@@ -16,11 +16,14 @@ Reads recent stderr log lines captured from an external MCP server process.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`serverKey`** | `string` | Yes | `none` | 8-character hex server key. |
-| **`lines`** | `integer` | No | `50` | Number of most recent lines to return (1 - 500). |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `serverKey` | `string` | Yes | — | — | Stable server identity (8-char hex). Get from nova.external_servers(). |
+| `lines` | `integer` | No | — | — | Number of most recent lines to return. Default: 50. Max: 500. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

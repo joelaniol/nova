@@ -17,22 +17,22 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `agentId` | `string` | No | Optional agent identity for claim authorization at the MCP entry point. Defaults to 'default'. |
-| `deep` | `boolean` | No | If true, includes same-origin iframe + open shadow-root traversal. |
-| `includeScreenshot` | `boolean` | No | If true and modal is found, include a screenshot in the response. |
-| `maxResults` | `integer` | No | Maximum modals to collect per probe. |
-| `pollMs` | `integer` | No | Polling interval in ms. |
-| `screenshotFormat` | `string` | No | Screenshot format. Use 'auto' to fall back to the tool-intent default (e.g. jpeg q=72 for confirm-shots). |
-| `screenshotMaxHeight` | `integer` | No | Max screenshot height in pixels. |
-| `screenshotMaxWidth` | `integer` | No | Max screenshot width in pixels. |
-| `screenshotQuality` | `integer` | No | JPEG quality (1-100). Only used when screenshotFormat is 'jpeg'. |
-| `screenshotResponseMode` | `string` | No | Override default delivery mode for the screenshot. Default comes from the tool-intent profile (e.g. confirm-shots default 'thumbnail+reference' for token efficiency). Use 'inline' to force full image bytes, 'auto' to let the server pick based on projected token cost and session budget. |
-| `targetId` | `string` | No | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
-| `timeoutMs` | `integer` | No | Max ms to wait before returning timeout. |
-| `visibleOnly` | `boolean` | No | If true, only consider visible modals/dialogs. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `timeoutMs` | `integer` | No | `10000` | 0–300000 | Max ms to wait before returning timeout. |
+| `pollMs` | `integer` | No | `250` | 50–2000 | Polling interval in ms. |
+| `maxResults` | `integer` | No | `10` | 1–50 | Maximum modals to collect per probe. |
+| `visibleOnly` | `boolean` | No | `true` | — | If true, only consider visible modals/dialogs. |
+| `deep` | `boolean` | No | `true` | — | If true, includes same-origin iframe + open shadow-root traversal. |
+| `includeScreenshot` | `boolean` | No | `false` | — | If true and modal is found, include a screenshot in the response. |
+| `screenshotMaxWidth` | `integer` | No | — | — | Max screenshot width in pixels. |
+| `screenshotMaxHeight` | `integer` | No | — | — | Max screenshot height in pixels. |
+| `screenshotFormat` | `string` | No | `"png"` | `png`, `jpeg`, `auto` | Screenshot format. Use 'auto' to fall back to the tool-intent default (e.g. jpeg q=72 for confirm-shots). |
+| `screenshotQuality` | `integer` | No | `80` | 1–100 | JPEG quality (1-100). Only used when screenshotFormat is 'jpeg'. |
+| `screenshotResponseMode` | `string` | No | — | `inline`, `reference`, `thumbnail+reference`, `auto` | Override default delivery mode for the screenshot. Default comes from the tool-intent profile (e.g. confirm-shots default 'thumbnail+reference' for token efficiency). Use 'inline' to force full image bytes, 'auto' to let the server pick based on projected token cost and session budget. |
+<!-- /generated:parameters -->
 
 ---
 

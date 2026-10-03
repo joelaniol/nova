@@ -43,13 +43,15 @@ sequenceDiagram
 
 ## 3. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`site`** | `string` | **Yes** | ? | Domain or URL pattern to match in the vault (e.g. `"github.com"`). |
-| **`targetId`** | `string` | No | `"active"` | Target tab ID. The minted `SecretRef` is cryptographically bound to this tab's origin. |
-| **`username`** | `string` | No | `null` | Optional username if multiple accounts exist for this site. |
-| **`_meta.intent`** | `string` | **Conditional**| ? | Audit trail intent statement explaining why credentials are being prepared. |
-| **`agentId`** | `string` | No | `"default"` | Agent identity for claim lease verification. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | — | — | Tab ID or 'active'. The SecretRef will be bound to this tab's origin. |
+| `site` | `string` | Yes | — | — | Site to match in the vault (e.g. 'github.com'). |
+| `username` | `string` | No | — | — | Optional: specific username to match. |
+
+**`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+<!-- /generated:parameters -->
 
 ---
 

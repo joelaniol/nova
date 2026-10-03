@@ -16,11 +16,12 @@ Extends an active recording’s time-to-live (TTL) to prevent premature expirati
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`recordingId`** | `string` | Yes | `none` | Recording ID returned by `nova.session_record_start`. |
-| **`additionalMs`** | `integer` | Yes | `none` | Additional milliseconds to add to current expiration deadline. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `recordingId` | `string` | Yes | — | — | Recording ID returned from session_record_start. |
+| `additionalMs` | `integer` | Yes | — | 1000–3600000 | Additional time to add to the recording's expiry, in milliseconds. |
+<!-- /generated:parameters -->
 
 ---
 

@@ -17,16 +17,18 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `agentId` | `string` | No | Optional agent identity for claim authorization at the MCP entry point. Defaults to 'default'. |
-| `maxSteps` | `integer` | No | Maximum playbook steps to execute before stopping. |
-| `observation` | `object` | No | Optional fresh fingerprint snapshot from a recent perceive/match pass. When provided, Nova evaluates drift against the phenomenon baseline before applying. |
-| `phenomenonId` | `string` | **Yes** | Phenomenon ID from PKS. |
-| `scope` | `string` | **Yes** | Domain scope (e.g. 'chatgpt.com'). |
-| `targetId` | `string` | No | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
-| `timeoutMs` | `integer` | No | Total timeout for the entire playbook execution. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `scope` | `string` | Yes | — | — | Domain scope (e.g. 'chatgpt.com'). |
+| `phenomenonId` | `string` | Yes | — | — | Phenomenon ID from PKS. |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `maxSteps` | `integer` | No | `10` | 1–20 | Maximum playbook steps to execute before stopping. |
+| `timeoutMs` | `integer` | No | `15000` | 1000–60000 | Total timeout for the entire playbook execution. |
+| `observation` | `object` | No | — | — | Optional fresh fingerprint snapshot from a recent perceive/match pass. When provided, Nova evaluates drift against the phenomenon baseline before applying. |
+| `observation.signals` | `array` of `object` | No | — | — | Observed fingerprint signals used for drift evaluation. Each signal provides kind, match, and optional locale. |
+| `observation.minConfidence` | `number` | No | `0.5` | 0–1 | Minimum confidence for the provided observation snapshot. |
+<!-- /generated:parameters -->
 
 ---
 

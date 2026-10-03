@@ -16,10 +16,13 @@ Destructively deletes finalized session recordings older than a specified day th
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`olderThanDays`** | `integer` | Yes | `none` | Threshold in days; recordings older than this will be permanently deleted. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. High-impact write requires `_meta.intent`. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `olderThanDays` | `integer` | Yes | — | 1–3650 | Required threshold in days — recordings older than this are deleted. |
+
+**`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+<!-- /generated:parameters -->
 
 ---
 

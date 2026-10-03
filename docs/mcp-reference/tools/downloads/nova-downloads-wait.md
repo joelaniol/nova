@@ -16,12 +16,15 @@ Blocks until downloads reach a terminal state (completed, failed, or cancelled) 
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`id`** | `string` | No | `null` | Wait for a specific download ID. Mutually exclusive with `sinceMs`. |
-| **`sinceMs`** | `integer` | No | `10000` | Lookback window in ms (0 - 600,000). Catches all downloads started within this window before the call. Mutually exclusive with `id`. |
-| **`timeoutMs`** | `integer` | No | `60000` | Maximum wait time in ms (1,000 - 300,000). On timeout, partial state is returned with status='timeout' without throwing an error. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `id` | `string` | No | — | — | Optional: wait for exactly this download ID (from nova.downloads_list or a previous nova.downloads_wait). Mutually exclusive with sinceMs. |
+| `sinceMs` | `integer` | No | `10000` | 0–600000 | Optional: wait for downloads started within this many milliseconds before the call (0-600000, default 10000). Mutually exclusive with id. |
+| `timeoutMs` | `integer` | No | `60000` | 1000–300000 | Maximum time to wait in milliseconds (1000-300000, default 60000). On timeout the current state is returned with status='timeout' — never an error. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

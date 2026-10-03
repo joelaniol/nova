@@ -16,11 +16,12 @@ Executes an active network diagnostic probe through a proxy profile to verify co
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`profileId`** | `string` | Yes | `none` | Proxy profile ID to test. |
-| **`probeUrl`** | `string` | No | `https://api.ipify.org` | Test URL for connectivity probe. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `profileId` | `string` | Yes | — | — | ID of the proxy profile to test. |
+| `probeUrl` | `string` | No | — | — | Custom probe URL. Default: 'https://api.ipify.org/?format=json'. |
+<!-- /generated:parameters -->
 
 ---
 

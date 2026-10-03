@@ -45,15 +45,18 @@ When uploading documents, passing `previewPdf: true` renders page 1 of each atta
 
 ## 3. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`filePaths`** | `array<string>` | **Conditional** | — | Array of absolute local file paths to attach (preferred). |
-| **`filePath`** | `string` | **Conditional** | — | Legacy single-file path string. Exactly one of `filePaths` or `filePath` is required. |
-| **`selector`** | `string` | No | `"input[type=file]"` | CSS selector for the file input. Auto-detects if omitted. |
-| **`targetId`** | `string` | No | `"active"` | Target tab ID from `nova.tabs`, or `"active"`. |
-| **`frameId`** | `string` | No | `null` | Optional frame ID (from `perceive.frames[]`) if input is inside an iframe. |
-| **`previewPdf`** | `boolean` | No | `false` | Returns an image preview of page 1 for uploaded PDF documents. |
-| **`agentId`** | `string` | No | `"default"` | Agent identity for claim lease verification. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `filePaths` | `array` of `string` | No | — | ≥ 1 items | Preferred array of absolute local file paths to upload in one call. Use this even for new single-file callers. |
+| `filePath` | `string` | No | — | — | Legacy alias for a single absolute local file path. Prefer filePaths for new callers. If both filePaths and filePath are provided, filePaths must contain exactly one matching entry. |
+| `selector` | `string` | No | `"input[type=file]"` | — | CSS selector for the file input. Default: auto-detect first input[type=file]. |
+| `frameId` | `string` | No | — | — | Optional same-origin frame ID (from perceive frames[]). When set, the selector is resolved inside that iframe's isolated world and the file is set on the element there. Omit for top-document uploads. |
+| `previewPdf` | `boolean` | No | `false` | — | If true, page 1 of each uploaded PDF (up to 3) comes back as an image content item (JPEG, at most 900 px wide), so you can see what you attached before sending - e.g. leftover page CSS in a PDF made with nova.save_pdf. structuredContent.pdfPreviews[] lists index, fileName, pageCount and a reason when a PDF could not be rendered (damaged, password-protected). The upload itself never fails because of the preview. Costs one image per PDF, hence off by default. |
+
+**`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+<!-- /generated:parameters -->
 
 ---
 

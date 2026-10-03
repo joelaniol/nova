@@ -17,13 +17,13 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `agentId` | `string` | No | Optional agent identity for claim authorization at the MCP entry point. Defaults to 'default'. |
-| `limit` | `integer` | No | Max phenomena to check (default 3, max 5). |
-| `scope` | `string` | No | Domain scope to revalidate (e.g. 'example.com'). If omitted, revalidation is scoped to the current target host. |
-| `targetId` | `string` | **Yes** | Tab/sandbox to run DOM checks in. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `scope` | `string` | No | — | — | Domain scope to revalidate (e.g. 'example.com'). If omitted, revalidation is scoped to the current target host. |
+| `limit` | `integer` | No | — | 1–5 | Max phenomena to check (default 3, max 5). |
+| `targetId` | `string` | Yes | — | — | Tab/sandbox to run DOM checks in. |
+<!-- /generated:parameters -->
 
 ---
 

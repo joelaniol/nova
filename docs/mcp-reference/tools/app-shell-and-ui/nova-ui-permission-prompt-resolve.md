@@ -17,10 +17,13 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Metadata. Provide _meta.intent when using decision='allow' or 'deny' - answering a permission request is high-impact. Not needed for 'defer'. |
-| `decision` | `string` | No | defer = postpone without deciding (default, always available); allow/deny = answer for the user. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `decision` | `string` | No | — | `defer`, `allow`, `deny` | defer = postpone without deciding (default, always available); allow/deny = answer for the user. |
+
+**`_meta.intent` is required for certain arguments.** Passing a short reason in `_meta.intent` is always safe; a rejected call names the argument that made it required.
+<!-- /generated:parameters -->
 
 ---
 

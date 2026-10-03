@@ -17,11 +17,14 @@ Retrieves metadata and account identifiers for a stored vault entry, resolving u
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`site`** | `string` | **Yes** | — | Domain or URL fragment to match (e.g. `"github.com"`). |
-| **`username`** | `string` | No | `null` | Optional specific username to inspect. |
-| **`_meta.intent`**| `string` | **Conditional**| — | Audit trail statement explaining the lookup. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `site` | `string` | Yes | — | — | Domain or URL fragment to match (e.g. 'github.com'). |
+| `username` | `string` | No | — | — | Optional specific username. Required after selecting one when multiple accounts remain for the site. |
+
+**`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+<!-- /generated:parameters -->
 
 ---
 

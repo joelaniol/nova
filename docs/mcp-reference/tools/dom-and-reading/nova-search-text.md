@@ -53,17 +53,18 @@ If the matching text lives inside an open shadow root or same-origin iframe:
 
 ## 3. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`text`** | `string` | **Yes** | — | Visible text string or regex pattern to search for. |
-| **`match`** | `string` | No | `"contains"` | Match mode: `"contains"`, `"exact"`, `"starts_with"`, or `"regex"`. |
-| **`tag`** | `string` | No | `null` | Optional HTML tag filter (e.g. `"button"`, `"a"`, `"h2"`). |
-| **`caseSensitive`** | `boolean` | No | `false` | When `true`, enforces strict case matching. |
-| **`deep`** | `boolean` | No | `false` | Searches same-origin iframes and open shadow roots. |
-| **`visibleOnly`** | `boolean` | No | `true` | When `true`, filters out hidden elements. |
-| **`maxResults`** | `integer` | No | `100` | Maximum matching elements returned (1–2,000). |
-| **`targetId`** | `string` | No | `"active"` | Target tab ID from `nova.tabs`, or `"active"`. |
-| **`agentId`** | `string` | No | `"default"` | Agent identity for claim lease verification. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `text` | `string` | Yes | — | — | Visible text to search for. |
+| `tag` | `string` | No | — | — | Filter by HTML tag name (e.g. 'button', 'a', 'h1'). |
+| `match` | `string` | No | `"contains"` | `contains`, `exact`, `starts_with`, `regex` | Match mode for text comparison. |
+| `maxResults` | `integer` | No | `100` | 1–2000 | Maximum number of matching elements to return. |
+| `caseSensitive` | `boolean` | No | `false` | — | If true, text matching is case-sensitive. |
+| `visibleOnly` | `boolean` | No | `true` | — | Only return elements that are visible on the page. |
+| `deep` | `boolean` | No | `false` | — | If true, searches in same-origin iframes and open shadow roots in addition to the top document. Returns full >>> selector chains for shadow-contained elements. |
+<!-- /generated:parameters -->
 
 ---
 

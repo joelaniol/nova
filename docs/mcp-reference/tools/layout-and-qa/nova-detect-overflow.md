@@ -28,12 +28,13 @@ Layout overflow issues—such as unintentional horizontal scrollbars, clipped te
 
 ## 3. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`selector`** | `string` | No | `"body"` | Root element to scan. Scope to a selector to audit just that subtree. |
-| **`maxIssues`** | `integer` | No | `200` | Maximum number of issues to return before halting (1–2,000). |
-| **`targetId`** | `string` | No | `"active"` | Target tab ID from `nova.tabs`, or `"active"`. |
-| **`agentId`** | `string` | No | `"default"` | Agent identity for claim lease verification. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `selector` | `string` | No | `"body"` | — | CSS selector for the root element to scan. Defaults to 'body' (whole page). |
+| `maxIssues` | `integer` | No | `200` | 1–2000 | Maximum number of issues to return; the scan stops early and sets truncated=true when reached. |
+<!-- /generated:parameters -->
 
 ---
 

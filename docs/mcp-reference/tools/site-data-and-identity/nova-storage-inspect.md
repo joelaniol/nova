@@ -16,14 +16,18 @@ Reads localStorage or sessionStorage key-value pairs for the target page.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`includeValues`** | `boolean` | No | `false` | Include storage values. Default: false (keys only). When true, the request may be treated as a HIGH-IMPACT secret read because values may contain JWTs, tokens, or app state. |
-| **`keyFilter`** | `string` | No | `null` | Optional substring match on key name. |
-| **`maxEntries`** | `integer` | No | `100` | Max entries to return. Default: 100. |
-| **`storageType`** | `string` | Yes | `null` | Storage type to inspect. |
-| **`targetId`** | `string` | Yes | `null` | Tab or sandbox ID. Required. |
-| **`valueMaxChars`** | `integer` | No | `120` | Max characters per value. Default: 120. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | Yes | — | — | Tab or sandbox ID. Required. |
+| `storageType` | `string` | Yes | — | `local`, `session` | Storage type to inspect. |
+| `keyFilter` | `string` | No | — | — | Optional substring match on key name. |
+| `includeValues` | `boolean` | No | `false` | — | Include storage values. Default: false (keys only). When true, the request may be treated as a HIGH-IMPACT secret read because values may contain JWTs, tokens, or app state. |
+| `valueMaxChars` | `integer` | No | `120` | 1–10000 | Max characters per value. Default: 120. |
+| `maxEntries` | `integer` | No | `100` | 1–1000 | Max entries to return. Default: 100. |
+
+**`_meta.intent` is required for certain arguments.** Passing a short reason in `_meta.intent` is always safe; a rejected call names the argument that made it required.
+<!-- /generated:parameters -->
 
 ---
 

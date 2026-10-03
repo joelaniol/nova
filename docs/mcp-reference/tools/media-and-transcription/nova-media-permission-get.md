@@ -16,10 +16,12 @@ Reads the effective and stored media permissions for a specific web origin.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`origin`** | `string` | Yes | `null` | Absolute http/https top-level origin (e.g. 'https://meet.google.com'). |
-| **`requestingOrigin`** | `string` | No | `null` | Optional iframe origin (P-4). When set and distinct from origin, the lookup tries tuple-match first, then falls back to top-level match. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `origin` | `string` | Yes | — | — | Absolute http/https top-level origin (e.g. 'https://meet.google.com'). |
+| `requestingOrigin` | `string` | No | — | — | Optional iframe origin (P-4). When set and distinct from origin, the lookup tries tuple-match first, then falls back to top-level match. |
+<!-- /generated:parameters -->
 
 ---
 

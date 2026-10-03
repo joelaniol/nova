@@ -16,12 +16,14 @@ Sets a key-value pair in localStorage or sessionStorage for the target page.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`key`** | `string` | Yes | `null` | Storage key. Required. |
-| **`storageType`** | `string` | Yes | `null` | Storage type. |
-| **`targetId`** | `string` | Yes | `null` | Tab or sandbox ID. Required. |
-| **`value`** | `string` | Yes | `null` | Storage value. Required. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | Yes | — | — | Tab or sandbox ID. Required. |
+| `storageType` | `string` | Yes | — | `local`, `session` | Storage type. |
+| `key` | `string` | Yes | — | — | Storage key. Required. |
+| `value` | `string` | Yes | — | — | Storage value. Required. |
+<!-- /generated:parameters -->
 
 ---
 

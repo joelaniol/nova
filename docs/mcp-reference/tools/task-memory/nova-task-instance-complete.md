@@ -16,14 +16,16 @@ Requests server evaluation and completion for an episodic task instance.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`clientEventId`** | `string` | Yes | `null` | Client-generated unique event ID for idempotency. |
-| **`completionNote`** | `string` | No | `null` | Legacy alias for note. Prefer note in new calls. |
-| **`evidenceReport`** | `array` | No | `null` | Optional evidence from verification contract execution. Each entry is the result of executing a verification step's tool; failed required fast-gate steps can block completion. |
-| **`expectedInstanceRev`** | `integer` | Yes | `null` | Expected current instanceRev for CAS. |
-| **`instanceId`** | `string` | Yes | `null` | The instance to complete. |
-| **`note`** | `string` | No | `null` | Optional note for the completion event. Canonical field for new calls. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `instanceId` | `string` | Yes | — | — | The instance to complete. |
+| `expectedInstanceRev` | `integer` | Yes | — | — | Expected current instanceRev for CAS. |
+| `clientEventId` | `string` | Yes | — | — | Client-generated unique event ID for idempotency. |
+| `note` | `string` | No | — | — | Optional note for the completion event. Canonical field for new calls. |
+| `completionNote` | `string` | No | — | — | Legacy alias for note. Prefer note in new calls. |
+| `evidenceReport` | `array` of `object` | No | — | — | Optional evidence from verification contract execution. Each entry is the result of executing a verification step's tool; failed required fast-gate steps can block completion. |
+<!-- /generated:parameters -->
 
 ---
 

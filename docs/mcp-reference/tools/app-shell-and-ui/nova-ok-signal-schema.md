@@ -17,12 +17,15 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional metadata. Provide _meta.intent (a short reason) for high-impact tools. A tool's annotations.intentRequired in tools/list tells you up front: 'always' means intent is mandatory, 'conditional' means it becomes mandatory for certain arguments (e.g. includeValues=true), absent means never. |
-| `includeDeprecated` | `boolean` | No | Whether deprecated canonical keys should be included. |
-| `maxEntries` | `integer` | No | Maximum number of schema entries returned. |
-| `namespace` | `string,null` | No | Optional canonical namespace filter, for example 'core'. Use null or omit to list all namespaces. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `namespace` | `string or null` | No | — | — | Optional canonical namespace filter, for example 'core'. Use null or omit to list all namespaces. |
+| `includeDeprecated` | `boolean` | No | `false` | — | Whether deprecated canonical keys should be included. |
+| `maxEntries` | `integer` | No | `200` | 1–500 | Maximum number of schema entries returned. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

@@ -16,10 +16,14 @@ Clears cookies across the target profile, with optional domain filtering.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`domain`** | `string` | No | `null` | Optional domain scope. When set, only cookies whose domain matches this value or is a subdomain of it are deleted (e.g. 'example.com' matches '.example.com' and 'sub.example.com'). Omit to clear ALL cookies (profile-wide). |
-| **`targetId`** | `string` | Yes | `null` | Tab or sandbox ID. Required. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | Yes | — | — | Tab or sandbox ID. Required. |
+| `domain` | `string` | No | — | — | Optional domain scope. When set, only cookies whose domain matches this value or is a subdomain of it are deleted (e.g. 'example.com' matches '.example.com' and 'sub.example.com'). Omit to clear ALL cookies (profile-wide). |
+
+**`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+<!-- /generated:parameters -->
 
 ---
 

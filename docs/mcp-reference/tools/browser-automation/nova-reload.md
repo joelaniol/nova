@@ -22,20 +22,26 @@ Reloading a tab during automated operations must be handled with extreme care: i
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`targetId`** | `string` | No | `"active"` | Target tab ID from `nova.tabs`, or `"active"`. |
-| **`hard`** | `boolean` | No | `false` | When `true`, ignores HTTP cache (hard refresh). |
-| **`waitForLoad`** | `boolean` | No | `false` | Wait for `document.readyState === 'complete'`. |
-| **`waitForSettlement`**| `boolean`| No | `false` | Wait for SPA post-load DOM settlement. |
-| **`waitForLoadTimeoutMs`**| `integer`| No | `10000` | Max milliseconds to wait for page load (0–30,000 ms). |
-| **`settlementTimeoutMs`** | `integer`| No | `5000` | Max milliseconds to wait for DOM settlement (1,000–15,000 ms). |
-| **`force`** | `boolean` | No | `false` | Bypass session preservation gates on sensitive tabs. |
-| **`confirmSessionDestruction`**| `boolean`| No | `false`| Required alongside `force: true` when reloading an authenticated session. |
-| **`recoverRenderer`** | `boolean`| No | `false` | Recreate a frozen or stalled WebView2 renderer process. |
-| **`includeScreenshot`**| `boolean`| No | `false` | Include screenshot sidecar upon load completion. |
-| **`outputDetail`** | `string` | No | `"full"` | Envelope verbosity: `"full"`, `"compact"`, or `"minimal"`. |
-| **`agentId`** | `string` | No | `"default"` | Agent identity for claim lease verification. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `hard` | `boolean` | No | `false` | — | If true, bypass cache (hard reload). If false, normal reload using cached resources. |
+| `force` | `boolean` | No | `false` | — | If true, bypass the SPA/session-preservation AAG gate and allow a full-document reload even when the current tab is flagged as session-sensitive. If the target has an authenticated session, you must also pass confirmSessionDestruction=true. |
+| `confirmSessionDestruction` | `boolean` | No | `false` | — | Required alongside force=true when reloading an authenticated session. Acknowledges that the auth session may be destroyed. Without this flag, force=true on an auth-detected tab is blocked with a recovery hint. |
+| `waitForLoad` | `boolean` | No | `false` | — | If true, wait for page load before returning. |
+| `waitForLoadTimeoutMs` | `integer` | No | `10000` | 0–30000 | Max ms to wait for load (0-30000). Only used when waitForLoad=true. Default 10000 fits typical static pages; SPA-heavy domains (LinkedIn, X, Reddit, large dashboards) often need 15000-20000 — bump explicitly on retry after navigation.wait_for_load_timeout if structuredContent.pageUrl matches the request (URL committed, DOM still settling). |
+| `waitForSettlement` | `boolean` | No | `false` | — | If true, wait for SPA DOM settlement after readyState=complete. Implies waitForLoad=true. |
+| `settlementTimeoutMs` | `integer` | No | `5000` | 1000–15000 | Max ms to wait for settlement (1000-15000). Only used when waitForSettlement=true. |
+| `includeScreenshot` | `boolean` | No | `false` | — | If true and load completes, include a screenshot in the response. Screenshot delivery is an optional sidecar: if capture fails, this result stays authoritative and structuredContent.screenshotStatus/screenshotReasonCode/screenshotRetryable/screenshotError describe the capture-only failure - do not repeat the action to get the image. |
+| `screenshotMaxWidth` | `integer` | No | — | — | Max screenshot width in pixels. |
+| `screenshotMaxHeight` | `integer` | No | — | — | Max screenshot height in pixels. |
+| `screenshotFormat` | `string` | No | `"png"` | `png`, `jpeg`, `auto` | Screenshot format; 'auto' picks PNG or JPEG per region. |
+| `screenshotQuality` | `integer` | No | `80` | 1–100 | JPEG quality (1-100). Only used when screenshotFormat is 'jpeg'. |
+| `outputDetail` | `string` | No | `"full"` | `full`, `compact`, `minimal` | Response verbosity. 'full' (default) is the unchanged payload. 'compact' drops the advisory blocks you did not ask for (pks/pksMeta, discoverySignals, routingHint, taskDiscoveryWarning, byte accounting) and keeps everything you did - state, screenshot, settlement. 'minimal' is the lean envelope: core contract (ok/status/reasonCode/stage/retryable), the navigation proof (url/requestedUrl/loadCompleted/navigationFailed/webErrorStatus/settlement), target and page info, claim/private state, screenshot sidecar status, and the never-suppressible safety warnings. No setting can hide a warning. |
+| `recoverRenderer` | `boolean` | No | `false` | — | Recreate the tab's renderer and load the same URL in a fresh one - Chrome's 'Exit page' for an unresponsive tab. Unsaved input on the page is lost. Only on a tab you claimed, and only while the tab is known not to answer (its calls return cdp.renderer_stalled); otherwise refused with reload.recover_renderer_not_claimed / reload.recover_renderer_not_stalled. hard/force are ignored with it; waitForLoad applies. |
+| `agentId` | `string` | No | `"default"` | — | Your agent identity. recoverRenderer requires that this agent holds the claim on the tab. |
+<!-- /generated:parameters -->
 
 ---
 

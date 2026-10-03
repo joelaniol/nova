@@ -32,14 +32,22 @@ The Phenomenological Knowledge Store (PKS) is a living, self-healing memory stor
 
 ## 3. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`scope`** | `string` | **Yes** | ? | Domain scope (e.g. `"nytimes.com"`). |
-| **`phenomenonId`**| `string` | **Yes** | ? | Phenomenon ID being evaluated. |
-| **`outcome`** | `string` | **Yes** | ? | Result: `"success"`, `"failure"`, or `"not_applicable"`. |
-| **`elapsedMs`** | `integer` | No | `null` | Milliseconds taken to execute the interaction. |
-| **`features`** | `object` | No | `null` | Optional structured evidence: `{ presentSignals, absentSignals, matchedSelectors, notes }`. |
-| **`targetId`** | `string` | No | `"active"` | Target tab ID for session attribution. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | — | — | Optional tab target for attribution (e.g. 'active', 'A', browser tabId). |
+| `scope` | `string` | Yes | — | — | Domain scope. |
+| `phenomenonId` | `string` | Yes | — | — | Phenomenon ID to report on. |
+| `outcome` | `string` | Yes | — | `success`, `failure`, `not_applicable` | Outcome of the interaction. Use 'not_applicable' when the element legitimately doesn't exist on this page variant. |
+| `elapsedMs` | `integer` | No | — | — | Preferred elapsed time in milliseconds. Must match elapsed_ms if both are provided. |
+| `elapsed_ms` | `integer` | No | — | — | Legacy alias for elapsedMs. Optional elapsed time in milliseconds. |
+| `features` | `object` | No | — | — | Optional structured evidence about which phenomenon signals were present during the interaction. Known fields cover the common compact telemetry shape; additional evidence keys may be attached for forward-compatible experimentation. |
+| `features.presentSignals` | `array` of `string` | No | — | — | Signal identifiers or fingerprint labels that were observed. |
+| `features.absentSignals` | `array` of `string` | No | — | — | Signal identifiers that were expected but not observed. |
+| `features.matchedSelectors` | `array` of `string` | No | — | — | Selectors or element handles that matched during the interaction. |
+| `features.matchConfidence` | `number` | No | — | — | Aggregate confidence score for the observed signal bundle. |
+| `features.notes` | `string` | No | — | — | Short human-readable evidence note. |
+<!-- /generated:parameters -->
 
 ---
 

@@ -16,16 +16,20 @@ Lists bounded message metadata (headers, dates, senders) from an exact IMAP fold
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`allowInsecure`** | `boolean` | No | `false` | Required as true only when this account's IMAP endpoint explicitly uses plaintext or disabled certificate validation, and only after the user enabled insecure connector connections in Settings. |
-| **`folder`** | `string` | Yes | `null` | Exact folder fullName returned by nova.mail_folders (for example INBOX). |
-| **`limit`** | `integer` | No | `50` | Maximum messages returned, 1..200. The runtime also accepts a parseable integer string. |
-| **`olderCursor`** | `string` | No | `null` | Optional opaque olderCursor from a previous page of the same profile/folder/query: returns the next older messages, newest first. Not combinable with sinceCursor; an older page returns no nextCursor (keep the first page's for new mail). |
-| **`profileId`** | `string` | Yes | `null` | Mail connector id (from nova.connector_list). |
-| **`query`** | `any` | No | `null` | Optional IMAP filters combined with AND. Runtime compatibility also accepts one string as the full-text filter. IMAP date search is calendar-day granular. Accepts: object, string. |
-| **`sinceCursor`** | `string` | No | `null` | Optional opaque nextCursor from the same profile/folder/query. Returns only messages with later UIDs; do not edit or reuse it for a different query. |
-| **`unattended`** | `boolean` | No | `false` | Optional fail-closed hint for a non-interactive caller. Host-attested scheduled-task sessions are unattended even when omitted and can never be made interactive by this field. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `profileId` | `string` | Yes | — | — | Mail connector id (from nova.connector_list). |
+| `folder` | `string` | Yes | — | ≤ 1024 characters | Exact folder fullName returned by nova.mail_folders (for example INBOX). |
+| `query` | `any` | No | — | — | Optional IMAP filters combined with AND. Runtime compatibility also accepts one string as the full-text filter. IMAP date search is calendar-day granular. |
+| `limit` | `integer` | No | `50` | 1–200 | Maximum messages returned, 1..200. The runtime also accepts a parseable integer string. |
+| `sinceCursor` | `string` | No | — | — | Optional opaque nextCursor from the same profile/folder/query. Returns only messages with later UIDs; do not edit or reuse it for a different query. |
+| `olderCursor` | `string` | No | — | — | Optional opaque olderCursor from a previous page of the same profile/folder/query: returns the next older messages, newest first. Not combinable with sinceCursor; an older page returns no nextCursor (keep the first page's for new mail). |
+| `unattended` | `boolean` | No | `false` | — | Optional fail-closed hint for a non-interactive caller. Host-attested scheduled-task sessions are unattended even when omitted and can never be made interactive by this field. |
+| `allowInsecure` | `boolean` | No | `false` | — | Required as true only when this account's IMAP endpoint explicitly uses plaintext or disabled certificate validation, and only after the user enabled insecure connector connections in Settings. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

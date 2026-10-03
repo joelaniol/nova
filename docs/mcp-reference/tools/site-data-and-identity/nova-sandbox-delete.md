@@ -16,10 +16,14 @@ Permanently removes a sandbox profile and deletes its storage, cookies, and cach
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`confirm`** | `boolean` | Yes | `null` | Safety confirmation. Must be true to proceed with deletion. |
-| **`sandboxId`** | `string` | Yes | `null` | Sandbox ID to delete (e.g. 'C'). |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `sandboxId` | `string` | Yes | — | — | Sandbox ID to delete (e.g. 'C'). |
+| `confirm` | `boolean` | Yes | — | — | Safety confirmation. Must be true to proceed with deletion. |
+
+**`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+<!-- /generated:parameters -->
 
 ---
 

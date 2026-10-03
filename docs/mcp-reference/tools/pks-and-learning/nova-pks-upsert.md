@@ -32,16 +32,25 @@ For `consent_cmp` phenomena (cookie banners), Nova enforces four non-negotiable 
 
 ## 3. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`scope`** | `string` | **Yes** | ? | Domain scope (e.g. `"spiegel.de"`). Must match an open tab host. |
-| **`phenomenon`** | `object` | **Yes** | ? | Phenomenon definition containing `id`, `type`, `fingerprint`, and `playbook`. |
-| **`phenomenon.type`**| `string` | **Yes**| ? | Type: `consent_cmp`, `modal`, `paywall`, `login_wall`, `layout_shift`, `native_dialog`, `popover_open`, or `custom`. |
-| **`phenomenon.fingerprint`**| `object`| No | `null` | Array of structured detection signals (`dom`, `text`, `layout`, `vendor`, `interaction`). |
-| **`phenomenon.playbook`**| `object` | No | `null` | Action sequence (`actions[]`), policy, and postcondition checks (`verify[]`). |
-| **`context`** | `object` | No | `null` | Domain environment markers: `{ auth, device, locale, classification }`. |
-| **`trust`** | `string` | No | `"unknown"`| Trust level: `"unknown"`, `"low"`, `"medium"`, or `"high"`. |
-| **`agentId`** | `string` | No | `"default"`| Agent identity for claim lease verification. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `scope` | `string` | Yes | — | — | Domain scope (e.g. 'spiegel.de'). |
+| `context` | `object` | No | — | — | Optional: set/update domain-level context keys describing the current browsing environment. |
+| `context.device` | `string` | No | — | `desktop`, `mobile`, `tablet` | Device type for this browsing environment. |
+| `context.locale` | `string` | No | — | — | e.g. 'de-DE' |
+| `context.auth` | `string` | No | — | `anonymous`, `logged_in`, `unknown` | Authentication state. 'anonymous' = not signed in, 'logged_in' = signed in, 'unknown' = not enough evidence to classify. |
+| `context.domainCapabilities` | `object` | No | — | — | Optional: set domain capabilities (login surface, feature inventories). Used to describe which features exist before and after login. |
+| `context.trustedStateDetectors` | `object` | No | — | — | Optional trusted state detector configs. Each property name is a detector/state key such as logged_in or sidebar_open. |
+| `context.classification` | `object` | No | — | — | Domain-level service classification. Tags are merged by kind+value instead of replacing the full set. |
+| `trust` | `string` | No | — | `unknown`, `low`, `medium`, `high` | Optional domain trust level. Trust level. 'unknown' = not reviewed yet, 'low' = weak or unstable evidence, 'medium' = usable but still needs confirmation, 'high' = repeatedly verified and reliable. |
+| `phenomenon` | `object` | Yes | — | — | Phenomenon to upsert (matched by id if existing). |
+| `phenomenon.id` | `string` | No | — | — | Phenomenon ID. Omit to auto-generate. |
+| `phenomenon.type` | `string` | No | — | `consent_cmp`, `modal`, `paywall`, `login_wall`, `layout_shift`, `native_dialog`, `popover_open`, `custom` | Phenomenon type. 'consent_cmp' = cookie/consent manager surface, 'modal' = generic blocking overlay or dialog, 'paywall' = subscription/payment gate, 'login_wall' = sign-in gate, 'layout_shift' = disruptive UI shift without a classic overlay, 'native_dialog' = browser/native prompt such as permission or file picker, 'popover_open' = anchored popover/dropdown surface, 'custom' = uncategorized site-specific phenomenon. |
+| `phenomenon.fingerprint` | `object` | No | — | — | Fingerprint signals used to detect the phenomenon later. |
+| `phenomenon.playbook` | `object` | No | — | — | Structured response plan for the phenomenon, including execution and verification. |
+| `phenomenon.context` | `object` | No | — | — | Optional phenomenon-level context override. Missing keys fallback to domain context keys. When updating an existing phenomenon, the deprecated flag is automatically cleared (reactivated). |
+<!-- /generated:parameters -->
 
 ---
 

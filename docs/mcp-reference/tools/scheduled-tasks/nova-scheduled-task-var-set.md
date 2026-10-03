@@ -16,12 +16,15 @@ Sets a persistent key-value state variable for a task that survives across runs.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`taskId`** | `string` | Yes | `none` | The task ID. |
-| **`key`** | `string` | Yes | `none` | Variable name (alphanumeric + underscore, max 64 chars). |
-| **`value`** | `string` | Yes | `none` | Variable value (max 64 KB). Use JSON strings for structured data. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `taskId` | `string` | Yes | — | — | The task ID. |
+| `key` | `string` | Yes | — | — | Variable name (alphanumeric + underscore, max 64 chars). |
+| `value` | `string` | Yes | — | — | Variable value (max 64 KB). Use JSON strings for structured data. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

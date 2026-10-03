@@ -17,11 +17,12 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `limit` | `integer` | No | Maximum number of candidates to generate (1-20). Default 5. |
-| `scope` | `string` | **Yes** | Required domain scope (e.g. 'github.com'). |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `scope` | `string` | Yes | — | — | Required domain scope (e.g. 'github.com'). |
+| `limit` | `integer` | No | `5` | 1–20 | Maximum number of candidates to generate (1-20). Default 5. |
+<!-- /generated:parameters -->
 
 ---
 

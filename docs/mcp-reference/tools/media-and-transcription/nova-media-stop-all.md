@@ -16,10 +16,14 @@ Emergency kill switch terminating all active camera, microphone, and screen-shar
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`origin`** | `string` | No | `null` | Required when scope='origin'. Absolute http/https origin. |
-| **`scope`** | `string` | No | `null` | 'all' (default) or 'origin'. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `scope` | `string` | No | — | `all`, `origin` | 'all' (default) or 'origin'. |
+| `origin` | `string` | No | — | — | Required when scope='origin'. Absolute http/https origin. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

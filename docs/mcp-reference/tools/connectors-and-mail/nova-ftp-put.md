@@ -16,15 +16,19 @@ Uploads a local regular file over FTP/FTPS to a remote server.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`allowInsecure`** | `boolean` | No | `false` | Required as true only when this profile explicitly uses plaintext FTP. The user's separate debug/legacy option must also be enabled. |
-| **`localPath`** | `string` | Yes | `null` | Existing local regular file inside Downloads or the host-verified current workspace. |
-| **`maxBytes`** | `integer` | No | `1073741824` | Requested byte ceiling for this single-file call; cannot exceed Nova's hard limit. |
-| **`overwrite`** | `boolean` | No | `false` | Replace an existing regular-file destination. False preserves it. |
-| **`profileId`** | `string` | Yes | `null` | FTP connector id from nova.connector_list. |
-| **`remotePath`** | `string` | Yes | `null` | Remote destination file (or an existing directory that receives the local filename). |
-| **`unattended`** | `boolean` | No | `false` | Fail closed instead of opening account/policy prompts. Scheduled-task hosts enforce unattended mode even when omitted; this flag can only reduce authority. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `profileId` | `string` | Yes | — | — | FTP connector id from nova.connector_list. |
+| `localPath` | `string` | Yes | — | — | Existing local regular file inside Downloads or the host-verified current workspace. |
+| `remotePath` | `string` | Yes | — | ≤ 4096 characters | Remote destination file (or an existing directory that receives the local filename). |
+| `overwrite` | `boolean` | No | `false` | — | Replace an existing regular-file destination. False preserves it. |
+| `maxBytes` | `integer` | No | `1073741824` | 1–1073741824 | Requested byte ceiling for this single-file call; cannot exceed Nova's hard limit. |
+| `unattended` | `boolean` | No | `false` | — | Fail closed instead of opening account/policy prompts. Scheduled-task hosts enforce unattended mode even when omitted; this flag can only reduce authority. |
+| `allowInsecure` | `boolean` | No | `false` | — | Required as true only when this profile explicitly uses plaintext FTP. The user's separate debug/legacy option must also be enabled. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

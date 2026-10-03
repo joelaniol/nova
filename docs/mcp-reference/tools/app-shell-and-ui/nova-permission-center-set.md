@@ -17,18 +17,19 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `cameraPermissionMode` | `string` | No | Default camera permission: 'ask' (prompt user), 'allow' (auto-grant), 'deny' (auto-block). |
-| `clearPreferredDevices` | `boolean` | No | If true, clears all preferred device IDs before applying explicit IDs. |
-| `geolocationPermissionMode` | `string` | No | Default geolocation permission: 'ask' (prompt user), 'allow' (auto-grant navigator.geolocation for the effective origin via the proactive permission policy), 'deny' (auto-block). |
-| `microphonePermissionMode` | `string` | No | Default microphone permission: 'ask' (prompt user), 'allow' (auto-grant), 'deny' (auto-block). |
-| `preferredCameraDeviceId` | `string` | No | Preferred camera device ID — must come from the latest permission_center_get output of this Nova session. Empty string clears. |
-| `preferredMicrophoneDeviceId` | `string` | No | Preferred microphone device ID — must come from the latest permission_center_get output of this Nova session. Empty string clears. |
-| `preferredSpeakerDeviceId` | `string` | No | Preferred speaker device ID — must come from the latest permission_center_get output of this Nova session. Empty string clears. |
-| `speakerPermissionMode` | `string` | No | Default speaker/audio-output permission: 'ask' (prompt user), 'allow' (auto-grant), 'deny' (auto-block). |
-| `validateDeviceIds` | `boolean` | No | If true, reject unknown device IDs based on current OS media inventory plus cached Chromium enumerateDevices IDs. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `cameraPermissionMode` | `string` | No | — | `ask`, `allow`, `deny` | Default camera permission: 'ask' (prompt user), 'allow' (auto-grant), 'deny' (auto-block). |
+| `microphonePermissionMode` | `string` | No | — | `ask`, `allow`, `deny` | Default microphone permission: 'ask' (prompt user), 'allow' (auto-grant), 'deny' (auto-block). |
+| `speakerPermissionMode` | `string` | No | — | `ask`, `allow`, `deny` | Default speaker/audio-output permission: 'ask' (prompt user), 'allow' (auto-grant), 'deny' (auto-block). |
+| `geolocationPermissionMode` | `string` | No | — | `ask`, `allow`, `deny` | Default geolocation permission: 'ask' (prompt user), 'allow' (auto-grant navigator.geolocation for the effective origin via the proactive permission policy), 'deny' (auto-block). |
+| `preferredCameraDeviceId` | `string` | No | — | — | Preferred camera device ID — must come from the latest permission_center_get output of this Nova session. Empty string clears. |
+| `preferredMicrophoneDeviceId` | `string` | No | — | — | Preferred microphone device ID — must come from the latest permission_center_get output of this Nova session. Empty string clears. |
+| `preferredSpeakerDeviceId` | `string` | No | — | — | Preferred speaker device ID — must come from the latest permission_center_get output of this Nova session. Empty string clears. |
+| `clearPreferredDevices` | `boolean` | No | `false` | — | If true, clears all preferred device IDs before applying explicit IDs. |
+| `validateDeviceIds` | `boolean` | No | `true` | — | If true, reject unknown device IDs based on current OS media inventory plus cached Chromium enumerateDevices IDs. |
+<!-- /generated:parameters -->
 
 ---
 

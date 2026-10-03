@@ -16,12 +16,13 @@ Retrieves and decrypts a previously stored DOM snapshot HTML payload by snapshot
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`recordingId`** | `string` | Yes | `none` | Recording ID. |
-| **`snapshotId`** | `string` | Yes | `none` | Snapshot ID returned by `nova.session_record_snapshot_dom`. |
-| **`asText`** | `boolean` | No | `true` | Decode HTML payload as UTF-8 string (`true`) or return raw base64 (`false`). |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `recordingId` | `string` | Yes | — | — | Recording ID. |
+| `snapshotId` | `string` | Yes | — | — | Snapshot ID returned in the dom-snapshots.jsonl index. |
+| `asText` | `boolean` | No | `true` | — | Decode the HTML payload as UTF-8 text. Set false to receive raw base64 bytes (e.g. for binary tooling). |
+<!-- /generated:parameters -->
 
 ---
 

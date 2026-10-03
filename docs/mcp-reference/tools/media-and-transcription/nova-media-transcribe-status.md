@@ -16,10 +16,14 @@ Reports progress, elapsed percentage, and recognized text segments of an active 
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`includeText`** | `boolean` | No | `false` | Include the segments and the full text in the response. Off by default because a long transcript crowds out everything else; the file at transcriptPath holds the same content. |
-| **`jobId`** | `string` | Yes | `null` | Job ID returned by nova.media_transcribe_start. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `jobId` | `string` | Yes | — | — | Job ID returned by nova.media_transcribe_start. |
+| `includeText` | `boolean` | No | `false` | — | Include the segments and the full text in the response. Off by default because a long transcript crowds out everything else; the file at transcriptPath holds the same content. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

@@ -42,15 +42,19 @@ Exclude dynamic UI zones (such as live clocks, user profile pictures, or rotatin
 
 ## 3. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`beforePath`** | `string` | **Yes** | — | Path to baseline PNG or `nova://screenshot/...` URI. |
-| **`afterPath`** | `string` | **Yes** | — | Path to comparison PNG or `nova://screenshot/...` URI. |
-| **`threshold`** | `integer` | No | `30` | Per-pixel Euclidean RGB distance threshold (0–255). |
-| **`ignoreAntialiasing`**| `boolean` | No | `false`| Skip sub-pixel font and border anti-aliasing edges. |
-| **`mask`** | `array<object>`| No | `null` | Array of `{ x, y, width, height }` boxes to ignore. Max 256. |
-| **`maxDiffRatio`** | `number` | No | `0.0` | Acceptable percentage of changed pixels (0–100%). |
-| **`minRegionSize`** | `integer` | No | `100` | Minimum connected pixel cluster size to count as a region. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `beforePath` | `string` | Yes | — | — | Absolute path to PNG A under a Nova screenshot/dump/artifacts directory, or a PNG nova://screenshot/... resource URI from nova.capture_screenshot (the 'before' screenshot). |
+| `afterPath` | `string` | Yes | — | — | Absolute path to PNG B under a Nova screenshot/dump/artifacts directory, or a PNG nova://screenshot/... resource URI from nova.capture_screenshot. Matching dimensions are required for status='compared'; mismatches return recoveryHints. |
+| `threshold` | `integer` | No | `30` | 0–255 | Per-pixel Euclidean RGB distance threshold. Pixels with distance > threshold are marked changed. Lower = more sensitive. |
+| `minRegionSize` | `integer` | No | `100` | 1–1000000 | Minimum connected pixel count per region. Smaller clusters are filtered out as noise. |
+| `mask` | `array` of `object` | No | — | — | Optional rectangles (in image pixels) to exclude from the comparison — pixels inside any rect never count as changed. Use for dynamic regions like timestamps, ads, or avatars. Rectangles are clamped to the image; max 256. |
+| `ignoreAntialiasing` | `boolean` | No | `false` | — | Skip pixels that look like anti-aliasing edges in either image (pixelmatch heuristic), removing false positives from sub-pixel font/border rendering differences. |
+| `maxDiffRatio` | `number` | No | `0` | 0–100 | Tolerance as a percentage of total pixels. If the changed fraction is <= this, the result reports withinTolerance=true and changed=false. Default 0 = any change counts. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

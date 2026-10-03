@@ -16,13 +16,15 @@ Lists all persistent operator notes with tags and sandbox scopes.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`limit`** | `integer` | No | `20` | Maximum results. Default: 20. |
-| **`offset`** | `integer` | No | `0` | Skip first N entries. Default: 0. |
-| **`sandboxId`** | `string` | No | `null` | Optional explicit sandbox letter-id to override the active-target resolution. Requires sandboxRef. |
-| **`sandboxRef`** | `string` | No | `null` | Opaque PersistentUid token from nova.tabs / nova.sandbox_context. Mandatory when sandboxId is set. |
-| **`scope`** | `string` | No | `"current_sandbox"` | Filter scope: 'current_sandbox' (default) = active sandbox + global; 'global' = only global notes; 'all' = no filter; 'orphaned' = notes anchored to deleted sandboxes. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `offset` | `integer` | No | `0` | ≥ 0 | Skip first N entries. Default: 0. |
+| `limit` | `integer` | No | `20` | 1–100 | Maximum results. Default: 20. |
+| `scope` | `string` | No | `"current_sandbox"` | `current_sandbox`, `global`, `all`, `orphaned` | Filter scope: 'current_sandbox' (default) = active sandbox + global; 'global' = only global notes; 'all' = no filter; 'orphaned' = notes anchored to deleted sandboxes. |
+| `sandboxId` | `string` | No | — | — | Optional explicit sandbox letter-id to override the active-target resolution. Requires sandboxRef. |
+| `sandboxRef` | `string` | No | — | — | Opaque PersistentUid token from nova.tabs / nova.sandbox_context. Mandatory when sandboxId is set. |
+<!-- /generated:parameters -->
 
 ---
 

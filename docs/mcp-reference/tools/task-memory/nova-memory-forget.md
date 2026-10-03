@@ -16,12 +16,14 @@ Deletes browsing memories matching domain, memoryType, or text query filters.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`all`** | `boolean` | No | `false` | Delete ALL browsing memories. Use with care. |
-| **`domain`** | `string` | No | `null` | Delete memories for this domain. Combine with memoryType to delete only that type on this domain. |
-| **`memoryId`** | `integer` | No | `null` | Delete a single memory by its ID. |
-| **`memoryType`** | `string` | No | `null` | Delete all memories of this type across all domains, or only within domain when domain is also provided. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `domain` | `string` | No | — | — | Delete memories for this domain. Combine with memoryType to delete only that type on this domain. |
+| `memoryId` | `integer` | No | — | ≥ 1 | Delete a single memory by its ID. |
+| `memoryType` | `string` | No | — | `note`, `preference`, `context` | Delete all memories of this type across all domains, or only within domain when domain is also provided. |
+| `all` | `boolean` | No | `false` | — | Delete ALL browsing memories. Use with care. |
+<!-- /generated:parameters -->
 
 ---
 

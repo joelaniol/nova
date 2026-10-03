@@ -16,14 +16,17 @@ Reads the chronological interaction timeline (clicks, typing, form submits) from
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`recordingId`** | `string` | Yes | `none` | Finalized recording ID. |
-| **`source`** | `string` | No | `null` | Filter by source: `"mcp"` (agent tool actions), `"user_dom"` (human inputs), or null for both. |
-| **`type`** | `string` | No | `null` | Interaction type filter (e.g. `"click"`, `"submit"`, `"nova.click_selector"`). |
-| **`targetSelectorMatch`** | `string` | No | `null` | Regex filter matching CSS selectors of interacted elements. |
-| **`limit`** | `integer` | No | `200` | Maximum number of interaction records to return. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `recordingId` | `string` | Yes | — | — | Recording ID (the dir under %LOCALAPPDATA%/NovaBrowser/Recordings). |
+| `source` | `string` | No | — | `mcp`, `user_dom` | Filter by source: 'mcp' (agent-driven), 'user_dom' (native), or omit for both. |
+| `type` | `string` | No | — | — | Filter by interaction type (e.g. 'click', 'submit', 'nova.click_selector'). Exact match. |
+| `targetSelectorMatch` | `string` | No | — | — | Case-insensitive regex applied to targetSelector. Invalid regex disables the filter. |
+| `sinceMs` | `integer` | No | — | — | Filter timestamp >= Unix-ms (ISO-8601 string also accepted). |
+| `untilMs` | `integer` | No | — | — | Filter timestamp <= Unix-ms (ISO-8601 string also accepted). |
+| `limit` | `integer` | No | `200` | 1–5000 | Max events returned. |
+<!-- /generated:parameters -->
 
 ---
 

@@ -16,18 +16,20 @@ Sets or updates a cookie in the target sandbox profile's cookie jar.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`domain`** | `string` | Yes | `null` | Cookie domain. Must match or be parent of current page host. Required. |
-| **`dryRun`** | `boolean` | No | `false` | Validate without writing. Returns wouldCreate/wouldReplace and warnings. |
-| **`expires`** | `number` | No | `null` | Expiry as Unix timestamp (seconds since epoch). Omit or set to 0 for a session cookie. Values in the past create an immediately expired cookie (effectively deletes it). |
-| **`httpOnly`** | `boolean` | No | `false` | HttpOnly flag. Default: false. |
-| **`name`** | `string` | Yes | `null` | Cookie name. Required. |
-| **`path`** | `string` | No | `"/"` | Cookie path. Default: '/'. |
-| **`sameSite`** | `string` | No | `"Lax"` | SameSite attribute. |
-| **`secure`** | `boolean` | No | `false` | Secure flag. Default: false. Required for __Secure- and __Host- prefixes and SameSite=None. |
-| **`targetId`** | `string` | Yes | `null` | Tab or sandbox ID. Required. |
-| **`value`** | `string` | Yes | `null` | Cookie value. Required. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | Yes | — | — | Tab or sandbox ID. Required. |
+| `name` | `string` | Yes | — | — | Cookie name. Required. |
+| `value` | `string` | Yes | — | — | Cookie value. Required. |
+| `domain` | `string` | Yes | — | — | Cookie domain. Must match or be parent of current page host. Required. |
+| `path` | `string` | No | `"/"` | — | Cookie path. Default: '/'. |
+| `expires` | `number` | No | — | — | Expiry as Unix timestamp (seconds since epoch). Omit or set to 0 for a session cookie. Values in the past create an immediately expired cookie (effectively deletes it). |
+| `httpOnly` | `boolean` | No | `false` | — | HttpOnly flag. Default: false. |
+| `secure` | `boolean` | No | `false` | — | Secure flag. Default: false. Required for __Secure- and __Host- prefixes and SameSite=None. |
+| `sameSite` | `string` | No | `"Lax"` | `None`, `Lax`, `Strict` | SameSite attribute. |
+| `dryRun` | `boolean` | No | `false` | — | Validate without writing. Returns wouldCreate/wouldReplace and warnings. |
+<!-- /generated:parameters -->
 
 ---
 

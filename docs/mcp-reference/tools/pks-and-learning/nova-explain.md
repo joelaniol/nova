@@ -38,11 +38,15 @@ Nova's Phenomenological Knowledge Store (PKS) uses empirical quality gates to go
 
 ## 3. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`scope`** | `string` | **Yes** | ? | Domain scope (e.g. `"spiegel.de"`). |
-| **`stableId`** | `string` | **Yes** | ? | Unique phenomenon ID to inspect. |
-| **`observedSignals`**| `array<string>`| No | `null` | Optional list of observed signal strings to compute matching breakdown against fingerprint. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `scope` | `string` | Yes | — | — | Domain scope (e.g. 'spiegel.de'). |
+| `stableId` | `string` | Yes | — | — | Preferred phenomenon stable ID to explain. Must match stable_id if both are provided. |
+| `stable_id` | `string` | No | — | — | Legacy alias for stableId. Phenomenon stable ID to explain. |
+| `observedSignals` | `array` of `string` | No | — | — | Preferred alias for observed_signals. Must match observed_signals if both are provided. |
+| `observed_signals` | `array` of `string` | No | — | — | Legacy alias for observedSignals. Optional DOM/text/vendor/layout signals to compute match breakdown against this phenomenon's fingerprint. |
+<!-- /generated:parameters -->
 
 ---
 

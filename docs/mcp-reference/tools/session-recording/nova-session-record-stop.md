@@ -16,11 +16,12 @@ Stops an active session recording, flushes memory channels, and generates crypto
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`recordingId`** | `string` | Yes | `none` | Recording ID returned by `nova.session_record_start`. |
-| **`reason`** | `string` | No | `"agent_stop"` | Canonical reason code (`"agent_stop"`, `"test_complete"`, `"error_abort"`). |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `recordingId` | `string` | Yes | — | — | Recording ID returned from session_record_start. |
+| `reason` | `string` | No | — | — | Optional canonical reason code (default: agent_stop). |
+<!-- /generated:parameters -->
 
 ---
 

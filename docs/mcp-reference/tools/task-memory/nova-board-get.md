@@ -16,14 +16,21 @@ Reads an Agent Knowledge Board laboratory topic by ID or exact structured anchor
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`anchor`** | `object` | No | `null` | Exact structured anchor to search. Mutually exclusive with topicId. |
-| **`blind`** | `boolean` | No | `true` | When true, omit the originating hypothesis while retaining symptom and refutations. Defaults to true. |
-| **`deliveryId`** | `string` | No | `null` | Delivery identifier copied from boardHint so Nova can measure whether that specific hint was opened. |
-| **`irrelevant`** | `boolean` | No | `false` | Set true with deliveryId to dismiss that hint as irrelevant without counting the topic as opened. |
-| **`limit`** | `integer` | No | `10` | Maximum refutations to return. Defaults to 10; hasMoreRefutations reports truncation. |
-| **`topicId`** | `string` | No | `null` | Exact topic identifier from a boardHint or earlier board_get result. Mutually exclusive with anchor. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `topicId` | `string` | No | — | ≤ 80 characters | Exact topic identifier from a boardHint or earlier board_get result. Mutually exclusive with anchor. |
+| `anchor` | `object` | No | — | — | Exact structured anchor to search. Mutually exclusive with topicId. |
+| `anchor.component` | `string` | Yes | — | ≤ 160 characters | Nova subsystem or product component, for example mcp or settings. |
+| `anchor.capability` | `string` | Yes | — | ≤ 160 characters | Tool or capability involved, preferably its canonical name. |
+| `anchor.operation` | `string` | Yes | — | ≤ 160 characters | Canonical operation that produced or reproduced the symptom. |
+| `anchor.symptomClass` | `string` | Yes | — | ≤ 160 characters | Stable coarse failure class such as timeout, blocked, not_found, or no_effect. |
+| `anchor.host` | `string` | No | — | ≤ 160 characters | Optional normalized website host when the finding is host-specific. |
+| `blind` | `boolean` | No | `true` | — | When true, omit the originating hypothesis while retaining symptom and refutations. Defaults to true. |
+| `limit` | `integer` | No | `10` | 1–50 | Maximum refutations to return. Defaults to 10; hasMoreRefutations reports truncation. |
+| `deliveryId` | `string` | No | — | ≤ 80 characters | Delivery identifier copied from boardHint so Nova can measure whether that specific hint was opened. |
+| `irrelevant` | `boolean` | No | `false` | — | Set true with deliveryId to dismiss that hint as irrelevant without counting the topic as opened. |
+<!-- /generated:parameters -->
 
 ---
 

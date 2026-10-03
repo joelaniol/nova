@@ -30,11 +30,12 @@ By default, extraction is capped at `30,000` characters. If the page exceeds thi
 
 ## 3. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`maxChars`** | `integer` | No | `30000` | Maximum characters to return (1,000–5,000,000). Larger values consume more tokens. |
-| **`targetId`** | `string` | No | `"active"` | Target tab ID from `nova.tabs`, or `"active"`. |
-| **`agentId`** | `string` | No | `"default"` | Agent identity for claim lease verification. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `maxChars` | `integer` | No | `30000` | 1000–5000000 | Maximum characters to return. Larger values = more detail but more tokens. |
+<!-- /generated:parameters -->
 
 ---
 

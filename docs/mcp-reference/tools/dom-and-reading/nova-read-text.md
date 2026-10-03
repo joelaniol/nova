@@ -17,15 +17,15 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `agentId` | `string` | No | Optional agent identity for claim authorization at the MCP entry point. Defaults to 'default'. |
-| `continuationToken` | `string` | No | Token from a previous response's continuation block. Carries the next position plus a fingerprint of that document; a changed page is rejected with reasonCode='read.source_changed' instead of returning text from elsewhere. Mutually exclusive with offset. |
-| `maxChars` | `integer` | No | Maximum characters to return. Defaults shrink automatically under context pressure unless explicitly provided. |
-| `offset` | `integer` | No | Start reading at this character position. Unverified - use continuationToken when the page may have changed. Mutually exclusive with continuationToken. |
-| `selector` | `string` | No | Optional CSS selector to scope text extraction. Omit to read entire document body. Supports ' >>> ' shadow DOM combinator. |
-| `targetId` | `string` | No | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `selector` | `string` | No | — | — | Optional CSS selector to scope text extraction. Omit to read entire document body. Supports ' >>> ' shadow DOM combinator. |
+| `maxChars` | `integer` | No | `30000` | 1000–5000000 | Maximum characters to return. Defaults shrink automatically under context pressure unless explicitly provided. |
+| `offset` | `integer` | No | — | 0–5000000 | Start reading at this character position. Unverified - use continuationToken when the page may have changed. Mutually exclusive with continuationToken. |
+| `continuationToken` | `string` | No | — | ≤ 512 characters | Token from a previous response's continuation block. Carries the next position plus a fingerprint of that document; a changed page is rejected with reasonCode='read.source_changed' instead of returning text from elsewhere. Mutually exclusive with offset. |
+<!-- /generated:parameters -->
 
 ---
 

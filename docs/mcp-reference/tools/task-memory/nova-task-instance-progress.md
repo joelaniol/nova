@@ -16,18 +16,24 @@ Commits progress deltas, completed work units, and observations to a task instan
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`clientEventId`** | `string` | Yes | `null` | Client-generated unique event ID for idempotency. Duplicate submissions are safely ignored. |
-| **`discoveredUnits`** | `array` | No | `null` | New work units discovered during this progress event. |
-| **`expectedInstanceRev`** | `integer` | Yes | `null` | Expected current instanceRev for CAS. Reject on mismatch. |
-| **`findings`** | `array` | No | `null` | Structured findings appended to the instance event log and counted for distinct-findings completion. |
-| **`instanceId`** | `string` | Yes | `null` | The instance to update. |
-| **`mandatoryCheckUpdates`** | `array` | No | `null` | Updates to the mandatory-check state machine for this instance. |
-| **`note`** | `string` | No | `null` | Optional free-text note for the event log. |
-| **`resumeStateDelta`** | `object` | No | `null` | Delta object merged into resumeState so the task can be resumed later. |
-| **`setDiscoveryState`** | `string` | No | `null` | Transition discovery state. 'unknown' = discovery has not started or was reset, 'partial' = discovery is in progress and more units may still appear, 'frozen' = discovery is intentionally closed and no further automatic unit discovery is expected. |
-| **`unitUpdates`** | `array` | No | `null` | Status updates for already known units. Valid statuses are checked, excluded, blocked, or failed. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `instanceId` | `string` | Yes | — | — | The instance to update. |
+| `expectedInstanceRev` | `integer` | Yes | — | — | Expected current instanceRev for CAS. Reject on mismatch. |
+| `clientEventId` | `string` | Yes | — | — | Client-generated unique event ID for idempotency. Duplicate submissions are safely ignored. |
+| `discoveredUnits` | `array` of `object` | No | — | — | New work units discovered during this progress event. |
+| `unitUpdates` | `array` of `object` | No | — | — | Status updates for already known units. Valid statuses are checked, excluded, blocked, or failed. |
+| `findings` | `array` of `object` | No | — | — | Structured findings appended to the instance event log and counted for distinct-findings completion. |
+| `mandatoryCheckUpdates` | `array` of `object` | No | — | — | Updates to the mandatory-check state machine for this instance. |
+| `resumeStateDelta` | `object` | No | — | — | Delta object merged into resumeState so the task can be resumed later. |
+| `resumeStateDelta.cursor` | `string` | No | — | — | Optional opaque pagination or resume cursor. |
+| `resumeStateDelta.lastProcessedUrl` | `string` | No | — | — | Optional last URL or page reference processed before the task paused. |
+| `resumeStateDelta.lastAction` | `string` | No | — | — | Optional last significant action taken before resume. |
+| `resumeStateDelta.checkpoint` | `string` | No | — | — | Optional named checkpoint label for operator-facing resumes. |
+| `setDiscoveryState` | `string` | No | — | `unknown`, `partial`, `frozen` | Transition discovery state. 'unknown' = discovery has not started or was reset, 'partial' = discovery is in progress and more units may still appear, 'frozen' = discovery is intentionally closed and no further automatic unit discovery is expected. |
+| `note` | `string` | No | — | — | Optional free-text note for the event log. |
+<!-- /generated:parameters -->
 
 ---
 

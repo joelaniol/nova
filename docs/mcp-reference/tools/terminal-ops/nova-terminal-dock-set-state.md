@@ -16,10 +16,11 @@ Sets the visual presentation of the Nova terminal dock to expanded, collapsed, o
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`state`** | `string` | Yes | `none` | Requested dock state: `"expanded"`, `"collapsed"`, or `"hidden"`. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `state` | `string` | Yes | — | `expanded`, `collapsed`, `hidden` | Requested dock state. 'expanded' shows the full dock, 'collapsed' leaves only the tab strip, and 'hidden' hides the dock while preserving running sessions. |
+<!-- /generated:parameters -->
 
 ---
 

@@ -30,18 +30,22 @@ Manually saving, organizing, and referencing "before" and "after" image paths ma
 
 ## 3. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`op`** | `string` | **Yes** | — | Operation: `"save"`, `"update"`, `"compare"`, `"list"`, or `"delete"`. |
-| **`name`** | `string` | **Conditional** | `"default"` | Baseline name (1–128 chars). Required for `global` scope. |
-| **`scope`** | `string` | No | `"global"` | Baseline namespace: `"global"` (flat store) or `"target"` (per sandbox). |
-| **`fullPage`** | `boolean` | No | `false` | Capture the full scrollable page instead of just the viewport. |
-| **`ignoreAntialiasing`**| `boolean` | No | `false` | `compare`: Skip font smoothing and border anti-aliasing pixels. |
-| **`mask`** | `array<object>`| No | `null` | `compare`: Array of `{ x, y, width, height }` boxes to ignore. |
-| **`maxDiffRatio`** | `number` | No | `0.0` | `compare`: Acceptable change percentage (0–100%). |
-| **`threshold`** | `integer` | No | `30` | `compare`: Euclidean RGB color difference sensitivity. |
-| **`targetId`** | `string` | No | `"active"` | Target tab ID from `nova.tabs`, or `"active"`. |
-| **`agentId`** | `string` | No | `"default"` | Agent identity for claim lease verification. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. Used by save/update/compare. |
+| `op` | `string` | Yes | — | `save`, `update`, `compare`, `list`, `delete` | save: create new baseline (errors if exists). update: create-or-overwrite. compare: capture + diff vs baseline. list: all baselines. delete: remove one. |
+| `name` | `string` | No | — | — | Baseline name (1-128 chars: letters, digits, '.', '_', '-', starting with a letter or digit). Required for save/update/compare/delete in scope='global'; optional in scope='target' where it defaults to 'default'. |
+| `scope` | `string` | No | `"global"` | `global`, `target` | Baseline namespace. global: legacy durable flat store under ScreenshotBaselines/<name>.png. target: durable per-target store under ScreenshotBaselines/targets/<target>/ and omitted name defaults to 'default'. |
+| `fullPage` | `boolean` | No | `false` | — | Capture the full scrollable page instead of the viewport (save/update/compare). Use the same value for save and compare. |
+| `threshold` | `integer` | No | `30` | 0–255 | compare: per-pixel Euclidean RGB distance threshold. |
+| `minRegionSize` | `integer` | No | `100` | 1–1000000 | compare: minimum connected pixel count per reported region. |
+| `mask` | `array` of `object` | No | — | — | compare: rectangles (image pixels) to exclude from the diff — for dynamic regions (timestamps, ads, avatars). Max 256. |
+| `ignoreAntialiasing` | `boolean` | No | `false` | — | compare: skip anti-aliasing-edge pixels (pixelmatch heuristic). |
+| `maxDiffRatio` | `number` | No | `0` | 0–100 | compare: tolerance as percent of total pixels; <= this reports withinTolerance=true, changed=false. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

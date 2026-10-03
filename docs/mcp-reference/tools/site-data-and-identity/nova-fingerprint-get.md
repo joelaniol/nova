@@ -16,10 +16,12 @@ Reads the active browser fingerprint protection level (global, sandbox, or tab o
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`sandboxId`** | `string` | No | `null` | Sandbox letter id (e.g. 'A', 'B'). When provided, the response includes that sandbox's override. |
-| **`tabId`** | `string` | No | `null` | Browser tab id (8-char hex). When provided, the response includes that tab's ephemeral override. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `sandboxId` | `string` | No | — | — | Sandbox letter id (e.g. 'A', 'B'). When provided, the response includes that sandbox's override. |
+| `tabId` | `string` | No | — | — | Browser tab id (8-char hex). When provided, the response includes that tab's ephemeral override. |
+<!-- /generated:parameters -->
 
 ---
 

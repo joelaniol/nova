@@ -16,16 +16,16 @@ Emulates CSS media features like dark mode, reduced motion, high contrast, and p
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`colorScheme`** | `string` | No | `null` | `prefers-color-scheme`: `"light"`, `"dark"`, or `"no-preference"`. |
-| **`reducedMotion`** | `string` | No | `null` | `prefers-reduced-motion`: `"reduce"` or `"no-preference"`. |
-| **`forcedColors`** | `string` | No | `null` | `forced-colors`: `"active"` or `"none"` for high contrast testing. |
-| **`contrast`** | `string` | No | `null` | `prefers-contrast`: `"more"`, `"less"`, `"custom"`, or `"no-preference"`. |
-| **`media`** | `string` | No | `null` | CSS media type: `"screen"` or `"print"`. |
-| **`targetId`** | `string` | No | `"active"` | Target tab ID. |
-| **`agentId`** | `string` | No | `"default"` | Optional agent identifier. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `colorScheme` | `string` | No | — | `light`, `dark`, `no-preference` | Emulate prefers-color-scheme — use 'dark' to test dark mode. |
+| `reducedMotion` | `string` | No | — | `reduce`, `no-preference` | Emulate prefers-reduced-motion — use 'reduce' to test motion-reduced layouts/animations. |
+| `forcedColors` | `string` | No | — | `active`, `none` | Emulate forced-colors — use 'active' to test Windows High Contrast / forced-colors mode. |
+| `contrast` | `string` | No | — | `more`, `less`, `custom`, `no-preference` | Emulate prefers-contrast. |
+| `media` | `string` | No | — | `screen`, `print` | Emulate the CSS media type — use 'print' to preview print stylesheets. |
+<!-- /generated:parameters -->
 
 ---
 

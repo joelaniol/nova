@@ -16,13 +16,13 @@ Enables or disables touch event simulation and sets the maximum touch points rep
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`enabled`** | `boolean` | Yes | `none` | `true` to enable touch emulation; `false` to revert to mouse input. |
-| **`maxTouchPoints`** | `integer` | No | `5` | Reported touch points (1 - 10). |
-| **`targetId`** | `string` | No | `"active"` | Target tab ID. |
-| **`agentId`** | `string` | No | `"default"` | Optional agent identifier. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `enabled` | `boolean` | Yes | — | — | If true, enable touch event emulation (touch events dispatched instead of mouse). If false, disable and revert to mouse input. |
+| `maxTouchPoints` | `integer` | No | `5` | 1–10 | Maximum simultaneous touch points reported by navigator.maxTouchPoints. |
+<!-- /generated:parameters -->
 
 ---
 

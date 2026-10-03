@@ -29,12 +29,13 @@ Frontend performance regressions directly damage SEO rankings and user retention
 
 ## 3. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`durationMs`** | `integer` | No | `2000` | Measurement window in milliseconds (0–10,000 ms). `0` collects immediately. |
-| **`reset`** | `boolean` | No | `true` | If `true`, resets CLS/INP accumulators at call start for isolated before/after tests. |
-| **`targetId`** | `string` | No | `"active"` | Target tab ID from `nova.tabs`, or `"active"`. |
-| **`agentId`** | `string` | No | `"default"` | Agent identity for claim lease verification. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `durationMs` | `integer` | No | `2000` | 0–10000 | Measurement window in milliseconds: how long to let LCP/CLS settle and interactions register after installing the observers. 0 = collect immediately (may miss late LCP shifts). |
+| `reset` | `boolean` | No | `true` | — | If true (default), CLS/INP accumulators are zeroed at the start of this call so it measures fresh — use for independent before/after measurements. false keeps accumulating across calls on the same tab (e.g. cumulative-since-load CLS). LCP is the page-load value and is never reset. |
+<!-- /generated:parameters -->
 
 ---
 

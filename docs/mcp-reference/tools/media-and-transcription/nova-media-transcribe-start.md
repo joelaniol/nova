@@ -16,12 +16,16 @@ Transcribes local audio or video files into text entirely on-device using local 
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`language`** | `string` | No | `null` | Spoken language as an ISO code, e.g. 'de' or 'en'. Omit to detect it, which costs roughly 18% more time and is less reliable on short clips. |
-| **`model`** | `string` | No | `null` | Substring of the model file name to prefer, e.g. 'small'. Omit to use the most accurate model installed. |
-| **`path`** | `string` | Yes | `null` | Absolute path of the audio or video file to transcribe. |
-| **`waitMs`** | `integer` | No | `0` | Wait up to this many milliseconds for the job to finish before returning, so a short recording needs only this one call. On timeout the jobId is returned and the job keeps running. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `path` | `string` | Yes | — | — | Absolute path of the audio or video file to transcribe. |
+| `language` | `string` | No | — | — | Spoken language as an ISO code, e.g. 'de' or 'en'. Omit to detect it, which costs roughly 18% more time and is less reliable on short clips. |
+| `model` | `string` | No | — | — | Substring of the model file name to prefer, e.g. 'small'. Omit to use the most accurate model installed. |
+| `waitMs` | `integer` | No | `0` | 0–30000 | Wait up to this many milliseconds for the job to finish before returning, so a short recording needs only this one call. On timeout the jobId is returned and the job keeps running. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

@@ -16,15 +16,19 @@ Creates a new isolated sandbox profile with dedicated storage, cookies, and cach
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`accountLabel`** | `string` | No | `null` | Account label for routing disambiguation (e.g. 'Work', 'Personal'). |
-| **`aliases`** | `array` | No | `null` | Alternative names for the sandbox (used in resolve_sandbox matching). |
-| **`color`** | `string` | No | `null` | Hex color (e.g. '#34d399'). Auto-assigned from palette if omitted. |
-| **`name`** | `string` | No | `null` | Display name. Auto-generated if omitted (e.g. 'Sandbox C'). |
-| **`preferredFor`** | `array` | No | `null` | Intent keys this sandbox prefers (e.g. 'email.compose', 'chat.ask'). |
-| **`purpose`** | `string` | No | `null` | Purpose hint for intent-based routing (e.g. 'email', 'chat', 'project', 'code', 'docs'). |
-| **`startUrl`** | `string` | No | `null` | Default URL to open when the sandbox has no remembered last URL. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `name` | `string` | No | — | — | Display name. Auto-generated if omitted (e.g. 'Sandbox C'). |
+| `color` | `string` | No | — | — | Hex color (e.g. '#34d399'). Auto-assigned from palette if omitted. |
+| `startUrl` | `string` | No | — | — | Default URL to open when the sandbox has no remembered last URL. |
+| `purpose` | `string` | No | — | — | Purpose hint for intent-based routing (e.g. 'email', 'chat', 'project', 'code', 'docs'). |
+| `accountLabel` | `string` | No | — | — | Account label for routing disambiguation (e.g. 'Work', 'Personal'). |
+| `aliases` | `array` of `string` | No | — | — | Alternative names for the sandbox (used in resolve_sandbox matching). |
+| `preferredFor` | `array` of `string` | No | — | — | Intent keys this sandbox prefers (e.g. 'email.compose', 'chat.ask'). |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

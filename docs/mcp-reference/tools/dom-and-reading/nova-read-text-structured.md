@@ -39,12 +39,13 @@ Enforces predictable payload bounds (default `10,000` characters per region). Lo
 
 ## 3. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`selector`** | `string` | No | `null` | Optional CSS selector scoping extraction to a specific container. Supports ` >>> `. |
-| **`maxCharsPerRegion`**| `integer` | No | `10000` | Max characters per landmark region (100–200,000 chars). |
-| **`targetId`** | `string` | No | `"active"` | Target tab ID from `nova.tabs`, or `"active"`. |
-| **`agentId`** | `string` | No | `"default"` | Agent identity for claim lease verification. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `selector` | `string` | No | — | ≤ 10000 characters | Optional CSS selector scoping the scan to the first matched element's subtree. Supports the ' >>> ' shadow DOM combinator. Landmarks and modals inside that subtree are reported; a subtree without landmarks comes back as a single 'scope' region. Errors if it matches nothing instead of falling back to the whole page. Omit to scan the entire document. |
+| `maxCharsPerRegion` | `integer` | No | `10000` | 100–200000 | Maximum characters per region. Regions exceeding this limit are truncated. |
+<!-- /generated:parameters -->
 
 ---
 

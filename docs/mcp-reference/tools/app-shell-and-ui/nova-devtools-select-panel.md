@@ -17,12 +17,12 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `agentId` | `string` | No | Optional agent identity for claim authorization at the MCP entry point. Defaults to 'default'. |
-| `panel` | `string` | **Yes** | Canonical DevTools panel to activate. Use one of the enum values; alias spellings are not part of the discovery contract. |
-| `targetId` | `string` | No | Target ID or 'active'. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID or 'active'. |
+| `panel` | `string` | Yes | — | `elements`, `console`, `sources`, `network`, `performance`, `memory`, `application`, `security`, `lighthouse`, `next`, `previous` | Canonical DevTools panel to activate. Use one of the enum values; alias spellings are not part of the discovery contract. |
+<!-- /generated:parameters -->
 
 ---
 

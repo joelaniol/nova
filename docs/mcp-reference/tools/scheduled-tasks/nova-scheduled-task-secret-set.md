@@ -16,12 +16,15 @@ Stores an encrypted secret (API key, auth token) for a task using Windows DPAPI 
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`taskId`** | `string` | Yes | `none` | The task ID. |
-| **`key`** | `string` | Yes | `none` | Secret key name (e.g. `"api_key"`, `"slack_webhook"`). |
-| **`value`** | `string` | Yes | `none` | Plaintext secret value to encrypt and store. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `taskId` | `string` | Yes | — | — | The task ID. |
+| `key` | `string` | Yes | — | — | Secret key name (e.g. 'api_key', 'webhook_token'). |
+| `value` | `string` | Yes | — | — | Secret value (will be DPAPI-encrypted, never stored in plaintext). |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

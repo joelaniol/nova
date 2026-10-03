@@ -16,13 +16,15 @@ Ends a task instance without meeting completion conditions (site offline, unsolv
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`clientEventId`** | `string` | Yes | `null` | Client-generated unique event ID for idempotency. |
-| **`expectedInstanceRev`** | `integer` | Yes | `null` | Expected current instanceRev for CAS. |
-| **`instanceId`** | `string` | Yes | `null` | The instance to end. |
-| **`outcome`** | `string` | No | `null` | aborted (default): stopped on purpose or by an external blocker. failed: attempted and did not work. |
-| **`reason`** | `string` | Yes | `null` | Why the task cannot be completed. Stored on the instance event log. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `instanceId` | `string` | Yes | — | — | The instance to end. |
+| `expectedInstanceRev` | `integer` | Yes | — | — | Expected current instanceRev for CAS. |
+| `clientEventId` | `string` | Yes | — | — | Client-generated unique event ID for idempotency. |
+| `reason` | `string` | Yes | — | — | Why the task cannot be completed. Stored on the instance event log. |
+| `outcome` | `string` | No | — | `aborted`, `failed` | aborted (default): stopped on purpose or by an external blocker. failed: attempted and did not work. |
+<!-- /generated:parameters -->
 
 ---
 

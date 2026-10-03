@@ -16,12 +16,14 @@ Sends a named control key or key combination to the active terminal session.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`sessionId`** | `string` | Yes | `none` | Session identifier. |
-| **`key`** | `string` | Yes | `none` | Key name: `Enter`, `Tab`, `Escape`, `Backspace`, `Delete`, `Up`, `Down`, `Left`, `Right`, `Home`, `End`, `Ctrl+C`, `Ctrl+D`, `Ctrl+Z`, `Ctrl+L`. |
-| **`agentId`** | `string` | No | `"default"` | Optional agent identifier. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `sessionId` | `string` | Yes | — | — | Session id from terminal_open. |
+| `key` | `string` | Yes | — | — | Key name (e.g. 'Enter', 'Ctrl+C', 'ArrowUp'). |
+
+**`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+<!-- /generated:parameters -->
 
 ---
 

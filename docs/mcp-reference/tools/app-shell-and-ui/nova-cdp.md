@@ -17,14 +17,45 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional metadata. Provide _meta.intent (a short reason) for high-impact tools. A tool's annotations.intentRequired in tools/list tells you up front: 'always' means intent is mandatory, 'conditional' means it becomes mandatory for certain arguments (e.g. includeValues=true), absent means never. |
-| `agentId` | `string` | No | Optional agent identity for claim authorization at the MCP entry point. Defaults to 'default'. |
-| `maxChars` | `integer` | No | Maximum characters for the CDP response. |
-| `method` | `string` | **Yes** | Chrome DevTools Protocol method name, e.g. 'Network.enable', 'Runtime.evaluate', 'DOM.getDocument'. See chromedevtools.github.io/devtools-protocol/. |
-| `params` | `object` | No | CDP method parameters object. Exact allowed keys depend on `method`; discover the precise shape in the CDP spec for that method. The documented common keys here cover the highest-volume Nova workflows such as Runtime.evaluate, DOM/Overlay node targeting, Input.dispatch*, Emulation overrides, Network headers, and Page screenshots. |
-| `targetId` | `string` | No | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `method` | `string` | Yes | — | — | Chrome DevTools Protocol method name, e.g. 'Network.enable', 'Runtime.evaluate', 'DOM.getDocument'. See chromedevtools.github.io/devtools-protocol/. |
+| `params` | `object` | No | — | — | CDP method parameters object. Exact allowed keys depend on `method`; discover the precise shape in the CDP spec for that method. The documented common keys here cover the highest-volume Nova workflows such as Runtime.evaluate, DOM/Overlay node targeting, Input.dispatch*, Emulation overrides, Network headers, and Page screenshots. |
+| `params.expression` | `string` | No | — | — | Runtime.evaluate expression. |
+| `params.awaitPromise` | `boolean` | No | — | — | Runtime.evaluate flag: await returned promises before replying. |
+| `params.returnByValue` | `boolean` | No | — | — | Runtime.evaluate flag: JSON-serialize the result instead of returning a remote object handle. |
+| `params.userGesture` | `boolean` | No | — | — | Runtime/Input flag: execute as if triggered by a user gesture when the CDP method supports it. |
+| `params.contextId` | `integer` | No | — | — | Runtime execution context ID for Runtime.evaluate or related calls. |
+| `params.objectId` | `string` | No | — | — | Remote object handle for Runtime.callFunctionOn, DOM.resolveNode, and related methods. |
+| `params.nodeId` | `integer` | No | — | — | DOM node ID for DOM/Overlay methods. |
+| `params.backendNodeId` | `integer` | No | — | — | Backend DOM node ID for DOM/Overlay methods. |
+| `params.frameId` | `string` | No | — | — | Frame identifier for Page/Runtime/DOM methods that scope to a frame. |
+| `params.x` | `number` | No | — | — | Input/Page coordinate in CSS pixels. |
+| `params.y` | `number` | No | — | — | Input/Page coordinate in CSS pixels. |
+| `params.deltaX` | `number` | No | — | — | Wheel delta in CSS pixels. |
+| `params.deltaY` | `number` | No | — | — | Wheel delta in CSS pixels. |
+| `params.button` | `string` | No | — | — | Pointer button literal such as left, middle, or right for Input.dispatchMouseEvent. |
+| `params.buttons` | `integer` | No | — | — | Pressed-button bitmask for Input.dispatchMouseEvent. |
+| `params.clickCount` | `integer` | No | — | — | Click count for Input.dispatchMouseEvent. |
+| `params.key` | `string` | No | — | — | Keyboard key literal for Input.dispatchKeyEvent. |
+| `params.text` | `string` | No | — | — | Typed text payload for Input.insertText or key events. |
+| `params.modifiers` | `integer` | No | — | — | Modifier bitmask for Input events. |
+| `params.url` | `string` | No | — | — | URL used by Page.navigate or Network methods. |
+| `params.headers` | `object` | No | — | — | HTTP header map for Network.setExtraHTTPHeaders or related methods. |
+| `params.userAgent` | `string` | No | — | — | User agent override for Emulation.setUserAgentOverride. |
+| `params.width` | `integer` | No | — | — | Viewport width for Emulation/Page methods. |
+| `params.height` | `integer` | No | — | — | Viewport height for Emulation/Page methods. |
+| `params.deviceScaleFactor` | `number` | No | — | — | Device scale factor for emulation methods. |
+| `params.mobile` | `boolean` | No | — | — | Mobile emulation flag. |
+| `params.maxTouchPoints` | `integer` | No | — | — | Touch-point count for touch emulation methods. |
+| `params.format` | `string` | No | — | — | Screenshot/image format such as png or jpeg. |
+| `params.quality` | `integer` | No | — | — | Screenshot quality for jpeg captures. |
+| `maxChars` | `integer` | No | `800000` | 1000–5000000 | Maximum characters for the CDP response. |
+
+**`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+<!-- /generated:parameters -->
 
 ---
 

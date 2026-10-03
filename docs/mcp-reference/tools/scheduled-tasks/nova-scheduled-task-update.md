@@ -16,18 +16,38 @@ Updates fields (prompt, schedule, budget, timeouts, chaining) of an existing sch
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`taskId`** | `string` | Yes | `none` | The task ID to update. |
-| **`displayName`** | `string` | No | `null` | New display name. |
-| **`prompt`** | `string` | No | `null` | New instruction prompt or script. |
-| **`cronExpression`** | `string` | No | `null` | New schedule expression. Pass `""` to clear. |
-| **`intervalSeconds`** | `integer` | No | `null` | New interval in seconds (minimum 60). |
-| **`timeoutSeconds`** | `integer` | No | `null` | New run timeout in seconds. |
-| **`maxBudgetUsd`** | `number` | No | `null` | New cost cap per run in USD. |
-| **`mcpAccess`** | `boolean` | No | `null` | Enable or disable MCP tool access. |
-| **`triggerNextTaskId`** | `string` | No | `null` | Update downstream chained task ID. Pass `""` to clear. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `taskId` | `string` | Yes | — | — | The task ID to update. |
+| `displayName` | `string` | No | — | — | New display name. |
+| `prompt` | `string` | No | — | — | New prompt text. |
+| `intervalSeconds` | `integer` | No | — | ≥ 60 | New run interval in seconds. Minimum 60. |
+| `timeoutSeconds` | `integer` | No | — | — | New timeout in seconds. |
+| `maxTurns` | `integer` | No | — | — | New max turns. |
+| `maxBudgetUsd` | `number` | No | — | — | New max budget per run in USD. |
+| `mcpAccess` | `boolean` | No | — | — | Enable/disable MCP access. |
+| `extraSystemPrompt` | `string` | No | — | — | New extra system prompt. |
+| `catchUpMissed` | `boolean` | No | — | — | Enable/disable catch-up for missed runs. |
+| `cronExpression` | `string` | No | — | — | New schedule expression (e.g. 'daily 08:00'). Set empty string to clear. |
+| `timeZoneId` | `string` | No | — | — | New IANA or Windows timezone for cron patterns. Set empty to clear to UTC; invalid identifiers are rejected. |
+| `executorKind` | `string` | No | — | `ClaudeCode`, `CodexCli`, `CustomCommand`, `HttpWebhook`, `Shell` | Change executor type. 'CodexCli' runs the prompt through the user's Codex CLI (codex exec). 'Shell' runs the prompt as a PowerShell script (requires the Shell task executor enabled in Settings). |
+| `autonomyMode` | `string` | No | — | `Safe`, `Unsafe` | Change permission mode. |
+| `command` | `string` | No | — | — | New command/URL for CustomCommand or HttpWebhook. |
+| `argsTemplate` | `string` | No | — | — | New argument template. |
+| `workingDirectory` | `string` | No | — | — | New working directory. |
+| `oneShot` | `boolean` | No | — | — | Toggle one-shot mode. |
+| `triggerNextTaskId` | `string` | No | — | — | Task ID to trigger on completion. Empty string to clear. |
+| `triggerOnStatus` | `string` | No | — | `Completed`, `Any` | When to trigger: 'Completed' or 'Any'. |
+| `triggerConditionKey` | `string` | No | — | — | JSON key in structured_result for conditional chaining. Empty string to clear. |
+| `concurrencyPolicy` | `string` | No | — | `Skip`, `Replace` | Overlap behavior: 'Skip' or 'Replace'. |
+| `totalBudgetCapUsd` | `number` | No | — | — | Cumulative cost cap (USD). 0 to clear. |
+| `watchPath` | `string` | No | — | — | Filesystem watch path. Empty string to clear. |
+| `taskProfileId` | `string` | No | — | — | ETM task profile ID. Empty string to clear. |
+| `workspaceId` | `string` | No | — | — | Re-bind the task to a different existing terminal workspace (its id). Future run artifacts will live under the new workspace; existing artifacts stay where they are. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

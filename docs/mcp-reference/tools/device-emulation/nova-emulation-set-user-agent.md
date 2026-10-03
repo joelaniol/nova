@@ -16,14 +16,14 @@ Overrides the HTTP User-Agent header, navigator.userAgent, and client hints for 
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`userAgent`** | `string` | Yes | `none` | Full user agent string to report. |
-| **`platform`** | `string` | No | `derived` | `navigator.platform` override (e.g. `"Win32"`, `"iPhone"`, `"MacIntel"`). |
-| **`acceptLanguage`** | `string` | No | `null` | `Accept-Language` header value (e.g. `"en-US,en;q=0.9"`). |
-| **`targetId`** | `string` | No | `"active"` | Target tab ID. |
-| **`agentId`** | `string` | No | `"default"` | Optional agent identifier. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `userAgent` | `string` | Yes | — | — | Full user agent string, e.g. 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/604.1'. |
+| `acceptLanguage` | `string` | No | — | — | Accept-Language header value, e.g. 'en-US,en;q=0.9' or 'de-DE'. |
+| `platform` | `string` | No | — | — | Navigator.platform override, e.g. 'iPhone', 'Linux x86_64', 'Win32', 'MacIntel'. |
+<!-- /generated:parameters -->
 
 ---
 

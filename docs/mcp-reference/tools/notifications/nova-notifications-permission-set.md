@@ -16,11 +16,14 @@ Configures notification permission (Ask, Allow, or Deny) for a specific website 
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`origin`** | `string` | Yes | `none` | Website origin (e.g. `"https://chat.com"`). Normalized to standard web scheme and host. |
-| **`mode`** | `string` | Yes | `none` | Permission mode: `"ask"`, `"allow"`, or `"deny"`. |
-| **`_meta`** | `object` | No | `null` | Optional metadata with configuration intent. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `origin` | `string` | Yes | — | — | Website origin (e.g. 'https://chat.com'). |
+| `mode` | `string` | Yes | — | `ask`, `allow`, `deny` | Permission mode to set. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

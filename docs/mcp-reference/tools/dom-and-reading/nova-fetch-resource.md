@@ -17,17 +17,17 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `agentId` | `string` | No | Optional agent identity for claim authorization at the MCP entry point. Defaults to 'default'. |
-| `maxBytes` | `integer` | No | Maximum bytes per resource. Resources larger than this are reported as errors instead of saved. Default 10 MB, ceiling 25 MB (the body travels base64-through-CDP, so larger pulls cost multiplied transient memory). |
-| `saveDir` | `string` | No | Bulk mode (or single): absolute directory to write resources into. Requires 'Allow local files'. Omit to use Nova's Exports folder. File names are derived from URL basenames — for blob: URLs from the handle plus an extension guessed from the MIME type — and made collision-free. |
-| `savePath` | `string` | No | Single mode only: absolute file path to write the resource to. Requires 'Allow local files'. Omit to write into Nova's Exports folder with a name derived from the URL. |
-| `targetId` | `string` | No | Target ID of the authenticated tab from nova.tabs, or 'active' / 'activeBrowserTab'. |
-| `timeoutMs` | `integer` | No | Per-resource fetch timeout in milliseconds. |
-| `url` | `string` | No | Single absolute http(s) URL, or a blob: URL live in this tab, to fetch. Mutually exclusive with 'urls'. |
-| `urls` | `array` | No | Bulk list of URLs to fetch sequentially; http(s) and blob: entries may be mixed. Mutually exclusive with 'url'. Per-call cap 50. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID of the authenticated tab from nova.tabs, or 'active' / 'activeBrowserTab'. |
+| `url` | `string` | No | — | — | Single absolute http(s) URL, or a blob: URL live in this tab, to fetch. Mutually exclusive with 'urls'. |
+| `urls` | `array` of `string` | No | — | 1–50 items | Bulk list of URLs to fetch sequentially; http(s) and blob: entries may be mixed. Mutually exclusive with 'url'. Per-call cap 50. |
+| `savePath` | `string` | No | — | — | Single mode only: absolute file path to write the resource to. Requires 'Allow local files'. Omit to write into Nova's Exports folder with a name derived from the URL. |
+| `saveDir` | `string` | No | — | — | Bulk mode (or single): absolute directory to write resources into. Requires 'Allow local files'. Omit to use Nova's Exports folder. File names are derived from URL basenames — for blob: URLs from the handle plus an extension guessed from the MIME type — and made collision-free. |
+| `maxBytes` | `integer` | No | `10485760` | 1–26214400 | Maximum bytes per resource. Resources larger than this are reported as errors instead of saved. Default 10 MB, ceiling 25 MB (the body travels base64-through-CDP, so larger pulls cost multiplied transient memory). |
+| `timeoutMs` | `integer` | No | `30000` | 1000–120000 | Per-resource fetch timeout in milliseconds. |
+<!-- /generated:parameters -->
 
 ---
 

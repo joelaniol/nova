@@ -35,16 +35,18 @@ Each tab in the response reports:
 
 ## 3. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`outputDetail`** | `string` | No | `"full"` | `"minimal"`, `"compact"`, or `"full"`. Use `"minimal"` in automated loops to conserve tokens. |
-| **`mine`** | `boolean` | No | `false` | When `true`, returns only tabs owned or claimed by `agentId`. |
-| **`agentId`** | `string` | No | `"default"` | Identity of the calling agent for ownership resolution. |
-| **`activeOnly`** | `boolean` | No | `false` | When `true`, returns only the currently focused/active tab. |
-| **`domain`** | `string` | No | `null` | Filter tabs matching a specific host or domain. |
-| **`claimedBy`** | `string` | No | `null` | Filter tabs claimed by a specific agent. |
-| **`kind`** | `string` | No | `null` | Filter by surface kind (e.g. `"browser"`, `"sandbox"`). |
-| **`targetIds`** | `array` | No | `null` | Specific list of tab IDs to inspect. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `activeOnly` | `boolean` | No | `false` | — | When true, return only the active target. |
+| `kind` | `string` | No | — | `sandbox`, `browserTab` | Optional exact target-kind filter. |
+| `domain` | `string` | No | — | 1–253 characters | Optional hostname filter. Matches the exact URL host and its subdomains. |
+| `claimedBy` | `string` | No | — | 1–256 characters | Optional exact claim-owner agentId filter. Expired claims do not match. |
+| `mine` | `boolean` | No | `false` | — | Return only targets that belong to you: claimed by your agentId, or created by it via nova.tab_new. Use it to stay out of tabs the user or another agent is working in. The response echoes mineAgentId so an empty list can be told apart from a wrong agentId. |
+| `agentId` | `string` | No | — | 1–256 characters | Your agent identity, used by mine=true. Defaults to 'default'. |
+| `targetIds` | `array` of `string` | No | — | ≤ 100 items | Optional set of target IDs to include, bounded to 100 items. |
+| `outputDetail` | `string` | No | `"full"` | `minimal`, `summary`, `full` | Projection size. minimal returns targetId, url, isActive, isPrivate/privateSessionId, and a short claim block; summary adds core identity/readiness fields; full preserves all tab diagnostics. Every size reports isPrivate, so a target can be picked without a second call. |
+<!-- /generated:parameters -->
 
 ---
 

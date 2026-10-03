@@ -17,10 +17,13 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional metadata. Provide _meta.intent (a short reason) for high-impact tools. A tool's annotations.intentRequired in tools/list tells you up front: 'always' means intent is mandatory, 'conditional' means it becomes mandatory for certain arguments (e.g. includeValues=true), absent means never. |
-| `text` | `string` | **Yes** | Required text payload to write into the clipboard. Must be a JSON string; explicit null is invalid. Empty or whitespace-only strings intentionally clear/overwrite the current clipboard text. The runtime sanitizes dangerous invisible/control characters before writing and rejects payloads longer than 65536 characters. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `text` | `string` | Yes | — | — | Required text payload to write into the clipboard. Must be a JSON string; explicit null is invalid. Empty or whitespace-only strings intentionally clear/overwrite the current clipboard text. The runtime sanitizes dangerous invisible/control characters before writing and rejects payloads longer than 65536 characters. |
+
+**`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+<!-- /generated:parameters -->
 
 ---
 

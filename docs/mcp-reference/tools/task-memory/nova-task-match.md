@@ -16,14 +16,28 @@ Finds the best matching task profiles for a task description with score breakdow
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`currentScope`** | `object` | No | `null` | Optional structured scope used for context and matching query-term enrichment. Common keys include route, locale/languages, section/sections, authState, tags, entities, and variables; additional scope keys are allowed. Legacy currentScope.targetUrl is still tolerated as an alias when top-level targetUrl is omitted. |
-| **`domain`** | `string` | No | `null` | Optional: narrow search to a specific domain. |
-| **`platform`** | `string` | No | `null` | Optional: platform for matching. If omitted, platform weight is redistributed to other signals. |
-| **`targetUrl`** | `string` | No | `null` | Optional canonical target URL for context and matching. Prefer this top-level field over currentScope.targetUrl. |
-| **`taskDescription`** | `string` | Yes | `null` | Free-text description of the task to match against known profiles. |
-| **`taskType`** | `string` | No | `null` | Optional: narrow search to a specific task type. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `taskDescription` | `string` | Yes | — | — | Free-text description of the task to match against known profiles. |
+| `taskType` | `string` | No | — | — | Optional: narrow search to a specific task type. |
+| `domain` | `string` | No | — | — | Optional: narrow search to a specific domain. |
+| `platform` | `string` | No | — | — | Optional: platform for matching. If omitted, platform weight is redistributed to other signals. |
+| `targetUrl` | `string` | No | — | — | Optional canonical target URL for context and matching. Prefer this top-level field over currentScope.targetUrl. |
+| `currentScope` | `object` | No | — | — | Optional structured scope used for context and matching query-term enrichment. Common keys include route, locale/languages, section/sections, authState, tags, entities, and variables; additional scope keys are allowed. Legacy currentScope.targetUrl is still tolerated as an alias when top-level targetUrl is omitted. |
+| `currentScope.route` | `string` | No | — | — | Current route, page path, or logical surface key. |
+| `currentScope.pageType` | `string` | No | — | — | Optional page/surface classification such as listing, detail, editor, or settings. |
+| `currentScope.locale` | `string` | No | — | — | Single active locale, e.g. de-DE. |
+| `currentScope.language` | `string` | No | — | — | Single active language shorthand, e.g. de or en. |
+| `currentScope.languages` | `array` of `string` | No | — | — | Multiple active languages when the task spans more than one locale. |
+| `currentScope.section` | `string` | No | — | — | Primary content or product section currently in focus. |
+| `currentScope.sections` | `array` of `string` | No | — | — | Multiple active sections or scopes. |
+| `currentScope.authState` | `string` | No | — | `anonymous`, `logged_in`, `unknown` | Authentication state for the current surface. 'anonymous' = signed out, 'logged_in' = signed in, 'unknown' = not yet classified. |
+| `currentScope.unitKind` | `string` | No | — | — | Current dominant work-unit kind, e.g. page, url, selector, file, or item. |
+| `currentScope.tags` | `array` of `string` | No | — | — | Free-form scope tags that influence matching or context derivation. |
+| `currentScope.entities` | `object` | No | — | — | Named entity map for IDs or semantic anchors relevant to the current task slice. |
+| `currentScope.variables` | `object` | No | — | — | Ad-hoc variable map for operator or agent context. |
+<!-- /generated:parameters -->
 
 ---
 

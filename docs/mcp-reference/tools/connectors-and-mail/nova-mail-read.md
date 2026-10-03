@@ -16,12 +16,16 @@ Reads the parsed body (text, HTML, markdown) and attachment inventory of a speci
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`allowInsecure`** | `boolean` | No | `false` | Required as true only when this account's IMAP endpoint explicitly uses plaintext or disabled certificate validation, and only after the user enabled insecure connector connections in Settings. |
-| **`bodyMode`** | `string` | No | `"full"` | metadata = envelope/flags/attachments only; preview = short sanitized text; full = bounded sanitized text. Raw HTML is never returned. |
-| **`messageId`** | `string` | Yes | `null` | Opaque Nova message handle returned by mail_list/mail_search. It resolves through Nova's host-side locator instead of exposing raw folder-bound IMAP UIDs. |
-| **`unattended`** | `boolean` | No | `false` | Optional fail-closed hint for a non-interactive caller. Host-attested scheduled-task sessions are unattended even when omitted and can never be made interactive by this field. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `messageId` | `string` | Yes | — | — | Opaque Nova message handle returned by mail_list/mail_search. It resolves through Nova's host-side locator instead of exposing raw folder-bound IMAP UIDs. |
+| `bodyMode` | `string` | No | `"full"` | `metadata`, `preview`, `full` | metadata = envelope/flags/attachments only; preview = short sanitized text; full = bounded sanitized text. Raw HTML is never returned. |
+| `unattended` | `boolean` | No | `false` | — | Optional fail-closed hint for a non-interactive caller. Host-attested scheduled-task sessions are unattended even when omitted and can never be made interactive by this field. |
+| `allowInsecure` | `boolean` | No | `false` | — | Required as true only when this account's IMAP endpoint explicitly uses plaintext or disabled certificate validation, and only after the user enabled insecure connector connections in Settings. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

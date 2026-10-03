@@ -16,30 +16,34 @@ Creates an E-Mail account (IMAP/SMTP) or remote server connection (SFTP/FTP).
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`allowInsecure`** | `boolean` | No | `false` | Required as true on this call when any selected transport is none or a mail endpoint allows an invalid TLS certificate. It works only after the user separately enabled insecure connector connections in Settings. |
-| **`authMode`** | `string` | No | `null` | sftp only: authentication method. Defaults to private_key when privateKeyPath is supplied, otherwise password. |
-| **`displayName`** | `string` | Yes | `null` | How the account is recognized (e.g. 'Work mail'). |
-| **`host`** | `string` | No | `null` | sftp/ftp: server host. |
-| **`imapAllowInvalidCertificate`** | `boolean` | No | `false` | mail only: store an IMAP debug exception that accepts an invalid, mismatched, expired, or self-signed TLS certificate. Requires the user option and allowInsecure=true on this create and every use; cannot be true with imapSecurity='none'. |
-| **`imapHost`** | `string` | No | `null` | mail: incoming (IMAP) server host. |
-| **`imapPort`** | `integer` | No | `993` | mail: IMAP port. Default 993. |
-| **`imapSecurity`** | `string` | No | `null` | mail: IMAP transport security. Auto requires TLS. none is unencrypted debug/legacy mode and requires both the user option and allowInsecure=true. Default auto. |
-| **`keyPassphrase`** | `string` | No | `null` | sftp + private_key only: optional write-only private-key passphrase. Stored DPAPI-encrypted and never returned; empty clears it on update. |
-| **`password`** | `string` | No | `null` | Write-only password for mail, FTP, or SFTP authMode='password'. Stored DPAPI-encrypted; never returned. Omit to leave unset. |
-| **`passwordFromVault`** | `string` | No | `null` | Instead of password: the id of a Nova vault entry (from nova.vault_list). Nova copies that entry's password into this connection internally - you never see it. The user confirms each copy in a dialog that shows the saved login next to this connection's servers, because a web login is not always the mail/server login. The user may answer 'always' for exactly this entry and these servers; then later copies of that pair (also unattended) need no prompt, while a different entry or server still asks. Mutually exclusive with password; needs authMode='password'. Without such an answer unattended runs are refused (-32033); a declined prompt returns -32029 and stores nothing. |
-| **`port`** | `integer` | No | `null` | Server port. SFTP defaults to 22; FTP/explicit FTPS defaults to 21. |
-| **`privateKeyPath`** | `string` | No | `null` | sftp + private_key only: write-only host path to an existing SSH private key. Stored inside the DPAPI-encrypted profile and never returned. |
-| **`security`** | `string` | No | `null` | File-transfer transport. SFTP accepts only auto (SSH). FTP auto/start_tls means explicit FTPS, ssl_on_connect means implicit FTPS, and none means plaintext FTP. Auto never downgrades. |
-| **`signatureHtml`** | `string` | No | `null` | mail only: the same signature text block as HTML for HTML mails (not a cryptographic signature); without it an HTML mail gets the text signature. Empty string clears it. |
-| **`signatureText`** | `string` | No | `null` | mail only: the signature TEXT BLOCK (name, company, phone - the sig block below a mail, NOT a cryptographic/S-MIME signature; Nova does not sign mails), appended below every sent mail and draft after the standard "-- " line (nova.mail_send includeSignature=false leaves it off). Empty string clears it; connector_list shows it. |
-| **`smtpAllowInvalidCertificate`** | `boolean` | No | `false` | mail only: store an SMTP debug exception that accepts an invalid, mismatched, expired, or self-signed TLS certificate. Requires the user option and allowInsecure=true on this create and every use; cannot be true with smtpSecurity='none'. |
-| **`smtpHost`** | `string` | No | `null` | mail: outgoing (SMTP) server host. |
-| **`smtpPort`** | `integer` | No | `587` | mail: SMTP port. Default 587. |
-| **`smtpSecurity`** | `string` | No | `null` | mail: SMTP transport security. Auto requires TLS. none is unencrypted debug/legacy mode and requires both the user option and allowInsecure=true. Default auto. |
-| **`type`** | `string` | Yes | `null` | Connection type. |
-| **`username`** | `string` | No | `null` | Username / e-mail address. Required for mail, SFTP, and FTP connectors. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `displayName` | `string` | Yes | — | ≤ 120 characters | How the account is recognized (e.g. 'Work mail'). |
+| `type` | `string` | Yes | — | `mail`, `sftp`, `ftp` | Connection type. |
+| `username` | `string` | No | — | ≤ 320 characters | Username / e-mail address. Required for mail, SFTP, and FTP connectors. |
+| `password` | `string` | No | — | — | Write-only password for mail, FTP, or SFTP authMode='password'. Stored DPAPI-encrypted; never returned. Omit to leave unset. |
+| `passwordFromVault` | `string` | No | — | — | Instead of password: the id of a Nova vault entry (from nova.vault_list). Nova copies that entry's password into this connection internally - you never see it. The user confirms each copy in a dialog that shows the saved login next to this connection's servers, because a web login is not always the mail/server login. The user may answer 'always' for exactly this entry and these servers; then later copies of that pair (also unattended) need no prompt, while a different entry or server still asks. Mutually exclusive with password; needs authMode='password'. Without such an answer unattended runs are refused (-32033); a declined prompt returns -32029 and stores nothing. |
+| `authMode` | `string` | No | — | `password`, `private_key` | sftp only: authentication method. Defaults to private_key when privateKeyPath is supplied, otherwise password. |
+| `privateKeyPath` | `string` | No | — | ≤ 2048 characters | sftp + private_key only: write-only host path to an existing SSH private key. Stored inside the DPAPI-encrypted profile and never returned. |
+| `keyPassphrase` | `string` | No | — | — | sftp + private_key only: optional write-only private-key passphrase. Stored DPAPI-encrypted and never returned; empty clears it on update. |
+| `imapHost` | `string` | No | — | ≤ 253 characters | mail: incoming (IMAP) server host. |
+| `imapPort` | `integer` | No | `993` | 1–65535 | mail: IMAP port. Default 993. |
+| `imapSecurity` | `string` | No | — | `auto`, `ssl_on_connect`, `start_tls`, `none` | mail: IMAP transport security. Auto requires TLS. none is unencrypted debug/legacy mode and requires both the user option and allowInsecure=true. Default auto. |
+| `imapAllowInvalidCertificate` | `boolean` | No | `false` | — | mail only: store an IMAP debug exception that accepts an invalid, mismatched, expired, or self-signed TLS certificate. Requires the user option and allowInsecure=true on this create and every use; cannot be true with imapSecurity='none'. |
+| `signatureText` | `string` | No | — | ≤ 8192 characters | mail only: the signature TEXT BLOCK (name, company, phone - the sig block below a mail, NOT a cryptographic/S-MIME signature; Nova does not sign mails), appended below every sent mail and draft after the standard "-- " line (nova.mail_send includeSignature=false leaves it off). Empty string clears it; connector_list shows it. |
+| `signatureHtml` | `string` | No | — | ≤ 32768 characters | mail only: the same signature text block as HTML for HTML mails (not a cryptographic signature); without it an HTML mail gets the text signature. Empty string clears it. |
+| `smtpHost` | `string` | No | — | ≤ 253 characters | mail: outgoing (SMTP) server host. |
+| `smtpPort` | `integer` | No | `587` | 1–65535 | mail: SMTP port. Default 587. |
+| `smtpSecurity` | `string` | No | — | `auto`, `ssl_on_connect`, `start_tls`, `none` | mail: SMTP transport security. Auto requires TLS. none is unencrypted debug/legacy mode and requires both the user option and allowInsecure=true. Default auto. |
+| `smtpAllowInvalidCertificate` | `boolean` | No | `false` | — | mail only: store an SMTP debug exception that accepts an invalid, mismatched, expired, or self-signed TLS certificate. Requires the user option and allowInsecure=true on this create and every use; cannot be true with smtpSecurity='none'. |
+| `host` | `string` | No | — | ≤ 253 characters | sftp/ftp: server host. |
+| `port` | `integer` | No | — | 1–65535 | Server port. SFTP defaults to 22; FTP/explicit FTPS defaults to 21. |
+| `security` | `string` | No | — | `auto`, `ssl_on_connect`, `start_tls`, `none` | File-transfer transport. SFTP accepts only auto (SSH). FTP auto/start_tls means explicit FTPS, ssl_on_connect means implicit FTPS, and none means plaintext FTP. Auto never downgrades. |
+| `allowInsecure` | `boolean` | No | `false` | — | Required as true on this call when any selected transport is none or a mail endpoint allows an invalid TLS certificate. It works only after the user separately enabled insecure connector connections in Settings. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

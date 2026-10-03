@@ -16,13 +16,15 @@ Deletes a domain note by domain name and key.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`domain`** | `string` | Yes | `null` | The domain (e.g. 'vxlive.net'). |
-| **`key`** | `string` | Yes | `null` | The note key to delete. |
-| **`sandboxId`** | `string` | No | `null` | Optional explicit sandbox letter-id. Without explicit scope, sandboxId-only delete removes only the sandbox-specific note (not the global twin). Requires sandboxRef. |
-| **`sandboxRef`** | `string` | No | `null` | Opaque PersistentUid token from nova.tabs / nova.sandbox_context. Mandatory when sandboxId is set. |
-| **`scope`** | `string` | No | `null` | Disambiguation scope. 'global' deletes only the global note; 'current_sandbox' (default) deletes global + active-sandbox match; 'all' deletes every matching note regardless of scope; 'orphaned' deletes only notes anchored to deleted sandboxes. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `domain` | `string` | Yes | — | — | The domain (e.g. 'vxlive.net'). |
+| `key` | `string` | Yes | — | — | The note key to delete. |
+| `scope` | `string` | No | — | `current_sandbox`, `global`, `all`, `orphaned` | Disambiguation scope. 'global' deletes only the global note; 'current_sandbox' (default) deletes global + active-sandbox match; 'all' deletes every matching note regardless of scope; 'orphaned' deletes only notes anchored to deleted sandboxes. |
+| `sandboxId` | `string` | No | — | — | Optional explicit sandbox letter-id. Without explicit scope, sandboxId-only delete removes only the sandbox-specific note (not the global twin). Requires sandboxRef. |
+| `sandboxRef` | `string` | No | — | — | Opaque PersistentUid token from nova.tabs / nova.sandbox_context. Mandatory when sandboxId is set. |
+<!-- /generated:parameters -->
 
 ---
 

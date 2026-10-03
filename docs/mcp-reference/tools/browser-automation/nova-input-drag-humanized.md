@@ -17,22 +17,22 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `agentId` | `string` | No | Optional agent identity for claim authorization at the MCP entry point. Defaults to 'default'. |
-| `durationMs` | `number` | No | Target drag duration in ms (default: random 1800-2400). Affects interval timing. |
-| `endX` | `number` | No | Preferred end X coordinate (CSS px). Legacy alias: toX. If both are provided, values must match. |
-| `endY` | `number` | No | Preferred end Y coordinate (CSS px). Legacy alias: toY. If both are provided, values must match. |
-| `fromX` | `number` | No | Legacy alias for startX. Prefer startX. Ignored if selector is set. If both are provided, values must match. |
-| `fromY` | `number` | No | Legacy alias for startY. Prefer startY. Ignored if selector is set. If both are provided, values must match. |
-| `jitterPx` | `number` | No | Vertical jitter amplitude in px (simulates muscle tremor). |
-| `selector` | `string` | No | Optional CSS selector for the drag handle element. If set, startX/startY (or legacy fromX/fromY) are derived from the element's center. mousedown is dispatched on this element (not elementFromPoint). |
-| `startX` | `number` | No | Preferred start X coordinate (CSS px). Ignored if selector is set. Legacy alias: fromX. If both are provided, values must match. |
-| `startY` | `number` | No | Preferred start Y coordinate (CSS px). Ignored if selector is set. Legacy alias: fromY. If both are provided, values must match. |
-| `targetId` | `string` | No | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
-| `toX` | `number` | No | Legacy alias for endX. Prefer endX. If both are provided, values must match. |
-| `toY` | `number` | No | Legacy alias for endY. Prefer endY. If both are provided, values must match. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `startX` | `number` | No | — | — | Preferred start X coordinate (CSS px). Ignored if selector is set. Legacy alias: fromX. If both are provided, values must match. |
+| `startY` | `number` | No | — | — | Preferred start Y coordinate (CSS px). Ignored if selector is set. Legacy alias: fromY. If both are provided, values must match. |
+| `endX` | `number` | No | — | — | Preferred end X coordinate (CSS px). Legacy alias: toX. If both are provided, values must match. |
+| `endY` | `number` | No | — | — | Preferred end Y coordinate (CSS px). Legacy alias: toY. If both are provided, values must match. |
+| `fromX` | `number` | No | — | — | Legacy alias for startX. Prefer startX. Ignored if selector is set. If both are provided, values must match. |
+| `fromY` | `number` | No | — | — | Legacy alias for startY. Prefer startY. Ignored if selector is set. If both are provided, values must match. |
+| `toX` | `number` | No | — | — | Legacy alias for endX. Prefer endX. If both are provided, values must match. |
+| `toY` | `number` | No | — | — | Legacy alias for endY. Prefer endY. If both are provided, values must match. |
+| `selector` | `string` | No | — | — | Optional CSS selector for the drag handle element. If set, startX/startY (or legacy fromX/fromY) are derived from the element's center. mousedown is dispatched on this element (not elementFromPoint). |
+| `durationMs` | `number` | No | — | 500–10000 | Target drag duration in ms (default: random 1800-2400). Affects interval timing. |
+| `jitterPx` | `number` | No | `2` | 0–10 | Vertical jitter amplitude in px (simulates muscle tremor). |
+<!-- /generated:parameters -->
 
 ---
 

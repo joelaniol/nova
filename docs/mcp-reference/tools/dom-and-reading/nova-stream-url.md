@@ -17,18 +17,19 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `agentId` | `string` | No | Optional agent identity for claim authorization. Defaults to 'default'. |
-| `fps` | `integer` | No | Frames per second for the stream. |
-| `includeToken` | `boolean` | No | If true, embed the bearer auth token in the URL for direct browser access. |
-| `kind` | `string` | No | Stream source. 'tab': web content only (page viewport). 'app': entire application window including browser chrome (title bar, tabs, URL bar). |
-| `maxHeight` | `integer` | No | Legacy alias for screenshotMaxHeight. Max frame height in pixels. |
-| `maxWidth` | `integer` | No | Legacy alias for screenshotMaxWidth. Max frame width in pixels. |
-| `screenshotMaxHeight` | `integer` | No | Preferred frame height limit in pixels. Must match maxHeight if both are provided. |
-| `screenshotMaxWidth` | `integer` | No | Preferred frame width limit in pixels. Must match maxWidth if both are provided. |
-| `targetId` | `string` | No | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `kind` | `string` | No | `"tab"` | `tab`, `app` | Stream source. 'tab': web content only (page viewport). 'app': entire application window including browser chrome (title bar, tabs, URL bar). |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `agentId` | `string` | No | `"default"` | — | Optional agent identity for claim authorization. Defaults to 'default'. |
+| `fps` | `integer` | No | `2` | 1–10 | Frames per second for the stream. |
+| `includeToken` | `boolean` | No | `false` | — | If true, embed the bearer auth token in the URL for direct browser access. |
+| `maxWidth` | `integer` | No | — | 1–10000 | Legacy alias for screenshotMaxWidth. Max frame width in pixels. |
+| `maxHeight` | `integer` | No | — | 1–10000 | Legacy alias for screenshotMaxHeight. Max frame height in pixels. |
+| `screenshotMaxWidth` | `integer` | No | — | 1–10000 | Preferred frame width limit in pixels. Must match maxWidth if both are provided. |
+| `screenshotMaxHeight` | `integer` | No | — | 1–10000 | Preferred frame height limit in pixels. Must match maxHeight if both are provided. |
+<!-- /generated:parameters -->
 
 ---
 

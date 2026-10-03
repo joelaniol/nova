@@ -16,11 +16,12 @@ Configures the visual outline rendered around an emulated device viewport in the
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`enabled`** | `boolean` | No | `unchanged` | Whether the viewport frame is rendered. |
-| **`color`** | `string` | No | `unchanged` | Outline color as `#RRGGBB`, `#AARRGGBB`, or `"default"` for Nova accent. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `enabled` | `boolean` | No | — | — | Whether the outline is drawn at all. Omit to keep the current setting. |
+| `color` | `string` | No | — | — | Outline color as '#RRGGBB' or '#AARRGGBB' (6-digit values are treated as fully opaque), or 'default' to restore Nova's accent color. Omit to keep the current color. |
+<!-- /generated:parameters -->
 
 ---
 

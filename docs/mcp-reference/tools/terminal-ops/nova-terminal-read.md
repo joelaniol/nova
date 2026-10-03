@@ -16,12 +16,14 @@ Reads the recent raw output tail of a terminal session scrollback buffer.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`sessionId`** | `string` | Yes | `none` | Session ID returned by `nova.terminal_open`. |
-| **`maxBytes`** | `integer` | No | `16384` | Maximum bytes to read from the tail (256 - 200,000). |
-| **`agentId`** | `string` | No | `"default"` | Optional agent identifier. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `sessionId` | `string` | Yes | — | — | Session id from terminal_open. |
+| `maxBytes` | `integer` | No | — | 256–200000 | Max bytes from the tail to return. Default 16384. |
+
+**`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+<!-- /generated:parameters -->
 
 ---
 

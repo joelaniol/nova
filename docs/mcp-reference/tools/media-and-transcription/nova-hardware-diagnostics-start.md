@@ -16,10 +16,12 @@ Initiates in-page hardware diagnostic loop for camera, microphone, or audio spea
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`kind`** | `string` | Yes | `null` | Diagnostic channel to start. |
-| **`targetId`** | `string` | No | `"active"` | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `kind` | `string` | Yes | — | `video`, `microphone`, `speaker` | Diagnostic channel to start. |
+<!-- /generated:parameters -->
 
 ---
 

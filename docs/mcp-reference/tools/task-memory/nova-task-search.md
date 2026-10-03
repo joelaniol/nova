@@ -16,13 +16,15 @@ Searches for matching task profiles by free-text query with keyword ranking.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`domain`** | `string` | No | `null` | Optional: filter/boost by domain (e.g. 'vxlive.net'). |
-| **`limit`** | `integer` | No | `10` | Max candidates to return (default 10). |
-| **`platform`** | `string` | No | `null` | Optional: filter/boost by platform. |
-| **`query`** | `string` | Yes | `null` | Free-text task description in any language. The scorer ranks profiles by relevance. |
-| **`taskType`** | `string` | No | `null` | Optional: filter by task type. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `query` | `string` | Yes | — | — | Free-text task description in any language. The scorer ranks profiles by relevance. |
+| `domain` | `string` | No | — | — | Optional: filter/boost by domain (e.g. 'vxlive.net'). |
+| `platform` | `string` | No | — | — | Optional: filter/boost by platform. |
+| `taskType` | `string` | No | — | — | Optional: filter by task type. |
+| `limit` | `integer` | No | `10` | 1–50 | Max candidates to return (default 10). |
+<!-- /generated:parameters -->
 
 ---
 

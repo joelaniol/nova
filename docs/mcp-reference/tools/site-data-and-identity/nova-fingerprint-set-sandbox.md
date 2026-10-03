@@ -16,10 +16,12 @@ Sets or clears the per-sandbox fingerprint protection override.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`level`** | `string,null` | Yes | `null` | Override level, or null to clear the override. |
-| **`sandboxId`** | `string` | Yes | `null` | Sandbox letter id (e.g. 'A'). Must exist. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `sandboxId` | `string` | Yes | — | — | Sandbox letter id (e.g. 'A'). Must exist. |
+| `level` | `string or null` | Yes | — | `off`, `standard`, `strict`, `null` | Override level, or null to clear the override. |
+<!-- /generated:parameters -->
 
 ---
 

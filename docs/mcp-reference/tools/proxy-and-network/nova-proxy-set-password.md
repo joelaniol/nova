@@ -16,11 +16,12 @@ Stores or clears encrypted proxy authentication credentials using Windows DPAPI.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`profileId`** | `string` | Yes | `none` | Proxy profile ID. |
-| **`password`** | `string` | No | `null` | Password to store. Pass `null` or empty string to clear stored password. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `profileId` | `string` | Yes | — | — | ID of the proxy profile. |
+| `password` | `string or null` | No | — | — | Password to store. Omit or null to clear the stored password. |
+<!-- /generated:parameters -->
 
 ---
 

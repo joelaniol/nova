@@ -16,14 +16,18 @@ Searches mail metadata across the IMAP server and local encrypted search archive
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`allowInsecure`** | `boolean` | No | `false` | Required as true only when this account's IMAP endpoint explicitly uses plaintext or disabled certificate validation, and only after the user enabled insecure connector connections in Settings. |
-| **`folder`** | `string` | No | `null` | Optional exact folder fullName. Omit to search selectable personal folders (bounded to 200 folders). |
-| **`limit`** | `integer` | No | `50` | Maximum messages returned across all searched folders, 1..200. |
-| **`profileId`** | `string` | Yes | `null` | Mail connector id (from nova.connector_list). |
-| **`query`** | `any` | Yes | `null` | Optional IMAP filters combined with AND. Runtime compatibility also accepts one string as the full-text filter. IMAP date search is calendar-day granular. Accepts: object, string. |
-| **`unattended`** | `boolean` | No | `false` | Optional fail-closed hint for a non-interactive caller. Host-attested scheduled-task sessions are unattended even when omitted and can never be made interactive by this field. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `profileId` | `string` | Yes | — | — | Mail connector id (from nova.connector_list). |
+| `folder` | `string` | No | — | ≤ 1024 characters | Optional exact folder fullName. Omit to search selectable personal folders (bounded to 200 folders). |
+| `query` | `any` | Yes | — | — | Optional IMAP filters combined with AND. Runtime compatibility also accepts one string as the full-text filter. IMAP date search is calendar-day granular. |
+| `limit` | `integer` | No | `50` | 1–200 | Maximum messages returned across all searched folders, 1..200. |
+| `unattended` | `boolean` | No | `false` | — | Optional fail-closed hint for a non-interactive caller. Host-attested scheduled-task sessions are unattended even when omitted and can never be made interactive by this field. |
+| `allowInsecure` | `boolean` | No | `false` | — | Required as true only when this account's IMAP endpoint explicitly uses plaintext or disabled certificate validation, and only after the user enabled insecure connector connections in Settings. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

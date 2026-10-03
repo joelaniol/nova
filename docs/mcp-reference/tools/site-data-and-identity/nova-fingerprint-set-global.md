@@ -16,9 +16,11 @@ Sets the global browser fingerprint protection level across all sandboxes.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`level`** | `string` | Yes | `null` | New global protection level. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `level` | `string` | Yes | — | `off`, `standard`, `strict` | New global protection level. |
+<!-- /generated:parameters -->
 
 ---
 

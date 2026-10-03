@@ -16,13 +16,16 @@ Proposes a lightweight candidate memory claim for the currently claimed task and
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`claim`** | `string` | Yes | `null` | One-line reusable insight (max 280 chars). |
-| **`component`** | `string` | Yes | `null` | Specific component key (e.g. 'mcp-locks', 'ui-automation'). |
-| **`confidence`** | `number` | No | `0.65` | Confidence score 0.0-1.0. Default 0.65. |
-| **`status`** | `string` | No | `"unverified"` | Claim verification status. 'unverified' stores a fresh claim that still needs confirmation, 'verified' marks a claim that was reproduced or proven true, and 'disproven' records a claim that was checked and found false, outdated, or no longer applicable. |
-| **`targetId`** | `string` | Yes | `null` | Claimed target tab ID (or active/activeBrowserTab). |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | Yes | — | — | Claimed target tab ID (or active/activeBrowserTab). |
+| `agentId` | `string` | No | `"default"` | — | Agent identity. Must match claim owner. Defaults to 'default'. |
+| `component` | `string` | Yes | — | — | Specific component key (e.g. 'mcp-locks', 'ui-automation'). |
+| `claim` | `string` | Yes | — | — | One-line reusable insight (max 280 chars). |
+| `status` | `string` | No | `"unverified"` | `unverified`, `verified`, `disproven` | Claim verification status. 'unverified' stores a fresh claim that still needs confirmation, 'verified' marks a claim that was reproduced or proven true, and 'disproven' records a claim that was checked and found false, outdated, or no longer applicable. |
+| `confidence` | `number` | No | `0.65` | — | Confidence score 0.0-1.0. Default 0.65. |
+<!-- /generated:parameters -->
 
 ---
 

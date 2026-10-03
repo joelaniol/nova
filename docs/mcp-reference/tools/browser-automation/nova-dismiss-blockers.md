@@ -30,13 +30,14 @@ If a cookie consent banner belongs to a known vendor (OneTrust, Cookiebot, Klaro
 
 ## 3. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`targetId`** | `string` | No | `"active"` | Target tab ID. |
-| **`mode`** | `string` | No | `"polite"` | `"polite"` (clicks close/dismiss buttons) or `"aggressive"` (hides sticky roots). |
-| **`maxPasses`** | `integer` | No | `3` | Maximum dismissal passes (1–5). |
-| **`pressEscape`** | `boolean` | No | `true` | Attempts an Escape key event on focused elements. |
-| **`agentId`** | `string` | No | `"default"` | Identity of the calling agent. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `mode` | `string` | No | `"conservative"` | `conservative`, `aggressive` | Dismissal strategy. 'conservative': targets common consent/cookie/GDPR banners only. 'aggressive': also removes overlay divs, fixed-position blockers, and backdrop elements. Start conservative; escalate only if needed. |
+| `maxPasses` | `integer` | No | `2` | 1–5 | Maximum dismissal iterations. Each pass scans for and removes one layer of blockers. More passes = more thorough but slower. |
+| `pressEscape` | `boolean` | No | `true` | — | If true, also press Escape key to dismiss keyboard-closable modals/dialogs. |
+<!-- /generated:parameters -->
 
 ---
 

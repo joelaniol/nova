@@ -16,13 +16,15 @@ Lists guidance log entries filtered by profile, domain, or guidance kind.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`guidanceKind`** | `string` | No | `null` | Filter by kind: style, terminology, scope_rule, workflow, quality, match_telemetry, custom. |
-| **`instanceId`** | `string` | No | `null` | Filter by instance ID. |
-| **`limit`** | `integer` | No | `50` | Max entries to return. Default: 50. |
-| **`profileId`** | `string` | No | `null` | Filter by profile ID. When set, also returns profileLearningStats (instance counts, completionPercent as 0..100, terminalFailureCount, weighted avg match score, accepted/total match telemetry, top overrides). Legacy aliases like completionRate and abortedCount remain for compatibility. |
-| **`status`** | `string` | No | `null` | Filter by status: logged, proposed, accepted, rejected, promoted. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `profileId` | `string` | No | — | — | Filter by profile ID. When set, also returns profileLearningStats (instance counts, completionPercent as 0..100, terminalFailureCount, weighted avg match score, accepted/total match telemetry, top overrides). Legacy aliases like completionRate and abortedCount remain for compatibility. |
+| `instanceId` | `string` | No | — | — | Filter by instance ID. |
+| `guidanceKind` | `string` | No | — | — | Filter by kind: style, terminology, scope_rule, workflow, quality, match_telemetry, custom. |
+| `status` | `string` | No | — | — | Filter by status: logged, proposed, accepted, rejected, promoted. |
+| `limit` | `integer` | No | `50` | 1–200 | Max entries to return. Default: 50. |
+<!-- /generated:parameters -->
 
 ---
 

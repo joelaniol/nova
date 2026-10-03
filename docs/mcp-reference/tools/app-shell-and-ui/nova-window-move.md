@@ -17,11 +17,12 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `monitorIndex` | `integer` | **Yes** | Target monitor index from window_get_bounds.availableMonitors (primary monitor is typically index 0). |
-| `position` | `string` | No | Target placement inside the monitor work area: center the window, align to the work-area top-left corner, or keep the current offset relative to the source monitor work area. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `monitorIndex` | `integer` | Yes | — | ≥ 0 | Target monitor index from window_get_bounds.availableMonitors (primary monitor is typically index 0). |
+| `position` | `string` | No | `"center"` | `center`, `top_left`, `keep_offset` | Target placement inside the monitor work area: center the window, align to the work-area top-left corner, or keep the current offset relative to the source monitor work area. |
+<!-- /generated:parameters -->
 
 ---
 

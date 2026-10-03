@@ -16,13 +16,16 @@ Lists persistent variable keys and value previews configured for a task.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`taskId`** | `string` | Yes | `none` | The task ID. |
-| **`includeValues`** | `boolean` | No | `false` | Include full values in response (`false` returns previews only). |
-| **`limit`** | `integer` | No | `100` | Maximum variables to return (1-200). |
-| **`offset`** | `integer` | No | `0` | Pagination offset. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `taskId` | `string` | Yes | — | — | The task ID. |
+| `limit` | `integer` | No | `100` | 1–200 | Maximum variables to return (1-200). Default: 100. |
+| `offset` | `integer` | No | `0` | ≥ 0 | Number of variables to skip before returning this page. Default: 0. |
+| `includeValues` | `boolean` | No | `false` | — | Include full values for the returned page. Default: false; use var_get for a single full value. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

@@ -16,12 +16,15 @@ Lists all tools available on an external MCP server, with optional full inputSch
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`serverKey`** | `string` | Yes | `none` | 8-character hex server key. |
-| **`includeSchema`** | `boolean` | No | `false` | When `true`, fetches full JSON `inputSchema` for every tool. |
-| **`refresh`** | `boolean` | No | `false` | Force fresh discovery instead of using memory cache. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `serverKey` | `string` | Yes | — | — | Stable server identity (8-char hex). Server must be connected. |
+| `includeSchema` | `boolean` | No | — | — | Include full inputSchema per tool. Default: false (only name + description). This forces a fresh tools/list because the summary cache stores no schemas. |
+| `refresh` | `boolean` | No | — | — | Force fresh tools/list fetch from server instead of using cache. Default: false. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

@@ -16,11 +16,14 @@ Stops a running external MCP server gracefully with force-kill fallback.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`serverKey`** | `string` | Yes | `none` | 8-character hex server key. |
-| **`force`** | `boolean` | No | `false` | If `true`, interrupts in-flight tool calls from other agents. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `serverKey` | `string` | Yes | — | — | Stable server identity (8-char hex). Get from nova.external_servers(). |
+| `force` | `boolean` | No | — | — | If true, interrupt in-flight tool calls from other agents. Default: false (refuse if active calls exist). |
+
+**`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+<!-- /generated:parameters -->
 
 ---
 

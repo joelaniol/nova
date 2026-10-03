@@ -16,13 +16,16 @@ Invokes a specific tool on a connected external MCP server and returns the raw r
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`serverKey`** | `string` | Yes | `none` | 8-character hex server key. |
-| **`toolName`** | `string` | Yes | `none` | Name of the tool on the external server. |
-| **`arguments`** | `object` | No | `{}` | Parameters matching the tool's `inputSchema`. |
-| **`timeoutMs`** | `integer` | No | `120000` | Timeout in ms (5,000 - 600,000). |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `serverKey` | `string` | Yes | — | — | Stable server identity (8-char hex). Server must be connected. |
+| `toolName` | `string` | Yes | — | — | Name of the tool to call on the external server. Must match a tool from nova.external_tools. |
+| `arguments` | `object` | No | — | — | Arguments to pass to the tool. Schema varies per tool — use nova.external_tools to discover the expected input schema. |
+| `timeoutMs` | `integer` | No | — | — | Per-call timeout override in ms. Default: server's configured timeout (120s). Min: 5000, Max: 600000 (10 min hard cap). |
+
+**`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+<!-- /generated:parameters -->
 
 ---
 

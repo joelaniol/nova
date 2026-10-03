@@ -17,12 +17,13 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `cursor` | `integer` | No | Zero-based character offset to start reading from. Use nextCursor from the previous response to continue. |
-| `docId` | `string` | **Yes** | Document id from nova.reference_docs_list, e.g. 'mcp', 'pks', 'plugins', or 'browser_memory'. |
-| `maxChars` | `integer` | No | Maximum characters to return in this page. Values above Nova's maximum are clamped and reported as maxChars in the response. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `docId` | `string` | Yes | — | — | Document id from nova.reference_docs_list, e.g. 'mcp', 'pks', 'plugins', or 'browser_memory'. |
+| `cursor` | `integer` | No | `0` | ≥ 0 | Zero-based character offset to start reading from. Use nextCursor from the previous response to continue. |
+| `maxChars` | `integer` | No | `60000` | 1–200000 | Maximum characters to return in this page. Values above Nova's maximum are clamped and reported as maxChars in the response. |
+<!-- /generated:parameters -->
 
 ---
 

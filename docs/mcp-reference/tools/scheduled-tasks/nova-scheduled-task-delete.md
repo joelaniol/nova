@@ -16,10 +16,14 @@ Permanently deletes a scheduled task, its configuration, and associated run hist
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`taskId`** | `string` | Yes | `none` | The task ID to delete. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. High-impact requires `_meta.intent`. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `taskId` | `string` | Yes | — | — | The task ID to delete. |
+| `cleanupWorkspace` | `boolean` | No | `false` | — | If true, also delete the task's workspace directory. Default: false. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

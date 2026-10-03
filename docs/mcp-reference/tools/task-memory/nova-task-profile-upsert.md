@@ -16,21 +16,28 @@ Creates or updates a task profile with semantic content revision tracking.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`completionCondition`** | `object` | No | `null` | Completion condition for this task profile. Invalid enum values and missing threshold stopValue are rejected fail-fast. |
-| **`confidence`** | `number` | No | `null` | Profile confidence score 0.0-1.0. Default: 0.5. |
-| **`displayName`** | `string` | Yes | `null` | Human-readable display name. |
-| **`domain`** | `string` | No | `null` | Optional domain category, e.g. 'content_qa', 'site_audit'. |
-| **`expectedContentRev`** | `integer` | No | `null` | Expected contentRev for optimistic concurrency on update. Optional. |
-| **`goal`** | `string` | Yes | `null` | What this task type aims to achieve. |
-| **`knownExceptions`** | `array` | No | `null` | Known exception rules or caveats that the agent should keep in mind for this task profile. |
-| **`mandatoryChecks`** | `array` | No | `null` | Mandatory checks that later progress updates can satisfy, fail, waive, or mark as not applicable. |
-| **`platform`** | `string` | No | `null` | Optional platform scope, e.g. 'vxmodels'. Null = platform-agnostic. |
-| **`profileId`** | `string` | No | `null` | Profile ID. Omit for create (auto-generated). |
-| **`sourceInstanceId`** | `string` | No | `null` | Optional: seed profile content from this instance's effectiveContextJson. |
-| **`stableGuidance`** | `array` | No | `null` | Stable guidance entries that should travel with every future instance of this profile. |
-| **`taskType`** | `string` | Yes | `null` | Normalized task type identifier, e.g. 'language_quality_review'. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `profileId` | `string` | No | — | — | Profile ID. Omit for create (auto-generated). |
+| `expectedContentRev` | `integer` | No | — | — | Expected contentRev for optimistic concurrency on update. Optional. |
+| `taskType` | `string` | Yes | — | — | Normalized task type identifier, e.g. 'language_quality_review'. |
+| `displayName` | `string` | Yes | — | — | Human-readable display name. |
+| `domain` | `string` | No | — | — | Optional domain category, e.g. 'content_qa', 'site_audit'. |
+| `platform` | `string` | No | — | — | Optional platform scope, e.g. 'vxmodels'. Null = platform-agnostic. |
+| `goal` | `string` | Yes | — | — | What this task type aims to achieve. |
+| `stableGuidance` | `array` of `object` | No | — | — | Stable guidance entries that should travel with every future instance of this profile. |
+| `mandatoryChecks` | `array` of `object` | No | — | — | Mandatory checks that later progress updates can satisfy, fail, waive, or mark as not applicable. |
+| `completionCondition` | `object` | No | — | — | Completion condition for this task profile. Invalid enum values and missing threshold stopValue are rejected fail-fast. |
+| `completionCondition.coverageMode` | `string` | Yes | — | `exhaustive`, `threshold`, `exploratory` | Coverage evaluation mode. exhaustive requires frozen discovery plus no open/blocked/failed units, threshold completes when stopMetric reaches stopValue, exploratory completes after the minimum sample threshold. |
+| `completionCondition.unitKind` | `string` | Yes | — | `page`, `url`, `selector`, `file`, `item`, `state`, `modal`, `role` | Kind of work unit counted by completion. page counts pages, url counts URLs, selector counts DOM selector targets, file counts files, item counts generic list items, state counts captured UI states, modal counts dialog/overlay states, and role counts semantic role targets. |
+| `completionCondition.stopMetric` | `string` | Yes | — | `all_units_processed`, `checked_units`, `distinct_findings` | Metric checked against stopValue. all_units_processed requires no remaining units, checked_units counts checked units, distinct_findings counts distinct findings reported during progress. |
+| `completionCondition.stopValue` | `integer or null` | No | — | — | Integer threshold used by threshold and optional exploratory modes. Required as an integer when coverageMode is threshold; null is allowed for exhaustive and optional for exploratory. |
+| `completionCondition.evidencePolicy` | `object` | No | — | — | Optional server-trusted evidence-gap policy. mode none disables the gate, require_observed counts strong or weak TOB evidence, require_strong counts only strong evidence. maxGapPercent is 0..100. treatUnknownAs controls whether unknown evidence passes or counts as a gap. |
+| `knownExceptions` | `array` of `object` | No | — | — | Known exception rules or caveats that the agent should keep in mind for this task profile. |
+| `confidence` | `number` | No | — | 0–1 | Profile confidence score 0.0-1.0. Default: 0.5. |
+| `sourceInstanceId` | `string` | No | — | — | Optional: seed profile content from this instance's effectiveContextJson. |
+<!-- /generated:parameters -->
 
 ---
 

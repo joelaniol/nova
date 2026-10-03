@@ -17,11 +17,12 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `domain` | `string` | **Yes** | The domain the AAG gate fired against. Must match an active learn-mode activation for this session. |
-| `paraphrase` | `string` | **Yes** | Your restatement of the onboarding contract in your own words. 80-800 characters, no boilerplate, at least 4 distinct content tokens. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `domain` | `string` | Yes | — | — | The domain the AAG gate fired against. Must match an active learn-mode activation for this session. |
+| `paraphrase` | `string` | Yes | — | 80–800 characters | Your restatement of the onboarding contract in your own words. 80-800 characters, no boilerplate, at least 4 distinct content tokens. |
+<!-- /generated:parameters -->
 
 ---
 

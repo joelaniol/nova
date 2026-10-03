@@ -16,11 +16,14 @@ Manually triggers an immediate run of a scheduled task with optional dynamic inp
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`taskId`** | `string` | Yes | `none` | The task ID to trigger. |
-| **`inputs`** | `string` | No | `null` | Optional JSON string with dynamic parameters, written to `shared/trigger-inputs.json`. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `taskId` | `string` | Yes | — | — | The task ID to trigger. |
+| `inputs` | `string` | No | — | — | Optional JSON string with dynamic parameters for this run. Written to shared/trigger-inputs.json before the task starts. The task prompt should reference this file. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

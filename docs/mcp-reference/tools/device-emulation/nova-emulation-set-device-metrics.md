@@ -16,15 +16,15 @@ Overrides the viewport dimensions, device scale factor (DPR), and mobile layout 
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`width`** | `integer` | Yes | `none` | Viewport width in CSS pixels (100 - 10,000). |
-| **`height`** | `integer` | Yes | `none` | Viewport height in CSS pixels (100 - 10,000). |
-| **`deviceScaleFactor`** | `number` | No | `1` | DPI multiplier (0.1 - 8.0). Use 2.0 for Retina displays, 3.0 for modern mobile screens. |
-| **`mobile`** | `boolean` | No | `false` | Whether to emulate mobile layout viewport and meta viewport tag processing. |
-| **`targetId`** | `string` | No | `"active"` | Target tab ID. |
-| **`agentId`** | `string` | No | `"default"` | Optional agent identifier. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `width` | `integer` | Yes | — | 100–10000 | Viewport width in CSS pixels (e.g. 375 for iPhone, 1920 for desktop). |
+| `height` | `integer` | Yes | — | 100–10000 | Viewport height in CSS pixels (e.g. 812 for iPhone X, 1080 for desktop). |
+| `deviceScaleFactor` | `number` | No | `1` | 0.1–8 | Device pixel ratio / DPI multiplier (e.g. 2.0 for Retina, 3.0 for high-DPI mobile). Affects rendering resolution. |
+| `mobile` | `boolean` | No | `false` | — | If true, emulate mobile viewport behavior (viewport meta tag, touch scrolling, mobile layout). Effective layout width still depends on the page's own <meta viewport>; without it, the browser uses a ~980px layout viewport. |
+<!-- /generated:parameters -->
 
 ---
 

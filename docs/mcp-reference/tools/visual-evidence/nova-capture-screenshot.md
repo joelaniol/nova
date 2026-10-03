@@ -47,21 +47,42 @@ Stitches the entire scrollable document vertically (up to 20,000px). Combine wit
 
 ## 3. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`selector`** | `string` | No | `null` | Scopes capture to a specific DOM element. Pierces Shadow DOM via ` >>> `. |
-| **`region`** | `object` | No | `null` | Bounding box crop in CSS pixels: `{ x, y, width, height }`. |
-| **`fullPage`** | `boolean` | No | `false` | Captures the entire scrollable page height instead of just the viewport. |
-| **`screenshotFormat`**| `string` | No | `"auto"` | `"png"` (lossless, ideal for text), `"jpeg"` (smaller), or `"auto"`. |
-| **`screenshotQuality`**| `integer`| No | `80` | JPEG compression quality (1–100). |
-| **`responseMode`** | `string` | No | `"inline"` | `"inline"`, `"reference"`, `"thumbnail+reference"`, or `"auto"`. |
-| **`cropPadding`** | `string` | No | `"comfortable"`| Preset padding around selector crops: `"tight"`, `"comfortable"`, or `"debug"`. |
-| **`highlightSelector`**| `string`| No | `null` | Element selector to draw an annotation frame around. |
-| **`highlightColor`** | `string` | No | `"#FF2020"`| Hex color for highlight marker. |
-| **`highlightLabel`** | `string` | No | `null` | Short label rendered alongside the highlight marker (max 80 chars). |
-| **`includeContextImage`**| `boolean`| No | `false` | Returns both a close-up crop and a marked full-viewport overview. |
-| **`targetId`** | `string` | No | `"active"` | Target tab ID from `nova.tabs`, or `"active"`. |
-| **`agentId`** | `string` | No | `"default"` | Agent identity for claim lease verification. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `maxWidth` | `integer` | No | — | 1–10000 | Legacy alias for screenshotMaxWidth. Max screenshot width in pixels. Image is downscaled if wider. |
+| `maxHeight` | `integer` | No | — | 1–10000 | Legacy alias for screenshotMaxHeight. Max screenshot height in pixels. Image is downscaled if taller. |
+| `screenshotMaxWidth` | `integer` | No | — | 1–10000 | Preferred screenshot width limit in pixels. Must match maxWidth if both are provided. |
+| `screenshotMaxHeight` | `integer` | No | — | 1–10000 | Preferred screenshot height limit in pixels. Must match maxHeight if both are provided. |
+| `format` | `string` | No | — | `png`, `jpeg`, `auto` | Legacy alias for screenshotFormat. Image format: 'png' (lossless), 'jpeg' (smaller), or 'auto'. With 'auto' + region: PNG for moderate text/UI evidence crops (<= ~1 MP), JPEG q=85 for very large photo/canvas/overview regions. Without region, 'auto' falls back to the tool-intent default (jpeg q=78). |
+| `screenshotFormat` | `string` | No | — | `png`, `jpeg`, `auto` | Preferred image format. Must match format if both are provided. See 'format' for 'auto' semantics. |
+| `quality` | `integer` | No | — | 1–100 | Legacy alias for screenshotQuality. JPEG quality (1-100). Only used when format is 'jpeg'. |
+| `screenshotQuality` | `integer` | No | — | 1–100 | Preferred JPEG quality (1-100). Must match quality if both are provided. |
+| `region` | `object` | No | — | — | Optional crop bounding box in CSS pixels. CDP captures only this region (capture-time clip — single CDP call, no decode/re-encode). Use with screenshotFormat='auto' to get PNG for moderate text/UI evidence crops (<= ~1 MP) or JPEG q=85 for very large photo/canvas/overview regions. |
+| `region.x` | `integer` | Yes | — | ≥ 0 | Left edge of the crop box in CSS pixels (>= 0). |
+| `region.y` | `integer` | Yes | — | ≥ 0 | Top edge of the crop box in CSS pixels (>= 0). |
+| `region.width` | `integer` | Yes | — | 1–10000 | Width of the crop box in CSS pixels (> 0). |
+| `region.height` | `integer` | Yes | — | 1–10000 | Height of the crop box in CSS pixels (> 0). |
+| `responseMode` | `string` | No | — | `inline`, `reference`, `thumbnail+reference`, `auto` | Override default delivery mode. 'inline': full image bytes in response (default for nova.capture_screenshot). 'reference': only nova://screenshot/... URI in response — read with nova.read_screenshot_resource(uri='nova://screenshot/...') or MCP resources/read on demand (saves ~2400 tokens for large screenshots). 'thumbnail+reference': small inline thumbnail (~18 KB) + URI for full image. 'auto': server picks inline for small images with budget headroom, otherwise thumbnail+reference. URIs are session-scoped and TTL-bound (default 1h). |
+| `force` | `boolean` | No | `false` | — | Power-user override for the aag.screenshot_budget gate. When true, bypasses Soft-Warn and Forceable-Hard caps (inlineBytes, sourcePixels, sessionBudget). Does NOT bypass Absolute-Safety caps (decompression-bomb-guards at 50 MB encoded / 50 MP source) — those reject regardless. Default false. Use sparingly: forced inline captures cost full vision tokens (~5800 for 4K). Auto-downgrade to thumbnail+reference is usually preferable. |
+| `highlightSelector` | `string` | No | — | — | Optional CSS selector. When used without selector/region, captures a readable close-up crop of the matched element. When combined with selector/region, adds a colored outline to that explicit capture. Supports ' >>> ' shadow DOM combinator. |
+| `scrollToSelector` | `string` | No | — | — | Optional CSS selector. Scrolls the element into view before capturing. No visual highlight. Supports ' >>> ' shadow DOM combinator. |
+| `selector` | `string` | No | — | — | Optional CSS selector for a one-shot element screenshot (Playwright locator.screenshot()). Resolves the element's bounding box (scrolled into view, shadow-DOM aware via ' >>> ') and captures only that region. Mutually exclusive with 'region'. Errors if the element is not found, not visible (display:none, visibility:hidden, zero-size), covered by another element or clipped away by an ancestor, or fully transparent (opacity 0 on it or on an ancestor) — in the transparent case a crop would show the content behind it, so no image is returned at all. |
+| `cropPaddingPx` | `integer` | No | — | 0–200 | Optional CSS-pixel padding around selector/highlightSelector element crops. 0 keeps a tight crop; positive values add page context and are clamped to 200. Must match contextPaddingPx if both are provided. |
+| `contextPaddingPx` | `integer` | No | — | 0–200 | Alias for cropPaddingPx. Use for QM/context proof crops when the surrounding page helps interpret the element. |
+| `cropPadding` | `string` | No | — | `tight`, `comfortable`, `debug` | Preset padding for selector/highlightSelector element crops. 'tight'=0 CSS px, 'comfortable'=18 CSS px, 'debug'=32 CSS px. Numeric cropPaddingPx/contextPaddingPx wins when provided. |
+| `includeContextImage` | `boolean` | No | `false` | — | When true with selector or highlightSelector-as-crop, returns the normal detail crop plus a small marked viewport overview in structuredContent.contextOverview and content[]. The context image uses thumbnail+reference JPEG defaults and is for orientation, not text proof. |
+| `highlightColor` | `string` | No | `"#FF2020"` | — | Hex CSS color for highlightSelector/includeContextImage markers. Accepted forms: #RGB, #RRGGBB, #RRGGBBAA. |
+| `highlightStrokePx` | `integer` | No | `3` | 1–16 | Marker stroke width in CSS pixels for highlightSelector/includeContextImage. Values are clamped to 1..16. |
+| `highlightStyle` | `string` | No | `"dashed"` | `solid`, `dashed`, `dotted` | Marker line style for highlightSelector/includeContextImage. |
+| `highlightPlacement` | `string` | No | `"outside"` | `outside`, `inside`, `both` | Where to draw the marker relative to the target element. 'inside' uses an inset frame so tight crops still show the marker; 'both' draws outside and inside frames. |
+| `highlightLabel` | `string` | No | — | ≤ 80 characters | Optional short label rendered near the marker. Use for QM labels such as 'target' or 'expected modal'. Ignored unless highlightSelector or includeContextImage is active. |
+| `highlightBackdrop` | `boolean` | No | `false` | — | When true, dims the viewport around the target marker. Useful for context overview proof; ignored unless highlightSelector or includeContextImage is active. |
+| `highlightCenterMarker` | `boolean` | No | `false` | — | When true, draws a small crosshair at the target center. Useful when the target is tiny; ignored unless highlightSelector or includeContextImage is active. |
+| `outputDetail` | `string` | No | `"full"` | `full`, `compact` | Response verbosity. 'compact' omits screenshotFilePath (always identical to filePath), inlinePreview when it describes the same image as evidenceImage, and the delivery telemetry: byteAccounting (byte counts of what you just received) and tokens (per-provider vision-token estimates). The image, coordinateMeta and every warning are unaffected - no setting can hide a warning. |
+| `fullPage` | `boolean` | No | `false` | — | Capture the entire scrollable page instead of just the visible viewport (Playwright screenshot({fullPage:true})). Ignored when 'region' is set — a crop box already names what to capture. Very long pages are capped (~20000px tall / 20 MP); over that the capture falls back to the viewport. If full-page CDP capture times out, Nova degrades through a precomputed viewport CDP clip before CapturePreviewAsync. Combine with screenshotMaxWidth/Height to downscale the tall result. Tip: prefer responseMode='thumbnail+reference' for full-page shots — they are token-expensive inline. |
+<!-- /generated:parameters -->
 
 ---
 

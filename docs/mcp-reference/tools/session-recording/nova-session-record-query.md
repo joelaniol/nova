@@ -16,18 +16,21 @@ Queries the complete CDP network stream of a finalized recording with rich filte
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`recordingId`** | `string` | Yes | `none` | Finalized recording ID. |
-| **`urlMatch`** | `string` | No | `null` | Case-insensitive regex applied to request URLs. |
-| **`method`** | `string` | No | `null` | Exact HTTP method (e.g. `"POST"`, `"GET"`). |
-| **`statusGte`** | `integer` | No | `null` | Filter HTTP response status >= value (e.g. 400 for errors). |
-| **`statusLte`** | `integer` | No | `null` | Filter HTTP response status <= value. |
-| **`mimeType`** | `string` | No | `null` | MIME type prefix filter (e.g. `"application/json"`). |
-| **`hasBody`** | `boolean` | No | `null` | Filter entries with captured response bodies. |
-| **`vaultMatched`** | `boolean` | No | `null` | Filter entries where the redaction pipeline matched and masked vault secrets. |
-| **`limit`** | `integer` | No | `50` | Maximum number of entries to return (max 200). |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `recordingId` | `string` | Yes | — | — | Recording ID (the dir under %LOCALAPPDATA%/NovaBrowser/Recordings). |
+| `urlMatch` | `string` | No | — | — | Regex applied case-insensitively to entry URL. Invalid regex disables the filter. |
+| `method` | `string` | No | — | — | Exact HTTP method match (GET/POST/...). |
+| `mimeType` | `string` | No | — | — | MIME-type prefix match (e.g. 'application/json' matches 'application/json; charset=utf-8'). |
+| `statusGte` | `integer` | No | — | 0–999 | Filter status >= value. |
+| `statusLte` | `integer` | No | — | 0–999 | Filter status <= value. |
+| `sinceMs` | `integer` | No | — | — | Filter timestamp >= Unix-ms (ISO-8601 string also accepted). |
+| `untilMs` | `integer` | No | — | — | Filter timestamp <= Unix-ms (ISO-8601 string also accepted). |
+| `hasBody` | `boolean` | No | — | — | Filter entries with/without captured body. |
+| `vaultMatched` | `boolean` | No | — | — | Filter entries where the redaction pipeline matched a vault fingerprint in the body. |
+| `limit` | `integer` | No | `50` | 1–1000 | Max entries returned (totalMatchCount reports the full match count). |
+<!-- /generated:parameters -->
 
 ---
 

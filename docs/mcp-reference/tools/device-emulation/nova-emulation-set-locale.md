@@ -16,16 +16,16 @@ Emulates browser locale, timezone, and geolocation coordinates for testing local
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`locale`** | `string` | No | `null` | BCP-47 locale tag (e.g. `"de-DE"`, `"ja-JP"`, `"en-GB"`). Sets `navigator.language` and `Accept-Language`. |
-| **`timezone`** | `string` | No | `null` | IANA timezone identifier (e.g. `"Europe/Berlin"`, `"America/New_York"`, `"Asia/Tokyo"`). |
-| **`latitude`** | `number` | No | `null` | GPS latitude (-90 to 90). Requires `longitude`. |
-| **`longitude`** | `number` | No | `null` | GPS longitude (-180 to 180). Requires `latitude`. |
-| **`accuracy`** | `number` | No | `1` | Geolocation accuracy in meters. |
-| **`targetId`** | `string` | No | `"active"` | Target tab ID. |
-| **`agentId`** | `string` | No | `"default"` | Optional agent identifier. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `locale` | `string` | No | — | — | BCP-47 locale, e.g. 'de-DE', 'ja-JP', 'ar-EG'. Sets navigator.language/languages + Accept-Language header (NOT Intl number/date formatting — see tool description). |
+| `timezone` | `string` | No | — | — | IANA timezone id, e.g. 'Europe/Berlin', 'America/New_York', 'Asia/Tokyo'. |
+| `latitude` | `number` | No | — | -90–90 | Geolocation latitude. Requires longitude. |
+| `longitude` | `number` | No | — | -180–180 | Geolocation longitude. Requires latitude. |
+| `accuracy` | `number` | No | `1` | ≥ 0 | Geolocation accuracy in meters (default 1). Only used when latitude+longitude are set. |
+<!-- /generated:parameters -->
 
 ---
 

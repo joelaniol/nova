@@ -17,12 +17,12 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `agentId` | `string` | No | Optional agent identity for claim authorization at the MCP entry point. Defaults to 'default'. |
-| `combo` | `string` | **Yes** | Keyboard shortcut string, e.g. 'Ctrl+L', 'Ctrl+Shift+K', 'Alt+Left', 'Ctrl++' or 'Ctrl+Plus'. Modifier names: Ctrl, Shift, Alt, Meta. Exactly one non-modifier key is required. Key aliases include Plus/Equal, Minus, and Digit0-Digit9. Case-insensitive. |
-| `targetId` | `string` | No | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `combo` | `string` | Yes | — | — | Keyboard shortcut string, e.g. 'Ctrl+L', 'Ctrl+Shift+K', 'Alt+Left', 'Ctrl++' or 'Ctrl+Plus'. Modifier names: Ctrl, Shift, Alt, Meta. Exactly one non-modifier key is required. Key aliases include Plus/Equal, Minus, and Digit0-Digit9. Case-insensitive. |
+<!-- /generated:parameters -->
 
 ---
 

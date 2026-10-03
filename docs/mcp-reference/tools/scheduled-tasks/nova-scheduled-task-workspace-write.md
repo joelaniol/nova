@@ -16,12 +16,15 @@ Atomically writes a UTF-8 text file into a task’s shared workspace folder (tem
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`taskId`** | `string` | Yes | `none` | The task ID. |
-| **`relativePath`** | `string` | Yes | `none` | Path relative to `shared/` (e.g. `"config.json"`, `"inputs/params.json"`). |
-| **`content`** | `string` | Yes | `none` | UTF-8 text content to write (max 1 MB). |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `taskId` | `string` | Yes | — | — | The task ID. |
+| `relativePath` | `string` | Yes | — | — | Path relative to the shared/ directory (e.g. 'config.json'). |
+| `content` | `string` | Yes | — | — | File content to write (UTF-8 text). |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

@@ -16,9 +16,13 @@ Inspects a discovered MCP server from cached discovery metadata (identity, trans
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`domain`** | `string` | Yes | `null` | Target domain or URL (e.g. 'example.com'). Must have been previously probed via site_discovery_probe. Required. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `domain` | `string` | Yes | — | — | Target domain or URL (e.g. 'example.com'). Must have been previously probed via site_discovery_probe. Required. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

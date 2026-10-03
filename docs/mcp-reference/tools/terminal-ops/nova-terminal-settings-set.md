@@ -16,12 +16,13 @@ Updates terminal appearance settings such as color theme, font size, and program
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`theme`** | `string` | No | `unchanged` | Terminal theme: `"nova"` or `"dark"`. |
-| **`fontSize`** | `string` | No | `unchanged` | Font size: `"small"`, `"medium"`, `"large"`, or `"xlarge"`. |
-| **`programColors`** | `string` | No | `unchanged` | Color preference: `"auto"` (program decides) or `"off"` (enforces `NO_COLOR`). |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `theme` | `string` | No | — | `nova`, `dark` | Terminal colour scheme. |
+| `fontSize` | `string` | No | — | `small`, `medium`, `large`, `xlarge` | Terminal font size. |
+| `programColors` | `string` | No | — | `auto`, `off` | 'auto' states no preference and lets the program decide; 'off' sets the NO_COLOR standard for every shell Nova starts. There is deliberately no 'always on' - that would mean FORCE_COLOR, which also writes escape sequences into files and pipes the user redirects to. |
+<!-- /generated:parameters -->
 
 ---
 

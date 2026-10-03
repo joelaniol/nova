@@ -24,13 +24,24 @@ Dismissing cookie consent dialogs through naive UI clicking is fragile: consent 
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`targetId`** | `string` | **Yes** | — | Target tab ID (must have an active agent lease via `nova.tab_claim`). |
-| **`mode`** | `string` | No | `"auto"` | Execution mode: `"auto"` (apply immediately) or `"dry_run"` (read vector state only). |
-| **`intent`** | `object` | No | `null` | Typed consent policy. Defaults to `RejectOptional` (strict necessary only). |
-| **`intent.mode`** | `string` | No | `"RejectOptional"` | Mode: `"RejectOptional"` or `"PreserveExisting"`. |
-| **`agentId`** | `string` | No | `"default"` | Agent identifier for claim authorization and audit logging. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | Yes | — | — | Target tab or sandbox id from nova.tabs. |
+| `agentId` | `string` | No | — | — | Agent identifier (used for audit trail; optional). |
+| `intent` | `object` | No | — | — | Typed consent intent. Omit to use the AppSettings.DefaultConsentPolicy default. |
+| `intent.mode` | `string` | No | — | `RejectOptional`, `AcceptAll`, `OpenManage`, `PreserveExisting`, `Revoke` | Consent mode. RejectOptional = strict-necessary only (autonomous-safe default). AcceptAll is hard-gated. PreserveExisting = no-op verify (returns the current ConsentStateVector without mutating). OpenManage/Revoke are reserved values and rejected. |
+| `intent.allowStrictNecessary` | `boolean` | No | — | — | — |
+| `intent.allowPreferences` | `boolean` | No | — | — | — |
+| `intent.allowStatistics` | `boolean` | No | — | — | — |
+| `intent.allowMarketing` | `boolean` | No | — | — | — |
+| `intent.objectToLegitimateInterest` | `boolean` | No | — | — | — |
+| `intent.doNotSellOrShare` | `boolean` | No | — | — | — |
+| `intent.personalizedAds` | `boolean` | No | — | — | — |
+| `intent.frameworkHint` | `string` | No | — | `Unknown`, `TcfEu`, `GppUs`, `VendorCustom` | — |
+| `intent.userPolicyOrigin` | `string` | No | — | `user_per_site`, `user_global`, `agent_task`, `learned_default` | Provenance of the policy decision. Required token 'user_per_site' when calling AcceptAll. |
+| `mode` | `string` | No | — | `auto`, `dry_run` | Tool execution mode. 'auto' = run apply immediately. 'dry_run' = read ConsentStateVector and surface preState only, no mutation. Reserved value 'ask' returns -32002. |
+<!-- /generated:parameters -->
 
 ---
 

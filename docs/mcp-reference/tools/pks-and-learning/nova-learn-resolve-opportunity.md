@@ -17,12 +17,13 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `opportunityId` | `string` | **Yes** | Stable ID emitted in pksSemanticLearning.opportunityId, format sem:{kind}:{origin}:{fingerprint}. |
-| `reason` | `string` | No | Optional short rationale (≤500 chars) for telemetry. |
-| `verdict` | `string` | **Yes** | How the agent handled the opportunity. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `opportunityId` | `string` | Yes | — | — | Stable ID emitted in pksSemanticLearning.opportunityId, format sem:{kind}:{origin}:{fingerprint}. |
+| `verdict` | `string` | Yes | — | `upsert`, `not_applicable`, `unsafe`, `already_known`, `defer` | How the agent handled the opportunity. |
+| `reason` | `string` | No | — | ≤ 500 characters | Optional short rationale (≤500 chars) for telemetry. |
+<!-- /generated:parameters -->
 
 ---
 

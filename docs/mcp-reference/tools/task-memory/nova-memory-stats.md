@@ -16,15 +16,17 @@ Reports memory engine metrics, commit rates, verification health, and outbox que
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`componentFilter`** | `string` | No | `null` | Optional LCJ component filter. When set, LCJ candidate/curation aggregates are scoped to this component only (e.g. 'evm'). |
-| **`maxSkipReasons`** | `integer` | No | `8` | Skip reason buckets to include (1-20). Default 8. |
-| **`topComponents`** | `integer` | No | `8` | Top LCJ components to include (1-20). Default 8. |
-| **`topHosts`** | `integer` | No | `8` | Top scroll_smart hosts to include (1-20). Default 8. |
-| **`topRoutes`** | `integer` | No | `8` | Top scroll_smart routes to include (1-20). Default 8. |
-| **`topSelectors`** | `integer` | No | `8` | Top scroll_smart selector candidates to include (1-20). Default 8. |
-| **`windowHours`** | `integer` | No | `24` | Lookback window in hours for windowed metrics (1-720). Default 24. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `windowHours` | `integer` | No | `24` | — | Lookback window in hours for windowed metrics (1-720). Default 24. |
+| `topComponents` | `integer` | No | `8` | — | Top LCJ components to include (1-20). Default 8. |
+| `maxSkipReasons` | `integer` | No | `8` | — | Skip reason buckets to include (1-20). Default 8. |
+| `topRoutes` | `integer` | No | `8` | — | Top scroll_smart routes to include (1-20). Default 8. |
+| `topHosts` | `integer` | No | `8` | — | Top scroll_smart hosts to include (1-20). Default 8. |
+| `topSelectors` | `integer` | No | `8` | — | Top scroll_smart selector candidates to include (1-20). Default 8. |
+| `componentFilter` | `string` | No | — | — | Optional LCJ component filter. When set, LCJ candidate/curation aggregates are scoped to this component only (e.g. 'evm'). |
+<!-- /generated:parameters -->
 
 ---
 

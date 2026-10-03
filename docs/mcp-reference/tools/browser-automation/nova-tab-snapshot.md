@@ -17,14 +17,14 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `agentId` | `string` | No | Optional agent identity for claim authorization at the MCP entry point. Defaults to 'default'. |
-| `includeOkFacts` | `boolean` | No | Reserved OK (Operational Knowledge) facts projection. Omit or pass false; current runtimes reject true instead of silently ignoring it. |
-| `includeText` | `boolean` | No | If true, include a text snippet (innerText) for each tab. |
-| `maxCharsPerTab` | `integer` | No | Maximum characters of text content per tab (only when includeText=true). |
-| `targetIds` | `array` | **Yes** | Array of target IDs from nova.tabs. Supports sandbox and browser tab IDs. Max 8 targets per call. The singular targetId spelling used by every other tab tool is accepted and wrapped into a one-element batch. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetIds` | `array` of `string` | Yes | — | 1–8 items | Array of target IDs from nova.tabs. Supports sandbox and browser tab IDs. Max 8 targets per call. The singular targetId spelling used by every other tab tool is accepted and wrapped into a one-element batch. |
+| `includeText` | `boolean` | No | `false` | — | If true, include a text snippet (innerText) for each tab. |
+| `maxCharsPerTab` | `integer` | No | `2000` | 100–50000 | Maximum characters of text content per tab (only when includeText=true). |
+| `includeOkFacts` | `boolean` | No | `false` | — | Reserved OK (Operational Knowledge) facts projection. Omit or pass false; current runtimes reject true instead of silently ignoring it. |
+<!-- /generated:parameters -->
 
 ---
 

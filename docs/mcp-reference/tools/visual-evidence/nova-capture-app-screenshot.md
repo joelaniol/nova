@@ -17,18 +17,19 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `agentId` | `string` | No | Optional agent identity for claim authorization. Defaults to 'default'. A foreign active-target claim selects the fail-closed shell-redacted read-only path. |
-| `format` | `string` | No | Image format override. Default jpeg (Tool-Intent-Profile). |
-| `maxHeight` | `integer` | No | Legacy alias for screenshotMaxHeight. Max screenshot height in pixels. |
-| `maxWidth` | `integer` | No | Legacy alias for screenshotMaxWidth. Max screenshot width in pixels. |
-| `quality` | `integer` | No | JPEG quality 1-100. Ignored for png. Default 72 (Tool-Intent-Profile). |
-| `responseMode` | `string` | No | Wire-mode for the screenshot. Default 'thumbnail+reference' (Tool-Intent-Profile): full image stored as resource (read via nova.read_screenshot_resource(uri=...) or MCP resources/read) plus a small inline thumbnail. 'auto' resolves to inline or thumbnail+reference based on projected vision-tokens and session-budget headroom. |
-| `screenshotMaxHeight` | `integer` | No | Preferred screenshot height limit in pixels. Must match maxHeight if both are provided. |
-| `screenshotMaxWidth` | `integer` | No | Preferred screenshot width limit in pixels. Must match maxWidth if both are provided. |
-| `targetId` | `string` | No | Target ID from nova.tabs, or 'active' / 'activeBrowserTab'. Nova may activate and later best-effort restore a non-active target only on the full authorized path; a target observed as foreign-claimed while inactive fails with app_target_not_active without activation. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `agentId` | `string` | No | `"default"` | — | Optional agent identity for claim authorization. Defaults to 'default'. A foreign active-target claim selects the fail-closed shell-redacted read-only path. |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs, or 'active' / 'activeBrowserTab'. Nova may activate and later best-effort restore a non-active target only on the full authorized path; a target observed as foreign-claimed while inactive fails with app_target_not_active without activation. |
+| `maxWidth` | `integer` | No | — | 1–10000 | Legacy alias for screenshotMaxWidth. Max screenshot width in pixels. |
+| `maxHeight` | `integer` | No | — | 1–10000 | Legacy alias for screenshotMaxHeight. Max screenshot height in pixels. |
+| `screenshotMaxWidth` | `integer` | No | — | 1–10000 | Preferred screenshot width limit in pixels. Must match maxWidth if both are provided. |
+| `screenshotMaxHeight` | `integer` | No | — | 1–10000 | Preferred screenshot height limit in pixels. Must match maxHeight if both are provided. |
+| `format` | `string` | No | — | `png`, `jpeg` | Image format override. Default jpeg (Tool-Intent-Profile). |
+| `quality` | `integer` | No | — | 1–100 | JPEG quality 1-100. Ignored for png. Default 72 (Tool-Intent-Profile). |
+| `responseMode` | `string` | No | — | `inline`, `reference`, `thumbnail+reference`, `auto` | Wire-mode for the screenshot. Default 'thumbnail+reference' (Tool-Intent-Profile): full image stored as resource (read via nova.read_screenshot_resource(uri=...) or MCP resources/read) plus a small inline thumbnail. 'auto' resolves to inline or thumbnail+reference based on projected vision-tokens and session-budget headroom. |
+<!-- /generated:parameters -->
 
 ---
 

@@ -16,11 +16,12 @@ Bulk-dismisses notifications matching source or age criteria.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`sourceKind`** | `string` | No | `null` | Only clear notifications from this source: `"website"`, `"nova"`, or `"agent"`. |
-| **`olderThanDays`** | `integer` | No | `null` | Only clear notifications older than N days. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `sourceKind` | `string` | No | — | `website`, `nova`, `agent` | Only clear notifications from this source. |
+| `olderThanDays` | `integer` | No | — | ≥ 0 | Only clear notifications older than N days. |
+<!-- /generated:parameters -->
 
 ---
 

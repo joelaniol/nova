@@ -17,13 +17,14 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `agentId` | `string` | No | Calling agent's ID for attribution in logs. |
-| `insertAfter` | `boolean` | No | true places the moved tab to the right of targetTabId, false to its left. |
-| `targetId` | `string` | **Yes** | Browser tab ID to move, or 'active'. |
-| `targetTabId` | `string` | **Yes** | Browser tab ID to move it next to (must be a different tab in the same sandbox). 'active' is accepted. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | Yes | `"active"` | — | Browser tab ID to move, or 'active'. |
+| `targetTabId` | `string` | Yes | — | — | Browser tab ID to move it next to (must be a different tab in the same sandbox). 'active' is accepted. |
+| `insertAfter` | `boolean` | No | `true` | — | true places the moved tab to the right of targetTabId, false to its left. |
+| `agentId` | `string` | No | — | — | Calling agent's ID for attribution in logs. |
+<!-- /generated:parameters -->
 
 ---
 

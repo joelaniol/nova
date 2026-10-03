@@ -17,15 +17,24 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `agentId` | `string` | No | Optional agent identity for claim ownership checks. Propagated only to claim-sensitive inner step tools. Defaults to 'default'. |
-| `defaults` | `object` | No | Default retry/onError policy applied to all steps unless a step overrides it. |
-| `options` | `object` | No | Sequence-level response and PKS options. |
-| `steps` | `array` | **Yes** | Ordered list of tool calls to execute. |
-| `targetId` | `string` | No | Target ID from nova.tabs. Resolved once and injected only into target-aware steps. |
-| `totalTimeoutMs` | `integer` | No | Sequence-level timeout budget in milliseconds. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs. Resolved once and injected only into target-aware steps. |
+| `agentId` | `string` | No | `"default"` | — | Optional agent identity for claim ownership checks. Propagated only to claim-sensitive inner step tools. Defaults to 'default'. |
+| `totalTimeoutMs` | `integer` | No | `120000` | 5000–300000 | Sequence-level timeout budget in milliseconds. |
+| `steps` | `array` of `object` | Yes | — | 1–50 items | Ordered list of tool calls to execute. |
+| `defaults` | `object` | No | — | — | Default retry/onError policy applied to all steps unless a step overrides it. |
+| `defaults.stepPolicy` | `object` | No | — | — | Default retry policy applied to steps that do not provide their own policy. |
+| `defaults.onError` | `object` | No | — | — | Default error handling applied to all steps. |
+| `options` | `object` | No | — | — | Sequence-level response and PKS options. |
+| `options.compactTrace` | `boolean` | No | `true` | — | If true, return condensed per-step results (status + timing only). |
+| `options.includeTabState` | `boolean` | No | `true` | — | If true, include tab URL/title after the sequence completes. |
+| `options.includeSummary` | `boolean` | No | `true` | — | If true, include pass/fail/skip counts after the sequence completes. |
+| `options.verboseStepResults` | `boolean` | No | `false` | — | If true, include the full tool result in each step trace. This can be large. |
+| `options.maxTraceSteps` | `integer` | No | `200` | 1–500 | Maximum number of trace entries (including retries) before truncation. |
+| `options.pksMode` | `string` | No | `"match"` | `off`, `match`, `telemetry` | off suppresses PKS hints, match returns compact PKS hints, telemetry returns the full PKS payload and advice. |
+<!-- /generated:parameters -->
 
 ---
 

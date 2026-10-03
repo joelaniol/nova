@@ -17,14 +17,14 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `agentId` | `string` | No | Optional agent identity for claim authorization at the MCP entry point. Defaults to 'default'. |
-| `includePages` | `boolean` | No | Also return the text split per page (pages[{page,text}]) instead of only the concatenated text. Off by default because it roughly doubles the response size. |
-| `maxChars` | `integer` | No | Character budget for the returned text. Extraction continues past it so totalChars stays exact; truncated=true then tells you how much was left out. |
-| `pages` | `string` | No | Optional 1-based page selection, e.g. '1', '2-5' or '1,4-6'. Omit to read every page. Pages beyond the end are ignored rather than rejected, so '1-10' on a 3-page file reads those three. |
-| `path` | `string` | **Yes** | Absolute path to the .pdf file, e.g. the filePath from nova.downloads_list or the savedPath from nova.save_pdf. A download that is still running has no final file yet - nova.downloads_wait blocks until it does. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `path` | `string` | Yes | — | — | Absolute path to the .pdf file, e.g. the filePath from nova.downloads_list or the savedPath from nova.save_pdf. A download that is still running has no final file yet - nova.downloads_wait blocks until it does. |
+| `pages` | `string` | No | — | — | Optional 1-based page selection, e.g. '1', '2-5' or '1,4-6'. Omit to read every page. Pages beyond the end are ignored rather than rejected, so '1-10' on a 3-page file reads those three. |
+| `maxChars` | `integer` | No | `50000` | 1000–2000000 | Character budget for the returned text. Extraction continues past it so totalChars stays exact; truncated=true then tells you how much was left out. |
+| `includePages` | `boolean` | No | `false` | — | Also return the text split per page (pages[{page,text}]) instead of only the concatenated text. Off by default because it roughly doubles the response size. |
+<!-- /generated:parameters -->
 
 ---
 

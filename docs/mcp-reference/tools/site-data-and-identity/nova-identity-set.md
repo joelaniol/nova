@@ -16,11 +16,13 @@ Configures and persists a new browser identity profile (preset + version/custom 
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`customUserAgent`** | `string,null` | No | `null` | Custom user-agent string. Required when preset='custom'. Set to null or an empty string to clear a stored custom user-agent. Max 1024 characters. Control characters are stripped automatically. |
-| **`preset`** | `string` | No | `null` | Browser identity preset. 'default' = native WebView2/Edge UA. 'chrome'/'firefox'/'safari' = spoofed UA for that browser. 'custom' = free-form UA string (requires customUserAgent). |
-| **`version`** | `string` | No | `null` | Version string for chrome/firefox/safari presets. 'latest' or omit for the newest available version. Ignored for 'default' and 'custom' presets. Use nova.identity_presets to see valid version strings. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `preset` | `string` | No | — | `default`, `chrome`, `firefox`, `safari`, `custom` | Browser identity preset. 'default' = native WebView2/Edge UA. 'chrome'/'firefox'/'safari' = spoofed UA for that browser. 'custom' = free-form UA string (requires customUserAgent). |
+| `version` | `string` | No | — | — | Version string for chrome/firefox/safari presets. 'latest' or omit for the newest available version. Ignored for 'default' and 'custom' presets. Use nova.identity_presets to see valid version strings. |
+| `customUserAgent` | `string or null` | No | — | — | Custom user-agent string. Required when preset='custom'. Set to null or an empty string to clear a stored custom user-agent. Max 1024 characters. Control characters are stripped automatically. |
+<!-- /generated:parameters -->
 
 ---
 

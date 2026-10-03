@@ -16,9 +16,11 @@ Retrieves full details of a task profile: guidance, mandatory checks, and comple
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`profileId`** | `string` | Yes | `null` | The profile ID to retrieve. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `profileId` | `string` | Yes | — | — | The profile ID to retrieve. |
+<!-- /generated:parameters -->
 
 ---
 

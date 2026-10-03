@@ -16,17 +16,18 @@ Creates a new proxy profile with host, port, protocol, and optional credentials.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`name`** | `string` | Yes | `none` | Profile display name. |
-| **`host`** | `string` | Yes | `none` | Proxy server hostname or IP address. |
-| **`port`** | `integer` | Yes | `none` | Proxy port number (1 - 65535). |
-| **`protocol`** | `string` | No | `"http"` | Protocol: `"http"`, `"https"`, `"socks4"`, or `"socks5"`. |
-| **`username`** | `string` | No | `null` | Authentication username. |
-| **`bypassList`** | `string` | No | `"<local>"` | Semicolon-separated host bypass rules. |
-| **`isGlobalDefault`** | `boolean` | No | `false` | Set as active browser default. |
-| **`enabled`** | `boolean` | No | `true` | Enable profile. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `name` | `string` | Yes | — | — | Display name for the proxy profile. |
+| `protocol` | `string` | No | `"http"` | — | Protocol: 'http', 'https', 'socks4', or 'socks5'. Default: 'http'. |
+| `host` | `string` | Yes | — | — | Proxy hostname or IP address. Accepts 'host:port' or 'protocol://host:port' endpoint format. |
+| `port` | `integer` | Yes | — | 1–65535 | Port number (1–65535). |
+| `bypassList` | `string` | No | — | — | Semicolon-separated list of domains/IPs to bypass the proxy (e.g. 'localhost;127.0.0.1;*.internal'). |
+| `username` | `string` | No | — | — | Username for proxy authentication (HTTP/HTTPS only; SOCKS auth is not supported by Chromium). |
+| `enabled` | `boolean` | No | `true` | — | Whether the profile is enabled. Default: true. |
+| `isGlobalDefault` | `boolean` | No | `false` | — | Set as the global default proxy for normal browser tabs. Only one profile can be global default. |
+<!-- /generated:parameters -->
 
 ---
 

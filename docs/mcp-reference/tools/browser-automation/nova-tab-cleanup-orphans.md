@@ -18,11 +18,13 @@ In multi-agent workflows, agents frequently spawn temporary tabs via [`nova.tab_
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`dryRun`** | `boolean` | No | `false` | When `true`, lists candidate orphan tabs without actually closing them. |
-| **`graceMinutes`**| `integer`| No | `15` | Idle window in minutes before a tab is considered orphaned (1–720 min). |
-| **`agentId`** | `string` | No | `"default"` | Calling agent identifier for audit logs. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `dryRun` | `boolean` | No | `false` | — | Preview only: list orphan candidates without closing anything. |
+| `graceMinutes` | `integer` | No | `15` | — | Idle window in minutes a tab must exceed (no tool activity, no live claim) to count as orphaned. Range 1-720. |
+| `agentId` | `string` | No | — | — | Calling agent's ID for attribution in logs. |
+<!-- /generated:parameters -->
 
 ---
 

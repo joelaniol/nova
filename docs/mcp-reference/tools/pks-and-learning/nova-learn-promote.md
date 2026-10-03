@@ -17,13 +17,14 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `dryRun` | `boolean` | No | If true, evaluate gates without executing transitions. Default false. |
-| `scope` | `string` | **Yes** | Required domain scope (e.g. 'github.com'). |
-| `stableIds` | `array` | No | Stable IDs to evaluate. Pass ["all"] to evaluate all entries for the scope. If omitted, evaluates all. |
-| `transition` | `string` | No | Transition type to evaluate: 'l0_to_l1', 'l1_to_l2', 'demotion', 'deprecation', 'revive'. If omitted, evaluates all applicable transitions. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `scope` | `string` | Yes | — | — | Required domain scope (e.g. 'github.com'). |
+| `stableIds` | `array` of `string` | No | — | — | Stable IDs to evaluate. Pass ["all"] to evaluate all entries for the scope. If omitted, evaluates all. |
+| `transition` | `string` | No | — | `l0_to_l1`, `l1_to_l2`, `demotion`, `deprecation`, `revive` | Transition type to evaluate: 'l0_to_l1', 'l1_to_l2', 'demotion', 'deprecation', 'revive'. If omitted, evaluates all applicable transitions. |
+| `dryRun` | `boolean` | No | `false` | — | If true, evaluate gates without executing transitions. Default false. |
+<!-- /generated:parameters -->
 
 ---
 

@@ -22,11 +22,14 @@ Results are cached locally to provide sub-millisecond retrieval on future visits
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`url`** | `string` | Yes | `none` | Target root URL or domain to probe (e.g. `"https://example.com"`). |
-| **`forceRefresh`** | `boolean` | No | `false` | If true, bypasses the local discovery cache and re-probes the domain. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `url` | `string` | Yes | — | — | Target URL or origin (e.g. 'https://example.com'). Required. |
+| `forceRefresh` | `boolean` | No | — | — | If true, bypass cache and re-probe. Default: false. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

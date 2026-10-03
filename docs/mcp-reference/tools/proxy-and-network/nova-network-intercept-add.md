@@ -16,19 +16,34 @@ Deposits a CDP network interception rule to mock responses, inject delays, modif
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`urlPattern`** | `string` | Yes | `none` | URL pattern wildcard or exact match (e.g. `"*api/v1/users*"`). |
-| **`action`** | `string` | No | `"respondWith"` | Action: `"respondWith"`, `"fail"`, `"delay"`, `"modifyRequest"`, `"modifyResponse"`, or `"allow"`. |
-| **`status`** | `integer` | No | `200` | HTTP response status code when `action: "respondWith"` (e.g. `200`, `404`, `500`). |
-| **`body`** | `string` | No | `null` | Mock response body text or JSON string. |
-| **`contentType`** | `string` | No | `"application/json"` | Response `Content-Type` header. |
-| **`delayMs`** | `integer` | No | `0` | Delay in ms before fulfilling the request. |
-| **`maxHits`** | `integer` | No | `null` | Maximum number of times this rule matches before auto-expiring. |
-| **`ttlMs`** | `integer` | No | `60000` | Time-to-live in ms (max 300,000). Rule auto-purges after expiration. |
-| **`methods`** | `array of strings` | No | `all` | Filter by HTTP methods (e.g. `["GET", "POST"]`). |
-| **`targetId`** | `string` | No | `"active"` | Tab target ID from `nova.tabs`. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs, or 'active'. The rule lives and dies with this tab. |
+| `urlPattern` | `string` | Yes | — | — | Glob the request URL must match, '*' and '?' allowed (e.g. 'https://example.com/api/*'). Required, and must carry at least 4 literal characters: a pattern that matches everything would take the whole page off the network instead of the request under test. |
+| `methods` | `array` of `string` | No | — | — | Restrict to these HTTP methods (GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS). Omit to match any method. |
+| `action` | `string` | No | `"fail"` | `fail`, `respondWith`, `modifyRequest`, `modifyResponse`, `delay` | fail = the request fails as if the network refused it. respondWith = Nova answers without reaching the network. modifyRequest = the outgoing request changes. modifyResponse = the real server response changes before the page receives it. delay = the request is held, then continues unchanged. |
+| `errorReason` | `string` | No | `"Failed"` | `Failed`, `Aborted`, `TimedOut`, `AccessDenied`, `ConnectionClosed`, `ConnectionReset`, `ConnectionRefused`, `ConnectionAborted`, `InternetDisconnected`, `AddressUnreachable`, `BlockedByClient`, `BlockedByResponse`, `NameNotResolved` | How a fail rule fails. Pick the one the page would really see — a timeout and a refused connection often take different code paths. |
+| `status` | `integer` | No | `200` | 100–599 | HTTP status for a respondWith rule. |
+| `body` | `string` | No | — | — | Response body for a respondWith rule. Sent verbatim; max 200000 characters. |
+| `contentType` | `string` | No | `"text/plain; charset=utf-8"` | — | Content-Type for a respondWith rule, unless headers already carries one. |
+| `headers` | `object` | No | — | — | Extra response headers for a respondWith rule, as name/value pairs (max 20). |
+| `requestHeaders` | `object` | No | — | — | modifyRequest: headers to set on the OUTGOING request, as name/value pairs (max 20). The page's own headers are kept; same-named entries are overridden. |
+| `removeRequestHeaders` | `array` of `string` | No | — | — | modifyRequest: header names to strip from the outgoing request (max 20). Applied after requestHeaders. |
+| `rewriteUrl` | `string` | No | — | — | modifyRequest: send the request to this absolute URL instead — useful for pointing one endpoint at a staging or mock host. |
+| `setMethod` | `string` | No | — | `GET`, `POST`, `PUT`, `PATCH`, `DELETE`, `HEAD`, `OPTIONS` | modifyRequest: replace the HTTP method of the outgoing request. |
+| `setBody` | `string` | No | — | — | modifyRequest: replace the request body. An empty string clears it; whitespace is preserved. Stale Content-Length is removed. Max 200000 characters. |
+| `responseHeaders` | `object` | No | — | — | modifyResponse: response headers to set after the real server answered (max 20). Existing same-named headers are replaced. |
+| `removeResponseHeaders` | `array` of `string` | No | — | — | modifyResponse: response-header names to remove (max 20), for example Set-Cookie or Content-Security-Policy. |
+| `setResponseStatus` | `integer` | No | — | 100–599 | modifyResponse: replace the real HTTP status before the page receives it. |
+| `setResponseBody` | `string` | No | — | — | modifyResponse: replace the real response body as uncompressed text; max 200000 characters. Empty string clears it; omission preserves the original body without reading it into Nova. Original Content-Length, Content-Encoding and Transfer-Encoding are removed on replacement. HEAD and bodyless statuses never receive a payload. |
+| `delayMs` | `integer` | No | `0` | 0–30000 | Hold the matching request this long before acting on it. Required for action='delay'; combinable with the other actions (e.g. a slow 500). Capped at 30 s, and the wait ends early when the rule is cleared or its tab closes. |
+| `ttlMs` | `integer` | No | `120000` | 5000–900000 | How long the rule may live. Clamped to 15 minutes: a rule is an instrument, not a setting. |
+| `maxHits` | `integer` | No | `20` | 1–1000 | How many requests the rule may answer before it removes itself. |
+| `note` | `string` | No | — | — | Free text shown in the rule list and in Nova's own interception indicator, so a human can tell what this rule is for. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

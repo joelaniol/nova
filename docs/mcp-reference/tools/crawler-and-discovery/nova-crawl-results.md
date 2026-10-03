@@ -16,20 +16,23 @@ Retrieves paginated page details, extracted text, metadata, and screenshots from
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`crawlId`** | `string` | Yes | `none` | Crawl job ID returned by `nova.crawl_start`. |
-| **`summary`** | `boolean` | No | `false` | When true, returns aggregated site statistics instead of individual page rows. |
-| **`limit`** | `integer` | No | `20` | Maximum number of page results to return per page (max 100). |
-| **`offset`** | `integer` | No | `0` | Pagination offset index. |
-| **`sinceSequence`** | `integer` | No | `null` | Incremental cursor: returns only results with `sequence > sinceSequence`. |
-| **`filter`** | `string` | No | `null` | Regex filter to match URLs before sorting and pagination. |
-| **`sortBy`** | `string` | No | `"sequence"` | Sort column: `"sequence"` (crawl order), `"confidence"`, or `"depth"`. |
-| **`sortOrder`** | `string` | No | `"asc"` | Sort order: `"asc"` or `"desc"`. |
-| **`maxTextChars`** | `integer` | No | `10000` | Maximum characters of extracted text per page result. |
-| **`outputDetail`** | `string` | No | `"full"` | Field projection: `"minimal"` or `"full"`. |
-| **`screenshotDetail`** | `string` | No | `"meta"` | Screenshot projection: `"meta"` (dimensions/status) or `"inline"` (base64). |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `agentId` | `string` | No | `"default"` | — | Optional agent identity for crawl ownership checks. Must match the agentId that started the crawl. Defaults to 'default'. |
+| `crawlId` | `string` | Yes | — | — | Crawl job ID returned by crawl_start. |
+| `offset` | `integer` | No | `0` | ≥ 0 | Pagination start index. Ignored when summary=true. |
+| `limit` | `integer` | No | `20` | 1–50 | Maximum number of page results to return. Ignored when summary=true. |
+| `filter` | `string` | No | — | — | Optional regex to filter results by URL. Applied before sorting and pagination. |
+| `sortBy` | `string` | No | `"sequence"` | `sequence`, `confidence`, `depth`, `loadTime` | Sort field. 'sequence' = BFS crawl order, 'confidence' = page confidence score, 'depth' = BFS depth level, 'loadTime' = page load time in ms. |
+| `sortOrder` | `string` | No | `"asc"` | `asc`, `desc` | Sort direction. Use 'desc' with sortBy='confidence' to get highest-confidence pages first. |
+| `sinceSequence` | `integer` | No | — | ≥ 0 | Optional stable incremental cursor. When set, only page results with `sequence > sinceSequence` are returned. Requires offset=0 and is intended for running crawls with the default sequence/asc ordering. |
+| `screenshotDetail` | `string` | No | `"meta"` | `off`, `meta`, `full` | Controls screenshot payload detail in `pages[].screenshot`. Default `meta` keeps status, dimensions, and capture metadata without base64 image data. 'off': omit screenshot object entirely. 'full': include complete base64 payload when available. |
+| `outputDetail` | `string` | No | `"full"` | `minimal`, `summary`, `full` | Per-page field projection. 'minimal' keeps sequence/url/settled/session/readiness/auth/custom results/errors only and omits links, hreflang, metadata lists, content blocks, and screenshots. 'summary' adds compact title/confidence/load/framework/count fields without large collections. 'full' preserves the complete page payload. |
+| `maxTextChars` | `integer` | No | `10000` | 1000–200000 | Maximum textContent/customScriptResult/readOnlyPopover serialized characters per page. Defaults shrink automatically under context pressure unless explicitly provided; truncation flags remain explicit. |
+| `minConfidence` | `number` | No | — | 0–1 | Minimum confidence threshold. Pages below this value are excluded. Applied before sorting and pagination. |
+| `summary` | `boolean` | No | `false` | — | When true, return aggregated statistics instead of full page results. Includes totalPages, avgConfidence, avgLoadTimeMs, totalLinks, frameworks breakdown, depth distribution, duplicate content detection, hydration drift count, and screenshot coverage stats. Significantly cheaper in tokens than reading all pages. |
+<!-- /generated:parameters -->
 
 ---
 

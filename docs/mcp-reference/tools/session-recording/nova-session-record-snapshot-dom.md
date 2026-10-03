@@ -16,13 +16,14 @@ Triggers a fresh encrypted DOM snapshot on an active live recording bound to a t
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`tabId`** | `string` | No | `null` | Browser tab target ID. Active recording on this tab will be captured. |
-| **`recordingId`** | `string` | No | `null` | Recording ID. Mutually exclusive with `tabId`. |
-| **`fullPage`** | `boolean` | No | `false` | When true, captures entire `document.documentElement` instead of focused element. |
-| **`selector`** | `string` | No | `null` | CSS selector scoping capture to a container (e.g. `"#modal-container"`). |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `recordingId` | `string` | No | — | — | Recording ID returned from session_record_start. Mutually exclusive with tabId — provide one or the other. |
+| `tabId` | `string` | No | — | — | Browser tab ID. The active recording on that tab is used. Mutually exclusive with recordingId. |
+| `selector` | `string` | No | — | — | Optional CSS selector. When omitted, captures document.activeElement (falling back to document.body). |
+| `fullPage` | `boolean` | No | `false` | — | When true, capture document.documentElement instead of a single node. |
+<!-- /generated:parameters -->
 
 ---
 

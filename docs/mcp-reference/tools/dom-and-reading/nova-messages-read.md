@@ -17,17 +17,17 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `agentId` | `string` | No | Optional agent identity for claim authorization at the MCP entry point. Defaults to 'default'. |
-| `clear` | `boolean` | No | If true, clears the internal buffer after reading. |
-| `includePayloads` | `boolean` | No | If true, include bounded payload previews. If false, return payload summaries only. |
-| `maxChars` | `integer` | No | Maximum serialized response characters before truncation. Defaults shrink automatically under context pressure unless explicitly provided. |
-| `maxEntries` | `integer` | No | Maximum number of entries to return. |
-| `maxPayloadChars` | `integer` | No | Maximum characters per payload preview when includePayloads=true. Use 0 to keep summaries only. |
-| `sinceId` | `integer` | No | If > 0, only entries with id > sinceId are returned. |
-| `targetId` | `string` | No | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `maxEntries` | `integer` | No | `500` | 1–2000 | Maximum number of entries to return. |
+| `sinceId` | `integer` | No | `0` | ≥ 0 | If > 0, only entries with id > sinceId are returned. |
+| `clear` | `boolean` | No | `false` | — | If true, clears the internal buffer after reading. |
+| `includePayloads` | `boolean` | No | `true` | — | If true, include bounded payload previews. If false, return payload summaries only. |
+| `maxPayloadChars` | `integer` | No | `1000` | 0–100000 | Maximum characters per payload preview when includePayloads=true. Use 0 to keep summaries only. |
+| `maxChars` | `integer` | No | `50000` | 1000–5000000 | Maximum serialized response characters before truncation. Defaults shrink automatically under context pressure unless explicitly provided. |
+<!-- /generated:parameters -->
 
 ---
 

@@ -17,13 +17,13 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `agentId` | `string` | No | Optional agent identity for claim authorization at the MCP entry point. Defaults to 'default'. |
-| `frameId` | `string` | No | Optional same-origin frame ID from nova.perceive(deep=true).structuredContent.frames[]. |
-| `selector` | `string` | No | Optional CSS selector for the composer input. Omit to let Nova resolve the composer (cache, then heuristics). |
-| `targetId` | `string` | No | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `selector` | `string` | No | — | ≤ 10000 characters | Optional CSS selector for the composer input. Omit to let Nova resolve the composer (cache, then heuristics). |
+| `frameId` | `string` | No | — | — | Optional same-origin frame ID from nova.perceive(deep=true).structuredContent.frames[]. |
+<!-- /generated:parameters -->
 
 ---
 

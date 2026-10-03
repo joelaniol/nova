@@ -16,11 +16,13 @@ Explicitly acknowledges a MUST-read domain note block to unblock subsequent tool
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`domain`** | `string` | Yes | `null` | The domain of the note to acknowledge (must match the host of the active or specified tab). |
-| **`key`** | `string` | Yes | `null` | The note key as shown in the MUST-read block message (the 'Title' field). |
-| **`targetId`** | `string` | No | `null` | Optional tab targetId. Defaults to the active tab. Must point at a tab whose host matches `domain` for the acknowledge to apply where the gate fires. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `domain` | `string` | Yes | — | — | The domain of the note to acknowledge (must match the host of the active or specified tab). |
+| `key` | `string` | Yes | — | — | The note key as shown in the MUST-read block message (the 'Title' field). |
+| `targetId` | `string` | No | — | — | Optional tab targetId. Defaults to the active tab. Must point at a tab whose host matches `domain` for the acknowledge to apply where the gate fires. |
+<!-- /generated:parameters -->
 
 ---
 

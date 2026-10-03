@@ -17,23 +17,23 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `activateIfNeeded` | `boolean` | No | For an explicit concrete inactive targetId, temporarily activate that Nova target before physical pointer dispatch. Defaults true. Omitted/'active' targets are never auto-retargeted, and Nova never foregrounds the app window. |
-| `agentId` | `string` | No | Optional agent identity for claim authorization at the MCP entry point. Defaults to 'default'. |
-| `button` | `string` | No | Mouse button held during drag. |
-| `endX` | `number` | No | Preferred end X coordinate (CSS px, viewport-relative). Legacy alias: toX. If both are provided, values must match. |
-| `endY` | `number` | No | Preferred end Y coordinate (CSS px, viewport-relative). Legacy alias: toY. If both are provided, values must match. |
-| `fromX` | `number` | No | Legacy alias for startX. Prefer startX. If both are provided, values must match. |
-| `fromY` | `number` | No | Legacy alias for startY. Prefer startY. If both are provided, values must match. |
-| `restoreActiveTarget` | `boolean` | No | After automatic activation and an unambiguous non-navigation success, restore the previously active Nova target if no user or competing target switch occurred. Ignored when no automatic activation happened. |
-| `startX` | `number` | No | Preferred start X coordinate (CSS px, viewport-relative). Legacy alias: fromX. If both are provided, values must match. |
-| `startY` | `number` | No | Preferred start Y coordinate (CSS px, viewport-relative). Legacy alias: fromY. If both are provided, values must match. |
-| `steps` | `integer` | No | Number of intermediate mouse move steps (more = smoother drag). |
-| `targetId` | `string` | No | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
-| `toX` | `number` | No | Legacy alias for endX. Prefer endX. If both are provided, values must match. |
-| `toY` | `number` | No | Legacy alias for endY. Prefer endY. If both are provided, values must match. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `activateIfNeeded` | `boolean` | No | `true` | — | For an explicit concrete inactive targetId, temporarily activate that Nova target before physical pointer dispatch. Defaults true. Omitted/'active' targets are never auto-retargeted, and Nova never foregrounds the app window. |
+| `restoreActiveTarget` | `boolean` | No | `true` | — | After automatic activation and an unambiguous non-navigation success, restore the previously active Nova target if no user or competing target switch occurred. Ignored when no automatic activation happened. |
+| `startX` | `number` | No | — | — | Preferred start X coordinate (CSS px, viewport-relative). Legacy alias: fromX. If both are provided, values must match. |
+| `startY` | `number` | No | — | — | Preferred start Y coordinate (CSS px, viewport-relative). Legacy alias: fromY. If both are provided, values must match. |
+| `endX` | `number` | No | — | — | Preferred end X coordinate (CSS px, viewport-relative). Legacy alias: toX. If both are provided, values must match. |
+| `endY` | `number` | No | — | — | Preferred end Y coordinate (CSS px, viewport-relative). Legacy alias: toY. If both are provided, values must match. |
+| `fromX` | `number` | No | — | — | Legacy alias for startX. Prefer startX. If both are provided, values must match. |
+| `fromY` | `number` | No | — | — | Legacy alias for startY. Prefer startY. If both are provided, values must match. |
+| `toX` | `number` | No | — | — | Legacy alias for endX. Prefer endX. If both are provided, values must match. |
+| `toY` | `number` | No | — | — | Legacy alias for endY. Prefer endY. If both are provided, values must match. |
+| `steps` | `integer` | No | `10` | 1–100 | Number of intermediate mouse move steps (more = smoother drag). |
+| `button` | `string` | No | `"left"` | `left`, `middle`, `right` | Mouse button held during drag. |
+<!-- /generated:parameters -->
 
 ---
 

@@ -17,10 +17,11 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `stableId` | `string` | **Yes** | Non-empty platform stable ID. The runtime trims and lowercases it before lookup. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `stableId` | `string` | Yes | — | ≥ 1 characters | Non-empty platform stable ID. The runtime trims and lowercases it before lookup. |
+<!-- /generated:parameters -->
 
 ---
 

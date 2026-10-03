@@ -16,15 +16,16 @@ Queries the Nova notification inbox with filtering by source, website origin, an
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`sourceKind`** | `string` | No | `null` | Filter by source: `"website"`, `"nova"`, or `"agent"`. |
-| **`origin`** | `string` | No | `null` | Filter by website origin (e.g. `"https://chat.com"`). |
-| **`unreadOnly`** | `boolean` | No | `false` | When `true`, returns only unread notifications. |
-| **`includeDismissed`** | `boolean` | No | `false` | When `true`, includes dismissed notifications. |
-| **`limit`** | `integer` | No | `50` | Maximum results to return (1 - 200). |
-| **`offset`** | `integer` | No | `0` | Pagination offset. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `sourceKind` | `string` | No | — | `website`, `nova`, `agent` | Filter by source: 'website', 'nova', or 'agent'. |
+| `origin` | `string` | No | — | — | Filter by website origin (e.g. 'https://chat.com'). Only relevant for website notifications. |
+| `unreadOnly` | `boolean` | No | — | — | If true, only return unread notifications. Default: false. |
+| `includeDismissed` | `boolean` | No | — | — | If true, include dismissed notifications. Default: false. |
+| `limit` | `integer` | No | — | 1–200 | Maximum number of results. Default: 50, max: 200. |
+| `offset` | `integer` | No | — | ≥ 0 | Number of results to skip for pagination. Default: 0. |
+<!-- /generated:parameters -->
 
 ---
 

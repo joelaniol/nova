@@ -30,14 +30,17 @@ Autonomous agents executing terminal commands, shell scripts, or scheduled tasks
 
 ## 3. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`name`** | `string` | **Yes** | ? | Environment variable name (letters, digits, underscores, 1?64 chars). |
-| **`value`** | `string` | **Yes** | ? | Plaintext secret to encrypt (DPAPI-encrypted at rest, never returned). |
-| **`scope`** | `string` | **Yes** | ? | Target scope: `"global"`, `"workspace"`, or `"task"`. |
-| **`workspaceId`**| `string` | **Conditional**| ? | Terminal workspace ID (required for `scope: "workspace"`). |
-| **`taskId`** | `string` | **Conditional**| ? | Task ID (required for `scope: "task"`). |
-| **`_meta.intent`**| `string` | **Conditional**| ? | Audit trail statement explaining why secret is created. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `name` | `string` | Yes | — | — | Secret name = environment variable name (letters/digits/underscore, 1-64 chars; reserved system names like PATH/TEMP/NOVA_* rejected). |
+| `value` | `string` | Yes | — | — | Secret value (DPAPI-encrypted at rest, never returned). |
+| `scope` | `string` | Yes | — | `global`, `workspace`, `task` | Where the secret lives and injects. |
+| `workspaceId` | `string` | No | — | — | Terminal workspace id (required for scope='workspace'). |
+| `taskId` | `string` | No | — | — | Task id (required for scope='task'). |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

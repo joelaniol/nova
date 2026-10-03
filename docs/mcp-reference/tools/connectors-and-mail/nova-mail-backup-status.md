@@ -16,11 +16,15 @@ Reports progress, downloaded message counts, and active phase of a mail backup j
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`acknowledge`** | `boolean` | No | `false` | With profileId: acknowledge that account's backup alarm (failed/incomplete/interrupted), which removes backupIntegrityWarning from every answer. Only after the user was told what is missing. |
-| **`jobId`** | `string` | No | `null` | Job id returned by nova.mail_backup_start. |
-| **`profileId`** | `string` | No | `null` | Optional mail connector id to list its jobs and last run. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `jobId` | `string` | No | — | — | Job id returned by nova.mail_backup_start. |
+| `profileId` | `string` | No | — | — | Optional mail connector id to list its jobs and last run. |
+| `acknowledge` | `boolean` | No | `false` | — | With profileId: acknowledge that account's backup alarm (failed/incomplete/interrupted), which removes backupIntegrityWarning from every answer. Only after the user was told what is missing. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

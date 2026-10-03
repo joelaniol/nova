@@ -18,12 +18,15 @@ All sensitive data (passwords, auth tokens, session cookies, DPAPI vault secrets
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`tabId`** | `string` | Yes | `none` | Browser tab target ID from `nova.tabs`. |
-| **`ttlMs`** | `integer` | No | `300000` | Recording time-to-live in ms (default 5 min; max 60 min). |
-| **`permissionClasses`** | `array of strings` | No | `["metadata", "interactions"]` | Capture permission classes: `"metadata"`, `"interactions"`, `"console"`, `"network_bodies"`, `"dom_mutations"`. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `tabId` | `string` | Yes | — | — | Browser tab ID from nova.tabs. The tab must be bound to a WebView. |
+| `ttlMs` | `integer` | No | — | 5000–3600000 | Recording TTL in milliseconds. Defaults to SessionRecordingDefaultTtlMs (5 min). Hard cap 60 min. |
+| `permissionClasses` | `array` of `string` | No | — | — | Permission classes to grant for this recording. Defaults to ['metadata', 'interactions_mcp', 'dom_snapshots']. Available classes: metadata, network_timing_detail, headers_sensitive, request_bodies, response_bodies, storage_values, performance_marks, worker_messages, interactions_mcp, interactions_native, dom_snapshots, websocket_payloads, indexeddb_values [secret-bearing], dom_mutations, streaming_bodies [Wave R4 conditional], fetch_interception [reserved non-grantable — returns permission_request_denied_reserved_active_mode]. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

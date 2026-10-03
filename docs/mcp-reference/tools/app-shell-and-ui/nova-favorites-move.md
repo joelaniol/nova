@@ -17,12 +17,13 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `folderId` | `string` | No | Target folder id. Null or omitted = root. |
-| `id` | `string` | No | Stable favorite id (from nova.favorites_list). Targets exactly one entry. Preferred over url. |
-| `url` | `string` | No | URL of the favorite to move (first match). Used when id is omitted. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `id` | `string` | No | — | — | Stable favorite id (from nova.favorites_list). Targets exactly one entry. Preferred over url. |
+| `url` | `string` | No | — | — | URL of the favorite to move (first match). Used when id is omitted. |
+| `folderId` | `string` | No | — | — | Target folder id. Null or omitted = root. |
+<!-- /generated:parameters -->
 
 ---
 

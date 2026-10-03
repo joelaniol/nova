@@ -17,12 +17,18 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `patch` | `object` | **Yes** | Fields to merge. Only provided fields are updated. |
-| `phenomenonId` | `string` | **Yes** | Phenomenon ID to patch. |
-| `scope` | `string` | **Yes** | Domain scope. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `scope` | `string` | Yes | — | — | Domain scope. |
+| `phenomenonId` | `string` | Yes | — | — | Phenomenon ID to patch. |
+| `patch` | `object` | Yes | — | — | Fields to merge. Only provided fields are updated. |
+| `patch.type` | `string` | No | — | `consent_cmp`, `modal`, `paywall`, `login_wall`, `layout_shift`, `native_dialog`, `popover_open`, `custom` | Updated phenomenon type. |
+| `patch.fingerprint` | `object` | No | — | — | Fingerprint signals to merge. When provided, the full fingerprint payload replaces the existing fingerprint. |
+| `patch.playbook` | `object` | No | — | — | Playbook to merge. When provided, the full playbook payload replaces the existing playbook. |
+| `patch.context` | `any` | No | — | — | Optional phenomenon-level context override. Set null to clear and fallback to domain context keys. |
+| `patch.deprecated` | `boolean` | No | — | — | Set to false to reactivate a deprecated phenomenon. |
+<!-- /generated:parameters -->
 
 ---
 

@@ -16,13 +16,16 @@ Lists recent downloads tracked by the browser with status, progress, speed, and 
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`id`** | `string` | No | `null` | Optional: fetch a single download by exact ID. |
-| **`status`** | `string` | No | `null` | Optional status filter: `"queued"`, `"in_progress"`, `"paused"`, `"completed"`, `"cancelled"`, `"failed"`. |
-| **`limit`** | `integer` | No | `all` | Max number of results (1 - 1000). |
-| **`offset`** | `integer` | No | `0` | Number of entries to skip for pagination. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `id` | `string` | No | — | — | Optional: fetch a single download by ID (exact match). Useful for monitoring a specific download. |
+| `status` | `string` | No | — | `queued`, `in_progress`, `paused`, `completed`, `cancelled`, `failed` | Optional: filter by status. |
+| `limit` | `integer` | No | — | — | Optional: max number of results (1-1000, default: all loaded). |
+| `offset` | `integer` | No | — | — | Optional: skip N entries (default: 0). Combine with limit for pagination. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

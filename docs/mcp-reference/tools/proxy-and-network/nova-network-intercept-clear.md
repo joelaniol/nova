@@ -16,12 +16,14 @@ Disarms network interception rules: by rule ID, by tab ID, or globally across th
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`ruleId`** | `string` | No | `null` | Specific rule ID to disarm. |
-| **`targetId`** | `string` | No | `null` | Clear all rules assigned to this tab. |
-| **`agentId`** | `string` | No | `"default"` | Optional agent identifier. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | — | — | Clear only this tab's rules. |
+| `ruleId` | `string` | No | — | — | Clear only this rule. Reports intercept_rule_not_found when it already ended on its own. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

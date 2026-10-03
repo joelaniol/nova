@@ -17,11 +17,12 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `confirmNewLocation` | `boolean` | No | Set true to onboard a directory Nova has not onboarded before. Already-onboarded worktrees update without it. |
-| `projectRoot` | `string` | **Yes** | Absolute path to the project root directory (worktree) where agent config files should be written. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `projectRoot` | `string` | Yes | — | — | Absolute path to the project root directory (worktree) where agent config files should be written. |
+| `confirmNewLocation` | `boolean` | No | — | — | Set true to onboard a directory Nova has not onboarded before. Already-onboarded worktrees update without it. |
+<!-- /generated:parameters -->
 
 ---
 

@@ -43,14 +43,15 @@ Pass up to 20 specific CSS property names (e.g. `max-width`, `min-width`, `box-s
 
 ## 3. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`selectors`** | `array<string>` | **Yes** | — | Array of 1–25 CSS selectors to measure in the top document. |
-| **`properties`** | `array<string>` | No | `null` | Optional CSS property names to read per element (up to 20 properties). |
-| **`matchMode`** | `string` | No | `"first"` | `"first"` measures the first match per selector; `"all"` measures multiple elements. |
-| **`maxMatchesPerSelector`**| `integer` | No | `5` | Upper bound of measured elements per selector when `matchMode: "all"` (1–25). |
-| **`targetId`** | `string` | No | `"active"` | Target tab ID from `nova.tabs`, or `"active"`. |
-| **`agentId`** | `string` | No | `"default"` | Agent identity for claim lease verification. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `selectors` | `array` of `string` | Yes | — | 1–25 items | CSS selectors to measure, 1-25 per call. |
+| `properties` | `array` of `string` | No | — | ≤ 20 items | Optional computed-style properties to read per element; returned under each result's 'properties'. |
+| `matchMode` | `string` | No | `"first"` | `first`, `all` | 'first' (default) measures only the first match per selector; 'all' measures up to maxMatchesPerSelector and reports truncated=true when a selector had more. |
+| `maxMatchesPerSelector` | `integer` | No | `5` | 1–25 | Upper bound on measured matches per selector when matchMode='all'. matchCount always reports how many the selector really had, so a bound is visible rather than silent. |
+<!-- /generated:parameters -->
 
 ---
 

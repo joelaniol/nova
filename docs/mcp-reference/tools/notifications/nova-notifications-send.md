@@ -16,17 +16,19 @@ Dispatches a host-authored Windows toast notification and persists it to the Nov
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`sourceKind`** | `string` | Yes | `none` | Notification origin: `"nova"` or `"agent"`. Website impersonation is strictly forbidden. |
-| **`title`** | `string` | Yes | `none` | Notification title (max 200 characters). |
-| **`body`** | `string` | No | `null` | Notification message body text (max 1000 characters). |
-| **`urgent`** | `boolean` | No | `false` | When `true`, sets Windows toast priority to Urgent, breaking through Focus Assist / Do-Not-Disturb modes. |
-| **`tag`** | `string` | No | `null` | Replacement tag. A subsequent notification with the same tag replaces the previous toast. |
-| **`targetId`** | `string` | No | `null` | Browser tab target ID for click navigation. |
-| **`sandboxId`** | `string` | No | `null` | Sandbox ID for click activation. |
-| **`agentId`** | `string` | No | `"default"` | Optional agent identifier. |
-| **`_meta`** | `object` | Yes | `none` | Execution intent metadata (`_meta.intent`) required for High-Impact auditing. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `sourceKind` | `string` | Yes | — | `nova`, `agent` | Source of the notification. Must be 'nova' or 'agent'. |
+| `title` | `string` | Yes | — | — | Notification title (max 200 chars). |
+| `body` | `string` | No | — | — | Notification body text (max 1000 chars). |
+| `tag` | `string` | No | — | — | Optional tag for replacement semantics. A new notification with the same tag replaces the previous one. |
+| `targetId` | `string` | No | — | — | Optional target ID for click routing. |
+| `sandboxId` | `string` | No | — | — | Optional sandbox ID for click routing. |
+| `urgent` | `boolean` | No | — | — | If true, mark the notification important (Windows 'Urgent' scenario) so it breaks through Focus Assist / Do-Not-Disturb and pops a banner even under 'priority only'. Reserve for genuinely important events; default false. |
+
+**`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+<!-- /generated:parameters -->
 
 ---
 

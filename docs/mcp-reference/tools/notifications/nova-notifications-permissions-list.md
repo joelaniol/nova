@@ -16,13 +16,14 @@ Lists website origin notification permissions and reports the effective global d
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`origin`** | `string` | No | `null` | Filter by origin prefix (e.g. `"https://chat"`). |
-| **`mode`** | `string` | No | `null` | Filter by permission mode: `"ask"`, `"allow"`, or `"deny"`. |
-| **`limit`** | `integer` | No | `100` | Maximum results (1 - 500). |
-| **`offset`** | `integer` | No | `0` | Pagination offset. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `mode` | `string` | No | — | `ask`, `allow`, `deny` | Filter by mode. |
+| `origin` | `string` | No | — | — | Filter by origin prefix (e.g. 'https://chat'). |
+| `limit` | `integer` | No | — | 1–500 | Max results. Default: 100. |
+| `offset` | `integer` | No | — | ≥ 0 | Pagination offset. |
+<!-- /generated:parameters -->
 
 ---
 

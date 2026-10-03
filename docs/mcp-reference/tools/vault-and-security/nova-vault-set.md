@@ -17,13 +17,16 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional metadata. Provide _meta.intent (a short reason) for high-impact tools. A tool's annotations.intentRequired in tools/list tells you up front: 'always' means intent is mandatory, 'conditional' means it becomes mandatory for certain arguments (e.g. includeValues=true), absent means never. |
-| `createdBy` | `string` | No | Client/agent name. Defaults to 'agent'. |
-| `password` | `string` | **Yes** | Password to store. Encrypted at rest via DPAPI. |
-| `site` | `string` | **Yes** | Domain (e.g. 'github.com'). |
-| `username` | `string` | **Yes** | Username or email for this credential. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `site` | `string` | Yes | — | — | Domain (e.g. 'github.com'). |
+| `username` | `string` | Yes | — | — | Username or email for this credential. |
+| `password` | `string` | Yes | — | — | Password to store. Encrypted at rest via DPAPI. |
+| `createdBy` | `string` | No | `"agent"` | — | Client/agent name. Defaults to 'agent'. |
+
+**`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+<!-- /generated:parameters -->
 
 ---
 

@@ -30,15 +30,22 @@ Standard browser navigation (`window.location.href = ...` or [`nova.navigate`](n
 
 ## 3. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`selector`** | `string` | **Conditional**| `null` | CSS selector of link/button to click. Supports ` >>> `. |
-| **`url`** | `string` | **Conditional**| `null` | Target path or URL. Required for pushState mode; optional expectation hint for DOM-click mode. |
-| **`targetId`** | `string` | No | `"active"` | Target tab ID from `nova.tabs`, or `"active"`. |
-| **`waitForRoute`** | `boolean` | No | `true` | Wait for `pushState`/`replaceState`/`popstate` signal. |
-| **`waitForRouteTimeoutMs`**| `integer`| No | `3000` | Max ms to wait for route transition (500–10,000 ms). |
-| **`includeScreenshot`**| `boolean`| No | `false` | Include screenshot sidecar upon route completion. |
-| **`agentId`** | `string` | No | `"default"` | Agent identity for claim lease verification. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `url` | `string` | No | — | — | Target URL or path to route to. Required for URL-only pushState mode. Optional when selector is provided; in that case it is treated as an expectation hint for the observed final URL. With waitForRoute=true the observed final URL must match it; with waitForRoute=false Nova only fail-closes on a mismatch when a different final URL was already observed before the early return. Must be same-origin as the current document. Can be absolute (https://...) or relative (/path). |
+| `selector` | `string` | No | — | — | CSS selector of a link or button to click for SPA routing. Optional when url is provided, but at least one of selector or url is required. If provided, the element is resolved through the interactability/obstruction probe and then clicked via a user-like CDP mouse sequence instead of synthetic page-JS el.click(). Preferred when a matching <a> element exists. |
+| `waitForRoute` | `boolean` | No | `true` | — | If true (default), wait for a pushState/replaceState/popstate signal confirming the route changed. |
+| `waitForRouteTimeoutMs` | `integer` | No | `3000` | 500–10000 | Max ms to wait for route change signal (500-10000). Only used when waitForRoute=true. |
+| `includeScreenshot` | `boolean` | No | `false` | — | If true and route change completes, include a screenshot in the response. Screenshot delivery is an optional sidecar: if capture fails, this result stays authoritative and structuredContent.screenshotStatus/screenshotReasonCode/screenshotRetryable/screenshotError describe the capture-only failure - do not repeat the action to get the image. |
+| `screenshotMaxWidth` | `integer` | No | — | — | Max screenshot width in pixels. |
+| `screenshotMaxHeight` | `integer` | No | — | — | Max screenshot height in pixels. |
+| `screenshotFormat` | `string` | No | `"png"` | `png`, `jpeg`, `auto` | Screenshot format; 'auto' picks PNG or JPEG per region. |
+| `screenshotQuality` | `integer` | No | `80` | 1–100 | JPEG quality (1-100). Only used when screenshotFormat is 'jpeg'. |
+| `pksInclude` | `string` | No | `"auto"` | `auto`, `off`, `summary`, `full` | PKS payload detail level in structuredContent.pks. Default is server setting (initial: auto). |
+| `agentId` | `string` | No | `"default"` | — | Optional agent identity for claim authorization against the target tab. Defaults to 'default'. |
+<!-- /generated:parameters -->
 
 ---
 

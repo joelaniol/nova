@@ -16,11 +16,13 @@ Replays an instance’s observation log against the unit table to propose discov
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`dryRun`** | `boolean` | No | `true` | True (default): propose upgrades without persisting. False: apply upgrades — requires developer setting. |
-| **`instanceId`** | `string` | Yes | `null` | The instance to reconcile. |
-| **`observationCutoff`** | `string` | No | `null` | Optional ISO timestamp; observations after this point are ignored. Defaults to now. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `instanceId` | `string` | Yes | — | — | The instance to reconcile. |
+| `dryRun` | `boolean` | No | `true` | — | True (default): propose upgrades without persisting. False: apply upgrades — requires developer setting. |
+| `observationCutoff` | `string` | No | — | — | Optional ISO timestamp; observations after this point are ignored. Defaults to now. |
+<!-- /generated:parameters -->
 
 ---
 

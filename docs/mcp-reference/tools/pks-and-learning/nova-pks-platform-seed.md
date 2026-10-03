@@ -17,15 +17,16 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `aliases` | `array` | No | Aliases for vendor/script domain lookups. When provided, the array must contain at least one entry. |
-| `description` | `string` | No | Optional platform description. Whitespace-only values are normalized to null. |
-| `displayName` | `string` | **Yes** | Human-readable non-empty platform name. Leading and trailing whitespace are trimmed before persistence. |
-| `homepageUrl` | `string` | No | Optional homepage URL. Whitespace-only values are normalized to null. |
-| `patterns` | `array` | No | Pattern templates to upsert. When provided, the array must contain at least one entry. |
-| `stableId` | `string` | **Yes** | Unique non-empty platform identifier. The runtime trims whitespace, stores it in canonical lowercase form (for example 'onetrust' or 'cookiebot'), and rejects the reserved legacy test-only pattern 'platform-{32hex}'. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `stableId` | `string` | Yes | — | ≥ 1 characters | Unique non-empty platform identifier. The runtime trims whitespace, stores it in canonical lowercase form (for example 'onetrust' or 'cookiebot'), and rejects the reserved legacy test-only pattern 'platform-{32hex}'. |
+| `displayName` | `string` | Yes | — | ≥ 1 characters | Human-readable non-empty platform name. Leading and trailing whitespace are trimmed before persistence. |
+| `description` | `string` | No | — | — | Optional platform description. Whitespace-only values are normalized to null. |
+| `homepageUrl` | `string` | No | — | — | Optional homepage URL. Whitespace-only values are normalized to null. |
+| `patterns` | `array` of `object` | No | — | ≥ 1 items | Pattern templates to upsert. When provided, the array must contain at least one entry. |
+| `aliases` | `array` of `object` | No | — | ≥ 1 items | Aliases for vendor/script domain lookups. When provided, the array must contain at least one entry. |
+<!-- /generated:parameters -->
 
 ---
 

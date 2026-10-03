@@ -16,10 +16,14 @@ Retrieves an audit trail of stored media permissions joined with recent decision
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`kind`** | `string` | No | `null` | Filter to entries that have an explicit setting on this axis. |
-| **`limit`** | `integer` | No | `null` | Max entries returned. Default 100. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `kind` | `string` | No | — | `camera`, `microphone`, `speaker`, `screenCapture`, `geolocation` | Filter to entries that have an explicit setting on this axis. |
+| `limit` | `integer` | No | — | 1–500 | Max entries returned. Default 100. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

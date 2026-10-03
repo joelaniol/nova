@@ -16,15 +16,17 @@ Loads a task instance snapshot for session-crossing resume and progress inspecti
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`discoveredUnitsPreviewLimit`** | `integer` | No | `20` | Canonical limit for discoveredUnitsPreview. Default: 20. |
-| **`includeDiscoveredUnitsPreview`** | `boolean` | No | `false` | Canonical flag. Include a preview of units that are still in status 'discovered'. Default: false. |
-| **`includePendingUnits`** | `boolean` | No | `false` | Legacy alias for includeDiscoveredUnitsPreview. Include a preview of units still in status 'discovered'. Default: false. |
-| **`includeRecentEvents`** | `boolean` | No | `false` | Include recent event log entries. Default: false. |
-| **`instanceId`** | `string` | Yes | `null` | The instance ID to load. |
-| **`pendingUnitsLimit`** | `integer` | No | `20` | Legacy alias for discoveredUnitsPreviewLimit. Max discovered units to return. Default: 20. |
-| **`recentEventLimit`** | `integer` | No | `10` | Max recent events to return. Default: 10. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `instanceId` | `string` | Yes | — | — | The instance ID to load. |
+| `includePendingUnits` | `boolean` | No | `false` | — | Legacy alias for includeDiscoveredUnitsPreview. Include a preview of units still in status 'discovered'. Default: false. |
+| `pendingUnitsLimit` | `integer` | No | `20` | 1–200 | Legacy alias for discoveredUnitsPreviewLimit. Max discovered units to return. Default: 20. |
+| `includeDiscoveredUnitsPreview` | `boolean` | No | `false` | — | Canonical flag. Include a preview of units that are still in status 'discovered'. Default: false. |
+| `discoveredUnitsPreviewLimit` | `integer` | No | `20` | 1–200 | Canonical limit for discoveredUnitsPreview. Default: 20. |
+| `includeRecentEvents` | `boolean` | No | `false` | — | Include recent event log entries. Default: false. |
+| `recentEventLimit` | `integer` | No | `10` | 1–100 | Max recent events to return. Default: 10. |
+<!-- /generated:parameters -->
 
 ---
 

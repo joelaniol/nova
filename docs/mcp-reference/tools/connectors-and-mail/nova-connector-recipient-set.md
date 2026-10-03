@@ -16,10 +16,14 @@ Configures recipient allow-lists for autonomous email sending without human prom
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`profileId`** | `string` | Yes | `null` | Mail connector id (from nova.connector_list). |
-| **`recipients`** | `array` | Yes | `null` | The full new allow-list (addresses and/or bare domains). Replaces the existing list; [] clears it. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `profileId` | `string` | Yes | — | — | Mail connector id (from nova.connector_list). |
+| `recipients` | `array` of `string` | Yes | — | ≤ 200 items | The full new allow-list (addresses and/or bare domains). Replaces the existing list; [] clears it. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

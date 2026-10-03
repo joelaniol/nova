@@ -16,14 +16,18 @@ Sets capability access modes (ask, allow, blocked) for a connector.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`allowedMailFolders`** | `array` | No | `null` | Mail read + always only: exact IMAP folder names this grant may read. Omit to preserve this axis; pass [] to allow all folders. No wildcard or regex syntax. |
-| **`allowedMailSenders`** | `array` | No | `null` | Mail read + always only: sender addresses or bare domains this grant may read. Omit to preserve this axis; pass [] to allow all senders. No wildcard or regex syntax. |
-| **`capability`** | `string` | Yes | `null` | Capability wire name: 'read'/'organize'/'send' (mail) or 'read'/'full' (sftp/ftp). |
-| **`mode`** | `string` | Yes | `null` | Access mode for this capability. |
-| **`profileId`** | `string` | Yes | `null` | Connector id (from nova.connector_list). |
-| **`scope`** | `string` | No | `"global"` | Where the grant applies. 'workspace' requires Nova's host-verified current terminal/task context; the caller never supplies an id. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `profileId` | `string` | Yes | — | — | Connector id (from nova.connector_list). |
+| `capability` | `string` | Yes | — | — | Capability wire name: 'read'/'organize'/'send' (mail) or 'read'/'full' (sftp/ftp). |
+| `mode` | `string` | Yes | — | `ask`, `always`, `blocked` | Access mode for this capability. |
+| `scope` | `string` | No | `"global"` | `global`, `workspace` | Where the grant applies. 'workspace' requires Nova's host-verified current terminal/task context; the caller never supplies an id. |
+| `allowedMailFolders` | `array` of `string` | No | — | ≤ 200 items | Mail read + always only: exact IMAP folder names this grant may read. Omit to preserve this axis; pass [] to allow all folders. No wildcard or regex syntax. |
+| `allowedMailSenders` | `array` of `string` | No | — | ≤ 200 items | Mail read + always only: sender addresses or bare domains this grant may read. Omit to preserve this axis; pass [] to allow all senders. No wildcard or regex syntax. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

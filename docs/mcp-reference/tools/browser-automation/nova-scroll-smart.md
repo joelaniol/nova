@@ -37,13 +37,17 @@ In chat apps (Slack, Discord, ChatGPT), older messages load **upwards**. Passing
 
 ## 3. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`deltaY`** | `number` | **Yes** | — | Vertical scroll distance in pixels. Positive = down, Negative = up. |
-| **`deltaX`** | `number` | No | `0` | Horizontal scroll distance in pixels. |
-| **`targetId`** | `string` | No | `"active"` | Target tab ID. |
-| **`containerSelector`**| `string` | No | `null` | Optional CSS selector of an inner scrollable element. |
-| **`agentId`** | `string` | No | `"default"` | Identity of the calling agent. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `deltaX` | `number` | No | `0` | — | Horizontal scroll delta in pixels (positive = right). |
+| `deltaY` | `number` | Yes | — | — | Vertical scroll delta in pixels (positive = down). |
+| `containerSelector` | `string` | No | — | — | CSS selector of the scroll container to use, overriding container detection. When set, no other container is tried and no window-scroll fallback runs: if the element is missing or cannot scroll, the call reports reasonCode scroll.container_not_found / scroll.container_not_scrollable instead of scrolling something else. |
+| `useRouteCache` | `boolean` | No | `true` | — | If true, reuse and update last-known-good scroll container per host/route key. |
+| `cachePriority` | `string` | No | `"normal"` | `low`, `normal`, `high` | Bias strength for cached selector candidates. |
+| `suggestPksHint` | `boolean` | No | `true` | — | If true, include pksSuggestions when a stable scroll container is observed repeatedly. |
+<!-- /generated:parameters -->
 
 ---
 

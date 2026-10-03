@@ -41,19 +41,26 @@ Generating accessible tagged PDFs requires snapshotting the browser's accessibil
 
 ## 3. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`savePath`** | `string` | No | `null` | Optional absolute path to write PDF to. Defaults to Nova's `Exports/` directory. |
-| **`pageRanges`** | `string` | No | `null` | Pages to print (e.g. `"1-5, 8, 11-13"`). Omit to print all pages. |
-| **`landscape`** | `boolean` | No | `false` | Paper orientation (`true` = landscape, `false` = portrait). |
-| **`printBackground`** | `boolean` | No | `true` | Include background graphics and colors. |
-| **`preferCSSPageSize`**| `boolean` | No | `true` | Prefer CSS `@page` dimensions over paper width/height. |
-| **`scale`** | `number` | No | `1.0` | Content render scale factor (0.1–2.0). |
-| **`displayHeaderFooter`**| `boolean`| No | `false` | Print browser header/footer (date, URL, page number). |
-| **`generateTaggedPDF`**| `boolean`| No | `false` | Generate PDF/UA accessible structure tree. |
-| **`timeoutMs`** | `integer` | No | `15000` | Max render timeout in milliseconds (1,000–30,000). |
-| **`targetId`** | `string` | No | `"active"` | Target tab ID from `nova.tabs`, or `"active"`. |
-| **`agentId`** | `string` | No | `"default"` | Agent identity for claim lease verification. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `savePath` | `string` | No | — | — | Optional absolute file path to write the PDF to (e.g. C:\Users\me\archive\page.pdf). Requires the user's 'Allow local files' setting; returns -32035 when disabled. Omit to write into Nova's Exports folder and read the path from structuredContent.filePath. |
+| `timeoutMs` | `integer` | No | `15000` | 1000–30000 | Maximum time in milliseconds for Page.printToPDF. Increase for long messages or complex pages. A timeout occurs before file writing and reports operationOutcome='not_committed'. |
+| `landscape` | `boolean` | No | `false` | — | Paper orientation. false = portrait, true = landscape. |
+| `printBackground` | `boolean` | No | `true` | — | Print background graphics/colors. Default true so archived pages look like the rendered page. |
+| `displayHeaderFooter` | `boolean` | No | `false` | — | Print the default browser header/footer (date, URL, page numbers). Default false for clean output. |
+| `preferCSSPageSize` | `boolean` | No | `true` | — | Prefer any page size declared in the page's CSS @page rules over paperWidth/paperHeight. |
+| `generateTaggedPDF` | `boolean` | No | `false` | — | Emit a tagged (accessible) PDF with a structure tree. Off by default because building the tags makes the renderer snapshot the accessibility tree, which crashes the render process on some pages — the tab then has to be rebuilt and no PDF is produced. Untagged output still contains selectable text. Turn it on only when a downstream consumer needs PDF/UA structure tags; on a renderer crash the tool returns reasonCode='save_pdf.tagged_pdf_renderer_crash' and retrying without this flag is the fix. |
+| `scale` | `number` | No | `1` | 0.1–2 | Render scale of the page content (0.1–2.0). |
+| `pageRanges` | `string` | No | — | — | Paper ranges to print, e.g. '1-5, 8, 11-13'. Empty/omitted prints all pages. |
+| `paperWidth` | `number` | No | — | ≥ 0 | Paper width in inches. Ignored when preferCSSPageSize applies a CSS page size. |
+| `paperHeight` | `number` | No | — | ≥ 0 | Paper height in inches. Ignored when preferCSSPageSize applies a CSS page size. |
+| `marginTop` | `number` | No | — | ≥ 0 | Top margin in inches. |
+| `marginBottom` | `number` | No | — | ≥ 0 | Bottom margin in inches. |
+| `marginLeft` | `number` | No | — | ≥ 0 | Left margin in inches. |
+| `marginRight` | `number` | No | — | ≥ 0 | Right margin in inches. |
+<!-- /generated:parameters -->
 
 ---
 
@@ -88,7 +95,7 @@ Generating accessible tagged PDFs requires snapshotting the browser's accessibil
   "pageCount": 4,
   "fileSizeBytes": 184520,
   "structuredContent": {
-    "filePath": "C:/Users/Agent/AppData/Local/NovaBrowser/Exports/financials_20261002_194512.pdf"
+    "filePath": "C:/Users/user/AppData/Local/NovaBrowser/Exports/financials_20261002_194512.pdf"
   }
 }
 ```

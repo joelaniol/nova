@@ -16,14 +16,16 @@ Lists past crawl jobs and high-level summaries from the persistent crawler datab
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`scopeKey`** | `string` | No | `null` | Filter history by canonical origin scope (e.g. `"https://docs.example.com"`). |
-| **`status`** | `string` | No | `null` | Filter by crawl status (`"completed"`, `"failed"`, `"stopped"`, `"running"`). |
-| **`limit`** | `integer` | No | `20` | Maximum number of crawl summaries to return (max 100). |
-| **`taskInstanceId`** | `string` | No | `null` | Filter by linked ETM task instance ID. |
-| **`ownerAgentId`** | `string` | No | `null` | Filter by initiating agent ID. Defaults to calling agent. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `agentId` | `string` | No | `"default"` | — | Optional agent identity. Defaults to 'default'. |
+| `ownerAgentId` | `string` | No | — | — | Optional explicit owner filter. If omitted, history is scoped to the calling agentId. Any different ownerAgentId is rejected. |
+| `scopeKey` | `string` | No | — | — | Filter by persisted crawl scope. Hidden and live_tab crawls both persist origin-style keys like `https://example.com:8443`, so same-host different-port histories stay separate. Accepts only host, host:port, or origin syntax; full page URLs with path/query/fragment are invalid params. |
+| `status` | `string` | No | — | `running`, `completed`, `failed`, `cancelled`, `interrupted` | Filter by crawl status. |
+| `taskInstanceId` | `string` | No | — | — | Optional ETM task-instance filter. Returns only crawls bound to this taskInstanceId. |
+| `limit` | `integer` | No | `20` | 1–100 | Maximum number of crawl summaries to return. |
+<!-- /generated:parameters -->
 
 ---
 

@@ -16,10 +16,11 @@ Reads recent redacted proxy routing and diagnostic log entries from disk.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`maxLines`** | `integer` | No | `50` | Maximum number of log lines to return (1 - 500). |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `maxLines` | `integer` | No | `100` | 1–500 | Maximum lines to return (1–500). Default: 100. |
+<!-- /generated:parameters -->
 
 ---
 

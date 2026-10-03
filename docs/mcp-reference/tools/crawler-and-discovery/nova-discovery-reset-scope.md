@@ -16,12 +16,16 @@ Destructively clears all persisted crawl history, results, and URL indexes for a
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`scopeKey`** | `string` | No | `null` | Preferred alias: canonical origin scope (e.g. `"https://docs.example.com"`). |
-| **`domain`** | `string` | No | `null` | Domain or host name to purge (e.g. `"docs.example.com"`). |
-| **`origin`** | `string` | No | `null` | Explicit origin-style alias. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `agentId` | `string` | No | `"default"` | — | Optional agent identity. Defaults to 'default'. |
+| `domain` | `string` | No | — | — | Legacy primary scope query. Accepts a domain, host:port, or origin (for example 'www.example.com', 'www.example.com:8443', or 'https://www.example.com'). Paths, queries, and fragments are invalid. |
+| `scopeKey` | `string` | No | — | — | Preferred alias when reusing a persisted crawler scope from crawl_history. Accepts the same host/host:port/origin syntax as domain and must match domain/origin if multiple aliases are provided. |
+| `origin` | `string` | No | — | — | Explicit origin-style alias for the reset scope (for example 'https://www.example.com:8443'). Must match domain/scopeKey if multiple aliases are provided. |
+
+**`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+<!-- /generated:parameters -->
 
 ---
 

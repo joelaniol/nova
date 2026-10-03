@@ -17,18 +17,18 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `agentId` | `string` | No | Optional agent identity for claim authorization at the MCP entry point. Defaults to 'default'. |
-| `deviceScaleFactor` | `number` | No | Device pixel ratio applied at every breakpoint. |
-| `format` | `string` | No | Image format for all shots. Defaults to the tool-intent profile. |
-| `fullPage` | `boolean` | No | Capture the full scrollable page at each width instead of just the viewport. |
-| `height` | `integer` | No | Viewport height in CSS pixels applied at every breakpoint. |
-| `mobile` | `boolean` | No | Emulate mobile viewport behavior at every breakpoint. |
-| `quality` | `integer` | No | JPEG quality (1-100) when format is jpeg. |
-| `targetId` | `string` | No | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
-| `widths` | `array` | **Yes** | Viewport widths to sweep (1-8). Each gets one screenshot. Required. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `widths` | `array` of `integer` | Yes | — | — | Viewport widths to sweep (1-8). Each gets one screenshot. Required. |
+| `height` | `integer` | No | `900` | 200–4000 | Viewport height in CSS pixels applied at every breakpoint. |
+| `deviceScaleFactor` | `number` | No | `1` | 0.1–8 | Device pixel ratio applied at every breakpoint. |
+| `mobile` | `boolean` | No | `false` | — | Emulate mobile viewport behavior at every breakpoint. |
+| `fullPage` | `boolean` | No | `false` | — | Capture the full scrollable page at each width instead of just the viewport. |
+| `format` | `string` | No | — | `png`, `jpeg`, `auto` | Image format for all shots. Defaults to the tool-intent profile. |
+| `quality` | `integer` | No | — | 1–100 | JPEG quality (1-100) when format is jpeg. |
+<!-- /generated:parameters -->
 
 ---
 

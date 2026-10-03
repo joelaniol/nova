@@ -17,14 +17,17 @@ Lists registered secret names, scopes, and association identifiers from Nova's u
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`scope`** | `string` | No | `null` | Optional scope filter: `"global"`, `"workspace"`, or `"task"`. Omit for global + workspace. |
-| **`workspaceId`**| `string` | No | `null` | Return only secrets scoped or granted to this workspace. |
-| **`taskId`** | `string` | **Conditional**| `null` | Required when `scope: "task"`. |
-| **`limit`** | `integer` | No | `100` | Maximum number of secret records to return (1?500). |
-| **`offset`** | `integer` | No | `0` | Number of records to skip for pagination. |
-| **`_meta.intent`**| `string` | **Conditional**| ? | Audit trail statement explaining why secrets are being audited. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `scope` | `string` | No | — | `global`, `workspace`, `task` | Optional scope filter. |
+| `workspaceId` | `string` | No | — | — | Optional: only secrets scoped or granted to this workspace. |
+| `taskId` | `string` | No | — | — | Task id (required for scope='task'). |
+| `limit` | `integer` | No | `100` | 1–500 | Maximum entries to return (1-500). Default: 100. |
+| `offset` | `integer` | No | `0` | ≥ 0 | Number of entries to skip before returning this page. Default: 0. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

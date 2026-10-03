@@ -16,9 +16,11 @@ Retrieves the verification contract steps, assertions, and checks required for t
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`instanceId`** | `string` | Yes | `null` | The instance to verify. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `instanceId` | `string` | Yes | — | — | The instance to verify. |
+<!-- /generated:parameters -->
 
 ---
 

@@ -16,13 +16,15 @@ Lists known task profiles, optionally filtered by taskType, domain, or platform.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`domain`** | `string` | No | `null` | Filter by domain (exact match), e.g. 'content_qa', 'web_content'. |
-| **`includeArchived`** | `boolean` | No | `false` | Include archived profiles. Default: false. |
-| **`limit`** | `integer` | No | `100` | Maximum number of profiles to return. Default: 100. |
-| **`platform`** | `string` | No | `null` | Filter by platform (exact match), e.g. 'vxmodels', 'chatgpt.com'. |
-| **`taskType`** | `string` | No | `null` | Filter by task type (exact match). |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `taskType` | `string` | No | — | — | Filter by task type (exact match). |
+| `domain` | `string` | No | — | — | Filter by domain (exact match), e.g. 'content_qa', 'web_content'. |
+| `platform` | `string` | No | — | — | Filter by platform (exact match), e.g. 'vxmodels', 'chatgpt.com'. |
+| `includeArchived` | `boolean` | No | `false` | — | Include archived profiles. Default: false. |
+| `limit` | `integer` | No | `100` | 1–500 | Maximum number of profiles to return. Default: 100. |
+<!-- /generated:parameters -->
 
 ---
 

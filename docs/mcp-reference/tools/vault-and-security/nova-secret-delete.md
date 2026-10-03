@@ -17,13 +17,16 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional metadata. Provide _meta.intent (a short reason) for high-impact tools. A tool's annotations.intentRequired in tools/list tells you up front: 'always' means intent is mandatory, 'conditional' means it becomes mandatory for certain arguments (e.g. includeValues=true), absent means never. |
-| `name` | `string` | **Yes** | Secret name. |
-| `scope` | `string` | **Yes** | Scope the secret lives in. |
-| `taskId` | `string` | No | Task id (required for scope='task'). |
-| `workspaceId` | `string` | No | Terminal workspace id (required for scope='workspace'). |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `name` | `string` | Yes | — | — | Secret name. |
+| `scope` | `string` | Yes | — | `global`, `workspace`, `task` | Scope the secret lives in. |
+| `workspaceId` | `string` | No | — | — | Terminal workspace id (required for scope='workspace'). |
+| `taskId` | `string` | No | — | — | Task id (required for scope='task'). |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

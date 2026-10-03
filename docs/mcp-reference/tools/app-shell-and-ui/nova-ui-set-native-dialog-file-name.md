@@ -17,10 +17,11 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `text` | `string` | **Yes** | File path or file name text to place into the dialog's standard file-name field. Control characters are removed and extremely long values are rejected. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `text` | `string` | Yes | — | — | File path or file name text to place into the dialog's standard file-name field. Control characters are removed and extremely long values are rejected. |
+<!-- /generated:parameters -->
 
 ---
 

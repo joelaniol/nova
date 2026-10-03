@@ -17,14 +17,16 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional metadata. Provide _meta.intent (a short reason) for high-impact tools. A tool's annotations.intentRequired in tools/list tells you up front: 'always' means intent is mandatory, 'conditional' means it becomes mandatory for certain arguments (e.g. includeValues=true), absent means never. |
-| `agentId` | `string` | No | Optional agent identity for claim authorization at the MCP entry point. Defaults to 'default'. |
-| `limit` | `integer` | No | Maximum number of blobs to return (1-200, default 50). totalFound and truncated report the overflow. |
-| `probeMetadata` | `boolean` | No | Verify each handle by fetching it in the page, which fills in mimeType/sizeBytes and drops revoked handles. Set false to skip verification: faster, but mimeType/sizeBytes are null and dead handles may be listed. |
-| `targetId` | `string` | No | Target ID of the tab to inspect from nova.tabs, or 'active' / 'activeBrowserTab'. |
-| `watch` | `boolean` | No | Install a recorder for URL.createObjectURL in this document so blobs created from now on are listed even before they are attached to an element. Off by default; a page nobody asked about pays nothing. Already-created blobs cannot be recovered retroactively, so install the watch before triggering the action. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID of the tab to inspect from nova.tabs, or 'active' / 'activeBrowserTab'. |
+| `watch` | `boolean` | No | `false` | — | Install a recorder for URL.createObjectURL in this document so blobs created from now on are listed even before they are attached to an element. Off by default; a page nobody asked about pays nothing. Already-created blobs cannot be recovered retroactively, so install the watch before triggering the action. |
+| `probeMetadata` | `boolean` | No | `true` | — | Verify each handle by fetching it in the page, which fills in mimeType/sizeBytes and drops revoked handles. Set false to skip verification: faster, but mimeType/sizeBytes are null and dead handles may be listed. |
+| `limit` | `integer` | No | `50` | 1–200 | Maximum number of blobs to return (1-200, default 50). totalFound and truncated report the overflow. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

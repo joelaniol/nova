@@ -42,14 +42,15 @@ The `properties` array accepts any combination of the following 16 fixed propert
 
 ## 3. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`selector`** | `string` | **Yes** | — | CSS selector. Supports ` >>> ` for open Shadow DOM boundaries. |
-| **`properties`** | `array<string>` | **Yes** | — | Array of 1–16 property names to extract from each match. |
-| **`maxItems`** | `integer` | No | `20` | Maximum matching elements returned in document order (1–100). |
-| **`maxChars`** | `integer` | No | `20000` | Maximum total characters across returned strings (1,000–200,000). |
-| **`targetId`** | `string` | No | `"active"` | Target tab ID from `nova.tabs`, or `"active"`. |
-| **`agentId`** | `string` | No | `"default"` | Agent identity for claim lease verification. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `selector` | `string` | Yes | — | 1–10000 characters | Required CSS selector. Supports the ' >>> ' combinator for open Shadow DOM boundaries. |
+| `properties` | `array` of `string` | Yes | — | 1–16 items | Fixed read-only fields to extract in the requested order. Unsupported names are rejected instead of evaluated as JavaScript. |
+| `maxItems` | `integer` | No | `20` | 1–100 | Maximum matching elements returned in document order. Over-limit runtime fallbacks are clamped to 100 and reported through limits.maxItems. |
+| `maxChars` | `integer` | No | `20000` | 1000–200000 | Maximum total characters across returned string values. Structural JSON overhead is not counted; truncation is reported truthfully. |
+<!-- /generated:parameters -->
 
 ---
 

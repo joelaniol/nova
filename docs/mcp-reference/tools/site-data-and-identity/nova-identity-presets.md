@@ -16,9 +16,9 @@ Lists available browser identity presets and selectable browser engine versions.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| *(none)* | — | — | — | No parameters accepted. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+This tool takes no parameters.
+<!-- /generated:parameters -->
 
 ---
 

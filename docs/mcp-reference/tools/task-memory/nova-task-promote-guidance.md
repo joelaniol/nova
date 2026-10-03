@@ -16,10 +16,12 @@ Explicitly promotes a guidance log entry into a profile’s stable guidance.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`guidanceLogId`** | `string` | Yes | `null` | The guidance log entry to promote. |
-| **`profileId`** | `string` | Yes | `null` | The profile to promote the guidance into. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `guidanceLogId` | `string` | Yes | — | — | The guidance log entry to promote. |
+| `profileId` | `string` | Yes | — | — | The profile to promote the guidance into. |
+<!-- /generated:parameters -->
 
 ---
 

@@ -17,20 +17,20 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `agentId` | `string` | No | Optional agent identity for claim authorization at the MCP entry point. Defaults to 'default'. |
-| `expression` | `string` | **Yes** | JavaScript expression to evaluate. Polling continues until it returns a truthy value. |
-| `includeScreenshot` | `boolean` | No | If true and condition is met, include a screenshot in the response. |
-| `pollMs` | `integer` | No | Polling interval in ms. Alias: pollIntervalMs (accepted, normalized to pollMs; pollMs wins when both are sent). |
-| `screenshotFormat` | `string` | No | Screenshot format. |
-| `screenshotMaxHeight` | `integer` | No | Max screenshot height in pixels. |
-| `screenshotMaxWidth` | `integer` | No | Max screenshot width in pixels. |
-| `screenshotQuality` | `integer` | No | JPEG quality (1-100). Only used when screenshotFormat is 'jpeg'. |
-| `screenshotResponseMode` | `string` | No | Screenshot delivery mode when includeScreenshot=true. inline returns the image directly; reference stores a nova://screenshot resource; thumbnail+reference returns a small preview plus resource; auto lets Nova choose based on budget. |
-| `targetId` | `string` | No | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
-| `timeoutMs` | `integer` | No | Max ms to wait before returning timeout. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `expression` | `string` | Yes | — | — | JavaScript expression to evaluate. Polling continues until it returns a truthy value. |
+| `timeoutMs` | `integer` | No | `10000` | 0–300000 | Max ms to wait before returning timeout. |
+| `pollMs` | `integer` | No | `250` | 50–2000 | Polling interval in ms. Alias: pollIntervalMs (accepted, normalized to pollMs; pollMs wins when both are sent). |
+| `includeScreenshot` | `boolean` | No | `false` | — | If true and condition is met, include a screenshot in the response. |
+| `screenshotMaxWidth` | `integer` | No | — | — | Max screenshot width in pixels. |
+| `screenshotMaxHeight` | `integer` | No | — | — | Max screenshot height in pixels. |
+| `screenshotFormat` | `string` | No | `"png"` | `png`, `jpeg`, `auto` | Screenshot format; 'auto' picks PNG or JPEG per region. |
+| `screenshotQuality` | `integer` | No | `80` | 1–100 | JPEG quality (1-100). Only used when screenshotFormat is 'jpeg'. |
+| `screenshotResponseMode` | `string` | No | `"inline"` | `inline`, `reference`, `thumbnail+reference`, `auto` | Screenshot delivery mode when includeScreenshot=true. inline returns the image directly; reference stores a nova://screenshot resource; thumbnail+reference returns a small preview plus resource; auto lets Nova choose based on budget. |
+<!-- /generated:parameters -->
 
 ---
 

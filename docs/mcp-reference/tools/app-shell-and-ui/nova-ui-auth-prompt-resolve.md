@@ -17,11 +17,12 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `decision` | `string` | **Yes** | use_vault: sign in with a stored entry for this origin. cancel: decline the challenge and unblock browsing. |
-| `username` | `string` | No | Optional. Selects one vault entry when the origin has several. Ignored for 'cancel'. A name that matches no stored entry fails with 'auth.vault_entry_not_found' rather than falling back to another entry. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `decision` | `string` | Yes | — | `use_vault`, `cancel` | use_vault: sign in with a stored entry for this origin. cancel: decline the challenge and unblock browsing. |
+| `username` | `string` | No | — | ≤ 256 characters | Optional. Selects one vault entry when the origin has several. Ignored for 'cancel'. A name that matches no stored entry fails with 'auth.vault_entry_not_found' rather than falling back to another entry. |
+<!-- /generated:parameters -->
 
 ---
 

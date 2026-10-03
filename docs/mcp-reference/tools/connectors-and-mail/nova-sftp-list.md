@@ -16,12 +16,16 @@ Lists remote directory entries or inspects file metadata through an SFTP connect
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`maxEntries`** | `integer` | No | `200` | Maximum returned entries. hasMore=true means additional entries were not returned. |
-| **`profileId`** | `string` | Yes | `null` | SFTP connector id from nova.connector_list. |
-| **`remotePath`** | `string` | No | `"."` | Remote POSIX path to list. Defaults to '.'. |
-| **`unattended`** | `boolean` | No | `false` | Fail closed instead of opening account/policy prompts. Scheduled-task hosts enforce unattended mode even when omitted; this flag can only reduce authority. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `profileId` | `string` | Yes | — | — | SFTP connector id from nova.connector_list. |
+| `remotePath` | `string` | No | `"."` | ≤ 4096 characters | Remote POSIX path to list. Defaults to '.'. |
+| `maxEntries` | `integer` | No | `200` | 1–1000 | Maximum returned entries. hasMore=true means additional entries were not returned. |
+| `unattended` | `boolean` | No | `false` | — | Fail closed instead of opening account/policy prompts. Scheduled-task hosts enforce unattended mode even when omitted; this flag can only reduce authority. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

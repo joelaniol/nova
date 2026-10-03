@@ -16,10 +16,14 @@ Downloads a Whisper speech model or adopts an existing local GGML model file.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`modelId`** | `string` | No | `null` | Catalog id to download: 'base', 'small' (recommended) or 'large-v3-turbo'. Mutually exclusive with path. |
-| **`path`** | `string` | No | `null` | Absolute path of a ggml .bin model file to adopt. Requires 'Allow local files'. Mutually exclusive with modelId. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `modelId` | `string` | No | — | — | Catalog id to download: 'base', 'small' (recommended) or 'large-v3-turbo'. Mutually exclusive with path. |
+| `path` | `string` | No | — | — | Absolute path of a ggml .bin model file to adopt. Requires 'Allow local files'. Mutually exclusive with modelId. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

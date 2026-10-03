@@ -31,12 +31,20 @@ The `observation.signals` array accepts structured evidence items:
 
 ## 3. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`scope`** | `string` | **Yes** | — | Domain scope to search (e.g. `"nytimes.com"`). |
-| **`observation`** | `object` | **Yes** | — | Observed signals: `{ signals: [...], type?: string }`. |
-| **`context`** | `object` | No | `null` | Context filters: `{ auth, device, locale, route }`. |
-| **`topK`** | `integer` | No | `1` | Number of ranked candidates to return (1–10). |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `scope` | `string` | Yes | — | — | Domain scope. |
+| `observation` | `object` | Yes | — | — | What was observed: signals present on the page. |
+| `observation.signals` | `array` of `object` | No | — | — | Observed signals used for matching. Each signal provides kind, match, and optional locale. |
+| `observation.type` | `string` | No | — | `consent_cmp`, `modal`, `paywall`, `login_wall`, `layout_shift`, `native_dialog`, `popover_open`, `custom` | Optional type filter for candidate ranking. Phenomenon type. 'consent_cmp' = cookie/consent manager surface, 'modal' = generic blocking overlay or dialog, 'paywall' = subscription/payment gate, 'login_wall' = sign-in gate, 'layout_shift' = disruptive UI shift without a classic overlay, 'native_dialog' = browser/native prompt such as permission or file picker, 'popover_open' = anchored popover/dropdown surface, 'custom' = uncategorized site-specific phenomenon. |
+| `topK` | `integer` | No | `1` | 1–10 | Optional number of ranked matches to return (1-10). Default 1. |
+| `context` | `object` | No | — | — | Optional context filter. Mismatch against each phenomenon's effective context (phenomenon override with domain fallback) excludes that candidate. |
+| `context.device` | `any` | No | — | — | Device type filter for phenomenon matching. Use null or omit to leave the device filter unset. |
+| `context.locale` | `string or null` | No | — | ≥ 1 characters | Optional locale filter such as 'de-DE'. Use null or omit to leave the locale filter unset. |
+| `context.auth` | `any` | No | — | — | Authentication state. 'anonymous' = not signed in, 'logged_in' = signed in, 'unknown' = not enough evidence to classify. Use null or omit to leave the auth filter unset. |
+| `context.route` | `string or null` | No | — | ≥ 1 characters | Optional route segment filter. Examples: '_root', 'feed', '/jobs/list'. Use null or omit to leave the route filter unset. |
+<!-- /generated:parameters -->
 
 ---
 

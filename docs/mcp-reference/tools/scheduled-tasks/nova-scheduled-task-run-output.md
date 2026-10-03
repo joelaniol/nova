@@ -16,12 +16,15 @@ Memory-safe tail reader for stdout and stderr log streams of a specific task run
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`runId`** | `string` | Yes | `none` | The run ID to read output from. |
-| **`stream`** | `string` | No | `"stdout"` | Which stream to read: `"stdout"` or `"stderr"`. |
-| **`maxLines`** | `integer` | No | `500` | Maximum lines to return from the end of the log. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `runId` | `string` | Yes | — | — | The run ID to read output from. |
+| `stream` | `string` | No | `"stdout"` | `stdout`, `stderr` | Which stream to read: 'stdout' or 'stderr'. Default: 'stdout'. |
+| `maxLines` | `integer` | No | `500` | 1–10000 | Maximum lines to return (tail). Default: 500. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

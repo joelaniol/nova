@@ -16,13 +16,17 @@ Renames or moves a remote file or directory over SFTP.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`destinationRemotePath`** | `string` | Yes | `null` | New remote destination path. |
-| **`overwrite`** | `boolean` | No | `false` | Replace an existing regular-file destination through a bounded sibling recovery stage. An interrupted stage returns stateIndeterminate and paths to inspect. False preserves the destination. |
-| **`profileId`** | `string` | Yes | `null` | SFTP connector id from nova.connector_list. |
-| **`remotePath`** | `string` | Yes | `null` | Existing source path. |
-| **`unattended`** | `boolean` | No | `false` | Fail closed instead of opening account/policy prompts. Scheduled-task hosts enforce unattended mode even when omitted; this flag can only reduce authority. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `profileId` | `string` | Yes | — | — | SFTP connector id from nova.connector_list. |
+| `remotePath` | `string` | Yes | — | ≤ 4096 characters | Existing source path. |
+| `destinationRemotePath` | `string` | Yes | — | ≤ 4096 characters | New remote destination path. |
+| `overwrite` | `boolean` | No | `false` | — | Replace an existing regular-file destination through a bounded sibling recovery stage. An interrupted stage returns stateIndeterminate and paths to inspect. False preserves the destination. |
+| `unattended` | `boolean` | No | `false` | — | Fail closed instead of opening account/policy prompts. Scheduled-task hosts enforce unattended mode even when omitted; this flag can only reduce authority. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

@@ -16,17 +16,21 @@ Updates configuration, display name, color tag, or purpose of an existing sandbo
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`accountLabel`** | `string,null` | No | `null` | New account label. Pass null to clear. |
-| **`aliases`** | `array,null` | No | `null` | New aliases. Pass null to clear. |
-| **`color`** | `string` | No | `null` | New hex color (e.g. '#f472b6'). |
-| **`isPaused`** | `boolean` | No | `null` | Pause (true) or unpause (false) the sandbox. |
-| **`name`** | `string` | No | `null` | New display name. |
-| **`preferredFor`** | `array,null` | No | `null` | New preferred intent keys. Pass null to clear. |
-| **`purpose`** | `string,null` | No | `null` | New purpose hint. Pass null to clear. |
-| **`sandboxId`** | `string` | Yes | `null` | Sandbox ID to update (e.g. 'A', 'B', 'C'). |
-| **`startUrl`** | `string,null` | No | `null` | New default URL. Pass null to clear. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `sandboxId` | `string` | Yes | — | — | Sandbox ID to update (e.g. 'A', 'B', 'C'). |
+| `name` | `string` | No | — | — | New display name. |
+| `color` | `string` | No | — | — | New hex color (e.g. '#f472b6'). |
+| `startUrl` | `string or null` | No | — | — | New default URL. Pass null to clear. |
+| `purpose` | `string or null` | No | — | — | New purpose hint. Pass null to clear. |
+| `accountLabel` | `string or null` | No | — | — | New account label. Pass null to clear. |
+| `aliases` | `array or null` | No | — | — | New aliases. Pass null to clear. |
+| `preferredFor` | `array or null` | No | — | — | New preferred intent keys. Pass null to clear. |
+| `isPaused` | `boolean` | No | — | — | Pause (true) or unpause (false) the sandbox. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

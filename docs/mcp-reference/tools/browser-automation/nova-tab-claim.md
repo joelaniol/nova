@@ -31,14 +31,16 @@ If a previous session or crashed subagent left an active lease, a coordinator ag
 
 ## 3. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`targetId`** | `string` | **Yes** | — | Target tab ID to claim (e.g. `"tab-1"`). |
-| **`agentId`** | `string` | No | `"default"` | Unique identity of the calling agent claiming the lease. |
-| **`ttlMs`** | `integer` | No | `300000` | Lease duration in milliseconds (default: 5 minutes). Max: 3,600,000 ms (1 hour). |
-| **`agentRole`** | `string` | No | `null` | Role description (e.g. `"MarketResearcher"`, `"CheckoutAuditor"`). |
-| **`reclaimReason`** | `string` | No | `null` | Required only when overriding an existing active claim held by another agent. |
-| **`debugLabel`** | `string` | No | `null` | Human-readable label displayed in the host UI claim overlay. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | Yes | — | — | Tab to claim (tabId, sandboxId like 'A', or 'active'). |
+| `agentId` | `string` | No | `"default"` | — | Agent identity. Defaults to 'default'. |
+| `agentRole` | `string` | No | — | `actor`, `archivist`, `mcp` | Optional role hint. 'actor' performs live tab work and cannot override finalize decisions, 'archivist' is allowed to finalize/curate completed work, and 'mcp' is the privileged server/operator role. If provided, the value must match the role inferred from agentId. |
+| `ttlMs` | `integer` | No | `120000` | 5000–1800000 | Lease duration in ms. Defaults to 120s. Must be between 5s and 30min; out-of-range values fail with -32602 before a claim is created or extended. |
+| `debugLabel` | `string` | No | — | — | Optional label for logging/debugging. On a same-owner re-claim, a non-empty value updates the existing metadata; omission or blank input preserves the current label. |
+| `reclaimReason` | `string` | No | — | — | Force-reclaim reason. When provided and another agent holds the tab, the existing claim is force-released and the displaced owner receives a one-shot AAG block notification with this reason. Omit to get the default owner-mismatch error. |
+<!-- /generated:parameters -->
 
 ---
 

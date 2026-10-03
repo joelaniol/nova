@@ -16,9 +16,9 @@ Returns the count of unread, non-dismissed notifications currently in the inbox.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+This tool takes no parameters.
+<!-- /generated:parameters -->
 
 ---
 

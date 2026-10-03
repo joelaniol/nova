@@ -16,12 +16,14 @@ Writes raw characters to the session stdin without appending an implicit newline
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`sessionId`** | `string` | Yes | `none` | Session identifier. |
-| **`data`** | `string` | Yes | `none` | Text to write to stdin verbatim. Include `\r` to submit a line. |
-| **`agentId`** | `string` | No | `"default"` | Optional agent identifier. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `sessionId` | `string` | Yes | — | — | Session id from terminal_open. |
+| `data` | `string` | Yes | — | — | Text to send to stdin verbatim. |
+
+**`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+<!-- /generated:parameters -->
 
 ---
 

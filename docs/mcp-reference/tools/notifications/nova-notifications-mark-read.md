@@ -16,10 +16,11 @@ Marks a notification as read without dismissing it from the inbox.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`notificationId`** | `string` | Yes | `none` | Notification ID to mark as read. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `notificationId` | `string` | Yes | — | — | The notification ID to mark as read. |
+<!-- /generated:parameters -->
 
 ---
 

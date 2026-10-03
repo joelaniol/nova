@@ -16,15 +16,17 @@ Stores or updates a persistent operator note with search tags and priority.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`category`** | `string` | No | `null` | Optional category (e.g. 'environment', 'workflow', 'preference'). |
-| **`content`** | `string` | Yes | `null` | The note content (user preference, workflow hint, environment info). |
-| **`id`** | `string` | No | `null` | Optional: existing note ID to update instead of creating new. |
-| **`sandboxId`** | `string` | No | `null` | Optional sandbox letter-id (e.g. 'A', 'B') to bind this note to a specific sandbox. Omit for global note. Required together with sandboxRef. |
-| **`sandboxRef`** | `string` | No | `null` | Opaque PersistentUid token from nova.tabs / nova.sandbox_context / perceive.targetContext. Mandatory when sandboxId is set; protects against letter-id recycling races. Mismatch with current sandbox UID → -32602 stale_sandbox_reference. |
-| **`source`** | `string` | No | `"agent"` | Who created this note: 'agent' or 'user'. |
-| **`tags`** | `array` | Yes | `null` | Keywords for matching (e.g. ["sandbox", "gpt", "pro"]). |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `content` | `string` | Yes | — | — | The note content (user preference, workflow hint, environment info). |
+| `tags` | `array` of `string` | Yes | — | — | Keywords for matching (e.g. ["sandbox", "gpt", "pro"]). |
+| `category` | `string` | No | — | — | Optional category (e.g. 'environment', 'workflow', 'preference'). |
+| `source` | `string` | No | `"agent"` | `agent`, `user` | Who created this note: 'agent' or 'user'. |
+| `id` | `string` | No | — | — | Optional: existing note ID to update instead of creating new. |
+| `sandboxId` | `string` | No | — | — | Optional sandbox letter-id (e.g. 'A', 'B') to bind this note to a specific sandbox. Omit for global note. Required together with sandboxRef. |
+| `sandboxRef` | `string` | No | — | — | Opaque PersistentUid token from nova.tabs / nova.sandbox_context / perceive.targetContext. Mandatory when sandboxId is set; protects against letter-id recycling races. Mismatch with current sandbox UID → -32602 stale_sandbox_reference. |
+<!-- /generated:parameters -->
 
 ---
 

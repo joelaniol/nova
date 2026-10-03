@@ -17,14 +17,14 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `agentId` | `string` | No | Optional agent identity for claim authorization at the MCP entry point. Defaults to 'default'. |
-| `maxItems` | `integer` | No | Maximum number of resources to return. |
-| `source` | `string` | No | Discovery method. 'auto': merges the CDP resource tree with the Performance timeline (deduplicated by URL) and falls back to DOM tags - use it, because a tree rebuilt after a reattach forgets lazily loaded chunks the timeline still knows. 'cdp': CDP resource tree only. 'performance': Performance API entries only. 'dom': scans DOM tags (script/link/img). The result reports sources/sourceCounts and a hint when the merge added entries. |
-| `targetId` | `string` | No | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
-| `types` | `array` | No | Resource types to include. Common values: Script, Stylesheet, Document, Image, Font, XHR, Fetch, Media, WebSocket. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `source` | `string` | No | `"auto"` | `auto`, `cdp`, `performance`, `dom` | Discovery method. 'auto': merges the CDP resource tree with the Performance timeline (deduplicated by URL) and falls back to DOM tags - use it, because a tree rebuilt after a reattach forgets lazily loaded chunks the timeline still knows. 'cdp': CDP resource tree only. 'performance': Performance API entries only. 'dom': scans DOM tags (script/link/img). The result reports sources/sourceCounts and a hint when the merge added entries. |
+| `types` | `array` of `string` | No | `["Script","Stylesheet","Document"]` | — | Resource types to include. Common values: Script, Stylesheet, Document, Image, Font, XHR, Fetch, Media, WebSocket. |
+| `maxItems` | `integer` | No | `200` | 1–2000 | Maximum number of resources to return. |
+<!-- /generated:parameters -->
 
 ---
 

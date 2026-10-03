@@ -16,13 +16,15 @@ Compares two completed crawls of the same site to detect added, removed, or modi
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`oldCrawlId`** | `string` | Yes | `none` | Crawl ID of the baseline (older) crawl job. |
-| **`newCrawlId`** | `string` | Yes | `none` | Crawl ID of the newer crawl job to compare against baseline. |
-| **`includeUnchanged`** | `boolean` | No | `false` | When true, includes unchanged pages in the result list. |
-| **`limit`** | `integer` | No | `50` | Maximum number of diff entries to return. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `agentId` | `string` | No | `"default"` | — | Optional agent identity. Defaults to 'default'. Must own both crawls. |
+| `oldCrawlId` | `string` | Yes | — | — | Crawl ID of the baseline (older) crawl to compare from. |
+| `newCrawlId` | `string` | Yes | — | — | Crawl ID of the newer crawl to compare against the baseline. |
+| `includeUnchanged` | `boolean` | No | `false` | — | If true, include unchanged pages in the response. Default false to save tokens. |
+| `limit` | `integer` | No | `50` | 1–200 | Maximum number of diff entries to return. Unchanged/hashMissing counts are always reported regardless of limit. |
+<!-- /generated:parameters -->
 
 ---
 

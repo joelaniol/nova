@@ -17,11 +17,12 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `height` | `integer` | **Yes** | Target window height in logical (DPI-aware) pixels. |
-| `width` | `integer` | **Yes** | Target window width in logical (DPI-aware) pixels. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `width` | `integer` | Yes | — | 200–10000 | Target window width in logical (DPI-aware) pixels. |
+| `height` | `integer` | Yes | — | 200–10000 | Target window height in logical (DPI-aware) pixels. |
+<!-- /generated:parameters -->
 
 ---
 

@@ -16,16 +16,18 @@ Queries the persistent Site-URL-Index for known endpoints, utility scores, and r
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`scopeKey`** | `string` | No | `null` | Canonical site scope (e.g. `"https://docs.example.com"`). |
-| **`domain`** | `string` | No | `null` | Domain name or host to search (e.g. `"docs.example.com"`). |
-| **`origin`** | `string` | No | `null` | Exact origin filter. |
-| **`pathPrefix`** | `string` | No | `null` | Path prefix filter (e.g. `"/api/v2"`). |
-| **`limit`** | `integer` | No | `50` | Maximum number of URLs to return, sorted by utility score. |
-| **`includeDead`** | `boolean` | No | `false` | Include URLs confirmed dead (404/410). |
-| **`includeStale`** | `boolean` | No | `false` | Include stale URLs not observed in recent crawls. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `agentId` | `string` | No | `"default"` | — | Optional agent identity. Defaults to 'default'. |
+| `domain` | `string` | No | — | — | Legacy primary scope query. Accepts a domain, host:port, or origin (for example 'www.example.com', 'www.example.com:8443', or 'https://www.example.com'). Paths, queries, and fragments are invalid. The runtime resolves matching Site-URL-Index scope origins, merges legacy host-only buckets, and returns the matched canonical origin(s). |
+| `scopeKey` | `string` | No | — | — | Preferred alias when reusing a persisted crawler scope from crawl_history. Accepts the same host/host:port/origin syntax as domain and must match domain/origin if multiple aliases are provided. |
+| `origin` | `string` | No | — | — | Explicit origin-style alias for the Site-URL-Index query (for example 'https://www.example.com:8443'). Must match domain/scopeKey if multiple aliases are provided. |
+| `pathPrefix` | `string` | No | — | — | Optional path prefix filter (e.g. '/channels'). Only returns URLs whose logical_route_path starts with this prefix. |
+| `includeStale` | `boolean` | No | `false` | — | If true, include URLs marked as stale (not seen in recent crawls but not confirmed dead). |
+| `includeDead` | `boolean` | No | `false` | — | If true, include URLs confirmed dead (404/410). Useful for debugging or verifying removals. |
+| `limit` | `integer` | No | `50` | 1–200 | Maximum number of URLs to return. Sorted by utility_score descending. |
+<!-- /generated:parameters -->
 
 ---
 

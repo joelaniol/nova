@@ -17,11 +17,12 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `agentId` | `string` | No | Only aggregate calls attributed to this agentId. Omit for all agents. |
-| `sinceMinutes` | `integer` | No | Look-back window in minutes over the current session's action log. Default 240 (4h). |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `agentId` | `string` | No | — | — | Only aggregate calls attributed to this agentId. Omit for all agents. |
+| `sinceMinutes` | `integer` | No | `240` | 1–10080 | Look-back window in minutes over the current session's action log. Default 240 (4h). |
+<!-- /generated:parameters -->
 
 ---
 

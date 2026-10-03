@@ -16,10 +16,12 @@ Sets an ephemeral per-tab fingerprint protection override that expires on tab cl
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`level`** | `string,null` | Yes | `null` | Override level, or null to clear the override. |
-| **`tabId`** | `string` | Yes | `null` | Existing browser tab id (8-char hex). Sandbox ids are rejected. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `tabId` | `string` | Yes | — | — | Existing browser tab id (8-char hex). Sandbox ids are rejected. |
+| `level` | `string or null` | Yes | — | `off`, `standard`, `strict`, `null` | Override level, or null to clear the override. |
+<!-- /generated:parameters -->
 
 ---
 

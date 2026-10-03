@@ -16,12 +16,13 @@ Retrieves the complete event timeline, headers, and decoded payload for a single
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`recordingId`** | `string` | Yes | `none` | Finalized recording ID. |
-| **`requestId`** | `string` | Yes | `none` | CDP request ID returned from `nova.session_record_query`. |
-| **`includeBody`** | `boolean` | No | `false` | When true, includes base64-encoded response payload bytes. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `recordingId` | `string` | Yes | — | — | Recording ID. |
+| `requestId` | `string` | Yes | — | — | CDP requestId from a prior session_record_query result. |
+| `includeBody` | `boolean` | No | `false` | — | Include the inline base64-encoded body bytes. |
+<!-- /generated:parameters -->
 
 ---
 

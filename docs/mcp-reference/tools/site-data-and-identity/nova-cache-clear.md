@@ -16,10 +16,14 @@ Clears HTTP cache, cookies, DOM storage, and indexedDB for the target profile.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`dataTypes`** | `array` | Yes | `null` | Data types to clear. Maps 1:1 to CoreWebView2BrowsingDataKinds. |
-| **`targetId`** | `string` | Yes | `null` | Tab or sandbox ID. Required. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | Yes | — | — | Tab or sandbox ID. Required. |
+| `dataTypes` | `array` of `string` | Yes | — | ≥ 1 items | Data types to clear. Maps 1:1 to CoreWebView2BrowsingDataKinds. |
+
+**`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+<!-- /generated:parameters -->
 
 ---
 

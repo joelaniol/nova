@@ -17,12 +17,13 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `folderId` | `string` | No | Optional bookmark folder id (see nova.bookmarks_folders_list). New favorites with null/omitted folderId land at root; existing favorites keep their current folder when folderId is null/omitted. Use nova.favorites_move to move to root explicitly. |
-| `title` | `string` | No | Optional custom title. |
-| `url` | `string` | **Yes** | Absolute URL (http/https). If scheme is missing, https:// is assumed. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `url` | `string` | Yes | — | — | Absolute URL (http/https). If scheme is missing, https:// is assumed. |
+| `title` | `string` | No | — | — | Optional custom title. |
+| `folderId` | `string` | No | — | — | Optional bookmark folder id (see nova.bookmarks_folders_list). New favorites with null/omitted folderId land at root; existing favorites keep their current folder when folderId is null/omitted. Use nova.favorites_move to move to root explicitly. |
+<!-- /generated:parameters -->
 
 ---
 

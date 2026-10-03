@@ -17,13 +17,13 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `agentId` | `string` | No | Optional agent identity for claim authorization at the MCP entry point. Defaults to 'default'. |
-| `persistForSite` | `boolean` | No | Store the level for this host so future visits reopen at it (same effect as Ctrl+Plus). Default false keeps the zoom to the current session, which is usually what a temporary screenshot or layout check wants. Ignored on private tabs, which never persist. |
-| `targetId` | `string` | No | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
-| `zoomFactor` | `number` | **Yes** | Zoom level: 1.0 = 100%, 0.5 = 50%, 2.0 = 200%. Valid range is 0.25-5.0. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `zoomFactor` | `number` | Yes | `1` | 0.25–5 | Zoom level: 1.0 = 100%, 0.5 = 50%, 2.0 = 200%. Valid range is 0.25-5.0. |
+| `persistForSite` | `boolean` | No | `false` | — | Store the level for this host so future visits reopen at it (same effect as Ctrl+Plus). Default false keeps the zoom to the current session, which is usually what a temporary screenshot or layout check wants. Ignored on private tabs, which never persist. |
+<!-- /generated:parameters -->
 
 ---
 

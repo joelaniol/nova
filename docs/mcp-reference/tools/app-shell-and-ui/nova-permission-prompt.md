@@ -17,13 +17,14 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `description` | `string` | **Yes** | Human-readable description of what the tool will do (e.g. "Run 'npm test'"). |
-| `risk_level` | `string` | No | Estimated risk level of the action. |
-| `schemaVersion` | `integer` | No | Optional request schema version. Current supported value is 1. |
-| `tool_name` | `string` | **Yes** | The name of the tool that requires approval (e.g. 'Bash', 'Write'). |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `schemaVersion` | `integer` | No | — | 1–1 | Optional request schema version. Current supported value is 1. |
+| `tool_name` | `string` | Yes | — | — | The name of the tool that requires approval (e.g. 'Bash', 'Write'). |
+| `description` | `string` | Yes | — | — | Human-readable description of what the tool will do (e.g. "Run 'npm test'"). |
+| `risk_level` | `string` | No | — | `low`, `medium`, `high` | Estimated risk level of the action. |
+<!-- /generated:parameters -->
 
 ---
 

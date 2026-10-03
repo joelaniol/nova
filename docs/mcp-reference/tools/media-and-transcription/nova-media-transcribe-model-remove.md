@@ -16,9 +16,13 @@ Deletes an installed speech model file to reclaim disk space or prepare for re-d
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`fileName`** | `string` | Yes | `null` | File name as reported by nova.media_transcribe_models, e.g. 'ggml-small-q5_1.bin'. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `fileName` | `string` | Yes | — | — | File name as reported by nova.media_transcribe_models, e.g. 'ggml-small-q5_1.bin'. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

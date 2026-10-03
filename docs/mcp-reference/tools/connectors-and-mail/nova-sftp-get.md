@@ -16,16 +16,20 @@ Downloads a remote file or directory tree over SFTP into Downloads or the worksp
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`localPath`** | `string` | Yes | `null` | Local destination path inside Downloads or the host-verified current workspace. For a remote directory, this is the destination root. |
-| **`maxBytes`** | `integer` | No | `1073741824` | Requested total-byte ceiling for this call; cannot exceed Nova's hard limit. |
-| **`maxFiles`** | `integer` | No | `500` | Requested entry ceiling for this call; cannot exceed Nova's hard limit. |
-| **`overwrite`** | `boolean` | No | `false` | Replace existing local destination files. False preserves them and returns connector_local_path_exists. |
-| **`profileId`** | `string` | Yes | `null` | SFTP connector id from nova.connector_list. |
-| **`recursive`** | `boolean` | No | `false` | Required for a directory source; transfers its bounded tree using one SFTP connection. |
-| **`remotePath`** | `string` | Yes | `null` | Remote file or directory path to download. |
-| **`unattended`** | `boolean` | No | `false` | Fail closed instead of opening account/policy prompts. Scheduled-task hosts enforce unattended mode even when omitted; this flag can only reduce authority. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `profileId` | `string` | Yes | — | — | SFTP connector id from nova.connector_list. |
+| `localPath` | `string` | Yes | — | — | Local destination path inside Downloads or the host-verified current workspace. For a remote directory, this is the destination root. |
+| `remotePath` | `string` | Yes | — | ≤ 4096 characters | Remote file or directory path to download. |
+| `recursive` | `boolean` | No | `false` | — | Required for a directory source; transfers its bounded tree using one SFTP connection. |
+| `overwrite` | `boolean` | No | `false` | — | Replace existing local destination files. False preserves them and returns connector_local_path_exists. |
+| `maxFiles` | `integer` | No | `500` | 1–500 | Requested entry ceiling for this call; cannot exceed Nova's hard limit. |
+| `maxBytes` | `integer` | No | `1073741824` | 1–1073741824 | Requested total-byte ceiling for this call; cannot exceed Nova's hard limit. |
+| `unattended` | `boolean` | No | `false` | — | Fail closed instead of opening account/policy prompts. Scheduled-task hosts enforce unattended mode even when omitted; this flag can only reduce authority. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

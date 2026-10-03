@@ -29,12 +29,13 @@ When called, Nova always returns the following primary design properties:
 
 ## 3. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`selector`** | `string` | **Yes** | — | CSS selector of the element to inspect. |
-| **`properties`** | `array<string>` | No | `null` | Optional list of extra CSS property names to return in `requested`. |
-| **`targetId`** | `string` | No | `"active"` | Target tab ID from `nova.tabs`, or `"active"`. |
-| **`agentId`** | `string` | No | `"default"` | Agent identity for claim lease verification. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `selector` | `string` | Yes | — | — | CSS selector for the element to inspect. |
+| `properties` | `array` of `string` | No | — | — | Optional extra CSS property names to return under result.requested (in addition to the curated set). |
+<!-- /generated:parameters -->
 
 ---
 

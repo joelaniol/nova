@@ -28,11 +28,11 @@ Closing a regular browser tab will not exit Nova AI Workspace even if it was the
 
 ## 3. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`targetId`** | `string` | No | `"active"` | The ID of the tab to close. Defaults to the active tab. |
-| **`agentId`** | `string` | No | `"default"` | Identity of the calling agent for claim validation. |
-| **`_meta`** | `object` | No | `null` | Optional intent metadata (`{ "intent": "Finished task" }`). |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Browser tab ID or 'active' (must resolve to a browser tab). |
+<!-- /generated:parameters -->
 
 ---
 

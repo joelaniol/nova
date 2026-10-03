@@ -16,10 +16,11 @@ Switches the active visual presentation and input focus in the Nova application 
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`targetId`** | `string` | **Yes** | — | Target ID to switch to (sandbox ID or browser tab ID). |
-| **`_meta.intent`**| `string` | No | — | Optional audit trail statement. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | Yes | — | — | Target ID to switch to (sandbox ID or browser tab ID). |
+<!-- /generated:parameters -->
 
 ---
 

@@ -17,16 +17,16 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional MCP request metadata (e.g. _meta.intent). Accepted on every tool; annotations.intentRequired says when intent is expected. |
-| `agentId` | `string` | No | Optional agent identity for claim authorization at the MCP entry point. Defaults to 'default'. |
-| `charOffset` | `integer` | No | Start reading a TEXT resource this many characters in, so a match found by nova.grep_resources (which reports index) can be widened without searching again: charOffset=index-500 with maxChars=1200 puts the hit in the middle. The result carries charOffset, nextCharOffset (charOffset + chars) for paging, and sourceChars for the total. An offset at or past the end returns an empty window instead of the file's head; a binary resource has no character window and answers charOffsetApplied=false with charOffsetSkippedReason. |
-| `frameId` | `string` | No | Optional frame ID for resources loaded in iframes (as returned by nova.list_resources). Omit for main frame. |
-| `maxBytes` | `integer` | No | Maximum bytes for binary resource content (base64-encoded). |
-| `maxChars` | `integer` | No | Maximum characters for text resource content. |
-| `targetId` | `string` | No | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
-| `url` | `string` | **Yes** | Full http/https URL of the page resource to read (as returned by nova.list_resources). For nova://screenshot/... URIs use nova.read_screenshot_resource or MCP resources/read. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `url` | `string` | Yes | — | — | Full http/https URL of the page resource to read (as returned by nova.list_resources). For nova://screenshot/... URIs use nova.read_screenshot_resource or MCP resources/read. |
+| `frameId` | `string` | No | — | — | Optional frame ID for resources loaded in iframes (as returned by nova.list_resources). Omit for main frame. |
+| `maxChars` | `integer` | No | `100000` | 1000–5000000 | Maximum characters for text resource content. |
+| `maxBytes` | `integer` | No | `1048576` | 1024–50000000 | Maximum bytes for binary resource content (base64-encoded). |
+| `charOffset` | `integer` | No | `0` | 0–50000000 | Start reading a TEXT resource this many characters in, so a match found by nova.grep_resources (which reports index) can be widened without searching again: charOffset=index-500 with maxChars=1200 puts the hit in the middle. The result carries charOffset, nextCharOffset (charOffset + chars) for paging, and sourceChars for the total. An offset at or past the end returns an empty window instead of the file's head; a binary resource has no character window and answers charOffsetApplied=false with charOffsetSkippedReason. |
+<!-- /generated:parameters -->
 
 ---
 

@@ -16,17 +16,27 @@ Updates configuration, environment variables, or transport settings of an existi
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`serverKey`** | `string` | Yes | `none` | 8-character hex server key from `nova.external_servers`. |
-| **`displayName`** | `string` | No | `unchanged` | Updated display name. |
-| **`command`** | `string` | No | `unchanged` | Updated executable command. |
-| **`args`** | `string` | No | `unchanged` | Updated argument string. |
-| **`endpointUrl`** | `string` | No | `unchanged` | Updated endpoint URL. |
-| **`env`** | `object` | No | `unchanged` | Environment updates (keys mapped to `null` are deleted). |
-| **`headers`** | `object` | No | `unchanged` | New HTTP headers map. |
-| **`enabled`** | `boolean` | No | `unchanged` | Enable or disable server. |
-| **`_meta`** | `object` | Yes | `none` | Audit intent metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `serverKey` | `string` | Yes | — | — | Stable server identity (8-char hex). Get from nova.external_servers(). |
+| `displayName` | `string` | No | — | — | New display name. |
+| `command` | `string` | No | — | — | New launch command (stdio). |
+| `args` | `string` | No | — | — | New command-line arguments (stdio). |
+| `cwd` | `string` | No | — | — | New working directory (stdio). |
+| `env` | `object` | No | — | — | Environment variable updates. Set a key to null to remove it. Merged with existing vars. |
+| `endpointUrl` | `string` | No | — | — | New endpoint URL (http/sse). |
+| `authMode` | `string` | No | — | `none`, `bearer` | New auth mode. |
+| `bearerToken` | `string` | No | — | — | New bearer token. |
+| `headers` | `object` | No | — | — | New custom headers. Replaces all existing headers. |
+| `enabled` | `boolean` | No | — | — | Enable or disable the server definition. |
+| `autoConnect` | `boolean` | No | — | — | Change auto-connect behavior. |
+| `autoStart` | `boolean` | No | — | — | Change auto-start behavior. |
+| `restartOnCrash` | `boolean` | No | — | — | Change restart-on-crash behavior. |
+| `startupTimeoutMs` | `integer` | No | — | — | New startup timeout in ms. |
+
+**`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
+<!-- /generated:parameters -->
 
 ---
 

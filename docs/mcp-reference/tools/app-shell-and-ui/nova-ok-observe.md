@@ -17,13 +17,15 @@
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Description |
-| :--- | :---: | :---: | :--- |
-| `_meta` | `object` | No | Optional metadata. Provide _meta.intent (a short reason) for high-impact tools. A tool's annotations.intentRequired in tools/list tells you up front: 'always' means intent is mandatory, 'conditional' means it becomes mandatory for certain arguments (e.g. includeValues=true), absent means never. |
-| `agentId` | `string` | No | Optional agent identity for claim authorization at the MCP entry point. Defaults to 'default'. |
-| `claims` | `array` | **Yes** | Structured observations about the current page state. |
-| `perceptionId` | `string,null` | No | Optional perception/trace ID to group claims from the same observation moment. Use null or omit when no trace grouping is available. |
-| `targetId` | `string,null` | No | Tab ID, sandbox ID, or 'active'. Use null or omit for default 'active'. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string or null` | No | `"active"` | — | Tab ID, sandbox ID, or 'active'. Use null or omit for default 'active'. |
+| `perceptionId` | `string or null` | No | — | — | Optional perception/trace ID to group claims from the same observation moment. Use null or omit when no trace grouping is available. |
+| `claims` | `array` of `object` | Yes | — | ≥ 1 items | Structured observations about the current page state. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

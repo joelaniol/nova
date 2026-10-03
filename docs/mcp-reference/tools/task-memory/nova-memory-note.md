@@ -16,12 +16,14 @@ Saves a persistent browsing memory (user preference, workflow hint, domain conte
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`content`** | `string` | Yes | `null` | What to remember. Keep concise and actionable (max 2000 chars). |
-| **`domain`** | `string` | No | `null` | Domain to bind this memory to (e.g. 'github.com'). Defaults to the active tab's domain. |
-| **`memoryType`** | `string` | No | `"note"` | note = explicit observation/reminder, preference = user behavioral preference, context = session state snapshot. Defaults to 'note'. |
-| **`urlPattern`** | `string` | No | `null` | Optional URL path scope (e.g. '/pulls/*'). Memory applies only to matching paths on this domain. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `content` | `string` | Yes | — | ≤ 2000 characters | What to remember. Keep concise and actionable (max 2000 chars). |
+| `memoryType` | `string` | No | `"note"` | `note`, `preference`, `context` | note = explicit observation/reminder, preference = user behavioral preference, context = session state snapshot. Defaults to 'note'. |
+| `domain` | `string` | No | — | — | Domain to bind this memory to (e.g. 'github.com'). Defaults to the active tab's domain. |
+| `urlPattern` | `string` | No | — | — | Optional URL path scope (e.g. '/pulls/*'). Memory applies only to matching paths on this domain. |
+<!-- /generated:parameters -->
 
 ---
 

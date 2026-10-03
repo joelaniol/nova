@@ -16,11 +16,11 @@ Manually disconnects the proxy for a target scope, blocking all HTTP(S) traffic 
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`targetId`** | `string` | Yes | `none` | Tab or sandbox ID to disconnect. |
-| **`agentId`** | `string` | No | `"default"` | Optional agent identifier. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | Yes | — | — | Target ID: sandbox ID or 'browser-tabs' for the global browser scope. |
+<!-- /generated:parameters -->
 
 ---
 

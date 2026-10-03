@@ -16,15 +16,19 @@ Lists cookies for the target tab's profile with metadata (domain, path, flags, e
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`cursor`** | `string` | No | `null` | Pagination cursor from a previous response's nextCursor field. |
-| **`domainFilter`** | `string` | No | `null` | Optional exact domain match (case-insensitive, leading dot stripped). Required when includeValues=true. |
-| **`includeValues`** | `boolean` | No | `false` | Include actual cookie values in response. Default: false (metadata only). When true, requires permission, domainFilter, and may trigger HIGH-IMPACT secret-read policy because values may contain session tokens and secrets. |
-| **`maxEntries`** | `integer` | No | `100` | Max cookies to return. Default: 100, max: 500. |
-| **`nameFilter`** | `string` | No | `null` | Optional substring match on cookie name. |
-| **`targetId`** | `string` | Yes | `null` | Tab or sandbox ID. Required. |
-| **`uri`** | `string` | No | `null` | Optional URI filter. Only returns cookies that apply to this URI. Without: all cookies in the profile. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `targetId` | `string` | Yes | — | — | Tab or sandbox ID. Required. |
+| `uri` | `string` | No | — | — | Optional URI filter. Only returns cookies that apply to this URI. Without: all cookies in the profile. |
+| `nameFilter` | `string` | No | — | — | Optional substring match on cookie name. |
+| `domainFilter` | `string` | No | — | — | Optional exact domain match (case-insensitive, leading dot stripped). Required when includeValues=true. |
+| `includeValues` | `boolean` | No | `false` | — | Include actual cookie values in response. Default: false (metadata only). When true, requires permission, domainFilter, and may trigger HIGH-IMPACT secret-read policy because values may contain session tokens and secrets. |
+| `maxEntries` | `integer` | No | `100` | 1–500 | Max cookies to return. Default: 100, max: 500. |
+| `cursor` | `string` | No | — | — | Pagination cursor from a previous response's nextCursor field. |
+
+**`_meta.intent` is required for certain arguments.** Passing a short reason in `_meta.intent` is always safe; a rejected call names the argument that made it required.
+<!-- /generated:parameters -->
 
 ---
 

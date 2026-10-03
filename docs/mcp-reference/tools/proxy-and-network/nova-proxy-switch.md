@@ -16,12 +16,13 @@ Dynamically switches the active proxy for global tabs or a specific sandbox with
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`profileId`** | `string` | No | `null` | Profile ID to activate. Pass `null` to disable proxy. |
-| **`sandboxId`** | `string` | No | `global` | Sandbox ID (e.g. `"A"`, `"B"`) to switch. |
-| **`mode`** | `string` | No | `derived` | Scope mode: `"global"`, `"none"`, or `"profile"`. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `profileId` | `string or null` | No | — | — | Proxy profile ID to activate. Use null to disable proxy (direct connection). |
+| `sandboxId` | `string` | No | — | — | Sandbox ID to switch proxy for. Omit for global default switch. |
+| `mode` | `string` | No | — | `global`, `none`, `profile` | Sandbox proxy scope: 'global' follows the global default, 'none' requests a direct connection, 'profile' uses profileId. Requires sandboxId. Omit for the legacy behaviour where profileId alone decides between 'profile' and 'none'. |
+<!-- /generated:parameters -->
 
 ---
 

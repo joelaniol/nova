@@ -16,13 +16,16 @@ Lists files and subdirectories located within a task’s shared workspace folder
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`taskId`** | `string` | Yes | `none` | The task ID. |
-| **`relativePath`** | `string` | No | `null` | Subdirectory path relative to `shared/` (e.g. `"reports"`). |
-| **`limit`** | `integer` | No | `200` | Maximum entries to return (1-500). |
-| **`offset`** | `integer` | No | `0` | Pagination offset. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `taskId` | `string` | Yes | — | — | The task ID. |
+| `relativePath` | `string` | No | — | — | Optional subdirectory path relative to shared/ (e.g. 'reports'). Omit to list the shared/ root. |
+| `limit` | `integer` | No | `200` | 1–500 | Maximum entries to return (1-500). Default: 200. |
+| `offset` | `integer` | No | `0` | ≥ 0 | Number of entries to skip before returning this page. Default: 0. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

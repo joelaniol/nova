@@ -17,10 +17,13 @@ Lists stored credential entries (site domain, associated usernames, and creation
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`site`** | `string` | No | `null` | Optional domain fragment filter (e.g. `"linkedin.com"`). Substring, case-insensitive. |
-| **`_meta.intent`**| `string` | **Conditional**| ? | Audit trail statement explaining why vault entries are being inspected. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `site` | `string` | No | — | — | Optional: only list entries whose site matches this fragment (e.g. 'linkedin.com'). Substring, case-insensitive. |
+
+The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
+<!-- /generated:parameters -->
 
 ---
 

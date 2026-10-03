@@ -16,9 +16,11 @@ Deletes an operator note by unique ID.
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`id`** | `string` | Yes | `null` | Note ID from nova.operator_notes_list. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `id` | `string` | Yes | — | — | Note ID from nova.operator_notes_list. |
+<!-- /generated:parameters -->
 
 ---
 

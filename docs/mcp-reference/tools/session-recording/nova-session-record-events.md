@@ -16,12 +16,13 @@ Decrypts and streams generic event logs (console, errors, lifecycle, IndexedDB) 
 
 ## 2. Parameter Reference
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :---: | :---: | :--- |
-| **`recordingId`** | `string` | Yes | `none` | Finalized recording ID. |
-| **`stream`** | `string` | Yes | `none` | Stream file name: `"console.jsonl"`, `"errors.jsonl"`, `"lifecycle.jsonl"`, or `"indexeddb.jsonl"`. |
-| **`limit`** | `integer` | No | `200` | Maximum number of events to return. |
-| **`_meta`** | `object` | No | `null` | Optional call metadata. |
+<!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `recordingId` | `string` | Yes | — | — | Recording ID. |
+| `stream` | `string` | Yes | — | `console.jsonl`, `errors.jsonl`, `lifecycle.jsonl`, `network.cdp.jsonl`, `indexeddb-ops.jsonl`, `security-violations.jsonl`, `performance.jsonl`, `workers.jsonl`, `interactions.jsonl`, `dom-snapshots.jsonl`, `websocket-payloads.jsonl`, `indexeddb-values.jsonl`, `dom-mutations.jsonl` | Stream file name (e.g. 'console.jsonl'). The three V2 sidecars may report available=false when this recording did not capture them. |
+| `limit` | `integer` | No | `200` | 1–5000 | Max events returned. |
+<!-- /generated:parameters -->
 
 ---
 
