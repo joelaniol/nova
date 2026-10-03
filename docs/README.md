@@ -64,7 +64,7 @@ Deutsch: [weiter unten](#dokumentation-auf-deutsch).
 | [Tool catalog](mcp-reference/tool-catalog.md) | Every tool by area, each linked to its own page |
 | [Protocol and transport](mcp-reference/protocol-and-transport.md) | Wire format, transports and error contract |
 
-One page per tool, grouped by area:
+[One page per tool](mcp-reference/tools/README.md), grouped by area:
 
 | Area | Tools |
 |---|---|

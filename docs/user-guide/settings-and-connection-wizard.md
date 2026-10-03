@@ -23,7 +23,8 @@ The Settings interface is organized into clean categories:
 
 To connect an AI coding assistant to Nova AI Workspace:
 
-1. Open **Settings** $ightarrow$ navigate to **Agent Integration**.
+1. Open **Settings** $
+ightarrow$ navigate to **Agent Integration**.
 2. Select your AI assistant:
    * **Anthropic Claude Code (CLI)**
    * **Anthropic Claude Desktop**
@@ -33,12 +34,12 @@ To connect an AI coding assistant to Nova AI Workspace:
 
 ```mermaid
 flowchart TD
-    Wizard["Nova Connection Wizard\n(Settings -> Agent Integration)"]
+    Wizard["Nova Connection Wizard<br>(Settings -> Agent Integration)"]
     Wizard -->|Generate Transport Token| Host["Nova MCP Server"]
-    Wizard -->|Write Config File| ClaudeCode["~/.claude.json\n(Claude Code CLI)"]
-    Wizard -->|Write Config File| ClaudeDesk["claude_desktop_config.json\n(Claude Desktop GUI)"]
-    Wizard -->|Write Config File| Codex["~/.codex/config.toml\n(Codex CLI)"]
-    Wizard -->|Write Config File| Antigrav[".gemini/antigravity-cli/mcp/nova\n(Antigravity)"]
+    Wizard -->|Write Config File| ClaudeCode["~/.claude.json<br>(Claude Code CLI)"]
+    Wizard -->|Write Config File| ClaudeDesk["claude_desktop_config.json<br>(Claude Desktop GUI)"]
+    Wizard -->|Write Config File| Codex["~/.codex/config.toml<br>(Codex CLI)"]
+    Wizard -->|Write Config File| Antigrav[".gemini/antigravity-cli/mcp/nova<br>(Antigravity)"]
 ```
 
 ---
@@ -47,7 +48,8 @@ flowchart TD
 
 If you are using a custom agent or running on a separate machine across the local network:
 
-1. In **Settings** $ightarrow$ **MCP Remote Control**:
+1. In **Settings** $
+ightarrow$ **MCP Remote Control**:
    * **Server Mode:** Named Pipe (fastest, local only) or HTTP/SSE (accessible over localhost or intranet).
    * **Named Pipe Name:** `\\.\pipe\nova-mcp-workspace`
    * **HTTP Port:** Default `63721`

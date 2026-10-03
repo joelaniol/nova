@@ -16,11 +16,11 @@ Automating browsers with traditional tools often feels like handing your compute
 
 ```mermaid
 flowchart LR
-    Agent["MCP Agent\n(Claude / Codex)"] -->|nova.input_click| Engine["Humanized Input Engine"]
+    Agent["MCP Agent<br>(Claude / Codex)"] -->|nova.input_click| Engine["Humanized Input Engine"]
     Engine -->|Input Event| WebView["CoreWebView2 Canvas"]
-    Engine -->|Visual Overlay| Halo["AAG Halo & Click Rings\n(WinUI 3 Transparent Layer)"]
+    Engine -->|Visual Overlay| Halo["AAG Halo & Click Rings<br>(WinUI 3 Transparent Layer)"]
     Halo --> Human["Human Operator Spectator"]
-    Human -.->|Mouse / Keyboard Override| Emergency["Instant Takeover Brake\n(Automation Paused)"]
+    Human -.->|Mouse / Keyboard Override| Emergency["Instant Takeover Brake<br>(Automation Paused)"]
 ```
 
 ---

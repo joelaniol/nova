@@ -11,21 +11,21 @@ Nova provides native, verified integrations for all major AI coding and automati
 ```mermaid
 flowchart TD
     subgraph Clients["Supported AI Clients"]
-        CC["Anthropic Claude Code\n(CLI & Subagents)"]
-        CD["Anthropic Claude Desktop\n(GUI Application)"]
-        Codex["OpenAI Codex CLI\n(Autonomous Workspaces)"]
-        AGY["Google Antigravity & Gemini\n(CLI & IDE Extensions)"]
-        Custom["Custom Python & Node Agents\n(SDK / HTTP / Pipes)"]
+        CC["Anthropic Claude Code<br>(CLI & Subagents)"]
+        CD["Anthropic Claude Desktop<br>(GUI Application)"]
+        Codex["OpenAI Codex CLI<br>(Autonomous Workspaces)"]
+        AGY["Google Antigravity & Gemini<br>(CLI & IDE Extensions)"]
+        Custom["Custom Python & Node Agents<br>(SDK / HTTP / Pipes)"]
     end
 
     subgraph Transports["Transport Layer"]
-        Pipe["Named Pipe (\\.\\pipe\\nova-mcp)\nCurrentUserOnly, Zero-Port Overhead"]
-        Stdio["Stdio Proxy (NovaBrowser.McpProxy.exe)\nBridge for Stdio-only Clients"]
-        Http["Streamable HTTP JSON-RPC\nBearer Auth, Event Streaming"]
+        Pipe["Named Pipe (\\.\\pipe\\nova-mcp)<br>CurrentUserOnly, Zero-Port Overhead"]
+        Stdio["Stdio Proxy (NovaBrowser.McpProxy.exe)<br>Bridge for Stdio-only Clients"]
+        Http["Streamable HTTP JSON-RPC<br>Bearer Auth, Event Streaming"]
     end
 
     subgraph Server["Nova AI Workspace Runtime"]
-        Core["Local MCP Server (800+ Native Tools)\nAAG Gates | TOB Evidence | PKS Memory"]
+        Core["Local MCP Server (400+ Native Tools)<br>AAG Gates | TOB Evidence | PKS Memory"]
     end
 
     CC -->|Named Pipe / Stdio| Pipe

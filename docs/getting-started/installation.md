@@ -2,6 +2,8 @@
 
 This guide outlines system requirements and step-by-step instructions for installing **Nova AI Workspace** on Windows.
 
+Deutsch: [weiter unten](#nova-ai-workspace-installieren).
+
 ---
 
 ## 1. System Requirements
@@ -15,70 +17,125 @@ Nova AI Workspace is built natively for 64-bit Windows environments.
 | **Processor** | 2-core x64 CPU | 4-core+ modern x64 CPU |
 | **Memory (RAM)** | 4 GB RAM | 8 GB+ RAM (especially for multi-sandbox workflows) |
 | **Disk Space** | 500 MB free space | 2 GB+ (for local Whisper models, caches, recordings) |
-| **Runtime 1** | **Microsoft Edge WebView2 Runtime (Evergreen)** | Evergreen Runtime (pre-installed on Windows 10/11) |
-| **Runtime 2** | **Microsoft .NET 8 Desktop Runtime (x64)** | Bundled in self-contained installer |
+| **Microsoft Edge WebView2 Runtime** | Required | Usually already part of Windows 10/11; the setup installs it if it is missing |
+
+You do not need to install .NET: Nova ships with its own runtime. The setup also installs the
+Microsoft Visual C++ runtime if it is missing.
+
+---
+
+## 2. Download and Install
+
+1. Open the [latest release](https://github.com/joelaniol/nova/releases) and download the setup
+   file ending in `-Setup-<version>.exe`, for example `NovaAIWorkspace-Setup-1.0.0-alpha.18.exe`.
+   Older releases still carry the previous product name, `NovaBrowser-Setup-…`.
+2. Run the setup. It asks for administrator rights because it installs for all users into
+   `C:\Program Files\Nova AI Workspace`.
+3. Follow the wizard. It creates a Start menu entry and, if you tick the box, a desktop shortcut.
+   If WebView2 is missing, the setup downloads and installs it.
+
+> [!TIP]
+> **No internet on the target machine?** Some releases also offer a larger file ending in
+> `-offline.exe`. It contains the WebView2 runtime, so the setup does not need to download anything.
+
+Once installed, Nova checks for new versions by itself and offers the update.
 
 > [!NOTE]
-> Microsoft Edge WebView2 Evergreen Runtime is installed by default on modern Windows 10 and 11 installations. If missing, it can be downloaded from Microsoft's official [WebView2 Evergreen Bootstrapper](https://developer.microsoft.com/en-us/microsoft-edge/webview2/).
+> **Windows SmartScreen.** Alpha builds are signed with a certificate Windows does not know yet, so
+> SmartScreen may show *"Windows protected your PC"* and *"Unknown publisher"*. Click
+> **More info** → **Run anyway** to continue.
 
 ---
 
-## 2. Package Options
-
-Nova AI Workspace is released in two formats:
-
-### Option A: Standard Setup Installer (`NovaSetup.exe`)
-* **Recommended for end users and workstations.**
-* Automatically configures user-level registry entries, Start Menu shortcuts, and sets up path environment variables.
-* Packages all necessary dependencies (.NET 8 self-contained).
-
-### Option B: Portable Archive (`NovaAIWorkspace.zip`)
-* **Recommended for developers, CI/CD runners, and custom workspaces.**
-* No administrator privileges required; extract anywhere (e.g. `C:\Tools\Nova\` or user workspace).
-* Portable directory must preserve the relative paths of the three sibling executables.
-
----
-
-## 3. The Core Executables
-
-A valid Nova installation consists of three complementary binaries in the same directory:
+## 3. What Gets Installed
 
 ```
-Nova/
-├── NovaAIWorkspace.exe          # Main application (WinUI 3 Host, WebViews, Local MCP Server)
-├── NovaBrowser.Outrider.exe     # Outrider isolation process (native hardware & audio worker)
-└── NovaBrowser.McpProxy.exe     # Stdio MCP Proxy (bridges CLI/Desktop clients to Named Pipes)
+Nova AI Workspace/
+├── NovaAIWorkspace.exe            # Main application (window, browser tabs, local MCP server)
+├── NovaBrowser.Outrider.exe       # Helper process for hardware and audio work
+└── tools/
+    └── NovaBrowser.McpProxy.exe   # Bridge for AI programs that talk to Nova over stdio
 ```
 
 > [!IMPORTANT]
-> `NovaBrowser.Outrider.exe` **must remain in the exact same directory** as `NovaAIWorkspace.exe`. The parent application lazily spawns Outrider via a private, parent-governed Named Pipe for risky native operations (hardware diagnostics, local Whisper transcription, audio capture). If Outrider is missing or moved, those capabilities fail-closed.
+> Keep these files where the setup put them. Nova starts `NovaBrowser.Outrider.exe` from its own
+> folder for risky native work (hardware diagnostics, local Whisper transcription, audio capture);
+> if it is missing, those features stay off. AI programs are pointed at
+> `tools\NovaBrowser.McpProxy.exe` by the connection wizard.
 
 ---
 
-## 4. Post-Installation Verification
+## 4. Check That It Works
 
-1. **Launch the Workspace:**
-   Double-click `NovaAIWorkspace.exe` or launch from Start Menu. The Nova main window should open with the initial tab interface.
-2. **CLI Smoke Check:**
-   Open PowerShell or Windows Terminal in the installation directory and run:
+1. **Start Nova** from the Start menu. The main window opens with a first tab.
+2. **Check the MCP server.** While Nova is running, it listens for AI programs on
+   `127.0.0.1`, port `27183` by default (you can change it in the settings under **Local port**). In
+   PowerShell:
    ```powershell
-   .\NovaAIWorkspace.exe --version
+   Test-NetConnection 127.0.0.1 -Port 27183
    ```
-3. **Verify MCP Discovery Pipe:**
-   When Nova is running, it opens a secure, user-scoped Named Pipe (`\\.\pipe\nova-mcp`). You can verify pipe availability in PowerShell:
-   ```powershell
-   Get-ChildItem \\.\pipe\ | Where-Object { $_.Name -match "nova" }
-   ```
+   `TcpTestSucceeded : True` means the server is up.
+3. **Connect your AI program** with the connection wizard; see
+   [Settings & connection wizard](../user-guide/settings-and-connection-wizard.md) and the
+   [integration guides](../integration/README.md).
 
 ---
 
-## 5. Security & Antivirus Notes
+## 5. Security Notes
 
-* **Local-Only Bound:** Nova binds its internal HTTP endpoints and Named Pipes exclusively to `127.0.0.1` (`IPAddress.Loopback`) and `PipeOptions.CurrentUserOnly`. It does not accept remote network connections.
-* **Windows SmartScreen:** If installing a pre-release or self-compiled build without a public code-signing certificate, Windows SmartScreen may show a *"Windows protected your PC"* notification. Click **More info** $\rightarrow$ **Run anyway** to proceed.
+* **Local only by default:** The MCP server binds to `127.0.0.1` and does not accept connections
+  from other machines unless you explicitly allow remote clients in the settings.
+* **Token-protected:** AI programs need Nova's access token, which the connection wizard sets up for
+  you.
 
 ---
 
 ## Next Step
 
 Proceed to **[First Run & UI Tour](first-run.md)** to configure your workspace profiles and learn the navigation layout.
+
+---
+
+# Nova AI Workspace installieren
+
+## Voraussetzungen
+
+- Windows 10 ab Version 1809 oder Windows 11, 64 Bit (x64)
+- mindestens 4 GB Arbeitsspeicher und 500 MB freier Speicherplatz; für lokale Spracherkennung,
+  Aufnahmen und mehrere Sandboxes eher 8 GB und 2 GB
+- Microsoft-Edge-WebView2-Laufzeit: ist bei Windows 10/11 meist schon da, sonst installiert sie
+  das Setup mit
+
+.NET musst du nicht installieren, Nova bringt seine Laufzeit selbst mit.
+
+## Installation
+
+1. Unter [Releases](https://github.com/joelaniol/nova/releases) die Datei herunterladen, die auf
+   `-Setup-<version>.exe` endet, z. B. `NovaAIWorkspace-Setup-1.0.0-alpha.18.exe`. Ältere
+   Versionen heißen noch `NovaBrowser-Setup-…`.
+2. Setup starten. Es fragt nach Administratorrechten, weil es für alle Nutzer nach
+   `C:\Program Files\Nova AI Workspace` installiert.
+3. Dem Assistenten folgen. Er legt einen Startmenü-Eintrag an und auf Wunsch eine
+   Desktop-Verknüpfung. Fehlt WebView2, lädt das Setup es nach.
+
+Kein Internet auf dem Zielrechner? Manche Releases bieten zusätzlich eine größere Datei mit der
+Endung `-offline.exe`, die WebView2 bereits enthält.
+
+Meldet Windows SmartScreen „Der Computer wurde durch Windows geschützt“ bzw. „Unbekannter
+Herausgeber“: auf **Weitere Informationen** → **Trotzdem ausführen** klicken. Das liegt am
+Signaturzertifikat der Alpha-Versionen, das Windows noch nicht kennt.
+
+Nach der Installation sucht Nova selbst nach neuen Versionen und bietet das Update an.
+
+## Prüfen, ob alles läuft
+
+1. Nova über das Startmenü starten.
+2. In PowerShell prüfen, ob Nova für KI-Programme erreichbar ist:
+   ```powershell
+   Test-NetConnection 127.0.0.1 -Port 27183
+   ```
+   `TcpTestSucceeded : True` heißt: läuft. (27183 ist der Standard-Port; ändern lässt er sich in den
+   Einstellungen unter **Lokaler Port**.)
+3. KI-Programm mit dem Verbindungsassistenten anbinden: [Integration](../integration/README.md).
+
+Weiter geht es mit dem [ersten Start](first-run.md).

@@ -25,17 +25,17 @@ flowchart TD
     end
 
     subgraph SecurityGate["Security & Permission Engine"]
-        GrantStore["ConnectorGrantStore\n(Ask / Always / Blocked)"]
-        CapabilityCheck["Capability Evaluator\n(Read / Organize / Send / Full)"]
-        RateLimiter["MailSendRateLimiter\n(Spam & Runaway Guard)"]
+        GrantStore["ConnectorGrantStore<br>(Ask / Always / Blocked)"]
+        CapabilityCheck["Capability Evaluator<br>(Read / Organize / Send / Full)"]
+        RateLimiter["MailSendRateLimiter<br>(Spam & Runaway Guard)"]
         SecretStore["GlobalSecretStore (DPAPI Encrypted)"]
     end
 
     subgraph ConnectorClients["Managed Protocol Clients"]
-        MailClient["ConnectorMailClient\n(IMAP & SMTP / MailKit)"]
-        SftpClient["ConnectorSftpClient\n(SSH.NET Bounded Streams)"]
-        FtpClient["ConnectorFtpClient\n(FTPS / Explicit TLS)"]
-        McpBridge["ExternalMcpServerBridge\n(External MCP Tool Proxy)"]
+        MailClient["ConnectorMailClient<br>(IMAP & SMTP / MailKit)"]
+        SftpClient["ConnectorSftpClient<br>(SSH.NET Bounded Streams)"]
+        FtpClient["ConnectorFtpClient<br>(FTPS / Explicit TLS)"]
+        McpBridge["ExternalMcpServerBridge<br>(External MCP Tool Proxy)"]
     end
 
     Req --> SecurityGate

@@ -69,7 +69,7 @@
 
 ## 4. Operational Best Practices
 
-* **Context Conservation:** Instead of keeping all 408 tool schemas in system prompts, query `nova.tools_bundle` dynamically to activate only necessary tools.
+* **Context Conservation:** Instead of keeping all 400+ tool schemas in system prompts, query `nova.tools_bundle` dynamically to activate only necessary tools.
 * **Natural Language Discovery:** Search by intent keywords when facing unfamiliar automation tasks.
 
 ---

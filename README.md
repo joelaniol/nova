@@ -12,12 +12,12 @@
 [![UI Framework](https://img.shields.io/badge/UI-WinUI%203%20%2B%20Windows%20App%20SDK-512BD4)](#)
 [![Engine](https://img.shields.io/badge/Engine-Microsoft%20Edge%20WebView2-0078D4?logo=microsoftedge&logoColor=white)](#)
 [![Protocol](https://img.shields.io/badge/Protocol-Model%20Context%20Protocol%20(MCP)%20v3-FF6B6B)](#)
-[![Tools](https://img.shields.io/badge/MCP%20Tools-408%20Active%20Tools-success)](#)
+[![Tools](https://img.shields.io/badge/MCP%20Tools-400%2B-success)](#)
 [![Terminal](https://img.shields.io/badge/Terminal-ConPTY%20PowerShell%207-2D7D9A?logo=powershell&logoColor=white)](#)
 [![Local-first](https://img.shields.io/badge/data-local--first-2ea44f)](#)
 [![Made in Germany](https://img.shields.io/badge/Made%20in-Germany-FFCC00?labelColor=DD0000)](#)
 
-[Quickstart](docs/getting-started/quickstart.md) • [User Guide](docs/user-guide/README.md) • [Core Features](docs/core-features/README.md) • [Tool Catalog (408 Tools)](docs/mcp-reference/tool-catalog.md) • [Developer Guide](docs/developer-guide/README.md) • [Deutsch](#nova-ai-workspace-deutsch)
+[Quickstart](docs/getting-started/quickstart.md) • [User Guide](docs/user-guide/README.md) • [Core Features](docs/core-features/README.md) • [Tool Catalog (400+ Tools)](docs/mcp-reference/tool-catalog.md) • [Developer Guide](docs/developer-guide/README.md) • [Deutsch](#nova-ai-workspace-deutsch)
 
 </div>
 
@@ -76,11 +76,11 @@ flowchart TD
     end
 
     subgraph HostProcess["Nova AI Workspace Host (NovaAIWorkspace.exe)"]
-        MCPServer["MCP JSON-RPC 2.0 Server\n(Named Pipes & HTTP/SSE)"]
-        AAG["Agent Awareness Gates (AAG)\n(Visual Halos & Safety Checks)"]
-        WinUI["WinUI 3 Modern Chrome\n(Mica Backdrop, Tab Strip)"]
-        Terminal["Embedded ConPTY Dock\n(PowerShell 7, Git CLI)"]
-        WebView["Microsoft WebView2 Runtimes\n(Isolated Sandbox Partitions)"]
+        MCPServer["MCP JSON-RPC 2.0 Server<br>(Named Pipes & HTTP/SSE)"]
+        AAG["Agent Awareness Gates (AAG)<br>(Visual Halos & Safety Checks)"]
+        WinUI["WinUI 3 Modern Chrome<br>(Mica Backdrop, Tab Strip)"]
+        Terminal["Embedded ConPTY Dock<br>(PowerShell 7, Git CLI)"]
+        WebView["Microsoft WebView2 Runtimes<br>(Isolated Sandbox Partitions)"]
     end
 
     subgraph OutriderWorker["Outrider Subprocess (NovaBrowser.Outrider.exe)"]
@@ -101,7 +101,7 @@ flowchart TD
 
 ## 🚀 Key Highlights & Capabilities
 
-### ⚡ 408 Deep Model Context Protocol (MCP) Tools
+### ⚡ 400+ Deep Model Context Protocol (MCP) Tools
 Nova provides the most comprehensive programmatic browser surface available. Agents can inspect DOM trees, compute element layout geometries, take baseline screenshot diffs, download files, execute background crawlers, capture WebAudio streams, and manage tabs across 25 functional domains.
 * Explore the complete [MCP Tool Catalog](docs/mcp-reference/tool-catalog.md).
 
@@ -189,7 +189,7 @@ Explore the comprehensive documentation for operators, developers, and AI agents
 | **[Getting Started](docs/getting-started/README.md)** | Installation & Onboarding | [Installation](docs/getting-started/installation.md) • [First Run Tour](docs/getting-started/first-run.md) • [Quickstart](docs/getting-started/quickstart.md) |
 | **[User Guide](docs/user-guide/README.md)** | Human Workspace & UI Controls | [Workspace Layout](docs/user-guide/workspace-layout.md) • [Sandboxes](docs/user-guide/sandboxes-and-profiles.md) • [Terminal Dock](docs/user-guide/terminal-dock.md) • [Spectator Mode](docs/user-guide/live-assist-and-spectator.md) • [Shortcuts](docs/user-guide/keyboard-shortcuts.md) |
 | **[Core Features](docs/core-features/README.md)** | Deep Architecture & Systems | [AAG Gates](docs/core-features/aag.md) • [PKS Knowledge Store](docs/core-features/pks.md) • [Outrider Boundary](docs/core-features/outrider-boundary.md) • [Vault & Secrets](docs/core-features/vault-and-secrets.md) • [Session Recording](docs/core-features/session-recording.md) |
-| **[MCP Reference](docs/mcp-reference/README.md)** | 408 Tool Schemas & API | [Tool Catalog](docs/mcp-reference/tool-catalog.md) • [Protocol & Transport](docs/mcp-reference/protocol-and-transport.md) • [Dedicated Tool Guides](docs/mcp-reference/tools/) |
+| **[MCP Reference](docs/mcp-reference/README.md)** | 400+ Tool Schemas & API | [Tool Catalog](docs/mcp-reference/tool-catalog.md) • [Protocol & Transport](docs/mcp-reference/protocol-and-transport.md) • [Dedicated Tool Guides](docs/mcp-reference/tools/README.md) |
 | **[Integration](docs/integration/README.md)** | AI Assistants & Clients | [Claude Code](docs/integration/claude-code.md) • [Codex](docs/integration/openai-codex.md) • [Antigravity](docs/integration/google-antigravity.md) • [Claude Desktop](docs/integration/claude-desktop.md) • [Custom Agents](docs/integration/custom-agents.md) |
 | **[Developer Guide](docs/developer-guide/README.md)** | Building & Contributing | [Building from Source](docs/developer-guide/building-from-source.md) • [Running Tests](docs/developer-guide/running-tests.md) • [Outrider IPC](docs/developer-guide/outrider-architecture.md) |
 | **[Troubleshooting](docs/troubleshooting/README.md)** | Diagnostics & Error Recovery | [Connection Issues](docs/troubleshooting/agent-connection-issues.md) • [Diagnostics Logs](docs/troubleshooting/diagnostics.md) • [Session Recovery](docs/troubleshooting/sandbox-and-session-recovery.md) |
@@ -208,7 +208,7 @@ Explore the comprehensive documentation for operators, developers, and AI agents
 ## 🇩🇪 Nova AI Workspace (Deutsch)
 
 **Der lokale KI-Browser & die kognitive Laufzeitumgebung für Windows.**  
-Echte Browsersitzungen · ConPTY-Terminal · Wissensspeicher · Scheduler · 408 MCP-Tools — lokal, transparent und auditierbar.
+Echte Browsersitzungen · ConPTY-Terminal · Wissensspeicher · Scheduler · über 400 MCP-Tools — lokal, transparent und auditierbar.
 
 ### Schnellstart in 3 Schritten
 1. **[Setup herunterladen](https://github.com/joelaniol/nova/releases)** (Windows 10 / 11 x64).

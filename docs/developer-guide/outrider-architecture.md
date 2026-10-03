@@ -22,7 +22,7 @@ flowchart TD
     end
 
     subgraph IPC["Supervised Named Pipe"]
-        Pipe["\\.\pipe\nova-outrider-[pid]-[token]\n• CurrentUserOnly\n• Length-Prefixed JSON Frames\n• Max Frame: 1 MB"]
+        Pipe["\\.\pipe<br>ova-outrider-[pid]-[token]<br>• CurrentUserOnly<br>• Length-Prefixed JSON Frames<br>• Max Frame: 1 MB"]
     end
 
     subgraph OutriderProcess["Worker Subprocess (NovaBrowser.Outrider.exe)"]

@@ -21,22 +21,22 @@ Nova solves this via an **embedded BFS crawler engine** and a **persistent site 
 ```mermaid
 flowchart TD
     subgraph Agent["MCP Agent"]
-        Cmd["nova.crawl_start\n(Scope, MaxDepth, Filter)"]
-        IndexQuery["nova.site_urls / report\n(Index-First Retrieval)"]
+        Cmd["nova.crawl_start<br>(Scope, MaxDepth, Filter)"]
+        IndexQuery["nova.site_urls / report<br>(Index-First Retrieval)"]
     end
 
     subgraph CrawlerEngine["Crawl Engine & Orchestrator"]
         BFS["BFS Queue & Deduplication"]
-        RateLimit["Adaptive Rate Limiting\n& Circuit Breaker"]
-        Settlement["JS Settlement Detection\n(Waits for DOM Quiescence)"]
+        RateLimit["Adaptive Rate Limiting<br>& Circuit Breaker"]
+        Settlement["JS Settlement Detection<br>(Waits for DOM Quiescence)"]
     end
 
     subgraph Storage["Persistent Storage"]
-        CrawlDb["crawl.db (SQLite)\n• URLs & HTTP Status\n• Extracted Metadata & Links\n• Content Blocks & Hashes"]
+        CrawlDb["crawl.db (SQLite)<br>• URLs & HTTP Status<br>• Extracted Metadata & Links<br>• Content Blocks & Hashes"]
     end
 
     subgraph HiddenSurface["Isolated Execution"]
-        HiddenWebViews["Dedicated Hidden WebView2 Instances\n(Zero impact on active user tabs)"]
+        HiddenWebViews["Dedicated Hidden WebView2 Instances<br>(Zero impact on active user tabs)"]
     end
 
     Cmd --> BFS

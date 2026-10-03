@@ -57,7 +57,7 @@ Run nova.install_onboarding to setup project documentation.
 
 ### What `install_onboarding` Does:
 1. **Generates `.nova/nova-mcp.quick.md`:** The compact tool router, bootstrap instructions, and recovery procedures.
-2. **Generates `.nova/nova-mcp.md`:** The comprehensive 100KB+ reference of all 800+ tools, schemas, and parameter options.
+2. **Generates `.nova/nova-mcp.md`:** The comprehensive 100KB+ reference of all 400+ tools, schemas, and parameter options.
 3. **Injects the Session Marker Block into `CLAUDE.md` / `AGENTS.md`:**
    ```markdown
    <!-- NOVA-BROWSER-MCP-START version=4.39.0 -->

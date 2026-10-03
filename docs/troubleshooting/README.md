@@ -8,9 +8,9 @@ Welcome to the **Nova AI Workspace Troubleshooting & Diagnostics Hub**. This sec
 
 ```mermaid
 flowchart TD
-    A["Troubleshooting Hub"] --> B["1. Agent & MCP Connection Issues\n(Named Pipes, Proxy, Antigravity, Bearer Tokens)"]
-    A --> C["2. Diagnostics & Log Analysis\n(diagnostics.log, mcp-transport.log, Error Codes)"]
-    A --> D["3. Sandbox & Session Recovery\n(Orphaned Tabs, Crash Dumps, Emergency Stops)"]
+    A["Troubleshooting Hub"] --> B["1. Agent & MCP Connection Issues<br>(Named Pipes, Proxy, Antigravity, Bearer Tokens)"]
+    A --> C["2. Diagnostics & Log Analysis<br>(diagnostics.log, mcp-transport.log, Error Codes)"]
+    A --> D["3. Sandbox & Session Recovery<br>(Orphaned Tabs, Crash Dumps, Emergency Stops)"]
 ```
 
 1. **[Agent & MCP Connection Issues (`agent-connection-issues.md`)](agent-connection-issues.md)**

@@ -13,8 +13,8 @@ When connected to Nova AI Workspace over the Model Context Protocol (MCP), Codex
 
 ```mermaid
 flowchart LR
-    Codex["OpenAI Codex CLI\n(~/.codex/config.toml)"] <-->|Stdio / Named Pipe| Proxy["NovaBrowser.McpProxy.exe\n(Local Stdio Bridge)"]
-    Proxy <-->|Local Windows Named Pipe| Nova["Nova AI Workspace Host\n(408 MCP Tools)"]
+    Codex["OpenAI Codex CLI<br>(~/.codex/config.toml)"] <-->|Stdio / Named Pipe| Proxy["NovaBrowser.McpProxy.exe<br>(Local Stdio Bridge)"]
+    Proxy <-->|Local Windows Named Pipe| Nova["Nova AI Workspace Host<br>(400+ MCP Tools)"]
 ```
 
 ---

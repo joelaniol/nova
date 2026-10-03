@@ -56,7 +56,7 @@ nova.tools_bundle({
 ```
 
 * `nova.get_instructions` returns active domain knowledge, site quirks, and operator preferences.
-* `nova.tools_bundle` returns the full `bundleCatalog` (all 800+ available tools mapped to concise capability bundles).
+* `nova.tools_bundle` returns the full `bundleCatalog` (all 400+ available tools mapped to concise capability bundles).
 
 ---
 

@@ -26,19 +26,19 @@ Nova resolves these issues with a resilient **Fire-and-Collect background schedu
 ```mermaid
 flowchart TD
     subgraph Management["Agent & UI Management"]
-        Create["nova.scheduled_task_create\n(Cron Expression, Prompt, Executor)"]
-        Secrets["nova.scheduled_task_secret_set\n(Secure Variable Injection)"]
+        Create["nova.scheduled_task_create<br>(Cron Expression, Prompt, Executor)"]
+        Secrets["nova.scheduled_task_secret_set<br>(Secure Variable Injection)"]
     end
 
     subgraph Scheduler["Background Runtime Engine"]
-        Engine["ScheduledTaskEngine\n(Scheduler Thread & Precision Timers)"]
-        Db["ScheduledTaskDb (SQLite)\n• Task Definitions\n• Run History & Status\n• Persistent State & Vars"]
-        Workspace["Isolated Task Workspace\n(%LOCALAPPDATA%/ScheduledTasks/<taskId>/)"]
+        Engine["ScheduledTaskEngine<br>(Scheduler Thread & Precision Timers)"]
+        Db["ScheduledTaskDb (SQLite)<br>• Task Definitions<br>• Run History & Status<br>• Persistent State & Vars"]
+        Workspace["Isolated Task Workspace<br>(%LOCALAPPDATA%/ScheduledTasks/<taskId>/)"]
     end
 
     subgraph Execution["Unattended Execution Pipeline"]
-        Runner["Task Runner Worker\n(Executes Prompt / Script)"]
-        Collector["Output Collector\n(Aggregates JSON / Text / Files)"]
+        Runner["Task Runner Worker<br>(Executes Prompt / Script)"]
+        Collector["Output Collector<br>(Aggregates JSON / Text / Files)"]
     end
 
     Create --> Db

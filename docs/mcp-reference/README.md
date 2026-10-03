@@ -1,27 +1,27 @@
 # Nova MCP Reference & Tool Index
 
-Nova AI Workspace exposes over 800 native tools over the **Model Context Protocol (MCP)**, making it the most comprehensive browser automation and cognitive workspace platform in existence.
+Nova AI Workspace exposes over 400 native tools over the **Model Context Protocol (MCP)**, making it the most comprehensive browser automation and cognitive workspace platform in existence.
 
 ---
 
 ## 1. Architecture & Discovery Model
 
-Loading 800+ full JSON Schemas into an LLM context window upfront consumes tens of thousands of tokens before the first action is taken. Nova solves this with a **Two-Tier Dynamic Discovery Model**:
+Loading 400+ full JSON Schemas into an LLM context window upfront consumes tens of thousands of tokens before the first action is taken. Nova solves this with a **Two-Tier Dynamic Discovery Model**:
 
 ```mermaid
 flowchart TD
     subgraph Bootstrap["1. Bootstrap Handshake"]
-        GI["nova.get_instructions()\n(Domain notes, task hints, active contract)"]
-        TB["nova.tools_bundle(bundle='browser_automation')\n(Authoritative bundleCatalog with 25 bundle summaries)"]
+        GI["nova.get_instructions()<br>(Domain notes, task hints, active contract)"]
+        TB["nova.tools_bundle(bundle='browser_automation')<br>(Authoritative bundleCatalog with 25 bundle summaries)"]
     end
 
     subgraph Discovery["2. On-Demand Capability Discovery"]
-        Query["nova.tools_bundle(query='table extraction')\n(Fuzzy search across tool descriptions)"]
-        Exact["nova.tools_bundle(toolName='nova.extract_table')\n(Exact JSON Schema only for the tool you want to call)"]
+        Query["nova.tools_bundle(query='table extraction')<br>(Fuzzy search across tool descriptions)"]
+        Exact["nova.tools_bundle(toolName='nova.extract_table')<br>(Exact JSON Schema only for the tool you want to call)"]
     end
 
     subgraph Execution["3. Execution Layer"]
-        Call["tools/call -> Typed Native Handler\n(AAG Pre-Check -> TOB Observation -> Structured Result)"]
+        Call["tools/call -> Typed Native Handler<br>(AAG Pre-Check -> TOB Observation -> Structured Result)"]
     end
 
     GI --> TB
@@ -72,7 +72,7 @@ Every tool in Nova belongs to one or more functional bundles. You can request an
 
 ## 3. Global Parameter Conventions
 
-Across all 800+ tools, Nova follows strict, consistent parameter conventions:
+Across all 400+ tools, Nova follows strict, consistent parameter conventions:
 
 ### A. Targeting (`targetId`)
 * **`targetId`:** Specifies which browsing surface to interact with.

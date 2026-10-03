@@ -21,18 +21,18 @@ Traditional browser extensions require manual installation, store reviews, and p
 ```mermaid
 flowchart TD
     subgraph AgentLayer["MCP Agent (Claude Code / Codex / Antigravity)"]
-        Author["nova.plugin_create / update\n(Writes Manifest + JS Code)"]
-        Test["nova.plugin_test\n(Executes Smoke & Runtime Tests)"]
+        Author["nova.plugin_create / update<br>(Writes Manifest + JS Code)"]
+        Test["nova.plugin_test<br>(Executes Smoke & Runtime Tests)"]
     end
 
     subgraph HostCore["Nova Host Runtime"]
-        Dispatcher["PluginEngineDispatcher\n(Serialized Single-Thread Pump,\nEcho-Loop & Deadlock Guard)"]
-        Supervisor["PluginSupervisor\n(Lifecycle, Permissions & Quotas)"]
+        Dispatcher["PluginEngineDispatcher<br>(Serialized Single-Thread Pump,<br>Echo-Loop & Deadlock Guard)"]
+        Supervisor["PluginSupervisor<br>(Lifecycle, Permissions & Quotas)"]
     end
 
     subgraph SandboxVM["Isolated Jint JS-VMs"]
-        VM1["Plugin 1 Engine (Jint VM)\n• Scoped Storage\n• DOM-Bridge APIs"]
-        VM2["Plugin 2 Engine (Jint VM)\n• Shadow-DOM Overlays\n• Network Permissions"]
+        VM1["Plugin 1 Engine (Jint VM)<br>• Scoped Storage<br>• DOM-Bridge APIs"]
+        VM2["Plugin 2 Engine (Jint VM)<br>• Shadow-DOM Overlays<br>• Network Permissions"]
     end
 
     Author --> Dispatcher

@@ -16,15 +16,15 @@ In Nova:
 ```mermaid
 flowchart TD
     subgraph NovaWindow["Nova AI Workspace (Single Window)"]
-        Tab1["Tab 1: GitHub (Prod)\nSandbox: 'Corporate' [Blue]"]
-        Tab2["Tab 2: GitHub (Personal)\nSandbox: 'Private' [Green]"]
-        Tab3["Tab 3: Vendor Portal\nSandbox: 'Ephemeral' [Purple]"]
+        Tab1["Tab 1: GitHub (Prod)<br>Sandbox: 'Corporate' [Blue]"]
+        Tab2["Tab 2: GitHub (Personal)<br>Sandbox: 'Private' [Green]"]
+        Tab3["Tab 3: Vendor Portal<br>Sandbox: 'Ephemeral' [Purple]"]
     end
 
     subgraph StorageEngine["Storage Isolation on Disk"]
-        Dir1["%LOCALAPPDATA%/NovaBrowser/Profiles/Corporate/\n(Cookies, Cache, IndexedDB)"]
-        Dir2["%LOCALAPPDATA%/NovaBrowser/Profiles/Private/\n(Cookies, Cache, IndexedDB)"]
-        Dir3["%LOCALAPPDATA%/NovaBrowser/Profiles/Ephemeral-XYZ/\n(In-Memory / Auto-Purge)"]
+        Dir1["%LOCALAPPDATA%/NovaBrowser/Profiles/Corporate/<br>(Cookies, Cache, IndexedDB)"]
+        Dir2["%LOCALAPPDATA%/NovaBrowser/Profiles/Private/<br>(Cookies, Cache, IndexedDB)"]
+        Dir3["%LOCALAPPDATA%/NovaBrowser/Profiles/Ephemeral-XYZ/<br>(In-Memory / Auto-Purge)"]
     end
 
     Tab1 --> Dir1
@@ -42,7 +42,9 @@ flowchart TD
 3. The newly opened tab immediately adopts the color theme and isolated storage of that sandbox.
 
 ### 2.2 Moving Tabs Between Sandboxes
-* Right-click any active tab $ightarrow$ select **Move to Sandbox** $ightarrow$ choose destination.
+* Right-click any active tab $
+ightarrow$ select **Move to Sandbox** $
+ightarrow$ choose destination.
 * Nova will preserve the URL and reload the page under the destination sandbox's cookie jar.
 
 ### 2.3 Ephemeral / Disposable Sandboxes

@@ -18,9 +18,9 @@ Nova solves this with an **In-Chrome Virtualized Dialog Engine** and automated O
 flowchart TD
     Web["Web Page / Server"] -->|Triggers Alert / Auth / File Picker| Host["Nova WinUI Host"]
     Host --> Virtual["Native Dialog Controller"]
-    Virtual --> UI["Visual WinUI 3 Sheet Modal\n(Non-blocking overlay for operator)"]
-    Virtual --> MCP["MCP Dialog Inspector API\n(nova.ui_inspect_native_dialog)"]
-    MCP --> Agent["AI Agent\n(Solves auth / selects file)"]
+    Virtual --> UI["Visual WinUI 3 Sheet Modal<br>(Non-blocking overlay for operator)"]
+    Virtual --> MCP["MCP Dialog Inspector API<br>(nova.ui_inspect_native_dialog)"]
+    MCP --> Agent["AI Agent<br>(Solves auth / selects file)"]
     Agent -->|nova.ui_confirm_native_dialog| Virtual
     Virtual --> Web
 ```

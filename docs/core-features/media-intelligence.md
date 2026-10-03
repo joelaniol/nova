@@ -21,19 +21,19 @@ AI agents operating in modern web environments increasingly encounter rich audio
 ```mermaid
 flowchart TD
     subgraph Browser["Nova Browser & WebView2"]
-        MSE["MSE Capture Hook\n(MseCaptureService)"]
-        WebAudio["WebAudio Capture Hook\n(WebAudioCaptureScript)"]
-        DevicePolicy["Device Permission Policy\n(Mic/Cam Audit)"]
+        MSE["MSE Capture Hook<br>(MseCaptureService)"]
+        WebAudio["WebAudio Capture Hook<br>(WebAudioCaptureScript)"]
+        DevicePolicy["Device Permission Policy<br>(Mic/Cam Audit)"]
     end
 
     subgraph HostCore["Nova Host Process (C#)"]
-        TransService["TranscriptionService\n(Time Budgets & Queue)"]
-        ModelCatalog["WhisperModelCatalog\n(ggml-base, ggml-small...)"]
-        DurationProbe["AudioDurationProbe\n(MP3, AAC, OGG Container)"]
+        TransService["TranscriptionService<br>(Time Budgets & Queue)"]
+        ModelCatalog["WhisperModelCatalog<br>(ggml-base, ggml-small...)"]
+        DurationProbe["AudioDurationProbe<br>(MP3, AAC, OGG Container)"]
     end
 
     subgraph OutriderWorker["Nova Outrider Isolated Worker"]
-        WhisperNative["whisper.cpp Engine\n(AVX2 / SIMD Acceleration)"]
+        WhisperNative["whisper.cpp Engine<br>(AVX2 / SIMD Acceleration)"]
     end
 
     MSE -->|Audio Chunks| DurationProbe

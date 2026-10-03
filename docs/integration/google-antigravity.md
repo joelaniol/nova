@@ -13,8 +13,8 @@ Because Antigravity and Gemini CLI enforce strict schema naming rules and handle
 
 ```mermaid
 flowchart LR
-    AGY["Google Antigravity / Gemini CLI\n(antigravity-cli)"] <-->|Stdio Bridge| Proxy["NovaBrowser.McpProxy.exe\n• --antigravity-tool-names\n• --mirror-structured-content"]
-    Proxy <-->|Local Windows Named Pipe| Nova["Nova AI Workspace Host\n(408 MCP Tools)"]
+    AGY["Google Antigravity / Gemini CLI<br>(antigravity-cli)"] <-->|Stdio Bridge| Proxy["NovaBrowser.McpProxy.exe<br>• --antigravity-tool-names<br>• --mirror-structured-content"]
+    Proxy <-->|Local Windows Named Pipe| Nova["Nova AI Workspace Host<br>(400+ MCP Tools)"]
 ```
 
 ---
@@ -79,7 +79,7 @@ You can fine-tune proxy behavior via environment variables:
 
 ## 5. Lazy Schema Loading (`tools_bundle`)
 
-Nova provides 408 active MCP tools. Loading all 408 schema descriptions upfront into Antigravity would consume significant token context.
+Nova provides over 400 MCP tools. Loading all of their schema descriptions upfront into Antigravity would consume significant token context.
 
 Antigravity leverages **Lazy Tool Loading**:
 1. Antigravity discovers Nova tools as lazy-loaded tools.

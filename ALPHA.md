@@ -20,7 +20,7 @@ issues, so you know what to expect before and during use.
   the terminal for now.
 - **Plugins are not ready — don't use them yet.** The agent-authored plugins feature is disabled
   during the alpha and cannot be turned on; it's still under development.
-- **MCP tool quirks.** Some of the 800+ MCP tools still have rough edges or occasionally return
+- **MCP tool quirks.** Some of the 400+ MCP tools still have rough edges or occasionally return
   imperfect results. These are largely **known and are being fixed over time — you do NOT need to
   report them.**
 - **SmartScreen "unknown publisher".** The setup is self-signed, so Windows SmartScreen may warn on
@@ -63,7 +63,7 @@ bekannte Probleme, damit du weißt, was dich erwartet.
   Terminal vorerst meiden.
 - **Plugins sind noch nicht fertig — bitte noch nicht nutzen.** Die Funktion für agenten-erstellte
   Plugins ist während der Alpha deaktiviert und lässt sich nicht einschalten; sie ist noch in Entwicklung.
-- **MCP-Tool-Eigenheiten.** Einige der 800+ MCP-Tools haben noch Ecken und Kanten oder liefern
+- **MCP-Tool-Eigenheiten.** Einige der über 400 MCP-Tools haben noch Ecken und Kanten oder liefern
   gelegentlich unsaubere Ergebnisse. Das ist größtenteils **bekannt und wird nach und nach behoben —
   bitte nicht melden.**
 - **SmartScreen „unbekannter Herausgeber".** Das Setup ist selbst-signiert → SmartScreen warnt beim

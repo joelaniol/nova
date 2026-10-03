@@ -10,12 +10,12 @@ Follow these three structured steps to get Nova up and running:
 
 ```mermaid
 flowchart LR
-    A["1. Installation\n(System Requirements & Setup)"] --> B["2. First Run\n(UI Chrome & Sandboxes)"]
-    B --> C["3. Quickstart\n(First Agent & Automation)"]
+    A["1. Installation<br>(System Requirements & Setup)"] --> B["2. First Run<br>(UI Chrome & Sandboxes)"]
+    B --> C["3. Quickstart<br>(First Agent & Automation)"]
 ```
 
 1. **[Installation Guide](installation.md)**
-   Check system prerequisites (Windows 10/11 x64, WebView2 Evergreen, .NET 8), choose between the standalone installer or portable archive, and perform initial integrity verification.
+   Check system requirements (Windows 10/11 x64), download and run the setup, and check that Nova is reachable for your AI program.
 
 2. **[First Run & UI Tour](first-run.md)**
    Walk through the First Run Experience, learn about independent multi-sandbox profiles (A/B testing, isolated logins), the ConPTY Terminal dock, the native downloads drawer, and the Permission Center.

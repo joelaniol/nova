@@ -11,13 +11,13 @@ This user guide walks you through the day-to-day visual workflows, workspace cus
 
 ```mermaid
 flowchart TD
-    User["Human Operator"] --> Layout["Workspace Layout\n(Tabs, Omnibox, Status Pills)"]
-    User --> Sandboxes["Multi-Sandbox Profiles\n(Isolated Cookie Jars)"]
-    User --> Terminal["Integrated Terminal Dock\n(ConPTY PowerShell Dock)"]
-    User --> Spectator["Spectator Mode & AAG\n(Visual Rings & Takeover)"]
-    User --> Downloads["Downloads & Security\n(SmartScreen & Verification)"]
-    User --> Settings["Settings & Setup Wizard\n(1-Click Agent Integration)"]
-    User --> Shortcuts["Keyboard Shortcuts\n(Productivity Hotkeys)"]
+    User["Human Operator"] --> Layout["Workspace Layout<br>(Tabs, Omnibox, Status Pills)"]
+    User --> Sandboxes["Multi-Sandbox Profiles<br>(Isolated Cookie Jars)"]
+    User --> Terminal["Integrated Terminal Dock<br>(ConPTY PowerShell Dock)"]
+    User --> Spectator["Spectator Mode & AAG<br>(Visual Rings & Takeover)"]
+    User --> Downloads["Downloads & Security<br>(SmartScreen & Verification)"]
+    User --> Settings["Settings & Setup Wizard<br>(1-Click Agent Integration)"]
+    User --> Shortcuts["Keyboard Shortcuts<br>(Productivity Hotkeys)"]
 ```
 
 ---
