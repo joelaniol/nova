@@ -119,4 +119,4 @@ This handshake:
 ## Next Steps
 
 * Explore [Claude Desktop Integration](claude-desktop.md) if you also use the graphical desktop client.
-* Learn about [OpenAI Codex & Antigravity](codex-and-antigravity.md) configuration.
+* Learn about [OpenAI Codex](openai-codex.md) and [Google Antigravity](google-antigravity.md) configurations.

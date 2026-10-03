@@ -73,4 +73,4 @@ flowchart LR
 ## Next Steps
 
 * Set up CLI workflows with **[Claude Code](claude-code.md)**.
-* Learn how to configure **[OpenAI Codex & Antigravity](codex-and-antigravity.md)**.
+* Learn how to configure **[OpenAI Codex](openai-codex.md)** and **[Google Antigravity](google-antigravity.md)**.
