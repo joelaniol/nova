@@ -2,94 +2,185 @@
 
 # Nova AI Workspace
 
-**Built for what's next.**
+<div align="center">
 
-**The local browser workspace where your AI agents work.**
-Real browser sessions · terminal · memory · schedule · 800+ MCP tools — all local, all inspectable.
+**The Autonomous AI Browser & Cognitive Runtime for Windows**  
+*Built for Human Operators and AI Coding Assistants*
 
-Works with **Claude Code · Codex · Gemini · Cursor · Windsurf** — any MCP client, any model.
+[![Platform](https://img.shields.io/badge/Windows-10%20%7C%2011%20(x64)-0078D4?logo=windows&logoColor=white)](#)
+[![Status: Alpha](https://img.shields.io/badge/status-alpha-orange)](#)
+[![UI Framework](https://img.shields.io/badge/UI-WinUI%203%20%2B%20Windows%20App%20SDK-512BD4)](#)
+[![Engine](https://img.shields.io/badge/Engine-Microsoft%20Edge%20WebView2-0078D4?logo=microsoftedge&logoColor=white)](#)
+[![Protocol](https://img.shields.io/badge/Protocol-Model%20Context%20Protocol%20(MCP)%20v3-FF6B6B)](#)
+[![Tools](https://img.shields.io/badge/MCP%20Tools-408%20Active%20Tools-success)](#)
+[![Terminal](https://img.shields.io/badge/Terminal-ConPTY%20PowerShell%207-2D7D9A?logo=powershell&logoColor=white)](#)
+[![Local-first](https://img.shields.io/badge/data-local--first-2ea44f)](#)
+[![Made in Germany](https://img.shields.io/badge/Made%20in-Germany-FFCC00?labelColor=DD0000)](#)
 
-![Windows 10 / 11 (x64)](https://img.shields.io/badge/Windows-10%20%7C%2011%20(x64)-0078D4) ![Status: Alpha](https://img.shields.io/badge/status-alpha-orange) ![Local-first](https://img.shields.io/badge/data-local--first-2ea44f) ![MCP tools: 800+](https://img.shields.io/badge/MCP%20tools-800%2B-5865F2) ![Made in Germany](https://img.shields.io/badge/Made%20in-Germany-FFCC00?labelColor=DD0000)
+[Quickstart](docs/getting-started/quickstart.md) • [User Guide](docs/user-guide/README.md) • [Core Features](docs/core-features/README.md) • [Tool Catalog (408 Tools)](docs/mcp-reference/tool-catalog.md) • [Developer Guide](docs/developer-guide/README.md) • [Deutsch](#nova-ai-workspace-deutsch)
+
+</div>
 
 ---
 
-## See it work
+## 🌟 What is Nova AI Workspace?
 
-Nova is not a browser with an AI button. It is the machine your agent works on: it opens your real
-logged-in sessions, reads the page as evidence, runs a terminal, remembers how sites behave, and
-keeps working on a schedule while you are away.
+**Nova AI Workspace** is a next-generation Windows browser designed from the ground up for the era of agentic computing. It bridges the gap between human browsing and autonomous AI coding assistants, providing a single unified workspace where humans and agents collaborate seamlessly.
 
-**▶ [Watch Nova in action (YouTube)](https://www.youtube.com/@novainweb)** — the cognitive runtime,
-site learning, closed-loop verification and autonomous task runs, each in a short video.
+Traditional browser automation tools (Puppeteer, Playwright, Selenium) run in headless black boxes, separate windows, or disposable containers. They cannot leverage your daily authenticated sessions, cookies, or password managers, and they freeze when encountering captchas or 2FA prompts.
 
-### Don't take our word for it — make your agent prove it
+Nova changes this paradigm with the **Dual-Operator Model**:
+* **Shared Context:** You and your AI agent (Anthropic Claude Code, OpenAI Codex, Google Antigravity, or custom agents) share the same browser window, authenticated sessions, and tab strip.
+* **Spectator Mode & Visual Feedback:** Watch your agent navigate, click, fill forms, and solve complex workflows in real time with glowing click rings and safety halos.
+* **Instant Human Takeover:** Touch the mouse or press a hotkey to take immediate manual control at any moment.
 
-[`demos/lab.html`](demos/) is a page built to be hard: a session that has to survive, 10 000 rows
-with twelve of them in the DOM, nested shadow roots, a frame, a drag that no click can replace,
-files in both directions, dialogs that stop the page, delays you cannot predict, and a value that
-exists only as pixels on a canvas.
+---
 
-Open it with no server — just the file — and give your agent the same task twice: once with your
-current browser tooling, once with Nova.
+## 🚀 Try It — 3 Minutes, No Sign-up Needed
 
-> "Sign in, find build 8472 in the list, move 'Deploy release' to Done, and tell me the
-> verification code on the canvas."
-
-An activity strip at the bottom records what actually reached the page, so the result is visible
-rather than claimed. [What each case tests, and the call that solves it →](demos/README.md)
-
-## Try it — 3 minutes, no sign-up
-
-1. **[Download the setup](https://github.com/joelaniol/nova/releases)** — Windows 10 / 11 (x64).
-2. **Activate** with the shared alpha license — no account needed:
-   > **License key:** `NOVA-M89A9-JW3BT-RMTD7-Z4RWL-PQGT9`
+1. **[Download Setup from Releases](https://github.com/joelaniol/nova/releases)** — Windows 10 / 11 (x64).
+2. **Activate** with the shared alpha license — no account required:
+   > **License key:** `NOVA-M89A9-JW3BT-RMTD7-Z4RWL-PQGT9`  
    > **Email:** `demo@example.com`
-3. **Connect your agent.** For Claude Code, Codex, Claude Desktop and Google Antigravity this happens by itself.
-   Restart your agent, then tell it: **"please run the Nova onboarding."**
+3. **Connect your agent.** Automatically configured for Claude Code, Codex, Claude Desktop and Google Antigravity.  
+   Restart your agent, then say: **"please run the Nova onboarding."**
 
-> On first launch Windows SmartScreen may warn that the app is not code-signed — expected for
-> independent alpha builds. Choose **"More info" → "Run anyway"**.
+> [!NOTE]
+> On first launch Windows SmartScreen may warn that the app is not code-signed — expected for independent alpha builds. Choose **"More info" → "Run anyway"**.
 
-> **ALPHA SOFTWARE — USE AT YOUR OWN RISK.** Nova is in active alpha development. Bugs, crashes,
-> data loss and breaking changes may occur. There is no warranty of any kind. Do not rely on this
-> software for critical tasks. By using Nova you accept the [Disclaimer](DISCLAIMER.md),
-> [Acceptable Use Policy](ACCEPTABLE-USE.md), [Privacy Policy](PRIVACY.md) and the [License](LICENSE).
-> · **ℹ️ [Alpha status & known issues →](ALPHA.md)**
-
-> **Formerly Nova Browser.** Renamed during the alpha: the product grew past the browser — it now
-> carries a terminal, a scheduler, connectors, credentials and a local knowledge layer — and the old
-> name collided with unrelated projects. Same product, same team, clearer name.
-
-**🇩🇪 [Diese Seite auf Deutsch →](#nova-ai-workspace-deutsch)**
+> [!WARNING]
+> **ALPHA SOFTWARE — USE AT YOUR OWN RISK.** Nova is in active alpha development. Bugs, crashes, data loss and breaking changes may occur. By using Nova you accept the [Disclaimer](DISCLAIMER.md), [Acceptable Use Policy](ACCEPTABLE-USE.md), [Privacy Policy](PRIVACY.md), and [License](LICENSE). · [Alpha status & known issues →](ALPHA.md)
 
 ---
 
-## Built for developers and agents
+## 🔬 Don't Take Our Word For It — Test It on the Lab
 
-Nova is not a conventional browser with an AI sidebar, and it is not a chatbot with a browser tab.
-The browser is the agent's runtime and evidence surface: a live WebView2 desktop with persistent local
-knowledge, automated task scheduling, deep web exploration and browser-enforced safety.
+[`demos/lab.html`](demos/) is a benchmark page built specifically for challenging automation limits: an active session that must survive, a virtualized list with 10,000 rows (only 12 in the DOM), nested shadow roots, an iframe boundary, drag-and-drop mechanics that click-synthesizers fail on, bidirectional file uploads/downloads, native dialogs that stop JavaScript execution, and a dynamic verification code that exists strictly as raw canvas pixels.
 
-Agents don't just respond. They plan, execute, learn, verify, and run on schedule — unattended, around the clock.
+Open it directly in Nova with no server required, and give your agent the benchmark task:
+> *"Sign in, locate build 8472 in the virtual list, drag 'Deploy release' to Done, and extract the verification code from the canvas."*
 
-## Why Nova
+[Read the interactive lab guide and solutions →](demos/README.md)
 
-- **Fully autonomous agent scheduling** — Define tasks once. Nova runs them on intervals, file triggers, chained workflows, or manual dispatch. No human babysitting required.
-- **Real browser, real context** — Agents operate inside a full WebView2 desktop browser with tabs, sandboxes, sessions, cookies, proxy profiles, and browser identity. Not a headless scraper — a complete browsing environment.
-- **Persistent local intelligence** — Learned site knowledge, proven interaction recipes, task memory, and operator notes give agents a growing local knowledge base. They learn verified website behavior, remember what worked, and adapt when sites change. Nova doesn't just execute — it thinks ahead.
-- **Deep autonomous exploration** — Website MCP discovery, hidden-WebView crawling, live-tab crawling for authenticated SPAs, Surface Explorer for UI states without URLs. Agents explore like a human would — but faster and more systematic.
-- **Open agent protocol** — A localhost MCP server exposes 800+ browser and knowledge tools to Claude Code, Cursor, Windsurf, custom scripts, and any MCP-compatible client. Nova is the platform, not the model.
-- **Multi-model, one workspace** — Claude, Codex, and Gemini run through the same agent panel with live transcript, tool cards, and seamless provider switching. Best model for each job.
-- **Safety without handholding** — Domain rules, claims, audit logs, vault SecretRefs, emergency stop, kill switches, and strict MCP validation live in the browser runtime, not in a model prompt. Agents get guardrails, not a leash.
+---
 
-## Quick Start
+## 🏛️ System Architecture
 
-Download the setup from [Releases](https://github.com/joelaniol/nova/releases), run it, and follow the
-setup for AI programs that opens on first start. Step by step — including connecting your AI agent
-manually, updates and what to do if Nova does not start — in the
-**[installation guide](docs/getting-started/installation.md)**.
+```mermaid
+flowchart TD
+    subgraph Agents["AI Assistants & Coding Agents"]
+        Claude["Anthropic Claude Code / Desktop"]
+        Codex["OpenAI Codex"]
+        Antigrav["Google Antigravity"]
+        Custom["Custom Python / Node.js MCP Clients"]
+    end
 
-## 📚 Complete Documentation & Guides
+    subgraph HostProcess["Nova AI Workspace Host (NovaAIWorkspace.exe)"]
+        MCPServer["MCP JSON-RPC 2.0 Server\n(Named Pipes & HTTP/SSE)"]
+        AAG["Agent Awareness Gates (AAG)\n(Visual Halos & Safety Checks)"]
+        WinUI["WinUI 3 Modern Chrome\n(Mica Backdrop, Tab Strip)"]
+        Terminal["Embedded ConPTY Dock\n(PowerShell 7, Git CLI)"]
+        WebView["Microsoft WebView2 Runtimes\n(Isolated Sandbox Partitions)"]
+    end
+
+    subgraph OutriderWorker["Outrider Subprocess (NovaBrowser.Outrider.exe)"]
+        Whisper["Whisper.cpp Local Speech Ingestion"]
+        AudioParser["Native Audio Duration Probes"]
+        HardProbes["Hardware & Device Probes"]
+    end
+
+    Agents <-->|JSON-RPC 2.0 (Named Pipe / HTTP)| MCPServer
+    MCPServer --> AAG
+    AAG --> WebView
+    AAG --> WinUI
+    MCPServer --> Terminal
+    HostProcess <-->|Supervised Pipe & Watchdog| OutriderWorker
+```
+
+---
+
+## 🚀 Key Highlights & Capabilities
+
+### ⚡ 408 Deep Model Context Protocol (MCP) Tools
+Nova provides the most comprehensive programmatic browser surface available. Agents can inspect DOM trees, compute element layout geometries, take baseline screenshot diffs, download files, execute background crawlers, capture WebAudio streams, and manage tabs across 25 functional domains.
+* Explore the complete [MCP Tool Catalog](docs/mcp-reference/tool-catalog.md).
+
+### 🛡️ Multi-Sandbox Tab Strip (Zero Cookie Bleed)
+Run multiple enterprise identities, staging environments, and personal accounts in a single browser window. Each sandbox maintains a completely isolated cookie jar, local storage, and cache directory, visually distinguished by color-coded tab accents.
+* Read the [Sandboxes & Profile Isolation Guide](docs/user-guide/sandboxes-and-profiles.md).
+
+### 💻 Integrated ConPTY Terminal Dock
+A hardware-accelerated Windows pseudo-console dock embedded directly beneath the web canvas. Run PowerShell 7, start dev servers, commit git branches, or watch agent CLI output side-by-side with live web applications.
+* Read the [Terminal Dock Guide](docs/user-guide/terminal-dock.md).
+
+### 👁️ Visual Spectator Mode & Human Takeover
+Never wonder what an agent is doing. Nova renders visual click rings, field focus highlights, and safety halos in real time. If an agent encounters a payment checkout or complex 2FA screen, human operators can intervene seamlessly, solve the barrier, and let the agent resume.
+* Read the [Live Assist & Spectator Mode Guide](docs/user-guide/live-assist-and-spectator.md).
+
+### 🔒 Zero-Leak Vault & Secret References (`SecretRef`)
+Credentials, passwords, and sensitive API keys never leak into LLM prompts or chat logs. Nova stores encrypted credentials in the Windows DPAPI Vault and injects them only in memory at the exact moment of HTTP authentication or form filling.
+* Read the [Vault & Secret Isolation Guide](docs/core-features/vault-and-secrets.md).
+
+### 🎙️ Local Whisper Speech Transcription (Offline & Private)
+Transcribe voice notes, customer service calls, or podcast streams completely offline using embedded Whisper neural models running inside the isolated Outrider worker process.
+* Read the [Media Intelligence Guide](docs/core-features/media-intelligence.md).
+
+---
+
+## 🧠 Cognitive Architecture: Beyond Generic Memory
+
+Traditional agent tools provide raw browser automation commands. Nova surrounds the AI model with an integrated cognitive runtime directly in the browser:
+
+| Cognitive Function | What Nova Contributes | Architecture Guide | Video Demo |
+| :--- | :--- | :--- | :---: |
+| **Perception** | Reads the live browser through DOM, accessibility, screenshots, network, and console | [Visual Evidence](docs/core-features/evm-and-visual-evidence.md) | — |
+| **Procedural Memory** | Remembers website interaction recipes, state, health, and visual drift | [PKS Store](docs/core-features/pks.md) | [Watch](https://www.youtube.com/watch?v=7NwRGC3l-r8) |
+| **Operational Awareness** | Tracks active capabilities, connections, sandboxes, and safety rules | [Operational Knowledge](docs/core-features/operational-knowledge.md) | [Watch](https://www.youtube.com/watch?v=LgShkPaSW7I) |
+| **Episodic Task Memory** | Preserves recurring tasks, work units, progress, and learned guidance | [ETM Memory](docs/core-features/etm-and-task-memory.md) | [Watch](https://www.youtube.com/watch?v=9qXrleOhPAw) |
+| **User Context** | Opt-in domain notes and preferences preserved across sessions | [Browser Memory](docs/core-features/browser-memory-and-board.md) | — |
+| **Executive Control** | Goal Register and safety/reflection gates keep intent and steps visible | [AAG Gates](docs/core-features/aag.md) | [Watch](https://www.youtube.com/watch?v=xhicSiFxPdY) |
+| **Closed-Loop Verification** | Expected state → action → verified outcome; evidence-based claims | [Closed-Loop System](docs/core-features/closed-loop-system.md) | [Watch](https://www.youtube.com/watch?v=aKNp_74B8DE) |
+| **Adaptive Learning** | Candidate promotion pipeline that validates and re-checks on site drift | [Learning Pipeline (ALP)](docs/core-features/learning-pipeline-alp.md) | [Watch](https://www.youtube.com/watch?v=6iM3TbOL9o0) |
+
+---
+
+## ⚡ 1-Minute Agent Quickstart
+
+Connecting your AI coding assistant to Nova AI Workspace is instant:
+
+### Option A: Anthropic Claude Code (CLI)
+Nova automatically registers Claude Code during setup. To add manually:
+```bash
+claude mcp add nova -- echo '{"jsonrpc":"2.0"}'
+```
+*(Or connect via local Windows Named Pipe: `\\.\pipe\nova-mcp-workspace`)*
+
+### Option B: Google Antigravity
+Nova registers seamlessly in your project's `.mcp.json`:
+```json
+{
+  "mcpServers": {
+    "nova": {
+      "command": "NovaBrowser.McpProxy.exe",
+      "args": ["--pipe", "nova-mcp-workspace"]
+    }
+  }
+}
+```
+
+### Option C: OpenAI Codex
+Add Nova to your `~/.codex/config.toml`:
+```toml
+[mcp_servers.nova]
+command = "NovaBrowser.McpProxy.exe"
+args = ["--pipe", "nova-mcp-workspace"]
+```
+
+For detailed configuration of custom clients, see the [Agent Integration Hub](docs/integration/README.md).
+
+---
+
+## 📚 Complete Documentation Index
 
 Explore the comprehensive documentation for operators, developers, and AI agents:
 
@@ -103,217 +194,37 @@ Explore the comprehensive documentation for operators, developers, and AI agents
 | **[Developer Guide](docs/developer-guide/README.md)** | Building & Contributing | [Building from Source](docs/developer-guide/building-from-source.md) • [Running Tests](docs/developer-guide/running-tests.md) • [Outrider IPC](docs/developer-guide/outrider-architecture.md) |
 | **[Troubleshooting](docs/troubleshooting/README.md)** | Diagnostics & Error Recovery | [Connection Issues](docs/troubleshooting/agent-connection-issues.md) • [Diagnostics Logs](docs/troubleshooting/diagnostics.md) • [Session Recovery](docs/troubleshooting/sandbox-and-session-recovery.md) |
 
-## Reporting bugs · Fehler melden
+---
 
-**EN — Please report CRASHES only.** Known MCP-tool quirks are already tracked and get fixed over time, so there is no need to file those. If Nova **crashes**, open a [GitHub issue](https://github.com/joelaniol/nova/issues) describing what you did and, if possible, attach the log from **Settings → About → Open app logs**.
+## 🔒 Privacy, Security & Data Sovereignty
 
-**DE — Bitte nur ABSTÜRZE melden.** Bekannte MCP-Tool-Eigenheiten sind bereits erfasst und werden nach und nach behoben — die musst du nicht melden. Wenn Nova **abstürzt**, ein [GitHub-Issue](https://github.com/joelaniol/nova/issues) mit dem Ablauf öffnen und, wenn möglich, das Log aus **Einstellungen → Info → App-Logs** anhängen.
-
-## What Makes Nova Different
-
-Traditional agent tools typically give a model a set of browser controls. Nova surrounds the model
-with a local cognitive runtime: specialized functions for perception, memory, goals, evidence,
-reflection and learning work together inside the browser.
-
-**In practical terms, Nova combines several brain-like functions instead of one generic “memory” box:**
-
-| Cognitive function | What Nova contributes |
-|---|---|
-| **Perception** | Reads the live browser through DOM, accessibility, screenshots, network, console and runtime signals |
-| **Procedural memory** | The [Phenomenological Knowledge Store (PKS)](docs/core-features/pks.md) ([PKS video](https://www.youtube.com/watch?v=7NwRGC3l-r8)) remembers how websites work: fingerprints, interaction recipes, health and drift |
-| **Operational awareness** | [Operational Knowledge (OK)](docs/core-features/operational-knowledge.md) ([OK video](https://www.youtube.com/watch?v=LgShkPaSW7I)) tracks what is true now: state, capabilities, connections and policies |
-| **Episodic task memory** | [Episodic Task Memory (ETM)](docs/core-features/etm-and-task-memory.md) ([ETM video](https://www.youtube.com/watch?v=9qXrleOhPAw)) remembers recurring tasks, work units, progress, completion rules and learned guidance |
-| **User-context memory** | Opt-in [Browser Memory](docs/core-features/browser-memory-and-board.md) preserves domain notes, preferences and session context across visits |
-| **Executive control** | Goal Register and [awareness/reflection gates (AAG)](docs/core-features/aag.md) ([AAG video](https://www.youtube.com/watch?v=xhicSiFxPdY)) keep intent, steps, prerequisites and unfinished work visible |
-| **Evidence and verification** | The [Closed-Loop System (CLS)](docs/core-features/closed-loop-system.md) ([CLS video](https://www.youtube.com/watch?v=aKNp_74B8DE)) checks expected state → action → actual outcome; [Evidence Verification Mode (EVM)](docs/core-features/evm-and-visual-evidence.md) turns research into testable claims instead of guesses |
-| **Learning and adaptation** | The [Agent Learning Pipeline (ALP)](docs/core-features/learning-pipeline-alp.md) ([ALP video](https://www.youtube.com/watch?v=6iM3TbOL9o0)) turns verified outcomes into traceable candidates that move into active knowledge only after evidence and are revalidated when sites drift |
-
-These functions do not replace the connected AI model. They give it durable cognition at the browser
-level: grounded perception, several kinds of memory, explicit goals, verified outcomes and reusable
-learning across sessions.
-
-| | Traditional agent tools | Nova AI Workspace |
-|---|---|---|
-| **Cognitive architecture** | Model plus browser controls | Perception, goals, multiple memory systems, evidence, reflection and learning |
-| **Action loop** | Dispatch an action and assume success | Check expectations, act, verify the real outcome, then adapt |
-| **Browser role** | Browser as an external tool, remote session or screenshot feed | Persistent full desktop Chromium runtime with tabs, sandboxes, sessions and browser identity |
-| **Autonomy** | Execution tied to a live client request or manually started workflow | Scheduled, chained and trigger-based runs with durable task progress and completion checks |
-| **Memory** | Memory is owned by the model or client and is often one general store | Persistent browser-owned stores separate procedures, current state, task episodes and opt-in user context — and grow through verified experience over time |
-| **Learning** | Start over when context is lost | Evidence-backed local knowledge that is promoted, monitored and revalidated |
-| **Exploration** | Predefined steps, selectors or task-specific scripts | Autonomous site mapping, crawling and guarded exploration of hidden UI states |
-| **Safety** | Policies and permissions live in the client or orchestration layer | Browser-enforced domain policies, per-tab claims, audit logs and an emergency stop |
-| **Integration** | Browser integration depends on client- or vendor-specific adapters | Open MCP server — any MCP client, any model |
-
-## Requirements
-
-- Windows 10 or Windows 11 (x64)
-- Microsoft Edge WebView2 Runtime and Windows App Runtime 1.8 — the setup installs both if they are missing
-
-If Nova does not start, see [installation guide → If Nova does not start](docs/installation.md#if-nova-does-not-start).
-
-## Connect your AI agent (MCP)
-
-While Nova is open it runs a local MCP server and exposes 800+ tools to your agent. For **Claude Code, Codex, Claude Desktop, and Google Antigravity this is automatic — no manual config, no copying tokens:**
-
-1. **Install and launch Nova once.** The local MCP server starts on its own and writes the Nova connection into the config of Claude Code, Codex, Claude Desktop, and Google Antigravity for you. It never touches your other MCP servers or your permission allowlist.
-2. **Restart your agent** so it reloads its config — Nova then appears as the `nova` server. *This restart is the step most people forget: if Nova doesn't show up, restart the agent, not Nova.*
-3. In your agent, say **"please run the Nova onboarding"**. Nova drops a short reference into your project so the agent knows what it can do and how.
-
-**Other clients (Cursor, Windsurf, VS Code, your own):** open **Settings → AI & agents → Connection & setup** and copy the ready-made setup prompt — paste it into your agent and it wires itself up (a dedicated VS Code prompt is included). Advanced clients can read the endpoint and bearer token directly from the discovery file:
-
-```
-%LOCALAPPDATA%\nova-cognitive\Nova\mcp.json
-```
-
-Treat that file as a local credential. Installations up to 1.0.0-alpha.17 used `%LOCALAPPDATA%\NovaBrowser\`; the setup of a newer version moves the folder.
-
-**Troubleshooting.** The same **Connection & setup** page has **Sync now** (re-writes the client configs) and **Reinstall runner** (repairs the connector after moving or reinstalling Nova). Keep Nova open while your agent is working, and leave **Developer options** enabled — turning it off disables the MCP server. Agent connected but not using Nova's tools, or seeing no data? See [MCP troubleshooting](docs/mcp-troubleshooting/README.md).
-
-## Local Data
-
-All data is stored locally under `%LOCALAPPDATA%\nova-cognitive\Nova\` (up to 1.0.0-alpha.17: `%LOCALAPPDATA%\NovaBrowser\`) — settings, browser profiles, history, favorites, vault, logs, knowledge stores, crawler databases, task workspaces, and conversation archives.
-
-Nova does not require a remote cloud service. When using third-party AI providers, their own data policies apply.
-
-## License
-
-All rights reserved. See [LICENSE](LICENSE) for details.
-
-Third-party components are subject to their own licenses. See [THIRD-PARTY-LICENSES.txt](THIRD-PARTY-LICENSES.txt).
-
-## Videos
-
-See Nova in action: [YouTube Channel](https://www.youtube.com/@novainweb)
-
-Browse the full video index with thumbnails and direct links in [videos/](videos/).
-
-## Links
-
-- **Website:** [nova-cognitive.com](https://nova-cognitive.com/)
-- **Releases:** [GitHub Releases](https://github.com/joelaniol/nova/releases)
-- **YouTube:** [@novainweb](https://www.youtube.com/@novainweb)
-- **Contact:** Joel Aniol — [LinkedIn](https://www.linkedin.com/in/joelaniol/)
+* **100% Local Execution:** Nova AI Workspace runs locally on your Windows machine. No browsing telemetry, cookies, or tab contents are transmitted to external servers.
+* **Encrypted Storage:** Passwords, authentication cookies, and session recordings are protected on disk using Windows Data Protection API (DPAPI) and per-session ephemeral AES-GCM encryption keys.
+* **Supervised Outrider Process:** Native hardware access and audio parsing are quarantined in a dedicated child process with hard timeouts and watchdog supervision.
 
 ---
 
-## Nova AI Workspace (Deutsch)
+<a name="nova-ai-workspace-deutsch"></a>
+## 🇩🇪 Nova AI Workspace (Deutsch)
 
-**Built for what’s next.**
+**Der lokale KI-Browser & die kognitive Laufzeitumgebung für Windows.**  
+Echte Browsersitzungen · ConPTY-Terminal · Wissensspeicher · Scheduler · 408 MCP-Tools — lokal, transparent und auditierbar.
 
-**Der lokale Browser-Arbeitsplatz, in dem deine KI-Agenten arbeiten.**
-Echte Browser-Sitzungen · Terminal · Gedächtnis · Zeitplan · 800+ MCP-Tools — alles lokal, alles nachprüfbar.
+### Schnellstart in 3 Schritten
+1. **[Setup herunterladen](https://github.com/joelaniol/nova/releases)** (Windows 10 / 11 x64).
+2. **Aktivieren** mit dem Alpha-Testschlüssel:
+   > **Schlüssel:** `NOVA-M89A9-JW3BT-RMTD7-Z4RWL-PQGT9`  
+   > **E-Mail:** `demo@example.com`
+3. **Agenten verbinden:** Claude Code, Codex, Claude Desktop und Antigravity werden automatisch eingerichtet. Nach Neustart des Agenten sagen: **„please run the Nova onboarding“**.
 
-> **Früher Nova Browser.** Während der Alpha umbenannt: Das Produkt ist über den Browser
-> hinausgewachsen — Terminal, Zeitplaner, Konnektoren, Zugangsdaten und eine lokale Wissensschicht
-> gehören dazu — und der alte Name kollidierte mit fremden Projekten. Gleiches Produkt, klarerer Name.
+Detaillierte Anleitungen: **[Installationsanleitung auf Deutsch](docs/getting-started/installation.md#nova-ai-workspace-installieren)**.
 
-### Für Entwickler und Agenten gebaut
+---
 
-Nova ist kein herkömmlicher Browser mit KI-Seitenleiste und kein Chatbot mit Browser-Tab. Der Browser
-ist Laufzeit- und Belegoberfläche des Agenten: ein echter WebView2-Desktop mit persistentem lokalem
-Wissen, automatisierter Aufgabenplanung, tiefer Web-Erkundung und browserseitig erzwungenen
-Sicherheitsregeln.
+## 📄 License & Community
 
-Agenten antworten nicht nur. Sie planen, führen aus, lernen, verifizieren und laufen nach Zeitplan — unbeaufsichtigt, rund um die Uhr.
-
-### Warum Nova
-
-- **Vollautonomes Agent-Scheduling** — Tasks einmal definieren. Nova fuehrt sie nach Intervall, Datei-Trigger, verketteten Workflows oder manuellem Dispatch aus. Kein manuelles Babysitting noetig.
-- **Echter Browser, echter Kontext** — Agenten arbeiten in einem vollstaendigen WebView2-Desktop-Browser mit Tabs, Sandboxes, Sessions, Cookies, Proxy-Profilen und Browser-Identitaet. Kein Headless-Scraper — eine komplette Browsing-Umgebung.
-- **Persistente lokale Intelligenz** — Gelerntes Website-Wissen, bewährte Interaktions-Rezepte, Task-Gedächtnis und Operator-Notizen geben Agenten eine wachsende lokale Wissensbasis. Sie lernen verifiziertes Website-Verhalten, merken sich was funktioniert hat und passen sich an wenn sich Seiten ändern. Nova führt nicht nur aus — es denkt mit.
-- **Tiefe autonome Exploration** — Website-MCP-Discovery, Hidden-WebView-Crawling, Live-Tab-Crawling fuer authentifizierte SPAs, Surface Explorer fuer UI-Zustaende ohne URLs. Agenten erkunden wie ein Mensch — nur schneller und systematischer.
-- **Offenes Agent-Protokoll** — Ein lokaler MCP-Server stellt 800+ Browser- und Wissens-Tools fuer Claude Code, Cursor, Windsurf, eigene Scripts und jeden MCP-kompatiblen Client bereit. Nova ist die Plattform, nicht das Modell.
-- **Multi-Model, ein Workspace** — Claude, Codex und Gemini laufen im selben Agentenpanel mit Live-Transcript, Tool-Cards und nahtlosem Provider-Wechsel. Bestes Modell fuer jeden Job.
-- **Sicherheit ohne Gaengelband** — Domain-Regeln, Claims, Audit-Logs, Vault SecretRefs, Emergency Stop, Kill-Switches und strikte MCP-Validierung leben in der Browser-Runtime, nicht in einem Model-Prompt. Agenten bekommen Leitplanken, keine Leine.
-
-### Schnellstart
-
-Setup unter [Releases](https://github.com/joelaniol/nova/releases) herunterladen, ausführen und der
-Einrichtung für KI-Programme folgen, die sich beim ersten Start öffnet. Schritt für Schritt — samt
-manuellem Verbinden des KI-Agenten, Updates und was zu tun ist, wenn Nova nicht startet — in der
-**[Installationsanleitung](docs/getting-started/installation.md)**.
-
-### Was Nova anders macht
-
-Traditionelle Agent-Tools geben einem Modell meist nur eine Browsersteuerung. Nova ergänzt das Modell
-um eine lokale kognitive Laufzeit: spezialisierte Funktionen für Wahrnehmung, Gedächtnis, Ziele,
-Belege, Reflexion und Lernen arbeiten direkt im Browser zusammen.
-
-**Praktisch kombiniert Nova mehrere gehirnähnliche Funktionen statt nur eines allgemeinen „Memory“-Speichers:**
-
-| Kognitive Funktion | Was Nova beiträgt |
-|---|---|
-| **Wahrnehmung** | Liest den Live-Browser über DOM, Barrierefreiheit, Screenshots, Netzwerk, Konsole und Runtime-Signale |
-| **Prozedurales Gedächtnis** | Der [Phenomenological Knowledge Store (PKS)](docs/core-features/pks.md) ([PKS-Video](https://www.youtube.com/watch?v=QFarrV8Xm9U)) merkt sich, wie Websites funktionieren: Fingerprints, Interaktionsrezepte, Zustand und Drift |
-| **Operatives Bewusstsein** | [Operational Knowledge (OK)](docs/core-features/operational-knowledge.md) ([OK-Video](https://www.youtube.com/watch?v=jWex6QNs86Y)) verfolgt, was jetzt gilt: Zustand, Fähigkeiten, Verbindungen und Regeln |
-| **Episodisches Aufgabengedächtnis** | [Episodic Task Memory (ETM)](docs/core-features/etm-and-task-memory.md) ([ETM-Video](https://www.youtube.com/watch?v=9bb_scVqb44)) erinnert wiederkehrende Aufgaben, Arbeitseinheiten, Fortschritt, Abschlussregeln und gelernte Hinweise |
-| **Nutzerkontext-Gedächtnis** | Das optionale [Browser Memory](docs/core-features/browser-memory-and-board.md) bewahrt Domain-Notizen, Präferenzen und Sitzungskontext über Besuche hinweg |
-| **Exekutive Steuerung** | Goal Register sowie [Awareness- und Reflexions-Gates (AAG)](docs/core-features/aag.md) ([AAG-Video](https://www.youtube.com/watch?v=8LFYHSoygh4)) halten Absicht, Schritte, Voraussetzungen und offene Arbeit sichtbar |
-| **Belege und Verifikation** | Das [Closed-Loop System (CLS)](docs/core-features/closed-loop-system.md) ([CLS-Video](https://www.youtube.com/watch?v=xUITcHwKkwA)) prüft erwarteten Zustand → Aktion → tatsächliches Ergebnis; [Evidence Verification Mode (EVM)](docs/core-features/evm-and-visual-evidence.md) zerlegt Recherche in prüfbare Aussagen statt zu raten |
-| **Lernen und Anpassung** | Die [Agent Learning Pipeline (ALP)](docs/core-features/learning-pipeline-alp.md) ([ALP-Video](https://www.youtube.com/watch?v=Pl_doQWt-G8)) macht aus verifizierten Ergebnissen nachvollziehbare Kandidaten, die erst mit Belegen in aktives Wissen gelangen und bei Website-Drift erneut geprüft werden |
-
-Diese Funktionen ersetzen nicht das verbundene KI-Modell. Sie geben ihm Kognition auf Browser-Ebene:
-geerdete Wahrnehmung, mehrere Gedächtnisarten, explizite Ziele, verifizierte Ergebnisse und
-wiederverwendbares Lernen über Sitzungen hinweg.
-
-| | Traditionelle Agent-Tools | Nova AI Workspace |
-|---|---|---|
-| **Kognitive Architektur** | Modell plus Browsersteuerung | Wahrnehmung, Ziele, mehrere Gedächtnissysteme, Belege, Reflexion und Lernen |
-| **Aktionskreislauf** | Aktion senden und Erfolg annehmen | Erwartung prüfen, handeln, tatsächliches Ergebnis verifizieren und daraus lernen |
-| **Browser-Rolle** | Browser als externes Werkzeug, Remote-Session oder Screenshot-Feed | Persistente vollwertige Desktop-Chromium-Laufzeit mit Tabs, Sandboxes, Sessions und Browser-Identität |
-| **Autonomie** | Ausführung an eine laufende Client-Anfrage oder einen manuell gestarteten Workflow gebunden | Geplante, verkettete und triggerbasierte Läufe mit dauerhaftem Aufgabenfortschritt und Abschlussprüfungen |
-| **Gedächtnis** | Gedächtnis gehört dem Modell oder Client und ist häufig ein allgemeiner Speicher | Persistente browser-eigene Speicher trennen Abläufe, aktuellen Zustand, Aufgabenepisoden und optionalen Nutzerkontext — und wachsen durch verifizierte Erfahrungen über die Zeit |
-| **Lernen** | Bei Kontextverlust wieder von vorn beginnen | Belegtes lokales Wissen, das freigegeben, überwacht und erneut geprüft wird |
-| **Exploration** | Vordefinierte Schritte, Selektoren oder aufgabenspezifische Skripte | Autonomes Site-Mapping, Crawling und geschützte Erkundung versteckter UI-Zustände |
-| **Sicherheit** | Policies und Berechtigungen liegen im Client oder in der Orchestrierungsebene | Vom Browser erzwungene Domain-Policies, tabgebundene Claims, Audit-Logs und ein Notstopp |
-| **Integration** | Browser-Integration hängt von client- oder anbieterspezifischen Adaptern ab | Offener MCP-Server — jeder MCP-Client, jedes Modell |
-
-### Voraussetzungen
-
-- Windows 10 oder Windows 11 (x64)
-- Microsoft Edge WebView2 Runtime und Windows App Runtime 1.8 — das Setup installiert beide, falls sie fehlen
-
-Startet Nova nicht, siehe [Installationsanleitung → Wenn Nova nicht startet](docs/installation.md#wenn-nova-nicht-startet).
-
-### KI-Agent verbinden (MCP)
-
-Solange Nova geöffnet ist, betreibt es einen lokalen MCP-Server und stellt deinem Agenten 800+ Tools bereit. Für **Claude Code, Codex, Claude Desktop und Google Antigravity läuft das automatisch — keine manuelle Konfiguration, kein Token-Kopieren:**
-
-1. **Nova einmal installieren und starten.** Der lokale MCP-Server startet von selbst und trägt die Nova-Verbindung für dich in die Konfiguration von Claude Code, Codex, Claude Desktop und Google Antigravity ein. Deine anderen MCP-Server und deine Rechte-Freigaben bleiben unangetastet.
-2. **Agenten neu starten**, damit er seine Konfiguration neu lädt — Nova erscheint dann als Server `nova`. *Diesen Neustart vergisst man am ehesten: Wenn Nova nicht auftaucht, den Agenten neu starten, nicht Nova.*
-3. Im Agenten sagen: **„bitte führe das Nova-Onboarding aus“**. Nova legt eine kurze Referenz in dein Projekt, damit der Agent weiß, was er kann und wie.
-
-**Andere Clients (Cursor, Windsurf, VS Code, eigene):** **Einstellungen → KI & Agenten → Verbindung & Einrichtung** öffnen und den fertigen Einrichtungs-Prompt kopieren — in den Agenten einfügen, er richtet sich selbst ein (ein eigener VS-Code-Prompt ist dabei). Fortgeschrittene Clients können Endpunkt und Bearer-Token direkt aus der Discovery-Datei lesen:
-
-```
-%LOCALAPPDATA%\nova-cognitive\Nova\mcp.json
-```
-
-Diese Datei wie ein lokales Credential behandeln. Installationen bis 1.0.0-alpha.17 nutzten `%LOCALAPPDATA%\NovaBrowser\`; das Setup einer neueren Version verschiebt den Ordner.
-
-**Fehlerbehebung.** Dieselbe Seite **Verbindung & Einrichtung** hat **Jetzt synchronisieren** (schreibt die Client-Konfigs neu) und **Runner neu installieren** (repariert die Verbindung nach Verschieben oder Neuinstallation von Nova). Nova geöffnet lassen, während der Agent arbeitet, und **Entwickleroptionen** aktiviert lassen — ausschalten deaktiviert den MCP-Server. Agent verbunden, nutzt aber Novas Werkzeuge nicht oder sieht keine Daten? Siehe [MCP-Fehlerbehebung](docs/mcp-troubleshooting/README.md#mcp-fehlerbehebung).
-
-### Lokale Daten
-
-Alle Daten liegen lokal unter `%LOCALAPPDATA%\nova-cognitive\Nova\` (bis 1.0.0-alpha.17: `%LOCALAPPDATA%\NovaBrowser\`) — Einstellungen, Browser-Profile, History, Favoriten, Vault, Logs, Wissensspeicher, Crawler-Datenbanken, Task-Workspaces und Gespraechsarchive.
-
-Nova braucht keinen Cloud-Dienst. Bei Nutzung von Drittanbieter-KI-Providern gelten deren Datenregeln.
-
-### Lizenz
-
-Alle Rechte vorbehalten. Siehe [LICENSE](LICENSE).
-
-Drittanbieter-Komponenten unterliegen eigenen Lizenzen. Siehe [THIRD-PARTY-LICENSES.txt](THIRD-PARTY-LICENSES.txt).
-
-### Videos
-
-Nova in Aktion: [YouTube-Kanal](https://www.youtube.com/@novainweb)
-
-Alle Videos mit Thumbnails und Direktlinks in [videos/](videos/).
-
-### Links
-
-- **Website:** [nova-cognitive.com](https://nova-cognitive.com/)
-- **Releases:** [GitHub Releases](https://github.com/joelaniol/nova/releases)
-- **YouTube:** [@novainweb](https://www.youtube.com/@novainweb)
-- **Kontakt:** Joel Aniol — [LinkedIn](https://www.linkedin.com/in/joelaniol/)
+* **Nova AI Workspace** is developed by Joel Aniol and contributors.
+* **Issues & Feedback:** Report issues and feature requests on [GitHub Issues](https://github.com/joelaniol/nova/issues).
+* **Website:** [nova-cognitive.com](https://nova-cognitive.com)
+* **YouTube:** [@novainweb](https://www.youtube.com/@novainweb)
+* **Contact:** Joel Aniol — [LinkedIn](https://www.linkedin.com/in/joelaniol/)
