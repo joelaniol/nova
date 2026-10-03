@@ -10,8 +10,8 @@ Claude Desktop connects to MCP servers exclusively via standard input/output (`s
 
 ```mermaid
 flowchart LR
-    CD["Claude Desktop (GUI)"] -->|stdio (stdin / stdout)| Proxy["NovaBrowser.McpProxy.exe"]
-    Proxy -->|Named Pipe (\\\\.\\pipe\\nova-mcp)| Nova["Nova AI Workspace (NovaAIWorkspace.exe)"]
+    CD["Claude Desktop (GUI)"] -->|"stdio (stdin / stdout)"| Proxy["NovaBrowser.McpProxy.exe"]
+    Proxy -->|"Named Pipe (\\\\.\\pipe\\nova-mcp)"| Nova["Nova AI Workspace (NovaAIWorkspace.exe)"]
 ```
 
 ---
