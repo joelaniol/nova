@@ -21,7 +21,9 @@ Uploads a local regular file over FTP/FTPS to a remote server.
 | `localPath` | `string` | Yes | — | — | Existing local regular file inside Downloads or the host-verified current workspace. |
 | `remotePath` | `string` | Yes | — | ≤ 4096 characters | Remote destination file (or an existing directory that receives the local filename). |
 | `overwrite` | `boolean` | No | `false` | — | Replace an existing regular-file destination. False preserves it. |
-| `maxBytes` | `integer` | No | `1073741824` | 1–1073741824 | Requested byte ceiling for this single-file call; cannot exceed Nova's hard limit. |
+| `maxBytes` | `integer` | No | — | ≥ 1 | Optional budget in bytes: the job refuses to start (caller_limit_exceeded) when the file is larger. Omit for no limit. |
+| `wait` | `integer` | No | `60` | 0–540 | Seconds the call waits for the job before returning state='running' with its jobId. 0 returns at once. The job continues after the wait either way. |
+| `resumeJobId` | `string` | No | — | — | Optional: continue exactly this unfinished job. Without it, repeating the identical call resumes the newest unfinished job of the same transfer. |
 | `unattended` | `boolean` | No | `false` | — | Fail closed instead of opening account/policy prompts. Scheduled-task hosts enforce unattended mode even when omitted; this flag can only reduce authority. |
 | `allowInsecure` | `boolean` | No | `false` | — | Required as true only when this profile explicitly uses plaintext FTP. The user's separate debug/legacy option must also be enabled. |
 

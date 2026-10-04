@@ -95,6 +95,8 @@ Deutsch: [weiter unten](#dokumentation-auf-deutsch).
 
 [Overview](core-features/README.md)
 
+[Agent-native affordances](core-features/agent-native-affordances.md) — Built with agents: familiar naming patterns, scoped aliases and client compatibility.
+
 **Seeing and acting on pages**
 
 | Page | What it covers |

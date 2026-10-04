@@ -1,7 +1,7 @@
 # Nova AI Workspace — Core Features
 
 > [!NOTE]
-> This hub lists the 25 core-feature pages of **Nova AI Workspace** (`NovaAIWorkspace.exe`): what each one covers and which MCP tools belong to it. The tools are listed in full in the [tool catalog](../mcp-reference/tool-catalog.md).
+> This hub lists the 26 core-feature pages of **Nova AI Workspace** (`NovaAIWorkspace.exe`): what each one covers and which MCP tools belong to it. The tools are listed in full in the [tool catalog](../mcp-reference/tool-catalog.md).
 
 ---
 
@@ -32,6 +32,12 @@ Nova AI Workspace is a Windows browser built on **.NET 8, WinUI 3 and Microsoft 
 | [Tool observation bus (TOB)](tob.md) | What the agent really did, recorded on Nova's side | `nova.task_instance_verify`, `nova.task_instance_progress`, `nova.task_instance_get` |
 | [Vault and secrets](vault-and-secrets.md) | Passwords filled in without the agent seeing them | `nova.vault_*`, `nova.type_selector_secret`, `nova.secret_*` |
 | [Outrider boundary](outrider-boundary.md) | Risky Windows and hardware probes in a separate, killable process | `nova.permission_center_get`, `nova.media_transcribe_start` |
+
+### Agent interface
+
+| Page | What it covers | Main MCP tools |
+| :--- | :--- | :--- |
+| [Agent-native affordances](agent-native-affordances.md) | Learned agent expectations, aliases and client naming compatibility | `nova.get_instructions`, `nova.tools_bundle` |
 
 ### Memory and learning
 

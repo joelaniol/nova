@@ -8,7 +8,7 @@ IMAP/SMTP email client automation, EML exports, SFTP/FTP server operations, and 
 ---
 
 <!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
-## Tool Inventory (33 Tools)
+## Tool Inventory (35 Tools)
 
 Capability bundles of these tools: `connector_ops`.
 
@@ -25,6 +25,8 @@ Capability bundles of these tools: `connector_ops`.
 | **[`nova.ftp_list`](nova-ftp-list.md)** | Lists remote directory entries or inspects file metadata through an FTP/FTPS connector. |
 | **[`nova.ftp_put`](nova-ftp-put.md)** | Uploads a local regular file over FTP/FTPS to a remote server. |
 | **[`nova.ftp_rename`](nova-ftp-rename.md)** | Renames or moves a remote file or directory on an FTP/FTPS server. |
+| **[`nova.ftp_transfer_status`](nova-ftp-transfer-status.md)** | Reports progress and result of background FTP transfers started by `nova.ftp_get` or `nova.ftp_put`. |
+| **[`nova.ftp_transfer_stop`](nova-ftp-transfer-stop.md)** | Stops a running background FTP transfer softly and keeps everything for a resume. |
 | **[`nova.mail_attachment_save`](nova-mail-attachment-save.md)** | Saves a specific email attachment to Downloads or the workspace directory. |
 | **[`nova.mail_backup_start`](nova-mail-backup-start.md)** | Launches a background job to back up an entire mail account or specific folders. |
 | **[`nova.mail_backup_status`](nova-mail-backup-status.md)** | Reports progress, downloaded message counts, and active phase of a mail backup job. |

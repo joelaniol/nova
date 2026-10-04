@@ -133,6 +133,7 @@ Traditional agent tools provide raw browser automation commands. Nova surrounds 
 
 | Cognitive Function | What Nova Contributes | Architecture Guide | Video Demo |
 | :--- | :--- | :--- | :---: |
+| **Agent-Native Interface** | Built with agents: familiar action names and scoped aliases connect learned expectations to Nova's canonical tools | [Agent-Native Affordances](docs/core-features/agent-native-affordances.md) | — |
 | **Perception** | Reads the live browser through DOM, accessibility, screenshots, network, and console | [Visual Evidence](docs/core-features/evm-and-visual-evidence.md) | — |
 | **Procedural Memory** | Remembers website interaction recipes, state, health, and visual drift | [PKS Store](docs/core-features/pks.md) | [Watch](https://www.youtube.com/watch?v=7NwRGC3l-r8) |
 | **Operational Awareness** | Login state, plan and active model of a site, plus per-domain notes for agents | [Operational Knowledge](docs/core-features/operational-knowledge.md) | [Watch](https://www.youtube.com/watch?v=LgShkPaSW7I) |
