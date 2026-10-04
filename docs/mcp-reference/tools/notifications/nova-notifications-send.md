@@ -70,7 +70,7 @@ Tool category: `high_impact` (highest risk class; Nova's agent permission settin
 
 ## 4. Operational Best Practices
 
-* **Rate Limiting:** Guarded by a 10 requests / 30 seconds bucket. Exceeding this limit returns error `-32029` with `retryAfterMs`.
+* **Rate Limiting:** Guarded by a 10 requests / 30 seconds bucket. Exceeding this limit returns error `-32000` with `reasonCode` `notification.rate_limited` and `retryAfterMs`.
 * **Urgent Scenarios:** Only set `urgent: true` for genuine emergencies or blocking operator interventions (e.g. required 2FA confirmation), to respect user focus.
 * **Toast Replacement:** Use `tag` for progress updates (e.g. `tag: "batch-download-progress"`) to avoid flooding the user's desktop with dozens of individual toast popups.
 * **`status: "sent"` Means Dispatched, Not Delivered:** The OS toast is shown asynchronously after this call returns, so `status: "sent"` only confirms the notification was queued and persisted to the inbox. Check `deliveryState` via [`nova.notifications_get`](nova-notifications-get.md) (`pending`/`delivered`/`failed`/`suppressed`) to confirm the toast actually reached the desktop.

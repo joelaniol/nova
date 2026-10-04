@@ -17,7 +17,7 @@ Imports scheduled task definitions from a JSON array, creating fresh task IDs an
 <!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
-| `tasksJson` | `string` | Yes | — | — | JSON array of task definitions (from nova.scheduled_task_export output). |
+| `tasksJson` | `string` | Yes | — | — | JSON array of task definitions as a string: pass structuredContent.tasksJson from nova.scheduled_task_export unchanged. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 

@@ -39,17 +39,24 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
   "content": [
     {
       "type": "text",
-      "text": "Nova MCP onboarding reference (version 4.39.0)"
+      "text": "Nova MCP onboarding reference (version 4.39.0). Prefer nova.install_onboarding(projectRoot=...): one call writes every file and marker block of this plan. Use this plan only when you must write the files yourself; if your client shows only part of it, use install_onboarding instead."
     }
   ],
   "structuredContent": {
     "ok": true,
     "status": "ok",
     "version": "4.39.0",
-    "files": [
-      { "path": ".nova/nova-mcp.quick.md", "content": "...", "sha256": "..." },
-      { "path": ".nova/nova-mcp.md", "content": "...", "sha256": "..." }
-    ],
+    "preferredAlternative": {
+      "tool": "nova.install_onboarding",
+      "reason": "One call — Nova writes all reference files and marker blocks for you. Use get_onboarding only when you must write the files yourself."
+    },
+    "bootstrapNow": {
+      "steps": [
+        "nova.get_instructions(taskKeywords=[...])",
+        "nova.tools_bundle(bundle='browser_automation', includeUnavailable=true)"
+      ],
+      "note": "Run capability discovery now. Then call task tools directly; target selection, explicit claims, and perception are task-driven."
+    },
     "edits": [
       {
         "path": "CLAUDE.md",
@@ -61,13 +68,6 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
         "createIfMissingNote": "..."
       }
     ],
-    "bootstrapNow": {
-      "steps": [
-        "nova.get_instructions(taskKeywords=[...])",
-        "nova.tools_bundle(bundle='browser_automation', includeUnavailable=true)"
-      ],
-      "note": "Run capability discovery now. Then call task tools directly; target selection, explicit claims, and perception are task-driven."
-    },
     "preserveOtherContent": true,
     "verify": [
       "Re-open each edited file and confirm the block exists exactly once.",
@@ -75,15 +75,15 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
       "If CLAUDE.md already imports AGENTS.md, skip the AGENTS.md edit."
     ],
     "bundles": ["browser_automation", "page_read_debug", "..."],
-    "preferredAlternative": {
-      "tool": "nova.install_onboarding",
-      "reason": "One call — Nova writes all reference files and marker blocks for you. Use get_onboarding only when you must write the files yourself."
-    }
+    "files": [
+      { "path": ".nova/nova-mcp.quick.md", "content": "...", "sha256": "..." },
+      { "path": ".nova/nova-mcp.md", "content": "...", "sha256": "..." }
+    ]
   }
 }
 ```
 
-This example shortens `files`/`edits`/`bundles`; the real response includes every reference file (quickstart, full reference, and the mail/SFTP/FTP connector capability references) and every marker-block edit, plus the full bundle id list.
+This example shortens `files`/`edits`/`bundles`; the real response includes every reference file (quickstart, full reference, and the mail/SFTP/FTP connector capability references) and every marker-block edit, plus the full bundle id list. The reference files come last because they make up most of the response: a client that only shows text and cuts long answers still gets the small fields first.
 
 ---
 

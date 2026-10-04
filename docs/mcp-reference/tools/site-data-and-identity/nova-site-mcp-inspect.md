@@ -22,7 +22,7 @@ Inspects a discovered MCP server from cached discovery metadata (identity, trans
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
-Tool category: `normal` (standard risk class in Nova's agent permission settings).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---

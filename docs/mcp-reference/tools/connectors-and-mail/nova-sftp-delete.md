@@ -20,8 +20,8 @@ Deletes a remote file, empty directory, or bounded directory tree over SFTP.
 | `profileId` | `string` | Yes | — | — | SFTP connector id from nova.connector_list. |
 | `remotePath` | `string` | Yes | — | ≤ 4096 characters | Remote file or directory to delete. |
 | `recursive` | `boolean` | No | `false` | — | Delete a non-empty directory tree after enforcing maxFiles/maxBytes. False deletes only a file or empty directory. |
-| `maxFiles` | `integer` | No | `500` | 1–500 | Requested entry ceiling for this call; cannot exceed Nova's hard limit. |
-| `maxBytes` | `integer` | No | `1073741824` | 1–1073741824 | Requested total-byte ceiling for this call; cannot exceed Nova's hard limit. |
+| `maxFiles` | `integer` | No | `500` | 1–500 | Requested entry ceiling for a recursive delete; cannot exceed Nova's per-call blast-radius limit. |
+| `maxBytes` | `integer` | No | `1073741824` | 1–1073741824 | Requested total-byte ceiling for a recursive delete; cannot exceed Nova's per-call blast-radius limit. |
 | `unattended` | `boolean` | No | `false` | — | Fail closed instead of opening account/policy prompts. Scheduled-task hosts enforce unattended mode even when omitted; this flag can only reduce authority. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).

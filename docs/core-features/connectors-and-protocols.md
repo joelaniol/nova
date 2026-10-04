@@ -84,7 +84,7 @@ All connector tools are in the `connector_ops` bundle.
   * `nova.mail_backup_start`, `nova.mail_backup_status`, `nova.mail_backup_stop`: Back up a mailbox in the background as local ZIP part files. The resume point survives a Nova restart, so `incremental` continues where the last backup stopped.
 * **File transfer (`nova.sftp_*`, `nova.ftp_*`):**
   * `nova.sftp_list` / `nova.ftp_list`: List a remote directory.
-  * `nova.sftp_get` / `nova.ftp_get`: Download. SFTP also transfers whole directories with `recursive=true` (up to 500 entries); FTP transfers single files. At most 1 GiB per call.
+  * `nova.sftp_get` / `nova.ftp_get`: Download. SFTP transfers files and whole directories (`recursive=true`) of any size as a resumable background job: the call returns a `jobId` when the transfer outlasts `wait`, `nova.sftp_transfer_status` reports progress, `nova.sftp_transfer_stop` pauses it, and repeating the call resumes it. FTP transfers single files, at most 1 GiB per call.
   * `nova.sftp_put` / `nova.ftp_put`: Upload, with the same limits.
   * `nova.sftp_rename`, `nova.sftp_delete`, `nova.ftp_rename`, `nova.ftp_delete`: Rename or delete remote files.
 * **Connections and access:**

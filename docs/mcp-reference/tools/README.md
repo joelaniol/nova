@@ -12,7 +12,7 @@ Looking for a tool by what it does rather than by area? The [tool catalog](../to
 | [Agent-Authored Plugins](plugins/README.md) | 22 | Write, test, and ship agent-authored browser plugins that change how pages behave. |
 | [App Shell, Dialogs & DevTools](app-shell-and-ui/README.md) | 59 | WinUI window controls, native OS dialog handling, DevTools panels, setup wizard, and onboarding injection. |
 | [Browser Navigation & Physical Automation](browser-automation/README.md) | 41 | Page navigation, tab strip lifecycle management, physical clicks, humanized typing, scroll mechanics, and file uploads. |
-| [Connectors, Mail & File Transfer](connectors-and-mail/README.md) | 31 | IMAP/SMTP email client automation, EML exports, SFTP/FTP server operations, and credential access grants. |
+| [Connectors, Mail & File Transfer](connectors-and-mail/README.md) | 33 | IMAP/SMTP email client automation, EML exports, SFTP/FTP server operations, and credential access grants. |
 | [Credentials, Vault & DPAPI Secret Keystore](vault-and-security/README.md) | 9 | Password autofill via ephemeral origin-bound SecretRef tokens, credential discovery, and write-only encrypted environment variables. |
 | [DOM Perception & Semantic Extraction](dom-and-reading/README.md) | 20 | Token-efficient text extraction, structured landmark reading, typed DOM attributes, and multi-modal fusion perception. |
 | [Desktop Notifications & Alerts](notifications/README.md) | 11 | Native OS notification dispatch, unread inbox management, and per-origin notification permissions. |
@@ -32,5 +32,5 @@ Looking for a tool by what it does rather than by area? The [tool catalog](../to
 | [Site Data, Fingerprinting & Sandboxes](site-data-and-identity/README.md) | 23 | Cookie jars, localStorage/sessionStorage, cache purging, browser fingerprint spoofing, and sandbox isolation. |
 | [Visual Evidence, Screenshots & Archiving](visual-evidence/README.md) | 7 | Lossless cropped screenshots, pixel-by-pixel diffing, persistent baselines, and print-to-PDF generation. |
 
-**430 tools in total.**
+**432 tools in total.**
 <!-- /generated:area-list -->

@@ -24,7 +24,7 @@ Every tool exposed by **Nova AI Workspace**, grouped by operational domain. Clic
 - [15. Site Crawler & URL Discovery Index](#15-site-crawler--url-discovery-index) (14)
 - [16. Session Tracing & DOM Event Recording](#16-session-tracing--dom-event-recording) (14)
 - [17. Scheduled Tasks, Cron & Workspaces](#17-scheduled-tasks-cron--workspaces) (25)
-- [18. Connectors, Mail & File Transfer](#18-connectors-mail--file-transfer) (31)
+- [18. Connectors, Mail & File Transfer](#18-connectors-mail--file-transfer) (33)
 - [19. Media Intelligence & Whisper Speech-to-Text](#19-media-intelligence--whisper-speech-to-text) (24)
 - [20. Site Data, Fingerprinting & Sandboxes](#20-site-data-fingerprinting--sandboxes) (23)
 - [21. Episodic Task Memory & Guidance](#21-episodic-task-memory--guidance) (34)
@@ -452,9 +452,11 @@ IMAP/SMTP email client automation, EML exports, SFTP/FTP server operations, and 
 | **[`nova.mail_backup_status`](tools/connectors-and-mail/nova-mail-backup-status.md)** | `jobId?`, `profileId?`, `acknowledge?` | Reports progress, downloaded message counts, and active phase of a mail backup job. |
 | **[`nova.mail_backup_stop`](tools/connectors-and-mail/nova-mail-backup-stop.md)** | `jobId` | Gracefully stops an in-flight mail backup job, committing all downloaded messages. |
 | **[`nova.sftp_list`](tools/connectors-and-mail/nova-sftp-list.md)** | `profileId`, `remotePath?`, `maxEntries?`, `unattended?` | Lists remote directory entries or inspects file metadata through an SFTP connector. |
-| **[`nova.sftp_get`](tools/connectors-and-mail/nova-sftp-get.md)** | `profileId`, `localPath`, `remotePath`, `recursive?`, `overwrite?`, `maxFiles?`, `maxBytes?`, `unattended?` | Downloads a remote file or directory tree over SFTP into Downloads or the workspace. |
-| **[`nova.sftp_put`](tools/connectors-and-mail/nova-sftp-put.md)** | `profileId`, `localPath`, `remotePath`, `recursive?`, `overwrite?`, `maxFiles?`, `maxBytes?`, `unattended?` | Uploads a local file or directory tree over SFTP to a remote destination. |
+| **[`nova.sftp_get`](tools/connectors-and-mail/nova-sftp-get.md)** | `profileId`, `localPath`, `remotePath`, `recursive?`, `overwrite?`, `maxFiles?`, `maxBytes?`, `wait?`, `resumeJobId?`, `unattended?` | Downloads a remote file or directory tree of any size over SFTP into Downloads or the workspace, as a resumable background job. |
+| **[`nova.sftp_put`](tools/connectors-and-mail/nova-sftp-put.md)** | `profileId`, `localPath`, `remotePath`, `recursive?`, `overwrite?`, `maxFiles?`, `maxBytes?`, `wait?`, `resumeJobId?`, `unattended?` | Uploads a local file or directory tree of any size over SFTP, as a resumable background job. |
 | **[`nova.sftp_rename`](tools/connectors-and-mail/nova-sftp-rename.md)** | `profileId`, `remotePath`, `destinationRemotePath`, `overwrite?`, `unattended?` | Renames or moves a remote file or directory over SFTP. |
+| **[`nova.sftp_transfer_status`](tools/connectors-and-mail/nova-sftp-transfer-status.md)** | `jobId?`, `profileId?` | Reports progress and result of background SFTP transfers started by `nova.sftp_get` or `nova.sftp_put`. |
+| **[`nova.sftp_transfer_stop`](tools/connectors-and-mail/nova-sftp-transfer-stop.md)** | `jobId` | Stops a running background SFTP transfer softly and keeps everything for a resume. |
 | **[`nova.sftp_delete`](tools/connectors-and-mail/nova-sftp-delete.md)** | `profileId`, `remotePath`, `recursive?`, `maxFiles?`, `maxBytes?`, `unattended?` | Deletes a remote file, empty directory, or bounded directory tree over SFTP. |
 | **[`nova.ftp_list`](tools/connectors-and-mail/nova-ftp-list.md)** | `profileId`, `remotePath?`, `maxEntries?`, `unattended?`, `allowInsecure?` | Lists remote directory entries or inspects file metadata through an FTP/FTPS connector. |
 | **[`nova.ftp_get`](tools/connectors-and-mail/nova-ftp-get.md)** | `profileId`, `localPath`, `remotePath`, `overwrite?`, `maxBytes?`, `unattended?`, `allowInsecure?` | Downloads a remote regular file over FTP/FTPS into Downloads or the workspace. |
