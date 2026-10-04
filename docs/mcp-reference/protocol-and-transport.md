@@ -108,17 +108,20 @@ Other methods (`initialize`, `tools/list`, …) and malformed requests get a pla
 
 | Code | Meaning | What to do |
 | :--- | :--- | :--- |
-| **`-32700`** | The request is not valid JSON. | Check string escaping. |
+| **`-32700`** | The request is not valid JSON or the body is empty (sent with HTTP 400). | Check string escaping. |
 | **`-32600`** | Not a valid JSON-RPC request. | Send `jsonrpc: "2.0"` and a `method`. |
 | **`-32601`** | Unknown JSON-RPC method. | Use the MCP methods (`tools/list`, `tools/call`, …). |
 | **`-32602`** | Invalid parameters: wrong type, unknown property, wrong enum value, out-of-range number, an unknown tool name (the message lists close matches) or an unknown `targetId`. | Read the message; it names what is accepted. Discover tools with `nova.tools_bundle`. |
+| **`-32800`** | The request was cancelled. | Retry only if the result is still needed. |
+| **`-32041`** / **`-32042`** / **`-32043`** | A claim finalize step failed, or its token or role does not match. | Read the message; finish or recover the claim before continuing. |
 | **`-32040`** | The tab is claimed by another agent (`claim.owner_mismatch`). | Use the `agentId` the message names, wait for the claim to expire, or reclaim with a `reclaimReason`. |
 | **`-32044`** | Too many tabs claimed at once. | Release or close tabs you no longer need. |
 | **`-32035`** | Blocked by a policy. | Not retryable as is; the message says which policy. |
 | **`-32029`** | Rate limit reached. `retryAfterMs` says when to try again. | Wait `retryAfterMs` (plus a little jitter), then retry once. |
 | **`-32036`** | The user declined the approval prompt (sending mail, mail or file-server access, copying a saved password, overriding the user's own site note, a confirmation). Nothing was done. | Do not retry and do not ask again in a loop. Tell the user, or continue without this action. |
 | **`-32034`** / **`-32033`** | The action needs the user's approval / the approval is unavailable or timed out. | Wait for the user or ask again. |
-| **`-32031`** / **`-32030`** | An autonomy or bootstrap gate stopped the call. | Follow the hint in the message (often: call the named tool first). |
+| **`-32031`** | A high-impact tool needs `_meta.intent`, or an autonomy gate stopped the call. | Merge `repairHint.argumentsPatch` into the arguments and retry, or follow the hint. |
+| **`-32030`** | Loop detected: the same call was repeated too often. | Change the approach instead of repeating the call. |
 | **`-32005`** | The feature is switched off in Nova's settings. | Ask the user to enable it; `nova.tools_bundle(includeUnavailable=true)` names the setting. |
 | **`-32004`** | Not found, e.g. no element matched the selector. | Check the selector or wait for the page. |
 | **`-32003`** | A precondition failed (page not ready, URL mismatch, …). | Wait or navigate, then retry. |
