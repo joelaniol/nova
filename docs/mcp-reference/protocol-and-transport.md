@@ -115,14 +115,16 @@ Other methods (`initialize`, `tools/list`, …) and malformed requests get a pla
 | **`-32040`** | The tab is claimed by another agent (`claim.owner_mismatch`). | Use the `agentId` the message names, wait for the claim to expire, or reclaim with a `reclaimReason`. |
 | **`-32044`** | Too many tabs claimed at once. | Release or close tabs you no longer need. |
 | **`-32035`** | Blocked by a policy. | Not retryable as is; the message says which policy. |
-| **`-32029`** | Rate limit reached. `retryAfterMs` says when to try again. A few tools (mail, connector password use) also return it when the user declines an approval prompt; `reasonCode` and `message` tell the two apart. | Wait `retryAfterMs` (plus a little jitter), then retry once; on a declined approval, do not retry. |
-| **`-32034`** / **`-32033`** | The action needs the user's approval / the approval is unavailable or expired. | Wait for the user or ask again. |
+| **`-32029`** | Rate limit reached. `retryAfterMs` says when to try again. | Wait `retryAfterMs` (plus a little jitter), then retry once. |
+| **`-32036`** | The user declined the approval prompt (sending mail, mail or file-server access, copying a saved password, overriding the user's own site note, a confirmation). Nothing was done. | Do not retry and do not ask again in a loop. Tell the user, or continue without this action. |
+| **`-32034`** / **`-32033`** | The action needs the user's approval / the approval is unavailable or timed out. | Wait for the user or ask again. |
 | **`-32031`** / **`-32030`** | An autonomy or bootstrap gate stopped the call. | Follow the hint in the message (often: call the named tool first). |
 | **`-32005`** | The feature is switched off in Nova's settings. | Ask the user to enable it; `nova.tools_bundle(includeUnavailable=true)` names the setting. |
 | **`-32004`** | Not found, e.g. no element matched the selector. | Check the selector or wait for the page. |
 | **`-32003`** | A precondition failed (page not ready, URL mismatch, …). | Wait or navigate, then retry. |
 | **`-32002`** | A resource is not available (the tab's web view is not initialized, a plugin does not exist, …). | Activate or reload the tab, or check the id. |
 | **`-32001`** / **`-32000`** | Other blocked or application-level failures. | Read the message and `reasonCode`. |
+| **`-32603`** | Unexpected internal failure. The message is replaced by a generic text because it can contain internals. | Retry once; if it repeats, report it to the user. |
 
 ### Example: a wrong enum value
 

@@ -15,6 +15,8 @@ An unclaimed target, or one claimed by the calling agent, returns the full app U
 
 The capture also checks the WebView area for an all-dark/blank frame and reports `status: "degraded"` with a `webViewContentReasonCode` when the content looks unusable.
 
+Nova's own dialogs, flyouts, menus and the address-bar suggestion list sit on a separate layer above the window. The capture draws every open one into the image and lists them in `openPopups`, topmost first: `kind` (`dialog`, `backdrop` for a dialog's dimming layer, or `popup`), `name` (dialog title or accessible name, when there is one), `element` (UI element type), the position in image pixels, and `rendered`. In a shell-redacted capture they are listed with `rendered: false` and not drawn, because a popup can show the foreign tab's content.
+
 ---
 
 ## 2. Parameter Reference
@@ -68,6 +70,10 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
     "sourcePixelHeight": 1080,
     "webViewOnly": false,
     "webViewContentOk": true,
+    "openPopups": [
+      { "kind": "dialog", "name": "Welcome to Nova", "element": "ContentDialog", "pixelX": 0, "pixelY": 0, "pixelWidth": 1920, "pixelHeight": 1080, "rendered": true },
+      { "kind": "backdrop", "name": null, "element": "Rectangle", "pixelX": 0, "pixelY": 0, "pixelWidth": 1920, "pixelHeight": 1080, "rendered": true }
+    ],
     "targetId": "tab-1",
     "resource": { "uri": "nova://screenshot/<id>", "mimeType": "image/jpeg", "size": 184320 },
     "filePath": "C:\\Users\\me\\AppData\\Local\\NovaBrowser\\Screenshots\\<id>.jpg"
@@ -98,6 +104,7 @@ Fields shown above are a representative subset; the full response also carries `
 ## 4. Operational Best Practices
 
 * **Shell QA:** Use to verify native tab styling, window docking, and settings drawer overlays.
+* **Dialogs:** When Nova shows one of its own dialogs, this is the tool that shows its text and buttons; check `openPopups` to know a dialog is open before acting on the page.
 * **Foreign-claim awareness:** A `status: "partial"` / `captureScope: "shell_redacted"` result is not a bug — it means another agent/session holds the active tab's claim, and page content was intentionally masked. Wait for the claim to release, or capture from the owning session.
 
 ---

@@ -55,11 +55,11 @@ Capability bundles of these tools: `app_shell_recovery`, `onboarding`, `page_rea
 | **[`nova.ui_client_certificate_prompt_resolve`](nova-ui-client-certificate-prompt-resolve.md)** | Answers Nova's client-certificate dialog: send a named certificate or continue without one. |
 | **[`nova.ui_close_downloads`](nova-ui-close-downloads.md)** | Closes the download manager drawer panel in the Nova host user interface. |
 | **[`nova.ui_close_settings`](nova-ui-close-settings.md)** | Closes the settings drawer overlay in the Nova host user interface. |
-| **[`nova.ui_confirm_native_dialog`](nova-ui-confirm-native-dialog.md)** | Triggers the primary affirmative action on the currently active host-owned Win32 native dialog. |
+| **[`nova.ui_confirm_native_dialog`](nova-ui-confirm-native-dialog.md)** | Presses a button in the open dialog: by name in any dialog, including Nova's own, or the affirmative button of a Windows dialog. |
 | **[`nova.ui_dismiss_native_dialog`](nova-ui-dismiss-native-dialog.md)** | Dismisses or cancels the currently active host-owned Win32 native dialog. |
 | **[`nova.ui_download_security_prompt_resolve`](nova-ui-download-security-prompt-resolve.md)** | Answers Nova's "Keep this file?" question for a download that Windows can run (for example .exe, .msi, .bat, .ps1). |
 | **[`nova.ui_get_state`](nova-ui-get-state.md)** | Inspects host application UI state: active tab, overlay visibility, responsiveness, and open dialogs. |
-| **[`nova.ui_inspect_native_dialog`](nova-ui-inspect-native-dialog.md)** | Inspects details of the currently active host-owned Win32 native dialog (title, class, control types). |
+| **[`nova.ui_inspect_native_dialog`](nova-ui-inspect-native-dialog.md)** | Inspects the open dialog — a Windows dialog Nova owns or one of Nova's own dialogs — with its texts and buttons. |
 | **[`nova.ui_open_downloads`](nova-ui-open-downloads.md)** | Opens the download manager drawer panel in the Nova host user interface. |
 | **[`nova.ui_open_settings`](nova-ui-open-settings.md)** | Opens the settings drawer overlay in the Nova host user interface. |
 | **[`nova.ui_permission_prompt_resolve`](nova-ui-permission-prompt-resolve.md)** | Defers or answers the permission dialog that Nova is showing for a site (for example location, notifications, clipboard read or advanced device access). |
