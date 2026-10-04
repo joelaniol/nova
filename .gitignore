@@ -1,189 +1,58 @@
-# ============================================================
-# Nova Release Repository - .gitignore
-# WASSERDICHT: Nichts aus der Entwicklung darf durchkommen
-# ============================================================
+# Release and documentation repository: only docs, assets and release notes belong here.
+# Content is published by a sync from a separate source; a workflow checks every push.
 
-# ------------------------------------------------------------
-# AI / Agent Dateien (KRITISCH - niemals committen)
-# ------------------------------------------------------------
+# Source code, project and build files
+*.cs
+*.csproj
+*.sln
+*.slnx
+*.props
+*.targets
+*.ps1
+*.psm1
+*.bat
+*.cmd
+*.iss
+*.binlog
+*.pdb
+bin/
+obj/
+
+# Agent and editor configuration
 .claude/
-.claude_*
-.claude-*
-claude_output/
-.anthropic/
+.mcp.json
 CLAUDE.md
 AGENTS.md
 AGENTS.local.md
-.mcp.json
-.cursorrules
+GEMINI.md
 .cursor/
-.gemini/
-.aider*
-.continue/
-.copilot/
-.github/copilot/
-.codeium/
-.tabnine/
-.sourcery.yaml
-
-# ------------------------------------------------------------
-# Debug-Symbole (KRITISCH - können Quellpfade enthalten)
-# ------------------------------------------------------------
-*.pdb
-
-# ------------------------------------------------------------
-# Build-Konfiguration (Entwicklungs-Interna)
-# ------------------------------------------------------------
-*.sln
-*.csproj
-*.props
-*.targets
-*.binlog
-build.ps1
-rebuild.bat
-dotnet.ps1
-dotnet-install.ps1
-scanner-report.bat
-
-# ------------------------------------------------------------
-# Entwicklungs-Dokumentation (Interna)
-# ------------------------------------------------------------
-bug.md
-todo.md
-feature_request_*.md
-feature-requests.md
-feature-scanner-discovery.md
-qm_checkbook.md
-dist-README.txt
-
-# ------------------------------------------------------------
-# Test-Dateien
-# ------------------------------------------------------------
-mocks/
-tests/
-TestResults/
-NovaBrowser.Tests/
-*-selftest*.log
-*-test*.log
-
-# ------------------------------------------------------------
-# Entwicklungs-Artefakte
-# ------------------------------------------------------------
-*.log
-*.tmp
-*.temp
-*.bak
-*.orig
-*.patch
-*.diff
-.tmp/
-.tmp-*
-temp/
-tmp/
-.history/
-.tools/
-archive/
-artifacts/
-out/
-doc/
-
-# ------------------------------------------------------------
-# IDE / Editor
-# ------------------------------------------------------------
+.cursorrules
 .vscode/
 .vs/
 .idea/
 *.suo
-*.ntvs*
-*.njsproj
-*.sw?
 *.swp
-*.swo
 *~
-.project
-.classpath
-.settings/
-.editorconfig
-nul
 
-# ------------------------------------------------------------
-# OS-spezifisch
-# ------------------------------------------------------------
-Thumbs.db
-ehthumbs.db
-Desktop.ini
-$RECYCLE.BIN/
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-.fseventsd
-
-# ------------------------------------------------------------
-# Abhängigkeiten / Paketmanager
-# ------------------------------------------------------------
-node_modules/
-__pycache__/
-*.pyc
-*.pyo
-.pip/
-venv/
-.venv/
-env/
+# Secrets
 .env
 .env.*
-!.env.example
-.dotnet/
-
-# ------------------------------------------------------------
-# Secrets / Credentials
-# ------------------------------------------------------------
 *.pem
 *.key
-*.cert
-*.p12
 *.pfx
+*.p12
+*.secret
 credentials.json
 secrets.json
-*.secret
-token.json
-service-account*.json
 
-# ------------------------------------------------------------
-# Archiv / Komprimiert (Release-ZIPs sind erlaubt!)
-# ------------------------------------------------------------
-*.tar.gz
-*.rar
-*.7z
-# *.zip — NICHT blockieren, Release-ZIPs werden mit hochgeladen
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+tmp/
+temp/
 
-# ------------------------------------------------------------
-# Interne Docs (nur fuer Agents, nicht oeffentlich)
-# ------------------------------------------------------------
-docs/release-checklist.md
-docs/release-log.md
-docs/internal-links.md
-
-# ------------------------------------------------------------
-# Installer (lokal, wird nicht gepusht)
-# ------------------------------------------------------------
-installer/
-*.iss
-*.exe
-!release/**/*.exe
-
-# ------------------------------------------------------------
-# Diverse
-# ------------------------------------------------------------
-.cache/
-.parcel-cache/
-.turbo/
-coverage/
-.nyc_output/
-*.pid
-*.seed
-*.map
-*.debug
-schemas/
-translation_bugs/
+# Operating system files
+Thumbs.db
+Desktop.ini
+.DS_Store
