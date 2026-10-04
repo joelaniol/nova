@@ -8,8 +8,7 @@ Updates configuration, environment variables, or transport settings of an existi
 
 `nova.external_server_update` updates configuration for a registered server identified by `serverKey`. Running servers must be restarted for updated environment variables or arguments to take effect.
 
-* **Security Tier:** Tier 3 (High-Impact)
-* **Core Architecture Guide:** [Plugins & External Extensions](../../../core-features/plugins.md)
+* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md) (section 7, "External MCP Servers")
 
 ---
 
@@ -37,6 +36,7 @@ Updates configuration, environment variables, or transport settings of an existi
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
 
 Capability bundle: `external_mcp` (load it with `nova.tools_bundle(bundle='external_mcp')`).
+Tool category: `high_impact` (highest risk class; Nova's agent permission settings can ask before it runs).
 <!-- /generated:parameters -->
 
 ---
@@ -63,13 +63,15 @@ Capability bundle: `external_mcp` (load it with `nova.tools_bundle(bundle='exter
   "content": [
     {
       "type": "text",
-      "text": "Server 'e4f5a6b7' updated."
+      "text": "Server 'Filesystem MCP' (e4f5a6b7) updated."
     }
   ],
   "structuredContent": {
     "ok": true,
     "serverKey": "e4f5a6b7",
-    "updated": true
+    "displayName": "Filesystem MCP",
+    "transport": "stdio",
+    "status": "Stopped"
   }
 }
 ```

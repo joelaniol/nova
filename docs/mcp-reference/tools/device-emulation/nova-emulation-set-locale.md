@@ -6,9 +6,8 @@ Emulates browser locale, timezone, and geolocation coordinates for testing local
 
 ## 1. Overview
 
-`nova.emulation_set_locale` sets the browser language headers, IANA timezone, and GPS coordinates for internationalization and geolocation testing.
+`nova.emulation_set_locale` sets `navigator.language`/`navigator.languages`, the Accept-Language request header, the IANA timezone, and/or GPS coordinates for internationalization and geolocation testing. Each axis (locale, timezone, geolocation) is independent — pass only the ones you want to change. Timezone and geolocation fully change `Date` timezone behavior and the Geolocation API; `locale` does NOT change `Intl`/`Date`/`Number` formatting output, which is fixed at the browser process level and cannot be overridden per tab at runtime.
 
-* **Security Tier:** Tier 2 (Locale Emulation)
 * **Core Architecture Guide:** [Fingerprint & Identity Systems](../../../core-features/fingerprint-and-identity.md)
 
 ---
@@ -26,6 +25,7 @@ Emulates browser locale, timezone, and geolocation coordinates for testing local
 | `accuracy` | `number` | No | `1` | ≥ 0 | Geolocation accuracy in meters (default 1). Only used when latitude+longitude are set. |
 
 Capability bundle: `device_emulation` (load it with `nova.tools_bundle(bundle='device_emulation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -51,12 +51,13 @@ Capability bundle: `device_emulation` (load it with `nova.tools_bundle(bundle='d
   "content": [
     {
       "type": "text",
-      "text": "Locale override applied: locale=ja-JP, timezone=Asia/Tokyo, geo=35.6762,139.6503."
+      "text": "Locale/timezone/geolocation emulation applied."
     }
   ],
   "structuredContent": {
     "targetId": "tab-1",
     "locale": "ja-JP",
+    "acceptLanguage": "ja-JP",
     "timezone": "Asia/Tokyo",
     "geolocation": {
       "latitude": 35.6762,
@@ -73,6 +74,7 @@ Capability bundle: `device_emulation` (load it with `nova.tools_bundle(bundle='d
 
 * **Paired Coordinates:** `latitude` and `longitude` must both be provided when testing geolocation.
 * **Timezone Testing:** Timezone overrides affect `Intl.DateTimeFormat` and JavaScript `Date` constructor outputs.
+* **Formatting Limitation:** `locale` drives `navigator.language`/`languages` and Accept-Language only — it does not change `Intl` number/date formatting output. For formatting tests, set the format explicitly in your own `Intl` calls.
 
 ---
 

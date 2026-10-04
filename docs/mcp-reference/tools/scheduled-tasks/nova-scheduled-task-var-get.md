@@ -8,7 +8,6 @@ Retrieves the current value of a persistent state variable for a task.
 
 `nova.scheduled_task_var_get` reads a persistent state variable stored for a task. It returns the exact string value, or `null` if the key does not exist.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
 ---
@@ -24,6 +23,7 @@ Retrieves the current value of a persistent state variable for a task.
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -51,9 +51,9 @@ Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='sc
     }
   ],
   "structuredContent": {
-    "ok": true,
     "taskId": "task-7c81a2f0",
     "key": "last_scraped_id",
+    "found": true,
     "value": "10482"
   }
 }
@@ -64,7 +64,7 @@ Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='sc
 ## 4. Operational Best Practices
 
 * **State Resumption:** Read variables at the beginning of a task run to resume execution from the previous stopping point.
-* **Missing Key Handling:** Check for `value: null` to initialize state on the first execution run.
+* **Missing Key Handling:** Check `found: false` (`value` is `null` in that case) to initialize state on the first execution run.
 
 ---
 

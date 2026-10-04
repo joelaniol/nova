@@ -6,9 +6,8 @@ Retrieves the run execution history (status, duration, exit code, cost) of a sch
 
 ## 1. Overview
 
-`nova.scheduled_task_runs` queries the historical executions of a task. It provides status (`Completed`, `Failed`, `TimedOut`, `Cancelled`), execution duration, exit codes, consumed tokens, cost in USD, and structured output summaries.
+`nova.scheduled_task_runs` queries the historical executions of a task, most recent first. It reports each run's trigger kind (`Scheduled`, `Manual`, `CatchUp`, `FileWatch`), status (`Completed`, `Failed`, `Timeout`, `MaxTurns`, `MaxBudget`, `Cancelled`, `Missed`, `SkippedOverlap`, and other terminal states), duration, exit code, cost in USD, turn count, and an output summary, plus whether a structured result is available.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
 ---
@@ -24,6 +23,7 @@ Retrieves the run execution history (status, duration, exit code, cost) of a sch
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -35,7 +35,7 @@ Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='sc
 {
   "name": "nova.scheduled_task_runs",
   "arguments": {
-    "taskId": "task-7c81a2f0",
+    "taskId": "a1b2c3d4e5f6",
     "limit": 2
   }
 }
@@ -47,30 +47,37 @@ Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='sc
   "content": [
     {
       "type": "text",
-      "text": "Loaded 2 run records for task task-7c81a2f0."
+      "text": "2 run(s) for task 'a1b2c3d4e5f6'. Use nova.scheduled_task_run_output(runId='<runId>') to read stdout/stderr of a specific run."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "taskId": "task-7c81a2f0",
+    "taskId": "a1b2c3d4e5f6",
     "runs": [
       {
-        "runId": "run-8120c",
+        "runId": "8f14e45fceea167a5a36dedd4bea2543",
+        "triggerKind": "Scheduled",
         "status": "Completed",
-        "exitCode": 0,
-        "durationMs": 12400,
         "startedAtUtc": "2026-10-02T20:30:00Z",
-        "costUsd": 0.04,
-        "outputSummary": "Price scraped successfully: $49.99"
+        "finishedAtUtc": "2026-10-02T20:30:12Z",
+        "durationMs": 12400,
+        "exitCode": 0,
+        "outputSummary": "Price scraped successfully: $49.99",
+        "totalCostUsd": 0.04,
+        "turnCount": 3,
+        "hasStructuredResult": false
       },
       {
-        "runId": "run-7019a",
+        "runId": "b2d4f6a8c1e39074523618900abcdef",
+        "triggerKind": "Scheduled",
         "status": "Completed",
-        "exitCode": 0,
-        "durationMs": 11800,
         "startedAtUtc": "2026-10-02T07:00:00Z",
-        "costUsd": 0.04,
-        "outputSummary": "Price scraped successfully: $54.99"
+        "finishedAtUtc": "2026-10-02T07:00:11Z",
+        "durationMs": 11800,
+        "exitCode": 0,
+        "outputSummary": "Price scraped successfully: $54.99",
+        "totalCostUsd": 0.04,
+        "turnCount": 3,
+        "hasStructuredResult": false
       }
     ]
   }
@@ -82,7 +89,7 @@ Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='sc
 ## 4. Operational Best Practices
 
 * **Failure Diagnosis:** Identify runs with `exitCode != 0` and pass their `runId` to [`nova.scheduled_task_run_output`](nova-scheduled-task-run-output.md) with `stream: "stderr"`.
-* **Cost Auditing:** Review `costUsd` per run to optimize prompt lengths and agent efficiency.
+* **Cost Auditing:** Review `totalCostUsd` per run to optimize prompt lengths and agent efficiency.
 
 ---
 

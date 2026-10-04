@@ -8,7 +8,6 @@ Sets or updates a cookie in the target sandbox profile's cookie jar.
 
 `nova.cookie_set` writes or updates a cookie for the target tab's sandbox container. Cookies are identified by the unique tuple `{name, domain, path}`.
 
-* **Security Tier:** Tier 2 (Cookie Mutation)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
 ---
@@ -30,6 +29,7 @@ Sets or updates a cookie in the target sandbox profile's cookie jar.
 | `dryRun` | `boolean` | No | `false` | — | Validate without writing. Returns wouldCreate/wouldReplace and warnings. |
 
 Capability bundle: `site_data_management` (load it with `nova.tools_bundle(bundle='site_data_management')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -58,19 +58,27 @@ Capability bundle: `site_data_management` (load it with `nova.tools_bundle(bundl
   "content": [
     {
       "type": "text",
-      "text": "Set cookie 'user_pref' on .example.com."
+      "text": "Cookie 'user_pref' created on .example.com/ (sandbox:tab-1)."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "targetId": "tab-1",
-    "name": "user_pref",
-    "domain": ".example.com",
-    "path": "/",
-    "status": "Set"
+    "dryRun": false,
+    "result": "created",
+    "cookieId": "a1b2c3d4...",
+    "effectiveDomain": ".example.com",
+    "effectivePath": "/",
+    "scope": {
+      "profileId": "tab-1",
+      "profileScope": "sandbox:tab-1",
+      "isSharedProfile": false
+    },
+    "warnings": []
   }
 }
 ```
+
+`result` is `"created"` for a new cookie or `"replaced"` when an existing cookie with the same name/domain/path is overwritten.
 
 ---
 

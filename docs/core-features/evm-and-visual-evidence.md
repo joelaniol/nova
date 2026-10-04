@@ -1,59 +1,55 @@
-# Evidence Verification Mode (EVM) & Visual Ground Truth
+# Evidence Verification Mode (EVM) & Visual Evidence
 
 > [!NOTE]
-> Evidence Verification Mode (EVM) and the Visual Ground Truth pipeline protect agents from hallucinations during research and visual inspection tasks. Factual assertions must be supported by empirical evidence, while visual evidence remains pixel-sharp and token-efficient through targeted region crops.
+> Evidence Verification Mode (EVM) is a set of research rules Nova hands to agents for factual tasks: split the task into claims, back each claim with sources, and say "unknown" instead of guessing. For visual checks, Nova's screenshot tools capture just the element or region in question, so small text stays readable and responses stay small.
 
 ---
 
-## 1. Problem Statement: Research Hallucinations & Vision Token Waste
+## 1. Problem Statement
 
-When AI agents conduct web research or evaluate UI layouts, two common failure modes emerge:
-1. **Unsubstantiated Claims:** The agent assumes facts (e.g. pricing tiers, security advisories, filing deadlines) or relies on a single unverified source.
-2. **Vision Token Explosion via 4K Screenshots:** Capturing an entire 4K viewport screenshot consumes approximately 5,800 vision tokens. Despite this massive overhead, small 13px text in downscaled viewports is often blurry or illegible.
-
-Nova resolves this via **Claim-Based EVM Testing** and **Deterministic Proof-Crops**.
+When agents research facts or check a UI, two failure modes are common:
+1. **Unsupported claims:** The agent states facts (prices, security advisories, deadlines) from memory or from a single source.
+2. **Oversized screenshots:** A full-viewport screenshot costs many image tokens, and once it is downscaled, small text can become unreadable.
 
 ---
 
-## 2. The EVM Verification Ruleset
+## 2. The EVM Rules
 
-For factual research workflows, Nova enforces a structured evidence schema (`structuredContent.evm`) via `get_instructions(mode='task')`:
+`nova.get_instructions` in task mode returns the EVM rules as text and as `structuredContent.evm`. They are guidance for the agent; Nova does not check the agent's final answer against them. The rules apply to factual and research tasks, not to plain UI automation.
 
 ```mermaid
 flowchart TD
-    Claim["Task Claim / Factual Question"] --> CheckDomain{"High-Impact Domain?
-(Security, Legal, Finance,
-Pricing, Medical, Deadlines)"}
-    CheckDomain -- Yes --> Need2["At least 2 Independent Sources Required"]
-    CheckDomain -- No --> Need1["At least 1 Verified Source Required"]
-    Need2 --> Verify["Empirical Source Verification"]
+    Claim["Task split into testable claims"] --> CheckDomain{"Critical domain?"}
+    CheckDomain -- Yes --> Need2["At least 2 independent sources"]
+    CheckDomain -- No --> Need1["At least 1 reliable source"]
+    Need2 --> Verify["Check sources"]
     Need1 --> Verify
-    Verify -- Proven --> Out["Results & Sources Output"]
-    Verify -- Unproven --> Unknown["'Unknown' + 1 Concrete Next Step (No Guessing!)"]
+    Verify -- Verified --> Out["Results and Sources"]
+    Verify -- Not verified --> Unknown["unknown plus exactly 1 concrete next step"]
 ```
 
-### The 5 Core Principles:
-1. **Claim Decomposition:** Every research task is decomposed into atomic, verifiable claims.
-2. **Evidence Minimum:** Standard claims $\ge$ 1 source; sensitive high-impact domains $\ge$ 2 independent sources.
-3. **Unknown Over Guessing:** If a fact cannot be conclusively established, the agent returns `unknown` accompanied by exactly one actionable next investigative step.
-4. **Early Termination:** Research halts as soon as all claim tests are positively verified, preventing redundant browsing loops.
-5. **Compact Output Structure:** Results are formatted into structured sections: `Results` / `Sources` / `Unknowns`.
+1. **Claim test:** Break every factual task into testable claims.
+2. **Evidence minimum:** Non-critical claims need at least 1 reliable source; critical claims need at least 2 independent sources.
+3. **Unknown over guessing:** A claim that cannot be verified is marked `unknown`, with exactly one concrete next step.
+4. **Stop early:** Stop researching once all claim tests pass.
+5. **Compact output:** Answers use the sections `Results`, `Sources` and, if needed, `Unknowns`.
+
+**Critical domains** (`structuredContent.evm.criticalDomains`): security, medical, legal, financial, political, pricing, deadlines and current-state claims ("latest", "today").
+
+**Keeping results:** Claim results tied to a claimed tab can be stored with `nova.memory_add_candidate` (`component='evm'`, `status` `verified`, `unverified` or `disproven`); reusable research notes go to `nova.operator_notes_store` with the tag `evm`. `nova.memory_stats(componentFilter='evm')` shows the counts.
 
 ---
 
-## 3. Visual Ground Truth & Proof-Crop Architecture
+## 3. Visual Evidence: Crops Instead of Full Screenshots
 
-Instead of photographing the entire viewport, Nova utilizes targeted **element and region crops**:
-
-| Capture Technique | Byte Size | Vision Tokens | Legibility (13px Font) | Primary Use Case |
-| :--- | :---: | :---: | :---: | :--- |
-| **Full Viewport Capture** | ~150–500 KB JPEG | ~4,000–5,800 | Often downscaled / blurry | Broad macroscopic page orientation |
-| **Selector / Region Crop (PNG)** | **~15–35 KB PNG** | **~350–650** | **100% Pixel-Sharp (Lossless)** | **Empirical Proof & Ground Truth** |
-
-### Advanced Visual Capabilities:
-* **`responseMode='reference'`:** Stores screenshots as session-scoped URIs (`nova://screenshot/...`), transmitting 0 inline tokens until the agent explicitly requests the asset.
-* **Visual Bounding (`highlightSelector`):** Outlines the target element in high-contrast color (Red/Cyan) prior to capture, locking visual context.
-* **Perceptual Screenshot Diffing (`nova.screenshot_diff`):** Performs pixel-by-pixel comparisons against stored baselines (`nova.screenshot_baseline`) to detect UI regressions instantly.
+`nova.capture_screenshot` can capture less than the whole viewport:
+* **`selector`:** captures only the bounding box of one element (scrolled into view, ` >>> ` supported). Elements that are hidden or fully transparent are refused, because the crop would show something else.
+* **`region`:** captures a rectangle in CSS pixels; the browser captures only that area.
+* **`screenshotFormat: "auto"`** with a region: PNG for moderate text and UI crops (up to about 1 megapixel), JPEG for very large regions.
+* **`highlightSelector`:** draws a marker (color, stroke, style and label configurable) around an element; on its own it captures a close-up of that element.
+* **`includeContextImage`:** adds a small marked overview of the viewport for orientation.
+* **`responseMode`:** `reference` returns only a `nova://screenshot/...` link that can be fetched later with `nova.read_screenshot_resource`; `thumbnail+reference` returns a small preview plus the link. These links are valid for the session, by default for one hour.
+* **Budget:** Nova limits large inline captures per session; `force` overrides the soft limits but not the hard safety limits (50 MB encoded, 50 megapixels).
 
 ---
 
@@ -61,25 +57,18 @@ Instead of photographing the entire viewport, Nova utilizes targeted **element a
 
 | Tool | Purpose |
 | :--- | :--- |
-| `nova.capture_screenshot` | Captures lossless region crops (`selector`, `region`) with automatic format selection. |
-| `nova.read_screenshot_resource` | Selectively retrieves stored screenshot image buffers by URI. |
-| `nova.screenshot_diff` | Conducts perceptual diffing between two images and renders visual deviation masks. |
-| `nova.screenshot_baseline` | Stores or updates reference screenshots for automated visual regression tests. |
-| `nova.audit_accessibility` | Validates color contrast ratios, ARIA landmarks, and touch-target bounds. |
-| `nova.measure_web_vitals` | Captures live Core Web Vitals (LCP, CLS, INP) for page performance audits. |
-
----
-
-## 5. Under the Hood
-
-* **Screenshot Pipeline & AAG Budgets:** `McpServer`
-* **EVM Mode Instructions:** `McpServer`
-* **Accessibility Auditing & Metrics:** `Diagnostics` subsystem
+| `nova.get_instructions` | Returns the EVM rules in task mode. |
+| `nova.capture_screenshot` | Viewport, full page, element or region capture with optional markers and reference delivery. |
+| `nova.read_screenshot_resource` | Fetches a stored screenshot by its `nova://screenshot/...` URI. |
+| `nova.screenshot_diff` | Pixel comparison of two PNG screenshots: changed-pixel share, changed regions and a diff overlay; supports masks and anti-aliasing filtering. |
+| `nova.screenshot_baseline` | Saves named baselines and compares a new capture against them (`save`, `update`, `compare`, `list`, `delete`). |
+| `nova.audit_accessibility` | Checks text contrast, tap-target size and missing labels or accessible names. |
+| `nova.measure_web_vitals` | Measures LCP, CLS, INP, FCP and TTFB with ratings. |
 
 ---
 
 ## Related Documentation
 
-* **[Tool Observation Bus (TOB)](tob.md)** — Server-side evidence ledger and tamper-proof visit windows.
+* **[Tool Observation Bus (TOB)](tob.md)** — Server-side evidence ledger and visit windows.
 * **[Agent Awareness Gates (AAG)](aag.md)** — Pre-execution safety and multi-agent lease locking.
-* **[Humanized Input Engine](humanized-input-engine.md)** — Bot-resilient physical mouse and keyboard execution.
+* **[Input Dispatch & Shadow DOM Traversal](humanized-input-engine.md)** — How Nova delivers mouse and keyboard input.

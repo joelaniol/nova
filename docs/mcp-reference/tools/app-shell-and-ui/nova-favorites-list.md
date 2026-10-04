@@ -1,8 +1,7 @@
 # `nova.favorites_list`
 
-> **Lists saved browser favorites, optionally filtered by bookmark folder.**
+> **Lists all saved browser favorites.**
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
@@ -10,7 +9,7 @@
 
 ## 1. Overview
 
-`nova.favorites_list` returns stored bookmarks including IDs, URLs, titles, folder IDs, and creation timestamps.
+`nova.favorites_list` returns every stored favorite with its stable id, URL, title, creation timestamp, folder id and sort order. Favorites with the same URL in different folders appear as separate entries, each with its own id. The tool takes no filter; filter by `folderId` on the client side (`null` = top level).
 
 ---
 
@@ -20,6 +19,7 @@
 This tool takes no parameters.
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -30,9 +30,7 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
 ```json
 {
   "name": "nova_favorites_list",
-  "arguments": {
-    "folderId": "folder-101"
-  }
+  "arguments": {}
 }
 ```
 
@@ -42,16 +40,18 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "Found 3 favorites in folder-101."
+      "text": "1 favorite(s)."
     }
   ],
   "structuredContent": {
-    "ok": true,
     "favorites": [
       {
-        "favoriteId": "fav-5501",
+        "id": "8d0c4b6e2f1a4c7e9b3d5a1f6e2c8b40",
+        "url": "https://docs.example.com/api",
         "title": "Example API",
-        "url": "https://docs.example.com/api"
+        "createdUtc": "2026-09-14T08:12:45.0000000Z",
+        "folderId": "3f2a9c1e7b4d4e0f9a6b2c8d1e5f7a90",
+        "sortOrder": 0
       }
     ]
   }
@@ -62,7 +62,8 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
 
 ## 4. Operational Best Practices
 
-* **Index Browsing:** Query all bookmarks by passing `folderId: null`.
+* **Use the id for follow-up calls:** `nova.favorites_move` and `nova.favorites_remove` accept the `id` from this list and then target exactly one entry, even when the same URL is saved more than once.
+* **Folder names:** Resolve `folderId` to a name with `nova.bookmarks_folders_list`.
 
 ---
 

@@ -17,7 +17,7 @@ Waits for a DOM element matching a CSS selector to appear, become visible, or di
 ## 2. Key Capabilities & Features
 
 ### A. Waiting for Appearance & Visibility
-By default (`visible: true`, `absent: false`), the tool polls until the target element exists in the DOM and is physically visible (non-zero width/height, `visibility != hidden`, `display != none`, `opacity > 0`).
+By default (`visible: true`, `absent: false`), the tool polls until the target element exists in the DOM and is physically visible (non-zero width/height, `display != none`, `visibility != hidden`, `pointer-events != none`). A fully transparent element (`opacity: 0`) still counts as visible — Nova reports its effective opacity separately rather than treating it as hidden.
 
 ```json
 {
@@ -76,6 +76,7 @@ If a newly rendered consent dialog or marketing overlay blocks the view while po
 | `outputDetail` | `string` | No | `"full"` | `full`, `compact` | 'compact' omits fields that repeat a value carried elsewhere in the same response (the duplicate file path, and inlinePreview when it describes the same image as evidenceImage) plus the delivery telemetry: byteAccounting (byte counts of what you just received) and tokens (per-provider vision-token estimates). The image, coordinateMeta and every warning are unaffected - no setting can hide a warning. |
 
 Capability bundles: `browser_automation`, `form_submission`.
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -115,32 +116,41 @@ Capability bundles: `browser_automation`, `form_submission`.
 
 ## 5. Return Value Structure
 
-When the selector condition is satisfied, Nova returns the target element's bounding rect and settlement metrics:
+When the selector condition is satisfied, Nova returns `ok: true`, how long it waited, and (unless `absent: true`) the element's probe result nested under `result`:
 
 ```json
 {
-  "matched": true,
-  "selector": "div.search-results-grid > article.result-item",
-  "targetId": "tab-104",
-  "elapsedMs": 1420,
-  "rect": {
-    "x": 240,
-    "y": 380,
-    "width": 680,
-    "height": 145
-  },
-  "inViewport": true,
-  "domCount": 12
+  "structuredContent": {
+    "profileId": "tab-104",
+    "selector": "div.search-results-grid > article.result-item",
+    "absent": false,
+    "ok": true,
+    "waitedMs": 1420,
+    "result": {
+      "ok": true,
+      "visible": true,
+      "attached": true,
+      "enabled": true,
+      "rect": { "left": 240, "top": 380, "width": 680, "height": 145, "right": 920, "bottom": 525 },
+      "center": { "x": 580, "y": 404 },
+      "tagName": "ARTICLE"
+    }
+  }
 }
 ```
+This is a trimmed excerpt; the full payload also carries `effectiveOpacity`, `visualViewport`, screenshot-sidecar fields (when `includeScreenshot: true`), and `identityOverlayWarning`.
 
-If `absent: true` was requested and the element vanished:
+If `absent: true` was requested and the element disappeared, `result` is `null`:
 ```json
 {
-  "matched": true,
-  "selector": "#global-loading-overlay",
-  "absent": true,
-  "elapsedMs": 2840
+  "structuredContent": {
+    "profileId": "tab-1",
+    "selector": "#global-loading-overlay",
+    "absent": true,
+    "ok": true,
+    "waitedMs": 2840,
+    "result": null
+  }
 }
 ```
 
@@ -150,15 +160,15 @@ If `absent: true` was requested and the element vanished:
 
 | Error Code / Message | Cause | Corrective Action |
 | :--- | :--- | :--- |
-| `Timeout waiting for selector: ...` | Element was not added to DOM or never became visible within `timeoutMs`. | Verify selector using `nova.read_dom` or increase `timeoutMs` for heavy network calls. |
-| `Element blocked by overlay: ...` | A modal backdrop or cookie banner obscures the element. | Set `autoDismissBlockers: true` or call `nova.dismiss_blockers`. |
-| `Shadow root not found` | The left-hand side of ` >>> ` does not host an open or accessible shadow root. | Verify parent component selector. |
+| `reasonCode: "wait_for_selector.timeout"` — "Timeout waiting for selector: ..." | Element was not added to DOM or never became visible within `timeoutMs`. | Verify the selector (e.g. with `nova.read_dom`) or increase `timeoutMs` for heavy network calls. |
+| Still polling past an obscuring overlay | A modal backdrop or cookie banner covers the element, so it never satisfies `visible: true`. | Set `autoDismissBlockers: true` or call `nova.dismiss_blockers` so the overlay is cleared while polling. |
+| Selector never matches, no distinct error | The left-hand side of ` >>> ` does not host an open shadow root, so the combinator cannot step into it (closed shadow roots are not reachable). | Verify the parent component actually exposes an open shadow root. |
 
 ---
 
 ## 7. Related Tools & Documentation
 
-* [`nova.click_selector`](nova-click-selector.md) ? Click the element immediately after locating it.
-* [`nova.type_selector`](nova-type-selector.md) ? Enter text into inputs once visible.
-* [`nova.dismiss_blockers`](nova-dismiss-blockers.md) ? Explicitly remove interfering consent dialogs.
-* [Automated Actions Guide (AAG)](../../../core-features/aag.md) ? Deep overview of Nova's selector engine and settlement lifecycle.
+* [`nova.click_selector`](nova-click-selector.md) — Click the element immediately after locating it.
+* [`nova.type_selector`](nova-type-selector.md) — Enter text into inputs once visible.
+* [`nova.dismiss_blockers`](nova-dismiss-blockers.md) — Explicitly remove interfering consent dialogs.
+* [Automated Actions Guide (AAG)](../../../core-features/aag.md) — Deep overview of Nova's selector engine and settlement lifecycle.

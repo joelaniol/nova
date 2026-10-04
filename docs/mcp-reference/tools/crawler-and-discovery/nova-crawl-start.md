@@ -10,7 +10,6 @@ Starts a background breadth-first search (BFS) crawl from a root URL using isola
 
 The crawler automatically detects DOM settlement (waiting for MutationObserver quiescence and network idle), extracts structured page metadata, follows in-scope hyperlinks, respects rate limits, and persists results into the local SQLite `crawl.db` index.
 
-* **Security Tier:** Tier 2 (Autonomous Navigation)
 * **Core Architecture Guide:** [Autonomous Crawler & Surface Explorer](../../../core-features/crawler-and-discovery.md)
 
 ---
@@ -57,6 +56,7 @@ The crawler automatically detects DOM settlement (waiting for MutationObserver q
 | `deltaMode` | `boolean` | No | `false` | — | If true, enable advisory Site-URL-Index delta seeding for hidden path-routed crawls only. Active path routes with a stored content hash are pre-skipped as already known; this does not pre-detect content changes, and hash-routed/hashbang SPA routes are excluded from delta seeding. Requires a prior crawl with extractContent=true to have populated hash-bearing Site-URL-Index entries. `crawlMode='live_tab'` rejects this flag with Invalid params. The response mirrors deltaMode only when eligible hidden-mode index hashes were actually found; otherwise the request proceeds normally without a deltaMode block. |
 
 Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawler_ops')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -85,21 +85,39 @@ Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawle
   "content": [
     {
       "type": "text",
-      "text": "Background crawl job started with ID 'crawl-4a92c81e' on https://docs.example.com/api (max 25 pages, depth 2)."
+      "text": "Crawl started: crawl-4a92c81e on https://docs.example.com/api"
     }
   ],
   "structuredContent": {
-    "ok": true,
     "crawlId": "crawl-4a92c81e",
     "status": "running",
+    "crawlKind": "bfs",
+    "crawlMode": "hidden",
+    "ownerAgentId": "default",
     "startUrl": "https://docs.example.com/api",
-    "scopeKey": "https://docs.example.com",
-    "maxPages": 25,
-    "maxDepth": 2,
-    "queuedPages": 1
+    "config": {
+      "maxDepth": 2,
+      "maxPages": 25,
+      "extractMetadata": true,
+      "extractContent": true,
+      "contentSelector": "main",
+      "pageDelayMs": 750
+    },
+    "earlyResult": null,
+    "pollAfterMs": 2000,
+    "retentionMode": "best_effort",
+    "terminalRetentionMinutes": 30,
+    "maxRetainedTerminalCrawls": 12,
+    "advisoryNote": "Crawl results are heuristic. Verify important findings via direct navigation.",
+    "siteUrlIndex": null,
+    "siteUrlIndexAdvisory": null,
+    "deltaMode": null,
+    "taskInstanceId": null
   }
 }
 ```
+
+There is no top-level `ok` field and no `scopeKey`/`queuedPages`; `maxPages`/`maxDepth` and the rest of the effective configuration are echoed inside `config` (shown abbreviated above — the real payload echoes every `crawl_start` parameter). If a Site-URL-Index already has entries for this origin, `siteUrlIndex` is populated instead of `null` and `siteUrlIndexAdvisory` carries a one-line hint to check [`nova.site_urls`](nova-site-urls.md) first.
 
 ---
 

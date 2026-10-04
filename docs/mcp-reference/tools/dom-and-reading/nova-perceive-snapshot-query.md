@@ -2,8 +2,6 @@
 
 > **Queries structured state and elements from a cached perceive snapshot without re-rendering.**
 
-* **Security Tier:** Tier 1 (Read-Only Extraction)
-* **Core Feature Guide:** [DOM Perception & Semantic Extraction](../../../core-features/tob.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
@@ -32,6 +30,7 @@
 | `contextChars` | `integer` | No | `120` | 20–1000 | Number of surrounding characters to include before and after each search match snippet. |
 
 Capability bundles: `browser_automation`, `form_submission`, `page_read_debug`.
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -41,10 +40,12 @@ Capability bundles: `browser_automation`, `form_submission`, `page_read_debug`.
 ### JSON-RPC Request
 ```json
 {
-  "name": "nova_perceive_snapshot_query",
+  "name": "nova.perceive_snapshot_query",
   "arguments": {
     "snapshotId": "snap-4012",
-    "query": "buttons in header"
+    "op": "search",
+    "query": "Sign Up",
+    "path": "extraction.outerHTML"
   }
 }
 ```
@@ -55,25 +56,34 @@ Capability bundles: `browser_automation`, `form_submission`, `page_read_debug`.
   "content": [
     {
       "type": "text",
-      "text": "Found 3 buttons in snapshot header region."
+      "text": "[{\"index\":1824,\"length\":7,\"contextStart\":1764,\"snippet\":\"...<button class=\\\"signup-btn\\\">Sign Up</button>...\"}]"
     }
   ],
   "structuredContent": {
-    "ok": true,
     "snapshotId": "snap-4012",
-    "results": [
-      {
-        "text": "Log In",
-        "selector": "header .login-btn"
-      },
-      {
-        "text": "Sign Up",
-        "selector": "header .signup-btn"
-      }
-    ]
+    "op": "search",
+    "path": "extraction.outerHTML",
+    "query": "Sign Up",
+    "match": "contains",
+    "caseSensitive": false,
+    "maxResults": 10,
+    "contextChars": 120,
+    "totalChars": 48213,
+    "matchCount": 1,
+    "matches": [
+      { "index": 1824, "length": 7, "contextStart": 1764, "snippet": "...<button class=\"signup-btn\">Sign Up</button>..." }
+    ],
+    "artifactFilePath": "C:\\Users\\GNetwork\\AppData\\Local\\NovaBrowser\\perceive-snapshots\\snap-4012.json",
+    "queryTool": "nova.perceive_snapshot_query"
   }
 }
 ```
+
+There is no `ok` or `results` field: matches come back as `matches[]` with `index`/`length`/
+`contextStart`/`snippet` (character offsets into the serialized path payload, not DOM selectors).
+`op` defaults to `'summary'` when omitted, which ignores `query` entirely and instead returns
+snapshot metadata (`availableOps`, `availablePaths`, `page`, `screenshot`, `metrics`) — pass
+`op: 'search'` explicitly to search.
 
 ---
 

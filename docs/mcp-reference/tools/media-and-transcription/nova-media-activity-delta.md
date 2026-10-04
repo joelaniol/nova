@@ -8,7 +8,6 @@ Performs an incremental read of the in-memory media permission activity ring buf
 
 `nova.media_activity_delta` reads new permission events that occurred since a given sequence watermark. Designed for real-time monitoring of agent or user permission prompts.
 
-* **Security Tier:** Tier 1 (Read-Only Stream)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
 ---
@@ -24,6 +23,7 @@ Performs an incremental read of the in-memory media permission activity ring buf
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -47,13 +47,16 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "Retrieved 0 new permission activity events."
+      "text": "0 new activity entry/entries since sequence 104 (latest now 104)."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "highestSequence": 104,
-    "events": []
+    "entries": [],
+    "count": 0,
+    "sinceSequence": 104,
+    "latestSequence": 104,
+    "lastDeliveredSequence": 104,
+    "hasMore": false
   }
 }
 ```
@@ -62,7 +65,7 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
 
 ## 4. Operational Best Practices
 
-* **Event Polling:** Save `highestSequence` to incrementally stream subsequent permission decisions without re-reading past events.
+* **Event Polling:** Save `lastDeliveredSequence` and pass it back as `sinceSequence` on the next call to incrementally stream subsequent permission decisions without re-reading past events.
 
 ---
 

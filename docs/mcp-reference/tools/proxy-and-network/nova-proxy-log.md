@@ -6,10 +6,9 @@ Reads recent redacted proxy routing and diagnostic log entries from disk.
 
 ## 1. Overview
 
-`nova.proxy_log` returns diagnostic log lines from `Logs/proxy`. All credentials, basic auth tokens, and session secrets are automatically scrubbed and redacted.
+`nova.proxy_log` returns diagnostic log lines from `Logs/proxy`. Credentials embedded in a logged URL (`user:pass@host`) are redacted to `***@host` before the line is ever written to disk.
 
-* **Security Tier:** Tier 1 (Safe Diagnostics)
-* **Core Architecture Guide:** [Proxy Routing & Stealth Network Engine](../../../core-features/proxy-and-network.md)
+* **Core Architecture Guide:** [Proxy Routing & Network Engine](../../../core-features/proxy-and-network.md)
 
 ---
 
@@ -21,6 +20,7 @@ Reads recent redacted proxy routing and diagnostic log entries from disk.
 | `maxLines` | `integer` | No | `100` | 1–500 | Maximum lines to return (1–500). Default: 100. |
 
 Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='proxy_management')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -43,18 +43,19 @@ Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='p
   "content": [
     {
       "type": "text",
-      "text": "20 proxy log lines retrieved."
+      "text": "2 browser web-proxy log line(s) from Logs/proxy."
     }
   ],
   "structuredContent": {
-    "lineCount": 20,
     "lines": [
-      "[2026-10-02 21:00:12] SOCKS5 connection to 198.51.100.25:1080 established.",
-      "[2026-10-02 21:00:15] WebRTC STUN request blocked by leak guard."
-    ]
+      "2026-10-02 21:00:12.345 +02:00 INFO Proxy manually disconnected. Target=browser-tabs Profile=proxy-2",
+      "2026-10-02 21:00:15.012 +02:00 INFO MCP probe OK for 'US East SOCKS5' (socks5://198.51.100.25:1080): Proxy test OK. External IP: 198.51.100.25. [78 ms]"
+    ],
+    "count": 2
   }
 }
 ```
+Response is shortened to 2 lines for this example; a real call returns up to `maxLines`.
 
 ---
 

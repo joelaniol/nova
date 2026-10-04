@@ -1,6 +1,6 @@
 # `nova.cache_clear`
 
-Clears HTTP cache, cookies, DOM storage, and indexedDB for the target profile.
+Clears selected browsing data (cache, cookies, storage, service workers, or history) for the target profile.
 
 ---
 
@@ -8,7 +8,6 @@ Clears HTTP cache, cookies, DOM storage, and indexedDB for the target profile.
 
 `nova.cache_clear` performs a comprehensive purge of browser data for the target sandbox profile. As a high-impact destructive tool, it requires explicit confirmation or user intent.
 
-* **Security Tier:** Tier 3 (Destructive Cache Clearance)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
 ---
@@ -24,6 +23,7 @@ Clears HTTP cache, cookies, DOM storage, and indexedDB for the target profile.
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
 
 Capability bundle: `site_data_management` (load it with `nova.tools_bundle(bundle='site_data_management')`).
+Tool category: `high_impact` (highest risk class; Nova's agent permission settings can ask before it runs).
 <!-- /generated:parameters -->
 
 ---
@@ -38,7 +38,7 @@ Capability bundle: `site_data_management` (load it with `nova.tools_bundle(bundl
     "targetId": "tab-1",
     "dataTypes": [
       "diskCache",
-      "memoryCache",
+      "cacheStorage",
       "serviceWorkers"
     ]
   }
@@ -51,17 +51,23 @@ Capability bundle: `site_data_management` (load it with `nova.tools_bundle(bundl
   "content": [
     {
       "type": "text",
-      "text": "Cleared diskCache, memoryCache, and serviceWorkers for profile on tab-1."
+      "text": "Cleared browsing data (diskCache, cacheStorage, serviceWorkers) for sandbox:tab-1."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "targetId": "tab-1",
-    "clearedTypes": [
+    "clearedDataTypes": [
       "diskCache",
-      "memoryCache",
+      "cacheStorage",
       "serviceWorkers"
-    ]
+    ],
+    "scope": {
+      "profileId": "tab-1",
+      "profileScope": "sandbox:tab-1",
+      "isSharedProfile": false
+    },
+    "accountStateInvalidated": false,
+    "warnings": []
   }
 }
 ```
@@ -70,7 +76,8 @@ Capability bundle: `site_data_management` (load it with `nova.tools_bundle(bundl
 
 ## 4. Operational Best Practices
 
-* **Granular Data Types:** Select specific data types (`diskCache`, `memoryCache`, `cookies`, `indexedDb`, `serviceWorkers`) to avoid blowing away session logins when only cache clearing is needed.
+* **Granular Data Types:** Select specific data types (`diskCache`, `cacheStorage`, `cookies`, `localStorage`, `serviceWorkers`) to avoid blowing away session logins when only cache clearing is needed. `localStorage` also covers sessionStorage and indexedDB — WebView2 does not separate them.
+* **Profile-Wide Scope:** The clear applies to the whole profile, not just the current page, and may affect every tab sharing that profile.
 
 ---
 

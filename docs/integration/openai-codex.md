@@ -68,24 +68,36 @@ To ensure two parallel Codex worker processes do not interfere with the same bro
 
 ```json
 nova.tab_claim({
-  "targetId": "tab-1",
-  "purpose": "Checkout flow audit",
-  "leaseDurationMs": 180000
+  "targetId": "d2d64991",
+  "agentId": "codex-worker-1",
+  "ttlMs": 180000
 })
 ```
 
-* If another agent attempts to interact with `tab-1` during the lease, Nova returns an **AAG Concurrency Lock (`-32002`)**.
-* Upon completing the work, the agent releases the tab:
+* Tab IDs come from `nova.tabs`; the lease lasts `ttlMs` (default 120 s, 5 s to 30 min).
+* If another agent calls a claimed tab, Nova refuses with error code `-32040` (`claim.owner_mismatch`) and names the owning `agentId`.
+* Upon completing the work, the agent releases the tab with the same `agentId`:
 ```json
-nova.tab_release({ "targetId": "tab-1" })
+nova.tab_release({ "targetId": "d2d64991", "agentId": "codex-worker-1" })
 ```
 
 ### Shared Knowledge Board (`nova.board_contribute`)
-Codex subagents can publish verified findings to the host memory board without polluting conversation context:
+The board is off by default (**Enable shared agent knowledge board** in the settings). It is not a
+store for research results: agents record problems they hit with Nova's tools, as an `observation`,
+a `refutation` (a path that did not help) or a `reproduction`, under a structured anchor. When a
+later tool call fails with a matching symptom, Nova adds a `boardHint` pointing to the topic.
 ```json
 nova.board_contribute({
-  "topic": "pricing_matrix",
-  "fact": "Enterprise tier requires annual commit: $499/mo",
-  "confidence": 1.0
+  "kind": "observation",
+  "openNew": true,
+  "text": "scroll_smart does not load more rows in the search results list",
+  "anchor": {
+    "component": "mcp",
+    "capability": "nova.scroll_smart",
+    "operation": "scroll",
+    "symptomClass": "no_effect",
+    "host": "example.com"
+  },
+  "idempotencyKey": "search-scroll-no-effect-1"
 })
 ```

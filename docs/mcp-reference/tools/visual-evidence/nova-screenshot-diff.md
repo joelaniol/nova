@@ -55,6 +55,7 @@ Exclude dynamic UI zones (such as live clocks, user profile pictures, or rotatin
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundles: `system_tools`, `visual_evidence`.
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -87,24 +88,45 @@ Capability bundles: `system_tools`, `visual_evidence`.
 
 ## 5. Return Value Structure
 
+Changed regions are flat `{x, y, width, height, pixelCount}` rectangles (sorted largest-first), and `diffOverlayPath` is a **local file path** Nova wrote next to `afterPath` (not a `nova://` resource URI):
+
 ```json
 {
+  "ok": true,
   "status": "compared",
   "changed": true,
   "withinTolerance": false,
-  "dimensions": { "width": 1440, "height": 900 },
-  "totalPixels": 1296000,
-  "totalChangedPixels": 14820,
   "pixelDiffPercent": 1.14,
   "changedRegions": [
-    {
-      "index": 0,
-      "pixelCount": 12400,
-      "rect": { "x": 120, "y": 340, "width": 420, "height": 80 },
-      "description": "Primary banner layout shift"
-    }
+    { "x": 120, "y": 340, "width": 420, "height": 80, "pixelCount": 12400 }
   ],
-  "diffOverlayPath": "nova://screenshot/diff-overlay-9912.png"
+  "totalChangedPixels": 14820,
+  "dimensions": { "width": 1440, "height": 900 },
+  "diffOverlayPath": "C:\\NovaArtifacts\\screens\\diff-overlays\\v2.diff-20261002_194512_123.png",
+  "diffOverlayStatus": "created",
+  "diffOverlayHint": null,
+  "recoveryHints": [],
+  "threshold": 30,
+  "minRegionSize": 100,
+  "maxDiffRatio": 0,
+  "ignoreAntialiasing": false,
+  "maskedRectCount": 0
+}
+```
+
+A dimension mismatch is a normal `ok: true` result, not a thrown error:
+```json
+{
+  "ok": true,
+  "status": "dimension_mismatch",
+  "changed": null,
+  "beforeDimensions": { "width": 1440, "height": 900 },
+  "afterDimensions": { "width": 1280, "height": 800 },
+  "recoveryHints": [
+    "Recapture both inputs as PNG from the same viewport, fullPage mode, device scale factor, and crop/region dimensions.",
+    "For region or selector evidence, compare the same element/region rather than a viewport screenshot against a crop.",
+    "If the source was copied into artifacts/, copy both PNGs from the same retest run and keep their original dimensions."
+  ]
 }
 ```
 
@@ -114,8 +136,10 @@ Capability bundles: `system_tools`, `visual_evidence`.
 
 | Error Code / Message | Cause | Corrective Action |
 | :--- | :--- | :--- |
-| `status: "dimension_mismatch"` | The two screenshots have differing width or height resolutions. | Ensure both captures were taken at identical viewport dimensions using `nova.window_set_size`. |
-| `File not found: ...` | Specified image path does not exist or expired from session cache. | Re-capture images or check file paths. |
+| `status: "dimension_mismatch"` (not an error — `ok: true`) | The two screenshots have differing width or height. | Recapture both at the same viewport/crop dimensions; `recoveryHints` in the response suggests how. |
+| `-32602: '<arg>' must point to a .png file` | `beforePath`/`afterPath` is not a `.png` file. | Recapture with `screenshotFormat='png'` before diffing. |
+| `-32602: '<arg>' must point to a file under a Nova screenshot/dump/artifacts directory` | Path is outside the allowed roots and is not a `nova://screenshot/...` resource URI. | Use a resource URI, the original screenshot path, or copy the PNG into an allowed artifacts folder. |
+| `-32602: '<arg>' file does not exist: ...` | Path does not exist, or a `nova://screenshot/...` resource expired. | Re-capture the image or check the file path. |
 
 ---
 

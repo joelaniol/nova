@@ -8,7 +8,6 @@ Finds the best matching task profiles for a task description with score breakdow
 
 `nova.task_match` evaluates a user prompt or task description against existing task profiles, returning the top candidates with confidence scores and guidance previews.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
 ---
@@ -38,6 +37,7 @@ Finds the best matching task profiles for a task description with score breakdow
 | `currentScope.variables` | `object` | No | — | — | Ad-hoc variable map for operator or agent context. |
 
 Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -60,22 +60,41 @@ Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_m
   "content": [
     {
       "type": "text",
-      "text": "Found 1 matching task profile: Support Portal Link Audit (score: 0.94)."
+      "text": "{\"matches\":[{\"profileId\":\"tp-support-audit\",\"displayName\":\"Support Portal Link Audit\",\"finalScore\":0.94,\"accepted\":true, ...}], ...}"
     }
   ],
   "structuredContent": {
-    "ok": true,
     "matches": [
       {
         "profileId": "tp-support-audit",
         "displayName": "Support Portal Link Audit",
-        "score": 0.94,
-        "goal": "Audit all links under /support"
+        "finalScore": 0.94,
+        "accepted": true,
+        "scoreBreakdown": { "keywordRaw": 0.8, "keywordWeight": 0.45, "tfidfRaw": 0.6 },
+        "thresholdUsed": 0.45
       }
-    ]
+    ],
+    "bestMatch": { "profileId": "tp-support-audit", "displayName": "Support Portal Link Audit", "finalScore": 0.94, "accepted": true },
+    "count": 1,
+    "targetUrl": null,
+    "currentScope": null,
+    "taskAwareness": {
+      "source": "profile",
+      "profileId": "tp-support-audit",
+      "taskType": "audit",
+      "displayName": "Support Portal Link Audit",
+      "confidence": 0.94,
+      "goal": "Audit all links under /support",
+      "completionCondition": { "coverageMode": "exploratory", "unitKind": "page", "stopMetric": "checked_units", "stopValue": null },
+      "guidanceSummary": "...",
+      "mandatoryChecksSummary": "...",
+      "knownExceptionsCount": 0
+    }
   }
 }
 ```
+
+There is no separate summary sentence: `content[0].text` is the same structured data serialized as plain JSON text. `scoreBreakdown` carries more fields than shown here (platform, domain, and per-field keyword contributions); this example is trimmed.
 
 ---
 

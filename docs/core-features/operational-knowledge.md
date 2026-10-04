@@ -1,21 +1,21 @@
 # Operational Knowledge (OK) & Real-Time Environment State
 
 > [!NOTE]
-> The Operational Knowledge (OK) system is the real-time dynamic semantic telemetry engine of Nova AI Workspace. While PKS stores durable, multi-session interaction playbooks, OK tracks the live, ephemeral state of every tab (authentication status, active account tier, selected AI model, available UI capabilities).
+> The Operational Knowledge (OK) system keeps a structured, versioned picture of the web services open in Nova's tabs: which service and account a tab is bound to, whether it is logged in, which plan and model are active. While PKS stores reusable interaction playbooks, OK tracks the current state of each target.
 
 ---
 
 ## 1. Problem Statement: The "Blind" Agent
 
-When an AI agent navigates to a complex web application (e.g. ChatGPT, Claude, GitHub, Salesforce), it begins in a state of uncertainty:
-* Is the tab authenticated or logged out?
-* Which workspace or organization account is currently active?
-* Is a Pro/Enterprise tier active, or is the user restricted to a Free tier?
-* Which specific AI model or sandbox environment is selected?
+When an AI agent opens a web application, it begins in a state of uncertainty:
+* Is the tab logged in or logged out?
+* Which account is active?
+* Which plan is active?
+* Which AI model is selected?
 
-Without structured state intelligence, the agent must perform expensive, token-heavy DOM parsing prior to every action—or fail blindly when attempting interactions that exceed account permissions.
+Without structured state knowledge, the agent has to work this out from the page before every action, or fails when an action exceeds what the account allows.
 
-Nova resolves this via the guiding principle: **"The agent perceives the page; the system aggregates the truth."**
+Nova's guiding principle here: **"The agent understands the page; the system aggregates the truth."**
 
 ---
 
@@ -23,31 +23,25 @@ Nova resolves this via the guiding principle: **"The agent perceives the page; t
 
 ```mermaid
 flowchart LR
-    subgraph AgentAction["Agent Interaction"]
-        Observe["nova.ok_observe
-(Structured Claims via Canonical Signal Vocabulary)"]
-        Perceive["nova.perceive
-(Captures Visual Evidence + OK Hints)"]
+    subgraph AgentAction["Agent interaction"]
+        Observe["nova.ok_observe<br/>structured claims with canonical signal keys"]
+        Perceive["nova.perceive"]
     end
 
-    subgraph OKCore["Operational Knowledge Engine"]
-        Append["Observation Log
-(Append-Only Telemetry)"]
-        Fact["Fact Store
-(Versioned State with Supersedence)"]
-        Compile["Capability Compiler
-(e.g. is_authenticated, pro_plan)"]
+    subgraph OKCore["Operational Knowledge"]
+        Append["Observations<br/>append-only"]
+        Fact["Facts<br/>versioned, newer supersede older"]
+        Compile["Capabilities<br/>derived from facts"]
     end
 
-    subgraph Feedback["Context Injection"]
-        Hints["okHints in Tool Responses
-(missingKeys, activeCapabilities)"]
+    subgraph Feedback["Feedback to the agent"]
+        Hints["okHints in perceive results<br/>missing or stale keys"]
     end
 
     Observe --> Append
     Append --> Fact
     Fact --> Compile
-    Compile --> Hints
+    Fact --> Hints
     Hints --> Perceive
 ```
 
@@ -56,13 +50,13 @@ flowchart LR
 ## 3. Core Concepts & Data Flow
 
 1. **Canonical Signal Vocabulary:**
-   * Observations are submitted using typed semantic schemas (e.g. `auth.status = 'logged_in'`, `subscription.tier = 'plus'`, `ai.model = 'gpt-4o'`) rather than unconstrained natural language.
-2. **Supersedence & Monotonic Versioning:**
-   * Newer verified observations supersede older records deterministically. When an agent logs out, the logout observation instantly invalidates prior authenticated capabilities.
-3. **Automatic Injection into `nova.perceive`:**
-   * Invocations of `nova.perceive` automatically return known `okHints` alongside visual snapshots. The agent knows exactly which capabilities are active before making its first click.
+   * Observations use fixed signal keys instead of free text, for example `core.login_state = "logged_in"`, `core.plan.tier = "pro"`, `core.model.active = "gpt-4o"`. `nova.ok_signal_schema` lists the accepted keys. Unknown `core.*` keys are rejected; platform-specific `vendor.*` keys are accepted without registration.
+2. **Supersedence & Versioning:**
+   * Facts are versioned. A newer observation of the same key supersedes the older fact instead of overwriting it silently, and observations themselves are never changed.
+3. **Hints in `nova.perceive`:**
+   * `nova.perceive` returns `okHints` that tell the agent which signal keys are missing or stale for the current page, so it knows what to report via `nova.ok_observe`.
 4. **Integration with Domain Notes:**
-   * In addition to ephemeral tab state, Nova manages persistent `nova.domain_note` entries that document global site quirks (e.g. custom scroll containers like `main#workspace` on LinkedIn) across all agent sessions.
+   * Next to the tab state, Nova keeps persistent domain notes (`nova.domain_note`) that document site-specific instructions for all agent sessions. A note can be passive, show a warning on each call on that domain, or require acknowledgement before further calls (MUST-read).
 
 ---
 
@@ -70,24 +64,25 @@ flowchart LR
 
 | Tool | Purpose |
 | :--- | :--- |
-| `nova.ok_observe` | Submits structured observations about the live state of a tab to the OK engine. |
-| `nova.ok_signal_schema` | Retrieves the canonical accepted signal schema vocabulary for supported services. |
-| `nova.domain_note` | Stores or updates a domain-scoped operational note (with optional MUST-read enforcement). |
-| `nova.domain_notes_list` | Lists all active notes and instructions registered for the current domain. |
-| `nova.domain_note_ack` | Acknowledges a mandatory MUST-read note to satisfy pre-execution safety gates. |
+| `nova.ok_observe` | Pushes structured observations about the current page state of a tab. |
+| `nova.ok_signal_schema` | Lists the canonical signal keys accepted by `nova.ok_observe`. |
+| `nova.domain_note` | Stores or updates a domain note, with optional enforcement (`none`, `warn`, `block`/`must_read`). |
+| `nova.domain_notes_list` | Lists the notes stored for a domain. |
+| `nova.domain_note_ack` | Acknowledges a MUST-read note so tool calls on that domain can continue. |
+| `nova.domain_note_delete` | Deletes a domain note. |
 
 ---
 
 ## 5. Under the Hood
 
-* **OK Pipeline & Fact Repository:** `OkRepository`
-* **MCP OK Observe Handler:** `McpOkObserveHandler`
-* **Domain Notes Store:** `DomainNotesStore`
+* **Facts, Observations & Capabilities:** `OkRepository`
+* **`nova.ok_observe` Handling:** `McpOkObserveHandler`
+* **Domain Notes:** `DomainNotesStore`
 
 ---
 
 ## Related Documentation
 
 * **[Phenomenological Knowledge Store (PKS)](pks.md)** — Long-term procedural UI memory and playbooks.
-* **[Tool Observation Bus (TOB)](tob.md)** — Server-side evidence ledger and tamper-proof visit windows.
-* **[Agent Awareness Gates (AAG)](aag.md)** — Pre-execution safety and multi-agent lease locking.
+* **[Tool Observation Bus (TOB)](tob.md)** — Server-side record of executed tool calls.
+* **[Agent Awareness Gates (AAG)](aag.md)** — Precondition gates and tab leases.

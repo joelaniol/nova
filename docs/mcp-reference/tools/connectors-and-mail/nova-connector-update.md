@@ -6,9 +6,8 @@ Updates configuration, endpoints, credentials, or signatures of an existing conn
 
 ## 1. Overview
 
-`nova.connector_update` modifies settings for a previously registered connector. Only specified fields are updated; omitted fields retain their existing values.
+`nova.connector_update` modifies settings for a previously registered connector. Only specified fields are updated; omitted fields retain their existing values. Changing the server, login, auth mode, key path, or transport-security policy without supplying a matching new credential detaches the stale stored credential (`credentialCleared: true` in the result).
 
-* **Security Tier:** Tier 2 (Connector Mutation)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
 ---
@@ -44,6 +43,7 @@ Updates configuration, endpoints, credentials, or signatures of an existing conn
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -68,16 +68,27 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
   "content": [
     {
       "type": "text",
-      "text": "Updated connection conn-mail-01."
+      "text": "Connector 'Primary Work Email' updated (id=conn-mail-01). The password is stored encrypted and never returned."
     }
   ],
   "structuredContent": {
-    "ok": true,
     "id": "conn-mail-01",
-    "updatedFields": [
-      "displayName",
-      "smtpHost"
-    ]
+    "action": "updated",
+    "displayName": "Primary Work Email",
+    "type": "mail",
+    "username": "agent@example.com",
+    "host": "imap.example.com:993",
+    "hasPassword": true,
+    "authenticationMode": null,
+    "hasPrivateKey": false,
+    "hasKeyPassphrase": false,
+    "usesInsecureTransport": false,
+    "allowsInvalidTlsCertificate": false,
+    "signature": { "available": false, "text": null, "html": null },
+    "credentialCleared": false,
+    "changed": true,
+    "status": "updated",
+    "reasonCode": null
   }
 }
 ```
@@ -87,7 +98,8 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
 ## 4. Operational Best Practices
 
 * **Type Immutability:** Connector type (`mail`, `sftp`, `ftp`) cannot be changed after creation; create a new connector if switching protocol families.
-* **Password Rotation:** Supplying a new `password` re-encrypts the secret under DPAPI and preserves existing capability grants.
+* **Credential Replacement:** Supplying a new `password`/`keyPassphrase` re-encrypts it under DPAPI; capability grants are untouched by an update. Existing capability grants stay in place.
+* **Watch `credentialCleared`:** changing the server/login/auth mode/key path/transport policy without also sending the matching new credential detaches the old one — the result's `credentialCleared` flag and message say so.
 
 ---
 

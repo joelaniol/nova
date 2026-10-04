@@ -8,7 +8,6 @@ Lists known task profiles, optionally filtered by taskType, domain, or platform.
 
 `nova.task_profiles` returns an inventory of registered task profiles with summaries of goals and verification criteria.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
 ---
@@ -25,6 +24,7 @@ Lists known task profiles, optionally filtered by taskType, domain, or platform.
 | `limit` | `integer` | No | `100` | 1–500 | Maximum number of profiles to return. Default: 100. |
 
 Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -47,22 +47,30 @@ Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_m
   "content": [
     {
       "type": "text",
-      "text": "Loaded 1 task profile for support.example.com."
+      "text": "{\"profiles\":[{\"profileId\":\"tp-support-audit\", ...}],\"count\":1}"
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "total": 1,
     "profiles": [
       {
         "profileId": "tp-support-audit",
+        "taskType": "audit",
         "displayName": "Support Portal Link Audit",
-        "taskType": "audit"
+        "domain": "support.example.com",
+        "platform": null,
+        "goal": "Audit all links under /support",
+        "confidence": 0.8,
+        "contentRev": 2,
+        "usageCount": 5,
+        "updatedAt": "2026-09-20T12:00:00Z"
       }
-    ]
+    ],
+    "count": 1
   }
 }
 ```
+
+There is no separate summary sentence: `content[0].text` is the same structured data serialized as plain JSON text. The response field is `count`, not `total`.
 
 ---
 

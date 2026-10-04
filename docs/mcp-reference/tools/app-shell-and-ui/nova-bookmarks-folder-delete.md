@@ -1,8 +1,7 @@
 # `nova.bookmarks_folder_delete`
 
-> **Deletes a bookmark folder and optionally its contained bookmarks and subfolders.**
+> **Deletes a bookmark folder and either moves its contents to the root or deletes them with it.**
 
-* **Security Tier:** Tier 2 (Destructive Bookmark Management)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
@@ -10,7 +9,7 @@
 
 ## 1. Overview
 
-`nova.bookmarks_folder_delete` removes a folder from the bookmark tree. If recursive is true, all descendants are purged.
+`nova.bookmarks_folder_delete` removes a folder from the bookmark tree. With `mode: "moveToRoot"` (the default), the folder's favorites and subfolders are moved to the top level; with `mode: "deleteContents"`, they are deleted together with the folder. An unknown folder id returns `deleted: false` ("Folder not found.").
 
 ---
 
@@ -23,6 +22,7 @@
 | `mode` | `string` | No | `"moveToRoot"` | `moveToRoot`, `deleteContents` | Behavior for the folder's contents. |
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -34,8 +34,8 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
 {
   "name": "nova_bookmarks_folder_delete",
   "arguments": {
-    "folderId": "folder-101",
-    "recursive": true
+    "id": "3f2a9c1e7b4d4e0f9a6b2c8d1e5f7a90",
+    "mode": "deleteContents"
   }
 }
 ```
@@ -46,13 +46,17 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "Folder 'folder-101' and contents deleted."
+      "text": "Folder deleted with 6 favorite(s) + 2 subfolder(s)."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "folderId": "folder-101",
-    "deletedCount": 8
+    "deleted": true,
+    "id": "3f2a9c1e7b4d4e0f9a6b2c8d1e5f7a90",
+    "mode": "deleteContents",
+    "movedFavorites": 0,
+    "movedSubfolders": 0,
+    "deletedFavorites": 6,
+    "deletedSubfolders": 2
   }
 }
 ```
@@ -61,8 +65,8 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
 
 ## 4. Operational Best Practices
 
-* **Recursive Caution:** Set `recursive: true` deliberately to prevent orphan bookmark generation.
-* **Verify Contents:** Run `nova.bookmarks_folders_list` beforehand to confirm the target folder ID.
+* **Choose the mode deliberately:** Omit `mode` (or pass `moveToRoot`) to keep the favorites; `deleteContents` removes them as well.
+* **Verify Contents:** Run `nova.bookmarks_folders_list` beforehand to confirm the target folder id.
 
 ---
 

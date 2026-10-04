@@ -9,12 +9,12 @@ Performs Single Page Application (SPA) client-side routing within the same docum
 Standard browser navigation (`window.location.href = ...` or [`nova.navigate`](nova-navigate.md)) triggers a hard document unload. On complex modern web applications (ChatGPT, LinkedIn, Jira, Slack, Figma), a hard reload destroys in-memory state machines, clears Vuex/Redux stores, and often forces the user back to the login screen.
 
 `nova.route` performs **same-document SPA transitions**. It supports two distinct routing strategies:
-1. **DOM-Click Mode (`selector`):** Clicks a sidebar menu or navigation link using CDP pointer physics and waits for a `pushState`/`replaceState` event.
-2. **PushState Mode (`url`):** Dispatches a client-side `history.pushState()` call and asserts that the UI surface actually renders new content (`route.surface_not_changed` check).
+1. **DOM-Click Mode (`selector`):** Clicks a sidebar menu or navigation link through the same CDP mouse-event pipeline as `nova.click_selector`, then waits for a `pushState`/`replaceState` event.
+2. **PushState Mode (`url`):** Dispatches a client-side `history.pushState()` call and checks that the page's main content container actually changed (`route.surface_not_changed` check).
 
 * **Session Preservation:** In-memory auth tokens and active WebSocket connections remain alive.
 * **Hard Navigation Guard:** If a clicked link attempts a full-page document reload, Nova automatically intercepts and cancels the navigation, returning `route.hard_navigate_intercepted`.
-* **Surface Change Verification:** In pushState mode, Nova verifies that the primary page container updated visually before declaring success.
+* **Surface Change Verification:** In pushState mode, Nova compares a before/after DOM signature (tag, id, class, and text shape) of the page's detected main container to confirm new content actually rendered, rather than trusting the URL change alone.
 
 ---
 
@@ -46,6 +46,7 @@ Standard browser navigation (`window.location.href = ...` or [`nova.navigate`](n
 | `agentId` | `string` | No | `"default"` | — | Optional agent identity for claim authorization against the target tab. Defaults to 'default'. |
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -76,25 +77,39 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
 
 ```json
 {
-  "success": true,
+  "ok": true,
+  "status": "ok",
   "targetId": "tab-101",
+  "navigationMode": "same_document",
+  "requestedUrl": "/app/billing",
+  "resolvedUrl": "https://example.com/app/billing",
+  "finalUrl": "https://example.com/app/billing",
   "previousUrl": "https://example.com/app/dashboard",
-  "currentUrl": "https://example.com/app/billing",
-  "routeCommitted": true,
-  "surfaceChanged": true,
-  "pageTitle": "Billing & Subscriptions - Example SPA"
+  "sameDocument": true,
+  "methodUsed": "push_state",
+  "routeChanged": true,
+  "waitForRoute": true,
+  "waitedMs": 180,
+  "stage": "route_changed",
+  "pageTitle": "Billing & Subscriptions - Example SPA",
+  "pageUrl": "https://example.com/app/billing"
 }
 ```
+
+`methodUsed` is `"dom_click"` when a `selector` was clicked, or `"push_state"` when only `url` was given.
 
 ---
 
 ## 6. Common Errors & Troubleshooting
 
-| Error Code / Message | Cause | Corrective Action |
+| reasonCode | Cause | Corrective Action |
 | :--- | :--- | :--- |
-| `route.hard_navigate_intercepted` | The clicked selector was a regular anchor `<a href="...">` that triggered a full document reload. | Use [`nova.navigate`](nova-navigate.md) if a full reload is acceptable, or verify SPA selector. |
+| `route.hard_navigate_intercepted` | The clicked selector triggered a full document navigation, which Nova cancelled. Client-side click-handler side effects may already have run before the cancel. | Re-read page state before continuing. Use [`nova.navigate`](nova-navigate.md) if a full reload is intended, or verify the SPA selector. |
 | `route.surface_not_changed` | PushState updated the browser address bar, but the SPA framework failed to render new UI content. | Use DOM-click mode instead, or check if the SPA router requires hash navigation (`/#/billing`). |
 | `route.unexpected_final_url` | Final observed URL did not match the expected `url` hint. | Omit the `url` hint or verify SPA redirection logic. |
+| `route.same_origin_required` | The target URL has a different origin (scheme, host, or port) than the current document. | `nova.route` only supports same-document navigation; use [`nova.navigate`](nova-navigate.md) for cross-origin destinations. |
+| `route.concurrent_conflict` | Another `nova.route` call is already in progress on the same target. | Wait for the earlier call to complete or time out before retrying. |
+| `route.signal_timeout` | No `pushState`/`replaceState` signal arrived within `waitForRouteTimeoutMs`. | Confirm the route actually changed via `nova.page_info`, or raise `waitForRouteTimeoutMs`. |
 
 ---
 

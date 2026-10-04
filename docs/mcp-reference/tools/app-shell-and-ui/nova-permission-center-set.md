@@ -1,8 +1,7 @@
 # `nova.permission_center_set`
 
-> **Configures global Permission Center default policies and preferred media hardware devices.**
+> **Sets the global Permission Center defaults for camera, microphone, speaker and location, and the preferred media devices.**
 
-* **Security Tier:** Tier 2 (Permission Administration)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
@@ -10,7 +9,9 @@
 
 ## 1. Overview
 
-`nova.permission_center_set` updates default handling (Allow, Prompt, Block) for browser capability requests and assigns default audio/video capture hardware.
+`nova.permission_center_set` changes the default handling (`ask`, `allow`, `deny`) that applies when a site requests the camera, microphone, speaker output or location, and sets the preferred camera, microphone and speaker. Only the parameters you pass change. Device ids must come from the latest `nova.permission_center_get` result of the same Nova session; unknown ids are rejected while `validateDeviceIds` is true. Switching camera or microphone to `deny` stops active captures first.
+
+The result contains the full Permission Center state after the change, in the same shape as `nova.permission_center_get`.
 
 ---
 
@@ -30,6 +31,7 @@
 | `validateDeviceIds` | `boolean` | No | `true` | — | If true, reject unknown device IDs based on current OS media inventory plus cached Chromium enumerateDevices IDs. |
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -41,25 +43,34 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
 {
   "name": "nova_permission_center_set",
   "arguments": {
-    "cameraDefault": "Allow",
-    "preferredCameraId": "dev-cam-01"
+    "cameraPermissionMode": "ask",
+    "geolocationPermissionMode": "deny"
   }
 }
 ```
 
 ### JSON-RPC Response
+Abridged; `permissionCenter` also lists the preferred and default device ids and the detected `cameras`, `microphones` and `speakers`.
+
 ```json
 {
   "content": [
     {
       "type": "text",
-      "text": "Updated Permission Center defaults."
+      "text": "Permission center updated: camera=ask, microphone=ask, speaker=ask, geolocation=deny"
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "cameraDefault": "Allow",
-    "preferredCameraId": "dev-cam-01"
+    "success": true,
+    "permissionCenter": {
+      "cameraPermissionMode": "ask",
+      "microphonePermissionMode": "ask",
+      "speakerPermissionMode": "ask",
+      "geolocationPermissionMode": "deny",
+      "preferredCameraDeviceId": null,
+      "preferredMicrophoneDeviceId": null,
+      "preferredSpeakerDeviceId": null
+    }
   }
 }
 ```
@@ -68,7 +79,8 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
 
 ## 4. Operational Best Practices
 
-* **Test Isolation:** Avoid setting permissive defaults in shared environments; prefer per-origin rules with `nova.media_permission_set`.
+* **Test Isolation:** Avoid permissive global defaults in shared environments; prefer per-origin rules with `nova.media_permission_set`.
+* **Fresh device ids:** Call `nova.permission_center_get` in the same session before setting a preferred device.
 
 ---
 

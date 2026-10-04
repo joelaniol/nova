@@ -1,16 +1,17 @@
 # `nova.tab_transfer`
 
-> **Moves an open browser tab from one sandbox container profile to another.**
+> **Copies text from an element in one tab into an input field in another tab.**
 
-* **Security Tier:** Tier 2 (Sandbox Management)
-* **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
+* **Core Feature Guide:** [Input Dispatch & Shadow DOM Traversal](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.tab_transfer` migrates a live URL context between sandboxes, switching cookie jars and storage partitions cleanly.
+`nova.tab_transfer` copies text from an element in one tab into an input, textarea or contenteditable element in another tab, in one call. It reads the `innerText` of `sourceSelector` on the source tab, applies the optional `transform` (`trim`, or `number` to extract the first numeric value) and writes the result into `destSelector` on the destination tab. The source tab is only read and needs no claim; the destination tab must be claimed by the calling agent.
+
+A failed read returns `ok: false` with `reasonCode: "tab_transfer.source_read_failed"`, a failed write `tab_transfer.dest_write_failed`. Transfers between a private and a persistent tab, or between two different private sessions, are refused.
 
 ---
 
@@ -28,6 +29,7 @@
 | `agentId` | `string` | No | — | — | Agent identity for claim authorization on the destination tab. Defaults to 'default'. |
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -39,8 +41,11 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
 {
   "name": "nova_tab_transfer",
   "arguments": {
-    "targetId": "tab-1",
-    "targetSandboxId": "sandbox-b"
+    "sourceTargetId": "tab-1",
+    "destTargetId": "tab-2",
+    "sourceSelector": "#order-number",
+    "destSelector": "input[name='reference']",
+    "transform": "trim"
   }
 }
 ```
@@ -51,13 +56,19 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Transferred tab-1 to sandbox-b."
+      "text": "Transferred 9 chars from tab-1 to tab-2"
     }
   ],
   "structuredContent": {
     "ok": true,
-    "targetId": "tab-1",
-    "newSandboxId": "sandbox-b"
+    "sourceTargetId": "tab-1",
+    "destTargetId": "tab-2",
+    "sourceSelector": "#order-number",
+    "destSelector": "input[name='reference']",
+    "transform": "trim",
+    "transferredText": "A-1048-77",
+    "chars": 9,
+    "truncated": false
   }
 }
 ```
@@ -66,11 +77,12 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
 
 ## 4. Operational Best Practices
 
-* **Profile Isolation:** Transfer authenticated tabs into isolated work sandboxes to segment tasks.
+* **Claim First:** Claim the destination tab with `nova.tab_claim` before the transfer.
+* **Clean Values:** Use `transform: "number"` when copying prices or counts into numeric fields.
 
 ---
 
 ## 5. Related Tools
 
-* [`nova.resolve_sandbox`](../site-data-and-identity/nova-resolve-sandbox.md)
+* [`nova.tab_claim`](nova-tab-claim.md)
 * [`nova.tab_snapshot`](nova-tab-snapshot.md)

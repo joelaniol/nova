@@ -8,7 +8,6 @@ Sets a persistent key-value state variable for a task that survives across runs.
 
 `nova.scheduled_task_var_set` stores lightweight persistent state for a task. Variables are retained across runs and browser restarts, enabling tasks to track watermarks, last-seen timestamps, pagination cursors, and running counters without creating extra files.
 
-* **Security Tier:** Tier 2 (State Mutation)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
 ---
@@ -25,6 +24,7 @@ Sets a persistent key-value state variable for a task that survives across runs.
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -49,14 +49,13 @@ Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='sc
   "content": [
     {
       "type": "text",
-      "text": "Set variable 'last_scraped_id' for task task-7c81a2f0."
+      "text": "Variable 'last_scraped_id' set for task 'task-7c81a2f0'."
     }
   ],
   "structuredContent": {
-    "ok": true,
     "taskId": "task-7c81a2f0",
     "key": "last_scraped_id",
-    "valueLength": 5
+    "stored": true
   }
 }
 ```
@@ -66,7 +65,8 @@ Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='sc
 ## 4. Operational Best Practices
 
 * **Watermark Tracking:** Store high-water marks (e.g. `last_processed_email_id`) so recurring runs process only new delta items.
-* **Structured State:** Serialize small state objects as JSON strings within the 64 KB limit.
+* **Structured State:** Serialize small state objects as JSON strings within the 64 KB per-value limit.
+* **Store Capacity:** A task's variable store holds at most 256 variables and 4 MB in total; writes past either limit are rejected.
 
 ---
 

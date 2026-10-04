@@ -6,9 +6,8 @@ Destructively clears all persisted crawl history, results, and URL indexes for a
 
 ## 1. Overview
 
-`nova.discovery_reset_scope` purges all stored crawler artifacts for a domain or canonical origin from `crawl.db`. This includes crawl job histories, extracted page text, screenshot artifacts, and Site-URL-Index rows. It is used when a website undergoes a complete redesign or during clean testing.
+`nova.discovery_reset_scope` purges all stored crawler and surface-exploration artifacts for a domain or canonical origin from `crawl.db`. This includes crawl job histories, extracted page/block records, Site-URL-Index rows, and Surface Explorer state/trigger/transition/artifact rows. It is used when a website undergoes a complete redesign or during clean testing. The reset is refused (`status: "blocked"`) instead of applied while any crawl or exploration run for that scope is still active.
 
-* **Security Tier:** Tier 3 (Destructive Purge)
 * **Core Architecture Guide:** [Autonomous Crawler & Surface Explorer](../../../core-features/crawler-and-discovery.md)
 
 ---
@@ -26,6 +25,7 @@ Destructively clears all persisted crawl history, results, and URL indexes for a
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
 
 Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawler_ops')`).
+Tool category: `high_impact` (highest risk class; Nova's agent permission settings can ask before it runs).
 <!-- /generated:parameters -->
 
 ---
@@ -48,18 +48,37 @@ Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawle
   "content": [
     {
       "type": "text",
-      "text": "Scope 'https://docs.example.com' reset: deleted 4 crawls, 85 visited page records, and 120 URL index entries."
+      "text": "Discovery reset completed for https://docs.example.com: removed 4 crawl jobs, 120 site URLs, and 0 exploration runs."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "scopeKey": "https://docs.example.com",
-    "deletedCrawls": 4,
-    "deletedPageRecords": 85,
-    "deletedIndexEntries": 120
+    "status": "ok",
+    "reasonCode": null,
+    "queryInput": "docs.example.com",
+    "origin": "https://docs.example.com",
+    "matchedScopeKeys": ["https://docs.example.com"],
+    "matchedOrigins": ["https://docs.example.com"],
+    "activeCrawlCount": 0,
+    "activeExplorationRunCount": 0,
+    "deleted": {
+      "crawlJobs": 4,
+      "crawlPages": 85,
+      "crawlPageBlocks": 310,
+      "siteUrls": 120,
+      "siteLinks": 240,
+      "explorationRuns": 0,
+      "surfaceStates": 0,
+      "surfaceTriggers": 0,
+      "surfaceTransitions": 0,
+      "explorationArtifacts": 0,
+      "artifactFiles": 0,
+      "runtimeCrawlEntries": 0
+    }
   }
 }
 ```
+
+There is no top-level `ok` field and no `scopeKey`/`deletedCrawls`/`deletedPageRecords`/`deletedIndexEntries` — the real fields are `status` ("ok" or "blocked"), `origin`, and a `deleted` object with one count per table. If any crawl or exploration run for the scope is still active, the call returns `status: "blocked"` with `reasonCode: "discovery_reset.active_jobs"` and deletes nothing — stop those jobs first.
 
 ---
 
@@ -68,6 +87,7 @@ Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawle
 * **Use with Caution:** This operation is irreversible; historical diff baselines for this scope will be lost.
 * **Pre-Redesign Clean Slates:** Recommended after major web application releases or site architecture overhauls to avoid stale route pollution.
 * **Domain Scoping:** Only purges data matching the exact scopeKey or domain; other sites in `crawl.db` remain untouched.
+* **Active-Job Guard:** If the response comes back with `status: "blocked"`, stop the active crawls/exploration runs reported in `activeCrawlCount`/`activeExplorationRunCount` and retry.
 
 ---
 

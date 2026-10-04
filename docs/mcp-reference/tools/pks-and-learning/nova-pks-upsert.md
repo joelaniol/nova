@@ -51,6 +51,7 @@ For `consent_cmp` phenomena (cookie banners), Nova enforces four non-negotiable 
 | `phenomenon.context` | `object` | No | — | — | Optional phenomenon-level context override. Missing keys fallback to domain context keys. When updating an existing phenomenon, the deprecated flag is automatically cleared (reactivated). |
 
 Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_learning')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -99,14 +100,13 @@ Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_l
 
 ## 5. Return Value Structure
 
+`action` is `"created"` for a brand-new phenomenon, `"updated"` for an existing non-deprecated one, or `"reactivated"` when the existing entry was deprecated (upserting always clears the deprecated flag). New phenomena always start at `LearningLevel: Shadow` — check `nova.pks_get` or `nova.explain` to see the resulting level/gates, the response itself does not return a learning level.
+
 ```json
 {
-  "success": true,
+  "action": "created",
   "scope": "example.com",
-  "phenomenonId": "example-cmp-reject",
-  "learningLevel": "Shadow",
-  "reactivated": false,
-  "storedAtUtc": "2026-10-02T20:10:00Z"
+  "phenomenonId": "example-cmp-reject"
 }
 ```
 
@@ -116,15 +116,16 @@ Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_l
 
 | Error Code / Message | Cause | Corrective Action |
 | :--- | :--- | :--- |
-| `Domain scope must match an open tab` | Attempted to register PKS knowledge for a closed or unvisited domain. | Navigate to the target domain first. |
+| `reasonCode: "pks.scope_not_open"` (ok: false, no `-326xx` code; the tool returns normally) | Attempted to register PKS knowledge for a domain not currently open in any tab or sandbox. | Navigate to the target domain first, then retry. |
 | `-32602: Invariant violation: wildcard selector` | Provided selector uses unanchored wildcards (`[class*=...]`). | Provide exact CSS class, ID, or specific attribute selector. |
 | `-32602: Polarity mismatch` | Button text contradicts the declared action polarity. | Align `declaredPolarity` with the visible button text. |
+| `-32602: domain already has 200 phenomena` | Domain hit the per-domain phenomenon cap on a new (non-matching) `phenomenon.id`. | Deprecate unused phenomena via `nova.pks_deprecate` before adding new ones. |
 
 ---
 
 ## 7. Related Tools & Documentation
 
-* [`nova.telemetry_report`](nova-telemetry-report.md) ? Report interaction outcomes to graduate phenomena.
-* [`nova.pks_get`](nova-pks-get.md) ? Retrieve existing domain phenomena.
-* [`nova.pks_match`](nova-pks-match.md) ? Match current page signals against stored phenomena.
-* [Phenomenological Knowledge Store (PKS)](../../../core-features/pks.md) ? Comprehensive guide to PKS levels and lifecycle.
+* [`nova.telemetry_report`](nova-telemetry-report.md) — Report interaction outcomes to graduate phenomena.
+* [`nova.pks_get`](nova-pks-get.md) — Retrieve existing domain phenomena.
+* [`nova.pks_match`](nova-pks-match.md) — Match current page signals against stored phenomena.
+* [Phenomenological Knowledge Store (PKS)](../../../core-features/pks.md) — Comprehensive guide to PKS levels and lifecycle.

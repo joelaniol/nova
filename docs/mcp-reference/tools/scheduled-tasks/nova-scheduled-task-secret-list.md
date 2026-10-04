@@ -6,9 +6,8 @@ Lists registered secret key names for a task without exposing plaintext secret v
 
 ## 1. Overview
 
-`nova.scheduled_task_secret_list` returns the names of all secrets currently configured for a task. In accordance with zero-trust security guidelines, plaintext secret values are never disclosed in the response.
+`nova.scheduled_task_secret_list` returns the names of all secrets currently configured for a task. The tool is write-only by design on the other side (`nova.scheduled_task_secret_set`): plaintext secret values are never disclosed in this or any other response.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
 ---
@@ -25,6 +24,7 @@ Lists registered secret key names for a task without exposing plaintext secret v
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -47,15 +47,19 @@ Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='sc
   "content": [
     {
       "type": "text",
-      "text": "Task task-7c81a2f0 has 1 registered secret key: OPENAI_API_KEY."
+      "text": "Secrets for task 'task-7c81a2f0': OPENAI_API_KEY."
     }
   ],
   "structuredContent": {
-    "ok": true,
     "taskId": "task-7c81a2f0",
-    "secretKeys": [
+    "keys": [
       "OPENAI_API_KEY"
-    ]
+    ],
+    "returnedCount": 1,
+    "limit": 100,
+    "offset": 0,
+    "truncated": false,
+    "nextOffset": null
   }
 }
 ```

@@ -8,7 +8,6 @@ Lists persistent variable keys and value previews configured for a task.
 
 `nova.scheduled_task_var_list` returns a paginated list of all persistent state variables stored for a task, with value previews or full values.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
 ---
@@ -26,6 +25,7 @@ Lists persistent variable keys and value previews configured for a task.
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -49,15 +49,24 @@ Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='sc
   "content": [
     {
       "type": "text",
-      "text": "Loaded 1 variable for task-7c81a2f0."
+      "text": "last_scraped_id = 10482"
     }
   ],
   "structuredContent": {
-    "ok": true,
     "taskId": "task-7c81a2f0",
+    "totalCount": 1,
+    "returnedCount": 1,
+    "limit": 100,
+    "offset": 0,
+    "truncated": false,
+    "nextOffset": null,
+    "includeValues": true,
     "variables": [
       {
         "key": "last_scraped_id",
+        "valueLength": 5,
+        "valuePreview": "10482",
+        "valueTruncated": false,
         "value": "10482"
       }
     ]

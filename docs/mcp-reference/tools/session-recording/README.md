@@ -24,8 +24,8 @@ Capability bundles of these tools: `page_read_debug`, `session_recording`, `visu
 | **[`nova.session_record_query`](nova-session-record-query.md)** | Queries the complete CDP network stream of a finalized recording with rich filters (URL regex, status, headers). |
 | **[`nova.session_record_snapshot_dom`](nova-session-record-snapshot-dom.md)** | Triggers a fresh encrypted DOM snapshot on an active live recording bound to a tab. |
 | **[`nova.session_record_start`](nova-session-record-start.md)** | Initiates encrypted background recording of CDP network, DOM mutations, console logs, and user interactions on a tab. |
-| **[`nova.session_record_status`](nova-session-record-status.md)** | Returns the live state, expiry timestamp, active permission classes, and byte counts of a recording. |
-| **[`nova.session_record_stop`](nova-session-record-stop.md)** | Stops an active session recording, flushes memory channels, and generates cryptographic integrity manifests. |
+| **[`nova.session_record_status`](nova-session-record-status.md)** | Returns the live state, start/expiry timestamps, tab/sandbox binding, and granted permission classes of a recording. |
+| **[`nova.session_record_stop`](nova-session-record-stop.md)** | Stops an active session recording, flushes buffered events, and finalizes the encrypted artifact with a per-stream SHA-256 integrity manifest. |
 | **[`nova.session_reset_screenshot_budget`](nova-session-reset-screenshot-budget.md)** | Resets the session screenshot budget counter to allow fresh visual captures. |
 | **[`nova.traces_list`](nova-traces-list.md)** | Lists recent host operation traces with execution timing, phases, and outcome status for debugging. |
 <!-- /generated:tool-list -->

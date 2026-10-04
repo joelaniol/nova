@@ -8,7 +8,6 @@ Opens a completed download inline in a new browser tab using a secure file:// UR
 
 `nova.downloads_preview` renders images, PDFs, videos, audio, and structured text files directly inside a new browser tab without launching external applications. For security, SVG and HTML files are strictly excluded to prevent script injection.
 
-* **Security Tier:** Tier 1 (Safe Preview)
 * **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts.md)
 
 ---
@@ -23,6 +22,7 @@ Opens a completed download inline in a new browser tab using a secure file:// UR
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -62,7 +62,7 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
 
 ## 4. Operational Best Practices
 
-* **Supported File Formats:** Image (`jpg`, `png`, `gif`, `webp`, `bmp`, `ico`), Document (`pdf`), Media (`mp4`, `webm`, `mov`, `mp3`, `wav`), and Text (`txt`, `md`, `log`, `csv`, `json`, `xml`).
+* **Supported File Formats:** Image (`jpg`, `jpeg`, `png`, `gif`, `webp`, `bmp`, `ico`), Document (`pdf`), Video (`mp4`, `webm`, `mov`), Audio (`mp3`, `wav`, `ogg`, `m4a`, `flac`), and Text (`txt`, `md`, `log`, `csv`, `json`, `xml`).
 * **Sandbox Isolation:** The preview tab opens with an opaque origin, ensuring local files cannot leak data into existing sandbox sessions.
 
 ---

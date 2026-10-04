@@ -2,7 +2,6 @@
 
 > **Reads recent JavaScript console log messages (log, info, warn, error) from the page.**
 
-* **Security Tier:** Tier 1 (Read-Only Diagnostics)
 * **Core Feature Guide:** [DOM Perception & Semantic Extraction](../../../core-features/tob.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
@@ -10,7 +9,12 @@
 
 ## 1. Overview
 
-`nova.console_read` extracts recent browser console entries captured from the target tab, including message text, log levels, timestamps, and stack traces.
+`nova.console_read` returns two lists from the target tab:
+
+* `entries` (inside `result`): what the page logged through `console.log`, `info`, `warn`, `error` and `debug`, each with `id`, timestamp `ts`, `level` and the stringified `args`. Continue with `sinceId`.
+* `engineEntries`: what the browser engine reported without going through `console.*`, such as CORS and CSP errors, failed subresource loads and uncaught exceptions, with `source`, `level`, `text`, `url` and `lineNumber`. Continue with `engineSinceId` from `nextEngineSinceId`.
+
+Both recorders start on the first read. If `tapInstalledNow` or `engineTapInstalledNow` is true, nothing from before that moment was captured; an empty list then is not evidence that the page logged nothing (`coverageNote` / `engineCoverageNote` say so). There is no level filter; filter the returned entries yourself. The response example below is an excerpt; `outputBudget` and the other budget fields are omitted.
 
 ---
 
@@ -27,6 +31,7 @@
 | `maxChars` | `integer` | No | `50000` | 1000–5000000 | Maximum serialized response characters before truncation. Defaults shrink automatically under context pressure unless explicitly provided. |
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -39,8 +44,7 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
   "name": "nova_console_read",
   "arguments": {
     "targetId": "tab-1",
-    "level": "error",
-    "limit": 20
+    "maxEntries": 20
   }
 }
 ```
@@ -51,19 +55,55 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
   "content": [
     {
       "type": "text",
-      "text": "Found 2 console error entries."
+      "text": "{\"ok\":true,\"requestedMax\":20,\"sinceId\":0,\"clearAfterRead\":false,\"lastId\":7,\"tapInstalledNow\":false,\"entries\":[{\"id\":7,\"ts\":1791025200123,\"level\":\"error\",\"args\":[\"Failed to save draft\",\"HTTP 500\"]}]}"
     }
   ],
   "structuredContent": {
-    "ok": true,
     "targetId": "tab-1",
-    "messages": [
+    "ok": true,
+    "maxEntries": 20,
+    "sinceId": 0,
+    "clear": false,
+    "entriesCount": 1,
+    "entriesTotal": 1,
+    "entriesOmitted": 0,
+    "tapInstalledNow": false,
+    "engineEntries": [
       {
+        "id": 3,
+        "source": "uncaught-exception",
         "level": "error",
-        "text": "Uncaught TypeError: Cannot read properties of undefined",
-        "line": 42
+        "text": "Uncaught TypeError: Cannot read properties of undefined (reading 'id')",
+        "url": "https://app.example.com/assets/app.js",
+        "lineNumber": 42,
+        "atUtc": "2026-10-03T09:00:00.1230000+00:00"
       }
-    ]
+    ],
+    "engineEntriesCount": 1,
+    "engineSinceId": 0,
+    "nextEngineSinceId": 3,
+    "engineTapInstalledNow": false,
+    "engineEntriesDropped": 0,
+    "truncated": false,
+    "result": {
+      "ok": true,
+      "requestedMax": 20,
+      "sinceId": 0,
+      "clearAfterRead": false,
+      "lastId": 7,
+      "tapInstalledNow": false,
+      "entries": [
+        {
+          "id": 7,
+          "ts": 1791025200123,
+          "level": "error",
+          "args": [
+            "Failed to save draft",
+            "HTTP 500"
+          ]
+        }
+      ]
+    }
   }
 }
 ```
@@ -73,7 +113,8 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
 ## 4. Operational Best Practices
 
 * **Bug Triaging:** Check console logs immediately when pages fail to respond to click events.
-* **Level Filtering:** Filter by `error` or `warn` to avoid noise from noisy analytics logs.
+* **Read Twice:** If the first read installed the recorder, re-trigger the action (or reload) and read again.
+* **Level Filtering:** Look at `level` (`error`, `warn`) in the returned entries to skip noise from analytics logs.
 
 ---
 

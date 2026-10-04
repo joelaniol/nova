@@ -1,30 +1,30 @@
 # `nova.type_selector`
 
-Focuses an input field or contenteditable element, clears existing text, and enters characters with realistic keystroke intervals and input events.
+Focuses an input field or contenteditable element, optionally clears existing text, and enters text through CDP-level text insertion or an editor's own model API.
 
 ---
 
 ## 1. Overview
 
-`nova.type_selector` handles keyboard input across textboxes, search inputs, textareas, and rich-text editors (`contenteditable`). Rather than injecting raw values directly into DOM properties (which often bypasses React/Vue `onChange` state synchronization), Nova generates authentic synthetic keyboard events (`keydown`, `keypress`, `input`, `keyup`).
+`nova.type_selector` handles text entry across textboxes, search inputs, textareas, rich-text editors (`contenteditable`), and Monaco/CodeMirror code editors. Rather than setting `input.value` directly (which often bypasses React/Vue/Angular `onChange` state synchronization), native mode drives Chromium's `Input.insertText` (chunked for long text) plus keyboard events for actions like select-all, clear, and Enter.
 
 * **Shadow-DOM Syntax:** Supports ` >>> ` combinator for encapsulated inputs.
-* **Typing Modes:** Supports humanized intervals, fast typing, and clipboard paste injection.
+* **Input Strategies:** `native` (default, CDP text insertion into the focused selector), `monaco_model` (Monaco editor API), `codemirror_model` (CodeMirror 5/6 model API).
 
 ---
 
 ## 2. Key Capabilities & Features
 
-### A. Authentic Keystroke Dispatch
-Frameworks like React 18, Angular, and Vue track input values using internal state proxies. Setting `input.value = "text"` often results in forms submitting empty strings. `nova.type_selector` dispatches the full keyboard event lifecycle, ensuring frameworks register every keystroke.
+### A. Framework-Safe Text Entry
+Frameworks like React, Angular, and Vue track input values using internal state proxies. Setting `input.value = "text"` often results in forms submitting empty strings. `nova.type_selector`'s native mode inserts text through the browser's own input pipeline so frameworks see the resulting `input`/`beforeinput` events instead of a raw property write.
 
 ### B. Input Modes (`inputMode`)
-* **`humanized` (Default):** Introduces slight, natural micro-delays (20–60ms) between keystrokes to prevent bot detection systems from flagging algorithmic typing.
-* **`fast`:** Enters characters with minimal delay for high-throughput automated testing.
-* **`paste`:** Emulates an atomic `Paste` event for entering long multiline text or code snippets instantly.
+* **`native` (Default):** Focuses the selector and inserts text via CDP, with select-all/backspace and Enter handled as real key events.
+* **`monaco_model`:** Replaces the model value of a `.monaco-editor` surface through `window.monaco`'s editor API and verifies the result by content length and SHA-256.
+* **`codemirror_model`:** Replaces the model value of a `.CodeMirror`/`.cm-editor` surface (CodeMirror 5, CodeMirror 6 `EditorView`, or a page-provided `window.__novaCodeMirrorAdapter`) and verifies the same way.
 
 ### C. Press Enter on Finish (`pressEnter: true`)
-Search bars and command palettes frequently submit upon pressing the Enter key. Passing `pressEnter: true` dispatches the Enter keypress immediately after the final character without requiring a secondary tool call.
+Search bars and command palettes frequently submit upon pressing the Enter key. Passing `pressEnter: true` dispatches the Enter keypress immediately after native typing finishes, without requiring a secondary tool call. Not supported for the editor-model modes.
 
 ---
 
@@ -68,6 +68,7 @@ Search bars and command palettes frequently submit upon pressing the Enter key. 
 | `transitionContract.stabilityMs` | `integer` | No | — | — | Optional stability hold duration in milliseconds. Success must remain true for this long before verification passes. |
 
 Capability bundles: `browser_automation`, `form_submission`.
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -97,7 +98,7 @@ Capability bundles: `browser_automation`, `form_submission`.
     "selector": "comment-widget >>> textarea.editor",
     "text": "Great article! Thanks for the deep dive.",
     "clear": true,
-    "inputMode": "humanized"
+    "inputMode": "native"
   }
 }
 ```
@@ -107,7 +108,7 @@ Capability bundles: `browser_automation`, `form_submission`.
 ## 5. Best Practices & Common Traps
 
 * **Never Use for Passwords:** When entering sensitive credentials (passwords, 2FA tokens, API keys), **never** pass plaintext to `nova.type_selector`. Use [`nova.type_selector_secret`](../vault-and-security/nova-type-selector-secret.md) to keep secrets zero-leak and out of the LLM context.
-* **Auto-Clear:** By default, `clear: true` selects existing text (`Ctrl+A` + `Backspace`) before typing. Pass `clear: false` only when appending text to an existing string.
+* **Auto-Clear:** `clear` defaults to `false`. Pass `clear: true` to select existing text and delete it before native typing; leave it `false` when appending text to an existing value.
 
 ---
 
@@ -115,4 +116,4 @@ Capability bundles: `browser_automation`, `form_submission`.
 
 * [`nova.click_selector`](nova-click-selector.md) — Click buttons and links.
 * [`nova.type_selector_secret`](../vault-and-security/nova-type-selector-secret.md) — Secure, zero-leak credential injection.
-* [`nova.guarded_send_message`](nova-click-selector.md) — High-level chat message macro.
+* [`nova.guarded_send_message`](../guarded-actions/nova-guarded-send-message.md) — High-level chat message macro.

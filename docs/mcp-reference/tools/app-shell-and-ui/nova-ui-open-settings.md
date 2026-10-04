@@ -2,8 +2,6 @@
 
 > **Opens the settings drawer overlay in the Nova host user interface.**
 
-* **Security Tier:** Tier 2 (UI Window Control)
-* **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
@@ -22,6 +20,7 @@
 | `section` | `string` | No | — | `general`, `appearance_performance`, `privacy_security`, `site_permissions`, `passwords`, `sandboxes`, `proxies`, `connectors`, `tools`, `ai_agents`, `developer`, `bookmarks`, `about` | Optional top-level settings section to open directly. |
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -32,7 +31,9 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
 ```json
 {
   "name": "nova_ui_open_settings",
-  "arguments": {}
+  "arguments": {
+    "section": "proxies"
+  }
 }
 ```
 
@@ -42,15 +43,16 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Settings overlay opened."
+      "text": "Settings overlay opened at section 'proxies'."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "isOpen": true
+    "section": "proxies"
   }
 }
 ```
+Without `section`, the response is `{ "ok": true }` and no `section` field is returned.
 
 ---
 

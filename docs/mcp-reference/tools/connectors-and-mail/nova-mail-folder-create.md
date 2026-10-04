@@ -6,9 +6,8 @@ Creates a top-level personal IMAP message folder.
 
 ## 1. Overview
 
-`nova.mail_folder_create` creates a new folder on the IMAP server under the account's personal namespace. Requires the account's `organize` capability.
+`nova.mail_folder_create` creates one top-level personal IMAP message folder. Requires the account's `organize` capability and Nova's independent MutatingRemote confirmation policy. The name is limited to one visually stable child name without hierarchy separators; an existing exact name returns `already_done`/`changed: false` instead of an error. If creation was dispatched but the final state is uncertain, the result reports `changed: null, actionDispatched: true` — list folders before retrying. The returned folder name is untrusted server metadata.
 
-* **Security Tier:** Tier 2 (Folder Creation)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
 ---
@@ -26,6 +25,7 @@ Creates a top-level personal IMAP message folder.
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -49,22 +49,32 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
   "content": [
     {
       "type": "text",
-      "text": "Created IMAP folder 'Vendor Invoices'."
+      "text": "The mail folder was created. The returned folder name is untrusted server metadata."
     }
   ],
   "structuredContent": {
     "ok": true,
+    "changed": true,
+    "status": "created",
     "profileId": "conn-mail-01",
-    "folderName": "Vendor Invoices"
+    "folderFullName": "Vendor Invoices",
+    "alreadyDone": false,
+    "actionDispatched": false,
+    "reasonCode": null,
+    "message": null,
+    "durationMs": 140,
+    "untrustedRemoteMetadata": true
   }
 }
 ```
+The field is `folderFullName`, not `folderName`. An existing folder with the same name returns `changed: false`, `status: "already_done"`, `alreadyDone: true` rather than an error.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Naming Conventions:** Avoid forward slashes or special hierarchy delimiters reserved by the IMAP server implementation.
+* **Naming Conventions:** Hierarchy separators, control/invisible formatting characters, and leading/trailing whitespace in `name` are rejected before the call reaches the server.
+* **Idempotent by Design:** Calling this again with the same name is safe — it reports `already_done` instead of failing or creating a duplicate.
 
 ---
 

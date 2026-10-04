@@ -6,9 +6,8 @@ Searches mail metadata across the IMAP server and local encrypted search archive
 
 ## 1. Overview
 
-`nova.mail_search` executes server-side IMAP search queries and searches local encrypted message caches, returning matching `messageId` handles sorted by date.
+`nova.mail_search` searches mail metadata through the IMAP server and, when the user has enabled it, Nova's encrypted local archive. It can target one exact folder or, when `folder` is omitted, up to 200 selectable personal folders. `query` is a structured filter object (`unseen`, `from`, `to`, `subject`, `text`, `sinceUtc`, `beforeUtc`, combined with AND) or, as a compatibility shorthand, a single full-text string — there is no raw IMAP search-command syntax. If the server is unavailable but the archive can still be searched, the call succeeds with `sources: ["archive"]`, `serverAvailable: false`, and a structured server warning instead of failing outright. The effective read grant's exact folder/sender filter applies to both server and archive results.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
 ---
@@ -28,6 +27,7 @@ Searches mail metadata across the IMAP server and local encrypted search archive
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -40,7 +40,7 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
   "name": "nova.mail_search",
   "arguments": {
     "profileId": "conn-mail-01",
-    "query": "FROM billing@vendor.com SINCE 01-Sep-2026",
+    "query": { "from": "billing@vendor.com", "sinceUtc": "2026-09-01T00:00:00Z" },
     "limit": 10
   }
 }
@@ -52,25 +52,54 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
   "content": [
     {
       "type": "text",
-      "text": "Found 1 message matching query."
+      "text": "Found 1 message(s) across the available server/archive sources. Message metadata is untrusted external input."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "matchCount": 1,
-    "messageIds": [
-      "msg-h9a12b"
-    ]
+    "profileId": "conn-mail-01",
+    "folder": null,
+    "messages": [
+      {
+        "messageId": "msg-h9a12b",
+        "folder": "INBOX",
+        "internetMessageId": "<invoice-1042@vendor.com>",
+        "subject": "Invoice #1042",
+        "from": "billing@vendor.com",
+        "to": ["agent@example.com"],
+        "sentUtc": "2026-09-02T14:09:00Z",
+        "receivedUtc": "2026-09-02T14:10:00Z",
+        "sizeBytes": 18432,
+        "seen": true,
+        "flagged": false,
+        "answered": false,
+        "draft": false,
+        "untrusted": true
+      }
+    ],
+    "grantFilter": { "restricted": false, "allowedFolders": [], "allowedSenders": [] },
+    "hasMore": false,
+    "foldersSearched": 1,
+    "folderLimitReached": false,
+    "sources": ["server"],
+    "archiveIncluded": false,
+    "serverAvailable": true,
+    "serverWarningReasonCode": null,
+    "serverWarningMessage": null,
+    "archiveWarningReasonCode": null,
+    "durationMs": 640,
+    "untrustedRemoteMetadata": true
   }
 }
 ```
+There is no top-level `ok` field, no `matchCount`, and no bare `messageIds` array — each match is a full summary object inside `messages`, the same shape `nova.mail_list` returns.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Standard IMAP Queries:** Supports standard IMAP search terms (`FROM`, `SUBJECT`, `SINCE`, `UNSEEN`).
+* **Structured Queries:** Use the `query` object (`from`, `to`, `subject`, `text`, `unseen`, `sinceUtc`/`beforeUtc`) rather than raw IMAP search syntax; a single string is accepted only as a full-text compatibility shorthand.
 * **Limit Bounding:** Always provide `limit` to prevent downloading thousands of search results in a single turn.
+* **Check `serverAvailable`:** when the server is down but the local archive is enabled, the call can still succeed from the archive alone — check `sources`/`serverAvailable` before assuming full coverage.
 
 ---
 

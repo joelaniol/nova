@@ -8,7 +8,6 @@ Retrieves the list of file extensions configured to open automatically upon down
 
 `nova.downloads_auto_open_get` inspects which file extensions are registered to trigger OS launch immediately after download, along with the hardcoded security blocklist of non-executable extensions.
 
-* **Security Tier:** Tier 1 (Safe)
 * **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts.md)
 
 ---
@@ -21,6 +20,7 @@ This tool takes no parameters.
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -50,17 +50,16 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
       ".csv"
     ],
     "blockedExtensions": [
-      ".bat",
-      ".cmd",
-      ".com",
-      ".exe",
-      ".msi",
-      ".ps1",
-      ".vbs"
+      ".apk", ".appx", ".appxbundle", ".bat", ".cjs", ".cmd", ".com", ".cpl", ".dll",
+      ".drv", ".exe", ".gadget", ".hta", ".inf", ".jar", ".js", ".jse", ".lnk", ".mjs",
+      ".msc", ".msi", ".msp", ".ocx", ".pif", ".ps1", ".ps1xml", ".psd1", ".psm1",
+      ".pssc", ".reg", ".scf", ".scr", ".sh", ".sys", ".url", ".vbe", ".vbs", ".wsf", ".wsh"
     ]
   }
 }
 ```
+
+`blockedExtensions` is the complete, hardcoded list (39 entries); it cannot be changed at runtime.
 
 ---
 

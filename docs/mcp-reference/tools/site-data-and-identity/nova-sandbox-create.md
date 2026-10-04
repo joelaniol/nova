@@ -6,9 +6,8 @@ Creates a new isolated sandbox profile with dedicated storage, cookies, and cach
 
 ## 1. Overview
 
-`nova.sandbox_create` provisions a new isolated browser profile container. Each sandbox maintains its own distinct CoreWebView2 profile directory, pristine cookie jar, and isolated localStorage, preventing cross-profile tracking and account collisions.
+`nova.sandbox_create` provisions a new isolated browser profile container. Each sandbox maintains its own distinct CoreWebView2 profile directory, pristine cookie jar, and isolated localStorage, preventing cross-profile tracking and account collisions. The new sandbox gets the next free single-letter id (e.g. `C`); at most 100 sandboxes can exist at once.
 
-* **Security Tier:** Tier 2 (Sandbox Provisioning)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
 ---
@@ -29,6 +28,7 @@ Creates a new isolated sandbox profile with dedicated storage, cookies, and cach
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -54,18 +54,19 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "Created sandbox 'Client Staging' (id: sb-c819a)."
+      "text": "Sandbox 'C' created."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "sandboxId": "sb-c819a",
+    "sandboxId": "C",
     "name": "Client Staging",
     "color": "#107C41",
-    "purpose": "Testing client portal logins"
+    "status": "created"
   }
 }
 ```
+
+This response has no `ok` field; `purpose`, `startUrl`, `accountLabel`, `aliases`, and `preferredFor` are saved but not echoed back — read them with [`nova.sandbox_context`](nova-sandbox-context.md).
 
 ---
 

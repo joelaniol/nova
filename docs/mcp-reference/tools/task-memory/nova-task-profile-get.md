@@ -8,7 +8,6 @@ Retrieves full details of a task profile: guidance, mandatory checks, and comple
 
 `nova.task_profile_get` returns the complete specification for a task profile, including stable guidance hints, required verification assertions, and known error workarounds.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
 ---
@@ -21,6 +20,7 @@ Retrieves full details of a task profile: guidance, mandatory checks, and comple
 | `profileId` | `string` | Yes | — | — | The profile ID to retrieve. |
 
 Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -43,23 +43,36 @@ Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_m
   "content": [
     {
       "type": "text",
-      "text": "Loaded task profile tp-support-audit: Support Portal Link Audit."
+      "text": "{\"ok\":true,\"profileId\":\"tp-support-audit\", ...}"
     }
   ],
   "structuredContent": {
     "ok": true,
     "profileId": "tp-support-audit",
+    "taskType": "audit",
     "displayName": "Support Portal Link Audit",
+    "domain": "support.example.com",
+    "platform": null,
     "goal": "Audit all links under /support",
-    "mandatoryChecks": [
-      "chk-tuc-100"
-    ],
     "stableGuidance": [
-      "Pagination links use AJAX; wait 300ms"
-    ]
+      { "guidanceId": "g1", "kind": "workflow", "text": "Pagination links use AJAX; wait 300ms" }
+    ],
+    "mandatoryChecks": [
+      { "checkId": "chk-tuc-100", "description": "All support links return 200", "kind": "completeness", "required": true }
+    ],
+    "completionCondition": { "coverageMode": "exploratory", "unitKind": "page", "stopMetric": "checked_units", "stopValue": null },
+    "knownExceptions": [],
+    "confidence": 0.8,
+    "contentRev": 2,
+    "usageCount": 5,
+    "createdAtUtc": "2026-09-01T10:00:00Z",
+    "updatedAtUtc": "2026-09-20T12:00:00Z",
+    "confidenceTuning": { "currentConfidence": 0.8, "projectedConfidence": 0.82 }
   }
 }
 ```
+
+If `profileId` is unknown, the call does not error — it returns `{ "ok": false, "reason": "not_found", "profileId": "..." }` with the text "Profile not found." On success there is no separate summary sentence: `content[0].text` is the same structured data serialized as plain JSON text, and `mandatoryChecks`/`stableGuidance` are objects, not plain strings. `confidenceTuning` carries more signal fields than shown here.
 
 ---
 

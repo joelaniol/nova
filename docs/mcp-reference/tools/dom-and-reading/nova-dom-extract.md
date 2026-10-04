@@ -51,6 +51,7 @@ The `properties` array accepts any combination of the following 16 fixed propert
 | `maxChars` | `integer` | No | `20000` | 1000–200000 | Maximum total characters across returned string values. Structural JSON overhead is not counted; truncation is reported truthfully. |
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -92,33 +93,45 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
 {
   "targetId": "tab-101",
   "selector": "div.search-results a.result-link",
-  "matchCount": 3,
-  "items": [
-    {
-      "text": "Getting Started with Nova Workspace",
-      "href": "https://example.com/docs/getting-started",
-      "visible": true,
-      "rect": { "x": 120, "y": 240, "width": 540, "height": 32 }
-    },
-    {
-      "text": "Architectural Overview & Security Bounds",
-      "href": "https://example.com/docs/architecture",
-      "visible": true,
-      "rect": { "x": 120, "y": 290, "width": 540, "height": 32 }
-    },
-    {
-      "text": "MCP Tool Reference & Protocol Details",
-      "href": "https://example.com/docs/mcp-reference",
-      "visible": true,
-      "rect": { "x": 120, "y": 340, "width": 540, "height": 32 }
-    }
-  ],
-  "limits": {
-    "maxItems": 20,
-    "truncated": false
+  "properties": ["text", "href", "rect", "visible"],
+  "ok": true,
+  "status": "ok",
+  "reasonCode": null,
+  "matchedCount": 3,
+  "returnedCount": 3,
+  "hasMore": false,
+  "truncated": false,
+  "sourceValueChars": 118,
+  "returnedValueChars": 118,
+  "limits": { "maxItems": 20, "maxChars": 20000 },
+  "result": {
+    "ok": true,
+    "status": "ok",
+    "reasonCode": null,
+    "matchedCount": 3,
+    "returnedCount": 3,
+    "hasMore": false,
+    "truncated": false,
+    "sourceValueChars": 118,
+    "returnedValueChars": 118,
+    "matches": [
+      {
+        "index": 0,
+        "values": {
+          "text": "Getting Started with Nova Workspace",
+          "href": "https://example.com/docs/getting-started",
+          "rect": { "x": 120, "y": 240, "width": 540, "height": 32 },
+          "visible": true
+        }
+      }
+    ]
   }
 }
 ```
+
+The requested properties come back per match under `values`, in the order given in `properties`;
+`result` duplicates the same counters the top level already reports (the top level is a convenience
+projection of `result`).
 
 ---
 
@@ -126,9 +139,13 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
 
 | Error Code / Message | Cause | Corrective Action |
 | :--- | :--- | :--- |
-| `Unsupported property: '...'` | An invalid or arbitrary JavaScript property name was passed. | Select only from the 16 supported properties listed above. |
-| `Selector matched nothing: ...` | Selector didn't match any nodes in the document. | Verify selector spelling or check if element is inside an iframe. |
-| `maxChars limit reached` | Extracted attribute or text volume exceeded `maxChars`. | Increase `maxChars` or narrow the `properties` list. |
+| `Invalid params: unsupported DOM property '...'. Allowed: ...` | An invalid or arbitrary JavaScript property name was passed. | Select only from the 16 supported properties listed above. |
+| `Invalid params: selector is not valid CSS.` | The selector string could not be parsed as CSS (or Shadow-DOM chain). | Fix the selector syntax. |
+| `No DOM element matched selector '...'.` | The selector is valid CSS but matched nothing in the document. | Verify selector spelling or check if the element is inside an iframe. |
+
+Exceeding `maxChars` or `maxItems` is not an error: the call still returns `ok: true` with
+`status: "truncated"`, `reasonCode: "dom.output_truncated"`, and `truncated: true` so the caller can
+decide whether to raise the limit.
 
 ---
 

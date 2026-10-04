@@ -6,9 +6,8 @@ Logs a guidance observation or proposal without directly mutating task profiles.
 
 ## 1. Overview
 
-`nova.task_guidance_log_add` records procedural findings, unexpected DOM drift, or failure workarounds into the guidance audit log. Entries are reviewed for promotion to stable profiles.
+`nova.task_guidance_log_add` records one piece of guidance (style, terminology, scope rule, workflow, quality, match telemetry or custom) in the guidance log. With `profileId` the entry is stored as `logged` for that task profile; without it, it is stored as a `proposed` entry. Identical entries (same profile, kind and payload) are not duplicated: the existing entry's `occurrenceCount` goes up instead. Entries that recur often enough show up in `nova.task_promotion_candidates` and can be promoted into the profile with `nova.task_promote_guidance`.
 
-* **Security Tier:** Tier 2 (Guidance Logging)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
 ---
@@ -40,6 +39,7 @@ Logs a guidance observation or proposal without directly mutating task profiles.
 | `sourceRef` | `string` | No | — | — | Optional reference to the source (e.g. conversation ID, user name). |
 
 Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -51,27 +51,34 @@ Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_m
 {
   "name": "nova.task_guidance_log_add",
   "arguments": {
-    "guidanceKind": "workaround",
-    "sourceKind": "agent_observation",
-    "text": "Modal requires clicking backdrop rather than close icon.",
-    "taskProfileId": "tp-checkout-01"
+    "profileId": "9b2c4e7a1f3d4c6e8a0b2d4f6a8c0e1f",
+    "guidanceKind": "workflow",
+    "sourceKind": "agent",
+    "payload": {
+      "text": "Close the newsletter modal by clicking the backdrop; the close icon does not respond.",
+      "url": "https://shop.example.com/checkout"
+    }
   }
 }
 ```
 
 ### JSON-RPC Response
+
+The text block carries the same object as `structuredContent`, serialized as JSON.
+
 ```json
 {
   "content": [
     {
       "type": "text",
-      "text": "Logged guidance observation log-guid-401."
+      "text": "{\"guidanceLogId\":\"4d7e1a9c2b6f4e0a8c3d5b7f9e1a2c4d\",\"normalizedHash\":\"e3a1f0c47b9d2e6a5c8f1b3d7e9a0c2f4b6d8e1a3c5f7b9d0e2a4c6f8b1d3e5a\",\"occurrenceCount\":1,\"status\":\"logged\"}"
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "guidanceLogId": "log-guid-401",
-    "status": "Logged"
+    "guidanceLogId": "4d7e1a9c2b6f4e0a8c3d5b7f9e1a2c4d",
+    "normalizedHash": "e3a1f0c47b9d2e6a5c8f1b3d7e9a0c2f4b6d8e1a3c5f7b9d0e2a4c6f8b1d3e5a",
+    "occurrenceCount": 1,
+    "status": "logged"
   }
 }
 ```
@@ -80,7 +87,8 @@ Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_m
 
 ## 4. Operational Best Practices
 
-* **Non-Destructive Learning:** Logs do not alter active profile contracts until reviewed and promoted.
+* **Non-destructive:** Log entries do not change the task profile until they are promoted with `nova.task_promote_guidance`.
+* **Repeat instead of rephrasing:** Logging the same payload again raises `occurrenceCount`, which is what promotion looks at; a reworded payload starts a new entry.
 
 ---
 

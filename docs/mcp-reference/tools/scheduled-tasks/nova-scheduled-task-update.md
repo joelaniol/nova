@@ -8,7 +8,6 @@ Updates fields (prompt, schedule, budget, timeouts, chaining) of an existing sch
 
 `nova.scheduled_task_update` modifies the configuration of a scheduled task. Only provided fields are updated; omitted fields retain their existing values. Updating the schedule recalculates the next execution timestamp immediately.
 
-* **Security Tier:** Tier 2 (Task Mutation)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
 ---
@@ -48,6 +47,7 @@ Updates fields (prompt, schedule, budget, timeouts, chaining) of an existing sch
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -72,17 +72,16 @@ Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='sc
   "content": [
     {
       "type": "text",
-      "text": "Updated task task-7c81a2f0: timeoutSeconds=240, schedule='daily 10:00'."
+      "text": "Task 'task-7c81a2f0' updated. Use nova.scheduled_task_get(taskId='task-7c81a2f0') to verify changes."
     }
   ],
   "structuredContent": {
-    "ok": true,
     "taskId": "task-7c81a2f0",
-    "updatedFields": [
-      "timeoutSeconds",
-      "cronExpression"
-    ],
-    "nextRunUtc": "2026-10-03T08:00:00Z"
+    "updated": true,
+    "nextActions": [
+      { "tool": "nova.scheduled_task_get", "args": { "taskId": "task-7c81a2f0" }, "hint": "Verify updated task details" },
+      { "tool": "nova.scheduled_task_trigger", "args": { "taskId": "task-7c81a2f0" }, "hint": "Test the updated task immediately" }
+    ]
   }
 }
 ```

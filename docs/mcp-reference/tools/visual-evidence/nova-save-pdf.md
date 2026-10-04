@@ -34,7 +34,7 @@ Out of the box, `nova.save_pdf` configures optimal print parameters:
 * `preferCSSPageSize: true` automatically sizes paper to match layout specifications.
 
 ### D. Tagged PDF Safety (`generateTaggedPDF`)
-Generating accessible tagged PDFs requires snapshotting the browser's accessibility tree, which can crash render processes on complex pages. In Nova, `generateTaggedPDF` defaults to `false` for rock-solid stability while keeping all text selectable and searchable.
+Generating accessible tagged PDFs requires snapshotting the browser's accessibility tree, and that snapshot step can crash the render process on some pages (seen in practice on at least one real-world page). `generateTaggedPDF` defaults to `false` so the common case stays stable; untagged output still contains selectable, searchable text, it just has no PDF/UA structure tree. If a tagged render does crash the renderer, the tool reports `reasonCode: "save_pdf.tagged_pdf_renderer_crash"` and the fix is to retry without the flag.
 
 ---
 
@@ -61,6 +61,7 @@ Generating accessible tagged PDFs requires snapshotting the browser's accessibil
 | `marginRight` | `number` | No | — | ≥ 0 | Right margin in inches. |
 
 Capability bundles: `page_read_debug`, `visual_evidence`.
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -90,16 +91,22 @@ Capability bundles: `page_read_debug`, `visual_evidence`.
 
 ```json
 {
-  "targetId": "tab-101",
-  "url": "https://example.com/reports/financials",
-  "title": "Quarterly Financial Overview",
-  "pageCount": 4,
-  "fileSizeBytes": 184520,
+  "content": [
+    { "type": "text", "text": "Saved PDF (184520 bytes) to C:\\Users\\user\\AppData\\Local\\NovaBrowser\\Exports\\page_20261002_194512_a1b2c3d4.pdf" }
+  ],
   "structuredContent": {
-    "filePath": "C:/Users/user/AppData/Local/NovaBrowser/Exports/financials_20261002_194512.pdf"
+    "ok": true,
+    "targetId": "tab-101",
+    "filePath": "C:\\Users\\user\\AppData\\Local\\NovaBrowser\\Exports\\page_20261002_194512_a1b2c3d4.pdf",
+    "savePath": null,
+    "bytes": 184520,
+    "deliveryMode": "file",
+    "generateTaggedPDF": false
   }
 }
 ```
+
+`savePath` is `null` when the default Exports folder was used, and echoes the resolved absolute path when the caller passed `savePath`. There is no page URL/title, page count, or file-size field beyond `bytes` in this response — read the page's own title/URL separately (e.g. `nova.page_info`) if you need it alongside the archive.
 
 ---
 
@@ -107,9 +114,10 @@ Capability bundles: `page_read_debug`, `visual_evidence`.
 
 | Error Code / Message | Cause | Corrective Action |
 | :--- | :--- | :--- |
-| `-32035: Local file access disabled` | `savePath` was provided, but user disabled local disk writes. | Omit `savePath` to use the built-in `Exports/` folder. |
-| `save_pdf.tagged_pdf_renderer_crash` | `generateTaggedPDF: true` crashed on complex nested SVG/shadow trees. | Retry with `generateTaggedPDF: false`. |
-| `Print timeout exceeded` | Heavy print media stylesheets or dynamic images stalled rendering. | Increase `timeoutMs` to 30,000 ms. |
+| `-32035: ... writing to a custom savePath requires local file access` | `savePath` was provided, but the user has not enabled "Allow local files". | Omit `savePath` to use the built-in `Exports/` folder, or enable the setting. |
+| `reasonCode: "save_pdf.tagged_pdf_renderer_crash"` (`-32002`) | `generateTaggedPDF: true` made the renderer snapshot the accessibility tree, which crashed the render process on this page. No PDF was written. | Retry the same call without `generateTaggedPDF` (the untagged path still keeps selectable text). |
+| `reasonCode: "save_pdf.renderer_unavailable"` (`-32002`, `retryable: true`) | The target renderer exited or is being recreated (not from `generateTaggedPDF`). No PDF was written. | Wait for the tab to reload, confirm with `nova.tabs`/`nova.page_info`, then retry once; stop retrying if it recurs. | 
+| Timeout before `Page.printToPDF` completes | Heavy print stylesheets or slow rendering exceeded `timeoutMs`. Reports `operationOutcome: "not_committed"`; no file was written. | Increase `timeoutMs` (max 30000). |
 
 ---
 

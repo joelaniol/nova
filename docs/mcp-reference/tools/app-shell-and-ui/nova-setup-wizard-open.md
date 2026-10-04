@@ -2,15 +2,13 @@
 
 > **Opens Nova's guided connection setup wizard dialog in the graphical user interface.**
 
-* **Security Tier:** Tier 2 (UI Dialog Control)
-* **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.setup_wizard_open` launches the visual setup dialog to assist human operators in linking external AI developer tools to the Nova browser instance.
+`nova.setup_wizard_open` opens Nova's guided connection setup dialog so a human operator can link an AI client to this Nova instance. If another dialog already has the screen, the call reports that the dialog was not opened instead of silently doing nothing.
 
 ---
 
@@ -20,6 +18,7 @@
 This tool takes no parameters.
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -40,12 +39,24 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Guided connection setup wizard opened."
+      "text": "Connection setup dialog opened."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "isOpen": true
+    "opened": true
+  }
+}
+```
+
+If another dialog already owns the screen, the response instead looks like:
+```json
+{
+  "structuredContent": {
+    "ok": false,
+    "opened": false,
+    "reasonCode": "dialog_busy",
+    "message": "Another dialog is already open; close it and retry."
   }
 }
 ```
@@ -54,7 +65,7 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
 
 ## 4. Operational Best Practices
 
-* **Operator Guidance:** Call when onboarding a new workstation or configuring secondary AI tools.
+* **Operator Guidance:** Call when a human operator needs to connect a new AI client to this Nova instance.
 
 ---
 

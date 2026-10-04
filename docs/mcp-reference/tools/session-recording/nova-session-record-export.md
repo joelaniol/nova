@@ -6,9 +6,8 @@ Decodes a finalized encrypted recording to plaintext files on disk for debugging
 
 ## 1. Overview
 
-`nova.session_record_export` decrypts all JSONL event streams in a finalized recording using its DEK and writes them as human-readable plaintext files into an export directory. It generates a verified export folder containing plaintext `network.jsonl`, `console.jsonl`, `interactions.jsonl`, and integrity manifests.
+`nova.session_record_export` decrypts every captured event stream in a finalized recording and writes each one as a plaintext `.jsonl` file into a `decoded/` subfolder inside the recording directory, alongside a copy of `manifest.json` and a generated `_summary.txt`. The decoded content is exactly what the replay tools already read — capture-time redaction stays in place, so this does not reveal raw secrets.
 
-* **Security Tier:** Tier 2 (Export Decryption)
 * **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
 
 ---
@@ -23,6 +22,7 @@ Decodes a finalized encrypted recording to plaintext files on disk for debugging
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='session_recording')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -45,31 +45,33 @@ Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='
   "content": [
     {
       "type": "text",
-      "text": "Recording rec-9b21f04a successfully exported to plaintext folder."
+      "text": "Decoded recording rec-9b21f04a → .../Recordings/rec-9b21f04a/decoded\n  console.jsonl (12 lines) → .../decoded/console.jsonl\n  network.cdp.jsonl (48 lines) → .../decoded/network.cdp.jsonl\n  interactions.jsonl (6 lines) → .../decoded/interactions.jsonl"
     }
   ],
   "structuredContent": {
     "ok": true,
     "recordingId": "rec-9b21f04a",
-    "exportDirectory": "Recordings/rec-9b21f04a_export",
-    "exportedFiles": [
-      "manifest.json",
-      "network.jsonl",
-      "console.jsonl",
-      "interactions.jsonl",
-      "dom-snapshots.jsonl"
-    ]
+    "outDir": "<RecordingsDir>/rec-9b21f04a/decoded",
+    "summaryPath": "<RecordingsDir>/rec-9b21f04a/decoded/_summary.txt",
+    "streamsWritten": [
+      { "stream": "console.jsonl", "lineCount": 12, "path": "<RecordingsDir>/rec-9b21f04a/decoded/console.jsonl" },
+      { "stream": "network.cdp.jsonl", "lineCount": 48, "path": "<RecordingsDir>/rec-9b21f04a/decoded/network.cdp.jsonl" },
+      { "stream": "interactions.jsonl", "lineCount": 6, "path": "<RecordingsDir>/rec-9b21f04a/decoded/interactions.jsonl" }
+    ],
+    "skipped": []
   }
 }
 ```
+
+Only streams that were actually captured in this recording are written; a stream whose permission class was revoked since capture appears in `skipped` instead (`reason: "permission_revoked"`) and is not decoded.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Redaction Retention:** Exported plaintext files retain all in-flight redactions (vault credentials, tokens, session cookies remain masked).
+* **Redaction Retention:** Exported plaintext files retain all capture-time redactions (vault credentials, tokens, session cookies remain masked).
 * **Bug Report Attachments:** Ideal for attaching full interaction and network logs to bug tracking tickets or QA reports.
-* **Storage Housekeeping:** After exporting, ensure sensitive archives are purged when no longer required using [`nova.session_record_purge`](nova-session-record-purge.md).
+* **Storage Housekeeping:** The `decoded/` folder lives inside the recording directory, so it is removed together with the recording when [`nova.session_record_purge`](nova-session-record-purge.md) deletes it.
 
 ---
 

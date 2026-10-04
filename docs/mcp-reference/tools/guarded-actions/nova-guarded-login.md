@@ -8,14 +8,15 @@ High-level guarded macro for login form submissions, featuring integrated Auth S
 
 Logging into websites autonomously is fraught with failure states: incorrect credentials trigger error alerts, rate limits block further attempts, or the application transitions into an intermediate Two-Factor Authentication (2FA/TOTP) screen.
 
-`nova.guarded_login` addresses this by applying an **Authentication-Specific Transition Contract**:
-* **Explicit Failure Trapping:** If the server returns bad credentials or invalid password errors, Nova identifies the error element and flags `verifyState: "failed"` with clear error diagnostics.
-* **MFA Progression Handling:** If the submission succeeds but advances to a 2FA prompt, SMS code screen, or passkey verification, Nova treats this as an **ambiguous follow-up state** rather than a failure. The agent is guided to retrieve a TOTP code rather than aborting or retrying credentials.
-* **Auth State Verification:** Reconciles the tab's login status with Nova's Auth Surface Detection (ASD) engine.
+`nova.guarded_login` addresses this with a built-in transition contract built on Nova's Auth Surface Detection (ASD) signals:
+* **Precondition:** the page must show a visible login wall (`auth.loginWallVisible`) before the click is dispatched.
+* **Success:** the login is verified only once ASD reports `auth.loggedIn`.
+* **Explicit Failure Trapping:** an ASD-detected auth error (`auth.authError`) is a forbidden postcondition and fails verification.
+* **MFA/Identity-Step Handling:** a detected MFA challenge, a federated-login redirect, or a generic identity step (ASD's `auth.mfaChallenge` / `auth.stage` signals) is matched as an **ambiguous** postcondition rather than a plain failure, so `verifyState` comes back `"indeterminate"` instead of `"failed"` and the agent is not told to just retry the same credentials.
 
 * **2FA / MFA Resilient:** Does not crash or panic when two-factor authentication is requested.
-* **Rate-Limit Prevention:** Strict `non_idempotent` retry policy prevents brute-force lockouts.
-* **Blocker Clearance:** Automatically removes cookie banners or marketing popups covering login buttons.
+* **Rate-Limit Prevention:** `non_idempotent` retry policy means a failed call is never advised to just retry the same credentials.
+* **Blocker Clearance:** Not automatic by default. Pass `autoDismissBlockers: true` to have Nova dismiss overlays covering the login button, or detect them via `overlayDetected` and dismiss with `nova.cmp_apply`/`nova.dismiss_blockers` yourself.
 
 ---
 
@@ -60,6 +61,7 @@ Logging into websites autonomously is fraught with failure states: incorrect cre
 | `transitionContract.stabilityMs` | `integer` | No | — | — | Optional stability hold duration in milliseconds. Success must remain true for this long before verification passes. |
 
 Capability bundles: `browser_automation`, `form_submission`, `vault_auth`.
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -82,30 +84,30 @@ Capability bundles: `browser_automation`, `form_submission`, `vault_auth`.
 ```json
 {
   "ok": true,
+  "status": "ok",
+  "targetId": "tab-101",
   "actionDispatched": true,
   "verified": true,
-  "targetId": "tab-101",
-  "authState": "authenticated",
-  "currentUrl": "https://example.com/dashboard",
   "verifyState": "verified",
-  "retryAdvice": "do_not_retry"
+  "pageUrl": "https://example.com/dashboard"
 }
 ```
 
-### Two-Factor (2FA) Progression Detected
+### Two-Factor (2FA) / Identity-Step Progression Detected
 ```json
 {
-  "ok": true,
+  "ok": false,
+  "status": "partial",
+  "targetId": "tab-101",
   "actionDispatched": true,
   "verified": false,
-  "targetId": "tab-101",
-  "authState": "mfa_challenge_presented",
-  "currentUrl": "https://example.com/auth/two-factor",
   "verifyState": "indeterminate",
-  "retryAdvice": "follow_up",
-  "guidance": "Login credentials accepted, but page transitioned to a Two-Factor Authentication challenge. Inspect 2FA input and provide OTP code."
+  "retryAdvice": "check_postcondition_first",
+  "message": "Postcondition ambiguous: credentials were submitted but the page shows an MFA/identity step, not a failure.",
+  "pageUrl": "https://example.com/auth/two-factor"
 }
 ```
+`retryAdvice` is always one of `safe_to_retry`, `do_not_retry`, or `check_postcondition_first` — never a free-text value.
 
 ---
 

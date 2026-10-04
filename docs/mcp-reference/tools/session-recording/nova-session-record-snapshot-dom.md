@@ -8,7 +8,6 @@ Triggers a fresh encrypted DOM snapshot on an active live recording bound to a t
 
 `nova.session_record_snapshot_dom` captures a complete DOM state snapshot while a recording is actively running. It serializes the live DOM hierarchy into an encrypted artifact inside the recording directory and indexes it with a unique `snapshotId`.
 
-* **Security Tier:** Tier 2 (Live DOM Capture)
 * **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
 
 ---
@@ -24,6 +23,7 @@ Triggers a fresh encrypted DOM snapshot on an active live recording bound to a t
 | `fullPage` | `boolean` | No | `false` | — | When true, capture document.documentElement instead of a single node. |
 
 Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='session_recording')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -47,19 +47,25 @@ Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='
   "content": [
     {
       "type": "text",
-      "text": "Captured DOM snapshot 'snap-108a' on recording rec-9b21f04a."
+      "text": "Recording rec-9b21f04a: DOM snapshot snap-108a captured (70044 byte(s))."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "snapshotId": "snap-108a",
+    "status": "captured",
+    "reasonCode": null,
     "recordingId": "rec-9b21f04a",
-    "nodeCount": 1420,
-    "characterLength": 68420,
-    "capturedAtUtc": "2026-10-02T20:20:00Z"
+    "snapshotId": "snap-108a",
+    "sizeBytes": 70044,
+    "sha256": "8e4b7c129f...",
+    "snapshotCount": 3,
+    "maxSnapshots": 100,
+    "quotaRemaining": 97
   }
 }
 ```
+
+A recording holds at most 100 DOM snapshots (`maxSnapshots`) by default; once `quotaRemaining` reaches 0 the call fails with a `cap_exceeded` reason instead of capturing.
 
 ---
 
@@ -67,6 +73,7 @@ Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='
 
 * **Milestone Snapshots:** Capture snapshots immediately before and after high-impact operations (e.g. form submission, dialog dismissal) to record visual DOM state changes.
 * **Container Scoping:** Use `selector` to record dynamic popups, modals, or dropdown menus without capturing unnecessary parent page DOM.
+* **Quota Awareness:** Watch `quotaRemaining` on noisy pages — clicks/submits also trigger automatic snapshots internally, so the 100-snapshot cap can be reached faster than the agent's own explicit calls would suggest.
 
 ---
 

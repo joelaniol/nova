@@ -8,7 +8,6 @@ Clears all emulated CSS media features, reverting to host system theme and displ
 
 `nova.emulation_clear_media` resets all emulated media features (`colorScheme`, `reducedMotion`, `forcedColors`, `contrast`, `media`), returning the tab to real OS defaults.
 
-* **Security Tier:** Tier 2 (CSS Emulation Reset)
 * **Core Architecture Guide:** [Fingerprint & Identity Systems](../../../core-features/fingerprint-and-identity.md)
 
 ---
@@ -21,6 +20,7 @@ Clears all emulated CSS media features, reverting to host system theme and displ
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
 
 Capability bundle: `device_emulation` (load it with `nova.tools_bundle(bundle='device_emulation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -45,8 +45,7 @@ Capability bundle: `device_emulation` (load it with `nova.tools_bundle(bundle='d
     }
   ],
   "structuredContent": {
-    "targetId": "tab-1",
-    "cleared": true
+    "targetId": "tab-1"
   }
 }
 ```

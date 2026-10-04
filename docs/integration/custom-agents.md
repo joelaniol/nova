@@ -11,14 +11,14 @@ Nova's MCP server speaks **Streamable HTTP** on the local machine. You can reach
 | Transport | Best For | What you have to handle |
 | :--- | :--- | :--- |
 | **Stdio bridge (`NovaBrowser.McpProxy.exe`)** | Official Python & TypeScript MCP SDKs, anything that can start a program | Nothing: the bridge finds Nova, adds the token, survives Nova restarts and starts Nova if needed |
-| **Streamable HTTP (`http://127.0.0.1:27183/mcp`)** | Services that cannot start a child process | Read endpoint and token from Nova's runtime file, send the `Mcp-Session-Id` header, re-read the file after a Nova restart |
+| **Streamable HTTP (`http://127.0.0.1:27183/mcp` by default)** | Services that cannot start a child process | Read endpoint and token from Nova's runtime file, send the `Mcp-Session-Id` header, re-read the file after a Nova restart |
 
 **Where things are.** Nova keeps its files in `%LOCALAPPDATA%\nova-cognitive\Nova` (installations from before the product rename: `%LOCALAPPDATA%\NovaBrowser`). Inside it:
 
 * `bin\NovaBrowser.McpProxy.exe` — the stdio bridge
-* `mcp.json` — runtime file with the current `endpoint` and the access token (`auth.token`); it only exists while Nova has been started at least once
+* `mcp.json` — runtime file with the current `endpoint` and the access token (`auth.token`); Nova writes it when it starts, so it exists once Nova has run at least once
 
-The server only listens on `127.0.0.1` unless you explicitly allow remote clients in Nova's settings, and every request needs the token.
+The server only listens on `127.0.0.1` unless you switch on **Allow access from other devices on the network** in Nova's settings, and every request needs the token.
 
 ---
 
@@ -97,7 +97,7 @@ async function main() {
     arguments: { taskKeywords: ["node-agent"] }
   });
 
-  // 2. Open tab and claim it
+  // 2. Open a tab
   const tabRes = await client.callTool({
     name: "nova.tab_new",
     arguments: { url: "https://example.com" }
@@ -113,7 +113,7 @@ main().catch(console.error);
 
 ## 4. Direct HTTP Client (no child process)
 
-If your agent cannot start a program, connect to Nova's Streamable HTTP endpoint directly. Read the endpoint and token from the runtime file each time you connect — both can change when Nova restarts.
+If your agent cannot start a program, connect to Nova's Streamable HTTP endpoint directly. Read the endpoint and token from the runtime file each time you connect: the port changes when someone sets a different **Local port** in Nova's settings (with `0`, Nova picks a free port at every start), and the token changes when someone chooses **Regenerate token**.
 
 ### Python, official MCP SDK:
 ```python
@@ -146,10 +146,12 @@ asyncio.run(main())
 
 ### Rules for a hand-written HTTP client
 1. `POST` every JSON-RPC message to the `endpoint` from `mcp.json` with `Authorization: Bearer <auth.token>`, `Content-Type: application/json` and `Accept: application/json, text/event-stream`.
-2. Start with `initialize`. The response carries an `Mcp-Session-Id` header; send it, together with `MCP-Protocol-Version`, on every following request. Without it Nova answers `400 Missing Mcp-Session-Id`.
-3. Responses arrive as a server-sent event stream (`event: message` / `data: {...}`).
-4. `401 Unauthorized` means the token is missing or outdated: read `mcp.json` again.
-5. `GET /health` on the same host and port needs no token and tells you whether Nova is ready (`"status": "ready"`).
+2. Start with `initialize` and send it **without** an `Mcp-Session-Id` header (Nova rejects an `initialize` that carries one with `400`). Nova currently speaks MCP protocol version `2025-11-25` and also accepts `2025-06-18`, `2025-03-26` and `2024-11-05`.
+3. The `initialize` response carries an `Mcp-Session-Id` header. Send it, together with `MCP-Protocol-Version: <negotiated version>`, on every following request, starting with the `notifications/initialized` notification (Nova answers notifications with `202 Accepted`). Without the session header Nova answers `400 Missing Mcp-Session-Id`; an unknown or expired session gets `404 Session not found` — then start again with `initialize`.
+4. With `text/event-stream` in `Accept`, responses arrive as a server-sent event stream (`event: message` / `data: {...}`); without it, as plain JSON.
+5. `401 Unauthorized` means the token is missing or outdated: read `mcp.json` again.
+6. `GET /health` on the same host and port needs no token and tells you whether Nova is ready (`"status": "ready"`).
+7. `DELETE` on the endpoint with the `Mcp-Session-Id` header ends the session.
 
 Keep the token out of logs and source code; anyone who has it can control your browser.
 
@@ -157,29 +159,38 @@ Keep the token out of logs and source code; anyone who has it can control your b
 
 ## 5. Error Handling Contract
 
-Nova returns standard JSON-RPC 2.0 error envelopes with structured diagnosis fields:
+A failed tool call does **not** come back as a JSON-RPC `error`. Nova answers `tools/call` with a normal result that has `isError: true`. The failure data sits in `structuredContent` (`ok: false`, the numeric `errorCode`, `message` and, where the tool sets them, `reasonCode` and a hint), and the same data is repeated as a text block starting with `structuredContent:`, because many clients pass only the text to the model:
 
 ```json
 {
   "jsonrpc": "2.0",
-  "id": 1,
-  "error": {
-    "code": -32002,
-    "message": "Tab is locked by another agent lease",
-    "data": {
-      "errorCode": "aag.lease_conflict",
-      "targetId": "tab-1",
-      "leaseRemainingMs": 142000,
-      "suggestion": "Wait for lease expiry or request a distinct targetId via tab_new"
-    }
+  "id": 7,
+  "result": {
+    "content": [
+      { "type": "text", "text": "This tool requires an explicit existing claim. Call nova.tab_claim(targetId, agentId) before continuing; auto-claim is intentionally disabled." },
+      { "type": "text", "text": "structuredContent:\n{\"tabId\":\"d2d64991\",\"reasonCode\":\"claim.explicit_claim_required\", ...}" }
+    ],
+    "structuredContent": {
+      "tabId": "d2d64991",
+      "ownerId": "my-agent",
+      "reasonCode": "claim.explicit_claim_required",
+      "tool": "nova.auto_reload_set",
+      "hint": "Call nova.tab_claim for this exact targetId, then retry with the returned owner agentId.",
+      "ok": false,
+      "errorCode": -32040,
+      "message": "This tool requires an explicit existing claim. Call nova.tab_claim(targetId, agentId) before continuing; auto-claim is intentionally disabled."
+    },
+    "isError": true
   }
 }
 ```
 
-### Common Error Codes:
-* **`-32602` (Invalid Params):** Missing mandatory argument or invalid enum value.
-* **`-32002` (AAG Precondition Blocked):** Action blocked by Agent Awareness Gate (e.g. attempting to click an obscured element or violating tab lease).
-* **`-32004` (Target Not Found):** Specified `targetId` does not exist or was closed.
+Read `structuredContent.reasonCode` first; it is more specific than the number. Requests that are not tool calls (for example a malformed message or an unknown method) and cancelled requests (`-32800`) still get a JSON-RPC `error`.
+
+### Common Error Codes (`errorCode`):
+* **`-32602` (Invalid Params):** Missing required argument, unknown argument or invalid enum value.
+* **`-32040` (Claimed):** The tab or resource is claimed by another agent, or the tool needs your own claim first (`nova.tab_claim`).
+* **`-32004` (Not Found):** Used by several tools when the element or resource they were asked for does not exist, for example no element matched the selector.
 
 ---
 

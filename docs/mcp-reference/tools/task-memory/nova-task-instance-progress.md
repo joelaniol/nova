@@ -6,9 +6,8 @@ Commits progress deltas, completed work units, and observations to a task instan
 
 ## 1. Overview
 
-`nova.task_instance_progress` appends completed work units and observations to a task instance using compare-and-set revision concurrency.
+`nova.task_instance_progress` records one progress event for a task instance: newly discovered work units (`discoveredUnits`), status changes of known units (`unitUpdates`: `checked`, `excluded`, `blocked`, `failed`), findings, mandatory-check updates, a resume-state delta and an optional discovery-state transition. Writes use compare-and-set on `expectedInstanceRev`: on a mismatch nothing is written and the result is `applied: false, reason: "rev_conflict"` with the current revision. `clientEventId` makes the call idempotent; a repeated event returns `duplicate: true`. Instances in a terminal status (`completed`, `aborted`, `failed`) are not changed (`reason: "terminal_status"`).
 
-* **Security Tier:** Tier 2 (Progress Commit)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
 ---
@@ -34,6 +33,7 @@ Commits progress deltas, completed work units, and observations to a task instan
 | `note` | `string` | No | — | — | Optional free-text note for the event log. |
 
 Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -45,40 +45,60 @@ Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_m
 {
   "name": "nova.task_instance_progress",
   "arguments": {
-    "instanceId": "inst-881a",
+    "instanceId": "c81f2a6e0d4b4f9a9e3c7b1d5a2f8e60",
     "expectedInstanceRev": 2,
     "clientEventId": "evt-prog-02",
-    "completedUnits": [
-      "unit-item-101"
+    "unitUpdates": [
+      { "unitKey": "https://shop.example.com/products/101", "status": "checked" }
     ],
-    "observationDelta": "Audited product 101: no link errors."
+    "setDiscoveryState": "frozen",
+    "note": "Audited product 101: no link errors."
   }
 }
 ```
 
 ### JSON-RPC Response
+
+The text block carries the same object as `structuredContent`, serialized as JSON.
+
 ```json
 {
   "content": [
     {
       "type": "text",
-      "text": "Committed progress to inst-881a (new rev: 3)."
+      "text": "{\"applied\":true,\"instanceRev\":3,\"progress\":{\"totalUnits\":10,\"checkedUnits\":10,\"remainingUnits\":0,\"blockedUnits\":0,\"failedUnits\":0,\"discovered\":10,\"checked\":10,\"remaining\":0,\"blocked\":0,\"failed\":0,\"percentComplete\":100},\"completionAllowed\":true,\"hint\":\"Completion policy satisfied. You may call task_instance_complete.\"}"
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "instanceId": "inst-881a",
-    "newInstanceRev": 3,
-    "completedUnitsTotal": 9
+    "applied": true,
+    "instanceRev": 3,
+    "progress": {
+      "totalUnits": 10,
+      "checkedUnits": 10,
+      "remainingUnits": 0,
+      "blockedUnits": 0,
+      "failedUnits": 0,
+      "discovered": 10,
+      "checked": 10,
+      "remaining": 0,
+      "blocked": 0,
+      "failed": 0,
+      "percentComplete": 100
+    },
+    "completionAllowed": true,
+    "hint": "Completion policy satisfied. You may call task_instance_complete."
   }
 }
 ```
+
+When the completion policy is not yet met, `completionAllowed` is `false` and `hint` says what is still missing.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Frequent Progress Commits:** Commit progress after every few work units to safeguard against agent disconnects or token budget limits.
+* **Frequent progress commits:** Commit progress after every few work units so a disconnect or a lost session does not lose finished work.
+* **Use the returned revision:** Pass the returned `instanceRev` as `expectedInstanceRev` in the next call; on `rev_conflict` re-read the instance with `nova.task_instance_get` before retrying.
 
 ---
 

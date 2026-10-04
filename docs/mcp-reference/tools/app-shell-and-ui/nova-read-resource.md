@@ -2,15 +2,13 @@
 
 > **Fetches the raw text content of a loaded web resource by its URL.**
 
-* **Security Tier:** Tier 1 (Read-Only Resource Extraction)
-* **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.read_resource` retrieves JavaScript sources, CSS style sheets, JSON payloads, or HTML templates cached in the target tab's resource registry.
+`nova.read_resource` fetches the content of an http/https resource a tab has loaded (scripts, stylesheets, JSON, HTML, and similar), preferring CDP's cached resource content and falling back to a page-side `fetch()` when CDP cannot serve it. Binary content comes back base64-encoded; `nova://screenshot/...` URIs are rejected here with a pointer to `nova.read_screenshot_resource` or the MCP `resources/read` method.
 
 ---
 
@@ -27,6 +25,7 @@
 | `charOffset` | `integer` | No | `0` | 0–50000000 | Start reading a TEXT resource this many characters in, so a match found by nova.grep_resources (which reports index) can be widened without searching again: charOffset=index-500 with maxChars=1200 puts the hit in the middle. The result carries charOffset, nextCharOffset (charOffset + chars) for paging, and sourceChars for the total. An offset at or past the end returns an empty window instead of the file's head; a binary resource has no character window and answers charOffsetApplied=false with charOffsetSkippedReason. |
 
 Capability bundles: `page_read_debug`, `visual_evidence`.
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -50,17 +49,34 @@ Capability bundles: `page_read_debug`, `visual_evidence`.
   "content": [
     {
       "type": "text",
-      "text": "Read 45,210 bytes from https://example.com/bundle.js."
+      "text": "function init(){console.log(\"App ready\");}..."
     }
   ],
   "structuredContent": {
-    "ok": true,
+    "profileId": "tab-1",
+    "source": "cdp",
+    "frameId": "frame-abc",
     "url": "https://example.com/bundle.js",
-    "sizeBytes": 45210,
-    "content": "function init(){console.log(\"App ready\");}..."
+    "mimeType": "application/javascript",
+    "ok": true,
+    "status": null,
+    "reasonCode": null,
+    "base64Encoded": false,
+    "truncated": false,
+    "chars": 45210,
+    "bytes": null,
+    "charOffset": 0,
+    "charOffsetApplied": true,
+    "charOffsetSkippedReason": null,
+    "nextCharOffset": 45210,
+    "resourceText": "function init(){console.log(\"App ready\");}...",
+    "resourceBase64": null,
+    "outputBudget": { "...": "..." }
   }
 }
 ```
+
+A binary resource (`base64Encoded: true`) carries its content in `resourceBase64` instead of `resourceText`, has no `nextCharOffset`, and `charOffsetApplied` is `false` with a `charOffsetSkippedReason`. `source` is `"fetch"` instead of `"cdp"` when Nova falls back to a page-side fetch; that path also fills `status` (HTTP status) and, on failure, `reasonCode`.
 
 ---
 

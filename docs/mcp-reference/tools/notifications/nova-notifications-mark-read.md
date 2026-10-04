@@ -8,8 +8,6 @@ Marks a notification as read without dismissing it from the inbox.
 
 `nova.notifications_mark_read` flags an unread notification as processed, decrementing the unread counter while keeping the entry visible in the inbox history.
 
-* **Security Tier:** Tier 2 (State Change)
-* **Core Architecture Guide:** [Closed-Loop System & Event Propagation](../../../core-features/closed-loop-system.md)
 
 ---
 
@@ -21,6 +19,7 @@ Marks a notification as read without dismissing it from the inbox.
 | `notificationId` | `string` | Yes | — | — | The notification ID to mark as read. |
 
 Capability bundle: `notifications` (load it with `nova.tools_bundle(bundle='notifications')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -58,6 +57,7 @@ Capability bundle: `notifications` (load it with `nova.tools_bundle(bundle='noti
 ## 4. Operational Best Practices
 
 * **Idempotency:** Calling mark read on an already read notification is a safe no-op.
+* **Unknown IDs:** the call does not verify that `notificationId` exists before writing; passing an ID that does not exist still returns `status: "ok"`.
 
 ---
 

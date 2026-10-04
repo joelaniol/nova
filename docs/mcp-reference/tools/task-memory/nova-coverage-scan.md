@@ -1,14 +1,13 @@
 # `nova.coverage_scan`
 
-Runs a server-registered Coverage Scan script to discover and audit all interactive surfaces.
+Runs a server-registered scan script on a tab and returns trust-checked coverage evidence for a Task URL Coverage unit.
 
 ---
 
 ## 1. Overview
 
-`nova.coverage_scan` runs an isolated, server-trusted audit script on the active tab. It discovers links, inputs, and interactive widgets to populate the Task URL Coverage (TUC) unit table.
+`nova.coverage_scan` runs one of a fixed set of server-registered scan scripts on the active tab and returns a structured evidence payload. The server checks the script's claimed text extraction against measured values and the page's current URL; when both checks pass, the result counts as trusted evidence that the matching Task URL Coverage (TUC) unit was covered. It does not discover new units itself — URL units come from `unitSource` on `nova.task_instance_create`.
 
-* **Security Tier:** Tier 2 (Coverage Audit)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
 ---
@@ -27,6 +26,7 @@ Runs a server-registered Coverage Scan script to discover and audit all interact
 | `scopeOptions.hydrationTimeoutMs` | `integer` | No | — | 0–30000 | Max milliseconds to wait for hydration. Default: 5000. |
 
 Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -38,7 +38,7 @@ Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_m
 {
   "name": "nova.coverage_scan",
   "arguments": {
-    "scanId": "default-surface-scan",
+    "scanId": "nova_full_page_text_v1",
     "targetId": "tab-1"
   }
 }
@@ -50,24 +50,50 @@ Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_m
   "content": [
     {
       "type": "text",
-      "text": "Coverage scan completed: 42 units discovered, 12 checked."
+      "text": "Coverage scan complete: 4820 text chars across 212 nodes."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "scanId": "default-surface-scan",
-    "discoveredUnits": 42,
-    "checkedUnits": 12,
-    "coveragePercent": 28.5
-  }
+    "coverageEvidence": {
+      "version": 1,
+      "producer": "nova_registered_scan",
+      "registeredScanId": "nova_full_page_text_v1",
+      "scanHash": "sha256:...",
+      "document": {
+        "effectiveUrl": "https://shop.example.com/checkout",
+        "visibleTextCharsMeasured": 4820,
+        "nodeCountMeasured": 212,
+        "iframeCount": 0,
+        "shadowRootCount": 0
+      },
+      "extraction": {
+        "textChars": 4820,
+        "textCoverageRatio": 1.0,
+        "includedVisibleText": true,
+        "includedAriaLabels": true,
+        "includedInputs": true,
+        "includedAltText": true,
+        "includedShadowDom": true,
+        "includedIframes": false,
+        "domSkeleton": null
+      },
+      "trust": { "trusted": true, "reason": "server_registered_scan" }
+    },
+    "targetId": "tab-1",
+    "rawUrlBefore": "https://shop.example.com/checkout",
+    "rawUrlAfter": "https://shop.example.com/checkout"
+  },
+  "isError": false
 }
 ```
+
+`scanHash` is a placeholder; the real value is a SHA-256 hex digest. A `raw` field with the scan script's full parsed output is omitted here for brevity. When the effective URL does not match the tab's current URL, or the claimed text exceeds what was measured, `trust.trusted` is `false` and `trust.reason` becomes `effective_url_mismatch` or `claimed_text_exceeds_measured`.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Automated Unit Table Generation:** Use coverage scans to establish the denominator of units required for task completion.
+* **Trusted Evidence for Open Units:** Run a coverage scan on each URL unit's page to mark it covered by server-trusted evidence rather than by the agent's own claim.
 
 ---
 

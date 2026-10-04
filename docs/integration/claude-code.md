@@ -97,7 +97,7 @@ This handshake:
    ```
 2. **Target Claiming in Subagents:** When using subagents, always claim the tab explicitly:
    ```json
-   nova.tab_claim({ "targetId": "tab-1", "purpose": "Scraping product catalog" })
+   nova.tab_claim({ "targetId": "d2d64991", "agentId": "subagent-catalog" })
    ```
    This prevents concurrent subagents from switching URLs or clicking elements out from under each other.
 3. **Structured DOM Over Full Vision:** Prefer `nova.read_text_structured` or `nova.extract_table` over `nova.capture_screenshot`. Screenshots should only be captured when visual verification (EVM) is strictly necessary.

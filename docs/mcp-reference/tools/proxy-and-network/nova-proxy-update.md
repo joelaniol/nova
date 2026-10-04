@@ -8,8 +8,7 @@ Updates host, port, protocol, or bypass list of an existing proxy profile.
 
 `nova.proxy_update` performs partial updates on an existing proxy profile without altering omitted fields or resetting stored credentials.
 
-* **Security Tier:** Tier 2 (Configuration)
-* **Core Architecture Guide:** [Proxy Routing & Stealth Network Engine](../../../core-features/proxy-and-network.md)
+* **Core Architecture Guide:** [Proxy Routing & Network Engine](../../../core-features/proxy-and-network.md)
 
 ---
 
@@ -29,6 +28,7 @@ Updates host, port, protocol, or bypass list of an existing proxy profile.
 | `isGlobalDefault` | `boolean` | No | — | — | Set or unset as global default. |
 
 Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='proxy_management')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -40,7 +40,7 @@ Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='p
 {
   "name": "nova.proxy_update",
   "arguments": {
-    "profileId": "prx-de-socks5",
+    "profileId": "proxy-1",
     "port": 1085
   }
 }
@@ -52,13 +52,24 @@ Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='p
   "content": [
     {
       "type": "text",
-      "text": "Proxy profile 'prx-de-socks5' updated."
+      "text": "Proxy profile 'proxy-1' updated."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "profileId": "prx-de-socks5",
-    "updated": true
+    "success": true,
+    "profile": {
+      "id": "proxy-1",
+      "name": "EU Germany SOCKS5",
+      "protocol": "socks5",
+      "host": "198.51.100.80",
+      "port": 1085,
+      "enabled": true,
+      "isGlobalDefault": false,
+      "bypassList": "<local>;*.corp.internal",
+      "username": "researcher",
+      "hasPassword": false,
+      "isUsable": true
+    }
   }
 }
 ```

@@ -8,8 +8,7 @@ Reads recent stderr log lines captured from an external MCP server process.
 
 `nova.external_server_logs` retrieves stderr diagnostic lines captured in Nova's circular buffer (up to 500 lines per server), enabling quick troubleshooting of crashes, missing dependencies, or bad arguments.
 
-* **Security Tier:** Tier 1 (Safe Diagnostics)
-* **Core Architecture Guide:** [Plugins & External Extensions](../../../core-features/plugins.md)
+* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md) (section 7, "External MCP Servers")
 
 ---
 
@@ -24,6 +23,7 @@ Reads recent stderr log lines captured from an external MCP server process.
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `external_mcp` (load it with `nova.tools_bundle(bundle='external_mcp')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---

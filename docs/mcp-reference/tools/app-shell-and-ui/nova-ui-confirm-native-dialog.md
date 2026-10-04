@@ -2,7 +2,6 @@
 
 > **Triggers the primary affirmative action on the currently active host-owned Win32 native dialog.**
 
-* **Security Tier:** Tier 2 (Native Dialog Control)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
@@ -10,7 +9,7 @@
 
 ## 1. Overview
 
-`nova.ui_confirm_native_dialog` sends affirmative input (Enter/OK) to an active OS dialog, such as a file save confirmation or print prompt.
+`nova.ui_confirm_native_dialog` presses the confirm button (e.g. "Open" or "Save") on the Windows dialog Nova currently owns (such as a file open/save dialog), falling back to sending Enter if no confirm button is found through UI Automation. If no such dialog is open, the call reports that instead of acting on anything.
 
 ---
 
@@ -20,6 +19,7 @@
 This tool takes no parameters.
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -40,21 +40,29 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Confirmed native host dialog."
+      "text": "Native dialog confirm action dispatched and the dialog closed."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "confirmed": true
+    "status": "ok",
+    "reasonCode": null,
+    "confirmed": true,
+    "dialogStillOpen": false,
+    "attemptedActions": ["foreground", "button_click"],
+    "nativeDialogBefore": { "isOpen": true },
+    "nativeDialogAfter": { "isOpen": false },
+    "clickedButton": { "name": "Open" }
   }
 }
 ```
+`nativeDialogBefore`/`nativeDialogAfter` carry the same dialog snapshot shape as `nova.ui_inspect_native_dialog` (shown shortened above). If the click or the Enter-key fallback could not be dispatched, `ok` is `false`, `status` is `"apply_failed"`, and `reasonCode` is `"native_dialog.confirm_failed"`. If no native dialog was open to begin with, the call still returns `ok: true` with `status: "not_found"` and `confirmed: false` — it reports nothing happened rather than erroring.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Pre-check State:** Always call `nova.ui_get_state` or `nova.ui_inspect_native_dialog` first to ensure the target dialog is active and focused.
+* **Pre-check State:** Call `nova.ui_inspect_native_dialog` first to confirm a dialog is actually open and see which button it will press.
 
 ---
 

@@ -8,7 +8,6 @@ Transcribes local audio or video files into text entirely on-device using local 
 
 `nova.media_transcribe_start` converts spoken audio from local files into structured text. Transcription runs locally inside the sandboxed Outrider process via whisper.cpp with SIMD acceleration. No audio ever leaves the user's computer.
 
-* **Security Tier:** Tier 2 (Local AI Speech-to-Text)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
 ---
@@ -26,6 +25,7 @@ Transcribes local audio or video files into text entirely on-device using local 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -38,11 +38,12 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
   "name": "nova.media_transcribe_start",
   "arguments": {
     "path": "downloads/captured-stream.wav",
-    "model": "ggml-base",
-    "language": "auto"
+    "model": "base"
   }
 }
 ```
+
+Language is omitted here to let Nova detect it — passing a code like `"de"` skips detection and is faster.
 
 ### JSON-RPC Response
 ```json
@@ -50,25 +51,43 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
   "content": [
     {
       "type": "text",
-      "text": "Started speech transcription job 'job-tx-1092' for captured-stream.wav."
+      "text": "Transcription tr_a1b2c3d4e5f6 is queued for the single run slot. Poll nova.media_transcribe_status."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "jobId": "job-tx-1092",
-    "model": "ggml-base",
-    "status": "transcribing",
-    "audioDurationSeconds": 24.3
+    "jobId": "tr_a1b2c3d4e5f6",
+    "state": "queued",
+    "model": "ggml-base-q5_1",
+    "device": "cpu",
+    "audioPath": "downloads/captured-stream.wav",
+    "stage": null,
+    "stageProgress": null,
+    "segmentCount": 0,
+    "coveredSeconds": 0,
+    "audioSeconds": 24.3,
+    "audioSecondsMeasured": true,
+    "progressRatio": 0,
+    "budgetMs": 60000,
+    "budgetModelLoadMs": 10000,
+    "budgetRecognitionMs": 50000,
+    "budgetStallMs": 15000,
+    "elapsedMs": 5,
+    "truncated": false,
+    "transcriptPath": null,
+    "accuracyNote": "Machine transcript from model 'ggml-base-q5_1'. Do not take numbers, amounts, proper nouns or technical terms as verified, and treat a passage that does not add up as a transcription error rather than an odd statement.",
+    "suggestedPollMs": 2000
   }
 }
 ```
+
+Only one transcription runs at a time; a second call while one is active comes back `queued` until the run slot frees up. Every field is read from the job's real state rather than defaulted — exact budget numbers depend on the audio length and model.
 
 ---
 
 ## 4. Operational Best Practices
 
 * **Privacy Guarantees:** 100% on-device processing guarantees confidentiality for internal meetings, voicemails, and private recordings.
-* **Asynchronous Processing:** Returns immediately with a `jobId`; use [`nova.media_transcribe_status`](nova-media-transcribe-status.md) to poll for transcribed text segments.
+* **Asynchronous Processing:** Returns immediately with a `jobId`; use [`nova.media_transcribe_status`](nova-media-transcribe-status.md) to poll for transcribed text segments, at the interval in `suggestedPollMs`.
 
 ---
 

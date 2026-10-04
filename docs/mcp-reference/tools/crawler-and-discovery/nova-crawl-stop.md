@@ -8,7 +8,6 @@ Requests cancellation of an active crawl job, safely draining in-flight workers.
 
 `nova.crawl_stop` signals the crawl orchestrator to stop scheduling new URLs and gracefully drain active hidden WebView workers. Visited page records and extracted metadata accumulated prior to cancellation remain fully preserved in `crawl.db`.
 
-* **Security Tier:** Tier 2 (Crawl Lifecycle Control)
 * **Core Architecture Guide:** [Autonomous Crawler & Surface Explorer](../../../core-features/crawler-and-discovery.md)
 
 ---
@@ -22,6 +21,7 @@ Requests cancellation of an active crawl job, safely draining in-flight workers.
 | `crawlId` | `string` | Yes | — | — | Crawl job ID returned by crawl_start. |
 
 Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawler_ops')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -44,24 +44,36 @@ Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawle
   "content": [
     {
       "type": "text",
-      "text": "Cancellation requested for crawl-4a92c81e. Workers are draining."
+      "text": "Crawl crawl-4a92c81e cancelling. 14 pages visited so far."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "crawlId": "crawl-4a92c81e",
     "status": "cancelling",
-    "visitedPages": 14,
-    "remainingQueued": 0
+    "visited": 14,
+    "currentUrl": "https://docs.example.com/api/webhooks",
+    "phase": "cancelling",
+    "pauseRequested": false,
+    "finalPageMayStillComplete": true,
+    "resultsPending": true,
+    "pollAfterMs": 1000,
+    "retentionMode": "best_effort",
+    "terminalRetentionMinutes": 30,
+    "maxRetainedTerminalCrawls": 12,
+    "retentionUntilUtc": null,
+    "pollUntilStatus": "cancelled",
+    "reason": "cancelling"
   }
 }
 ```
+
+The response does not echo `crawlId` (it is only in the `content` text block, not `structuredContent`). There is also no `remainingQueued` field — poll [`nova.crawl_status`](nova-crawl-status.md) and watch `status` reach a terminal value instead.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Graceful Drain:** In-flight page fetches will complete before the job transitions from `cancelling` to `stopped`.
+* **Graceful Drain:** In-flight page fetches will complete before the job transitions from `cancelling` to a terminal status (`cancelled`/`completed`); `finalPageMayStillComplete`/`resultsPending` tell you whether that is still in progress.
 * **Preserved Data:** Stopping a crawl does not discard already extracted data; use [`nova.crawl_results`](nova-crawl-results.md) to inspect pages retrieved before stopping.
 * **Agent Ownership:** Cancellation must be requested by the same agent ID that initiated the crawl.
 

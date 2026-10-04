@@ -1,16 +1,15 @@
 # `nova.input_drag_humanized`
 
-> **Performs a bot-resilient drag-and-drop gesture along a natural Bézier physics curve with micro-jitters.**
+> **Performs a drag-and-drop gesture with an eased motion path, overshoot, correction moves, and jitter — aimed at drag-based bot checks that flag perfectly linear mouse vectors.**
 
-* **Security Tier:** Tier 2 (Physical Input with Physics)
-* **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
+* **Core Feature Guide:** [Input Dispatch & Shadow DOM Traversal](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.input_drag_humanized` simulates human hand kinematics during drag-and-drop, defeating bot-detection heuristics that flag perfectly linear mouse vectors.
+`nova.input_drag_humanized` runs as a script inside the page: it dispatches a `mousedown`, moves along an eased path (smoothstep easing, not a parametric Bézier curve) with a small random vertical jitter per step, overshoots the end point by 3-8 px, applies 2-3 correction moves back to the target, then dispatches `mouseup`. The events are **synthetic** (`isTrusted: false`; the result reports `mode: "humanized_js"`) — use `nova.input_drag` instead on pages that require trusted input. It drives HTML5 `draggable="true"` surfaces under the same rules as `nova.input_drag`: the start point must sit on a draggable element, and a drop only lands where the page accepts it.
 
 ---
 
@@ -33,6 +32,7 @@
 | `jitterPx` | `number` | No | `2` | 0–10 | Vertical jitter amplitude in px (simulates muscle tremor). |
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -49,7 +49,7 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
     "startY": 250,
     "endX": 550,
     "endY": 250,
-    "durationMs": 400
+    "durationMs": 1800
   }
 }
 ```
@@ -60,24 +60,43 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Humanized drag completed over 400ms."
+      "text": "Humanized drag from (150,250) to (550,250)."
     }
   ],
   "structuredContent": {
-    "ok": true,
     "targetId": "tab-1",
-    "curveType": "CubicBezier",
-    "jitterApplied": true
+    "startX": 150,
+    "startY": 250,
+    "endX": 550,
+    "endY": 250,
+    "mode": "humanized_js",
+    "isTrusted": false,
+    "ok": true,
+    "status": "ok",
+    "reasonCode": null,
+    "profile": {
+      "interval_mean_ms": 54.2,
+      "interval_std_ms": 12.8,
+      "step_mean_px": 28.4,
+      "step_std_px": 9.1,
+      "unique_interval_buckets": 6,
+      "trusted_ratio": 0,
+      "total_moves": 11,
+      "duration_ms": 612.4
+    },
+    "actionDispatched": true
   }
 }
 ```
+
+`profile` is the raw movement-timing report from the in-page script (interval and step statistics), not a fixed-shape "curve type". On failure (e.g. the in-page script threw), `ok` is `false`, `status` is `"failed"`, and `reasonCode` is set (e.g. `input.drag_humanized_failed`).
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Captcha & Verification:** Use on slider captchas or sensitive drag-to-verify security widgets.
-* **Physics Realistic:** Velocity profiles automatically decelerate towards the target landing zone.
+* **Captcha & Verification:** Use on slider captchas or sensitive drag-to-verify security widgets that analyze pointer timing/jitter, and when `nova.input_drag` fails on them.
+* **Trusted-Input Pages:** Skip this tool on pages that explicitly require real (`isTrusted`) input — the events here are synthetic and some pages ignore or reject them.
 
 ---
 

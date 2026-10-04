@@ -1,9 +1,7 @@
 # `nova.run_sequence`
 
-> **Executes an atomic sequence of navigation, click, type, and wait steps in a single RPC round-trip.**
+> **Executes an ordered sequence of tool calls (navigation, click, type, wait, and more) in a single RPC round-trip.**
 
-* **Security Tier:** Tier 2 (Composite Macro Execution)
-* **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
@@ -35,62 +33,68 @@
 | `options.pksMode` | `string` | No | `"match"` | `off`, `match`, `telemetry` | off suppresses PKS hints, match returns compact PKS hints, telemetry returns the full PKS payload and advice. |
 
 Capability bundles: `browser_automation`, `form_submission`.
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
 
 ## 3. Protocol Usage
 
+Each step is a tool call: `tool` names an existing MCP tool (e.g. `nova.type_selector`), and `args` carries that tool's own arguments. There is no shorthand `action`/`selector` step syntax — resolve each step's argument contract from `tools/list` or `nova.tools_bundle(includeInputSchema=true)`.
+
 ### JSON-RPC Request
 ```json
 {
-  "name": "nova_run_sequence",
+  "name": "nova.run_sequence",
   "arguments": {
     "targetId": "tab-1",
     "steps": [
       {
-        "action": "type",
-        "selector": "#first-name",
-        "text": "Jane"
+        "tool": "nova.type_selector",
+        "args": { "selector": "#first-name", "text": "Jane" }
       },
       {
-        "action": "type",
-        "selector": "#last-name",
-        "text": "Doe"
+        "tool": "nova.type_selector",
+        "args": { "selector": "#last-name", "text": "Doe" }
       },
       {
-        "action": "click",
-        "selector": "#submit"
+        "tool": "nova.click_selector",
+        "args": { "selector": "#submit" }
       }
     ]
   }
 }
 ```
 
-### JSON-RPC Response
+### JSON-RPC Response (abbreviated)
 ```json
 {
   "content": [
     {
       "type": "text",
-      "text": "Executed sequence of 3 steps successfully."
+      "text": "Sequence OK: 3/3 steps, 842ms."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "targetId": "tab-1",
     "completedSteps": 3,
-    "failedStep": null
+    "totalSteps": 3,
+    "durationMs": 842,
+    "failedAt": null,
+    "failedTool": null,
+    "reasonCode": null,
+    "summary": "Sequence completed: 3/3 steps in 842ms."
   }
 }
 ```
+The full payload also carries `trace[]` (per-step results), `tabState`, and `pksMode`/`advice`; this is a trimmed excerpt. On failure, `failedAt` is the 1-based step index and `failedTool` names the tool that failed.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Atomic Forms:** Reduces latency overhead on multi-field forms.
-* **Fail-Fast:** Halts immediately if any intermediate step fails.
+* **Multi-Field Forms:** Reduces round-trip overhead when filling several fields and submitting in one call.
+* **Fail-Fast by Default:** The default `onError.action` is `abort`, which halts the sequence at the first failing step. Pass `defaults.onError` or a per-step `onError` to `continue`, `retryStep`, or run recovery steps (`runThenRetry`) instead.
 
 ---
 

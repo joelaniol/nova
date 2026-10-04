@@ -6,10 +6,9 @@ Saves a persistent browsing memory (user preference, workflow hint, domain conte
 
 ## 1. Overview
 
-`nova.memory_note` records persistent notes and preferences that survive across sessions and tasks. Automatically recalled on future interactions.
+`nova.memory_note` records a persistent note, preference or context entry bound to a domain (and optionally a URL path pattern) that survives across sessions. Relevance decays over time by memory type; a later `nova.memory_recall` is needed to retrieve it.
 
-* **Security Tier:** Tier 2 (Memory Storage)
-* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
+* **Core Architecture Guide:** [Browser Memory & Knowledge Board](../../../core-features/browser-memory-and-board.md)
 
 ---
 
@@ -24,6 +23,7 @@ Saves a persistent browsing memory (user preference, workflow hint, domain conte
 | `urlPattern` | `string` | No | — | — | Optional URL path scope (e.g. '/pulls/*'). Memory applies only to matching paths on this domain. |
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -48,16 +48,20 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "Saved browsing memory note for billing.example.com."
+      "text": "Memory saved (id=301, domain=billing.example.com, type=preference)."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "memoryId": "mem-301a",
-    "status": "Saved"
+    "saved": true,
+    "memoryId": 301,
+    "domain": "billing.example.com",
+    "memoryType": "preference"
   }
 }
 ```
+
+If the domain is excluded by privacy policy, the response instead returns `isError: true` with `structuredContent.ok: false`, `saved: false` and `reasonCode: "browsing_memory.domain_excluded"`.
 
 ---
 

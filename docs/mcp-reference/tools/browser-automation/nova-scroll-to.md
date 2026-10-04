@@ -1,16 +1,17 @@
 # `nova.scroll_to`
 
-> **Scrolls the target tab viewport to absolute pixel coordinates (top, left).**
+> **Scrolls the target tab viewport to absolute pixel coordinates (x, y).**
 
-* **Security Tier:** Tier 2 (Viewport Manipulation)
-* **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
+* **Core Feature Guide:** [Input Dispatch & Shadow DOM Traversal](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.scroll_to` jumps or smoothly animates the document scroll position to absolute coordinates.
+`nova.scroll_to` sets the document scroll position to absolute coordinates (`x` defaults to 0, `y` is required). The text block carries the raw scroll measurement; `structuredContent.result` holds the same data. The response example below is an excerpt; Nova adds page and contract fields such as `pageUrl` and `stage`.
+
+If the page is already at the requested position or at the edge, `status` is `noop` (`scroll_to.already_at_position` or `scroll_to.at_boundary`). If nothing moved because the page scrolls inside an inner container, `status` is `no_effect` with a hint to use `nova.scroll_smart`.
 
 ---
 
@@ -24,6 +25,7 @@
 | `y` | `number` | Yes | — | — | Target vertical scroll position in pixels (0 = top of page). |
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -36,8 +38,7 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
   "name": "nova_scroll_to",
   "arguments": {
     "targetId": "tab-1",
-    "top": 0,
-    "left": 0
+    "y": 0
   }
 }
 ```
@@ -48,14 +49,30 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Scrolled to top of page (0, 0)."
+      "text": "{\"ok\":true,\"before\":{\"x\":0,\"y\":1840},\"after\":{\"x\":0,\"y\":0},\"movedWindow\":true,\"reasonCode\":\"success\"}"
     }
   ],
   "structuredContent": {
-    "ok": true,
     "targetId": "tab-1",
-    "scrollX": 0,
-    "scrollY": 0
+    "ok": true,
+    "status": "ok",
+    "x": 0,
+    "y": 0,
+    "changed": true,
+    "warnings": [],
+    "result": {
+      "ok": true,
+      "before": {
+        "x": 0,
+        "y": 1840
+      },
+      "after": {
+        "x": 0,
+        "y": 0
+      },
+      "movedWindow": true,
+      "reasonCode": "success"
+    }
   }
 }
 ```

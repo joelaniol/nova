@@ -2,15 +2,14 @@
 
 > **Lists the canonical Operational Knowledge signal keys accepted by nova.ok_observe.**
 
-* **Security Tier:** Tier 1 (Read-Only Schema)
-* **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
+* **Core Feature Guide:** [Operational Knowledge](../../../core-features/operational-knowledge.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.ok_signal_schema` returns all valid telemetry keys, parameter constraints, and description semantics for semantic page reporting.
+`nova.ok_signal_schema` lists the canonical `core.*` signal keys that `nova.ok_observe` accepts, each with its namespace, value type, description, and an example value. Platform-specific `vendor.*` keys are accepted by `nova.ok_observe` without being registered here.
 
 ---
 
@@ -26,6 +25,7 @@
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -46,20 +46,39 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
   "content": [
     {
       "type": "text",
-      "text": "Accepted signal keys: 18 canonical keys returned."
+      "text": "OK signal schema: 14 key(s)."
     }
   ],
   "structuredContent": {
     "ok": true,
+    "namespaceFilter": null,
+    "includeDeprecated": false,
+    "maxEntries": 200,
+    "count": 14,
+    "truncated": false,
     "keys": [
-      "modal_blocker_detected",
-      "captcha_challenge_active",
-      "infinite_scroll_exhausted",
-      "spa_route_transitioning"
+      {
+        "signalKey": "core.login_state",
+        "namespace": "core",
+        "valueType": "string",
+        "description": "Login state of the service",
+        "exampleJson": "\"logged_in\"",
+        "deprecated": false
+      },
+      {
+        "signalKey": "core.plan.tier",
+        "namespace": "core",
+        "valueType": "string",
+        "description": "Normalized plan tier",
+        "exampleJson": "\"pro\"",
+        "deprecated": false
+      }
     ]
   }
 }
 ```
+
+This example shortens `keys` to two entries; the real response lists every matching canonical key (account, model, plan, session, page, UI, subscription, and feature signals, among others).
 
 ---
 

@@ -8,8 +8,7 @@ Deletes a domain note by domain name and key.
 
 `nova.domain_note_delete` removes an obsolete note for a specific domain and scope.
 
-* **Security Tier:** Tier 2 (Note Deletion)
-* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
+* **Core Architecture Guide:** [Operational Knowledge](../../../core-features/operational-knowledge.md)
 
 ---
 
@@ -25,6 +24,7 @@ Deletes a domain note by domain name and key.
 | `sandboxRef` | `string` | No | — | — | Opaque PersistentUid token from nova.tabs / nova.sandbox_context. Mandatory when sandboxId is set. |
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -48,23 +48,25 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "Deleted note auth_hint for internal.corp."
+      "text": "Deleted 1 domain note(s): internal.corp/auth_hint"
     }
   ],
   "structuredContent": {
-    "ok": true,
+    "deleted": true,
     "domain": "internal.corp",
     "key": "auth_hint",
-    "status": "Deleted"
+    "deletedCount": 1
   }
 }
 ```
+
+If no note matches, the response is `deleted: false` with `deletedCount: 0`. If notes exist both globally and in a sandbox for the same domain/key and neither `scope` nor `sandboxId` disambiguates, the call fails with `ambiguous_note_target` instead of deleting both.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Scope Awareness:** Specify `scope` (`global` or `sandbox`) if notes exist in multiple tiers.
+* **Scope Awareness:** Specify `scope` (`global`, `current_sandbox`, `all`, or `orphaned`) or an explicit `sandboxId`/`sandboxRef` if notes exist both globally and in a sandbox for the same domain/key.
 
 ---
 

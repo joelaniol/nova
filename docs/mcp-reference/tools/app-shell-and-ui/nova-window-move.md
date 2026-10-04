@@ -1,16 +1,14 @@
 # `nova.window_move`
 
-> **Moves the Nova application window to a specific monitor or coordinate offset.**
+> **Moves the Nova application window to a monitor, by index.**
 
-* **Security Tier:** Tier 2 (Window Positioning)
-* **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.window_move` repositions the host window across multi-monitor setups using monitor index or X/Y offsets.
+`nova.window_move` moves the host window to the monitor identified by `monitorIndex` (see `nova.window_get_bounds`'s `availableMonitors`), placing it inside that monitor's work area centered, top-left aligned, or at the same offset it had on its previous monitor.
 
 ---
 
@@ -23,6 +21,7 @@
 | `position` | `string` | No | `"center"` | `center`, `top_left`, `keep_offset` | Target placement inside the monitor work area: center the window, align to the work-area top-left corner, or keep the current offset relative to the source monitor work area. |
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -45,23 +44,34 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Moved Nova window to Monitor 1."
+      "text": "Window moved to monitor 1 (center)."
     }
   ],
   "structuredContent": {
     "ok": true,
     "monitorIndex": 1,
-    "x": 2560,
-    "y": 0
+    "position": "center",
+    "bounds": {
+      "x": 2880,
+      "y": 140,
+      "width": 1600,
+      "height": 900,
+      "state": "normal",
+      "hasFocus": true,
+      "monitor": { "index": 1, "isPrimary": false },
+      "availableMonitors": "... (truncated; see nova.window_get_bounds)"
+    }
   }
 }
 ```
+An unknown `monitorIndex` (not present in `availableMonitors`) is rejected as an invalid parameter rather than silently falling back to another monitor.
 
 ---
 
 ## 4. Operational Best Practices
 
 * **Secondary Display:** Relocate Nova to a secondary monitor to preserve primary screen real estate during live development.
+* **Look Up the Index First:** Call `nova.window_get_bounds` to read `availableMonitors` before picking a `monitorIndex`.
 
 ---
 

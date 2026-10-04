@@ -2,7 +2,6 @@
 
 > **Sets host application window state: minimize, maximize, restore, or bring to foreground.**
 
-* **Security Tier:** Tier 2 (Window State Control)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
@@ -22,6 +21,7 @@
 | `state` | `string` | Yes | — | `minimize`, `maximize`, `restore`, `foreground` | Target state. 'minimize' uses normal OS minimize. 'foreground' restores if needed and brings the window to front. |
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -33,7 +33,7 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
 {
   "name": "nova_window_set_state",
   "arguments": {
-    "state": "maximized"
+    "state": "maximize"
   }
 }
 ```
@@ -44,12 +44,13 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Set Nova window state to maximized."
+      "text": "Window state set to 'maximize'."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "state": "maximized"
+    "status": "ok",
+    "state": "maximize"
   }
 }
 ```

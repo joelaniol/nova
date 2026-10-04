@@ -6,10 +6,9 @@ Reads an Agent Knowledge Board laboratory topic by ID or exact structured anchor
 
 ## 1. Overview
 
-`nova.board_get` queries collaborative research topics, evidence threads, and peer refutations stored on the Agent Knowledge Board.
+`nova.board_get` queries collaborative research topics, evidence threads, and peer refutations stored on the Agent Knowledge Board. The board is off by default and must be enabled in settings; while disabled, both `nova.board_get` and `nova.board_contribute` return an error.
 
-* **Security Tier:** Tier 1 (Read-Only)
-* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
+* **Core Architecture Guide:** [Browser Memory & Knowledge Board](../../../core-features/browser-memory-and-board.md)
 
 ---
 
@@ -31,6 +30,7 @@ Reads an Agent Knowledge Board laboratory topic by ID or exact structured anchor
 | `irrelevant` | `boolean` | No | `false` | — | Set true with deliveryId to dismiss that hint as irrelevant without counting the topic as opened. |
 
 Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -43,7 +43,11 @@ Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_m
   "name": "nova.board_get",
   "arguments": {
     "anchor": {
-      "domain": "shop.example.com"
+      "component": "mcp",
+      "capability": "nova.guarded_submit_form",
+      "operation": "submit_form",
+      "symptomClass": "no_effect",
+      "host": "shop.example.com"
     }
   }
 }
@@ -55,22 +59,33 @@ Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_m
   "content": [
     {
       "type": "text",
-      "text": "Found 1 knowledge topic for shop.example.com."
+      "text": "Knowledge board topic topic-9b10a loaded."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "topics": [
-      {
-        "topicId": "topic-9b10a",
-        "title": "Checkout Button Settlement",
-        "contributionsCount": 2,
-        "consensus": "confirmed"
-      }
-    ]
+    "status": "found",
+    "topicId": "topic-9b10a",
+    "anchor": {
+      "component": "mcp",
+      "capability": "nova.guarded_submit_form",
+      "operation": "submit_form",
+      "symptomClass": "no_effect",
+      "host": "shop.example.com"
+    },
+    "symptom": "Submit produced no visible change on the checkout form.",
+    "hypothesis": null,
+    "blind": true,
+    "refutations": [],
+    "hasMoreRefutations": false,
+    "profileScope": "default",
+    "createdUtc": "2026-08-15T09:30:00Z",
+    "deliveryOutcome": null
   }
 }
 ```
+
+IDs and timestamps are placeholders; the shape and field names match the handler's actual projection.
 
 ---
 

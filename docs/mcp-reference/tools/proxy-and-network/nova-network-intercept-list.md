@@ -8,8 +8,7 @@ Lists currently armed network interception rules with remaining hit budgets and 
 
 `nova.network_intercept_list` inspects which interception rules are currently active. Rules that have expired via TTL or hit budgets are automatically omitted.
 
-* **Security Tier:** Tier 1 (Safe)
-* **Core Architecture Guide:** [Proxy Routing & Stealth Network Engine](../../../core-features/proxy-and-network.md)
+* **Core Architecture Guide:** [Proxy Routing & Network Engine](../../../core-features/proxy-and-network.md)
 
 ---
 
@@ -23,6 +22,7 @@ Lists currently armed network interception rules with remaining hit budgets and 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -43,23 +43,31 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
   "content": [
     {
       "type": "text",
-      "text": "1 active network interception rule(s)."
+      "text": "ir_8f12a4b0 [tab-1] *api/checkout/payment* answered with HTTP 500 — 0/1 hits, 24500 ms left"
     }
   ],
   "structuredContent": {
+    "ok": true,
+    "targetId": null,
     "count": 1,
     "rules": [
       {
-        "ruleId": "rule-8f12a4b0",
+        "ruleId": "ir_8f12a4b0",
         "targetId": "tab-1",
         "urlPattern": "*api/checkout/payment*",
         "action": "respondWith",
-        "status": 500,
-        "hitsUsed": 0,
+        "summary": "*api/checkout/payment* answered with HTTP 500",
+        "hits": 0,
         "maxHits": 1,
-        "expiresInMs": 24500
+        "applied": 0,
+        "failed": 0,
+        "lastError": null,
+        "expiresAtUtc": "2026-10-04T12:05:30.0000000Z",
+        "remainingMs": 24500,
+        "note": null
       }
-    ]
+    ],
+    "anyActiveAnywhere": true
   }
 }
 ```

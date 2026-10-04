@@ -8,7 +8,6 @@ Pauses an active WebView2-native download by ID.
 
 `nova.downloads_pause` pauses a live download transfer. The download must report `canPause: true` in `nova.downloads_list`. HttpClient fallback downloads and completed items cannot be paused.
 
-* **Security Tier:** Tier 2 (Control)
 * **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts.md)
 
 ---
@@ -23,6 +22,7 @@ Pauses an active WebView2-native download by ID.
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---

@@ -6,9 +6,8 @@ Sets a key-value pair in localStorage or sessionStorage for the target page.
 
 ## 1. Overview
 
-`nova.storage_set` writes data into `localStorage` or `sessionStorage` on the target page's origin via the CoreWebView2 storage API.
+`nova.storage_set` writes data into `localStorage` or `sessionStorage` on the target page's origin.
 
-* **Security Tier:** Tier 2 (Storage Mutation)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
 ---
@@ -24,6 +23,7 @@ Sets a key-value pair in localStorage or sessionStorage for the target page.
 | `value` | `string` | Yes | — | — | Storage value. Required. |
 
 Capability bundle: `site_data_management` (load it with `nova.tools_bundle(bundle='site_data_management')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -36,7 +36,7 @@ Capability bundle: `site_data_management` (load it with `nova.tools_bundle(bundl
   "name": "nova.storage_set",
   "arguments": {
     "targetId": "tab-1",
-    "storageType": "localStorage",
+    "storageType": "local",
     "key": "app_theme",
     "value": "nordic"
   }
@@ -49,15 +49,18 @@ Capability bundle: `site_data_management` (load it with `nova.tools_bundle(bundl
   "content": [
     {
       "type": "text",
-      "text": "Set localStorage key 'app_theme' on tab-1."
+      "text": "Set localStorage key 'app_theme' (all_browser_tabs)."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "targetId": "tab-1",
-    "storageType": "localStorage",
+    "storageType": "local",
     "key": "app_theme",
-    "status": "Set"
+    "scope": {
+      "profileId": "Tabs",
+      "profileScope": "all_browser_tabs",
+      "isSharedProfile": true
+    }
   }
 }
 ```

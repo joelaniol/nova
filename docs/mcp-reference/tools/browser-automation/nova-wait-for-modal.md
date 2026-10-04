@@ -1,16 +1,17 @@
 # `nova.wait_for_modal`
 
-> **Blocks execution until a modal dialog or overlay appears or closes in the document.**
+> **Waits until a modal dialog or overlay appears in the document and returns it.**
 
-* **Security Tier:** Tier 1 (Synchronization)
-* **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
+* **Core Feature Guide:** [Input Dispatch & Shadow DOM Traversal](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.wait_for_modal` polls the DOM for common modal patterns (`role="dialog"`, `.modal`, backdrop elements) and awaits settlement.
+`nova.wait_for_modal` polls the page every `pollMs` until at least one dialog or overlay is present (`role="dialog"`, `aria-modal="true"`, `<dialog>`, or class names containing modal, overlay or popup), then returns the detected elements with title, text, selector and buttons. It waits for a dialog to appear; it does not wait for one to close. The response example below is an excerpt; each modal entry also carries `scope` and `rect`, and the probe a `meta` block.
+
+If no dialog appears within `timeoutMs`, the call returns `ok: false` with `reasonCode: "wait_for_modal.timeout"` and the last probe in `lastProbe`.
 
 ---
 
@@ -33,6 +34,7 @@
 | `screenshotResponseMode` | `string` | No | — | `inline`, `reference`, `thumbnail+reference`, `auto` | Override default delivery mode for the screenshot. Default comes from the tool-intent profile (e.g. confirm-shots default 'thumbnail+reference' for token efficiency). Use 'inline' to force full image bytes, 'auto' to let the server pick based on projected token cost and session budget. |
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -45,7 +47,6 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
   "name": "nova_wait_for_modal",
   "arguments": {
     "targetId": "tab-1",
-    "mode": "appear",
     "timeoutMs": 5000
   }
 }
@@ -57,13 +58,47 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Modal dialog appeared."
+      "text": "Modal detected after 640ms."
     }
   ],
   "structuredContent": {
+    "targetId": "tab-1",
     "ok": true,
-    "modalFound": true,
-    "selector": ".confirmation-modal"
+    "changed": true,
+    "warnings": [],
+    "waitedMs": 640,
+    "deep": true,
+    "visibleOnly": true,
+    "maxResults": 10,
+    "result": {
+      "ok": true,
+      "mode": "modals_wait_probe",
+      "count": 1,
+      "modals": [
+        {
+          "type": "dialog",
+          "title": "Confirm deletion",
+          "text": "Delete this item? This cannot be undone.",
+          "role": "dialog",
+          "visible": true,
+          "selector": "#confirm-dialog",
+          "buttons": [
+            {
+              "label": "Cancel",
+              "tag": "button",
+              "visible": true,
+              "selector": "#confirm-dialog > button:nth-of-type(1)"
+            },
+            {
+              "label": "Delete",
+              "tag": "button",
+              "visible": true,
+              "selector": "#confirm-dialog > button:nth-of-type(2)"
+            }
+          ]
+        }
+      ]
+    }
   }
 }
 ```
@@ -72,7 +107,8 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
 
 ## 4. Operational Best Practices
 
-* **Pre-Dismissal Check:** Use before calling `nova.dismiss_blockers` to ensure the modal has finished animating in.
+* **Pre-Dismissal Check:** Use before calling `nova.dismiss_blockers` to make sure the dialog is present.
+* **Button Selectors:** The returned button selectors can be passed straight to `nova.click_selector`.
 
 ---
 

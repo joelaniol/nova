@@ -6,9 +6,8 @@ Lists the personal IMAP folder tree with total and unread message counts.
 
 ## 1. Overview
 
-`nova.mail_folders` connects to the configured IMAP server and retrieves folder structures, hierarchy delimiters, total message counts, and unread counts.
+`nova.mail_folders` lists the configured account's personal IMAP folder tree with message and unread counts. It opens folders read-only and never changes messages or flags. Folder names and counts are remote-controlled metadata and are marked untrusted. An effective "always" read grant may restrict exact folders and sender addresses/domains; unrelated folders are omitted from the tree, navigation-only ancestors expose no counts, and a sender-restricted grant hides aggregate counts that would include other senders — `structuredContent.grantFilter` reports the applied boundary.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
 ---
@@ -25,6 +24,7 @@ Lists the personal IMAP folder tree with total and unread message counts.
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -47,38 +47,49 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
   "content": [
     {
       "type": "text",
-      "text": "Retrieved 3 IMAP folders for conn-mail-01."
+      "text": "Listed 3 folder(s) for 'Work Email'. Folder names and counts are untrusted server metadata in structuredContent."
     }
   ],
   "structuredContent": {
-    "ok": true,
+    "profileId": "conn-mail-01",
     "folders": [
       {
         "name": "INBOX",
+        "fullName": "INBOX",
+        "parentFullName": null,
+        "specialUse": null,
+        "canOpen": true,
+        "messageCount": 142,
         "unreadCount": 4,
-        "totalCount": 142
-      },
-      {
-        "name": "Archive",
-        "unreadCount": 0,
-        "totalCount": 890
+        "children": []
       },
       {
         "name": "Trash",
+        "fullName": "Trash",
+        "parentFullName": null,
+        "specialUse": "Trash",
+        "canOpen": true,
+        "messageCount": 12,
         "unreadCount": 0,
-        "totalCount": 12
+        "children": []
       }
-    ]
+    ],
+    "folderCount": 2,
+    "grantFilter": { "restricted": false, "allowedFolders": [], "allowedSenders": [] },
+    "durationMs": 220,
+    "untrustedRemoteMetadata": true
   }
 }
 ```
+There is no top-level `ok` field; a failed call is reported as `isError: true` instead. `folders` is a tree (nested under `children`), not a flat list — `folderCount` counts every node in it.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Folder Discovery:** Run `mail_folders` first to discover canonical folder names before calling `mail_list` or `mail_search`.
+* **Folder Discovery:** Run `mail_folders` first to discover canonical `fullName` values before calling `mail_list` or `mail_search`.
 * **Read-Only Safe:** Folder inspection does not alter read states or server flags.
+* **Respect the Grant Filter:** When `grantFilter.restricted` is true, folders outside the allowed set are omitted entirely rather than shown with hidden counts.
 
 ---
 

@@ -8,8 +8,7 @@ Reconnects a disconnected proxy and verifies connectivity before unblocking netw
 
 `nova.proxy_reconnect` runs an immediate health probe against the proxy; traffic is only unblocked if the probe succeeds, guaranteeing that no unencrypted or non-proxied data leaks.
 
-* **Security Tier:** Tier 2 (Routing Recovery)
-* **Core Architecture Guide:** [Proxy Routing & Stealth Network Engine](../../../core-features/proxy-and-network.md)
+* **Core Architecture Guide:** [Proxy Routing & Network Engine](../../../core-features/proxy-and-network.md)
 
 ---
 
@@ -21,6 +20,7 @@ Reconnects a disconnected proxy and verifies connectivity before unblocking netw
 | `targetId` | `string` | Yes | — | — | Target ID: sandbox ID or 'browser-tabs' for the global browser scope. |
 
 Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='proxy_management')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -32,7 +32,7 @@ Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='p
 {
   "name": "nova.proxy_reconnect",
   "arguments": {
-    "targetId": "tab-1"
+    "targetId": "browser-tabs"
   }
 }
 ```
@@ -43,14 +43,16 @@ Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='p
   "content": [
     {
       "type": "text",
-      "text": "Proxy reconnected for tab-1 (probe succeeded)."
+      "text": "Proxy reconnect for target 'browser-tabs': Proxy reconnected; the health probe succeeded and browsing is unblocked."
     }
   ],
   "structuredContent": {
+    "success": true,
+    "targetId": "browser-tabs",
     "status": "reconnected",
     "isDisconnected": false,
-    "probeOk": true,
-    "targetId": "tab-1"
+    "probeRan": true,
+    "probeOk": true
   }
 }
 ```

@@ -6,9 +6,8 @@ Deletes a remote file, empty directory, or bounded directory tree over SFTP.
 
 ## 1. Overview
 
-`nova.sftp_delete` removes files or directories on an SFTP server. Supports recursive directory deletion when explicitly configured.
+`nova.sftp_delete` removes one remote file or empty directory; `recursive: true` deletes a non-empty directory tree after Nova preflights it against the `maxFiles`/`maxBytes` ceilings. Requires the connector's full capability and Nova's independent global MutatingRemote confirmation policy. A missing path is reported as a failure with `reasonCode: "connector_remote_path_not_found"` and `changed: false` — never a silent success. SSH host-key trust remains human-only in Settings.
 
-* **Security Tier:** Tier 3 (Destructive File Deletion)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
 ---
@@ -28,6 +27,7 @@ Deletes a remote file, empty directory, or bounded directory tree over SFTP.
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -51,12 +51,27 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
   "content": [
     {
       "type": "text",
-      "text": "Deleted remote SFTP file /var/www/incoming/old-report.csv."
+      "text": "Deleted 1 remote path(s) via 'Production Server'."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "deletedPath": "/var/www/incoming/old-report.csv"
+    "profileId": "conn-sftp-01",
+    "status": "deleted",
+    "changed": true,
+    "stateIndeterminate": false,
+    "reasonCode": null,
+    "durationMs": 95,
+    "remotePathTrust": "untrusted_remote_state",
+    "localPathTrust": "host_verified_local_paths",
+    "entries": [],
+    "returnedCount": 0,
+    "hasMore": false,
+    "files": [],
+    "transferredCount": 0,
+    "transferredBytes": 0,
+    "affectedRemotePaths": ["/var/www/incoming/old-report.csv"],
+    "affectedLocalPaths": []
   }
 }
 ```
@@ -66,7 +81,8 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
 ## 4. Operational Best Practices
 
 * **High-Impact Action:** Deletions are permanent on remote hosts; double-check remote paths before calling.
-* **Recursive Bounding:** When using `recursive: true`, Nova pre-flights the file count to enforce safety bounds.
+* **Recursive Bounding:** `recursive: true` deletes a non-empty directory tree only after Nova preflights it against `maxFiles`/`maxBytes`; a tree that exceeds either ceiling is refused before anything is deleted.
+* **Missing Path Is Not Success:** A path that no longer exists returns a failure (`connector_remote_path_not_found`, `changed: false`), not a quiet `ok`.
 
 ---
 

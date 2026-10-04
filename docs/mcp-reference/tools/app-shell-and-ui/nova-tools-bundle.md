@@ -2,15 +2,13 @@
 
 > **Discovers, searches, and activates curated MCP tool capability bundles or queries tools by natural language.**
 
-* **Security Tier:** Tier 1 (Tool Discovery & Bundle Management)
-* **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.tools_bundle` enables dynamic tool management. Agents can query available tools by intent (e.g. "take screenshot and download PDF") or load pre-curated tool sets to conserve context window tokens.
+`nova.tools_bundle` is Nova's capability-discovery tool. It has three mutually exclusive lookup modes: load a curated bundle by id or alias, look up a single tool by its exact canonical name, or search tool names and descriptions with a free-text query (terms are OR'd and ranked; if nothing matches every term, the closest matches come back with `partialMatch: true`). Omitting `bundle`, `toolName`, and `query` defaults to the `browser_automation` bundle.
 
 ---
 
@@ -29,6 +27,7 @@
 | `includeCatalog` | `boolean` | No | `true` | — | If true (default), a bundle lookup also returns the discovery index: knownBundles plus bundleCatalog. Pass false once you have read it - the tools of the requested bundle are returned either way, so nothing you need to call them is lost. |
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -51,28 +50,41 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "Discovered bundle 'downloads' (15 tools matched)."
+      "text": "Capability search 'download files and monitor transfer progress' returned 5/5 match(es); 5 available."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "matchedBundle": "downloads",
-    "toolsCount": 15,
-    "tools": [
+    "requestedQuery": "download files and monitor transfer progress",
+    "resolvedBundle": null,
+    "description": "Bounded capability search over canonical tool names and descriptions.",
+    "toolNames": [
       "nova.downloads_list",
       "nova.downloads_wait",
-      "nova.downloads_pause"
-    ]
+      "nova.downloads_pause",
+      "nova.downloads_resume",
+      "nova.downloads_cancel"
+    ],
+    "availableCount": 5,
+    "requestedCount": 5,
+    "hasMore": false,
+    "partialMatch": false,
+    "maxResults": 20,
+    "includeDescriptions": false,
+    "includeInputSchema": false,
+    "includeCatalog": true
   }
 }
 ```
+
+A bundle lookup (`bundle: "downloads"`) returns the same `toolNames` shape plus the bundle's `description` and, with `includeCatalog` left at its default, `knownBundles` and `bundleCatalog` for further discovery.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Context Conservation:** Instead of keeping all 400+ tool schemas in system prompts, query `nova.tools_bundle` dynamically to activate only necessary tools.
-* **Natural Language Discovery:** Search by intent keywords when facing unfamiliar automation tasks.
+* **Context Conservation:** Load a curated bundle instead of keeping every tool schema in context; pass `includeInputSchema`/`includeDescriptions` only when the schema detail is actually needed.
+* **Natural Language Discovery:** Search by intent keywords (`query`) when the right bundle or exact tool name is not known yet.
 
 ---
 

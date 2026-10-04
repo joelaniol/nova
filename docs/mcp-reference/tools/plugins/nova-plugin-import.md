@@ -24,6 +24,7 @@ Import a plugin from a base64-encoded .novaplugin ZIP bundle. Validates manifest
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
 
 Capability bundle: `plugin_management` (load it with `nova.tools_bundle(bundle='plugin_management')`).
+Tool category: `high_impact` (highest risk class; Nova's agent permission settings can ask before it runs).
 <!-- /generated:parameters -->
 
 ---

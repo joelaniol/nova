@@ -8,7 +8,6 @@ Lists stored per-site preferred device IDs (camera, microphone, speaker).
 
 `nova.media_device_preferences_list` inspects stored audio/video hardware device mappings configured for specific websites.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
 ---
@@ -23,6 +22,7 @@ Lists stored per-site preferred device IDs (camera, microphone, speaker).
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -45,16 +45,22 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "Loaded device preferences for https://meet.example.com."
+      "text": "1 stored device preference(s)."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "origin": "https://meet.example.com",
-    "preferences": {
-      "preferredMicrophoneId": "mic-usb-01",
-      "preferredCameraId": "cam-hd-01"
-    }
+    "preferences": [
+      {
+        "origin": "https://meet.example.com",
+        "cameraDeviceId": "cam-hd-01",
+        "microphoneDeviceId": "mic-usb-01",
+        "speakerDeviceId": null,
+        "updatedUtc": "2026-10-02T19:00:00Z"
+      }
+    ],
+    "count": 1,
+    "originFilter": "https://meet.example.com",
+    "note": "Status (missing/available/stale) requires correlating storedDeviceId with current hardware - out of scope for this read tool. Use the Settings UI device list or media_activity_status for current devices."
   }
 }
 ```
@@ -63,7 +69,7 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
 
 ## 4. Operational Best Practices
 
-* **Hardware Drift Diagnostics:** Identify when a preferred USB headset or webcam was unplugged or reassigned a new OS device GUID.
+* **Hardware Drift Diagnostics:** This tool returns the raw stored device IDs only — it does not itself detect whether a device is missing, available, or reassigned. Correlate the returned IDs against current hardware (e.g. the Settings device list) to spot drift.
 
 ---
 

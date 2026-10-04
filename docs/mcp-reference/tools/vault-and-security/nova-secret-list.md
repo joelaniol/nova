@@ -28,6 +28,7 @@ Lists registered secret names, scopes, and association identifiers from Nova's u
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `secret_store` (load it with `nova.tools_bundle(bundle='secret_store')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -57,36 +58,44 @@ Capability bundle: `secret_store` (load it with `nova.tools_bundle(bundle='secre
 
 ```json
 {
-  "total": 3,
-  "limit": 100,
-  "offset": 0,
   "secrets": [
     {
       "name": "DEPLOY_API_TOKEN",
       "scope": "workspace",
       "workspaceId": "ws-backend-deploy",
-      "createdAtUtc": "2026-10-02T19:55:00Z"
+      "grantedWorkspaceIds": null,
+      "updatedUtc": "2026-10-02T19:55:00Z"
     },
     {
       "name": "NPM_AUTH_TOKEN",
       "scope": "workspace",
       "workspaceId": "ws-backend-deploy",
-      "createdAtUtc": "2026-09-28T11:20:00Z"
+      "grantedWorkspaceIds": null,
+      "updatedUtc": "2026-09-28T11:20:00Z"
     },
     {
       "name": "COMPANY_MAILING_API_KEY",
       "scope": "global",
-      "grantedWorkspaces": ["ws-backend-deploy"],
-      "createdAtUtc": "2026-09-15T08:00:00Z"
+      "workspaceId": null,
+      "grantedWorkspaceIds": ["ws-backend-deploy"],
+      "updatedUtc": "2026-09-15T08:00:00Z"
     }
-  ]
+  ],
+  "returnedCount": 3,
+  "totalCount": 3,
+  "limit": 100,
+  "offset": 0,
+  "truncated": false,
+  "nextOffset": null
 }
 ```
+
+Task-scoped listings (`scope: "task"`) return a lighter shape per entry: `{ "name": ..., "scope": "task", "taskId": ... }`.
 
 ---
 
 ## 5. Related Tools & Documentation
 
-* [`nova.secret_set`](nova-secret-set.md) ? Store a new DPAPI-encrypted secret.
-* [`nova.vault_list`](nova-vault-list.md) ? List web browser login credentials.
-* [Vault & Secret Architecture](../../../core-features/vault-and-secrets.md) ? Architectural overview of Nova secret isolation.
+* [`nova.secret_set`](nova-secret-set.md) — Store a new DPAPI-encrypted secret.
+* [`nova.vault_list`](nova-vault-list.md) — List web browser login credentials.
+* [Vault & Secret Architecture](../../../core-features/vault-and-secrets.md) — Architectural overview of Nova secret isolation.

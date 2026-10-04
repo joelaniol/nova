@@ -23,6 +23,7 @@ List all installed agent-authored plugins with their install state, runtime stat
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `plugin_management` (load it with `nova.tools_bundle(bundle='plugin_management')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---

@@ -8,7 +8,6 @@ Writes raw characters to the session stdin without appending an implicit newline
 
 `nova.terminal_write` feeds raw bytes or strings directly into the ConPTY stdin stream. It does not wait for command completion or output generation.
 
-* **Security Tier:** Tier 2 (Execute)
 * **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces.md)
 
 ---
@@ -24,6 +23,7 @@ Writes raw characters to the session stdin without appending an implicit newline
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
 
 Capability bundle: `terminal_ops` (load it with `nova.tools_bundle(bundle='terminal_ops')`).
+Tool category: `high_impact` (highest risk class; Nova's agent permission settings can ask before it runs).
 <!-- /generated:parameters -->
 
 ---
@@ -35,7 +35,7 @@ Capability bundle: `terminal_ops` (load it with `nova.tools_bundle(bundle='termi
 {
   "name": "nova.terminal_write",
   "arguments": {
-    "sessionId": "term-a8f9c1d0",
+    "sessionId": "term_1a2b3c4d5e6f7a8b",
     "data": "npm test\r"
   }
 }
@@ -47,12 +47,12 @@ Capability bundle: `terminal_ops` (load it with `nova.tools_bundle(bundle='termi
   "content": [
     {
       "type": "text",
-      "text": "Wrote 9 char(s) to 'term-a8f9c1d0'."
+      "text": "Wrote 9 char(s) to 'term_1a2b3c4d5e6f7a8b'."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "sessionId": "term-a8f9c1d0",
+    "sessionId": "term_1a2b3c4d5e6f7a8b",
     "charsWritten": 9
   }
 }

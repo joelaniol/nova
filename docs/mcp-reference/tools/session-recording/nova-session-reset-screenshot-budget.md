@@ -6,9 +6,8 @@ Resets the session screenshot budget counter to allow fresh visual captures.
 
 ## 1. Overview
 
-`nova.session_reset_screenshot_budget` clears the in-memory screenshot budget accumulator for the active MCP session. Nova enforces a bounded visual capture budget to prevent infinite visual capture loops or memory exhaustion; this tool re-arms the budget during extended testing sessions.
+`nova.session_reset_screenshot_budget` clears the in-memory cumulative inline-image-bytes counter Nova tracks per MCP session for visual-evidence tools. Nova warns once cumulative inline screenshot bytes for a session cross a soft threshold and refuses further inline images past a hard cap, to bound how much image data one session can push inline; this tool resets both counters back to zero so a long testing session can keep capturing.
 
-* **Security Tier:** Tier 1 (Session Budget Control)
 * **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
 
 ---
@@ -19,6 +18,7 @@ Resets the session screenshot budget counter to allow fresh visual captures.
 This tool takes no parameters.
 
 Capability bundles: `page_read_debug`, `visual_evidence`.
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -39,24 +39,32 @@ Capability bundles: `page_read_debug`, `visual_evidence`.
   "content": [
     {
       "type": "text",
-      "text": "Screenshot budget reset for the active MCP session."
+      "text": "Screenshot session budget reset for current MCP session. Previous inline bytes: 6291456; screenshots: 14."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "budgetLimit": 50,
-    "consumed": 0,
-    "remaining": 50
+    "status": "reset",
+    "reasonCode": "screenshot_budget_reset",
+    "scope": "current_mcp_session",
+    "sessionKey": "sess-4a21",
+    "hadBudget": true,
+    "previousCumulativeAagInlineMediaBytes": 6291456,
+    "previousScreenshotCount": 14,
+    "currentCumulativeAagInlineMediaBytes": 0,
+    "currentScreenshotCount": 0
   }
 }
 ```
+
+If the session had not captured any inline screenshots yet, `status` is `"noop"`, `reasonCode` is `"screenshot_budget_not_found"`, and `hadBudget` is `false` (the `previous*` fields are still `0`).
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Post-Exhaustion Recovery:** Call when a multi-step test intentionally exhausts visual capture limits and requires fresh captures for subsequent phases.
-* **Session-Scoped:** Only affects the current MCP client session; does not alter global configuration.
+* **Post-Exhaustion Recovery:** Call when a multi-step test intentionally exhausts the cumulative inline-bytes budget (soft-warn around 5 MB, hard cap around 20 MB per session) and requires fresh inline captures for subsequent phases.
+* **Session-Scoped:** Only affects the current MCP client session; does not alter global configuration or other sessions.
 
 ---
 

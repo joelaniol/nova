@@ -1,6 +1,6 @@
 # `nova.connector_grant_set`
 
-Sets capability access modes (ask, allow, blocked) for a connector.
+Sets capability access modes (ask, always, blocked) for a connector.
 
 ---
 
@@ -8,7 +8,6 @@ Sets capability access modes (ask, allow, blocked) for a connector.
 
 `nova.connector_grant_set` configures fine-grained capability gates for a connector. Grants control what operations an AI agent can execute autonomously without human prompts.
 
-* **Security Tier:** Tier 2 (Permission Granting)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
 ---
@@ -28,6 +27,7 @@ Sets capability access modes (ask, allow, blocked) for a connector.
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -41,8 +41,8 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
   "arguments": {
     "profileId": "conn-mail-01",
     "capability": "read",
-    "mode": "allow",
-    "scope": "workspace"
+    "mode": "always",
+    "scope": "global"
   }
 }
 ```
@@ -53,15 +53,17 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
   "content": [
     {
       "type": "text",
-      "text": "Granted 'read: allow' on connector conn-mail-01 for workspace scope."
+      "text": "Grant set: 'read' = always (global) for connector 'conn-mail-01'."
     }
   ],
   "structuredContent": {
-    "ok": true,
     "profileId": "conn-mail-01",
     "capability": "read",
-    "mode": "allow",
-    "scope": "workspace"
+    "mode": "always",
+    "scope": "global",
+    "changed": true,
+    "status": "updated",
+    "reasonCode": null
   }
 }
 ```
@@ -70,7 +72,7 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
 
 ## 4. Operational Best Practices
 
-* **Least Privilege:** Keep sensitive capabilities like `send` or `delete` in `ask` mode so human operators approve outbound messages or destructive actions.
+* **Least Privilege:** Keep sensitive capabilities like `send` (mail) or `full` (sftp/ftp) in `ask` mode so human operators approve outbound messages or write/delete actions.
 * **Folder Scoping:** Restrict `allowedMailFolders` (e.g. `["INBOX", "Archive"]`) to prevent autonomous access to sensitive mail folders.
 
 ---

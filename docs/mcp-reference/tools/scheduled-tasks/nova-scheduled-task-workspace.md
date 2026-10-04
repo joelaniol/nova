@@ -1,14 +1,13 @@
 # `nova.scheduled_task_workspace`
 
-Returns directory metadata, file count, and last run status for a task’s isolated workspace.
+Returns the task's workspace paths, a page of its shared files, and the status of its last run.
 
 ---
 
 ## 1. Overview
 
-`nova.scheduled_task_workspace` inspects the filesystem container dedicated to a task (`%LOCALAPPDATA%\ScheduledTasks\<taskId>\`). It summarizes total files in the `shared/` folder, storage consumed, and the status of the last completed run.
+`nova.scheduled_task_workspace` inspects the folder dedicated to a task. Each task is bound to a terminal workspace (by default a dedicated one Nova creates), and its files live under that workspace's `nova-tasks/<taskId>/` subtree with a `shared/` folder for agent-visible output. The tool returns the workspace and shared-folder paths, up to 25 files from `shared/` (paginated), and the status of the task's last run.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
 ---
@@ -23,6 +22,7 @@ Returns directory metadata, file count, and last run status for a task’s isola
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -45,16 +45,22 @@ Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='sc
   "content": [
     {
       "type": "text",
-      "text": "Workspace for task-7c81a2f0: 2 shared files (4 KB), last run: Success."
+      "text": "Workspace for task 'task-7c81a2f0': C:\\Users\\<user>\\AppData\\Local\\NovaBrowser\\Workspaces\\<workspaceId>\\nova-tasks\\task-7c81a2f0"
     }
   ],
   "structuredContent": {
-    "ok": true,
     "taskId": "task-7c81a2f0",
-    "workspacePath": "ScheduledTasks/task-7c81a2f0",
-    "sharedFileCount": 2,
-    "sharedBytesTotal": 4096,
-    "lastRunStatus": "Success"
+    "workspaceId": "<workspaceId>",
+    "path": "C:\\Users\\<user>\\AppData\\Local\\NovaBrowser\\Workspaces\\<workspaceId>\\nova-tasks\\task-7c81a2f0",
+    "sharedPath": "C:\\Users\\<user>\\AppData\\Local\\NovaBrowser\\Workspaces\\<workspaceId>\\nova-tasks\\task-7c81a2f0\\shared",
+    "exists": true,
+    "lastRunId": "run-8120c",
+    "lastRunStatus": "Completed",
+    "sharedFiles": [
+      { "name": "price.json", "isDirectory": false, "size": 128, "lastWriteUtc": "2026-10-02T20:30:12Z" }
+    ],
+    "sharedFilesTruncated": false,
+    "sharedFilesNextOffset": null
   }
 }
 ```
@@ -63,8 +69,8 @@ Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='sc
 
 ## 4. Operational Best Practices
 
-* **Workspace Health:** Check `sharedBytesTotal` to ensure task runs are not accumulating uncompressed logs or excessive output artifacts.
-* **File Discovery:** Follow up with [`nova.scheduled_task_workspace_list`](nova-scheduled-task-workspace-list.md) to inspect file names.
+* **Workspace Health:** `sharedFiles` returns up to 25 entries from `shared/`; a `sharedFilesTruncated: true` means the folder holds more — follow up with `nova.scheduled_task_workspace_list` (which pages through all entries) to see the rest.
+* **File Discovery:** Follow up with [`nova.scheduled_task_workspace_list`](nova-scheduled-task-workspace-list.md) to inspect file names and sizes individually.
 
 ---
 

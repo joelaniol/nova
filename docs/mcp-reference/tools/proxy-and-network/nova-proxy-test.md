@@ -6,10 +6,9 @@ Executes an active network diagnostic probe through a proxy profile to verify co
 
 ## 1. Overview
 
-`nova.proxy_test` sends a probe request through the specified proxy server, measuring TCP handshake time, SSL negotiation latency, and detecting whether credentials are valid.
+`nova.proxy_test` sends a single HTTP GET request through the specified proxy to a probe URL (an external IP-echo service by default) and reports whether it succeeded, the total elapsed time, and the external IP seen by that probe. Invalid or unsupported credentials surface indirectly, as a failed probe with the connection error.
 
-* **Security Tier:** Tier 1 (Safe Diagnostics)
-* **Core Architecture Guide:** [Proxy Routing & Stealth Network Engine](../../../core-features/proxy-and-network.md)
+* **Core Architecture Guide:** [Proxy Routing & Network Engine](../../../core-features/proxy-and-network.md)
 
 ---
 
@@ -22,6 +21,7 @@ Executes an active network diagnostic probe through a proxy profile to verify co
 | `probeUrl` | `string` | No | — | — | Custom probe URL. Default: 'https://api.ipify.org/?format=json'. |
 
 Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='proxy_management')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -33,7 +33,7 @@ Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='p
 {
   "name": "nova.proxy_test",
   "arguments": {
-    "profileId": "prx-us-east"
+    "profileId": "proxy-2"
   }
 }
 ```
@@ -44,19 +44,22 @@ Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='p
   "content": [
     {
       "type": "text",
-      "text": "Probe succeeded: 198.51.100.25 (78ms)."
+      "text": "Proxy 'US East SOCKS5' is healthy. External IP: 198.51.100.25, latency: 78 ms."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "profileId": "prx-us-east",
-    "success": true,
-    "latencyMs": 78,
+    "profileId": "proxy-2",
+    "name": "US East SOCKS5",
+    "endpoint": "socks5://198.51.100.25:1080",
+    "message": "Proxy test OK. External IP: 198.51.100.25.",
     "externalIp": "198.51.100.25",
-    "error": null
+    "statusCode": 200,
+    "elapsedMs": 78
   }
 }
 ```
+On failure `ok` is `false`, `externalIp`/`statusCode` are `null`, and `message` names the failure (for example an unreachable proxy or unsupported SOCKS credentials).
 
 ---
 

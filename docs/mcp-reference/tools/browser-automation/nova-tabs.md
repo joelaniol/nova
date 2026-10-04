@@ -21,14 +21,15 @@ When collaborating on a machine where a human user or other AI agents are active
 * This ensures you never accidentally close, navigate, or click inside a tab that the human operator is currently reading.
 
 ### B. Multi-Agent Lease Auditing
-Each tab in the response reports:
-* `claimed`: Whether a lease is active.
-* `claimOwner`: The `agentId` currently holding the write lock.
+Each tab in the response carries a `claim` block, or `null` when the tab has no active lease:
+* `ownerAgentId`: The `agentId` currently holding the write lock.
 * `leaseRemainingMs`: Milliseconds before the lease expires and becomes available for other agents.
+* (at `outputDetail: "full"`) `role`, `sourceKind`, `claimTaskId`/`taskId`, `claimedAtUtc`, and `debugLabel`.
 
 ### C. Output Formats
-* **`minimal` (Recommended):** Returns only `targetId`, `title`, `url`, `active`, and `claimOwner`.
-* **`full`:** Returns comprehensive metadata, WebErrorStatus, sandbox bindings, private browsing indicators, and process IDs.
+* **`minimal` (Recommended):** Returns `targetId`, `url`, `isActive`, `isPrivate`/`privateSessionId`, `isSandboxTab`, `isPinned`, and a short `claim` block (or `null` if unclaimed).
+* **`summary`:** Adds `kind`, `name`, `sandboxId`/`sandboxRef`, `webViewReady`, `title`, `profileId`, `targetReadiness`, and `lastAgentActivity`.
+* **`full`:** Returns the complete per-tab diagnostics, including claim, activity, and emulation detail blocks.
 
 ---
 
@@ -47,6 +48,7 @@ Each tab in the response reports:
 | `outputDetail` | `string` | No | `"full"` | `minimal`, `summary`, `full` | Projection size. minimal returns targetId, url, isActive, isPrivate/privateSessionId, and a short claim block; summary adds core identity/readiness fields; full preserves all tab diagnostics. Every size reports isPrivate, so a target can be picked without a second call. |
 
 Capability bundles: `browser_automation`, `page_read_debug`, `visual_evidence`.
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -66,36 +68,40 @@ Capability bundles: `browser_automation`, `page_read_debug`, `visual_evidence`.
 ### Sample Response (Minimal)
 ```json
 {
+  "activeTargetId": "tab-1",
   "tabs": [
     {
       "targetId": "tab-1",
-      "title": "GitHub — Where software is built",
       "url": "https://github.com/",
-      "active": true,
-      "sandbox": "A",
-      "claimed": false
+      "isActive": true,
+      "isPrivate": false,
+      "isSandboxTab": false,
+      "isPinned": false,
+      "claim": null
     },
     {
       "targetId": "tab-2",
-      "title": "Hacker News",
       "url": "https://news.ycombinator.com/",
-      "active": false,
-      "sandbox": "A",
-      "claimed": true,
-      "claimOwner": "research-agent-1",
-      "leaseRemainingMs": 184000
+      "isActive": false,
+      "isPrivate": false,
+      "isSandboxTab": false,
+      "isPinned": false,
+      "claim": {
+        "ownerAgentId": "research-agent-1",
+        "leaseRemainingMs": 184000
+      }
     }
-  ],
-  "activeTargetId": "tab-1"
+  ]
 }
 ```
+The response also carries `totalCount`, `filteredCount`, `mine`/`mineAgentId`, and `sandboxInitialization`; this excerpt is trimmed to the per-tab fields.
 
 ---
 
 ## 5. Best Practices & Common Traps
 
 * **Never hardcode `"tab-1"`:** Target IDs are assigned dynamically as tabs open and close. Always run `nova.tabs(outputDetail="minimal")` before starting a multi-step workflow.
-* **Auto-Claim on Mutation:** While `nova.tabs` is read-only, mutating tools (`click_selector`, `navigate`) can auto-claim an unclaimed tab for your session. Use explicit `nova.tab_claim` when you need an ironclad multi-step lease.
+* **Unclaimed tabs stay open to any agent:** `nova.tabs` is read-only. A tab with no active claim can be acted on by any agent without claiming it first; use explicit `nova.tab_claim` when you need an exclusive multi-step lease that locks other agents out.
 
 ---
 

@@ -6,10 +6,9 @@ Registers a new external MCP server with stdio, HTTP, or SSE transport.
 
 ## 1. Overview
 
-`nova.external_server_add` registers a secondary MCP server. For `stdio`, Nova launches and monitors a local sub-process with an isolated workspace; for `http` and `sse`, Nova connects over network streams.
+`nova.external_server_add` registers a new external MCP server. For `stdio`, provide `command` (and optionally `args`/`cwd`/`env`); for `http`/`sse`, provide `endpointUrl`. The server is not started automatically — call `nova.external_server_start` after adding. A `stdio` process defaults to a persistent Nova-owned per-server working directory outside the app install folder when `cwd` is omitted.
 
-* **Security Tier:** Tier 3 (High-Impact)
-* **Core Architecture Guide:** [Plugins & External Extensions](../../../core-features/plugins.md)
+* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md) (section 7, "External MCP Servers")
 
 ---
 
@@ -37,6 +36,7 @@ Registers a new external MCP server with stdio, HTTP, or SSE transport.
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
 
 Capability bundle: `external_mcp` (load it with `nova.tools_bundle(bundle='external_mcp')`).
+Tool category: `high_impact` (highest risk class; Nova's agent permission settings can ask before it runs).
 <!-- /generated:parameters -->
 
 ---
@@ -66,14 +66,15 @@ Capability bundle: `external_mcp` (load it with `nova.tools_bundle(bundle='exter
   "content": [
     {
       "type": "text",
-      "text": "External MCP server 'Filesystem MCP' (e4f5a6b7) added."
+      "text": "Server 'Filesystem MCP' added (key: e4f5a6b7, transport: stdio). Use nova.external_server_start to launch."
     }
   ],
   "structuredContent": {
     "ok": true,
     "serverKey": "e4f5a6b7",
     "displayName": "Filesystem MCP",
-    "transport": "stdio"
+    "transport": "stdio",
+    "status": "Stopped"
   }
 }
 ```
@@ -83,7 +84,8 @@ Capability bundle: `external_mcp` (load it with `nova.tools_bundle(bundle='exter
 ## 4. Operational Best Practices
 
 * **Process Sandboxing:** External `stdio` processes default to a persistent per-server workspace outside Nova install folders, protecting user profiles.
-* **Handshake Verification:** Call `nova.external_server_start` after adding to verify that the server completes the MCP initialize handshake without errors.
+* **Handshake Verification:** Call `nova.external_server_start` after adding; the start result reports PID, tool count, and startup duration (or a detailed error) so you can confirm the MCP initialize handshake actually succeeded.
+* **Not Auto-Started:** Adding a server never starts it, even with `autoStart: true` — that flag only controls whether Nova starts it automatically on its own next launch.
 
 ---
 

@@ -8,7 +8,6 @@ Deletes an operator note by unique ID.
 
 `nova.operator_notes_delete` removes an operator note from the persistent database.
 
-* **Security Tier:** Tier 2 (Note Deletion)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
 ---
@@ -21,6 +20,7 @@ Deletes an operator note by unique ID.
 | `id` | `string` | Yes | — | — | Note ID from nova.operator_notes_list. |
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -32,7 +32,7 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
 {
   "name": "nova.operator_notes_delete",
   "arguments": {
-    "id": "op-note-101"
+    "id": "a3f1c9e2b4d6487f9a21e0d4f1a2b3c4"
   }
 }
 ```
@@ -43,16 +43,17 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "Deleted operator note op-note-101."
+      "text": "Deleted operator note 'a3f1c9e2b4d6487f9a21e0d4f1a2b3c4'."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "id": "op-note-101",
-    "status": "Deleted"
+    "deleted": true,
+    "id": "a3f1c9e2b4d6487f9a21e0d4f1a2b3c4"
   }
 }
 ```
+
+If the ID does not match any stored note, the call still succeeds (no error) with `deleted: false` and a matching text message.
 
 ---
 

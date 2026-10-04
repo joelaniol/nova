@@ -8,7 +8,6 @@ Retrieves paginated page details, extracted text, metadata, and screenshots from
 
 `nova.crawl_results` reads discovered pages and extracted content from the persistent SQLite `crawl.db` index. It supports server-side pagination, URL filtering, incremental cursors via `sinceSequence`, and aggregated statistical summaries.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Autonomous Crawler & Surface Explorer](../../../core-features/crawler-and-discovery.md)
 
 ---
@@ -33,6 +32,7 @@ Retrieves paginated page details, extracted text, metadata, and screenshots from
 | `summary` | `boolean` | No | `false` | — | When true, return aggregated statistics instead of full page results. Includes totalPages, avgConfidence, avgLoadTimeMs, totalLinks, frameworks breakdown, depth distribution, duplicate content detection, hydration drift count, and screenshot coverage stats. Significantly cheaper in tokens than reading all pages. |
 
 Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawler_ops')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -58,38 +58,50 @@ Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawle
   "content": [
     {
       "type": "text",
-      "text": "Retrieved 2 page results for crawl-4a92c81e (total visited: 12)."
+      "text": "Historical crawl crawl-4a92c81e: 2 results (offset 0, total 12, sortBy sequence asc)"
     }
   ],
   "structuredContent": {
-    "ok": true,
     "crawlId": "crawl-4a92c81e",
-    "totalResults": 12,
-    "offset": 0,
-    "limit": 2,
+    "status": "completed",
+    "source": "persisted",
     "pages": [
       {
         "sequence": 1,
         "url": "https://docs.example.com/api",
-        "httpStatus": 200,
-        "depth": 0,
-        "title": "API Overview — Example Docs",
-        "linksDiscovered": 14,
-        "contentLength": 4210
+        "requestedUrl": "https://docs.example.com/api",
+        "settled": true,
+        "customScriptStatus": null,
+        "error": null,
+        "errorKind": null,
+        "reasonCode": null,
+        "httpStatusCode": 200
       },
       {
         "sequence": 2,
         "url": "https://docs.example.com/api/auth",
-        "httpStatus": 200,
-        "depth": 1,
-        "title": "Authentication & Tokens — Example Docs",
-        "linksDiscovered": 8,
-        "contentLength": 3120
+        "requestedUrl": "https://docs.example.com/api/auth",
+        "settled": true,
+        "customScriptStatus": null,
+        "error": null,
+        "errorKind": null,
+        "reasonCode": null,
+        "httpStatusCode": 200
       }
-    ]
+    ],
+    "total": 12,
+    "returnedCount": 2,
+    "offset": 0,
+    "limit": 2,
+    "sortBy": "sequence",
+    "sortOrder": "asc",
+    "nextOffset": 2,
+    "resultCount": 12
   }
 }
 ```
+
+There is no top-level `ok` field, and the total-count field is `total`, not `totalResults`. The exact per-page shape depends on `outputDetail`: `minimal` (shown above) does not include `title`, `httpStatus`, `depth`, or `linksDiscovered`/`contentLength` at all — the field is `httpStatusCode`, and link/content counts, title, and metadata only appear under `outputDetail: "summary"` (adds `title`, `depth`, `linkCount`, `confidence`, …) or `"full"` (adds the complete `links[]`, `contentBlocks[]`, `textContent`, metadata, and screenshot payload). Many other envelope fields are omitted above for brevity (`config`, `urlCount`, retention/pagination metadata, `outputBudget`, etc.).
 
 ---
 
@@ -97,7 +109,7 @@ Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawle
 
 * **Incremental Polling:** Use `sinceSequence` with the highest sequence number received to incrementally stream new pages as the crawl progresses.
 * **Summary First:** Call with `summary: true` first to determine total pages and crawl health before requesting large result pages.
-* **Token Conservation:** Keep `outputDetail: "minimal"` unless full extracted markdown text is required for immediate prompt analysis.
+* **Token Conservation:** Keep `outputDetail: "minimal"` unless full extracted markdown text is required for immediate prompt analysis; note `minimal` has no `title`/link-count fields, so use `"summary"` if you need those without the full payload.
 
 ---
 

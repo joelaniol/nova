@@ -2,7 +2,6 @@
 
 > **Stores or updates a username and password login credential in the encrypted vault.**
 
-* **Security Tier:** Tier 2 (Credential Storage)
 * **Core Feature Guide:** [Vault & Secret Keystore](../../../core-features/vault-and-secrets.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
@@ -27,6 +26,7 @@
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
 
 Capability bundle: `vault_auth` (load it with `nova.tools_bundle(bundle='vault_auth')`).
+Tool category: `high_impact` (highest risk class; Nova's agent permission settings can ask before it runs).
 <!-- /generated:parameters -->
 
 ---
@@ -36,7 +36,7 @@ Capability bundle: `vault_auth` (load it with `nova.tools_bundle(bundle='vault_a
 ### JSON-RPC Request
 ```json
 {
-  "name": "nova_vault_set",
+  "name": "nova.vault_set",
   "arguments": {
     "site": "https://login.example.com",
     "username": "testuser@example.com",
@@ -51,17 +51,19 @@ Capability bundle: `vault_auth` (load it with `nova.tools_bundle(bundle='vault_a
   "content": [
     {
       "type": "text",
-      "text": "Saved credentials for testuser@example.com."
+      "text": "Vault entry created for login.example.com (testuser@example.com)."
     }
   ],
   "structuredContent": {
-    "ok": true,
+    "action": "created",
+    "entryId": "a1b2c3d4",
     "site": "https://login.example.com",
-    "username": "testuser@example.com",
-    "status": "Stored"
+    "username": "testuser@example.com"
   }
 }
 ```
+
+`action` is `"updated"` instead of `"created"` when an entry for the same site+username already existed.
 
 ---
 

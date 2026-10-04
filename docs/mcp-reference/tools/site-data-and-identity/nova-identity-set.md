@@ -8,7 +8,6 @@ Configures and persists a new browser identity profile (preset + version/custom 
 
 `nova.identity_set` persists a new browser persona into `settings.json`. It configures the browser to emulate specific User-Agent strings, platform navigator properties, and client hints across future WebView instantiations.
 
-* **Security Tier:** Tier 2 (Identity Configuration)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
 ---
@@ -23,6 +22,7 @@ Configures and persists a new browser identity profile (preset + version/custom 
 | `customUserAgent` | `string or null` | No | — | — | Custom user-agent string. Required when preset='custom'. Set to null or an empty string to clear a stored custom user-agent. Max 1024 characters. Control characters are stripped automatically. |
 
 Capability bundle: `identity_management` (load it with `nova.tools_bundle(bundle='identity_management')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -34,8 +34,8 @@ Capability bundle: `identity_management` (load it with `nova.tools_bundle(bundle
 {
   "name": "nova.identity_set",
   "arguments": {
-    "preset": "ChromeWindows",
-    "version": "128.0.0.0"
+    "preset": "chrome",
+    "version": "147.0.7727.56"
   }
 }
 ```
@@ -46,14 +46,15 @@ Capability bundle: `identity_management` (load it with `nova.tools_bundle(bundle
   "content": [
     {
       "type": "text",
-      "text": "Persisted browser identity: ChromeWindows (v128.0.0.0)."
+      "text": "Browser identity changed to chrome (Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.7727.56 Safari/537.36)"
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "preset": "ChromeWindows",
-    "version": "128.0.0.0",
-    "effectiveUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/128.0.0.0"
+    "preset": "chrome",
+    "version": "147.0.7727.56",
+    "customUserAgent": null,
+    "effectiveUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.7727.56 Safari/537.36",
+    "changed": true
   }
 }
 ```

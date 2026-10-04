@@ -1,16 +1,15 @@
 # `nova.get_layout_metrics`
 
-> **Retrieves layout viewport dimensions, document scroll boundaries, and device scale factor.**
+> **Retrieves layout viewport dimensions, visual viewport offset/scale, and the full scrollable content size.**
 
-* **Security Tier:** Tier 1 (Read-Only Geometry)
-* **Core Feature Guide:** [DOM Perception & Semantic Extraction](../../../core-features/tob.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.get_layout_metrics` reports layout viewport metrics, scroll offsets, content size, and device pixel ratio (DPR).
+`nova.get_layout_metrics` wraps the Chrome DevTools Protocol `Page.getLayoutMetrics` call and reports
+its `layoutViewport`, `visualViewport` (including its pinch-zoom `scale`), and `contentSize`.
 
 ---
 
@@ -22,6 +21,7 @@
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
 
 Capability bundles: `browser_automation`, `page_read_debug`.
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -31,7 +31,7 @@ Capability bundles: `browser_automation`, `page_read_debug`.
 ### JSON-RPC Request
 ```json
 {
-  "name": "nova_get_layout_metrics",
+  "name": "nova.get_layout_metrics",
   "arguments": {
     "targetId": "tab-1"
   }
@@ -44,24 +44,28 @@ Capability bundles: `browser_automation`, `page_read_debug`.
   "content": [
     {
       "type": "text",
-      "text": "Viewport: 1920x1080, Content height: 4200, Scale: 1.0."
+      "text": "{\"layoutViewport\":{...},\"visualViewport\":{...},\"contentSize\":{...}}"
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "viewportWidth": 1920,
-    "viewportHeight": 1080,
-    "contentHeight": 4200,
-    "deviceScaleFactor": 1
+    "profileId": "tab-1",
+    "layoutViewport": { "pageX": 0, "pageY": 0, "clientWidth": 1920, "clientHeight": 931 },
+    "visualViewport": { "offsetX": 0, "offsetY": 0, "pageX": 0, "pageY": 0, "clientWidth": 1920, "clientHeight": 931, "scale": 1, "zoom": 1 },
+    "contentSize": { "x": 0, "y": 0, "width": 1920, "height": 4200 }
   }
 }
 ```
+
+This is the raw Chrome DevTools Protocol `Page.getLayoutMetrics` result, passed through largely
+unchanged. `layoutViewport`/`visualViewport` give the current viewport in CSS pixels;
+`contentSize` is the full scrollable document size (its `height` is what a scroll-exhaustion check
+compares against). The top-level key is `profileId`, not `targetId`.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **End-of-Page Detection:** Compare viewport height + scrollY with contentHeight to detect scroll exhaustion.
+* **End-of-Page Detection:** Compare the visual viewport's position and size against `contentSize.height` to detect scroll exhaustion.
 
 ---
 

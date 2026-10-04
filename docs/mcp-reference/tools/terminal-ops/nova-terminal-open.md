@@ -6,9 +6,8 @@ Opens a new agent-owned PowerShell session in an isolated working directory and 
 
 ## 1. Overview
 
-`nova.terminal_open` launches a headless Windows Pseudo Console (ConPTY) session hosted by `NovaBrowser.TerminalRunner`. The session operates in an isolated environment, separate from the user's interactive terminal dock, and persists across browser UI reloads.
+`nova.terminal_open` launches a headless Windows Pseudo Console (ConPTY) session hosted by the external `NovaBrowser.TerminalRunner` process. The session runs PowerShell in an isolated environment, kept in a separate registry from the user's interactive terminal dock so an agent can neither read nor write the user's own terminals.
 
-* **Security Tier:** Tier 2 (Execute)
 * **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces.md)
 
 ---
@@ -26,6 +25,7 @@ Opens a new agent-owned PowerShell session in an isolated working directory and 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
 
 Capability bundle: `terminal_ops` (load it with `nova.tools_bundle(bundle='terminal_ops')`).
+Tool category: `high_impact` (highest risk class; Nova's agent permission settings can ask before it runs).
 <!-- /generated:parameters -->
 
 ---
@@ -52,14 +52,14 @@ Capability bundle: `terminal_ops` (load it with `nova.tools_bundle(bundle='termi
   "content": [
     {
       "type": "text",
-      "text": "Terminal session 'term-a8f9c1d0' opened (powershell.exe)."
+      "text": "Terminal session 'term_1a2b3c4d5e6f7a8b' opened (powershell.exe -NoProfile -NoLogo -NoExit -Command \"Remove-Module PSReadLine -Force -ErrorAction SilentlyContinue\")."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "sessionId": "term-a8f9c1d0",
-    "shell": "powershell.exe",
-    "cwd": "C:\\Users\\GNetwork\\AppData\\Local\\Temp\\NovaBrowser\\term-a8f9c1d0",
+    "sessionId": "term_1a2b3c4d5e6f7a8b",
+    "shell": "powershell.exe -NoProfile -NoLogo -NoExit -Command \"Remove-Module PSReadLine -Force -ErrorAction SilentlyContinue\"",
+    "cwd": "%LOCALAPPDATA%\\nova-cognitive\\Nova\\Temp\\mcp-terminal\\1a2b3c4d5e6f7a8b",
     "cols": 120,
     "rows": 30
   }
@@ -71,8 +71,9 @@ Capability bundle: `terminal_ops` (load it with `nova.tools_bundle(bundle='termi
 ## 4. Operational Best Practices
 
 * **Geometry Guarding:** Always preserve at least 80 columns. Narrower viewports cause CLI tools and sentinels to wrap lines, corrupting regex parsers.
-* **Session Cleanup:** Always pair `nova.terminal_open` with `nova.terminal_close` in a `finally` block to kill child processes and reclaim OS memory.
+* **Session Cleanup:** Always pair `nova.terminal_open` with `nova.terminal_close` once the task is done, to end the shell process and free its working directory.
 * **Command Execution:** For running one-shot commands, prefer `nova.terminal_run_command` over raw writes.
+* **Session Limit:** At most 8 agent-owned terminal sessions can be open at once; opening a 9th fails with `reasonCode: "terminal_session_cap"` until one is closed.
 
 ---
 

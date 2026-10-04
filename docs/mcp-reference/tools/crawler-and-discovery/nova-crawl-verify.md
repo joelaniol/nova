@@ -6,9 +6,8 @@ Performs targeted, non-traversal verification and DOM extraction against a speci
 
 ## 1. Overview
 
-`nova.crawl_verify` visits an explicit list of URLs in isolated hidden WebViews without following outbound hyperlinks. It is designed for regression testing, link health validation, selector assertions, and deterministic data scraping across up to 50 URLs in a single call.
+`nova.crawl_verify` queues a background job (depth 0, no link following) that visits an explicit list of up to 50 URLs in isolated hidden WebViews. Like `nova.crawl_start`, it runs asynchronously: the call itself only returns a `crawlId` and `status: "running"` once the URLs are queued — per-URL results (HTTP status, assertions, extracted content) must be fetched afterward with [`nova.crawl_results`](nova-crawl-results.md) or watched with [`nova.crawl_status`](nova-crawl-status.md), not read from this call's own response.
 
-* **Security Tier:** Tier 2 (Targeted Verification)
 * **Core Architecture Guide:** [Autonomous Crawler & Surface Explorer](../../../core-features/crawler-and-discovery.md)
 
 ---
@@ -72,6 +71,7 @@ Performs targeted, non-traversal verification and DOM extraction against a speci
 | `research.replayCases` | `array` of `object` | No | — | ≤ 20 items | Optional deterministic replay assertions. scriptResult revalidates a legacy stored result envelope; pageState.html loads a CSP-isolated offline Chromium DOM and executes the exact recipe customScript before any live URL navigation. |
 
 Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawler_ops')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -90,7 +90,7 @@ Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawle
     "extractMetadata": true,
     "assert": {
       "selector": "h1",
-      "present": true
+      "minMatches": 1
     }
   }
 }
@@ -102,39 +102,41 @@ Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawle
   "content": [
     {
       "type": "text",
-      "text": "Verified 2 URLs: 2 successful, 0 failed, 0 assertion errors."
+      "text": "Verify started: 2 of 2 URLs queued as crawl crawl-7c3e19aa. Use crawl_status/crawl_results to track progress."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "verifiedCount": 2,
-    "results": [
-      {
-        "url": "https://docs.example.com/api/auth",
-        "httpStatus": 200,
-        "title": "Authentication — Example Docs",
-        "assertionPassed": true,
-        "settleTimeMs": 410
-      },
-      {
-        "url": "https://docs.example.com/api/pricing",
-        "httpStatus": 200,
-        "title": "API Pricing & Tiers — Example Docs",
-        "assertionPassed": true,
-        "settleTimeMs": 380
-      }
-    ]
+    "crawlId": "crawl-7c3e19aa",
+    "status": "running",
+    "crawlKind": "verify",
+    "crawlMode": "hidden",
+    "ownerAgentId": "default",
+    "urlCount": 2,
+    "queuedUrlCount": 2,
+    "urls": [
+      "https://docs.example.com/api/auth",
+      "https://docs.example.com/api/pricing"
+    ],
+    "pollAfterMs": 500,
+    "retentionMode": "best_effort",
+    "terminalRetentionMinutes": 30,
+    "maxRetainedTerminalCrawls": 12,
+    "taskInstanceId": null,
+    "advisoryNote": "Use crawl_results(crawlId) to retrieve per-URL verification results. The verify job follows no links (depth=0) and visits only the provided URLs."
   }
 }
 ```
+
+There is no top-level `ok` field, and no immediate `verifiedCount`/`results[]`/`assertionPassed` in this response — that per-URL detail (HTTP status, title, `assert`/`waitFor` outcome, timings) is what [`nova.crawl_results`](nova-crawl-results.md) returns once the queued URLs have been visited. Also note `assert`'s field is `minMatches` (a match-count threshold), not a boolean `present`.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Automated Regression Checks:** Use `assert` to verify critical DOM elements exist after deployment across multiple key endpoints.
+* **Automated Regression Checks:** Use `assert` to verify critical DOM elements exist after deployment across multiple key endpoints, then read the outcome via `nova.crawl_results`.
 * **Custom Scrape Probes:** Supply `customScript` to evaluate complex page state and return typed JSON without manual step navigation.
 * **Bounded Batch Size:** Maximum 50 URLs per call ensures deterministic execution and prevents hanging workers.
+* **Poll for Completion:** Since the call itself only queues the job, poll [`nova.crawl_status`](nova-crawl-status.md) (or call `nova.crawl_results` once `resultsComplete`/`status` indicates it finished) before reading results.
 
 ---
 

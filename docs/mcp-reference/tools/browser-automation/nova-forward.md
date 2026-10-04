@@ -1,16 +1,18 @@
 # `nova.forward`
 
-Navigates forward in browser history with automated SPA session preservation, DOM settlement tracking, and guarded navigation gates.
+Navigates forward in browser history, with optional load/settlement waiting and a screenshot sidecar.
 
 ---
 
 ## 1. Overview
 
-`nova.forward` advances the browsing context forward along the back/forward history stack. Matching the architecture of [`nova.back`](nova-back.md), Nova distinguishes between safe same-document SPA steps (`pushState`/`popstate`) and hard cross-document unloads.
+`nova.forward` moves the target tab one step forward through its WebView2 history stack. Like [`nova.back`](nova-back.md), this is a same-document history operation — it does not trigger the full-document-unload Agent Awareness Gate that [`nova.navigate`](nova-navigate.md) and [`nova.reload`](nova-reload.md) enforce.
 
-* **SPA Settlement Engine:** Waits for microtasks, DOM mutations, and network activity to stabilize (`waitForSettlement: true`).
-* **Session Preservation Gate:** Prevents accidental session destruction unless explicitly bypassed via `force: true`.
+* **Settlement Tracking (`waitForSettlement: true`):** Waits for SPA DOM mutations and network activity to quiet down after the page reports `readyState=complete`.
+* **Screenshot Sidecar (`includeScreenshot`):** Optionally captures a screenshot in the same round-trip; a capture failure does not change the navigation result.
 * **Output Tiers:** Supports `"full"`, `"compact"`, or `"minimal"` response envelopes.
+
+The `force` parameter exists for parity with `nova.navigate`/`nova.reload`, but since `nova.forward` never runs their full-document-unload gate, it has no effect on this tool.
 
 ---
 
@@ -33,6 +35,7 @@ Navigates forward in browser history with automated SPA session preservation, DO
 | `outputDetail` | `string` | No | `"full"` | `full`, `compact`, `minimal` | Response verbosity. 'full' (default) is the unchanged payload. 'compact' drops the advisory blocks you did not ask for (pks/pksMeta, discoverySignals, routingHint, taskDiscoveryWarning, byte accounting) and keeps everything you did - state, screenshot, settlement. 'minimal' is the lean envelope: core contract (ok/status/reasonCode/stage/retryable), the navigation proof (url/requestedUrl/loadCompleted/navigationFailed/webErrorStatus/settlement), target and page info, claim/private state, screenshot sidecar status, and the never-suppressible safety warnings. No setting can hide a warning. |
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -53,15 +56,24 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
 ```json
 {
   "ok": true,
+  "status": "ok",
+  "stage": "history_forward",
   "targetId": "tab-101",
-  "url": "https://example.com/checkout/step2",
+  "waitForLoad": true,
   "loadCompleted": true,
+  "pageUrl": "https://example.com/checkout/step2",
+  "pageTitle": "Checkout - Step 2",
+  "waitForSettlement": true,
   "settlement": {
     "settled": true,
+    "quietMs": 200,
+    "pendingResources": 0,
     "elapsedMs": 420
   }
 }
 ```
+
+If there is no forward history entry, the call returns `ok: false` with `reasonCode: "navigation.cannot_go_forward"`.
 
 ---
 

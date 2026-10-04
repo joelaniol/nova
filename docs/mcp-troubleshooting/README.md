@@ -1,6 +1,6 @@
 # MCP troubleshooting
 
-Status: 2026-10-01 · Deutsche Fassung weiter unten.
+Status: 2026-10-03 · Deutsche Fassung weiter unten.
 
 Your AI agent is connected to Nova but does not work with it properly? Find the symptom below. Most
 problems come from differences between MCP clients, not from Nova or the agent.
@@ -27,27 +27,62 @@ of them — Nova has a dedicated mode for it: [antigravity.md → Tool names wit
 actual tabs, notes or values. The agent then often tries to work around it with `curl` or by reading
 Nova's files from disk.
 
-**Likely cause.** The client passes only the text part of an MCP answer (`content`) to the model and
-drops the machine-readable result (`structuredContent`). For Google Antigravity see
-[antigravity.md → The agent sees no data](antigravity.md#the-agent-sees-no-data). Public reports
-describe the same behaviour for Cursor, Kiro, Goose and Continue; these have not been tested with Nova
-yet. Claude Code and Codex are not affected.
+**Cause.** Nova returns every tool answer in two parts: a short text (`content`) and the
+machine-readable result (`structuredContent`). Some clients pass only the text to the model and drop
+the structured result. Public reports describe this for Cursor, Kiro, Goose and Continue; these have
+not been tested with Nova yet. Claude Code and Codex read `structuredContent` and are not affected.
+
+**Fix: add `--mirror-structured-content` to the Nova entry.** With this switch, Nova's bridge
+(`NovaBrowser.McpProxy.exe`) copies the structured result into an extra text block, so the model sees
+the data. Very large results are cut at 32,000 characters with a note saying how to ask for less.
+
+1. Open your AI program's MCP configuration and find the `nova` entry. Its `command` points to
+   `NovaBrowser.McpProxy.exe`.
+2. Add the switch to its `args`:
+   ```json
+   {
+     "mcpServers": {
+       "nova": {
+         "command": "C:\\Users\\<you>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe",
+         "args": ["--mirror-structured-content"]
+       }
+     }
+   }
+   ```
+   Keep the `command` path your entry already has; on older installations it points into
+   `%LOCALAPPDATA%\NovaBrowser\bin\`. In JSON files every backslash must be doubled.
+3. Restart the AI program. Clients read their MCP configuration only at startup.
+
+Nova keeps this switch when it updates its entry in a JSON configuration by itself. For Google
+Antigravity you do not need it: the Antigravity entry already includes it, see
+[antigravity.md → The agent sees no data](antigravity.md#the-agent-sees-no-data).
+
+The bridge accepts only `--antigravity-tool-names` and `--mirror-structured-content`; with any other
+switch (for example a mistyped one) it stops at once with exit code 2. Bridges from Nova
+1.0.0-alpha.17 and older do not know the switch and ignore it — if nothing changes, update Nova.
 
 Please do not let the agent bypass the MCP connection with `curl` or by reading Nova's files. Those
 paths skip Nova's safety checks and break with every update.
 
 ## Nova is not running / connection refused
 
-Keep Nova open while your agent works, and leave **Developer options** enabled — turning it off
-disables the MCP server. On **Settings → AI & agents → Connection & setup**, **Sync now** rewrites the
-client configurations and **Reinstall runner** repairs the connector after Nova was moved or
-reinstalled. Restart the agent session afterwards; clients read their MCP configuration only at startup.
+Keep Nova open while your agent works. On **Settings → AI & agents → Connection & setup**, check that
+**Enable local agent control** and **Allow agents to control the browser** are ticked (both are on by
+default). With **Allow agents to start Nova when it is closed** ticked (also the default), the bridge
+starts Nova by itself when an agent needs it.
+
+On the same page, **Sync now** writes Nova's entry into the AI programs Nova keeps in sync
+automatically, **Reinstall runner** puts a fresh copy of the bridge into Nova's profile folder (for
+example after Nova was moved or reinstalled), and **Set up** opens the connection wizard. Restart the
+agent session afterwards; clients read their MCP configuration only at startup.
+
+More diagnosis steps: [Agent & MCP connection issues](../troubleshooting/agent-connection-issues.md).
 
 ---
 
 # MCP-Fehlerbehebung
 
-Stand: 2026-10-01
+Stand: 2026-10-03
 
 Dein KI-Agent ist mit Nova verbunden, arbeitet aber nicht richtig damit? Such unten das passende
 Anzeichen. Die meisten Probleme entstehen durch Unterschiede zwischen MCP-Clients, nicht durch Nova
@@ -75,19 +110,57 @@ weg. Google Antigravity gehört dazu — Nova hat dafür einen eigenen Modus:
 `Tab inventory resolved. Use structuredContent.tabs …` und nichts von den eigentlichen Tabs, Notizen
 oder Werten. Er versucht dann oft, per `curl` oder über Novas Dateien auf der Festplatte auszuweichen.
 
-**Wahrscheinliche Ursache.** Der Client gibt nur den Textteil einer MCP-Antwort (`content`) an das Modell
-weiter und verwirft das maschinenlesbare Ergebnis (`structuredContent`). Für Google Antigravity siehe
-[antigravity.md → Der Agent sieht keine Daten](antigravity.md#der-agent-sieht-keine-daten). Öffentliche
-Berichte beschreiben dasselbe Verhalten bei Cursor, Kiro, Goose und Continue; mit Nova sind diese noch
-nicht getestet. Claude Code und Codex sind nicht betroffen.
+**Ursache.** Nova liefert jede Werkzeugantwort in zwei Teilen: einen kurzen Text (`content`) und das
+maschinenlesbare Ergebnis (`structuredContent`). Manche Clients geben nur den Text an das Modell weiter
+und verwerfen das Ergebnis. Öffentliche Berichte beschreiben das bei Cursor, Kiro, Goose und Continue;
+mit Nova sind diese noch nicht getestet. Claude Code und Codex lesen `structuredContent` und sind nicht
+betroffen.
+
+**Abhilfe: `--mirror-structured-content` in den Nova-Eintrag aufnehmen.** Mit diesem Schalter kopiert
+Novas Brücke (`NovaBrowser.McpProxy.exe`) das Ergebnis zusätzlich in einen Textblock, den das Modell
+sieht. Sehr große Ergebnisse werden bei 32.000 Zeichen abgeschnitten, mit einem Hinweis, wie man
+weniger anfordert.
+
+1. In der MCP-Konfiguration deines KI-Programms den Eintrag `nova` suchen. Sein `command` zeigt auf
+   `NovaBrowser.McpProxy.exe`.
+2. Den Schalter unter `args` eintragen:
+   ```json
+   {
+     "mcpServers": {
+       "nova": {
+         "command": "C:\\Users\\<du>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe",
+         "args": ["--mirror-structured-content"]
+       }
+     }
+   }
+   ```
+   Den `command`-Pfad aus deinem Eintrag beibehalten; bei älteren Installationen zeigt er nach
+   `%LOCALAPPDATA%\NovaBrowser\bin\`. In JSON-Dateien muss jeder Backslash verdoppelt werden.
+3. Das KI-Programm neu starten — Clients lesen ihre MCP-Konfiguration nur beim Start.
+
+Nova behält den Schalter, wenn es seinen Eintrag in einer JSON-Konfiguration selbst aktualisiert. Für
+Google Antigravity ist er nicht nötig: Der Antigravity-Eintrag enthält ihn bereits, siehe
+[antigravity.md → Der Agent sieht keine Daten](antigravity.md#der-agent-sieht-keine-daten).
+
+Die Brücke kennt nur `--antigravity-tool-names` und `--mirror-structured-content`; mit jedem anderen
+Schalter (etwa einem vertippten) beendet sie sich sofort mit Exit-Code 2. Brücken aus Nova
+1.0.0-alpha.17 und älter kennen den Schalter nicht und übergehen ihn — ändert sich nichts, Nova
+aktualisieren.
 
 Bitte den Agenten nicht per `curl` oder über Novas Dateien an der MCP-Verbindung vorbeiarbeiten lassen:
 Diese Wege umgehen Novas Schutzprüfungen und brechen mit jedem Update.
 
 ## Nova läuft nicht / Verbindung abgelehnt
 
-Nova geöffnet lassen, solange der Agent arbeitet, und die **Entwickleroptionen** eingeschaltet lassen —
-ausgeschaltet ist der MCP-Server aus. Unter **Einstellungen → KI & Agenten → Verbindung & Einrichtung**
-schreibt **Jetzt synchronisieren** die Client-Konfigurationen neu, **Runner neu installieren** repariert
-die Verbindung nach einem Umzug oder einer Neuinstallation. Danach die Agenten-Sitzung neu starten —
-Clients lesen ihre MCP-Konfiguration nur beim Start.
+Nova geöffnet lassen, solange der Agent arbeitet. Unter **Einstellungen → KI & Agenten → Verbindung &
+Einrichtung** prüfen, dass **Lokale Agentensteuerung aktivieren** und **Agenten dürfen den Browser
+steuern** angehakt sind (beides ist Standard). Ist **Agenten dürfen Nova starten, wenn es geschlossen
+ist** angehakt (ebenfalls Standard), startet die Brücke Nova selbst, wenn ein Agent es braucht.
+
+Auf derselben Seite schreibt **Jetzt synchronisieren** Novas Eintrag in die KI-Programme, die Nova
+automatisch abgleicht, **Runner neu installieren** legt eine frische Kopie der Brücke in Novas
+Profilordner (etwa nach einem Umzug oder einer Neuinstallation), und **Einrichten** öffnet den
+Verbindungsassistenten. Danach die Agenten-Sitzung neu starten — Clients lesen ihre MCP-Konfiguration
+nur beim Start.
+
+Weitere Diagnoseschritte: [Agent & MCP connection issues](../troubleshooting/agent-connection-issues.md).

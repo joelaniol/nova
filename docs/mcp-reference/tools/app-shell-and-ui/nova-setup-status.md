@@ -2,15 +2,13 @@
 
 > **Reports the connection and configuration health of AI agent runtimes on the host machine.**
 
-* **Security Tier:** Tier 1 (System Configuration Status)
-* **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.setup_status` audits active integrations with Claude Code, Codex, Antigravity, and Claude Desktop, checking MCP config files and bearer token freshness.
+`nova.setup_status` reports, for Claude Code, Codex, Antigravity, and Claude Desktop, whether each client is installed, registered with Nova's MCP endpoint, and currently connected, plus whether an access key exists for this Nova instance.
 
 ---
 
@@ -20,6 +18,7 @@
 This tool takes no parameters.
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -40,30 +39,49 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Agent setup status: Claude Code (Connected), Antigravity (Connected), Codex (Not Configured)."
+      "text": "Connected programs: 1/2 installed."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "integrations": [
+    "agentAccessEnabled": true,
+    "alreadyConfigured": true,
+    "anyConnected": true,
+    "anyNeedsAction": true,
+    "endpoint": "http://127.0.0.1:27183/mcp",
+    "endpointIsLive": true,
+    "hasAccessKey": true,
+    "programs": [
       {
-        "client": "Claude Code",
-        "status": "Connected"
+        "program": "Claude Code",
+        "state": "connected",
+        "installed": true,
+        "connected": true,
+        "needsAction": false,
+        "detail": null,
+        "configPath": "C:\\Users\\<user>\\.claude.json"
       },
       {
-        "client": "Antigravity",
-        "status": "Connected"
+        "program": "Codex",
+        "state": "not_registered",
+        "installed": true,
+        "connected": false,
+        "needsAction": true,
+        "detail": null,
+        "configPath": "C:\\Users\\<user>\\.codex\\config.toml"
       }
     ]
   }
 }
 ```
 
+`state` is one of `connected`, `not_installed`, `not_registered`, `outdated`, `sync_disabled`, `proxy_missing`, or `unreadable`.
+
 ---
 
 ## 4. Operational Best Practices
 
-* **Diagnostics:** Run when an agent experiences connection drops or authentication failures.
+* **Diagnostics:** Run when an agent experiences connection drops or when a client appears not to see Nova's tools.
 
 ---
 

@@ -2,15 +2,13 @@
 
 > **Resizes the Nova application window to specified pixel width and height.**
 
-* **Security Tier:** Tier 2 (Window Geometry)
-* **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.window_set_size` adjusts the host window outer bounds to simulate various standard display resolutions.
+`nova.window_set_size` resizes the host window to a given width and height in logical, DPI-aware pixels (200-10000 each way). This changes the actual application window, not a simulated viewport; use `nova.emulation_set_device_metrics` to emulate a device viewport without resizing the window.
 
 ---
 
@@ -23,6 +21,7 @@
 | `height` | `integer` | Yes | — | 200–10000 | Target window height in logical (DPI-aware) pixels. |
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -52,7 +51,15 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
   "structuredContent": {
     "ok": true,
     "width": 1920,
-    "height": 1080
+    "height": 1080,
+    "bounds": {
+      "x": 0,
+      "y": 0,
+      "width": 1920,
+      "height": 1080,
+      "state": "normal",
+      "hasFocus": true
+    }
   }
 }
 ```

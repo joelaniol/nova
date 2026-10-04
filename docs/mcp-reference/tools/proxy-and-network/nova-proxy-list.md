@@ -8,8 +8,7 @@ Lists all configured proxy profiles with connection settings, protocols, and san
 
 `nova.proxy_list` inventories all proxy profiles registered in Nova. Passwords are never returned; it reports profile IDs, hostnames, ports, protocols (HTTP, HTTPS, SOCKS4, SOCKS5), active status, and sandbox bindings.
 
-* **Security Tier:** Tier 1 (Safe)
-* **Core Architecture Guide:** [Proxy Routing & Stealth Network Engine](../../../core-features/proxy-and-network.md)
+* **Core Architecture Guide:** [Proxy Routing & Network Engine](../../../core-features/proxy-and-network.md)
 
 ---
 
@@ -19,6 +18,7 @@ Lists all configured proxy profiles with connection settings, protocols, and san
 This tool takes no parameters.
 
 Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='proxy_management')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -39,28 +39,39 @@ Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='p
   "content": [
     {
       "type": "text",
-      "text": "2 proxy profile(s) configured."
+      "text": "1 proxy profile(s) configured."
     }
   ],
   "structuredContent": {
     "profiles": [
       {
-        "profileId": "prx-us-east",
-        "name": "US Residential SOCKS5",
+        "id": "proxy-2",
+        "name": "US East SOCKS5",
         "protocol": "socks5",
         "host": "198.51.100.25",
         "port": 1080,
-        "username": "agent_user",
         "enabled": true,
         "isGlobalDefault": true,
-        "sandboxes": [
-          "B"
-        ]
+        "bypassList": null,
+        "username": "agent_user",
+        "hasPassword": true,
+        "isUsable": true
       }
-    ]
+    ],
+    "sandboxAssignments": [
+      {
+        "sandboxId": "B",
+        "sandboxName": "Sandbox B",
+        "proxyMode": "profile",
+        "proxyProfileId": "proxy-2"
+      }
+    ],
+    "webRtcLeakProtectionEnabled": false,
+    "loggingEnabled": true
   }
 }
 ```
+Sandbox assignments are listed separately from profiles, not nested under each profile — a sandbox's stored `proxyMode`/`proxyProfileId` does not currently give it an independent outbound proxy (see [proxy routing guide](../../../core-features/proxy-and-network.md)).
 
 ---
 

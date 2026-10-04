@@ -8,7 +8,6 @@ Retrieves and decrypts a previously stored DOM snapshot HTML payload by snapshot
 
 `nova.session_record_dom_snapshot` retrieves the serialized HTML payload of a DOM snapshot stored during a session recording. It decrypts the chunk from disk and returns the clean HTML string or raw base64 bytes for time-travel DOM analysis.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
 
 ---
@@ -23,6 +22,7 @@ Retrieves and decrypts a previously stored DOM snapshot HTML payload by snapshot
 | `asText` | `boolean` | No | `true` | — | Decode the HTML payload as UTF-8 text. Set false to receive raw base64 bytes (e.g. for binary tooling). |
 
 Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='session_recording')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -47,17 +47,32 @@ Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='
   "content": [
     {
       "type": "text",
-      "text": "Decrypted DOM snapshot snap-108a (68 KB HTML)."
+      "text": "Recording rec-9b21f04a: DOM snapshot snap-108a returned 70044 byte(s)."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "snapshotId": "snap-108a",
     "recordingId": "rec-9b21f04a",
-    "html": "<!DOCTYPE html><html><head><title>Checkout</title></head><body>...</body></html>"
+    "snapshotId": "snap-108a",
+    "sizeBytes": 70044,
+    "html": "<!DOCTYPE html><html><head><title>Checkout</title></head><body>...</body></html>",
+    "bodyBase64": null,
+    "indexEntry": {
+      "ts": "2026-10-02T20:20:00Z",
+      "snapshotId": "snap-108a",
+      "source": "agent",
+      "trigger": null,
+      "selector": null,
+      "parentChain": null,
+      "sizeBytes": 70044,
+      "sha256": "8e4b7c129f...",
+      "truncated": false
+    }
   }
 }
 ```
+
+`bodyBase64` is populated instead of `html` when `asText: false` is passed. `indexEntry` is the matching line from the `dom-snapshots.jsonl` index (its exact fields depend on how the snapshot was captured); it is `null` if no index entry could be found for the given `snapshotId`.
 
 ---
 

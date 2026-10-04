@@ -6,9 +6,8 @@ Uploads a local file or directory tree over SFTP to a remote destination.
 
 ## 1. Overview
 
-`nova.sftp_put` transfers files from the local workspace or Downloads directory to a remote SFTP host with atomic temporary write semantics.
+`nova.sftp_put` uploads one local file, or a bounded directory tree with `recursive: true`, from Downloads or Nova's host-verified current workspace. Each file uploads to a unique remote temporary name and is renamed into place only after it is verified complete; the local file's modification time is preserved on the remote copy. The local source is checked against Nova's path policy (including a local tree walk for `recursive: true`) before any approval prompt or SSH login, so a request that could never run is never shown to the user. Requires the connector's full capability and is also subject to Nova's independent global MutatingRemote confirmation policy. SSH host-key trust remains human-only in Settings.
 
-* **Security Tier:** Tier 2 (File Upload)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
 ---
@@ -30,6 +29,7 @@ Uploads a local file or directory tree over SFTP to a remote destination.
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -55,14 +55,36 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
   "content": [
     {
       "type": "text",
-      "text": "Uploaded summary.json (4 KB) over SFTP."
+      "text": "Uploaded 1 file(s) via 'Production Server' (4096 bytes)."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "localPath": "reports/summary.json",
-    "remotePath": "/var/www/incoming/summary.json",
-    "bytesTransferred": 4096
+    "profileId": "conn-sftp-01",
+    "status": "uploaded",
+    "changed": true,
+    "stateIndeterminate": false,
+    "reasonCode": null,
+    "durationMs": 310,
+    "remotePathTrust": "untrusted_remote_state",
+    "localPathTrust": "host_verified_local_paths",
+    "entries": [],
+    "returnedCount": 0,
+    "hasMore": false,
+    "files": [
+      {
+        "source": "reports/summary.json",
+        "destination": "/var/www/incoming/summary.json",
+        "size": 4096,
+        "lastWriteUtc": "2026-10-02T09:00:00Z",
+        "sourceTrust": "host_verified_local_path",
+        "destinationTrust": "untrusted_remote_state"
+      }
+    ],
+    "transferredCount": 1,
+    "transferredBytes": 4096,
+    "affectedRemotePaths": ["/var/www/incoming/summary.json"],
+    "affectedLocalPaths": []
   }
 }
 ```
@@ -71,7 +93,8 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
 
 ## 4. Operational Best Practices
 
-* **Workspace Confinement:** Local source files must reside within the host-verified current workspace or Downloads directory.
+* **Workspace Confinement:** Local source files must reside within the host-verified current workspace or Downloads directory; this is checked before any prompt is shown.
+* **Overwrite Safety:** An existing remote regular-file destination is refused with `reasonCode: "connector_remote_path_exists"` unless `overwrite: true` is set.
 * **Verification:** Verify uploaded files by calling [`nova.sftp_list`](nova-sftp-list.md) afterwards.
 
 ---

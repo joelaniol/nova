@@ -8,7 +8,6 @@ Updates terminal appearance settings such as color theme, font size, and program
 
 `nova.terminal_settings_set` modifies terminal presentation properties. Changes to theme and font size update open sessions immediately, while `programColors` applies to sessions opened afterwards.
 
-* **Security Tier:** Tier 2 (Configuration)
 * **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces.md)
 
 ---
@@ -23,6 +22,7 @@ Updates terminal appearance settings such as color theme, font size, and program
 | `programColors` | `string` | No | — | `auto`, `off` | 'auto' states no preference and lets the program decide; 'off' sets the NO_COLOR standard for every shell Nova starts. There is deliberately no 'always on' - that would mean FORCE_COLOR, which also writes escape sequences into files and pipes the user redirects to. |
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -47,23 +47,34 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Terminal settings updated."
+      "text": "Terminal settings updated: theme, fontSize, programColors."
     }
   ],
   "structuredContent": {
     "ok": true,
+    "changed": ["theme", "fontSize", "programColors"],
     "theme": "nova",
     "fontSize": "medium",
-    "programColors": "auto"
+    "programColors": "auto",
+    "previousTheme": "dark",
+    "previousFontSize": "small",
+    "previousProgramColors": "off",
+    "colorsEnabled": true,
+    "colorsReasonCode": "program_decides",
+    "themeAndFontAppliedToOpenSessions": true,
+    "programColorsAppliesToNewSessionsOnly": true,
+    "schemaVersion": "1"
   }
 }
 ```
+
+If every given value already matched, `changed` comes back empty and the text reads "Terminal settings already had these values; nothing changed."
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Scope Limitation:** Deliberately does not allow agents to alter `TerminalAgentCanControlDock` or onboarding defaults, maintaining secure least-privilege boundaries.
+* **Scope Limitation:** Deliberately does not allow agents to switch on or off agent control of the terminal dock, or change the onboarding default, keeping those decisions with the user.
 
 ---
 

@@ -8,20 +8,23 @@ Scans the page or a scoped subtree for layout defects, clipped text, overflowing
 
 Layout overflow issues—such as unintentional horizontal scrollbars, clipped text labels, or table columns breaking through container boundaries—are among the most common visual defects in web development. `nova.detect_overflow` runs an automated Quality Assurance scan over the DOM to pinpoint every overflowing element and return actionable coordinates and CSS selectors.
 
-* **Four Issue Classes:** Detects container scroll overflows, viewport boundary bleeding, clipped text nodes, and page-level horizontal scroll.
+* **Three Issue Types Plus a Page-Level Flag:** `clipped-text`, `overflow`, and `viewport-bleed` per element, plus a separate `pageHorizontalScroll` boolean for the document as a whole.
 * **Component Scoping (`selector`):** Audit a specific component or modal subtree instead of the entire document.
 * **Read-Only:** Runs without mutating stylesheets, scrolling viewports, or altering DOM state.
 
 ---
 
-## 2. Detected Issue Classes
+## 2. Detected Issue Types
 
-| Issue Type | Cause / Detection Rule | Visual Symptom |
+Each scanned element can report at most one issue; `x`-axis overflow is split into "clipped" (hidden/ellipsis — a real defect) vs. plain `overflow` (scrollable on purpose in most designs), while any `y`-axis overflow is only reported when it is actually hidden/clipped — a scrollable container's normal vertical scrollbar is not flagged.
+
+| `type` | Cause / Detection Rule | `details` fields |
 | :--- | :--- | :--- |
-| **`container_overflow`** | `scrollWidth > clientWidth` or `scrollHeight > clientHeight` without intended scrollbars. | Content spills out or creates unexpected scrollbars within card containers. |
-| **`viewport_bleeding`** | Element's right or bottom boundary exceeds the document window width (`rect.x + rect.width > window.innerWidth`). | Causes annoying horizontal scrolling on mobile or desktop viewports. |
-| **`clipped_text`** | Text is truncated via `text-overflow: ellipsis` or `overflow: hidden` when content exceeds visible dimensions. | Truncated product titles, cut-off price tags, or clipped buttons. |
-| **`document_horizontal_scroll`** | The root document element has `scrollWidth > innerWidth`. | Indicates an uncontained element is forcing a global horizontal scrollbar. |
+| **`clipped-text`** | `scrollWidth > clientWidth` (or `scrollHeight > clientHeight` on the y-axis) **and** the overflow is hidden/clipped (`text-overflow: ellipsis`, `overflow: hidden`/`clip`). | `scrollWidth`/`clientWidth`/`textOverflow`/`overflowX` (x-axis), or `axis:"y"`, `scrollHeight`/`clientHeight`/`overflowY` (y-axis). |
+| **`overflow`** | `scrollWidth > clientWidth` on the x-axis without hidden/ellipsis styling — content spills rather than being clipped. | `axis:"x"`, `scrollWidth`, `clientWidth`, `overflowX`. |
+| **`viewport-bleed`** | A non-fixed/non-sticky element's right edge sits past the viewport width while its left edge is still inside it. | `right`, `viewportWidth`, `overhangPx`. |
+
+Separately, the top-level `pageHorizontalScroll` boolean reports whether the document's scrolling element itself has `scrollWidth > clientWidth` (a global horizontal scrollbar), independent of the per-element issue list.
 
 ---
 
@@ -35,6 +38,7 @@ Layout overflow issues—such as unintentional horizontal scrollbars, clipped te
 | `maxIssues` | `integer` | No | `200` | 1–2000 | Maximum number of issues to return; the scan stops early and sets truncated=true when reached. |
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -65,32 +69,42 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
 
 ## 5. Return Value Structure
 
+`structuredContent` wraps the in-page probe's own result under `result` (`targetId` and `ok` are lifted to the top level):
+
 ```json
 {
   "targetId": "tab-101",
-  "scannedRoot": "body",
-  "hasDocumentHorizontalScroll": true,
-  "documentScrollWidth": 1492,
-  "windowWidth": 1440,
-  "issueCount": 2,
-  "truncated": false,
-  "issues": [
-    {
-      "type": "viewport_bleeding",
-      "selector": "table.user-data-table",
-      "rect": { "x": 300, "y": 420, "width": 1192, "height": 380 },
-      "overflowPx": 52,
-      "message": "Element bleeds 52px past the right window boundary."
-    },
-    {
-      "type": "clipped_text",
-      "selector": "span.account-email-label",
-      "rect": { "x": 1240, "y": 18, "width": 120, "height": 24 },
-      "message": "Text is truncated by text-overflow: ellipsis (scrollWidth: 168px, clientWidth: 120px)."
-    }
-  ]
+  "ok": true,
+  "result": {
+    "ok": true,
+    "selectorMatched": true,
+    "selector": "body",
+    "url": "https://example.com/account",
+    "scanned": 412,
+    "pageHorizontalScroll": true,
+    "summary": { "clippedText": 1, "overflow": 0, "viewportBleed": 1, "total": 2 },
+    "issues": [
+      {
+        "type": "viewport-bleed",
+        "selector": "table.user-data-table",
+        "tag": "table",
+        "text": "Name Email Plan ...",
+        "details": { "right": 1492, "viewportWidth": 1440, "overhangPx": 52 }
+      },
+      {
+        "type": "clipped-text",
+        "selector": "span.account-email-label",
+        "tag": "span",
+        "text": "jane.doe@example",
+        "details": { "scrollWidth": 168, "clientWidth": 120, "textOverflow": "ellipsis", "overflowX": "hidden" }
+      }
+    ],
+    "truncated": false
+  }
 }
 ```
+
+The scan examines at most 8000 elements; a larger subtree sets `truncated: true`.
 
 ---
 
@@ -98,8 +112,9 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
 
 | Error Code / Message | Cause | Corrective Action |
 | :--- | :--- | :--- |
-| `Selector matched nothing: ...` | Provided root `selector` does not exist in the DOM. | Check selector spelling or verify that the component is loaded. |
-| `hasDocumentHorizontalScroll: true` | One or more elements exceed window boundaries. | Filter issues for `type: "viewport_bleeding"` to locate offending elements. |
+| `-32004: No element matched selector '...'` | Provided root `selector` does not exist in the DOM. | Check selector spelling or verify that the component is loaded. |
+| `-32002: Overflow probe failed: ...` | The in-page probe threw. | Check the selector syntax and retry. |
+| `result.pageHorizontalScroll: true` | The document itself has a global horizontal scrollbar. | Filter `issues` for `type: "viewport-bleed"` to find the elements forcing it. |
 
 ---
 

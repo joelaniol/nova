@@ -2,7 +2,6 @@
 
 > **Resolves the startup tab restoration prompt modal after an abnormal browser termination.**
 
-* **Security Tier:** Tier 2 (Session Recovery)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
@@ -22,6 +21,7 @@
 | `decision` | `string` | Yes | — | `restore`, `discard`, `not_now` | Decision for the currently open startup restore-tabs prompt. 'restore' reopens the saved session, 'discard' drops the saved session, 'not_now' dismisses the prompt for now without restoring tabs. |
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -33,7 +33,7 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
 {
   "name": "nova_ui_restore_tabs_prompt_resolve",
   "arguments": {
-    "action": "restore"
+    "decision": "restore"
   }
 }
 ```
@@ -44,13 +44,19 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Restored 4 tabs from previous session snapshot."
+      "text": "Restore-tabs prompt resolved (restore, status=restored)."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "action": "restore",
-    "tabsRestored": 4
+    "decision": "restore",
+    "status": "restored",
+    "reasonCode": "restored_from_snapshot",
+    "promptWasOpen": true,
+    "hadPendingSnapshot": true,
+    "snapshotTabCount": 4,
+    "restored": true,
+    "discarded": false
   }
 }
 ```
@@ -59,7 +65,8 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
 
 ## 4. Operational Best Practices
 
-* **Automated Recovery:** Check `nova.ui_restore_tabs_prompt_state` at launch and resolve programmatically to unblock test harnesses.
+* **Automated Recovery:** Check `nova.ui_restore_tabs_prompt_state` at launch and resolve the prompt programmatically to unblock test harnesses.
+* **No open prompt:** If the prompt is not open, the call returns `ok: false`, `status: "noop"` and `reasonCode: "prompt_not_open"`; if no saved session exists, `reasonCode` is `no_pending_snapshot`.
 
 ---
 

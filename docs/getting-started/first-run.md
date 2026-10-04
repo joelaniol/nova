@@ -1,77 +1,62 @@
 # First Run & UI Tour
 
-When you launch **Nova AI Workspace** for the first time, you are presented with a unified workspace combining modern browser ergonomics with native agentic controls.
+This page walks through what happens when you start **Nova AI Workspace** for the first time and introduces the parts of the window you will use most.
 
 ---
 
-## 1. The Setup Wizard
+## 1. Activating Nova
 
-On its initial boot, Nova opens the **Setup Wizard** (`nova.setup_wizard_open`) to guide you through essential preferences:
+Nova needs an activated license.
 
-* **Theme Selection:** Dark Mode (default, optimized for developer ergonomics) or Light Mode.
-* **Search Engine & Start URL:** Configure your preferred landing surface.
-* **MCP Remote Control:** Enable the local Model Context Protocol engine so that external AI agents (Claude Code, Antigravity, Codex) can connect through Nova's stdio bridge or over local HTTP.
-* **Initial Sandboxes:** Initialize your first isolated browsing environments (e.g., Sandbox A for work, Sandbox B for personal research).
+* **During setup:** the setup has an optional page **Activate Nova now (optional)** with your Nova account email address and license key. If you fill it in, Nova activates with it on its first start. Leave both fields empty to activate later in the app.
+* **In the app:** without an activation, Nova starts with its sign-in window (**Sign in with your license**). Enter the email address and license key and click **Sign in**.
+* **Alpha trial:** during the public alpha no registration is needed. **Get trial key** opens the GitHub page with the shared trial key; the setup page and the sign-in window are already filled with it.
 
 ---
 
-## 2. Workspace Anatomy
+## 2. The Setup Wizard for AI Programs
 
-```
-+-----------------------------------------------------------------------------------+
-|  [+] [Tab 1: Dashboard] [Tab 2: Docs]            [Sandbox: A (Work) v] [-][ ][x]  |
-+-----------------------------------------------------------------------------------+
-|  [<] [>] [R]  https://example.com/portal                   [Lock] [Cookie] [MCP]  |
-+-----------------------------------------------------------------------------------+
-|                                                                                   |
-|                                                                                   |
-|                           WebView2 Active Surface                                 |
-|                                                                                   |
-|                                                                                   |
-+-----------------------------------------------------------------------------------+
-| >_ Terminal Dock: powershell.exe                      [^ Expand] [v Hide] [x]     |
-| PS E:\Projects> git status                                                        |
-+-----------------------------------------------------------------------------------+
-```
+A few seconds after Nova starts, it opens its connection wizard if no AI program on this computer is connected to Nova yet and you have not finished the wizard before. If you ticked **Open the setup guide for AI programs on first start** in the setup, the wizard also opens when Nova starts from the setup's last page.
 
-### A. The Omnibox & Navigation Bar
-* **Deterministic Navigation:** Back, Forward, Reload, and URL entry.
-* **Security & Inspection Indicators:**
-  * **SSL / Certificate Lock:** Inspects native X.509 certificate chains and TLS negotiation.
-  * **Cookie & Site Data Badge:** Opens the native Site Data Inspector (`nova.storage_inspect`, `nova.cookie_list`).
-  * **MCP Activity Glow:** Visually pulses when an active AI agent is reading the DOM, dispatching Bézier mouse movements, or executing a task.
+* **Easy setup (recommended):** Nova lists the AI programs it found (**Your AI programs**). Click **Connect** next to the one you want to use, then restart that program.
+* **Connect another program:** for a program Nova cannot set up by itself, **Copy setup text** copies ready-made instructions to paste into that program; **Copy key** copies the access key.
+* **Set up manually:** copy the connection details and add them to your AI program yourself.
+* Nova never changes a configuration just because the wizard is open; every change is a button you press.
 
-### B. Sandbox Profile Switcher (Top-Right)
-* **What are Sandboxes?**
-  Unlike typical browser profiles that require opening completely separate OS windows, Nova embeds multiple **Sandboxes** (`A`, `B`, `C`, ...) inside the same application window.
-* **Total Isolation:**
-  Each sandbox has its own isolated `EBWebView` user data folder, independent cookie jars (allowing you to be logged into two different accounts on the same site simultaneously), distinct proxy settings (SOCKS5/HTTP), and unique anti-fingerprint seeds.
-* **Agent Control:**
-  Agents can switch contexts programmatically using `nova.sandbox_context` or `nova.resolve_sandbox`.
+You can open the wizard again at any time: **Settings → AI & agents → Connection & setup → Set up**. Agents can open it with `nova.setup_wizard_open`. Details: [Settings & connection wizard](../user-guide/settings-and-connection-wizard.md).
 
-### C. The Embedded Terminal Dock (ConPTY)
-* **Native Console in Workspace:**
-  Located at the bottom of the window, the Terminal Dock embeds a persistent Windows Pseudo Console (ConPTY) running PowerShell, CMD, or Git Bash.
-* **Agent-Accessible:**
-  AI agents can open terminal sessions, run build scripts, git operations, or CLI tools through `nova.terminal_open`, `nova.terminal_run_command`, and `nova.terminal_read`.
-* **State Persistence:**
-  Terminal sessions survive UI reloads, tab navigation, and background task execution without losing shell state.
+---
 
-### D. The Downloads Drawer & Dialog Inspector
-* **Downloads Drawer:**
-  Active downloads appear in a clean, non-intrusive tray displaying file size, transfer rate, and security validation status.
-* **Native Dialog Automation:**
-  When web applications trigger native Win32 dialogs (File Pickers, HTTP Basic Authentication prompts, Client Certificate selectors), Nova does not freeze. It surfaces them through the **Dialog Inspector**, allowing both human users and AI agents (`nova.ui_inspect_native_dialog`) to inspect and resolve prompts cleanly.
+## 3. Workspace Anatomy
 
-### E. Permission Center
-* Accessed via Settings or `nova.permission_center_get`, this hub manages device permissions (Camera, Microphone, Notifications, Geolocation).
-* Supports **three-tier authorization**:
-  1. Global defaults (Allow, Deny, Prompt).
-  2. Per-origin overrides (e.g. allow mic on `meet.google.com`, block on others).
-  3. Single-session grants with instant emergency revocation (`nova.media_stop_all`).
+### A. Tabs and address bar
+Nova works like a Chromium browser: tabs, back, forward, reload and an address bar. Common shortcuts such as `Ctrl+L` (address bar), `Ctrl+R` / `F5` (reload), `Ctrl+W` (close tab), `Ctrl+Tab` (next tab) and `Ctrl+J` (downloads) work as in Chrome or Edge. Full list: [Keyboard shortcuts](../user-guide/keyboard-shortcuts.md).
+
+### B. Sandboxes
+* **What are sandboxes?** Separate browser profiles inside the same window. A new installation starts with **Sandbox A** and **Sandbox B**; you can add more (up to 100).
+* **Isolation:** each sandbox has its own cookies, logins and site data, so you can be signed in to two accounts on the same site at the same time. Proxy and fingerprint protection can be set per sandbox.
+* **Switching:** each sandbox appears as a pill; with many sandboxes, a search helps you find one.
+* **For agents:** `nova.sandbox_context` describes a sandbox; `nova.resolve_sandbox` picks the right sandbox for a task.
+
+More: [Sandboxes & profiles](../user-guide/sandboxes-and-profiles.md).
+
+### C. Terminal dock
+* Nova has a built-in terminal dock. Sessions currently run PowerShell, hosted in a separate helper process.
+* Agents can open sessions, run commands and read output with `nova.terminal_open`, `nova.terminal_run_command` and `nova.terminal_read` while **Allow agents to control the terminal dock** is on.
+
+More: [Terminal dock](../user-guide/terminal-dock.md).
+
+### D. Downloads and browser prompts
+* **Downloads:** `Ctrl+J` opens the downloads list. See [Downloads manager](../user-guide/downloads-manager.md).
+* **Prompts:** when a site asks for an HTTP sign-in or a client certificate, Nova shows its own prompt. Agents can answer such prompts too, for example with `nova.ui_auth_prompt_resolve` or `nova.ui_client_certificate_prompt_resolve`. See [Native dialogs](../user-guide/native-dialogs-ui.md).
+
+### E. Permission center
+* **Settings → Site permissions → Permission center** sets the default behavior for camera, microphone, speaker, screen sharing and location: ask, allow or block.
+* Decisions for single sites and temporary grants for the current session come on top of these defaults. Agents read and change the defaults with `nova.permission_center_get` and `nova.permission_center_set`.
+* `nova.media_stop_all` stops every running camera, microphone and screen-sharing stream at once.
 
 ---
 
 ## Next Step
 
-Now that you understand the UI, proceed to the **[5-Minute Quickstart](quickstart.md)** to connect an AI agent and execute your first automated task.
+Now that you know the window, continue with the **[5-Minute Quickstart](quickstart.md)** to connect an AI agent and run your first automated task.

@@ -2,8 +2,6 @@
 
 > **Traverses through nested Shadow DOM boundaries to find the truly focused interactive element.**
 
-* **Security Tier:** Tier 1 (Read-Only Inspection)
-* **Core Feature Guide:** [DOM Perception & Semantic Extraction](../../../core-features/tob.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
@@ -22,6 +20,7 @@
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -31,7 +30,7 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
 ### JSON-RPC Request
 ```json
 {
-  "name": "nova_get_active_element_deep",
+  "name": "nova.get_active_element_deep",
   "arguments": {
     "targetId": "tab-1"
   }
@@ -44,17 +43,38 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
   "content": [
     {
       "type": "text",
-      "text": "Deep focused element: input#search-field inside <app-header> shadow root."
+      "text": "{\"ok\":true,\"found\":true,\"scope\":\"top >>> app-header\",\"element\":{...},\"chain\":[...],\"warnings\":[],\"meta\":{...}}"
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "tagName": "INPUT",
-    "id": "search-field",
-    "shadowHost": "app-header"
+    "targetId": "tab-1",
+    "result": {
+      "ok": true,
+      "found": true,
+      "scope": "top >>> app-header",
+      "element": {
+        "tagName": "input",
+        "id": "search-field",
+        "className": null,
+        "role": null,
+        "ariaLabel": null,
+        "name": null,
+        "type": "text",
+        "isContentEditable": false,
+        "rect": { "x": 120, "y": 64, "width": 240, "height": 32 }
+      },
+      "chain": [ { "tagName": "app-header", "id": null } ],
+      "warnings": [],
+      "meta": { "framesScanned": 0, "framesVisited": 0, "crossOriginFrames": 0, "shadowDepth": 1 }
+    }
   }
 }
 ```
+
+`scope` is a path string (` >>> `-separated) describing where the focused element was found, not a
+separate `shadowHost` field. `chain` lists every element from the top-level active element down to
+the innermost one (one entry per shadow boundary crossed); `found: false` with `element: null` means
+nothing in the document currently has focus.
 
 ---
 

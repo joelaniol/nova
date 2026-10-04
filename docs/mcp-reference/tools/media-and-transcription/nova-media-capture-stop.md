@@ -1,14 +1,13 @@
 # `nova.media_capture_stop`
 
-Stops in-tab media capture, flushes pending segments, closes files, and returns completed paths.
+Stops in-tab media capture, flushes pending segments, closes the per-track files, and returns their paths.
 
 ---
 
 ## 1. Overview
 
-`nova.media_capture_stop` cleanly terminates an active streaming capture. It performs a final buffer drain, writes container headers (e.g. WAV RIFF headers), and returns the finalized file paths on disk.
+`nova.media_capture_stop` cleanly terminates an active streaming capture started by [`nova.media_capture_start`](nova-media-capture-start.md). It flushes and closes one file per SourceBuffer track (video and audio are not muxed together) and returns each track's file path and byte count. A stream with separate audio/video tracks needs a tool like ffmpeg afterwards to combine them.
 
-* **Security Tier:** Tier 2 (Capture Finalization)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
 ---
@@ -23,6 +22,7 @@ Stops in-tab media capture, flushes pending segments, closes files, and returns 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -45,24 +45,37 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
   "content": [
     {
       "type": "text",
-      "text": "Stopped capture on tab-1. File saved: downloads/captured-stream.wav (380 KB)."
+      "text": "Captured 1 track(s), 389120 bytes in 24300 ms."
     }
   ],
   "structuredContent": {
     "ok": true,
+    "stopped": true,
     "targetId": "tab-1",
-    "filePath": "downloads/captured-stream.wav",
-    "totalBytes": 389120,
-    "durationSeconds": 24.3
+    "reasonCode": null,
+    "saveDir": "C:\\Users\\<user>\\AppData\\Local\\NovaBrowser\\Exports\\MediaCaptures",
+    "elapsedMs": 24300,
+    "bytesWritten": 389120,
+    "limitHit": false,
+    "droppedBytes": 0,
+    "recorderLost": false,
+    "trackCount": 1,
+    "tracks": [
+      { "recorder": "mse", "index": 0, "mime": "audio/webm; codecs=\"opus\"", "filePath": "C:\\Users\\<user>\\AppData\\Local\\NovaBrowser\\Exports\\MediaCaptures\\capture-20261003-120000-mse0.webm", "bytesWritten": 389120 }
+    ],
+    "muxHint": null
   }
 }
 ```
+
+A stop with nothing running returns `{ "ok": false, "stopped": false, "targetId": "tab-1", "reasonCode": "not_capturing" }`. A stop where the recorder was armed but never saw data returns `{ "ok": false, "stopped": true, "reasonCode": "no_media_captured", ... }` — this is also what a DRM-protected stream looks like, since the decrypted bytes never reach the page.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Direct Transcription Handoff:** Pass the resulting `filePath` directly to [`nova.media_transcribe_start`](nova-media-transcribe-start.md) for local speech-to-text processing.
+* **Direct Transcription Handoff:** Pass a resulting track's `filePath` to [`nova.media_transcribe_start`](nova-media-transcribe-start.md) for local speech-to-text processing.
+* **Combine Separate Tracks:** When `tracks` has more than one entry, `muxHint` names the ffmpeg command to combine them into a single container.
 
 ---
 

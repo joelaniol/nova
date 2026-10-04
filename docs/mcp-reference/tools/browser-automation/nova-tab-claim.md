@@ -8,10 +8,10 @@ Claims exclusive write ownership (lease) over a specified browser tab to prevent
 
 In modern multi-agent systems (e.g. Claude Code subagents, OpenAI Codex, or Antigravity swarms), multiple AI agents often execute in parallel on the same workstation. Without coordination, Agent A may click a button while Agent B is typing into a form on the same page.
 
-`nova.tab_claim` establishes a **Hardware-Enforced Lease Lock** on a tab. While a claim is active, Nova's Agent Awareness Gates (AAG) reject mutating actions (`click_selector`, `type_selector`, `navigate`) from any agent whose `agentId` does not match the claim owner.
+`nova.tab_claim` gives one agent a time-limited lease on a tab. While the claim is active, Nova refuses calls on that tab from any agent whose `agentId` does not match the claim owner.
 
 * **Target Scope:** Tab-specific (`targetId` required).
-* **Expiration Policy:** Every lease has a finite TTL (default: 5 minutes / 300,000 ms) to prevent permanent deadlocks if an agent crashes.
+* **Expiration Policy:** Every lease expires (`ttlMs`, default 120 s, 5 s to 30 min), so a crashed agent cannot block a tab for good. Claiming again extends it.
 
 ---
 
@@ -20,11 +20,10 @@ In modern multi-agent systems (e.g. Claude Code subagents, OpenAI Codex, or Anti
 ### A. Mutual Exclusion
 * While `targetId` is claimed by Agent A:
   * Agent A can execute clicks, navigation, typing, and form submissions freely.
-  * Agent B's attempts to mutate the tab are immediately rejected with `-32002: Tab is locked by another agent lease`.
-  * Read-only tools (`nova.tabs`, `nova.read_dom`, `nova.read_text_structured`) remain accessible to other agents.
+  * Agent B's calls on the tab are refused with error code `-32040` (`claim.owner_mismatch`); the message names the owning `agentId`.
 
 ### B. Cooperative Reclaiming (`reclaimReason`)
-If a previous session or crashed subagent left an active lease, a coordinator agent can reclaim the tab before the TTL expires by supplying an explicit `reclaimReason`. Nova logs the reclamation event in the audit trail.
+If a previous session or crashed subagent left an active lease, a coordinator agent can reclaim the tab before the TTL expires by supplying an explicit `reclaimReason`. The previous owner gets a one-time notice with that reason on its next call.
 
 ---
 
@@ -41,6 +40,7 @@ If a previous session or crashed subagent left an active lease, a coordinator ag
 | `reclaimReason` | `string` | No | — | — | Force-reclaim reason. When provided and another agent holds the tab, the existing claim is force-released and the displaced owner receives a one-shot AAG block notification with this reason. Omit to get the default owner-mismatch error. |
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---

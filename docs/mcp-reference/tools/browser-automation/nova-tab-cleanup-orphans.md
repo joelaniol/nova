@@ -26,6 +26,7 @@ In multi-agent workflows, agents frequently spawn temporary tabs via [`nova.tab_
 | `agentId` | `string` | No | — | — | Calling agent's ID for attribution in logs. |
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -54,25 +55,39 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
 
 ```json
 {
+  "ok": true,
+  "status": "ok",
   "dryRun": false,
-  "scannedTabs": 8,
+  "graceMinutes": 15,
+  "orphanCount": 2,
   "closedCount": 2,
-  "closedTabs": [
+  "failedCount": 0,
+  "orphans": [
     {
       "targetId": "tab-108",
       "url": "https://example.com/temporary-search",
+      "title": "Search results",
+      "createdByAgentId": "subagent-crawler-2",
+      "createdAtUtc": "2026-10-03T11:40:00Z",
       "idleMinutes": 42,
-      "openedByAgent": "subagent-crawler-2"
+      "action": "closed",
+      "closeError": null
     },
     {
       "targetId": "tab-111",
       "url": "https://example.com/receipt-view",
+      "title": "Receipt",
+      "createdByAgentId": "subagent-billing",
+      "createdAtUtc": "2026-10-03T12:04:00Z",
       "idleMinutes": 18,
-      "openedByAgent": "subagent-billing"
+      "action": "closed",
+      "closeError": null
     }
   ]
 }
 ```
+
+`orphanCount` is the number of tabs that matched the orphan predicate, not the total number of tabs scanned. Each row's `action` is `"closed"`, `"would_close"` (dry run), `"skipped_became_active"` (the user switched to it between scan and close), or `"close_failed"`.
 
 ---
 

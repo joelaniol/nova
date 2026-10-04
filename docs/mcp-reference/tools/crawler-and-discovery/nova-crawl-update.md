@@ -8,7 +8,6 @@ Dynamically modifies parameters (rate limits, filters, depth, pauses) of an acti
 
 `nova.crawl_update` adjusts the operational behavior of a running or paused crawl job without cancelling or restarting it. It allows agents to throttle rate limits, pause execution, change depth boundaries, or update regex patterns on the fly.
 
-* **Security Tier:** Tier 2 (Crawl Control)
 * **Core Architecture Guide:** [Autonomous Crawler & Surface Explorer](../../../core-features/crawler-and-discovery.md)
 
 ---
@@ -35,6 +34,7 @@ Dynamically modifies parameters (rate limits, filters, depth, pauses) of an acti
 | `maxBackoffMs` | `integer` | No | — | 1000–60000 | Update maximum adaptive delay cap in ms. |
 
 Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawler_ops')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -59,18 +59,34 @@ Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawle
   "content": [
     {
       "type": "text",
-      "text": "Crawl job crawl-4a92c81e updated: pageDelayMs=1500, maxPages=40."
+      "text": "Crawl crawl-4a92c81e updated: pageDelayMs=1500, maxPages=40. Status: running, visited: 12/40."
     }
   ],
   "structuredContent": {
-    "ok": true,
     "crawlId": "crawl-4a92c81e",
-    "pageDelayMs": 1500,
-    "maxPages": 40,
-    "paused": false
+    "status": "running",
+    "updated": ["pageDelayMs=1500", "maxPages=40"],
+    "effectiveConfig": {
+      "maxDepth": 2,
+      "maxPages": 40,
+      "pageDelayMs": 1500
+    },
+    "visited": 12,
+    "queued": 1,
+    "pauseRequested": false,
+    "phase": "visiting",
+    "parallel": { "configured": 1, "effectiveParallel": 1, "activeWorkers": 1 },
+    "pollAfterMs": 2000,
+    "retentionMode": "best_effort",
+    "terminalRetentionMinutes": 30,
+    "maxRetainedTerminalCrawls": 12,
+    "retentionUntilUtc": null,
+    "currentUrl": "https://docs.example.com/api/webhooks"
   }
 }
 ```
+
+There is no top-level `ok` field. Updated values are not individually echoed as top-level fields — `updated` lists each applied change as a `"name=value"` string, and the full post-update configuration (including unchanged fields) lives under `effectiveConfig` (shown abbreviated above). Calling with no recognized field to change (e.g. an empty arguments object) is rejected as invalid params instead of a no-op success.
 
 ---
 
@@ -78,7 +94,7 @@ Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawle
 
 * **Dynamic Throttling:** If the target server exhibits elevated latency or returns warning headers, increase `pageDelayMs` to reduce server pressure immediately.
 * **Selective Scope Expansion:** Increase `maxPages` or `maxDepth` dynamically if initial crawl results indicate high-value sub-paths.
-* **Pause for Manual Inspection:** Use `paused: true` to halt scheduling while reviewing intermediate findings in [`nova.crawl_results`](nova-crawl-results.md).
+* **Pause for Manual Inspection:** Use `paused: true` to halt scheduling while reviewing intermediate findings in [`nova.crawl_results`](nova-crawl-results.md); the applied pause state is reflected in `pauseRequested`, not in a `paused` field.
 
 ---
 

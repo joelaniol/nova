@@ -1,8 +1,7 @@
 # `nova.responsive_screenshots`
 
-> **Captures responsive screenshots across multiple breakpoint widths (mobile, tablet, desktop) in parallel.**
+> **Sweeps multiple viewport widths one at a time, capturing a screenshot at each and restoring the tab's original viewport afterwards.**
 
-* **Security Tier:** Tier 2 (Responsive Auditing)
 * **Core Feature Guide:** [Visual Evidence & Auditing](../../../core-features/evm-and-visual-evidence.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
@@ -10,7 +9,7 @@
 
 ## 1. Overview
 
-`nova.responsive_screenshots` sets device emulations across specified widths (e.g. 375, 768, 1280, 1920) and captures visual evidence for each viewport in a single invocation.
+`nova.responsive_screenshots` applies a CDP device-metrics override at each requested width (e.g. 375, 768, 1280, 1920) in turn — not in parallel — waits briefly for layout to settle, and captures one screenshot per width, each delivered as a `nova://screenshot/...` resource (reference mode) so a multi-breakpoint sweep stays token-cheap. After the sweep, Nova restores the tab's pre-sweep viewport emulation (or clears the override if there was none) and reports `viewportRestored: true` only when the after-restore layout/visual-viewport metrics verifiably match the pre-sweep snapshot (a vertical-scrollbar-gutter width change is tolerated; height, scroll position, and scale are not).
 
 ---
 
@@ -29,6 +28,7 @@
 | `quality` | `integer` | No | — | 1–100 | JPEG quality (1-100) when format is jpeg. |
 
 Capability bundles: `device_emulation`, `visual_evidence`.
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -38,7 +38,7 @@ Capability bundles: `device_emulation`, `visual_evidence`.
 ### JSON-RPC Request
 ```json
 {
-  "name": "nova_responsive_screenshots",
+  "name": "nova.responsive_screenshots",
   "arguments": {
     "targetId": "tab-1",
     "widths": [
@@ -56,34 +56,32 @@ Capability bundles: `device_emulation`, `visual_evidence`.
   "content": [
     {
       "type": "text",
-      "text": "Captured 3 responsive screenshots."
+      "text": "Captured 3 responsive screenshot(s)."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "screenshots": [
-      {
-        "width": 375,
-        "uri": "nova://screenshot/resp-375"
-      },
-      {
-        "width": 768,
-        "uri": "nova://screenshot/resp-768"
-      },
-      {
-        "width": 1280,
-        "uri": "nova://screenshot/resp-1280"
-      }
-    ]
+    "targetId": "tab-1",
+    "count": 3,
+    "fullPage": false,
+    "breakpoints": [
+      { "width": 375, "height": 900, "resourceUri": "nova://screenshot/<id-375>", "mimeType": "image/jpeg", "bytes": 38120, "captured": true },
+      { "width": 768, "height": 900, "resourceUri": "nova://screenshot/<id-768>", "mimeType": "image/jpeg", "bytes": 41650, "captured": true },
+      { "width": 1280, "height": 900, "resourceUri": "nova://screenshot/<id-1280>", "mimeType": "image/jpeg", "bytes": 52300, "captured": true }
+    ],
+    "viewportRestored": true,
+    "viewportRestore": { "restored": true, "status": "ok", "reasonCode": null, "attempts": 1 }
   }
 }
 ```
+
+Each `breakpoints[]` entry also carries `readabilityRisk` and an `evidenceGuidance` block (same shape as `nova.capture_screenshot`'s). `viewportRestored: false` means the restore CDP call failed or the after-restore viewport still differs from the pre-sweep one; `viewportRestore.reasonCode` explains why (`restore_cdp_call_failed`, `viewport_metrics_unavailable`, or `viewport_restore_drift`).
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Cross-Device QA:** Rapidly verify mobile navigation collapses and responsive flex wraps in one operation.
+* **Cross-Device QA:** Verify mobile navigation collapses and responsive flex wraps across breakpoints in one call — each width is still captured in sequence, so budget roughly `widths.length × (~150ms reflow settle + one screenshot capture)`.
+* **Always check `viewportRestored`:** A `false` value means the tab may be left at the last swept viewport; read `viewportRestore` for the reason before trusting the tab's current layout state.
 
 ---
 

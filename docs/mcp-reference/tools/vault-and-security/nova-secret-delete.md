@@ -2,7 +2,6 @@
 
 > **Deletes an encrypted environment variable or API key secret from the DPAPI store.**
 
-* **Security Tier:** Tier 2 (Destructive Secret Management)
 * **Core Feature Guide:** [Vault & Secret Keystore](../../../core-features/vault-and-secrets.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
@@ -27,6 +26,7 @@
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `secret_store` (load it with `nova.tools_bundle(bundle='secret_store')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -36,7 +36,7 @@ Capability bundle: `secret_store` (load it with `nova.tools_bundle(bundle='secre
 ### JSON-RPC Request
 ```json
 {
-  "name": "nova_secret_delete",
+  "name": "nova.secret_delete",
   "arguments": {
     "name": "PROD_DB_API_KEY",
     "scope": "global"
@@ -50,13 +50,16 @@ Capability bundle: `secret_store` (load it with `nova.tools_bundle(bundle='secre
   "content": [
     {
       "type": "text",
-      "text": "Deleted secret PROD_DB_API_KEY."
+      "text": "Secret 'PROD_DB_API_KEY' deleted (global scope)."
     }
   ],
   "structuredContent": {
-    "ok": true,
     "name": "PROD_DB_API_KEY",
-    "deleted": true
+    "scope": "global",
+    "workspaceId": null,
+    "taskId": null,
+    "deleted": true,
+    "found": true
   }
 }
 ```

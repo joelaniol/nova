@@ -2,8 +2,6 @@
 
 > **Closes the settings drawer overlay in the Nova host user interface.**
 
-* **Security Tier:** Tier 2 (UI Window Control)
-* **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
@@ -20,6 +18,7 @@
 This tool takes no parameters.
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -44,8 +43,7 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "isOpen": false
+    "ok": true
   }
 }
 ```

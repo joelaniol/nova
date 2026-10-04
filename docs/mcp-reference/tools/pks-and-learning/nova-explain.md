@@ -10,27 +10,31 @@ Nova's Phenomenological Knowledge Store (PKS) uses empirical quality gates to go
 
 `nova.explain` provides transparent visibility into these internal decisions. If an agent wonders: *"Why is this playbook not running automatically?"* or *"What evidence is missing to promote this candidate?"*, `nova.explain` answers with exact mathematical deltas, gate evaluations, and actionable instructions.
 
-* **Per-Gate Breakdown:** Evaluates sample size, consecutive successes, failure ratios, and multi-session consistency.
+* **Per-Gate Breakdown:** The gate set depends on the phenomenon's current level — promotion gates for `Candidate`/`Shadow`, demotion/deprecation triggers for `Active`, and revive gates for `Deprecated`.
 * **Delta to Pass:** Identifies exactly how many additional successful runs are required to graduate.
-* **Fingerprint Breakdown:** When `observedSignals` are supplied, highlights which signals matched and which failed during live page detection.
+* **Fingerprint Breakdown:** When `observedSignals` are supplied and the phenomenon has fingerprint signals, returns a scored per-signal match breakdown.
 
 ---
 
 ## 2. PKS Learning Levels & Promotion Gates
 
 ```
-  [Candidate / Ingest]
-           ?
-           ?
-    [Level: Shadow]  ?-- Passive monitoring; evaluated without modifying live page
-           ?
-           ? (Requires: 3 consecutive successes, 0 failures, verified verification step)
-           ?
-    [Level: Active]  ?-- Fully automated execution for all agents on this domain
-           ?
-           ? (If: 3 consecutive failures or health score < 0.60)
-           ?
-  [Level: Deprecated] ?-- Flagged as broken; execution blocked until refreshed
+  [Level: Candidate (L0)]
+          |
+          | requires: not disproven, confidence >= 0.70, >= 2 supporting
+          | observations (>= 1 successful), evidence score >= 0.55
+          v
+  [Level: Shadow (L1)]  -- passive monitoring; evaluated without modifying the live page
+          |
+          | requires: >= 3 successful executions, <= 1 failure, success in
+          | >= 2 distinct sessions, 0 selector-drift events in the last 7 days
+          v
+  [Level: Active (L2)]  -- execution allowed via nova.phenomenon_apply
+          |
+          | demoted when: hard drift in the last 24h, or >= 2 consecutive failures
+          | deprecated when: >= 5 consecutive failures (>= 3 if still at Shadow)
+          v
+  [Deprecated]  -- execution blocked until revived (needs renewed evidence over 30 days)
 ```
 
 ---
@@ -47,6 +51,7 @@ Nova's Phenomenological Knowledge Store (PKS) uses empirical quality gates to go
 | `observed_signals` | `array` of `string` | No | — | — | Legacy alias for observedSignals. Optional DOM/text/vendor/layout signals to compute match breakdown against this phenomenon's fingerprint. |
 
 Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_learning')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -64,35 +69,32 @@ Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_l
 
 ## 5. Return Value Structure
 
+`currentLevel` is the raw numeric learning level (`0` = Candidate, `1` = Shadow, `2` = Active). `match` is `null` unless `observedSignals` was supplied and the phenomenon has fingerprint signals to score against.
+
 ```json
 {
-  "stableId": "spiegel-cmp-reject",
+  "ok": true,
   "scope": "spiegel.de",
-  "currentLevel": "Shadow",
-  "targetLevel": "Active",
-  "overallGatePass": false,
-  "gates": [
-    {
-      "name": "min_sample_size",
-      "status": "passed",
-      "required": 5,
-      "current": 6
-    },
-    {
-      "name": "min_success_rate",
-      "status": "passed",
-      "required": 0.90,
-      "current": 1.0
-    },
-    {
-      "name": "min_distinct_sessions",
-      "status": "failed",
-      "required": 3,
-      "current": 2,
-      "delta": 1,
-      "remediation": "Requires verification in at least 1 additional distinct browser session."
-    }
-  ]
+  "phenomenon": {
+    "stableId": "spiegel-cmp-reject",
+    "type": "consent_cmp",
+    "currentLevel": 1,
+    "deprecated": false
+  },
+  "explain": {
+    "summary": "L1->L2: 3/4 gates passed",
+    "kind": "promotion",
+    "gates": [
+      { "name": "max_drift_7d", "required": 0, "observed": 0, "passed": true, "deltaToPass": 0 },
+      { "name": "min_success", "required": 3, "observed": 2, "passed": false, "deltaToPass": 1 },
+      { "name": "min_distinct_sessions", "required": 2, "observed": 2, "passed": true, "deltaToPass": 0 },
+      { "name": "max_failure", "required": 1, "observed": 0, "passed": true, "deltaToPass": 0 }
+    ],
+    "remediation": [
+      "Need 1 more successful execution(s)."
+    ]
+  },
+  "match": null
 }
 ```
 
@@ -100,6 +102,6 @@ Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_l
 
 ## 6. Related Tools & Documentation
 
-* [`nova.telemetry_report`](nova-telemetry-report.md) ? Record execution attempts to fulfill gate requirements.
-* [`nova.pks_get`](nova-pks-get.md) ? Retrieve phenomenon definitions.
-* [Phenomenological Knowledge Store (PKS)](../../../core-features/pks.md) ? Complete specification of PKS promotion criteria.
+* [`nova.telemetry_report`](nova-telemetry-report.md) — Record execution attempts to fulfill gate requirements.
+* [`nova.pks_get`](nova-pks-get.md) — Retrieve phenomenon definitions.
+* [Phenomenological Knowledge Store (PKS)](../../../core-features/pks.md) — Complete specification of PKS promotion criteria.

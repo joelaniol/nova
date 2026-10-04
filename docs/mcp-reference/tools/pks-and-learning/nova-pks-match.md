@@ -45,6 +45,7 @@ The `observation.signals` array accepts structured evidence items:
 | `context.route` | `string or null` | No | — | ≥ 1 characters | Optional route segment filter. Examples: '_root', 'feed', '/jobs/list'. Use null or omit to leave the route filter unset. |
 
 Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_learning')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -70,32 +71,61 @@ Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_l
 
 ## 5. Return Value Structure
 
+The response is flat (no nested `bestMatch`/`matches` wrapper): the top-level fields already describe the best match, and `topMatches` carries the ranked list (bounded by `topK`). `source` is `"domain"` for a domain-scoped phenomenon or `"platform"` for a global vendor-pattern fallback (see below); platform matches never carry `context` (`contextMatch` stays `null`).
+
 ```json
 {
   "matched": true,
   "scope": "spiegel.de",
-  "bestMatch": {
-    "phenomenonId": "spiegel-cmp-reject",
-    "type": "consent_cmp",
-    "confidence": 0.98,
-    "learningLevel": "Active",
-    "playbook": {
-      "policy": "reject_preferred",
-      "actions": [
-        { "type": "click", "selector": "button#btn-reject-all" }
-      ]
-    }
+  "source": "domain",
+  "contextMatch": null,
+  "mismatches": [],
+  "platformStableId": null,
+  "applicabilityScore": null,
+  "phenomenonId": "spiegel-cmp-reject",
+  "phenomenonType": "consent_cmp",
+  "confidence": 0.98,
+  "score": 0.95,
+  "minConfidence": 0.9,
+  "context": {
+    "device": null,
+    "locale": null,
+    "auth": null,
+    "authScope": null,
+    "routes": [],
+    "source": "domain"
   },
-  "matches": [
+  "playbook": {
+    "policy": "reject_preferred",
+    "actions": [
+      { "type": "click", "selector": "button#btn-reject-all" }
+    ]
+  },
+  "health": { "totalAttempts": 420, "successRate30d": 0.993 },
+  "topMatches": [
     {
       "phenomenonId": "spiegel-cmp-reject",
+      "phenomenonType": "consent_cmp",
       "confidence": 0.98,
-      "matchedSignals": 3,
-      "totalSignals": 3
+      "score": 0.95,
+      "minConfidence": 0.9,
+      "context": { "device": null, "locale": null, "auth": null, "authScope": null, "routes": [], "source": "domain" },
+      "source": "domain",
+      "platformStableId": null,
+      "applicabilityScore": null,
+      "playbook": "(abbreviated, same shape as above)",
+      "health": "(abbreviated, same shape as above)"
     }
-  ]
+  ],
+  "domainHints": [],
+  "ranking": {
+    "model": "weighted_v1",
+    "weights": { "confidence": 0.65, "health": 0.20, "trust": 0.10, "contextSpecificity": 0.05 }
+  }
 }
 ```
+
+`health` and `playbook` are abbreviated here; both return the full stored objects. No match found returns `matched: false` with `topMatches` holding any near-misses below `minConfidence` (bounded by `topK`).
 
 ---
 

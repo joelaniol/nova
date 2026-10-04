@@ -8,8 +8,7 @@ Manually disconnects the proxy for a target scope, blocking all HTTP(S) traffic 
 
 `nova.proxy_disconnect` acts as an emergency network kill switch. It severs the proxy route and blocks all outgoing HTTP(S) requests until `nova.proxy_reconnect` succeeds, preventing IP leaks.
 
-* **Security Tier:** Tier 2 (Kill Switch)
-* **Core Architecture Guide:** [Proxy Routing & Stealth Network Engine](../../../core-features/proxy-and-network.md)
+* **Core Architecture Guide:** [Proxy Routing & Network Engine](../../../core-features/proxy-and-network.md)
 
 ---
 
@@ -21,6 +20,7 @@ Manually disconnects the proxy for a target scope, blocking all HTTP(S) traffic 
 | `targetId` | `string` | Yes | — | — | Target ID: sandbox ID or 'browser-tabs' for the global browser scope. |
 
 Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='proxy_management')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -32,7 +32,7 @@ Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='p
 {
   "name": "nova.proxy_disconnect",
   "arguments": {
-    "targetId": "tab-1"
+    "targetId": "browser-tabs"
   }
 }
 ```
@@ -43,16 +43,18 @@ Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='p
   "content": [
     {
       "type": "text",
-      "text": "Proxy disconnected for tab-1 (traffic blocked)."
+      "text": "Proxy disconnect for target 'browser-tabs': Proxy disconnected; browsing stays blocked until reconnect."
     }
   ],
   "structuredContent": {
+    "success": true,
+    "targetId": "browser-tabs",
     "status": "disconnected",
-    "isDisconnected": true,
-    "targetId": "tab-1"
+    "isDisconnected": true
   }
 }
 ```
+Calling it again while already disconnected still succeeds with `"status": "already_disconnected"`. An unknown `targetId` returns `"status": "target_unavailable"` with `isDisconnected: null`.
 
 ---
 

@@ -6,9 +6,8 @@ Emulates CSS media features like dark mode, reduced motion, high contrast, and p
 
 ## 1. Overview
 
-`nova.emulation_set_media` overrides CSS media queries via CDP `Emulation.setEmulatedMedia`. It allows testing dark themes (`colorScheme: "dark"`), accessibility features, and print stylesheets.
+`nova.emulation_set_media` overrides CSS media queries via CDP `Emulation.setEmulatedMedia`. It allows testing dark themes (`colorScheme: "dark"`), accessibility features, and print stylesheets. Features accumulate across calls: setting `colorScheme` then later `reducedMotion` leaves both active, merged over the tab's previously applied features; call `nova.emulation_clear_media` to revert everything at once.
 
-* **Security Tier:** Tier 2 (CSS Emulation)
 * **Core Architecture Guide:** [Fingerprint & Identity Systems](../../../core-features/fingerprint-and-identity.md)
 
 ---
@@ -26,6 +25,7 @@ Emulates CSS media features like dark mode, reduced motion, high contrast, and p
 | `media` | `string` | No | — | `screen`, `print` | Emulate the CSS media type — use 'print' to preview print stylesheets. |
 
 Capability bundle: `device_emulation` (load it with `nova.tools_bundle(bundle='device_emulation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -49,7 +49,7 @@ Capability bundle: `device_emulation` (load it with `nova.tools_bundle(bundle='d
   "content": [
     {
       "type": "text",
-      "text": "Emulated media features applied: color-scheme=dark, reduced-motion=reduce."
+      "text": "Emulated media features applied."
     }
   ],
   "structuredContent": {
@@ -58,7 +58,8 @@ Capability bundle: `device_emulation` (load it with `nova.tools_bundle(bundle='d
     "reducedMotion": "reduce",
     "forcedColors": null,
     "contrast": null,
-    "media": null
+    "media": null,
+    "devToolsOpen": false
   }
 }
 ```

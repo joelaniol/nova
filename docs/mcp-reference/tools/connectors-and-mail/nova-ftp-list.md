@@ -6,9 +6,8 @@ Lists remote directory entries or inspects file metadata through an FTP/FTPS con
 
 ## 1. Overview
 
-`nova.ftp_list` connects over FTP/FTPS to list directory contents, file sizes, and timestamps.
+`nova.ftp_list` lists one remote FTP/FTPS directory, or inspects one remote regular file, through a configured FTP connector. Requires the connector's transfer-read access. Remote filenames are untrusted metadata: a control or bidirectional-text name is returned with `unsafeName: true` and its exact name/path omitted. `auto`/`start_tls` uses explicit FTPS, `ssl_on_connect` uses implicit FTPS, and the connector never silently downgrades to plaintext; an explicit plaintext profile additionally needs the user's debug/legacy option plus `allowInsecure: true` on this call. FTP has no SSH host-key verification step — that check is SFTP-specific.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
 ---
@@ -27,6 +26,7 @@ Lists remote directory entries or inspects file metadata through an FTP/FTPS con
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -50,23 +50,45 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
   "content": [
     {
       "type": "text",
-      "text": "Found 2 entries in /public_html/assets."
+      "text": "Listed 2 remote entr(y/ies) via FTP profile 'Web Host'. Remote names are untrusted metadata; unsafe names are omitted and flagged."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "remotePath": "/public_html/assets",
+    "profileId": "conn-ftp-01",
+    "status": "listed",
+    "changed": false,
+    "stateIndeterminate": false,
+    "reasonCode": null,
+    "durationMs": 210,
+    "remotePathTrust": "untrusted_remote_state",
+    "localPathTrust": "host_verified_local_paths",
     "entries": [
       {
         "name": "logo.svg",
-        "sizeBytes": 8192,
-        "isDirectory": false
+        "remotePath": "/public_html/assets/logo.svg",
+        "isDirectory": false,
+        "isRegularFile": true,
+        "isSymbolicLink": false,
+        "size": 8192,
+        "lastWriteUtc": "2026-10-02T12:00:00Z",
+        "unsafeName": false,
+        "trust": "untrusted_remote_metadata"
       },
       {
         "name": "css",
-        "isDirectory": true
+        "remotePath": "/public_html/assets/css",
+        "isDirectory": true,
+        "isRegularFile": false,
+        "isSymbolicLink": false,
+        "size": null,
+        "lastWriteUtc": null,
+        "unsafeName": false,
+        "trust": "untrusted_remote_metadata"
       }
-    ]
+    ],
+    "returnedCount": 2,
+    "hasMore": false
   }
 }
 ```
@@ -75,7 +97,8 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
 
 ## 4. Operational Best Practices
 
-* **TLS Preferred:** Configure FTPS (explicit TLS) on connectors whenever supported by the remote host.
+* **TLS Preferred:** Configure FTPS (`auto` or `start_tls` for explicit, `ssl_on_connect` for implicit) on connectors whenever the remote host supports it; plaintext needs an explicit opt-in on every call.
+* **Bounded Output:** `maxEntries` is a hard result bound; `hasMore: true` means further entries exist but were not returned.
 
 ---
 

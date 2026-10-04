@@ -1,8 +1,7 @@
 # `nova.ui_certificate_prompt_resolve`
 
-> **Resolves an untrusted or invalid SSL/TLS server certificate security dialog.**
+> **Answers Nova's dialog for a server certificate it could not verify: refuse the connection or proceed for this session.**
 
-* **Security Tier:** Tier 2 (Security Gate Resolution)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
@@ -10,7 +9,9 @@
 
 ## 1. Overview
 
-`nova.ui_certificate_prompt_resolve` allows automated workflows to proceed through self-signed certificate warnings in development environments or cancel unsafe requests.
+When a site presents a server certificate that cannot be verified (for example a self-signed certificate on an internal or development server), Nova asks before continuing. `nova.ui_certificate_prompt_resolve` answers that dialog for the agent. `refuse` declines the connection and unblocks browsing. `proceed` continues with the unverified certificate; the exception covers this one certificate for the rest of the session and is recorded in Nova's log with the certificate fingerprint.
+
+If no dialog is open, the call returns `ok: false` with `reasonCode: "certificate.no_prompt_open"`; a second answer to a dialog that is already closing returns `certificate.already_answered`.
 
 ---
 
@@ -22,6 +23,7 @@
 | `decision` | `string` | Yes | — | `proceed`, `refuse` | refuse: decline the connection (safe, unblocks browsing). proceed: continue with an unverified certificate for this session. |
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
+Tool category: `high_impact` (highest risk class; Nova's agent permission settings can ask before it runs).
 <!-- /generated:parameters -->
 
 ---
@@ -33,7 +35,7 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
 {
   "name": "nova_ui_certificate_prompt_resolve",
   "arguments": {
-    "action": "proceed_once"
+    "decision": "proceed"
   }
 }
 ```
@@ -44,23 +46,31 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Proceeded past SSL certificate warning."
+      "text": "Certificate prompt resolved (proceed, status=accepted)."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "action": "proceed_once",
-    "bypassActive": true
+    "decision": "proceed",
+    "status": "accepted",
+    "reasonCode": "none",
+    "message": "The connection continues with a certificate Nova could not verify. It may be read or altered in transit. The exception covers this one certificate for the rest of the session.",
+    "promptWasOpen": true,
+    "host": "dev.internal.example",
+    "fingerprint": "3FA81C0B92D47E65",
+    "exceptionGranted": true
   }
 }
 ```
+
+With `decision: "refuse"` the result reports `status: "refused"` and `exceptionGranted: false`.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Development Only:** Never bypass certificate warnings on external production websites.
-* **Audit Trail:** Log all certificate bypass decisions with reasons.
+* **Development Only:** Proceed only for hosts you control or know, such as internal or development servers. Refuse on public websites.
+* **Check the host:** Compare `host` in the result with the server the task targets.
 
 ---
 

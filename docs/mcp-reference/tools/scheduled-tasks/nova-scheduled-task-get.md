@@ -6,9 +6,8 @@ Retrieves full details of a scheduled task including prompt, schedule, chaining,
 
 ## 1. Overview
 
-`nova.scheduled_task_get` returns the complete configuration for a specific background task. It exposes the prompt text, executor arguments, timezone, retry behavior, workspace path, and chaining dependencies.
+`nova.scheduled_task_get` returns the complete configuration and runtime state for a specific background task: the prompt text, executor settings, timezone, retry/budget configuration, the on-disk workspace path, and any chaining to a follow-up task. The response has no `ok` field; an unknown `taskId` throws an invalid-params error instead. `argsTemplate` is reported as the literal string `"[REDACTED]"` (not omitted) when a value is stored, since it may embed secret placeholders.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
 ---
@@ -23,6 +22,7 @@ Retrieves full details of a scheduled task including prompt, schedule, chaining,
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -34,7 +34,7 @@ Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='sc
 {
   "name": "nova.scheduled_task_get",
   "arguments": {
-    "taskId": "task-7c81a2f0"
+    "taskId": "a1b2c3d4e5f6"
   }
 }
 ```
@@ -45,25 +45,28 @@ Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='sc
   "content": [
     {
       "type": "text",
-      "text": "Loaded scheduled task 'Competitor Price Tracker' (task-7c81a2f0)."
+      "text": "Task 'Competitor Price Tracker' (a1b2c3d4e5f6)."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "taskId": "task-7c81a2f0",
+    "taskId": "a1b2c3d4e5f6",
     "displayName": "Competitor Price Tracker",
-    "status": "Enabled",
     "prompt": "Check https://store.example.com/item/101 and write the current price to shared/price.json",
     "executorKind": "ClaudeCode",
+    "enabled": true,
     "cronExpression": "daily 09:00",
     "timeZoneId": "Europe/Berlin",
     "timeoutSeconds": 180,
     "mcpAccess": true,
-    "workspacePath": "ScheduledTasks/task-7c81a2f0",
-    "concurrencyPolicy": "Skip"
+    "workspacePath": "%LOCALAPPDATA%\\NovaBrowser\\Workspaces\\a1b2c3d4e5f6\\nova-tasks\\a1b2c3d4e5f6",
+    "concurrencyPolicy": "Skip",
+    "nextFireAtUtc": "2026-10-03T07:00:00Z",
+    "cumulativeCostUsd": 0.12
   }
 }
 ```
+
+Trimmed for brevity — the full response also includes `autonomyMode`, `command`, `argsTemplate`, `workingDirectory`, `intervalSeconds`, `oneShot`, `modelOverride`, `maxTurns`, `maxBudgetUsd`, `maxConsecutiveFailures`, `extraSystemPrompt`, `catchUpMissed`, `triggerNextTaskId`, `triggerOnStatus`, `triggerConditionKey`, `totalBudgetCapUsd`, `watchPath`, `taskProfileId`, `lastSuccessfulRunAtUtc`, `workspaceId`, `workspaceIsTaskOwned`, `consecutiveFailureCount`, `totalRunCount`, `cumulativeInputTokens`, `cumulativeOutputTokens`, `createdAtUtc`, and `updatedAtUtc`.
 
 ---
 

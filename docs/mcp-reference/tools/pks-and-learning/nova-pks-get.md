@@ -19,7 +19,7 @@ The **Phenomenological Knowledge Store (PKS)** is Nova's shared, self-learning d
 ## 2. Key Capabilities & Features
 
 ### A. Summary vs Full Inspection
-* **`outputDetail: "summary"`**: Useful when an agent enters a domain and wants to know: *"Are there any known cookie banners or login walls on this site?"*
+* **`outputDetail: "summary"`**: Useful when an agent enters a domain and wants to know: *"Are there any known cookie banners or login walls on this site?"* Only phenomena at `Active` level are listed by name (Shadow/Candidate phenomena are counted but not itemized); each listed entry reports its type, whether it has ever run (`verified`), its 30-day success rate, and total attempts.
 * **`outputDetail: "full"`**: Delivers concrete execution steps (`playbook.actions`), post-action assertions (`playbook.verify`), and fallback selectors.
 
 ### B. Context Applicability Reporting
@@ -52,6 +52,7 @@ The response indicates `contextMatch: true` or details specific divergences.
 | `context.auth` | `any` | No | — | — | Authentication state. 'anonymous' = not signed in, 'logged_in' = signed in, 'unknown' = not enough evidence to classify. Use null or omit to leave the auth filter unset. |
 
 Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_learning')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -81,29 +82,37 @@ Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_l
 
 ```json
 {
+  "found": true,
   "scope": "spiegel.de",
   "trust": "high",
-  "phenomenaCount": 2,
+  "updatedAtUtc": "2026-10-02T20:10:00Z",
+  "contextMatch": null,
+  "mismatches": [],
+  "phenomenonCount": 2,
+  "activePhenomenonCount": 2,
+  "totalPhenomenaCount": 2,
+  "deprecatedCount": 0,
+  "domainHintCount": 0,
   "phenomena": [
     {
       "id": "spiegel-cmp-reject",
       "type": "consent_cmp",
-      "learningLevel": "Active",
-      "healthScore": 0.98,
-      "successCount": 420,
-      "failureCount": 3
+      "verified": true,
+      "successRate30d": 0.993,
+      "totalAttempts": 420
     },
     {
       "id": "spiegel-paywall-gate",
       "type": "paywall",
-      "learningLevel": "Active",
-      "healthScore": 0.95,
-      "successCount": 85,
-      "failureCount": 2
+      "verified": true,
+      "successRate30d": 0.977,
+      "totalAttempts": 85
     }
   ]
 }
 ```
+
+`phenomenonCount`/`activePhenomenonCount` only count phenomena at `Active` level; `totalPhenomenaCount` includes Shadow and Candidate entries too. `contextMatch`/`mismatches` are only populated when a `context` filter was passed in the request.
 
 ---
 
@@ -118,7 +127,7 @@ Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_l
 
 ## 7. Related Tools & Documentation
 
-* [`nova.pks_upsert`](nova-pks-upsert.md) ? Store or update verified phenomena in PKS.
-* [`nova.pks_match`](nova-pks-match.md) ? Match live DOM observations against known fingerprints.
-* [`nova.telemetry_report`](nova-telemetry-report.md) ? Report execution outcome for health scoring.
-* [Phenomenological Knowledge Store (PKS)](../../../core-features/pks.md) ? Architecture, lifecycle levels, and invariant rules.
+* [`nova.pks_upsert`](nova-pks-upsert.md) — Store or update verified phenomena in PKS.
+* [`nova.pks_match`](nova-pks-match.md) — Match live DOM observations against known fingerprints.
+* [`nova.telemetry_report`](nova-telemetry-report.md) — Report execution outcome for health scoring.
+* [Phenomenological Knowledge Store (PKS)](../../../core-features/pks.md) — Architecture, lifecycle levels, and invariant rules.

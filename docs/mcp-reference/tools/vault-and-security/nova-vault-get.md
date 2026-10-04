@@ -10,7 +10,7 @@ Retrieves metadata and account identifiers for a stored vault entry, resolving u
 
 * **Zero Secret Exposure:** Passwords are never returned; use [`nova.vault_prepare_fill`](nova-vault-prepare-fill.md) to initiate fill workflows.
 * **Account Disambiguation:** Returns all valid usernames associated with a site when ambiguous.
-* **Metadata Insights:** Reports last updated timestamps, origin constraints, and custom metadata fields.
+* **Metadata Insights:** Reports who created the entry and when, plus whether a password is stored.
 
 ---
 
@@ -25,6 +25,7 @@ Retrieves metadata and account identifiers for a stored vault entry, resolving u
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
 
 Capability bundle: `vault_auth` (load it with `nova.tools_bundle(bundle='vault_auth')`).
+Tool category: `high_impact` (highest risk class; Nova's agent permission settings can ask before it runs).
 <!-- /generated:parameters -->
 
 ---
@@ -52,30 +53,38 @@ Capability bundle: `vault_auth` (load it with `nova.tools_bundle(bundle='vault_a
 
 ## 4. Return Value Structure
 
-When multiple accounts exist:
+When multiple accounts exist and no `username` was given:
 ```json
 {
+  "found": true,
   "site": "github.com",
-  "matchStatus": "multiple_accounts",
-  "availableUsernames": [
-    "personal_account",
-    "lead-dev@company.com"
-  ],
-  "guidance": "Specify one of the available usernames in your next call to vault_get or vault_prepare_fill."
+  "matchCount": 2,
+  "ambiguous": true,
+  "accounts": [
+    { "username": "personal_account", "createdBy": null },
+    { "username": "lead-dev@company.com", "createdBy": "agent" }
+  ]
 }
 ```
 
 When resolved to a single entry:
 ```json
 {
+  "found": true,
+  "entryId": "a1b2c3d4",
   "site": "company.atlassian.net",
-  "matchStatus": "resolved",
   "username": "support-agent@company.com",
-  "hasPassword": true,
-  "hasTotp": false,
-  "notes": "Staging Jira administrator credentials"
+  "createdBy": "agent",
+  "createdUtc": "2026-09-15T08:00:00Z",
+  "passwordAvailable": true,
+  "passwordRedacted": true,
+  "retrievalMode": "secretref_required",
+  "nextTool": "nova.vault_prepare_fill",
+  "matchCount": 1
 }
 ```
+
+Nova never returns the password itself; `passwordAvailable`/`passwordRedacted` only report whether a password is stored. There is no stored notes or one-time-password field.
 
 ---
 
@@ -83,4 +92,4 @@ When resolved to a single entry:
 
 * [`nova.vault_prepare_fill`](nova-vault-prepare-fill.md) — Request single-use fill token for the resolved entry.
 * [`nova.vault_list`](nova-vault-list.md) — List all stored domains and accounts.
-* [`nova.type_selector_secret`](nova-type-selector-secret.md) — Inject the password into the browser form.
+* [`nova.type_selector_secret`](nova-type-selector-secret.md) — Set the password into the browser form.

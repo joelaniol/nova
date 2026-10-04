@@ -6,9 +6,8 @@ Emergency kill switch terminating all active camera, microphone, and screen-shar
 
 ## 1. Overview
 
-`nova.media_stop_all` acts as an emergency cutoff for active hardware media streams. It shuts down camera sensors, microphone capture loops, and desktop capture sessions across all WebViews immediately.
+`nova.media_stop_all` acts as an emergency cutoff for active hardware media streams. It stops live camera, microphone, and screen-sharing tracks across all tabs (or within one origin, with `scope: "origin"`). It does not clear stored or session permission grants — a stopped site can start a new stream again without a fresh prompt if it already holds Allow. Use [`nova.media_permissions_clear_session_grants`](nova-media-permissions-clear-session-grants.md) to also drop in-memory "Allow once" grants.
 
-* **Security Tier:** Tier 2 (Emergency Kill Switch)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
 ---
@@ -24,6 +23,7 @@ Emergency kill switch terminating all active camera, microphone, and screen-shar
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -46,13 +46,14 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "Emergency stop executed: all active camera/mic tracks terminated."
+      "text": "Stopped 1 live media track(s)."
     }
   ],
   "structuredContent": {
-    "ok": true,
+    "status": "ok",
     "scope": "all",
-    "terminatedStreamsCount": 1
+    "origin": null,
+    "stoppedTrackCount": 1
   }
 }
 ```

@@ -6,9 +6,8 @@ Lists available browser identity presets and selectable browser engine versions.
 
 ## 1. Overview
 
-`nova.identity_presets` returns the catalog of pre-configured browser identity presets, detailing platform OS, browser families, and verified User-Agent strings.
+`nova.identity_presets` returns the catalog of browser identity presets (`default`, `chrome`, `firefox`, `safari`, `custom`), each with its display name, whether it supports selecting a specific version, the list of known versions, and the latest known version.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
 ---
@@ -19,6 +18,7 @@ Lists available browser identity presets and selectable browser engine versions.
 This tool takes no parameters.
 
 Capability bundle: `identity_management` (load it with `nova.tools_bundle(bundle='identity_management')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -39,38 +39,58 @@ Capability bundle: `identity_management` (load it with `nova.tools_bundle(bundle
   "content": [
     {
       "type": "text",
-      "text": "Loaded 4 browser identity presets."
+      "text": "Available browser identity presets: 5"
     }
   ],
   "structuredContent": {
-    "ok": true,
     "presets": [
       {
-        "preset": "ChromeWindows",
-        "description": "Standard Google Chrome on Windows 11",
-        "supportedVersions": [
-          "128.0.0.0",
-          "127.0.0.0"
-        ]
+        "id": "default",
+        "displayName": "Default (WebView2/Edge)",
+        "supportsVersionSelection": false,
+        "versions": [],
+        "latestVersion": null
       },
       {
-        "preset": "EdgeWindows",
-        "description": "Microsoft Edge on Windows 11"
+        "id": "chrome",
+        "displayName": "Chrome",
+        "supportsVersionSelection": true,
+        "versions": ["150.0.4078.65", "147.0.7727.56", "146.0.7680.180", "..."],
+        "latestVersion": "150.0.4078.65"
       },
       {
-        "preset": "SafariMac",
-        "description": "Apple Safari on macOS Sequoia"
+        "id": "firefox",
+        "displayName": "Firefox",
+        "supportsVersionSelection": true,
+        "versions": ["149.0.2", "148.0.2", "147.0.4", "..."],
+        "latestVersion": "149.0.2"
+      },
+      {
+        "id": "safari",
+        "displayName": "Safari",
+        "supportsVersionSelection": true,
+        "versions": ["26.4", "26.3", "26.2", "..."],
+        "latestVersion": "26.4"
+      },
+      {
+        "id": "custom",
+        "displayName": "Custom (free-form UA)",
+        "supportsVersionSelection": false,
+        "versions": [],
+        "latestVersion": null
       }
     ]
   }
 }
 ```
 
+The `versions` lists are shortened here; each Chrome/Firefox/Safari preset actually lists several recent known versions, newest first. This response has no `ok` field.
+
 ---
 
 ## 4. Operational Best Practices
 
-* **Catalog Selection:** Use preset names directly in [`nova.identity_set`](nova-identity-set.md).
+* **Catalog Selection:** Use preset `id` values directly in [`nova.identity_set`](nova-identity-set.md). `custom` requires a non-empty `customUserAgent`.
 
 ---
 

@@ -8,7 +8,6 @@ Searches for matching task profiles by free-text query with keyword ranking.
 
 `nova.task_search` performs text search across profile goals, display names, and guidance hints, returning ranked candidates.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
 ---
@@ -25,6 +24,7 @@ Searches for matching task profiles by free-text query with keyword ranking.
 | `limit` | `integer` | No | `10` | 1–50 | Max candidates to return (default 10). |
 
 Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -47,21 +47,32 @@ Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_m
   "content": [
     {
       "type": "text",
-      "text": "Found 1 task profile matching query."
+      "text": "{\"candidates\":[{\"profileId\":\"tp-support-audit\",\"displayName\":\"Support Portal Link Audit\", ...}], ...}"
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "matches": [
+    "candidates": [
       {
         "profileId": "tp-support-audit",
         "displayName": "Support Portal Link Audit",
-        "rank": 1
+        "goal": "Audit all links under /support",
+        "taskType": "audit",
+        "domain": "support.example.com",
+        "score": 0.94,
+        "accepted": true,
+        "hasGuidance": true,
+        "usageCount": 3
       }
-    ]
+    ],
+    "count": 1,
+    "minScore": 0.3,
+    "omittedWeakMatches": 0,
+    "hint": "Choose the best matching profile and call task_instance_create(profileId=...). accepted=true means the score clears the match threshold; others are near misses. If none match your task, create a new profile via task_profile_upsert."
   }
 }
 ```
+
+There is no separate summary sentence: `content[0].text` is the same structured data serialized as plain JSON text.
 
 ---
 

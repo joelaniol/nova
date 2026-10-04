@@ -59,6 +59,7 @@ By passing `claim: true`, Nova assigns the new tab's write lease directly to you
 **`_meta.intent` is required for certain arguments.** Passing a short reason in `_meta.intent` is always safe; a rejected call names the argument that made it required.
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -72,25 +73,39 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
   "arguments": {
     "url": "https://example.com/pricing",
     "private": true,
-    "claim": true,
-    "waitForLoad": true,
-    "outputDetail": "minimal"
+    "claim": {},
+    "waitForLoad": true
   }
 }
 ```
 
-### Sample Response
+`claim` is an object, not a boolean — pass `{}` to auto-claim with default settings, or `{"agentId": "...", "ttlMs": ...}` to be explicit.
+
+### Sample Response (abbreviated)
 ```json
 {
-  "targetId": "tab-5",
-  "url": "https://example.com/pricing",
-  "private": true,
-  "claimed": true,
-  "claimOwner": "research-agent-1",
-  "leaseRemainingMs": 300000,
-  "status": "ok"
+  "structuredContent": {
+    "ok": true,
+    "status": "ok",
+    "targetId": "tab-5",
+    "tabId": "tab-5",
+    "isPrivate": true,
+    "privateSessionId": "default",
+    "activated": true,
+    "created": true,
+    "url": "https://example.com/pricing",
+    "pageUrl": "https://example.com/pricing",
+    "claim": {
+      "requested": true,
+      "state": "claimed",
+      "resolvedAgentId": "research-agent-1",
+      "leaseMs": 120000,
+      "leaseRemainingMs": 120000
+    }
+  }
 }
 ```
+The full payload also carries navigation, settlement, PKS and screenshot-sidecar fields; this is a trimmed excerpt.
 
 ---
 

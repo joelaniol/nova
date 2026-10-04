@@ -1,21 +1,21 @@
 # Agent Integration Hub
 
-Nova AI Workspace was built from the ground up to pair seamlessly with autonomous AI agents and developer tooling over the open **Model Context Protocol (MCP)**.
+AI agents connect to Nova AI Workspace over the open **Model Context Protocol (MCP)**.
 
 ---
 
 ## Supported Agent Clients
 
-Nova provides native, verified integrations for all major AI coding and automation platforms:
+When Nova starts, it registers itself with Claude Code, Claude Desktop, OpenAI Codex and Google Antigravity if they are installed. Other MCP clients and your own agents connect by hand, through the stdio bridge or directly over HTTP:
 
 ```mermaid
 flowchart TD
     subgraph Clients["Supported AI Clients"]
-        CC["Anthropic Claude Code<br>(CLI & Subagents)"]
-        CD["Anthropic Claude Desktop<br>(GUI Application)"]
-        Codex["OpenAI Codex CLI<br>(Autonomous Workspaces)"]
-        AGY["Google Antigravity & Gemini<br>(CLI & IDE Extensions)"]
-        Custom["Custom Python & Node Agents<br>(SDK / HTTP)"]
+        CC["Anthropic Claude Code"]
+        CD["Anthropic Claude Desktop"]
+        Codex["OpenAI Codex CLI"]
+        AGY["Google Antigravity and Gemini CLI"]
+        Custom["Custom Python and Node agents<br>(SDK or HTTP)"]
     end
 
     subgraph Transports["Transport Layer"]
@@ -24,7 +24,7 @@ flowchart TD
     end
 
     subgraph Server["Nova AI Workspace Runtime"]
-        Core["Local MCP Server (400+ Native Tools)<br>AAG Gates | TOB Evidence | PKS Memory"]
+        Core["Local MCP server<br>(over 400 tools)"]
     end
 
     CC -->|stdio| Stdio
@@ -50,16 +50,19 @@ Choose the guide matching your agent client:
 2. **[Claude Desktop (`claude-desktop.md`)](claude-desktop.md)**
    Configure Anthropic's official desktop application on Windows using `NovaBrowser.McpProxy.exe` as the stdio bridge.
 
-3. **[OpenAI Codex & Google Antigravity (`codex-and-antigravity.md`)](codex-and-antigravity.md)**
-   Configure OpenAI Codex CLI (`config.toml`) and Google Antigravity/Gemini agents for multi-agent workflows and parallel subagent execution.
+3. **[OpenAI Codex CLI (`openai-codex.md`)](openai-codex.md)**
+   The Codex entry in `~/.codex/config.toml`, running tasks and coordinating several agents.
 
-4. **[Custom Python & Node.js Agents (`custom-agents.md`)](custom-agents.md)**
+4. **[Google Antigravity & Gemini CLI (`google-antigravity.md`)](google-antigravity.md)**
+   The bridge switches these clients need (`--antigravity-tool-names`, `--mirror-structured-content`), loading tools in bundles and coordinating several agents.
+
+5. **[Custom Python & Node.js Agents (`custom-agents.md`)](custom-agents.md)**
    Build custom agent loops using the official Python MCP SDK, Node.js MCP SDK, or a direct Streamable HTTP connection with Nova's access token.
 
 ---
 
 ## Transports & Security Principles
 
-* **Local only by default:** Nova's MCP server listens on `127.0.0.1`. Other machines cannot connect unless you explicitly allow remote clients in Nova's settings.
-* **Access token:** Every request needs Nova's access token. It is stored encrypted for your Windows account and stays the same across restarts, so registered AI programs keep working. The stdio bridge reads it by itself; it is never written into the config files of your AI programs.
+* **Local only by default:** Nova's MCP server listens on `127.0.0.1`. Other machines cannot connect unless you switch on **Allow access from other devices on the network** in Nova's settings.
+* **Access token:** Every request needs Nova's access token. It is stored encrypted for your Windows account and stays the same across restarts until you choose **Regenerate token** in Nova's settings, so registered AI programs keep working. The stdio bridge reads it by itself; Nova does not write it into the config files of your AI programs.
 * **What leaves your machine:** The MCP connection itself stays on your computer. What your AI program reads through Nova goes on to that program's provider, under its terms. What Nova itself transmits is listed in the [privacy notice](../../PRIVACY.md).

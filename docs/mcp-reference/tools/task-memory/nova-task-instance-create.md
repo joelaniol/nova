@@ -6,9 +6,8 @@ Creates a new episodic task instance from a profile or ad-hoc context with snaps
 
 ## 1. Overview
 
-`nova.task_instance_create` initializes an episodic task instance. It snapshots effective context, anchors mandatory verification checks, and binds the task to a Task URL Coverage tracker.
+`nova.task_instance_create` starts one run of a task. It takes either a stored task profile (`profileId`) or an `adHocContext` for a first run without a profile, applies `currentScope` and `overrides`, and stores the result as the instance's effective context (snapshotted, with a hash). The instance starts with status `pending`. Nova also starts evidence tracking for the active tab; if that is not possible, `evidenceScope` explains why (for example `evidence_scope_target_busy` when another open instance already tracks the tab). With `unitSource`, the instance's URL units for Task URL Coverage are filled from an explicit URL list or from the site URL index.
 
-* **Security Tier:** Tier 2 (Instance Creation)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
 ---
@@ -61,6 +60,7 @@ Creates a new episodic task instance from a profile or ad-hoc context with snaps
 | `unitSource.freezeAfterPopulate` | `boolean` | No | — | — | When true, transitions discoveryState to 'frozen' once units are written. Default: false. |
 
 Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -72,36 +72,50 @@ Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_m
 {
   "name": "nova.task_instance_create",
   "arguments": {
-    "taskProfileId": "tp-checkout-01",
-    "targetId": "tab-1"
+    "profileId": "9b2c4e7a1f3d4c6e8a0b2d4f6a8c0e1f",
+    "targetUrl": "https://shop.example.com/checkout",
+    "declaredTaskKind": "ui_smoke"
   }
 }
 ```
 
 ### JSON-RPC Response
+
+The text block carries the same object as `structuredContent`, serialized as JSON. Shortened here: `effectiveContextJson` holds the full snapshotted context and `taskAwareness` the coverage and completion guidance for the instance.
+
 ```json
 {
   "content": [
     {
       "type": "text",
-      "text": "Created task instance inst-881a for profile tp-checkout-01."
+      "text": "{\"instanceId\":\"c81f2a6e0d4b4f9a9e3c7b1d5a2f8e60\",\"profileId\":\"9b2c4e7a1f3d4c6e8a0b2d4f6a8c0e1f\", ...}"
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "instanceId": "inst-881a",
-    "taskProfileId": "tp-checkout-01",
-    "status": "InProgress",
-    "currentRev": 1
+    "instanceId": "c81f2a6e0d4b4f9a9e3c7b1d5a2f8e60",
+    "profileId": "9b2c4e7a1f3d4c6e8a0b2d4f6a8c0e1f",
+    "profileRevApplied": 3,
+    "instanceRev": 0,
+    "effectiveContextHash": "5f0c9a2e7b1d4c8a6e3f0b9d2a7c5e1f8b4d6a0c3e9f2b7d1a5c8e4f6b0d3a9c",
+    "effectiveContextJson": "{ ... }",
+    "status": "pending",
+    "discoveryState": "unknown",
+    "agentId": null,
+    "taskAwareness": { },
+    "evidenceScope": null,
+    "urlCoverage": null
   }
 }
 ```
+
+`urlCoverage` is filled when `unitSource` was given (`unitsWritten`, `urlsSkipped`, `reportingGroups`, `coverageSchemaVersion`, `persistenceFailed`). Without `profileId` and without `adHocContext` the call is rejected.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Profile Binding:** Bind instances to existing task profiles whenever possible to inherit proven guidance and mandatory checks.
+* **Profile binding:** Base instances on an existing task profile whenever possible, so stable guidance and mandatory checks carry over.
+* **One open instance per tab:** Complete the previous instance on a tab before starting the next, otherwise the new one runs without evidence tracking.
 
 ---
 

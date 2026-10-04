@@ -8,7 +8,6 @@ Extends an active recording’s time-to-live (TTL) to prevent premature expirati
 
 `nova.session_record_extend` adds additional time in milliseconds to a running session recording's expiry deadline. To prevent runaway disk consumption, extensions are strictly bounded by a 60-minute hard cap measured from the recording's original start timestamp.
 
-* **Security Tier:** Tier 2 (Session Management)
 * **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
 
 ---
@@ -22,6 +21,7 @@ Extends an active recording’s time-to-live (TTL) to prevent premature expirati
 | `additionalMs` | `integer` | Yes | — | 1000–3600000 | Additional time to add to the recording's expiry, in milliseconds. |
 
 Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='session_recording')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -45,17 +45,30 @@ Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='
   "content": [
     {
       "type": "text",
-      "text": "Extended recording rec-9b21f04a by 10m. New expiry: 2026-10-02T20:35:00Z."
+      "text": "Recording rec-9b21f04a — state=running\n  tab=tab-1  expires=2026-10-02T20:35:00.0000000Z"
     }
   ],
   "structuredContent": {
     "ok": true,
     "recordingId": "rec-9b21f04a",
-    "newExpiresAtUtc": "2026-10-02T20:35:00Z",
-    "extendedByMs": 600000
+    "targetId": "tab-1",
+    "sandboxId": null,
+    "state": "running",
+    "startedAtUtc": "2026-10-02T20:15:00Z",
+    "expiresAtUtc": "2026-10-02T20:35:00Z",
+    "stoppedAtUtc": null,
+    "stopReason": null,
+    "permissionClasses": [
+      "metadata",
+      "interactions_mcp",
+      "dom_snapshots"
+    ],
+    "captureWaves": ["R1", "R2"]
   }
 }
 ```
+
+The tool returns the same status-shaped payload as [`nova.session_record_status`](nova-session-record-status.md) — there is no separate `newExpiresAtUtc`/`extendedByMs` field; read `expiresAtUtc` for the new deadline.
 
 ---
 

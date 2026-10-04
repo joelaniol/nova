@@ -8,7 +8,6 @@ Ends a task instance without meeting completion conditions (site offline, unsolv
 
 `nova.task_instance_abort` terminates an episodic task instance when the stated goal cannot be achieved. It records the failure classification and final state.
 
-* **Security Tier:** Tier 2 (Task Abort)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
 ---
@@ -25,6 +24,7 @@ Ends a task instance without meeting completion conditions (site offline, unsolv
 | `outcome` | `string` | No | — | `aborted`, `failed` | aborted (default): stopped on purpose or by an external blocker. failed: attempted and did not work. |
 
 Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -50,17 +50,21 @@ Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_m
   "content": [
     {
       "type": "text",
-      "text": "Aborted task instance inst-881a: Target portal in maintenance mode."
+      "text": "{\"ok\":true,\"status\":\"aborted\",\"previousStatus\":\"active\",\"instanceId\":\"inst-881a\",\"instanceRev\":4,\"evidenceScopeReleased\":false}"
     }
   ],
   "structuredContent": {
     "ok": true,
+    "status": "aborted",
+    "previousStatus": "active",
     "instanceId": "inst-881a",
-    "status": "Aborted",
-    "reason": "Target portal in maintenance mode"
+    "instanceRev": 4,
+    "evidenceScopeReleased": false
   }
 }
 ```
+
+`status` echoes back the resolved `outcome` (`aborted` or `failed`). `evidenceScopeReleased` is `true` only when the instance had an open evidence scope that this call closed. On a revision conflict the call does not raise an error; it returns `ok: false` with `reasonCode: "rev_conflict"` and the `currentInstanceRev` to retry against.
 
 ---
 

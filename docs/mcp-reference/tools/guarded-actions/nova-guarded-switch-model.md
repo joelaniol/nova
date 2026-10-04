@@ -1,8 +1,7 @@
 # `nova.guarded_switch_model`
 
-> **Safely switches the model in an AI web provider interface (ChatGPT, Claude, Gemini) with verification.**
+> **Clicks a model entry in a web app's model menu and verifies that the selected model changed.**
 
-* **Security Tier:** Tier 2 (Provider UI Control)
 * **Core Feature Guide:** [Autonomous Agent Guard (AAG)](../../../core-features/aag.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
@@ -10,7 +9,9 @@
 
 ## 1. Overview
 
-`nova.guarded_switch_model` navigates web provider dropdowns, selects the requested model version, and verifies that the model indicator updated before sending prompts.
+`nova.guarded_switch_model` is `nova.click_selector` with a built-in check for model switches. Pass the element to click (`selector` or `ctaRef`/`ctaRev`), typically the wanted entry in the page's open model menu; there is no model-name parameter. Before the click Nova checks that the page shows a model selector; afterwards it checks that the selected model's label differs from the one before the click. Use `transitionContract` to add or tighten checks.
+
+If the label did not change, the call returns `ok: false` with `reasonCode: "guarded_commit.postcondition_failed"`, even though the click was dispatched (`actionDispatched: true`). The response example below is an excerpt of the click result.
 
 ---
 
@@ -55,6 +56,7 @@
 | `transitionContract.stabilityMs` | `integer` | No | — | — | Optional stability hold duration in milliseconds. Success must remain true for this long before verification passes. |
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -67,7 +69,7 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
   "name": "nova_guarded_switch_model",
   "arguments": {
     "targetId": "tab-1",
-    "model": "gpt-4o"
+    "selector": "[role='option'][data-model='fast']"
   }
 }
 ```
@@ -78,14 +80,20 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Switched model to gpt-4o."
+      "text": "Clicked selector: [role='option'][data-model='fast']"
     }
   ],
   "structuredContent": {
-    "ok": true,
     "targetId": "tab-1",
-    "activeModel": "gpt-4o",
-    "verified": true
+    "selector": "[role='option'][data-model='fast']",
+    "button": "left",
+    "clickCount": 1,
+    "ok": true,
+    "status": "ok",
+    "actionDispatched": true,
+    "verified": true,
+    "verifyState": "verified",
+    "verifySource": "guarded_commit"
   }
 }
 ```
@@ -94,7 +102,8 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
 
 ## 4. Operational Best Practices
 
-* **Verification Gate:** ASD verifies that the model dropdown closed and the new model pill is active.
+* **Verification Gate:** Read `verifyState` (`verified`, `failed`, `uncertain`) instead of assuming the switch worked because the click succeeded.
+* **Open the Menu First:** Open the model menu with `nova.click_selector`, then call this tool on the entry to select.
 
 ---
 

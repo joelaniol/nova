@@ -16,7 +16,7 @@ Capability bundles of these tools: `pks_learning`, `surface_explorer`, `system_t
 | :--- | :--- |
 | **[`nova.board_contribute`](nova-board-contribute.md)** | Opens a new Agent Knowledge Board topic or appends an evidence-bound research contribution. |
 | **[`nova.board_get`](nova-board-get.md)** | Reads an Agent Knowledge Board laboratory topic by ID or exact structured anchor. |
-| **[`nova.coverage_scan`](nova-coverage-scan.md)** | Runs a server-registered Coverage Scan script to discover and audit all interactive surfaces. |
+| **[`nova.coverage_scan`](nova-coverage-scan.md)** | Runs a server-registered scan script on a tab and returns trust-checked coverage evidence for a Task URL Coverage unit. |
 | **[`nova.domain_note`](nova-domain-note.md)** | Stores or updates a domain-scoped operational note automatically surfaced during navigation. |
 | **[`nova.domain_note_ack`](nova-domain-note-ack.md)** | Explicitly acknowledges a MUST-read domain note block to unblock subsequent tool calls. |
 | **[`nova.domain_note_delete`](nova-domain-note-delete.md)** | Deletes a domain note by domain name and key. |
@@ -31,7 +31,7 @@ Capability bundles of these tools: `pks_learning`, `surface_explorer`, `system_t
 | **[`nova.operator_notes_delete`](nova-operator-notes-delete.md)** | Deletes an operator note by unique ID. |
 | **[`nova.operator_notes_list`](nova-operator-notes-list.md)** | Lists all persistent operator notes with tags and sandbox scopes. |
 | **[`nova.operator_notes_query`](nova-operator-notes-query.md)** | Queries operator notes by keywords with tag-intersection and TF-IDF relevance scoring. |
-| **[`nova.operator_notes_store`](nova-operator-notes-store.md)** | Stores or updates a persistent operator note with search tags and priority. |
+| **[`nova.operator_notes_store`](nova-operator-notes-store.md)** | Stores or updates a persistent operator note with search tags and category. |
 | **[`nova.task_guidance_log_add`](nova-task-guidance-log-add.md)** | Logs a guidance observation or proposal without directly mutating task profiles. |
 | **[`nova.task_guidance_logs`](nova-task-guidance-logs.md)** | Lists guidance log entries filtered by profile, domain, or guidance kind. |
 | **[`nova.task_instance_abort`](nova-task-instance-abort.md)** | Ends a task instance without meeting completion conditions (site offline, unsolvable error). |
@@ -40,7 +40,7 @@ Capability bundles of these tools: `pks_learning`, `surface_explorer`, `system_t
 | **[`nova.task_instance_get`](nova-task-instance-get.md)** | Loads a task instance snapshot for session-crossing resume and progress inspection. |
 | **[`nova.task_instance_progress`](nova-task-instance-progress.md)** | Commits progress deltas, completed work units, and observations to a task instance. |
 | **[`nova.task_instance_reconcile_coverage`](nova-task-instance-reconcile-coverage.md)** | Replays an instance’s observation log against the unit table to propose discovered-to-checked upgrades. |
-| **[`nova.task_instance_verify`](nova-task-instance-verify.md)** | Retrieves the verification contract steps, assertions, and checks required for task completion. |
+| **[`nova.task_instance_verify`](nova-task-instance-verify.md)** | Retrieves the completion-gate state and, if the task profile defines one, the verification contract steps required for task completion. |
 | **[`nova.task_match`](nova-task-match.md)** | Finds the best matching task profiles for a task description with score breakdowns. |
 | **[`nova.task_profile_get`](nova-task-profile-get.md)** | Retrieves full details of a task profile: guidance, mandatory checks, and completion conditions. |
 | **[`nova.task_profile_upsert`](nova-task-profile-upsert.md)** | Creates or updates a task profile with semantic content revision tracking. |

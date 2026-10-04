@@ -8,7 +8,6 @@ Overrides the viewport dimensions, device scale factor (DPR), and mobile layout 
 
 `nova.emulation_set_device_metrics` invokes Chrome DevTools Protocol `Emulation.setDeviceMetricsOverride` to resize the browser rendering viewport independently of host window bounds.
 
-* **Security Tier:** Tier 2 (Emulation)
 * **Core Architecture Guide:** [Fingerprint & Identity Systems](../../../core-features/fingerprint-and-identity.md)
 
 ---
@@ -25,6 +24,7 @@ Overrides the viewport dimensions, device scale factor (DPR), and mobile layout 
 | `mobile` | `boolean` | No | `false` | — | If true, emulate mobile viewport behavior (viewport meta tag, touch scrolling, mobile layout). Effective layout width still depends on the page's own <meta viewport>; without it, the browser uses a ~980px layout viewport. |
 
 Capability bundle: `device_emulation` (load it with `nova.tools_bundle(bundle='device_emulation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -50,7 +50,7 @@ Capability bundle: `device_emulation` (load it with `nova.tools_bundle(bundle='d
   "content": [
     {
       "type": "text",
-      "text": "Device metrics override applied: 375x667 @ 2x (mobile=True)."
+      "text": "Device metrics override set."
     }
   ],
   "structuredContent": {
@@ -70,6 +70,7 @@ Capability bundle: `device_emulation` (load it with `nova.tools_bundle(bundle='d
 
 * **Visual Outlines:** Pair with `nova.emulation_set_viewport_frame` so you can visually distinguish the emulated device frame from empty window space.
 * **Responsive Testing:** Use together with `nova.measure_elements` and `nova.detect_overflow` to diagnose mobile clipping issues.
+* **`devToolsOpen` In The Response:** When developer tools are open for the target, the override still applies, but a device-mode/rendering override set in DevTools uses the same underlying Chromium register and gets silently replaced by this call; `devToolsOpen: true` flags that conflict.
 
 ---
 

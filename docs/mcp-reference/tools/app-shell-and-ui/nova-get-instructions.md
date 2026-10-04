@@ -2,15 +2,14 @@
 
 > **Retrieves the complete Nova AI operational contract, conventions, and agent guidelines.**
 
-* **Security Tier:** Tier 1 (Read-Only Guidance)
-* **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
+* **Core Feature Guide:** [Agent Awareness Gates (AAG)](../../../core-features/aag.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.get_instructions` returns Nova's core operating instructions: tool semantics, security tier boundaries, timeout guidelines, and safety practices.
+`nova.get_instructions` returns Nova's agent operating contract as text: tool usage conventions, debugging/escalation guidance, and (in `task` mode) the evidence-verification rules (EVM). The same content is mirrored into `structuredContent`, plus structured addenda (PKS domain hints, operator notes, task awareness, native-dialog state, and more) that only populate when the matching optional parameters are supplied.
 
 ---
 
@@ -30,6 +29,7 @@
 | `detail` | `string` | No | `"compact"` | `full`, `compact` | Response detail level. 'compact' (default, ~5KB): safety essentials + bootstrap + domain hints + operator notes + task hints — small enough to always receive, including the mandatory bootstrap call #1. 'full': the complete agent contract with all operational, execution, claim, and memory sections (~50KB; the text is mirrored into structuredContent so it is roughly double on the wire — request it only when you actually need the full static contract). Oversized responses are truncated with a pointer rather than blocked. Trust & Safety + Session Bootstrap are always included regardless of detail level. |
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -50,16 +50,42 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "Nova Agent Operating Guidelines returned (14 sections)."
+      "text": "... (the instructions text; compact detail is roughly 5 KB, full roughly 50 KB) ..."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "version": "2026.10",
-    "guidelinesCount": 14
+    "contractVersion": "v3",
+    "mode": "task",
+    "domain": null,
+    "instructionsText": "... (same text as content, mirrored into structuredContent) ...",
+    "sessionId": "sess-...",
+    "serviceDiscovery": null,
+    "screenshotPolicy": { "...": "..." },
+    "evm": {
+      "version": "v1",
+      "rules": {
+        "criticalSourceMinimum": 2,
+        "nonCriticalSourceMinimum": 1,
+        "unknownRequiresNextStep": true,
+        "stopOnAllTestsPassed": true
+      },
+      "criticalDomains": ["security", "medical", "legal", "financial", "political", "pricing", "deadlines", "current_state"]
+    },
+    "tabAwareness": { "...": "..." },
+    "nativeDialog": { "...": "..." },
+    "outputBudget": {
+      "toolName": "nova.get_instructions",
+      "instructionsTextChars": 5120,
+      "maxInstructionsTextChars": 50000,
+      "estimatedStructuredAddendaChars": 1200,
+      "maxStructuredAddendaChars": 16000,
+      "omittedStructuredFields": null
+    }
   }
 }
 ```
+
+This example is shortened; the real response carries additional fields (`learnMode`, `domainHints`, `frameworkHints`, `operatorNotes`, `taskAwareness`, `instanceEvidenceSummary`, `siteUrlIndex`, `surfaceExplorer`, `activeTabDiscovery`, `aagGates`), most of them `null` unless the matching optional parameter (`domain`, `taskKeywords`, ...) was passed.
 
 ---
 

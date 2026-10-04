@@ -6,9 +6,8 @@ Sets the global browser fingerprint protection level across all sandboxes.
 
 ## 1. Overview
 
-`nova.fingerprint_set_global` configures baseline fingerprint protection (`Off`, `Balanced`, `Strict`) across all sandboxes and tabs that do not specify overrides. Persisted in `settings.json`.
+`nova.fingerprint_set_global` configures baseline fingerprint protection (`off`, `standard`, `strict`) across all sandboxes and tabs that do not specify overrides. `standard` enables canvas and audio noise; `strict` adds font, WebGL, hardware, and screen protections on top.
 
-* **Security Tier:** Tier 2 (Global Privacy Configuration)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
 ---
@@ -21,6 +20,7 @@ Sets the global browser fingerprint protection level across all sandboxes.
 | `level` | `string` | Yes | — | `off`, `standard`, `strict` | New global protection level. |
 
 Capability bundle: `fingerprint_protection` (load it with `nova.tools_bundle(bundle='fingerprint_protection')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -32,7 +32,7 @@ Capability bundle: `fingerprint_protection` (load it with `nova.tools_bundle(bun
 {
   "name": "nova.fingerprint_set_global",
   "arguments": {
-    "level": "Balanced"
+    "level": "standard"
   }
 }
 ```
@@ -43,12 +43,12 @@ Capability bundle: `fingerprint_protection` (load it with `nova.tools_bundle(bun
   "content": [
     {
       "type": "text",
-      "text": "Set global fingerprint protection level to Balanced."
+      "text": "Global fingerprint protection set to standard"
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "globalLevel": "Balanced"
+    "globalLevel": "standard",
+    "changed": true
   }
 }
 ```
@@ -57,7 +57,7 @@ Capability bundle: `fingerprint_protection` (load it with `nova.tools_bundle(bun
 
 ## 4. Operational Best Practices
 
-* **Balanced Recommended:** `Balanced` provides Canvas, AudioContext, and WebGL noise without breaking complex web applications.
+* **Standard Recommended:** `standard` enables canvas and AudioContext noise without the additional WebGL/hardware/screen protections that `strict` adds, which are more likely to affect complex web applications.
 
 ---
 

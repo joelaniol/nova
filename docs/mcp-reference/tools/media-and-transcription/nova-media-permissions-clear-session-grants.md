@@ -8,7 +8,6 @@ Drops all temporary session permissions and halts any live media tracks relying 
 
 `nova.media_permissions_clear_session_grants` purges all in-memory "Allow once" decisions across all browser tabs and forcibly terminates any live audio/video tracks running under temporary grants.
 
-* **Security Tier:** Tier 2 (Session Clearance)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
 ---
@@ -21,6 +20,7 @@ This tool takes no parameters.
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -41,13 +41,12 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "Cleared all session grants and terminated active media tracks."
+      "text": "Cleared 2 session grant(s) and stopped any matching live streams."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "clearedCount": 2,
-    "tracksTerminated": 1
+    "status": "ok",
+    "cleared": 2
   }
 }
 ```

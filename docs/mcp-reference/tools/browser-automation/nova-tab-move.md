@@ -1,16 +1,17 @@
 # `nova.tab_move`
 
-> **Reorders a tab position within the browser tab strip by index.**
+> **Moves a tab next to another tab in the same sandbox's tab strip.**
 
-* **Security Tier:** Tier 2 (Tab Strip Management)
-* **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
+* **Core Feature Guide:** [Input Dispatch & Shadow DOM Traversal](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.tab_move` repositions an open tab within the visual tab strip.
+`nova.tab_move` repositions an open tab within the visual tab strip. The position is named by a neighbour, not an index: the tab lands directly after (`insertAfter: true`, default) or before `targetTabId`. Both tabs must be browser tabs in the same sandbox. `sandboxTabOrder` is the order read back after the move.
+
+If the tab already sits there, `status` is `noop` with `reasonCode: "tab.move_unchanged"`. A move across the boundary between pinned and unpinned tabs is refused with `tab.move_pin_boundary`; tabs in different sandboxes with `tab.move_cross_sandbox`.
 
 ---
 
@@ -25,6 +26,7 @@
 | `agentId` | `string` | No | — | — | Calling agent's ID for attribution in logs. |
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -36,8 +38,9 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
 {
   "name": "nova_tab_move",
   "arguments": {
-    "targetId": "tab-2",
-    "newIndex": 0
+    "targetId": "tab-3",
+    "targetTabId": "tab-1",
+    "insertAfter": false
   }
 }
 ```
@@ -48,13 +51,28 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Moved tab-2 to index 0."
+      "text": "Moved tab 'tab-3' before 'tab-1'."
     }
   ],
   "structuredContent": {
+    "requested": {
+      "targetId": "tab-3",
+      "targetTabId": "tab-1",
+      "insertAfter": false
+    },
+    "targetId": "tab-3",
+    "targetTabId": "tab-1",
     "ok": true,
-    "targetId": "tab-2",
-    "index": 0
+    "status": "ok",
+    "message": "Moved tab 'tab-3' before 'tab-1'.",
+    "retryable": false,
+    "moved": true,
+    "outcome": "Moved",
+    "sandboxTabOrder": [
+      "tab-3",
+      "tab-1",
+      "tab-2"
+    ]
   }
 }
 ```
@@ -63,7 +81,7 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
 
 ## 4. Operational Best Practices
 
-* **Tab Strip Hygiene:** Pin or move critical monitoring tabs to the front of the strip.
+* **Tab Strip Hygiene:** Pin or move critical monitoring tabs to the front of the strip; to move a tab to the front, name the current first tab as `targetTabId` with `insertAfter: false`.
 
 ---
 

@@ -6,9 +6,10 @@ Initiates in-page hardware diagnostic loop for camera, microphone, or audio spea
 
 ## 1. Overview
 
-`nova.hardware_diagnostics_start` starts an isolated hardware diagnostic probe inside the target page. It verifies device permissions, captures live audio levels, measures peak decibels, and renders diagnostic canvases for camera input.
+`nova.hardware_diagnostics_start` starts an isolated hardware diagnostic probe inside the target page: a camera preview, a live microphone level/peak meter, or a speaker test tone, depending on `kind`.
 
-* **Security Tier:** Tier 2 (Hardware Diagnostics)
+Camera and microphone diagnostics drive the page over CDP, which carries no user gesture. If the origin does not already hold an Allow for that device (a stored permission or an active session grant), the browser's own gesture requirement blocks the request and the call fails — this is a deliberate guard, not a transient error, and retrying will not help. The speaker test needs no capture permission and is unaffected.
+
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
 ---
@@ -22,6 +23,7 @@ Initiates in-page hardware diagnostic loop for camera, microphone, or audio spea
 | `kind` | `string` | Yes | — | `video`, `microphone`, `speaker` | Diagnostic channel to start. |
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -45,14 +47,26 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Started microphone hardware diagnostics on tab-1."
+      "text": "Hardware diagnostics started (microphone)."
     }
   ],
   "structuredContent": {
-    "ok": true,
     "targetId": "tab-1",
+    "ok": true,
+    "status": "ok",
+    "reasonCode": null,
+    "reason": null,
     "kind": "microphone",
-    "active": true
+    "command": "start_mic",
+    "diagnostics": {
+      "ok": true,
+      "action": "start_mic",
+      "videoRunning": false,
+      "microphoneRunning": true,
+      "speakerRunning": false,
+      "micLevel": 0,
+      "micPeak": 0
+    }
   }
 }
 ```
@@ -61,7 +75,7 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
 
 ## 4. Operational Best Practices
 
-* **Permission Verification:** Test whether media devices are physically connected and accessible before running voice or video workflows.
+* **Permission Verification:** Test whether media devices are physically connected and accessible before running voice or video workflows — but only after the origin already holds an Allow for that device; otherwise expect the gesture-required failure described above.
 * **Stop Diagnostics:** Always call [`nova.hardware_diagnostics_stop`](nova-hardware-diagnostics-stop.md) when testing is complete to free hardware devices.
 
 ---

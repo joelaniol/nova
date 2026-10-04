@@ -46,6 +46,7 @@ Manually saving, organizing, and referencing "before" and "after" image paths ma
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundles: `system_tools`, `visual_evidence`.
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -83,29 +84,47 @@ Capability bundles: `system_tools`, `visual_evidence`.
 
 ## 5. Return Value Structure (Compare Operation)
 
+`structuredContent` is flat (no extra nesting). A match within tolerance:
+
 ```json
 {
+  "targetId": "tab-101",
+  "ok": true,
   "op": "compare",
   "name": "login_modal_dark_theme",
+  "scope": "global",
+  "scopeTargetId": null,
   "status": "compared",
   "changed": false,
   "withinTolerance": true,
   "pixelDiffPercent": 0.004,
-  "dimensions": { "width": 1440, "height": 900 }
+  "totalChangedPixels": 58,
+  "changedRegions": [],
+  "dimensions": { "width": 1440, "height": 900 },
+  "diffOverlayPath": null,
+  "diffOverlayStatus": "not_needed",
+  "threshold": 30,
+  "minRegionSize": 100,
+  "maxDiffRatio": 0,
+  "ignoreAntialiasing": false,
+  "maskedRectCount": 0,
+  "baselinePath": "C:\\Users\\me\\AppData\\Local\\NovaBrowser\\ScreenshotBaselines\\login_modal_dark_theme.png"
 }
 ```
 
-If visual regressions are detected outside tolerance:
+If a regression is detected outside tolerance, `changedRegions` carries flat `{x, y, width, height, pixelCount}` entries and `diffOverlayPath` points at a **local file path** Nova wrote next to the baseline (not a `nova://` resource URI):
 ```json
 {
-  "op": "compare",
-  "name": "login_modal_dark_theme",
   "status": "compared",
   "changed": true,
   "withinTolerance": false,
   "pixelDiffPercent": 2.45,
   "totalChangedPixels": 31752,
-  "diffOverlayPath": "nova://screenshot/diff-login_modal_dark_theme.png"
+  "changedRegions": [
+    { "x": 120, "y": 340, "width": 420, "height": 80, "pixelCount": 29800 }
+  ],
+  "diffOverlayPath": "C:\\Users\\me\\AppData\\Local\\NovaBrowser\\ScreenshotBaselines\\diff-overlays\\login_modal_dark_theme.diff-20261002_194512_123.png",
+  "diffOverlayStatus": "created"
 }
 ```
 
@@ -115,9 +134,9 @@ If visual regressions are detected outside tolerance:
 
 | Error Code / Message | Cause | Corrective Action |
 | :--- | :--- | :--- |
-| `status: "no_baseline"` | Attempted to `compare` against a baseline name that has not been saved. | Run `op: "save"` to register the baseline first. |
-| `status: "dimension_mismatch"` | Viewport size changed between baseline creation and comparison. | Set standard window dimensions before capturing. |
-| `Baseline already exists` | `op: "save"` was called on an existing baseline. | Use `op: "update"` if you intend to approve changes. |
+| `status: "no_baseline"` (response is still `ok: true`) | Attempted to `compare` against a baseline name that has not been saved yet in this scope. | Run `op: "save"` to register the baseline first. |
+| `status: "dimension_mismatch"` (`ok: true`, `changed: null`) | Viewport size changed between baseline creation and comparison; `baselineDimensions`/`currentDimensions` show the difference. | Use the same viewport size and `fullPage` setting as the original baseline, or run `op: "update"` to approve the new size. |
+| `-32602: Baseline '<name>' already exists in scope '<scope>'` | `op: "save"` was called on an existing baseline. | Use `op: "update"` if you intend to approve changes. |
 
 ---
 

@@ -1,6 +1,6 @@
 # `nova.session_record_stop`
 
-Stops an active session recording, flushes memory channels, and generates cryptographic integrity manifests.
+Stops an active session recording, flushes buffered events, and finalizes the encrypted artifact with a per-stream SHA-256 integrity manifest.
 
 ---
 
@@ -8,7 +8,6 @@ Stops an active session recording, flushes memory channels, and generates crypto
 
 `nova.session_record_stop` cleanly terminates an ongoing session recording. It flushes in-memory streaming channels, finalizes encrypted chunk files on disk, computes SHA-256 checksums in `integrity.json`, and seals the recording for post-hoc forensic inspection.
 
-* **Security Tier:** Tier 2 (Session Control)
 * **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
 
 ---
@@ -22,6 +21,7 @@ Stops an active session recording, flushes memory channels, and generates crypto
 | `reason` | `string` | No | — | — | Optional canonical reason code (default: agent_stop). |
 
 Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='session_recording')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -45,25 +45,30 @@ Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='
   "content": [
     {
       "type": "text",
-      "text": "Session recording 'rec-9b21f04a' stopped and finalized. Artifacts sealed with SHA-256 integrity."
+      "text": "Recording rec-9b21f04a — state=completed\n  tab=tab-1  expires=2026-10-02T20:25:00.0000000Z  stopReason=test_complete"
     }
   ],
   "structuredContent": {
     "ok": true,
     "recordingId": "rec-9b21f04a",
-    "state": "finalised",
-    "durationMs": 42310,
-    "totalEvents": 418,
-    "streams": [
-      "network.jsonl",
-      "console.jsonl",
-      "interactions.jsonl",
-      "dom-snapshots.jsonl"
+    "targetId": "tab-1",
+    "sandboxId": null,
+    "state": "completed",
+    "startedAtUtc": "2026-10-02T20:15:00Z",
+    "expiresAtUtc": "2026-10-02T20:25:00Z",
+    "stoppedAtUtc": "2026-10-02T20:18:42Z",
+    "stopReason": "test_complete",
+    "permissionClasses": [
+      "metadata",
+      "interactions_mcp",
+      "dom_snapshots"
     ],
-    "integritySha256": "8e4b7c129f..."
+    "captureWaves": ["R1", "R2"]
   }
 }
 ```
+
+The per-stream SHA-256 hashes themselves are written to `integrity.json` inside the recording directory, not returned in this tool's result.
 
 ---
 

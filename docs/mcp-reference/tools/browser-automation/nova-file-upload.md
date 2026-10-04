@@ -18,7 +18,7 @@ Traditional browser automation fails when clicking an `<input type="file">` beca
 ## 2. Key Capabilities & Features
 
 ### A. Auto-Detection of File Inputs (`selector: "input[type=file]"`)
-If no selector is provided, Nova automatically locates the first enabled file input on the page. For modern drag-and-drop file uploaders (like ChatGPT, GitHub, or Slack), the visible drag zone almost always forwards events to a hidden `<input type="file">` element; Nova attaches to that hidden input directly.
+If no selector is provided, Nova automatically locates the first enabled file input on the page. Many drag-and-drop uploaders forward their visible drop zone to a hidden `<input type="file">` element; Nova attaches to that hidden input directly.
 
 ### B. Multi-File Selection
 When the underlying input includes the `multiple` attribute, agents can provide multiple paths:
@@ -57,6 +57,7 @@ When uploading documents, passing `previewPdf: true` renders page 1 of each atta
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `high_impact` (highest risk class; Nova's agent permission settings can ask before it runs).
 <!-- /generated:parameters -->
 
 ---
@@ -96,19 +97,21 @@ Nova validates file existence, size, and element `accept` filters before complet
 ```json
 {
   "success": true,
+  "targetId": "tab-102",
+  "selector": "#resume-upload-input",
+  "fileNames": ["candidate_cv.pdf"],
+  "fileCount": 1,
   "uploadedFiles": [
     {
       "uploadId": "upl-4019",
       "index": 0,
       "fileName": "candidate_cv.pdf",
-      "fileSizeBytes": 245800,
-      "mimeType": "application/pdf"
+      "fileSizeBytes": 245800
     }
-  ],
-  "selector": "#resume-upload-input",
-  "targetId": "tab-102"
+  ]
 }
 ```
+The response also includes `fileName` (single-file case), `uploadedFile`, `frameId`, `nodeId`, and `pdfPreviews` (when `previewPdf: true`); this is a trimmed excerpt. There is no `mimeType` field.
 
 ---
 
@@ -116,9 +119,9 @@ Nova validates file existence, size, and element `accept` filters before complet
 
 | Error Code / Message | Cause | Corrective Action |
 | :--- | :--- | :--- |
-| `File not found: ...` | Local file does not exist at specified path. | Verify file path before invoking upload. |
-| `Element is not a file input` | The resolved selector matches a `div`, `button`, or text input rather than `<input type="file">`. | Inspect the dropzone DOM with `nova.read_dom` to find the associated hidden `<input type="file">`. |
-| `Element does not allow multiple files` | Multiple paths were passed to an input lacking the `multiple` attribute. | Upload files individually or inspect if another upload input exists. |
+| `File not found: ...` | Local file does not exist at the specified path. | Verify the file path before invoking upload. |
+| `Invalid params: selector '...' must match an <input type="file"> element.` | The resolved selector matches a `div`, `button`, or text input rather than `<input type="file">`. | Inspect the dropzone DOM with `nova.read_dom` to find the associated hidden `<input type="file">`. |
+| `Invalid params: selector '...' does not allow multiple files. Choose an input with the multiple attribute or upload one file.` | Multiple paths were passed to an input lacking the `multiple` attribute. | Upload files individually, or target an input that declares `multiple`. |
 
 ---
 

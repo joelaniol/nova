@@ -6,10 +6,8 @@ Bulk-dismisses notifications matching source or age criteria.
 
 ## 1. Overview
 
-`nova.notifications_clear` performs batch dismissal across notifications. Without arguments, it dismisses all current notifications. Filters can restrict dismissal to a specific source or age threshold.
+`nova.notifications_clear` performs batch cleanup across notifications. Without arguments, or with `sourceKind` set (with or without `olderThanDays`), it dismisses the matching notifications — they disappear from the default list but remain recoverable via `includeDismissed: true` on `nova.notifications_list`. Passing `olderThanDays` **without** `sourceKind` takes a different, non-reversible path: it permanently deletes notifications older than that threshold from the notification store instead of dismissing them.
 
-* **Security Tier:** Tier 2 (Bulk State Change)
-* **Core Architecture Guide:** [Closed-Loop System & Event Propagation](../../../core-features/closed-loop-system.md)
 
 ---
 
@@ -22,6 +20,7 @@ Bulk-dismisses notifications matching source or age criteria.
 | `olderThanDays` | `integer` | No | — | ≥ 0 | Only clear notifications older than N days. |
 
 Capability bundle: `notifications` (load it with `nova.tools_bundle(bundle='notifications')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -58,7 +57,8 @@ Capability bundle: `notifications` (load it with `nova.tools_bundle(bundle='noti
 
 ## 4. Operational Best Practices
 
-* **Routine Maintenance:** Clear stale agent-generated notifications periodically to prevent bloating local SQLite storage.
+* **Routine Maintenance:** Clear stale agent-generated notifications periodically to prevent bloating local storage.
+* **Deletion vs. Dismissal:** `olderThanDays` alone permanently deletes the matching rows; every other argument combination only dismisses (soft-hide) them. If you want retention cleanup without losing history, add a `sourceKind` filter alongside `olderThanDays`.
 
 ---
 

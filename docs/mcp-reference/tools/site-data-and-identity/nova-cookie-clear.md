@@ -8,7 +8,6 @@ Clears cookies across the target profile, with optional domain filtering.
 
 `nova.cookie_clear` purges cookies from the target sandbox container. When `domain` is specified, only matching cookies are removed; omitting `domain` clears all cookies in the profile.
 
-* **Security Tier:** Tier 3 (Batch Cookie Clearance)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
 ---
@@ -24,6 +23,7 @@ Clears cookies across the target profile, with optional domain filtering.
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
 
 Capability bundle: `site_data_management` (load it with `nova.tools_bundle(bundle='site_data_management')`).
+Tool category: `high_impact` (highest risk class; Nova's agent permission settings can ask before it runs).
 <!-- /generated:parameters -->
 
 ---
@@ -47,14 +47,19 @@ Capability bundle: `site_data_management` (load it with `nova.tools_bundle(bundl
   "content": [
     {
       "type": "text",
-      "text": "Cleared 14 cookies for domain example.com."
+      "text": "Cleared 14 cookie(s) for domain 'example.com' (sandbox:tab-1)."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "targetId": "tab-1",
-    "clearedDomain": "example.com",
-    "clearedCount": 14
+    "deletedCount": 14,
+    "matchCount": 14,
+    "domainScope": "example.com",
+    "scope": {
+      "profileId": "tab-1",
+      "profileScope": "sandbox:tab-1",
+      "isSharedProfile": false
+    }
   }
 }
 ```
@@ -63,7 +68,7 @@ Capability bundle: `site_data_management` (load it with `nova.tools_bundle(bundl
 
 ## 4. Operational Best Practices
 
-* **Targeted Purging:** Always provide `domain` to avoid logging out users from unrelated services sharing the same sandbox profile.
+* **Targeted Purging:** Always provide `domain` to avoid logging out users from unrelated services sharing the same sandbox profile. Clearing without `domain` affects every cookie in the profile, and when the profile is shared across tabs the response carries a warning that all tabs may lose sessions.
 
 ---
 

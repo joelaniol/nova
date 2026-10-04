@@ -1,8 +1,7 @@
 # `nova.guarded_switch_sandbox`
 
-> **Switches the active sandbox container for a tab while verifying session state and cookies.**
+> **Clicks a workspace switcher entry in a web app and verifies that the workspace changed.**
 
-* **Security Tier:** Tier 2 (Sandbox Switching)
 * **Core Feature Guide:** [Autonomous Agent Guard (AAG)](../../../core-features/aag.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
@@ -10,7 +9,9 @@
 
 ## 1. Overview
 
-`nova.guarded_switch_sandbox` transitions a tab to a different isolated sandbox partition, verifying that background requests and web socket connections are cleanly closed.
+`nova.guarded_switch_sandbox` is `nova.click_selector` with a built-in check for workspace switches inside a web application (for example a workspace or sandbox switcher in a SaaS dashboard). It does not change Nova's own sandboxes; for those use `nova.resolve_sandbox` and the sandbox tools. Pass the element to click (`selector` or `ctaRef`/`ctaRev`). Before the click Nova checks that the page shows a workspace or sandbox element; afterwards it checks that the page route or the selected workspace changed. Use `transitionContract` to add or tighten checks.
+
+If nothing changed, the call returns `ok: false` with `reasonCode: "guarded_commit.postcondition_failed"`, even though the click was dispatched (`actionDispatched: true`). The response example below is an excerpt of the click result.
 
 ---
 
@@ -55,6 +56,7 @@
 | `transitionContract.stabilityMs` | `integer` | No | — | — | Optional stability hold duration in milliseconds. Success must remain true for this long before verification passes. |
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -67,7 +69,7 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
   "name": "nova_guarded_switch_sandbox",
   "arguments": {
     "targetId": "tab-1",
-    "sandboxId": "sandbox-marketing"
+    "selector": "[data-testid='workspace-item-marketing']"
   }
 }
 ```
@@ -78,13 +80,20 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Switched tab-1 to sandbox-marketing."
+      "text": "Clicked selector: [data-testid='workspace-item-marketing']"
     }
   ],
   "structuredContent": {
-    "ok": true,
     "targetId": "tab-1",
-    "activeSandbox": "sandbox-marketing"
+    "selector": "[data-testid='workspace-item-marketing']",
+    "button": "left",
+    "clickCount": 1,
+    "ok": true,
+    "status": "ok",
+    "actionDispatched": true,
+    "verified": true,
+    "verifyState": "verified",
+    "verifySource": "guarded_commit"
   }
 }
 ```
@@ -93,11 +102,11 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
 
 ## 4. Operational Best Practices
 
-* **Session Protection:** Confirms tab is idle before executing sandbox transition.
+* **Verification Gate:** Read `verifyState` (`verified`, `failed`, `uncertain`) before acting in the new workspace.
 
 ---
 
 ## 5. Related Tools
 
-* [`nova.tab_transfer`](../browser-automation/nova-tab-transfer.md)
+* [`nova.guarded_switch_model`](nova-guarded-switch-model.md)
 * [`nova.resolve_sandbox`](../site-data-and-identity/nova-resolve-sandbox.md)

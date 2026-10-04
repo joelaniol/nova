@@ -2,7 +2,6 @@
 
 > **Marks an obsolete or broken PKS phenomenon playbook as deprecated.**
 
-* **Security Tier:** Tier 2 (Knowledge Deprecation)
 * **Core Feature Guide:** [Phenomenological Knowledge Store (PKS)](../../../core-features/pks.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
@@ -10,7 +9,7 @@
 
 ## 1. Overview
 
-`nova.pks_deprecate` deactivates an outdated playbook after a website redesign, preventing agents from continuing to execute failing patterns.
+`nova.pks_deprecate` deactivates an outdated playbook after a website redesign, preventing agents from continuing to execute failing patterns. Like other PKS writes, the call is rejected unless `scope` matches a currently open tab or sandbox host.
 
 ---
 
@@ -24,6 +23,7 @@
 | `reason` | `string` | No | — | — | Reason for deprecation (e.g. 'selector no longer matches', '5x consecutive failure'). |
 
 Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_learning')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -35,6 +35,7 @@ Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_l
 {
   "name": "nova_pks_deprecate",
   "arguments": {
+    "scope": "spiegel.de",
     "phenomenonId": "phenom-old-nav",
     "reason": "Website upgraded to v3 with shadow DOM nav bar."
   }
@@ -51,9 +52,10 @@ Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_l
     }
   ],
   "structuredContent": {
-    "ok": true,
+    "deprecated": true,
+    "scope": "spiegel.de",
     "phenomenonId": "phenom-old-nav",
-    "status": "Deprecated"
+    "reason": "Website upgraded to v3 with shadow DOM nav bar."
   }
 }
 ```

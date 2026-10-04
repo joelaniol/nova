@@ -1,131 +1,126 @@
 # Tool Observation Bus (TOB) — Server-Side Truth & Evidence Ledger
 
 > [!NOTE]
-> The **Tool Observation Bus (TOB)** (`Tob`) is the server-side observation and evidence engine of Nova AI Workspace. It creates a tamper-proof record of what agents actually execute at runtime, calculates objective visit windows, and provides verified evidence to AAG, PKS, and the task completion ledger.
+> The **Tool Observation Bus (TOB)** is the server-side observation layer of Nova AI Workspace. It records what agents actually execute, builds visit windows from those records, and provides evidence to AAG, PKS, and task completion checks.
 
 ---
 
 ## 1. Problem Statement & Guiding Principle
 
-Conventional browser automation frameworks suffer from a fundamental vulnerability: **The system believes the agent's unverified claims.**
+Conventional browser automation frameworks share a fundamental weakness: **the system believes the agent's unverified claims.**
 * An agent claims: *"I read the API documentation and submitted the form successfully."*
-* In reality, the tab was visited for only 50 milliseconds (no dwell time), a click missed the target, and the form was never submitted.
+* In reality, the tab was visited only briefly, a click missed the target, and the form was never submitted.
 
 **The TOB Guiding Principle:**
 > *"What the agent says is a claim. What Nova observes is evidence."*
 
-TOB decouples agent statements from server-side reality. Only what Nova independently measures on the host and WebView2 engine levels before and after a tool call is recorded as proven fact.
+TOB keeps agent statements and server-side observations apart. Only what Nova records itself before and after a tool call counts as an observation.
 
 ---
 
-## 2. The 5-Layer TOB Architecture
+## 2. The TOB Layers
 
 ```mermaid
 flowchart TD
-    subgraph Layer0["Layer 0: Canonical Dispatch Envelope"]
-        Env["DispatchObservationEnvelope
-(Pre-State BEFORE Call, Post-State in finally)"]
+    subgraph Layer0["Layer 0: Dispatch envelope"]
+        Env["One envelope per tool call<br/>state before the call, state after it"]
     end
 
-    subgraph Layer1["Layer 1: Raw Data Sources"]
-        Audit["AuditStore (ConversationDb)"]
-        OKStore["Operational Knowledge (pks.db)"]
-        LCJ["Candidate Journal (memory.db)"]
+    subgraph Layer1["Layer 1: Raw data sources"]
+        Audit["Audit store"]
+        OKStore["Operational Knowledge"]
+        LCJ["Learning Candidate Journal"]
     end
 
-    subgraph Layer2["Layer 2: Observation Projection"]
-        ToolObs["tob_tool_observation
-(dispatch_call_id, dur_ms, outcome_kind)"]
-        VisitWin["tob_visit_window
-(URL, TargetId, DwellTime, ReadSignals)"]
+    subgraph Layer2["Layer 2: Observation projection"]
+        ToolObs["tob_tool_observation"]
+        VisitWin["tob_visit_window"]
     end
 
-    subgraph Layer3["Layer 3: Shared Correlation Primitives"]
-        Norm["URL Normalization & Canonical Keying"]
-        Hash["Selector Hashing (SHA-256)"]
-        Prelude["Prelude Buffer (In-Memory Ring)"]
+    subgraph Layer3["Layer 3: Shared correlation primitives"]
+        Norm["URL normalization"]
+        Hash["Selector hashing, SHA-256"]
+        Prelude["Prelude buffer, in memory"]
     end
 
-    subgraph Layer4["Layer 4: Consumer Ledgers & Gates"]
-        ETM["ETM: Evidence Ledger (Task Completion Verify)"]
-        AAG["AAG: Agent Awareness Gates (Block Mode)"]
-        PKSProof["PKS: Selector Proof (Auto-Verification)"]
-        OKCons["OK: Live-State Facts Injection"]
+    subgraph Layer4["Layer 4: Consumers"]
+        ETM["ETM: evidence ledger for task completion"]
+        AAG["AAG: blocked-call records"]
+        PKSProof["PKS: selector proof"]
+        OKCons["OK: correlation by call ID"]
     end
 
-    Env --> Audit
-    Env --> OKStore
-    Env --> LCJ
-    Env --> ToolObs
-    ToolObs --> VisitWin
-    VisitWin --> Norm
-    VisitWin --> Hash
-    Hash --> Prelude
-    Prelude --> ETM
-    Prelude --> AAG
-    Prelude --> PKSProof
-    Prelude --> OKCons
+    Env --> Layer1
+    Env --> Layer2
+    Layer3 --> Layer2
+    Layer2 --> Layer4
 ```
+
+Observations are only projected while a scope is active, for example a running task instance. Calls made shortly before a scope opens are held in the in-memory prelude buffer and attached to the scope when it opens.
 
 ---
 
 ## 3. The Dispatch Envelope Lifecycle
 
-Every single MCP tool execution in `DispatchToolCallAsync` is framed by the `DispatchEnvelopeBuilder`:
+Every MCP tool call is framed by a dispatch envelope:
 
-1. **Pre-State Freeze (BEFORE Execution):**
-   * Captures active tab, normalized URL (`page_url_before_norm`), render epoch (`page_epoch_before`), tab state version, and start timestamp (`started_at_ms`).
-   * Assigns an immutable `dispatch_call_id` (UUIDv4) and a monotonic sequence index `dispatch_seq`.
-2. **Tool Execution or Preflight Block:**
-   * If blocked by AAG (e.g. missing bootstrap bundle, unconfirmed destructive action), TOB records `outcome_kind = blocked_preflight`, `block_stage`, and `gate_id`.
-   * If permitted, the tool executes input handling, DOM operations, or network extraction.
-3. **Post-State Freeze (in the `finally` Block):**
-   * Captures state after completion (`page_url_after_norm`, `page_epoch_after`, `tab_state_version_after`).
-   * Computes execution duration (`duration_ms`), outcome code, and applies semantic `ObservationSignalFlags`.
+1. **State before execution:**
+   * Captures the target tab, its normalized URL, page epoch, tab state version, and start time.
+   * Assigns a random call ID (`dispatch_call_id`) and a monotonic sequence number (`dispatch_seq`).
+2. **Execution or preflight block:**
+   * If an AAG gate blocks the call, TOB records it with `outcome_kind = blocked_preflight` and the gate ID.
+   * Otherwise the tool runs.
+3. **State after execution:**
+   * Captures the state after completion (URL, page epoch, tab state version) even if the tool failed.
+   * Records duration, outcome, and the signal flags below.
 
 ---
 
-## 4. Signal Flags & Bitmask (`TobSignalFlags`)
+## 4. Signal Flags
 
-TOB classifies each tool execution with a precise semantic bitmask:
+TOB classifies each tool call with a bitmask of signal flags, including:
 
-| Signal Flag | Semantic Meaning |
+| Signal Flag | Meaning |
 | :--- | :--- |
-| `ContentExposed` | Visible plain text or structured content was returned to the agent. |
-| `VisualExposed` | A screenshot or visual proof-crop was transmitted to the agent. |
-| `DomExposed` | DOM nodes, selector query results, or layout geometries were exposed. |
+| `ContentExposed` | Text or structured content was returned to the agent. |
+| `VisualExposed` | A screenshot or other image was returned to the agent. |
+| `DomExposed` | DOM nodes, selector results, or layout data were returned. |
 | `SelectorTouched` | A DOM selector was addressed (clicked, focused, or typed into). |
 | `NavigationIntent` | A page navigation was requested. |
-| `NavigationCommitted` | The browser engine confirmed the navigation commit event. |
-| `MutationAttempted` | A DOM mutation was dispatched. |
-| `MutationCommitted` | A real DOM mutation was empirically verified. |
-| `InputSupplied` | Hardware keyboard or mouse input events were injected. |
+| `NavigationCommitted` | The navigation was committed. |
+| `MutationAttempted` | A mutating action was dispatched. |
+| `MutationCommitted` | A mutation was confirmed. |
+| `InputSupplied` | Keyboard or mouse input was supplied. |
+| `SearchExecuted` | A search on the page was executed. |
+
+Further flags cover console and file exposure, viewport-only versus full-document reads, and whether the target was resolved.
 
 ---
 
 ## 5. Evidence Grades
 
-The `EvidenceLedger` evaluates task completions against empirical criteria:
+The evidence ledger grades task completions:
 
 | Grade | Criteria & Meaning |
 | :---: | :--- |
-| **`strong`** | **Verified Proof:** Materialized visit window (`tob_visit_window`) with confirmed read signal, minimum dwell time (**Dwell Time $\ge$ 1.0s**), and locator match. The agent demonstrably observed the content. |
-| **`weak`** | **Weak Proof:** Observation match present, but no read signal captured or dwell time under 1 second (e.g. transient tab hop). |
-| **`none`** | **Definitive Void:** Deterministic locators exist, ingestion is fully complete, but **no observation** found. The agent's completion claim is provably false. |
-| **`unknown`** | **Unassessable:** No deterministic locators defined or an instrumentation measurement gap occurred. |
+| **`strong`** | A visit window with a read signal, a dwell time of at least 1 second, and a locator match. The agent demonstrably read the content. |
+| **`weak`** | A matching observation exists, but no read signal or no visit window. |
+| **`none`** | Deterministic locators exist, ingestion is complete, and no observation was found. |
+| **`unknown`** | No deterministic locators, or a gap in the measurement. |
 
 > [!IMPORTANT]
-> The status `none` may only be assigned by the Evidence Ledger **when data ingestion is fully complete**. Under partial synchronization, the grade defaults to `unknown`.
+> `none` is only assigned when data ingestion is complete. Otherwise the grade is `unknown`.
+
+`strong` can only be reached for units located by exact URL or route; units located only by a selector or a URL prefix reach at most `weak`.
 
 ---
 
-## 6. Synergies: TOB & AAG
+## 6. Synergies: TOB & AAG & PKS
 
-While **AAG** is the **decision and protection policy layer** (gates, blockers, guarded tools), **TOB** is the **sensory nervous system and evidence archive**:
+While **AAG** decides whether a call may run, **TOB** keeps the record of what ran:
 
-* **AAG Queries TOB:** *"Did the agent actually perceive the page prior to submitting the form (`perceive_first`)?"* → TOB checks the Prelude Buffer for a `strong` visit window.
-* **AAG Leverages TOB IDs:** When AAG blocks a call, TOB stores the rejection reason deterministically, eliminating phantom failures.
-* **PKS Selector Proof:** Following a successful click, TOB issues a cryptographic proof via `TobSelectorProofEmitter` (`selector_hash` + `dispatch_call_id`). PKS uses this proof to promote phenomena from L0 to L1/L2.
+* **Blocked calls:** When an AAG gate blocks a call, TOB stores a separate observation with the gate ID, so a blocked call is never mistaken for a failed one.
+* **PKS selector proof:** When a scoped call succeeds on a selector whose hash matches a known PKS phenomenon on that site, TOB records a `tob_verified` outcome for that phenomenon (at most once per phenomenon per 60 seconds). This feeds the phenomenon's health and promotion evidence without the agent reporting anything.
 
 ---
 
@@ -133,18 +128,18 @@ While **AAG** is the **decision and protection policy layer** (gates, blockers, 
 
 | Component | Responsibility |
 | :--- | :--- |
-| **`DispatchEnvelopeBuilder`** | Encapsulates pre- and post-state snapshots for all MCP calls with UUIDs. |
-| **`ToolObservationProjector`**| Asynchronous projection of envelopes into the SQLite table `tob_tool_observation`. |
+| **`DispatchEnvelopeBuilder`** | Builds the before/after snapshots and the call ID for each MCP call. |
+| **`ToolObservationProjector`**| Writes envelopes into the table `tob_tool_observation`. |
 | **`VisitWindowBuilder`** | Aggregates calls into visit windows with dwell time and read signals. |
 | **`EvidenceLedger`** | Computes evidence grades (`strong`/`weak`/`none`/`unknown`) for task verification. |
-| **`TobSelectorProofEmitter`**| Delivers verified selector proofs to the PKS learning engine. |
-| **`PreludeBuffer`** | In-memory ring buffer for low-latency gate checks without disk I/O. |
+| **`TobSelectorProofEmitter`**| Records selector proofs for matching PKS phenomena. |
+| **`PreludeBuffer`** | Holds recent calls in memory until a scope opens. |
 
 ---
 
 ## Related Documentation
 
-* **[Agent Awareness Gates (AAG)](aag.md)** — Multi-stage safety gates and verification policies.
-* **[Phenomenological Knowledge Store (PKS)](pks.md)** — Procedural UI memory and learned fast-paths.
-* **[Closed-Loop System (CLS)](closed-loop-system.md)** — Automated closed feedback verification loop.
-* **[Episodic Task Memory (ETM)](etm-and-task-memory.md)** — Work unit tracking and exhaustive task URL coverage.
+* **[Agent Awareness Gates (AAG)](aag.md)** — Precondition gates in the tool pipeline.
+* **[Phenomenological Knowledge Store (PKS)](pks.md)** — Procedural UI memory and learned playbooks.
+* **[Closed-Loop System (CLS)](closed-loop-system.md)** — Verified state transitions.
+* **[Episodic Task Memory (ETM)](etm-and-task-memory.md)** — Work unit tracking and task URL coverage.

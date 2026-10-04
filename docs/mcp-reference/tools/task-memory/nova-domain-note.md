@@ -6,10 +6,9 @@ Stores or updates a domain-scoped operational note automatically surfaced during
 
 ## 1. Overview
 
-`nova.domain_note` registers persistent instructions, warnings, or credentials hints for a website. Whenever an agent navigates to this domain via `nova.navigate`, these notes are injected automatically into the response.
+`nova.domain_note` registers persistent, site-specific instructions for a domain. Depending on the enforcement level, a note is either passive (surfaced on perceive only), shown as a warning on each tool call on that domain, or required to be acknowledged (`nova.domain_note_ack`) before further tool calls on that domain proceed.
 
-* **Security Tier:** Tier 2 (Domain Note Storage)
-* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
+* **Core Architecture Guide:** [Operational Knowledge](../../../core-features/operational-knowledge.md)
 
 ---
 
@@ -28,6 +27,7 @@ Stores or updates a domain-scoped operational note automatically surfaced during
 | `sandboxRef` | `string` | No | — | — | Opaque PersistentUid token from nova.tabs / nova.sandbox_context / perceive.targetContext. Mandatory when sandboxId is set; protects against letter-id recycling races. Mismatch with current sandbox UID → -32602 stale_sandbox_reference. |
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -52,23 +52,27 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "Saved note 'auth_hint' for domain internal.corp."
+      "text": "Domain note created: internal.corp/auth_hint"
     }
   ],
   "structuredContent": {
-    "ok": true,
+    "action": "created",
     "domain": "internal.corp",
     "key": "auth_hint",
-    "status": "Stored"
+    "noteCount": 3,
+    "sandboxRef": null,
+    "scopeAdvisory": null
   }
 }
 ```
+
+`action` is `created` or `updated`. `noteCount` is the total number of stored notes after the write (not specific to this domain). `scopeAdvisory` is set only when a global note's text looks account- or identity-specific, hinting that it should probably be bound to a `sandboxId` instead.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Must-Read Blocking:** Set `isMustRead: true` for critical compliance instructions that require explicit acknowledgment before proceeding.
+* **Must-Read Blocking:** Set `enforcement: "must_read"` (or its alias `block`) for critical instructions that require explicit acknowledgment (`nova.domain_note_ack`) before further tool calls on that domain proceed.
 
 ---
 

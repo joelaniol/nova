@@ -1,8 +1,7 @@
 # `nova.pks_list`
 
-> **Lists stored phenomenological knowledge playbooks with pagination and domain filters.**
+> **Lists the domains that have PKS knowledge, with counts, health and classification, filtered and paginated.**
 
-* **Security Tier:** Tier 1 (Read-Only Catalog)
 * **Core Feature Guide:** [Phenomenological Knowledge Store (PKS)](../../../core-features/pks.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
@@ -10,7 +9,7 @@
 
 ## 1. Overview
 
-`nova.pks_list` enumerates all learned phenomena stored in the local SQLite knowledge database, returning IDs, domains, confidence scores, and usage counts.
+`nova.pks_list` returns one entry per PKS domain, not individual phenomena. Each entry counts the domain's active phenomena (`phenomenonCount`, deprecated ones separately in `deprecatedCount`), reports their average 30-day success rate and the phenomenon types, and carries the domain's trust level and service categories. Filters: domain `prefix`, phenomenon `type`, `trust`, `serviceCategory` and `minHealth`. Use `nova.pks_get` to read the phenomena of one domain.
 
 ---
 
@@ -28,6 +27,7 @@
 | `offset` | `integer` | No | `0` | ≥ 0 | Optional pagination offset (>=0). Default 0. |
 
 Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_learning')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -39,40 +39,58 @@ Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_l
 {
   "name": "nova_pks_list",
   "arguments": {
-    "scope": "example.com",
+    "prefix": "example",
+    "type": "consent_cmp",
     "limit": 20
   }
 }
 ```
 
 ### JSON-RPC Response
+
+Shortened to the main fields of one entry:
+
 ```json
 {
   "content": [
     {
       "type": "text",
-      "text": "Found 4 phenomena for example.com."
+      "text": "1/1 domain(s) returned."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "total": 4,
-    "phenomena": [
+    "count": 1,
+    "returned": 1,
+    "offset": 0,
+    "limit": 20,
+    "hasMore": false,
+    "domains": [
       {
-        "id": "phenom-login",
-        "confidence": 0.98,
-        "executions": 54
+        "scope": "example.com",
+        "phenomenonCount": 1,
+        "deprecatedCount": 0,
+        "avgSuccessRate30d": 0.95,
+        "verifiedPhenomenonCount": 1,
+        "types": ["consent_cmp"],
+        "trust": "medium",
+        "updatedAtUtc": "2026-10-01T14:02:00.0000000Z",
+        "serviceCategories": ["shopping"],
+        "primaryServiceCategory": "shopping",
+        "mcpDiscovery": null
       }
     ]
   }
 }
 ```
 
+Each entry also carries the domain's stored `auth` context. `mcpDiscovery` is filled when Nova has probed the site for an MCP server, `llms.txt`, an A2A agent or OAuth metadata.
+
 ---
 
 ## 4. Operational Best Practices
 
-* **Domain Inventory:** Query before beginning tasks to identify pre-existing automation fast-paths.
+* **Domain inventory:** Query before a task to see which domains already have stored knowledge, then read the details with `nova.pks_get`.
+* **Paginate:** Use `offset` and `hasMore` when `count` is larger than `limit`.
 
 ---
 

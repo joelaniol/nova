@@ -2,15 +2,16 @@
 
 > **Navigates forward or backward in tab history by a relative delta offset.**
 
-* **Security Tier:** Tier 2 (Navigation)
-* **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
+* **Core Feature Guide:** [Input Dispatch & Shadow DOM Traversal](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.history_go` traverses the navigation stack by integer offset (e.g. -1 for back, +1 for forward, -3 to skip back 3 steps).
+`nova.history_go` jumps within the tab's session history, either by a relative `offset` (e.g. -1 for back, +1 for forward, -3 to skip back 3 steps) or to a stable `entryId` from `nova.history_get`. Pass exactly one of the two. The response example below is an excerpt.
+
+An offset outside the history returns `ok: false` with `reasonCode: "navigation.history_index_out_of_range"`; an unknown `entryId` returns `navigation.history_entry_not_found`. A jump of zero steps returns `status: "noop"`. Multi-step jumps on a tab whose session Nova protects need `force: true` (`navigation.history_multi_step_requires_force` otherwise).
 
 ---
 
@@ -38,6 +39,7 @@
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -50,7 +52,8 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
   "name": "nova_history_go",
   "arguments": {
     "targetId": "tab-1",
-    "delta": -2
+    "offset": -2,
+    "waitForLoad": true
   }
 }
 ```
@@ -61,14 +64,24 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Navigated 2 steps backward in tab history."
+      "text": "History jumped -2 step(s) (page loaded)."
     }
   ],
   "structuredContent": {
-    "ok": true,
     "targetId": "tab-1",
-    "newIndex": 1,
-    "url": "https://example.com"
+    "ok": true,
+    "status": "ok",
+    "stage": "load_complete",
+    "retryable": false,
+    "waitForLoad": true,
+    "loadCompleted": true,
+    "waitedMs": 412,
+    "waitForSettlement": false,
+    "pageTitle": "Example Domain",
+    "pageUrl": "https://example.com/",
+    "targetIndex": 1,
+    "targetEntryId": 7,
+    "movedSteps": -2
   }
 }
 ```
@@ -77,7 +90,7 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
 
 ## 4. Operational Best Practices
 
-* **Bounds Checking:** Verify current stack boundaries with `nova.history_get` before passing large deltas.
+* **Bounds Checking:** Verify current stack boundaries with `nova.history_get` before passing large offsets.
 
 ---
 

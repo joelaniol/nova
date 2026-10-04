@@ -8,7 +8,6 @@ Creates or updates a task profile with semantic content revision tracking.
 
 `nova.task_profile_upsert` registers a reusable task template. Bumps `contentRev` on semantic changes, preserving proven operational guidance across runs.
 
-* **Security Tier:** Tier 2 (Profile Mutation)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
 ---
@@ -38,6 +37,7 @@ Creates or updates a task profile with semantic content revision tracking.
 | `sourceInstanceId` | `string` | No | — | — | Optional: seed profile content from this instance's effectiveContextJson. |
 
 Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -63,17 +63,18 @@ Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_m
   "content": [
     {
       "type": "text",
-      "text": "Upserted task profile tp-support-audit (rev: 1)."
+      "text": "{\"profileId\":\"tp-support-audit\",\"contentRev\":1,\"action\":\"created\"}"
     }
   ],
   "structuredContent": {
-    "ok": true,
     "profileId": "tp-support-audit",
     "contentRev": 1,
-    "status": "Active"
+    "action": "created"
   }
 }
 ```
+
+`action` is `"created"` or `"updated"`. If `expectedContentRev` is supplied and no longer matches, the call does not error — it returns `{ "ok": false, "reason": "content_rev_conflict", "currentContentRev": ..., "profileId": "..." }` so the caller can re-read and retry. There is no separate summary sentence on success: `content[0].text` is the same structured data serialized as plain JSON text.
 
 ---
 

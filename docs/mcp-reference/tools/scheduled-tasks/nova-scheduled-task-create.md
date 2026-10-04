@@ -8,9 +8,8 @@ Creates a new scheduled task running on cron expressions, intervals, or filesyst
 
 `nova.scheduled_task_create` registers an automated background task with Nova's scheduling engine. Tasks execute unattended according to cron patterns, fixed intervals, or folder change watches.
 
-Supported executors include `ClaudeCode`, `CodexCli`, `Shell` (PowerShell 7), `CustomCommand`, and `HttpWebhook`. Tasks run in dedicated sandboxed workspaces with isolated SQLite state, atomic file sharing, and encrypted DPAPI secret storage.
+Supported executors include `ClaudeCode`, `CodexCli`, `Shell` (PowerShell 7), `CustomCommand`, and `HttpWebhook`. Each task binds to a dedicated terminal workspace (or an existing one, if `workspaceId` is given) with a shared `shared/` folder for files that persist between runs; task secrets are stored separately, encrypted with Windows DPAPI for the current user. Nova keeps task definitions and run history in one shared SQLite database, not an isolated database per task.
 
-* **Security Tier:** Tier 2 (Background Automation)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
 ---
@@ -51,6 +50,7 @@ Supported executors include `ClaudeCode`, `CodexCli`, `Shell` (PowerShell 7), `C
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -79,18 +79,19 @@ Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='sc
   "content": [
     {
       "type": "text",
-      "text": "Created scheduled task 'task-7c81a2f0' (Competitor Price Tracker). Next run: 2026-10-03 09:00 Europe/Berlin."
+      "text": "Created task 'Competitor Price Tracker' (a1b2c3d4e5f6). Next scheduled run at 2026-10-03T07:00:00+00:00. Use nova.scheduled_task_trigger(taskId='a1b2c3d4e5f6') to run immediately, or nova.scheduled_task_runs(taskId='a1b2c3d4e5f6') to check run history."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "taskId": "task-7c81a2f0",
-    "displayName": "Competitor Price Tracker",
-    "schedule": "daily 09:00 (Europe/Berlin)",
-    "nextRunUtc": "2026-10-03T07:00:00Z",
-    "executor": "ClaudeCode",
-    "mcpAccess": true,
-    "status": "Enabled"
+    "taskId": "a1b2c3d4e5f6",
+    "workspaceId": "a1b2c3d4e5f6",
+    "workspaceIsTaskOwned": true,
+    "nextFireAtUtc": "2026-10-03T07:00:00Z",
+    "nextActions": [
+      { "tool": "nova.scheduled_task_trigger", "args": { "taskId": "a1b2c3d4e5f6" }, "hint": "Run the task immediately" },
+      { "tool": "nova.scheduled_task_runs", "args": { "taskId": "a1b2c3d4e5f6" }, "hint": "Check run history and status" },
+      { "tool": "nova.scheduled_task_get", "args": { "taskId": "a1b2c3d4e5f6" }, "hint": "Get full task details including cumulative cost" }
+    ]
   }
 }
 ```

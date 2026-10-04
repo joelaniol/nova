@@ -1,8 +1,7 @@
 # `nova.grep_resources`
 
-> **Searches loaded page resources (scripts, stylesheets, HTML) for matching literal text or regex patterns.**
+> **Searches the text of a tab's loaded resources (scripts, stylesheets, documents) for literal text or a regex.**
 
-* **Security Tier:** Tier 1 (Read-Only Inspection)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
@@ -10,7 +9,7 @@
 
 ## 1. Overview
 
-`nova.grep_resources` performs regex or substring matching across all in-memory network resources captured for a browser tab. Ideal for finding hidden API keys, endpoints, or DOM selectors.
+`nova.grep_resources` lists the resources of a browser tab (same discovery as `nova.list_resources`), reads the text of each one up to `maxResourceChars`, and returns the matches with line, column and surrounding context. Only resources that discovery listed are scanned: zero matches means the pattern is absent from those resources, not that the page never loads it (`completenessHint` says so in the result). Useful for finding endpoints, configuration values or selectors in bundled frontend code.
 
 ---
 
@@ -32,6 +31,7 @@
 | `maxChars` | `integer` | No | `100000` | 1000–5000000 | Maximum serialized response characters before truncation. Defaults shrink automatically under context pressure unless explicitly provided. |
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -45,30 +45,56 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
   "arguments": {
     "targetId": "tab-1",
     "pattern": "api_v2_endpoint",
-    "isRegex": false
+    "regex": false
   }
 }
 ```
 
 ### JSON-RPC Response
+`content[0].text` carries the scan result as JSON text; `structuredContent.result` carries the same object. Abridged example:
+
 ```json
 {
-  "content": [
-    {
-      "type": "text",
-      "text": "Found 3 matches across 2 resources."
-    }
-  ],
   "structuredContent": {
+    "targetId": "tab-1",
     "ok": true,
-    "matchesCount": 3,
-    "resources": [
-      {
-        "url": "https://example.com/app.js",
-        "line": 142,
-        "match": "api_v2_endpoint = \"/api/v2\";"
-      }
-    ]
+    "pattern": "api_v2_endpoint",
+    "regex": false,
+    "caseSensitive": false,
+    "source": "auto",
+    "types": ["Script", "Stylesheet", "Document"],
+    "listedResources": 14,
+    "scannedResources": 14,
+    "matchedResources": 1,
+    "matchedResourcesReturned": 1,
+    "matchedResourcesOmitted": 0,
+    "skippedResources": 0,
+    "totalMatches": 1,
+    "listTruncated": false,
+    "matchesTruncated": false,
+    "completenessHint": null,
+    "truncated": false,
+    "result": {
+      "matches": [
+        {
+          "url": "https://example.com/app.js",
+          "type": "Script",
+          "resourceChars": 48210,
+          "matchCount": 1,
+          "truncated": false,
+          "matches": [
+            {
+              "index": 5120,
+              "line": 142,
+              "column": 7,
+              "match": "api_v2_endpoint",
+              "contextBefore": "const ",
+              "contextAfter": " = \"/api/v2\";"
+            }
+          ]
+        }
+      ]
+    }
   }
 }
 ```
@@ -77,8 +103,8 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
 
 ## 4. Operational Best Practices
 
-* **Reverse Engineering:** Find obfuscated frontend routes without manual source file parsing.
-* **Regex Performance:** Use specific anchors to limit search time over huge bundled JS bundles.
+* **Narrow before widening:** Restrict `types` or tighten `pattern` when a scan hits `maxMatches` or the response is truncated; there is no cursor to continue a truncated scan.
+* **Regex validity:** With `regex: true`, an invalid pattern fails with `-32602` before any resource is read.
 
 ---
 

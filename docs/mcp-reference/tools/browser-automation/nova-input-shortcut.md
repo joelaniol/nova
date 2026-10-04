@@ -2,15 +2,14 @@
 
 > **Dispatches a multi-key keyboard shortcut (e.g. Ctrl+A, Control+C, Shift+Enter) to the active element.**
 
-* **Security Tier:** Tier 2 (Keyboard Input)
-* **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
+* **Core Feature Guide:** [Input Dispatch & Shadow DOM Traversal](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.input_shortcut` fires keydown and keyup events in strict modifier order, allowing agents to execute common productivity combinations.
+`nova.input_shortcut` sends one key down and one key up event for a combination such as `Ctrl+A`, with the modifiers held, allowing agents to execute common productivity combinations. Modifier names are `Ctrl`, `Shift`, `Alt` and `Meta`; exactly one non-modifier key is required. The response example below is an excerpt; Nova adds page and contract fields such as `pageUrl`, `pageTitle` and `stage`. `modifiers` is a bit mask (Alt=1, Ctrl=2, Meta=4, Shift=8).
 
 ---
 
@@ -23,6 +22,7 @@
 | `combo` | `string` | Yes | — | — | Keyboard shortcut string, e.g. 'Ctrl+L', 'Ctrl+Shift+K', 'Alt+Left', 'Ctrl++' or 'Ctrl+Plus'. Modifier names: Ctrl, Shift, Alt, Meta. Exactly one non-modifier key is required. Key aliases include Plus/Equal, Minus, and Digit0-Digit9. Case-insensitive. |
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -35,7 +35,7 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
   "name": "nova_input_shortcut",
   "arguments": {
     "targetId": "tab-1",
-    "shortcut": "Control+A"
+    "combo": "Ctrl+A"
   }
 }
 ```
@@ -46,13 +46,23 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Dispatched shortcut Control+A."
+      "text": "Shortcut sent: Ctrl+A"
     }
   ],
   "structuredContent": {
-    "ok": true,
     "targetId": "tab-1",
-    "shortcut": "Control+A"
+    "ok": true,
+    "status": "ok",
+    "combo": "Ctrl+A",
+    "key": "a",
+    "code": "KeyA",
+    "windowsVirtualKeyCode": 65,
+    "modifiers": 2,
+    "ctrl": true,
+    "alt": false,
+    "shift": false,
+    "meta": false,
+    "actionDispatched": true
   }
 }
 ```
@@ -61,8 +71,8 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
 
 ## 4. Operational Best Practices
 
-* **Select All & Replace:** Pair `Control+A` with `nova.input_key` (`Backspace`) for clean input clearing.
-* **Rich Text Formatting:** Trigger bold/italic shortcuts in WYSIWYG editors (`Control+B`).
+* **Select All & Replace:** Pair `Ctrl+A` with `nova.input_key` (`Backspace`) for clean input clearing.
+* **Rich Text Formatting:** Trigger bold/italic shortcuts in WYSIWYG editors (`Ctrl+B`).
 
 ---
 

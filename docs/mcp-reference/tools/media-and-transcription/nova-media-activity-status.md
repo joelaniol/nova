@@ -6,9 +6,8 @@ Returns an O(1) instant snapshot of currently active camera, microphone, and scr
 
 ## 1. Overview
 
-`nova.media_activity_status` performs a zero-overhead check of active media streams across all browser tabs. It returns origin lists and stream counts for camera, microphone, and desktop screen-sharing.
+`nova.media_activity_status` performs a zero-overhead check of active media streams across all browser tabs. It returns the number of origins with at least one live track, the total live track count, and the list of those origins — as an aggregate, not broken down by camera/microphone/screen-share.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
 ---
@@ -21,6 +20,7 @@ This tool takes no parameters.
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -41,13 +41,14 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "No media streams currently active."
+      "text": "0 origin(s), 0 live track(s)."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "activeStreamsCount": 0,
-    "origins": []
+    "activeOriginCount": 0,
+    "activeTrackCount": 0,
+    "origins": [],
+    "isAnyActive": false
   }
 }
 ```
@@ -56,7 +57,7 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
 
 ## 4. Operational Best Practices
 
-* **Privacy Pre-Check:** Query before navigating away from sensitive domains to ensure background tabs are not recording audio or video.
+* **Privacy Pre-Check:** Query before navigating away from sensitive domains to ensure background tabs are not recording audio or video. Use `isAnyActive` for a quick yes/no check and `origins` to see which sites are involved.
 
 ---
 

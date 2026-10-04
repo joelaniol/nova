@@ -46,6 +46,7 @@ Enforces predictable payload bounds (default `10,000` characters per region). Lo
 | `maxCharsPerRegion` | `integer` | No | `10000` | 100–200000 | Maximum characters per region. Regions exceeding this limit are truncated. |
 
 Capability bundles: `browser_automation`, `page_read_debug`.
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -82,19 +83,37 @@ Capability bundles: `browser_automation`, `page_read_debug`.
 ```json
 {
   "targetId": "tab-101",
-  "url": "https://example.com/products/wireless-headphones",
-  "regions": {
-    "header": "Nova Store | Free Worldwide Shipping on orders over $50",
-    "nav": "Products > Audio > Noise-Cancelling Headphones",
-    "main": "Nova Elite Wireless Headphones\nPrice: $299.00\nIn Stock (14 remaining)\nHigh-fidelity active noise cancellation with 40-hour battery life...",
-    "aside": "Customer Reviews (4.8 / 5.0 stars from 1,240 ratings)\nRelated accessories...",
-    "footer": "© 2026 Nova Workspace Inc. All rights reserved. Privacy Policy | Terms of Service",
+  "selector": null,
+  "ok": true,
+  "result": {
+    "ok": true,
+    "scoped": false,
+    "regions": [
+      {
+        "region": "header",
+        "label": null,
+        "selector": "header",
+        "text": "Nova Store | Free Worldwide Shipping on orders over $50",
+        "chars": 57
+      },
+      {
+        "region": "main",
+        "label": null,
+        "selector": "main",
+        "text": "Nova Elite Wireless Headphones\nPrice: $299.00\nIn Stock (14 remaining)...",
+        "chars": 2140
+      }
+    ],
     "modals": []
-  },
-  "totalChars": 2840,
-  "truncated": false
+  }
 }
 ```
+
+`regions` is an array of `{region, label, selector, text, chars}` objects, not an object keyed by
+region name, and there is no top-level `totalChars`/`truncated` or `url` field: a region that
+exceeds `maxCharsPerRegion` simply has `" [truncated]"` appended to its own `text`. `modals` is an
+array of the same shape (`selector`, `label`, `text`, `chars`) for any open dialog/overlay found.
+`scoped` is `true` only when `selector` matched and narrowed the scan.
 
 ---
 
@@ -102,9 +121,14 @@ Capability bundles: `browser_automation`, `page_read_debug`.
 
 | Error Code / Message | Cause | Corrective Action |
 | :--- | :--- | :--- |
-| `Selector matched nothing: ...` | Provided `selector` does not exist on the current page. | Verify the selector or omit `selector` to scan the full page. |
-| `Region truncated: main` | Main content exceeded `maxCharsPerRegion`. | Increase `maxCharsPerRegion` or use a more specific child selector. |
-| `Empty text returned` | The target element contains only canvas, images, or SVG nodes without text. | Use [`nova.perceive`](nova-perceive.md) or [`nova.capture_screenshot`](../visual-evidence/nova-capture-screenshot.md). |
+| `Invalid params: selector is not valid CSS.` | The provided `selector` could not be parsed. | Fix the selector syntax. |
+| `No DOM element matched selector '...'.` | `selector` is valid CSS but matched nothing. | Verify the selector or omit it to scan the full page. |
+
+A region whose text exceeds `maxCharsPerRegion` is not an error — its `text` is silently truncated
+with a trailing `" [truncated]"` marker. A subtree with only canvas/image/SVG content is also not an
+error: it comes back as a region (or the `scope`/`body` fallback) with an empty `text` and
+`chars: 0`; use [`nova.perceive`](nova-perceive.md) or
+[`nova.capture_screenshot`](../visual-evidence/nova-capture-screenshot.md) for visual-only content.
 
 ---
 

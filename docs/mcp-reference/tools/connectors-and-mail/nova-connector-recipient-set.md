@@ -6,9 +6,8 @@ Configures recipient allow-lists for autonomous email sending without human prom
 
 ## 1. Overview
 
-`nova.connector_recipient_set` establishes trusted recipient email addresses or domain wildcards. Outbound emails sent to approved recipients proceed autonomously; emails to unlisted recipients trigger interactive confirmation prompts.
+`nova.connector_recipient_set` replaces a mail connector's whole send allow-list: full addresses or bare domains that `nova.mail_send` may message without an extra per-recipient prompt. It always replaces the entire list (read it from `nova.connector_list` first, edit, write back); pass `[]` to clear it. There is no wildcard or regex syntax — a bare domain such as `lieferant.de` or `@lieferant.de` already matches any mailbox at that domain. The user can turn agent editing of this list off in Settings; while off, this tool does not appear in discovery and a direct call fails with error code -32002 and `reasonCode: "recipient_management_disabled"` (sending to already-allowed recipients still works; only Settings can change the list).
 
-* **Security Tier:** Tier 2 (Permission Configuration)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
 ---
@@ -24,6 +23,7 @@ Configures recipient allow-lists for autonomous email sending without human prom
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -37,7 +37,7 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
   "arguments": {
     "profileId": "conn-mail-01",
     "recipients": [
-      "*@company.com",
+      "company.com",
       "support@vendor.com"
     ]
   }
@@ -50,16 +50,20 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
   "content": [
     {
       "type": "text",
-      "text": "Updated recipient allow-list for conn-mail-01: 2 entries configured."
+      "text": "Recipient allow-list set for 'Work Email': 2 entr(y/ies) stored. Agents may send to these without a prompt."
     }
   ],
   "structuredContent": {
-    "ok": true,
     "profileId": "conn-mail-01",
     "allowedRecipients": [
-      "*@company.com",
+      "company.com",
       "support@vendor.com"
-    ]
+    ],
+    "storedCount": 2,
+    "droppedCount": 0,
+    "changed": true,
+    "status": "updated",
+    "reasonCode": null
   }
 }
 ```
@@ -68,8 +72,9 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
 
 ## 4. Operational Best Practices
 
-* **Domain Wildcards:** Use wildcard syntax (e.g. `*@mycorp.com`) to allow internal team communications without prompt fatigue.
-* **Anti-Spam Safeguard:** Out-of-allowlist destinations will always raise a `connector_approval_required` prompt.
+* **Bare Domains:** A bare domain entry (e.g. `mycorp.com`) matches any mailbox at that domain; there is no `*@` wildcard syntax.
+* **Read Before Write:** This call replaces the whole list, so read the current one from `nova.connector_list` first if you only want to add or remove one entry.
+* **Invalid Entries Are Dropped, Not Rejected:** Malformed or duplicate entries are silently dropped and counted in `droppedCount`, not reported individually.
 
 ---
 

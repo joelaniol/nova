@@ -8,8 +8,7 @@ Creates a new proxy profile with host, port, protocol, and optional credentials.
 
 `nova.proxy_create` defines a new proxy configuration in Nova (up to 12 profiles). Supports HTTP, HTTPS, SOCKS4, and SOCKS5 protocols with custom bypass lists.
 
-* **Security Tier:** Tier 2 (Configuration)
-* **Core Architecture Guide:** [Proxy Routing & Stealth Network Engine](../../../core-features/proxy-and-network.md)
+* **Core Architecture Guide:** [Proxy Routing & Network Engine](../../../core-features/proxy-and-network.md)
 
 ---
 
@@ -28,6 +27,7 @@ Creates a new proxy profile with host, port, protocol, and optional credentials.
 | `isGlobalDefault` | `boolean` | No | `false` | — | Set as the global default proxy for normal browser tabs. Only one profile can be global default. |
 
 Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='proxy_management')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -55,17 +55,29 @@ Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='p
   "content": [
     {
       "type": "text",
-      "text": "Proxy profile 'EU Germany SOCKS5' (prx-de-socks5) created."
+      "text": "Proxy profile 'EU Germany SOCKS5' created with ID 'proxy-1'."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "profileId": "prx-de-socks5",
-    "name": "EU Germany SOCKS5",
-    "protocol": "socks5"
+    "success": true,
+    "profileId": "proxy-1",
+    "profile": {
+      "id": "proxy-1",
+      "name": "EU Germany SOCKS5",
+      "protocol": "socks5",
+      "host": "198.51.100.80",
+      "port": 1080,
+      "enabled": true,
+      "isGlobalDefault": false,
+      "bypassList": "<local>;*.corp.internal",
+      "username": "researcher",
+      "hasPassword": false,
+      "isUsable": true
+    }
   }
 }
 ```
+IDs are assigned sequentially (`proxy-1`, `proxy-2`, ...), not derived from the name or protocol.
 
 ---
 

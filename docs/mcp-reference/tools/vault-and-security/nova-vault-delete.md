@@ -2,7 +2,6 @@
 
 > **Deletes a stored website login credential entry from the encrypted vault.**
 
-* **Security Tier:** Tier 2 (Destructive Credential Management)
 * **Core Feature Guide:** [Vault & Secret Keystore](../../../core-features/vault-and-secrets.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
@@ -10,7 +9,7 @@
 
 ## 1. Overview
 
-`nova.vault_delete` removes account credentials for a domain and username pair from the local credential vault.
+`nova.vault_delete` removes one login entry from Nova's vault by its entry `id` (from `nova.vault_list`); site and username are not accepted as keys. If the entry was imported by password sync, Nova also remembers not to import it again. An unknown `id` returns `deleted: false`.
 
 ---
 
@@ -24,6 +23,7 @@
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
 
 Capability bundle: `vault_auth` (load it with `nova.tools_bundle(bundle='vault_auth')`).
+Tool category: `high_impact` (highest risk class; Nova's agent permission settings can ask before it runs).
 <!-- /generated:parameters -->
 
 ---
@@ -35,8 +35,8 @@ Capability bundle: `vault_auth` (load it with `nova.tools_bundle(bundle='vault_a
 {
   "name": "nova_vault_delete",
   "arguments": {
-    "site": "https://login.example.com",
-    "username": "staging_user"
+    "_meta": { "intent": "Removing the temporary staging login after the test run" },
+    "id": "3fa91c2e"
   }
 }
 ```
@@ -47,22 +47,23 @@ Capability bundle: `vault_auth` (load it with `nova.tools_bundle(bundle='vault_a
   "content": [
     {
       "type": "text",
-      "text": "Removed vault entry for staging_user at login.example.com."
+      "text": "Deleted vault entry '3fa91c2e'."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "site": "https://login.example.com",
-    "username": "staging_user"
+    "deleted": true,
+    "id": "3fa91c2e"
   }
 }
 ```
+
+Not found: `{ "deleted": false, "id": "..." }` with the text "No vault entry found with id '<id>'.".
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Account Cleanup:** Remove temporary test credentials upon test suite conclusion.
+* **Account cleanup:** Remove temporary test credentials when the test run is over; look up the entry `id` with `nova.vault_list` first.
 
 ---
 

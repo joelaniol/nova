@@ -2,15 +2,14 @@
 
 > **Dispatches a physical mouse click at exact viewport X/Y coordinates.**
 
-* **Security Tier:** Tier 2 (Physical Input)
-* **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
+* **Core Feature Guide:** [Input Dispatch & Shadow DOM Traversal](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.input_click` simulates native hardware mouse events (mousedown, mouseup, click) at precise screen coordinates, triggering canvas widgets and non-DOM targets.
+`nova.input_click` dispatches a mouse move, a press, and (about 16 ms later) a release through the browser's DevTools input pipeline at precise viewport coordinates. The events arrive as real browser input (`isTrusted: true`), so the click also reaches canvas widgets, WebGL surfaces, and other non-DOM targets that have no CSS selector to click by. There is no movement curve or synthetic delay beyond the fixed press/release gap — for a humanized mouse path use `nova.input_drag_humanized` (drag gestures only).
 
 ---
 
@@ -36,6 +35,7 @@
 | `screenshotResponseMode` | `string` | No | — | `inline`, `reference`, `thumbnail+reference`, `auto` | Override default delivery mode for the screenshot. Default comes from the tool-intent profile (e.g. confirm-shots default 'thumbnail+reference' for token efficiency). Use 'inline' to force full image bytes, 'auto' to let the server pick based on projected token cost and session budget. |
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -62,17 +62,24 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Clicked at coordinates (450, 320)."
+      "text": "Clicked (left) at (450,320)."
     }
   ],
   "structuredContent": {
-    "ok": true,
     "targetId": "tab-1",
     "x": 450,
-    "y": 320
+    "y": 320,
+    "button": "left",
+    "clickCount": 1,
+    "waitForNavigation": false,
+    "navigationDetected": null,
+    "loadCompleted": null,
+    "actionDispatched": true
   }
 }
 ```
+
+With `waitForNavigation: true`, the response also carries `loadCompleted`, `waitedMs`, `newTabOpened`/`newTabIds` (set when the click opened a new tab instead of navigating this one), and a sanitized `pageTitle`/`pageUrl`. There is no top-level `ok` field — treat a thrown JSON-RPC error as the failure signal, and `actionDispatched: true` as confirmation the click itself was sent.
 
 ---
 

@@ -41,6 +41,7 @@ Autonomous agents executing terminal commands, shell scripts, or scheduled tasks
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `secret_store` (load it with `nova.tools_bundle(bundle='secret_store')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -75,13 +76,15 @@ Capability bundle: `secret_store` (load it with `nova.tools_bundle(bundle='secre
 
 ```json
 {
-  "success": true,
   "name": "DEPLOY_API_TOKEN",
   "scope": "workspace",
   "workspaceId": "ws-backend-deploy",
-  "encryptedAtUtc": "2026-10-02T19:55:00Z"
+  "stored": true,
+  "replaced": false
 }
 ```
+
+`replaced` is `true` when the call overwrote an existing secret of the same name/scope.
 
 ---
 
@@ -89,14 +92,14 @@ Capability bundle: `secret_store` (load it with `nova.tools_bundle(bundle='secre
 
 | Error Code / Message | Cause | Corrective Action |
 | :--- | :--- | :--- |
-| `Reserved variable name: ...` | Attempted to set a protected OS variable (`PATH`, `TEMP`, or `NOVA_*`). | Choose an application-specific environment variable name. |
-| `workspaceId required for scope 'workspace'` | Scope was set to `"workspace"` without specifying `workspaceId`. | Provide the workspace ID. |
-| `Invalid variable name format` | Variable name contains special characters or spaces. | Use alphanumeric characters and underscores (`[A-Z0-9_]`). |
+| `name must be letters/digits/underscore (1-64 chars) and not a reserved system variable name (PATH, TEMP, NOVA_*, ...)` | Name failed validation or is a protected OS variable. | Choose a valid, application-specific environment variable name. |
+| `workspaceId is required` / `terminal workspace '...' not found` | Scope was set to `"workspace"` without a valid, existing `workspaceId`. | Provide the ID of an existing terminal workspace. |
+| `Task-scoped secrets require the Scheduled tasks feature to be enabled in Nova settings` | Scope was set to `"task"` while the Scheduled Tasks feature is disabled. | Enable Scheduled Tasks, or use `scope='global'`/`'workspace'` instead. |
 
 ---
 
 ## 7. Related Tools & Documentation
 
-* [`nova.secret_list`](nova-secret-list.md) ? List configured secret names and scopes without reading values.
-* [`nova.vault_prepare_fill`](nova-vault-prepare-fill.md) ? Web browser password filling via `SecretRef`.
-* [Vault & Secret Architecture](../../../core-features/vault-and-secrets.md) ? Deep dive into Nova's encryption boundary.
+* [`nova.secret_list`](nova-secret-list.md) — List configured secret names and scopes without reading values.
+* [`nova.vault_prepare_fill`](nova-vault-prepare-fill.md) — Web browser password filling via `SecretRef`.
+* [Vault & Secret Architecture](../../../core-features/vault-and-secrets.md) — Deep dive into Nova's encryption boundary.

@@ -2,15 +2,13 @@
 
 > **Reads the native auto-reload configuration and countdown timer for the target tab.**
 
-* **Security Tier:** Tier 1 (Read-Only State)
-* **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.auto_reload_get` inspects whether native periodic tab reloading is enabled, returning the configured reload interval in seconds and the remaining time until the next reload trigger.
+`nova.auto_reload_get` inspects the native periodic-reload coordinator for a tab, returning its mode (`running`, `paused`, `off`), the configured interval in seconds, and the absolute UTC timestamp of the next scheduled reload.
 
 ---
 
@@ -23,6 +21,7 @@
 | `agentId` | `string` | No | `"default"` | — | Optional agent identity. Reads may observe an unclaimed target but must match any existing claim. |
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -45,15 +44,24 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Auto-reload enabled: interval 60s, next reload in 34s."
+      "text": "Auto-Reload running for tab-1 (revision 2)."
     }
   ],
   "structuredContent": {
     "ok": true,
+    "status": "ok",
+    "lastReasonCode": null,
     "targetId": "tab-1",
-    "enabled": true,
+    "targetExists": true,
+    "featureEnabled": true,
+    "mode": "running",
     "intervalSeconds": 60,
-    "remainingSeconds": 34
+    "revision": 2,
+    "previousRevision": 1,
+    "nextRunAtUtc": "2026-10-03T12:01:00Z",
+    "lastOutcome": "scheduled",
+    "configuredBy": "agent",
+    "boundUrl": "https://example.com/dashboard"
   }
 }
 ```

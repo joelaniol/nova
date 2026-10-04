@@ -1,14 +1,13 @@
 # `nova.task_instance_verify`
 
-Retrieves the verification contract steps, assertions, and checks required for task completion.
+Retrieves the completion-gate state and, if the task profile defines one, the verification contract steps required for task completion.
 
 ---
 
 ## 1. Overview
 
-`nova.task_instance_verify` returns the exact verification checks required by the instance's task profile (mandatory assertions, screenshot proofs, URL coverage minimums).
+`nova.task_instance_verify` returns the instance's current completion-gate state (`completionVerification`: whether completion is currently allowed, pending mandatory checks, remaining units) and, when the task profile defines a tool-based verification contract (`hasContract: true`), the contract's steps so the agent can execute them and submit evidence via `task_instance_complete`. Most task profiles have no such contract; in that case the response reports `hasContract: false` and still returns `completionVerification`.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
 ---
@@ -21,6 +20,7 @@ Retrieves the verification contract steps, assertions, and checks required for t
 | `instanceId` | `string` | Yes | — | — | The instance to verify. |
 
 Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -40,28 +40,45 @@ Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_m
 ### JSON-RPC Response
 ```json
 {
-  "content": [
-    {
-      "type": "text",
-      "text": "Loaded verification contract for inst-881a: 2 mandatory checks."
-    }
-  ],
   "structuredContent": {
-    "ok": true,
+    "hasContract": true,
     "instanceId": "inst-881a",
-    "mandatoryChecks": [
+    "stepCount": 1,
+    "requiredCount": 1,
+    "steps": [
       {
-        "checkId": "chk-order-conf",
-        "assertion": "confirmation-banner is visible"
-      },
-      {
-        "checkId": "chk-tuc-100",
-        "assertion": "100% URL coverage"
+        "stepId": "chk-order-conf",
+        "tool": "nova.read_text",
+        "args": { "selector": ".confirmation-banner" },
+        "description": "Order confirmation banner is visible",
+        "gate": "fast",
+        "required": true,
+        "assertionType": "has_results"
       }
-    ]
+    ],
+    "completionVerification": {
+      "completionAllowed": false,
+      "reasonCode": "pending_mandatory_checks",
+      "message": "1 mandatory check(s) pending.",
+      "isError": false,
+      "status": "active",
+      "discoveryState": "discovering",
+      "currentState": {
+        "totalUnits": 10,
+        "checkedUnits": 8,
+        "remainingUnits": 2,
+        "blockedUnits": 0,
+        "failedUnits": 0,
+        "urlUnitsRemaining": 2,
+        "pendingMandatoryChecks": ["chk-order-conf"]
+      }
+    },
+    "instructions": "Execute each tool with the given args, then submit results via task_instance_complete with evidenceReport array. Each entry: { stepId, state ('passed'|'failed'|'inconclusive'|'skipped'), toolResult (tool response), detail (optional explanation) }. Failed required fast-gate steps can block completion."
   }
 }
 ```
+
+The response also includes a `taskAwareness` object (trimmed here); `content[0].text` is a JSON dump of this same data. `assertionType` is one of `empty_result`, `has_results`, `field_match`, `field_equals`; `gate` is one of `fast`, `deep`, `restricted`. When the profile defines no verification contract, the response is `{ hasContract: false, instanceId, reason: "no_contract", completionVerification, taskAwareness }` instead.
 
 ---
 

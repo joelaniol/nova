@@ -2,8 +2,6 @@
 
 > **Returns the exact bounding client rectangle (x, y, width, height) of an element.**
 
-* **Security Tier:** Tier 1 (Read-Only Geometry)
-* **Core Feature Guide:** [DOM Perception & Semantic Extraction](../../../core-features/tob.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
@@ -36,6 +34,7 @@
 | `outputDetail` | `string` | No | `"full"` | `full`, `compact` | 'compact' omits fields that repeat a value carried elsewhere in the same response (the duplicate file path, and inlinePreview when it describes the same image as evidenceImage) plus the delivery telemetry: byteAccounting (byte counts of what you just received) and tokens (per-provider vision-token estimates). The image, coordinateMeta and every warning are unaffected - no setting can hide a warning. |
 
 Capability bundles: `browser_automation`, `visual_evidence`.
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -45,7 +44,7 @@ Capability bundles: `browser_automation`, `visual_evidence`.
 ### JSON-RPC Request
 ```json
 {
-  "name": "nova_get_element_rect",
+  "name": "nova.get_element_rect",
   "arguments": {
     "targetId": "tab-1",
     "selector": "button.checkout"
@@ -59,19 +58,32 @@ Capability bundles: `browser_automation`, `visual_evidence`.
   "content": [
     {
       "type": "text",
-      "text": "Element bounds: 200x50 at (450, 320)."
+      "text": "{\"ok\":true,\"selector\":\"button.checkout\",\"visible\":true,\"attached\":true,\"enabled\":true,\"rect\":{...},\"center\":{...},\"tagName\":\"BUTTON\"}"
     }
   ],
   "structuredContent": {
-    "ok": true,
+    "targetId": "tab-1",
     "selector": "button.checkout",
-    "x": 450,
-    "y": 320,
-    "width": 200,
-    "height": 50
+    "result": {
+      "ok": true,
+      "selector": "button.checkout",
+      "visible": true,
+      "attached": true,
+      "enabled": true,
+      "rect": { "left": 450, "top": 320, "width": 200, "height": 50, "right": 650, "bottom": 370 },
+      "visualViewport": { "offsetLeft": 0, "offsetTop": 0, "pageLeft": 0, "pageTop": 0, "width": 1280, "height": 800, "scale": 1 },
+      "center": { "x": 550, "y": 344 },
+      "tagName": "BUTTON"
+    },
+    "viewportWarning": null
   }
 }
 ```
+
+The bounding box is `result.rect`, using `left`/`top`/`right`/`bottom` (CSS pixels, viewport-relative)
+rather than a bare `x`/`y`. A failed probe (selector not found, not visible, obstructed by another
+element, etc.) comes back as `result.ok: false` with a `reason` discriminant (e.g. `not-found`,
+`not-visible`, `obstructed`, `disabled`) instead of throwing.
 
 ---
 

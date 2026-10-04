@@ -18,8 +18,8 @@ Capability bundles of these tools: `browser_automation`, `form_submission`, `sys
 | **[`nova.guarded_login`](nova-guarded-login.md)** | High-level guarded macro for login form submissions, featuring integrated Auth Surface Detection (ASD) that distinguishes between authentication rejections and multi-factor (2FA/MFA) follow-up states. |
 | **[`nova.guarded_send_message`](nova-guarded-send-message.md)** | High-level guarded macro for chat interfaces (ChatGPT, Claude.ai, Gemini, Slack, Teams): auto-discovers the composer, types text with read-back verification, resolves the send button, clicks it, and verifies delivery in a single atomic operation. |
 | **[`nova.guarded_submit_form`](nova-guarded-submit-form.md)** | High-level guarded macro for form submissions, wrapping click dispatch in an automated transition contract to verify validation rules, prevent duplicate submissions, and confirm post-submit transitions. |
-| **[`nova.guarded_switch_model`](nova-guarded-switch-model.md)** | Safely switches the model in an AI web provider interface (ChatGPT, Claude, Gemini) with verification. |
-| **[`nova.guarded_switch_sandbox`](nova-guarded-switch-sandbox.md)** | Switches the active sandbox container for a tab while verifying session state and cookies. |
+| **[`nova.guarded_switch_model`](nova-guarded-switch-model.md)** | Clicks a model entry in a web app's model menu and verifies that the selected model changed. |
+| **[`nova.guarded_switch_sandbox`](nova-guarded-switch-sandbox.md)** | Clicks a workspace switcher entry in a web app and verifies that the workspace changed. |
 <!-- /generated:tool-list -->
 
 ---

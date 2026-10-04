@@ -8,7 +8,6 @@ Terminates an agent-owned terminal session and cleans up its process tree and te
 
 `nova.terminal_close` gracefully shuts down the PTY and forcefully terminates any remaining child processes in the session tree. Subsequent calls referencing the session ID return `terminal_not_found`.
 
-* **Security Tier:** Tier 2 (Destructive)
 * **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces.md)
 
 ---
@@ -23,6 +22,7 @@ Terminates an agent-owned terminal session and cleans up its process tree and te
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
 
 Capability bundle: `terminal_ops` (load it with `nova.tools_bundle(bundle='terminal_ops')`).
+Tool category: `high_impact` (highest risk class; Nova's agent permission settings can ask before it runs).
 <!-- /generated:parameters -->
 
 ---
@@ -34,7 +34,7 @@ Capability bundle: `terminal_ops` (load it with `nova.tools_bundle(bundle='termi
 {
   "name": "nova.terminal_close",
   "arguments": {
-    "sessionId": "term-a8f9c1d0"
+    "sessionId": "term_1a2b3c4d5e6f7a8b"
   }
 }
 ```
@@ -45,12 +45,12 @@ Capability bundle: `terminal_ops` (load it with `nova.tools_bundle(bundle='termi
   "content": [
     {
       "type": "text",
-      "text": "Terminal session 'term-a8f9c1d0' closed."
+      "text": "Terminal session 'term_1a2b3c4d5e6f7a8b' closed."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "sessionId": "term-a8f9c1d0",
+    "sessionId": "term_1a2b3c4d5e6f7a8b",
     "closed": true
   }
 }
@@ -60,7 +60,7 @@ Capability bundle: `terminal_ops` (load it with `nova.tools_bundle(bundle='termi
 
 ## 4. Operational Best Practices
 
-* **Always Close Sessions:** Unclosed sessions hold ConPTY pipe handles and temporary directories on disk. Always close sessions once tasks complete.
+* **Always Close Sessions:** Unclosed sessions keep their shell process (and its ConPTY handles) running and their temporary working directory in place. Close a session once its task is done to free both.
 
 ---
 

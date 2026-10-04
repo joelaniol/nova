@@ -8,8 +8,6 @@ Dismisses a notification, hiding it from the default inbox view.
 
 `nova.notifications_dismiss` marks a notification as dismissed. Dismissed entries are excluded from standard list views and unread counts unless `includeDismissed: true` is passed.
 
-* **Security Tier:** Tier 2 (State Change)
-* **Core Architecture Guide:** [Closed-Loop System & Event Propagation](../../../core-features/closed-loop-system.md)
 
 ---
 
@@ -21,6 +19,7 @@ Dismisses a notification, hiding it from the default inbox view.
 | `notificationId` | `string` | Yes | — | — | The notification ID to dismiss. |
 
 Capability bundle: `notifications` (load it with `nova.tools_bundle(bundle='notifications')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -58,6 +57,7 @@ Capability bundle: `notifications` (load it with `nova.tools_bundle(bundle='noti
 ## 4. Operational Best Practices
 
 * **Clean Inbox:** Call after resolving an alert so the user's notification drawer stays uncluttered.
+* **Unknown IDs:** the call does not verify that `notificationId` exists before writing; passing an ID that does not exist still returns `status: "ok"`.
 
 ---
 

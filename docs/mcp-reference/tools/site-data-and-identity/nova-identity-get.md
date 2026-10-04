@@ -6,9 +6,8 @@ Reads the active browser identity profile, spoofed User-Agent, and client hints.
 
 ## 1. Overview
 
-`nova.identity_get` returns the current browser persona configuration: active preset (`ChromeWindows`, `EdgeWindows`, `SafariMac`), version strings, custom User-Agent, and Sec-CH-UA client hint headers.
+`nova.identity_get` returns the current browser persona configuration: active preset (`default`, `chrome`, `firefox`, `safari`, or `custom`), version string, custom User-Agent (when set), and whether the spoofed identity's client hints (`Sec-CH-UA` etc.) are internally coherent. `identity_set` applies the chosen identity globally, not per tab or sandbox.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
 ---
@@ -19,6 +18,7 @@ Reads the active browser identity profile, spoofed User-Agent, and client hints.
 This tool takes no parameters.
 
 Capability bundle: `identity_management` (load it with `nova.tools_bundle(bundle='identity_management')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -39,23 +39,29 @@ Capability bundle: `identity_management` (load it with `nova.tools_bundle(bundle
   "content": [
     {
       "type": "text",
-      "text": "Current browser identity: ChromeWindows (v128.0.0.0)."
+      "text": "Browser identity: preset=chrome, version=150.0.4078.65, overrideActive=True, clientHintsCoherent=True"
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "preset": "ChromeWindows",
-    "version": "128.0.0.0",
-    "effectiveUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+    "preset": "chrome",
+    "version": "150.0.4078.65",
+    "customUserAgent": null,
+    "effectiveUserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.4078.65 Safari/537.36",
+    "overrideActive": true,
+    "platform": "Win32",
+    "clientHintsCoherent": true,
+    "userAgentDataBrands": "Not/A)Brand 8, Chromium 150, Google Chrome 150"
   }
 }
 ```
+
+This response has no `ok` field. `clientHintsCoherent` is true for the native default and Chromium-based spoofs; it is false for `firefox`/`safari`, where the browser engine cannot express the absent non-Chromium client hints.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Client Hint Consistency:** Nova automatically keeps `Sec-CH-UA` and `Sec-CH-UA-Platform` client hints synchronized with the chosen User-Agent.
+* **Client Hint Coherence:** Check `clientHintsCoherent` before relying on a spoofed identity against a fingerprinting check — Firefox/Safari presets cannot fully hide the underlying Chromium engine's client hints.
 
 ---
 

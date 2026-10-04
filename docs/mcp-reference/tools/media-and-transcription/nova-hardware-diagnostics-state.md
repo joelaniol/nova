@@ -6,9 +6,8 @@ Returns current live hardware diagnostic metrics including microphone audio leve
 
 ## 1. Overview
 
-`nova.hardware_diagnostics_state` polls live measurements from an active diagnostic channel on a tab. It reports running channels, real-time microphone input volume (0.0 - 1.0), and peak decibels.
+`nova.hardware_diagnostics_state` polls live measurements from an active diagnostic channel on a tab. It reports whether video/microphone/speaker channels are currently running and a real-time microphone level on a 0-100 scale (`micLevel`, with `micPeak` decaying slowly from the highest level seen).
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
 ---
@@ -21,6 +20,7 @@ Returns current live hardware diagnostic metrics including microphone audio leve
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
 
 Capability bundles: `browser_automation`, `page_read_debug`.
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -43,17 +43,20 @@ Capability bundles: `browser_automation`, `page_read_debug`.
   "content": [
     {
       "type": "text",
-      "text": "Microphone diagnostics running: current level 0.42, peak 0.85."
+      "text": "Hardware diagnostics state: video=False, mic=True, speaker=False, micLevel=0, micPeak=0."
     }
   ],
   "structuredContent": {
-    "ok": true,
     "targetId": "tab-1",
-    "activeChannels": [
-      "microphone"
-    ],
-    "micLevel": 0.42,
-    "micPeak": 0.85
+    "ok": true,
+    "status": "ok",
+    "reasonCode": null,
+    "videoRunning": false,
+    "microphoneRunning": true,
+    "speakerRunning": false,
+    "micLevel": 0,
+    "micPeak": 0,
+    "diagnostics": { "ok": true, "action": "get_state" }
   }
 }
 ```
@@ -62,7 +65,7 @@ Capability bundles: `browser_automation`, `page_read_debug`.
 
 ## 4. Operational Best Practices
 
-* **Silence Detection:** Check whether `micLevel` remains 0.0 to diagnose muted microphones or incorrect hardware input selections.
+* **Silence Detection:** Check whether `micLevel` stays at 0 to diagnose muted microphones or incorrect hardware input selections.
 
 ---
 

@@ -8,8 +8,7 @@ Imports MCP server definitions from Claude Desktop, VS Code, Claude Code, or JSO
 
 `nova.external_server_import` scans external agent configurations (e.g. `claude_desktop_config.json`, VS Code MCP configs) and imports registered servers into Nova, skipping existing entries.
 
-* **Security Tier:** Tier 3 (High-Impact)
-* **Core Architecture Guide:** [Plugins & External Extensions](../../../core-features/plugins.md)
+* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md) (section 7, "External MCP Servers")
 
 ---
 
@@ -26,6 +25,7 @@ Imports MCP server definitions from Claude Desktop, VS Code, Claude Code, or JSO
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
 
 Capability bundle: `external_mcp` (load it with `nova.tools_bundle(bundle='external_mcp')`).
+Tool category: `high_impact` (highest risk class; Nova's agent permission settings can ask before it runs).
 <!-- /generated:parameters -->
 
 ---
@@ -52,27 +52,47 @@ Capability bundle: `external_mcp` (load it with `nova.tools_bundle(bundle='exter
   "content": [
     {
       "type": "text",
-      "text": "Imported 2 server(s) from claude_desktop (1 skipped)."
+      "text": "Imported 2 server(s) from claude_desktop. Skipped 1."
     }
   ],
   "structuredContent": {
     "ok": true,
     "source": "claude_desktop",
-    "importedCount": 2,
-    "skippedCount": 1,
+    "filePath": "C:\\Users\\you\\AppData\\Roaming\\Claude\\claude_desktop_config.json",
+    "totalFound": 3,
+    "totalImported": 2,
     "imported": [
-      "postgres-db",
-      "github-mcp"
+      {
+        "serverKey": "f1a2b3c4",
+        "displayName": "postgres-db",
+        "transport": "stdio",
+        "status": "Stopped"
+      },
+      {
+        "serverKey": "a9b8c7d6",
+        "displayName": "github-mcp",
+        "transport": "stdio",
+        "status": "Stopped"
+      }
+    ],
+    "capReached": false,
+    "skipped": [
+      {
+        "name": "filesystem-mcp",
+        "reason": "Already exists."
+      }
     ]
   }
 }
 ```
 
+Imported servers are never auto-started unless `autoStart: true` is passed; `status` is `"Stopped"` right after import in that case. `capReached: true` means the 50-server limit was hit partway through and the import stopped early.
+
 ---
 
 ## 4. Operational Best Practices
 
-* **Deduplication:** Server entries with matching command and arguments are automatically recognized and skipped, preventing duplicate spawns.
+* **Deduplication:** An entry is skipped as "Already exists" when its transport, command (or endpoint URL), arguments, and working directory all match an already-configured server.
 
 ---
 

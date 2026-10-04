@@ -1,61 +1,66 @@
-# Complete Keyboard Shortcuts Reference
+# Keyboard Shortcuts Reference
 
 > [!NOTE]
-> Boost your productivity with Nova AI Workspace's comprehensive keyboard shortcuts. Control tabs, terminal docks, agent execution, and navigation without touching the mouse.
+> The shortcuts below are the ones Nova AI Workspace handles itself. Most follow the Chrome/Edge conventions, so existing muscle memory carries over.
 
 ---
 
-## 1. General & Navigation Shortcuts
+## 1. Tabs & Navigation
 
 | Shortcut | Action | Description |
 | :--- | :--- | :--- |
-| **`Ctrl + T`** | New Tab | Opens a new tab in the default sandbox. |
-| **`Ctrl + Shift + T`** | Reopen Closed Tab | Restores the most recently closed tab and its session state. |
+| **`Ctrl + T`** | New Tab | Opens a new browser tab. |
+| **`Ctrl + Shift + N`** | New Private Tab | Opens a private tab: it starts logged out and keeps nothing after it closes. |
+| **`Ctrl + Shift + T`** | Reopen Closed Tab | Reopens the most recently closed tab. |
 | **`Ctrl + W`** | Close Tab | Closes the active tab. |
-| **`Ctrl + Shift + W`** | Close Window | Closes Nova AI Workspace. |
-| **`Ctrl + Tab`** | Next Tab | Cycles to the next tab to the right. |
-| **`Ctrl + Shift + Tab`** | Previous Tab | Cycles to the previous tab to the left. |
-| **`Ctrl + 1` .. `8`** | Go to Tab N | Switches directly to tab position 1 through 8. |
-| **`Ctrl + 9`** | Go to Last Tab | Switches directly to the rightmost tab. |
-| **`Ctrl + L`** / **`Alt + D`** | Focus Omnibox | Selects the URL address field for rapid typing. |
-| **`Ctrl + R`** / **`F5`** | Reload Page | Standard page reload. |
-| **`Ctrl + Shift + R`** | Hard Reload | Reloads page ignoring local cache. |
-| **`Alt + Left Arrow`** | Back | Navigates back in history. |
-| **`Alt + Right Arrow`** | Forward | Navigates forward in history. |
-| **`Alt + Home`** | Home Page | Navigates to configured startup page. |
+| **`Ctrl + Tab`** | Next Tab | Switches to the next tab. |
+| **`Ctrl + Shift + Tab`** | Previous Tab | Switches to the previous tab. |
+| **`Ctrl + 1`** .. **`8`** | Go to Tab N | Switches to the tab at position 1 through 8. |
+| **`Ctrl + 9`** | Go to Last Tab | Switches to the last tab. |
+| **`Ctrl + Shift + P`** | Search Tabs | Opens the tab search ("Search open tabs by title or site"). |
+| **`Ctrl + L`** / **`Alt + D`** / **`F4`** | Focus Address Bar | Puts the cursor into the address bar. |
+| **`F5`** / **`Ctrl + R`** | Reload | Reloads the page. |
+| **`Ctrl + F5`** / **`Ctrl + Shift + R`** | Hard Reload | Reloads the page and bypasses the cache. |
+| **`Alt + Left Arrow`** | Back | Goes back in the tab's history. |
+| **`Alt + Right Arrow`** | Forward | Goes forward in the tab's history. |
 
 ---
 
-## 2. Terminal Dock & Developer Shortcuts
+## 2. Page Tools
 
 | Shortcut | Action | Description |
 | :--- | :--- | :--- |
-| **`Ctrl + ``** (Backtick) | Toggle Terminal Dock | Shows or hides the integrated ConPTY terminal dock. |
-| **`Ctrl + Shift + ``** | New Terminal Shell | Spawns an additional shell tab inside the terminal dock. |
-| **`Ctrl + Shift + C`** | Terminal Copy | Copies highlighted text from the terminal buffer. |
-| **`Ctrl + Shift + V`** | Terminal Paste | Pastes clipboard text into the active shell. |
-| **`F12`** | Open Web DevTools | Opens Microsoft Edge Chromium DevTools for the active tab. |
-| **`Ctrl + Shift + I`** | Inspect Element | Toggles DevTools element picker. |
-| **`Ctrl + Shift + J`** | DevTools Console | Jumps directly to DevTools JavaScript console. |
+| **`Ctrl + F`** | Find on Page | Opens the find bar. |
+| **`F3`** / **`Shift + F3`** | Next / Previous Match | Jumps between matches of the find bar. |
+| **`Ctrl + +`** / **`Ctrl + -`** | Zoom In / Out | Changes the page zoom. |
+| **`Ctrl + 0`** | Reset Zoom | Returns to 100 %. Not available in the built-in PDF viewer. |
+| **`F11`** | Full Screen | Enters full screen. To leave it, press and hold `Escape` for about one second. |
+| **`Ctrl + P`** | Print | Opens the print dialog for the page. |
+| **`Ctrl + U`** | View Source | Opens the page source. |
+| **`F12`** / **`Ctrl + Shift + I`** | Developer Tools | Opens the developer tools for the active tab, or brings an already open DevTools window to the front. |
 
 ---
 
-## 3. Agent & Automation Safety Controls
+## 3. Panels & Favorites
 
 | Shortcut | Action | Description |
 | :--- | :--- | :--- |
-| **`Ctrl + Shift + X`** | **EMERGENCY STOP** | **Instantly aborts all active agent actions, releases tab locks, and pauses MCP automation.** |
-| **`Ctrl + Shift + A`** | Toggle Spectator Mode | Enables or disables visual click rings and AAG visual halos. |
-| **`Ctrl + Shift + M`** | Mute All Agent Media | Instantly mutes audio playback across all tabs. |
+| **`Ctrl + J`** | Downloads | Opens the downloads panel. |
+| **`Ctrl + H`** | History | Opens the history. |
+| **`Ctrl + D`** | Favorite | Opens the favorite dialog for the current page (the same as clicking the star). |
+| **`Ctrl + Shift + B`** | Bookmark Bar | Shows or hides the bookmark bar. |
+| **`Ctrl + Shift + O`** | Bookmark Manager | Opens the bookmark manager. |
 
 ---
 
-## 4. UI Flyouts & Dialogs
+## 4. Escape
 
-| Shortcut | Action | Description |
-| :--- | :--- | :--- |
-| **`Ctrl + ,`** | Settings | Opens the Nova configuration overlay. |
-| **`Ctrl + J`** | Downloads Drawer | Toggles the sliding downloads management panel. |
-| **`Ctrl + D`** | Add Bookmark | Bookmarks the active URL. |
-| **`Ctrl + Shift + O`** | Bookmarks Manager | Opens the full bookmarks hierarchy panel. |
-| **`Escape`** | Dismiss Dialog / Overlay | Closes active settings, download drawers, or modal prompts. |
+`Escape` closes whatever has focus: the find bar, the tab search, or an unfinished entry in the address bar (the previous address comes back). In Nova's own security questions — "Connection is not secure" and "Keep this file?" — `Escape` always gives the safe answer (go back / discard).
+
+---
+
+## 5. Things That Have No Shortcut
+
+* **Settings** open from the main menu (**Menu → Settings**). There is no keyboard shortcut for them.
+* **Emergency stop** for agents is in the main menu (**Menu → Emergency stop**). See [AI Visualization & Staying in Control](live-assist-and-spectator.md#3-staying-in-control).
+* **Terminal** opens with the **Terminal** button in the toolbar. See [Terminal Dock](terminal-dock.md).

@@ -8,7 +8,6 @@ Executes a single command line in an existing session and waits synchronously fo
 
 `nova.terminal_run_command` submits a command to an active ConPTY session, monitors execution via an end-of-command sentinel, and returns both output and numeric exit code. If execution exceeds `timeoutSeconds`, the session remains open with `reasonCode: "command_timeout"`.
 
-* **Security Tier:** Tier 2 (Execute)
 * **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces.md)
 
 ---
@@ -25,6 +24,7 @@ Executes a single command line in an existing session and waits synchronously fo
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
 
 Capability bundle: `terminal_ops` (load it with `nova.tools_bundle(bundle='terminal_ops')`).
+Tool category: `high_impact` (highest risk class; Nova's agent permission settings can ask before it runs).
 <!-- /generated:parameters -->
 
 ---
@@ -36,7 +36,7 @@ Capability bundle: `terminal_ops` (load it with `nova.tools_bundle(bundle='termi
 {
   "name": "nova.terminal_run_command",
   "arguments": {
-    "sessionId": "term-a8f9c1d0",
+    "sessionId": "term_1a2b3c4d5e6f7a8b",
     "command": "git status --short",
     "timeoutSeconds": 15
   }
@@ -49,13 +49,13 @@ Capability bundle: `terminal_ops` (load it with `nova.tools_bundle(bundle='termi
   "content": [
     {
       "type": "text",
-      "text": " M public/docs/mcp-reference/tool-catalog.md"
+      "text": " M src/main.py"
     }
   ],
   "structuredContent": {
     "ok": true,
-    "sessionId": "term-a8f9c1d0",
-    "output": " M public/docs/mcp-reference/tool-catalog.md\r\n",
+    "sessionId": "term_1a2b3c4d5e6f7a8b",
+    "output": " M src/main.py\r\n",
     "exitCode": 0
   }
 }

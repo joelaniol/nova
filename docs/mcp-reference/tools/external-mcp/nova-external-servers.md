@@ -8,8 +8,7 @@ Lists all configured external MCP servers with runtime status, health, and tool 
 
 `nova.external_servers` returns an inventory of all secondary MCP servers registered in Nova. It reports transport types (`stdio`, `http`, `sse`), connection states, health indicators, last error messages, and registered tool counts.
 
-* **Security Tier:** Tier 1 (Safe)
-* **Core Architecture Guide:** [Plugins & External Extensions](../../../core-features/plugins.md)
+* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md) (section 7, "External MCP Servers")
 
 ---
 
@@ -21,6 +20,7 @@ This tool takes no parameters.
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `external_mcp` (load it with `nova.tools_bundle(bundle='external_mcp')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---

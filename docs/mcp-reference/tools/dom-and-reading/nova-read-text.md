@@ -2,8 +2,6 @@
 
 > **Extracts clean visible plain text from the document or a specified selector container.**
 
-* **Security Tier:** Tier 1 (Read-Only Extraction)
-* **Core Feature Guide:** [DOM Perception & Semantic Extraction](../../../core-features/tob.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
@@ -26,6 +24,7 @@
 | `continuationToken` | `string` | No | — | ≤ 512 characters | Token from a previous response's continuation block. Carries the next position plus a fingerprint of that document; a changed page is rejected with reasonCode='read.source_changed' instead of returning text from elsewhere. Mutually exclusive with offset. |
 
 Capability bundles: `browser_automation`, `page_read_debug`.
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -35,7 +34,7 @@ Capability bundles: `browser_automation`, `page_read_debug`.
 ### JSON-RPC Request
 ```json
 {
-  "name": "nova_read_text",
+  "name": "nova.read_text",
   "arguments": {
     "targetId": "tab-1",
     "selector": "article.main-content"
@@ -49,16 +48,34 @@ Capability bundles: `browser_automation`, `page_read_debug`.
   "content": [
     {
       "type": "text",
-      "text": "Extracted 1,450 characters of article text."
+      "text": "Quantum computing advances in 2026..."
     }
   ],
   "structuredContent": {
-    "ok": true,
+    "targetId": "tab-1",
     "selector": "article.main-content",
-    "text": "Quantum computing advances in 2026..."
+    "ok": true,
+    "matchCount": 1,
+    "matchIndex": 0,
+    "selectorAmbiguousWarning": null,
+    "truncated": false,
+    "chars": 1450,
+    "result": {
+      "ok": true,
+      "selector": "article.main-content",
+      "matchCount": 1,
+      "text": "Quantum computing advances in 2026..."
+    },
+    "resultOmittedReason": null,
+    "outputBudget": { "maxChars": 30000, "sourceChars": 1450, "returnedChars": 1450, "truncated": false },
+    "offset": 0
   }
 }
 ```
+
+The text itself lives under `result.text` (the `content` block already carries the same text for
+convenience). `matchCount` counts how many elements the selector matched; when it is greater than 1,
+`selectorAmbiguousWarning` explains that the text comes from only the first match.
 
 ---
 

@@ -99,24 +99,36 @@ Antigravity frequently invokes concurrent subagents via `invoke_subagent`:
 When multiple subagents explore or audit websites simultaneously:
 ```json
 nova_tab_claim({
-  "targetId": "tab-1",
-  "purpose": "Autonomous price scraping",
-  "leaseDurationMs": 180000
+  "targetId": "d2d64991",
+  "agentId": "subagent-1",
+  "ttlMs": 180000
 })
 ```
-* Prevents other running subagents from closing, scrolling, or navigating `tab-1` while the lease is held.
-* Call `nova_tab_release({ "targetId": "tab-1" })` upon completion.
+* Tab IDs come from `nova.tabs`; the lease lasts `ttlMs` (default 120 s, 5 s to 30 min).
+* If another agent calls a claimed tab, Nova refuses with error code `-32040` (`claim.owner_mismatch`) and names the owning `agentId`.
+* Call `nova_tab_release({ "targetId": "d2d64991", "agentId": "subagent-1" })` upon completion.
 
 ### Cross-Subagent Knowledge Sharing (`nova_board_*`)
-Subagents share findings across conversations without forwarding full chat transcripts:
+The board is off by default (**Enable shared agent knowledge board** in the settings). It is not a
+store for research results: agents record problems they hit with Nova's tools, as an `observation`,
+a `refutation` (a path that did not help) or a `reproduction`, under a structured anchor. When a
+later tool call fails with a matching symptom, Nova adds a `boardHint` pointing to the topic.
 ```json
-// Subagent A posts a verified finding:
+// Subagent A records a tool problem:
 nova_board_contribute({
-  "topic": "aliexpress_anti_bot",
-  "fact": "Search feed requires scroll_smart deltaY: 1200 to trigger virtualized list hydration",
-  "confidence": 1.0
+  "kind": "observation",
+  "openNew": true,
+  "text": "scroll_smart does not load more rows in the search results list",
+  "anchor": {
+    "component": "mcp",
+    "capability": "nova.scroll_smart",
+    "operation": "scroll",
+    "symptomClass": "no_effect",
+    "host": "example.com"
+  },
+  "idempotencyKey": "search-scroll-no-effect-1"
 })
 
-// Subagent B recalls shared findings:
-nova_board_get({ "topic": "aliexpress_anti_bot" })
+// Subagent B reads the topic named in a boardHint:
+nova_board_get({ "topicId": "<topicId from the boardHint>" })
 ```

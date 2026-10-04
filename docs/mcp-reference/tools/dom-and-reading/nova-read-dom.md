@@ -36,6 +36,7 @@ By default, extraction is capped at `30,000` characters. If the page exceeds thi
 | `maxChars` | `integer` | No | `30000` | 1000–5000000 | Maximum characters to return. Larger values = more detail but more tokens. |
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -64,15 +65,16 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
 ```json
 {
   "targetId": "tab-103",
-  "url": "https://example.com/checkout",
-  "title": "Secure Checkout - Nova Store",
-  "totalChars": 24890,
   "truncated": false,
-  "structuredContent": {
-    "domHtml": "<!DOCTYPE html><html lang=\"en\"><head><title>Secure Checkout</title>...</head><body><div id=\"app\">...</div></body></html>"
-  }
+  "chars": 24890,
+  "domHtml": "<!DOCTYPE html><html lang=\"en\"><head><title>Secure Checkout</title>...</head><body><div id=\"app\">...</div></body></html>",
+  "outputBudget": { "maxChars": 30000, "sourceChars": 24890, "returnedChars": 24890, "truncated": false }
 }
 ```
+
+These fields are `structuredContent` itself (not nested under a separate key); there is no `url` or
+`title` field — only the serialized HTML (`domHtml`), its character count (`chars`, not
+`totalChars`), the `truncated` flag, and `outputBudget`.
 
 ---
 

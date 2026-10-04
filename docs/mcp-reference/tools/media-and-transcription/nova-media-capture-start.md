@@ -1,14 +1,13 @@
 # `nova.media_capture_start`
 
-Starts streaming capture of live audio/video playing in a tab (WebAudio, MSE, dynamic blobs).
+Starts streaming capture of live audio/video playing in a tab (Media Source Extensions streams and WebAudio playback).
 
 ---
 
 ## 1. Overview
 
-`nova.media_capture_start` intercepts and records audio or video playing inside a tab that cannot be downloaded via standard URL fetching (e.g. MSE streams, WebAudio graphs, encrypted media). It captures audio chunks directly and writes them to local disk files.
+`nova.media_capture_start` intercepts and records audio or video playing inside a tab that cannot be downloaded via standard URL fetching: adaptive HLS/DASH players that push segments into a `MediaSource` (`source: "mse"`), and WebAudio graphs built from `decodeAudioData`, such as voice messages (`source: "webaudio"`). DRM-protected (Widevine/EME) media is out of scope — the recorder only ever sees ciphertext for it, so the resulting file is unplayable.
 
-* **Security Tier:** Tier 2 (Media Stream Capture)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
 ---
@@ -28,6 +27,7 @@ Starts streaming capture of live audio/video playing in a tab (WebAudio, MSE, dy
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -40,8 +40,8 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
   "name": "nova.media_capture_start",
   "arguments": {
     "targetId": "tab-1",
-    "source": "audio",
-    "fileName": "captured-stream.wav",
+    "source": "webaudio",
+    "fileName": "captured-stream",
     "maxBytes": 10485760
   }
 }
@@ -53,15 +53,20 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
   "content": [
     {
       "type": "text",
-      "text": "Started audio capture on tab-1 -> captured-stream.wav."
+      "text": "Capturing streaming media on tab-1 into <saveDir>. Recorder is active. Start or restart playback; segments are written as they arrive."
     }
   ],
   "structuredContent": {
     "ok": true,
+    "started": true,
     "targetId": "tab-1",
-    "captureId": "cap-audio-01",
-    "outputFile": "downloads/captured-stream.wav",
-    "status": "recording"
+    "saveDir": "<saveDir>",
+    "fileStem": "captured-stream",
+    "maxBytes": 10485760,
+    "source": "webaudio",
+    "armedCurrentDocument": true,
+    "reloaded": false,
+    "armed": true
   }
 }
 ```
@@ -71,7 +76,7 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
 ## 4. Operational Best Practices
 
 * **MSE & WebAudio Capture:** Ideal for voice messages, web radio, or streaming audio that lacks a static direct download URL.
-* **Max Bytes Bound:** Always specify `maxBytes` to prevent unbounded disk usage during long streaming sessions.
+* **Max Bytes Bound:** `maxBytes` defaults to 2 GB (ceiling 16 GB); lower it for long streaming sessions where you only need a short sample.
 
 ---
 

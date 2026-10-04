@@ -2,8 +2,6 @@
 
 > **Retrieves the current zoom factor of the target tab's WebView2 control.**
 
-* **Security Tier:** Tier 1 (Read-Only Zoom State)
-* **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
@@ -22,6 +20,7 @@
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -44,11 +43,10 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Zoom factor for tab-1: 1.0 (100%)."
+      "text": "ZoomFactor=1"
     }
   ],
   "structuredContent": {
-    "ok": true,
     "targetId": "tab-1",
     "zoomFactor": 1
   }

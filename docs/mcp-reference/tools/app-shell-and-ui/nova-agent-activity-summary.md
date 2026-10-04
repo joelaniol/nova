@@ -1,16 +1,15 @@
 # `nova.agent_activity_summary`
 
-> **Returns an aggregated summary of active MCP sessions, tool execution counts, and failure rates.**
+> **Returns a per-agent summary of this session's MCP tool calls: call counts, tab targets, and failure reason codes.**
 
-* **Security Tier:** Tier 1 (Telemetry & Observability)
-* **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
+* **Core Feature Guide:** [Tool Observation Bus (TOB)](../../../core-features/tob.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.agent_activity_summary` provides observability into how AI agents are interacting with Nova. It details per-agent session duration, tool invocation frequencies, error ratios, and tab allocations.
+`nova.agent_activity_summary` aggregates the current session's MCP action log per agent: which `agentId` ran how many calls on which tabs (targets), top tools, success/failure counts, and failure reason codes. Attribution comes from an explicit `agentId` argument or from the target's claim owner; calls without either are only counted as unattributed. The tool requires the MCP action-log channel to be enabled for the session and returns `status: "action_log_disabled"` otherwise.
 
 ---
 
@@ -23,6 +22,7 @@
 | `sinceMinutes` | `integer` | No | `240` | 1–10080 | Look-back window in minutes over the current session's action log. Default 240 (4h). |
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -43,18 +43,34 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
   "content": [
     {
       "type": "text",
-      "text": "Active agents: 2. Total calls: 142. Success rate: 98.6%."
+      "text": "2 agent(s) active in the last 240 min; 3 unattributed call(s). Details in structuredContent.agents."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "activeAgents": 2,
-    "totalCalls": 142,
-    "errorRate": 0.014,
-    "topTools": [
-      "nova.navigate",
-      "nova.dom_extract",
-      "nova.click_selector"
+    "status": "ok",
+    "sinceMinutes": 240,
+    "agentIdFilter": null,
+    "agentCount": 2,
+    "unattributedCalls": 3,
+    "parseErrors": 0,
+    "agents": [
+      {
+        "agentId": "agent-1",
+        "toolCallCount": 42,
+        "successCount": 40,
+        "failureCount": 2,
+        "firstAtUtc": "2026-10-02T08:00:00.0000000Z",
+        "lastAtUtc": "2026-10-02T09:12:00.0000000Z",
+        "targets": [
+          { "targetId": "tab-1", "calls": 20, "lastTool": "nova.navigate", "lastAtUtc": "2026-10-02T09:12:00.0000000Z" }
+        ],
+        "targetsTruncated": false,
+        "topTools": [ { "tool": "nova.navigate", "calls": 12 } ],
+        "topToolsTruncated": false,
+        "failureReasons": [],
+        "failureReasonsTruncated": false
+      }
     ]
   }
 }
@@ -64,8 +80,9 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
 
 ## 4. Operational Best Practices
 
-* **Performance Auditing:** Inspect failure rates to detect stuck automation loops early.
-* **Tab Affinity:** Verify agent-to-tab mappings when multiple subagents operate concurrently.
+* **Reconstructing Fleet Work:** Use this instead of reading raw logs to see what a (sub)agent fleet did, e.g. after parallel tab work.
+* **Tab Affinity:** Check `targets` to verify agent-to-tab mappings when multiple subagents operate concurrently.
+* **Unattributed Calls:** Calls without an `agentId` argument or a tab claim only increment `unattributedCalls`; they are not attributed to any agent row.
 
 ---
 

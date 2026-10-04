@@ -6,9 +6,8 @@ Replays an instance’s observation log against the unit table to propose discov
 
 ## 1. Overview
 
-`nova.task_instance_reconcile_coverage` reconciles recorded page visits and interactions against the Task URL Coverage table, upgrading discovered URLs to checked status.
+`nova.task_instance_reconcile_coverage` replays recorded observations against the Task URL Coverage table and proposes discovered-to-checked upgrades. By default (`dryRun=true`) it only proposes; applying the upgrades (`dryRun=false`) is gated behind a developer setting. Reconcile runs are rate-limited: at most 3 dry runs and 1 apply run per instance per hour.
 
-* **Security Tier:** Tier 2 (Coverage Reconciliation)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
 ---
@@ -23,6 +22,7 @@ Replays an instance’s observation log against the unit table to propose discov
 | `observationCutoff` | `string` | No | — | — | Optional ISO timestamp; observations after this point are ignored. Defaults to now. |
 
 Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -45,17 +45,33 @@ Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_m
   "content": [
     {
       "type": "text",
-      "text": "Coverage reconciled: 4 units upgraded to checked."
+      "text": "Reconcile (dryRun): 2 upgrades over 5 observations."
     }
   ],
   "structuredContent": {
-    "ok": true,
     "instanceId": "inst-881a",
-    "upgradedCount": 4,
-    "remainingDiscovered": 2
+    "dryRun": true,
+    "runId": "reconcile:inst-881a:a3f1c9e2b4d6487f9a21e0d4f1a2b3c4",
+    "result": "ok",
+    "ruleVersion": 1,
+    "normalizerVersion": 1,
+    "observationsConsidered": 5,
+    "proposedUpgrades": [
+      {
+        "unitKey": "url:/checkout/confirm",
+        "oldStatus": "discovered",
+        "newStatus": "checked",
+        "observationId": "obs-0042",
+        "evidenceKind": "navigation",
+        "eligibilityRule": "visited"
+      }
+    ],
+    "historyCompleteness": 1.0
   }
 }
 ```
+
+When there are no new observations since the previous run, `result` is `no_new_evidence` instead, with `lastRunAt`/`lastObservationId` and no `proposedUpgrades`. With `dryRun=true` the upgrades listed in `proposedUpgrades` are not persisted — call again with `dryRun=false` (developer-gated) to apply them.
 
 ---
 

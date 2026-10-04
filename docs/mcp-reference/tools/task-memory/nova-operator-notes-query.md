@@ -8,7 +8,6 @@ Queries operator notes by keywords with tag-intersection and TF-IDF relevance sc
 
 `nova.operator_notes_query` performs scored text retrieval across operator notes, factoring in temporal decay and keyword relevance.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
 ---
@@ -26,6 +25,7 @@ Queries operator notes by keywords with tag-intersection and TF-IDF relevance sc
 | `sandboxRef` | `string` | No | — | — | Opaque PersistentUid token from nova.tabs / nova.sandbox_context. Mandatory when sandboxId is set. |
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -51,19 +51,32 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "Found 1 matching operator note."
+      "text": "1 matching note(s) (scope=current_sandbox)."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "matchesCount": 1,
+    "scope": "current_sandbox",
+    "resolvedSandboxRef": null,
     "notes": [
       {
-        "id": "op-note-101",
+        "id": "a3f1c9e2b4d6487f9a21e0d4f1a2b3c4",
         "content": "Never delete test databases on staging",
-        "score": 0.92
+        "tags": ["staging", "safety"],
+        "category": null,
+        "source": "agent",
+        "score": 0.92,
+        "scoreBreakdown": {
+          "tagScore": 1.0,
+          "contentScore": 0.84,
+          "decayFactor": 0.97
+        },
+        "sandboxId": null,
+        "sandboxName": null,
+        "sandboxRef": null,
+        "sandboxStatus": null
       }
-    ]
+    ],
+    "hint": "These notes are snapshots from earlier sessions, not guaranteed facts. Contents may be outdated. If you find a note is no longer accurate, update it via operator_notes_store(id=...) or delete it via operator_notes_delete(id=...)."
   }
 }
 ```

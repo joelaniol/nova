@@ -6,9 +6,8 @@ Stops an in-flight transcription job and returns recognized text segments up to 
 
 ## 1. Overview
 
-`nova.media_transcribe_stop` cancels an active transcription job. Unlike hard aborts, it preserves and returns all text segments processed up to the stop timestamp.
+`nova.media_transcribe_stop` cancels an active transcription job. It always returns with the recognized segments and text included (equivalent to `nova.media_transcribe_status` with `includeText: true`), keeping whatever was already recognized rather than discarding it.
 
-* **Security Tier:** Tier 2 (Job Control)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
 ---
@@ -23,6 +22,7 @@ Stops an in-flight transcription job and returns recognized text segments up to 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -45,14 +45,34 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
   "content": [
     {
       "type": "text",
-      "text": "Stopped transcription job-tx-1092. Partial transcript preserved."
+      "text": "Transcription tr_a1b2c3d4e5f6 was canceled after 3 segment(s); the partial transcript is kept."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "jobId": "job-tx-1092",
-    "status": "stopped",
-    "partialText": "Hello, this is a test recording..."
+    "jobId": "tr_a1b2c3d4e5f6",
+    "state": "canceled",
+    "model": "ggml-base-q5_1",
+    "device": "cpu",
+    "audioPath": "downloads/captured-stream.wav",
+    "stage": "recognizing",
+    "stageProgress": 0.4,
+    "segmentCount": 3,
+    "coveredSeconds": 9.6,
+    "audioSeconds": 24.3,
+    "audioSecondsMeasured": true,
+    "progressRatio": 0.395,
+    "budgetMs": 60000,
+    "budgetModelLoadMs": 10000,
+    "budgetRecognitionMs": 50000,
+    "budgetStallMs": 15000,
+    "elapsedMs": 3100,
+    "truncated": false,
+    "transcriptPath": "C:\\Users\\<user>\\AppData\\Local\\NovaBrowser\\Exports\\Transcripts\\tr_a1b2c3d4e5f6.txt",
+    "accuracyNote": "Machine transcript from model 'ggml-base-q5_1'. Do not take numbers, amounts, proper nouns or technical terms as verified, and treat a passage that does not add up as a transcription error rather than an odd statement.",
+    "segments": [
+      { "start": 0, "end": 9.6, "text": "Hello, this is a test recording" }
+    ],
+    "text": "Hello, this is a test recording"
   }
 }
 ```
@@ -61,7 +81,7 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
 
 ## 4. Operational Best Practices
 
-* **Partial Text Preservation:** Useful when a long recording is taking too long and partial early results are sufficient.
+* **Partial Text Preservation:** Useful when a long recording is taking too long and partial early results are sufficient — the transcript written to `transcriptPath` also holds only the recognized part.
 
 ---
 

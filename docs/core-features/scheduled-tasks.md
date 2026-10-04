@@ -1,23 +1,23 @@
 # Scheduled Tasks & Background Automation Engine
 
 > [!NOTE]
-> The Scheduled Tasks engine turns Nova AI Workspace into an autonomous background runner. Tasks execute on customizable schedules (Cron or interval), collect structured outputs, and maintain persistent state and variables — completely unattended.
+> Scheduled Tasks let Nova AI Workspace run work in the background while it is open: on a schedule, at a fixed interval, or when files in a folder change. A run can hand a prompt to Claude Code or the Codex CLI, run a PowerShell script, a custom command or an HTTP webhook, and keeps its history, output, variables and encrypted secrets.
 
 ---
 
 ## 1. Problem Statement: Recurring Workflows & Unattended Execution
 
 Many analytical, monitoring, and web automation tasks must occur periodically:
-* Hourly competitor price tracking and product availability checks.
-* Daily status board verification and infrastructure health checks.
-* Nightly summaries of unread emails, pull requests, or RSS feeds.
+* Hourly price tracking and product availability checks.
+* Daily status checks of websites and APIs.
+* Weekly reports and regular clean-up jobs.
 
 **Problems with naive script loops (`sleep`):**
-* Blocks agent conversation contexts and wastes tokens while idling.
-* Fails when the host system sleeps, networks drop, or the browser restarts.
-* Insecure credential management (secrets are frequently hardcoded or leaked into prompt logs).
+* They block the agent conversation and waste tokens while idling.
+* They do not survive a sleeping computer, a dropped network or a restart.
+* Credentials end up hard-coded in scripts or in prompt logs.
 
-Nova resolves these issues with a resilient **Fire-and-Collect background scheduling system**.
+Nova runs such work as scheduled tasks with a stored run history, catch-up after downtime and encrypted per-task secrets.
 
 ---
 
@@ -25,24 +25,24 @@ Nova resolves these issues with a resilient **Fire-and-Collect background schedu
 
 ```mermaid
 flowchart TD
-    subgraph Management["Agent & UI Management"]
-        Create["nova.scheduled_task_create<br>(Cron Expression, Prompt, Executor)"]
-        Secrets["nova.scheduled_task_secret_set<br>(Secure Variable Injection)"]
+    subgraph Management["Agent and UI"]
+        Create["nova.scheduled_task_create: schedule, prompt, executor"]
+        Secrets["nova.scheduled_task_secret_set: encrypted secret"]
     end
 
-    subgraph Scheduler["Background Runtime Engine"]
-        Engine["ScheduledTaskEngine<br>(Scheduler Thread & Precision Timers)"]
-        Db["ScheduledTaskDb (SQLite)<br>• Task Definitions<br>• Run History & Status<br>• Persistent State & Vars"]
-        Workspace["Isolated Task Workspace<br>(%LOCALAPPDATA%/ScheduledTasks/<taskId>/)"]
+    subgraph Scheduler["Scheduler in Nova"]
+        Engine["Scheduler: schedule, interval, folder watch, catch-up"]
+        Db["scheduled-tasks.db, SQLite: tasks and runs"]
+        Workspace["Task workspace: shared files, variables, encrypted secrets"]
     end
 
-    subgraph Execution["Unattended Execution Pipeline"]
-        Runner["Task Runner Worker<br>(Executes Prompt / Script)"]
-        Collector["Output Collector<br>(Aggregates JSON / Text / Files)"]
+    subgraph Execution["Run"]
+        Runner["Executor: Claude Code, Codex CLI, Shell, custom command, HTTP webhook"]
+        Collector["Status, exit code, output, structured result"]
     end
 
     Create --> Db
-    Secrets --> Db
+    Secrets --> Workspace
     Engine --> Db
     Engine --> Runner
     Runner --> Workspace
@@ -54,34 +54,38 @@ flowchart TD
 
 ## 3. Core Features & Security Safeguards
 
-1. **Standard Cron & Flexible Intervals:**
-   * Supports standard 5-field Cron syntax (e.g., `0 9 * * 1-5` for weekdays at 9:00 AM) or fixed periodic intervals.
-2. **Isolated Task Workspaces:**
-   * Each scheduled task receives a dedicated directory on disk. Tools like `nova.scheduled_task_workspace_write` and `_read` allow staging input files and inspecting generated output artifacts.
-3. **Encrypted Secret & Variable Management:**
-   * API tokens and passwords stored via `nova.scheduled_task_secret_set` are encrypted using Windows DPAPI and injected into the task environment only during execution.
-4. **Complete Run History & Execution Logs:**
-   * Every execution records timestamps, elapsed duration, exit status (`success`, `failed`, `cancelled`), and full console output in SQLite (`nova.scheduled_task_runs`).
-5. **Reusable Task Templates:**
-   * Built-in blueprints for frequent web scraping, periodic auditing, and automated reporting tasks (`nova.scheduled_task_templates`).
+1. **Schedules:**
+   * `cronExpression` takes one of these readable patterns (not classic five-field cron): `daily HH:MM`, `weekdays HH:MM`, `weekly mon HH:MM` (any weekday), `hourly :MM`, `every Nh`, `every Nm`. Times use `timeZoneId` (IANA or Windows name); default is UTC.
+   * Alternatively `intervalSeconds` (minimum 60), or `watchPath` to start a run when files in a folder change (2-second debounce).
+   * A run missed while Nova was closed or the computer was asleep is caught up once at the next start, within 24 hours (`catchUpMissed`, on by default). While runs are active, Nova keeps the computer from going to standby.
+2. **Executors:** `ClaudeCode` (default), `CodexCli`, `Shell` (PowerShell script; needs the setting "Allow scheduled tasks to run PowerShell scripts (Shell executor)"), `CustomCommand` and `HttpWebhook`. Claude Code and Codex runs use `autonomyMode='Safe'` by default; `Unsafe` (full access) is refused unless `scheduledTaskUnsafeModeEnabled` is set in the settings file; there is no switch for it on the Settings page. `mcpAccess` (off by default) gives the run access to Nova's tools.
+3. **Run limits:** `timeoutSeconds` (default 300), `maxTurns` (default 50), optional `maxBudgetUsd` per run and `totalBudgetCapUsd` across all runs — the task disables itself when the total is exceeded. Overlapping runs are skipped by default (`concurrencyPolicy`). Repeated failures trip a per-task circuit breaker; `nova.scheduled_task_enable` resets it.
+4. **Chaining:** `triggerNextTaskId` starts another task when a run completes (or always), optionally only if a key in the structured result is true. Chains are limited to a depth of 5.
+5. **Task workspaces:**
+   * Each task is bound to a terminal workspace — by default Nova creates a dedicated one — so its run files can be opened in the terminal dock. `nova.scheduled_task_workspace_write`, `_read` and `_list` work on the task's `shared/` folder.
+6. **Encrypted secrets and persistent variables:**
+   * Secrets set with `nova.scheduled_task_secret_set` are encrypted with Windows DPAPI for the current user and stored with the task workspace. They are decrypted only when a run starts: `Shell` and `CustomCommand` runs receive them as environment variables, and `{SECRET:keyname}` placeholders in the argument template of `CustomCommand` and `HttpWebhook` tasks are filled in. `nova.scheduled_task_secret_list` shows key names only.
+   * Variables (`nova.scheduled_task_var_*`, up to 64 KB per value) keep state between runs.
+7. **Run history:**
+   * Every run records status (for example `Completed`, `Failed`, `Timeout`, `Cancelled`, `Missed`, `SkippedOverlap`), duration, exit code and cost; `nova.scheduled_task_run_output` reads the tail of its stdout and stderr. By default Nova keeps runs for 30 days and at most 100 runs per task.
+8. **Templates:** `nova.scheduled_task_templates` lists ready-made tasks, such as a website status check, an SEO audit, a backup check, a weekly report, an API health check and a data clean-up.
 
 ---
 
 ## 4. MCP Tool Reference for Scheduled Tasks
 
+All tools are in the `scheduled_tasks` bundle.
+
 | Tool | Purpose |
 | :--- | :--- |
-| `nova.scheduled_task_list` | Lists all configured background tasks, active schedules, and next run times. |
-| `nova.scheduled_task_create` | Configures a new autonomous task with Cron schedule, prompt, and execution parameters. |
-| `nova.scheduled_task_trigger` | Manually triggers an immediate execution of a scheduled task outside its normal cadence. |
-| `nova.scheduled_task_runs` | Inspects historical executions, duration metrics, and status codes. |
-| `nova.scheduled_task_run_output` | Retrieves the raw log output and captured artifacts of a specific execution run. |
-| `nova.scheduled_task_workspace_*` | Manages files within the task's isolated filesystem (`list`, `read`, `write`). |
-| `nova.scheduled_task_secret_set` | Securely sets encrypted credentials required by background task scripts. |
-
----
-
-## 5. Under the Hood
-
-* **Task Engine & Background Loop:** `ScheduledTasks` subsystem
-* **MCP Scheduled Task Handler:** `McpScheduledTaskHandler`
+| `nova.scheduled_task_list`, `nova.scheduled_task_get` | Lists tasks with status, next run and costs; shows one task in full. |
+| `nova.scheduled_task_create`, `nova.scheduled_task_update`, `nova.scheduled_task_delete` | Creates, changes or deletes a task. |
+| `nova.scheduled_task_enable`, `nova.scheduled_task_disable` | Resumes or pauses a task. |
+| `nova.scheduled_task_trigger` | Starts a run immediately, outside the schedule. |
+| `nova.scheduled_task_active_runs`, `nova.scheduled_task_run_cancel` | Lists running runs; cancels one. |
+| `nova.scheduled_task_runs`, `nova.scheduled_task_run_output` | Run history; output of one run. |
+| `nova.scheduled_task_workspace`, `nova.scheduled_task_workspace_list`, `_read`, `_write` | Workspace information and files in its `shared/` folder. |
+| `nova.scheduled_task_secret_set`, `nova.scheduled_task_secret_list` | Stores an encrypted secret; lists secret names. |
+| `nova.scheduled_task_var_set`, `_get`, `_list`, `_delete` | Persistent variables. |
+| `nova.scheduled_task_export`, `nova.scheduled_task_import` | Exports task definitions as JSON (without secrets and history); imports them with new task IDs. |
+| `nova.scheduled_task_templates` | Lists task templates. |

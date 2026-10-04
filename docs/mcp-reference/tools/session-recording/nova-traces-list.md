@@ -8,7 +8,6 @@ Lists recent host operation traces with execution timing, phases, and outcome st
 
 `nova.traces_list` retrieves recent internal operation traces from Nova's host runtime. It exposes low-level lifecycle execution records, tool invocation durations, sub-phase timestamps, and error classifications, facilitating deep performance tuning and debugging.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
 
 ---
@@ -22,6 +21,7 @@ Lists recent host operation traces with execution timing, phases, and outcome st
 | `status` | `string` | No | — | `ok`, `failed`, `blocked`, `running` | Optional status filter. 'ok' returns successful traces, 'failed' returns tool/runtime failures, 'blocked' returns policy/claim/approval denials, and 'running' returns traces that have not completed yet. |
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -45,39 +45,50 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
   "content": [
     {
       "type": "text",
-      "text": "Retrieved 1 failed operation trace from recent history."
+      "text": "1 trace(s), 0 metric observation(s).\nTraces:\n[...]\nMetrics:\n[]"
     }
   ],
   "structuredContent": {
-    "ok": true,
     "count": 1,
     "traces": [
       {
+        "opId": "a1b2c3d4",
         "traceId": "tr-09b4",
-        "tool": "nova.click_selector",
-        "durationMs": 5020,
-        "status": "failed",
-        "error": "Element #nonexistent-btn was not found within timeout",
-        "timestampUtc": "2026-10-02T20:10:00Z",
+        "toolName": "nova.click_selector",
+        "targetId": "tab-1",
+        "subjectKey": null,
+        "sourceKind": "mcp",
+        "clientType": "claude-code",
+        "sidecarSessionId": null,
+        "startedAt": "2026-10-02T20:10:00Z",
+        "elapsedMs": 5020,
         "phases": [
           {
             "name": "selector_resolve",
-            "durationMs": 5000,
-            "ok": false
+            "startMs": 0,
+            "endMs": 5000,
+            "details": "timed out"
           }
-        ]
+        ],
+        "status": "failed",
+        "reason": "Element #nonexistent-btn was not found within timeout",
+        "failScreenshots": null
       }
-    ]
+    ],
+    "metricCount": 0,
+    "metricObservations": []
   }
 }
 ```
+
+Note this tool's result has no top-level `ok` field (unlike most other tools) — check `count`/`traces` directly. `metricObservations` is a separate, always-present list of recent OK-signal metric observations (unrelated to trace status); it is not limited by the `status` filter.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Host Performance Tuning:** Use `nova.traces_list` to identify slow operations and diagnose whether latency occurred in DOM resolution, network waits, or process IPC.
-* **Failure Auditing:** Filter by `status: "failed"` to review recent tool invocation failures across all connected subagents.
+* **Host Performance Tuning:** Use `nova.traces_list` to identify slow operations and diagnose whether latency occurred in a specific phase (`phases[].startMs`/`endMs`) of the call.
+* **Failure Auditing:** Filter by `status: "failed"` to review recent tool invocation failures; `reason` carries the failure text and `failScreenshots` (base64 PNGs, up to 5) is populated only for `failed`/`blocked` traces when a screenshot could be captured.
 
 ---
 

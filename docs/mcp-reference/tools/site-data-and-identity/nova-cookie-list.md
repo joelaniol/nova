@@ -8,7 +8,6 @@ Lists cookies for the target tab's profile with metadata (domain, path, flags, e
 
 `nova.cookie_list` inspects the cookie jar belonging to the target tab's sandbox profile. By default, it returns metadata only (names, domains, paths, expiration timestamps, Secure/HttpOnly/SameSite flags) with plaintext values redacted to prevent token leakage.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
 ---
@@ -29,6 +28,7 @@ Lists cookies for the target tab's profile with metadata (domain, path, flags, e
 **`_meta.intent` is required for certain arguments.** Passing a short reason in `_meta.intent` is always safe; a rejected call names the argument that made it required.
 
 Capability bundle: `site_data_management` (load it with `nova.tools_bundle(bundle='site_data_management')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -53,38 +53,49 @@ Capability bundle: `site_data_management` (load it with `nova.tools_bundle(bundl
   "content": [
     {
       "type": "text",
-      "text": "Retrieved 2 cookie metadata entries for .example.com."
+      "text": "Listed 2 cookies (total: 2) for sandbox:tab-1."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "targetId": "tab-1",
-    "totalCookies": 2,
     "cookies": [
       {
+        "cookieId": "a1b2c3d4...",
         "name": "session_id",
         "domain": ".example.com",
         "path": "/",
-        "isSecure": true,
-        "isHttpOnly": true,
-        "sameSite": "Lax",
         "expiresUtc": "2026-10-09T20:00:00Z",
-        "valueRedacted": true
+        "isSession": false,
+        "httpOnly": true,
+        "secure": true,
+        "sameSite": "Lax"
       },
       {
+        "cookieId": "e5f6a7b8...",
         "name": "theme",
         "domain": ".example.com",
         "path": "/",
-        "isSecure": false,
-        "isHttpOnly": false,
-        "sameSite": "None",
         "expiresUtc": null,
-        "valueRedacted": true
+        "isSession": true,
+        "httpOnly": false,
+        "secure": false,
+        "sameSite": "None"
       }
-    ]
+    ],
+    "scope": {
+      "profileId": "tab-1",
+      "profileScope": "sandbox:tab-1",
+      "isSharedProfile": false
+    },
+    "totalCount": 2,
+    "hasMore": false,
+    "nextCursor": null,
+    "includeValues": false
   }
 }
 ```
+
+When `includeValues: true`, each entry also carries a `value` field with the plaintext cookie value.
 
 ---
 

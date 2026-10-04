@@ -1,14 +1,13 @@
 # `nova.media_file_info`
 
-Inspects media container metadata, duration, channels, and codecs from a local file without ffmpeg.
+Identifies a local media file's container and duration from its header, without decoding it.
 
 ---
 
 ## 1. Overview
 
-`nova.media_file_info` reads audio and video container headers directly in C#. It extracts duration, bitrate, sample rate, audio channels, and video dimensions without spawning external CLI tools.
+`nova.media_file_info` identifies a file's container from its leading bytes (not its file name) and reads its stated duration where the container provides one, without spawning external tools such as ffprobe. It does not extract bitrate, sample rate, channel count, or video dimensions. It also reports whether the container is one [`nova.media_transcribe_start`](nova-media-transcribe-start.md) accepts.
 
-* **Security Tier:** Tier 1 (Read-Only File Probe)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
 ---
@@ -23,6 +22,7 @@ Inspects media container metadata, duration, channels, and codecs from a local f
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -45,26 +45,31 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
   "content": [
     {
       "type": "text",
-      "text": "Probe recording.wav: audio/wav, duration 14.2s, 16000Hz mono."
+      "text": "wav, 454,400 bytes, 14.200 s (read from the file). Transcription accepts this container."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "format": "wav",
+    "path": "downloads/recording.wav",
+    "sizeBytes": 454400,
+    "container": "wav",
     "durationSeconds": 14.2,
-    "sampleRate": 16000,
-    "channels": 1,
-    "sizeBytes": 454400
+    "durationMeasured": true,
+    "transcriptionSupported": true,
+    "reasonCode": null,
+    "message": null
   }
 }
 ```
+
+Recognized containers are `wav`, `ogg`, `mp4` (also covers M4A/MOV), `mp3`, and `matroska` (also covers WebM); anything else comes back as `container: "unknown"` with `durationSeconds: null`. `durationMeasured: false` marks a duration derived from file size rather than read from the header (e.g. a variable-bitrate MP3 without a Xing/VBRI tag).
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Pre-Transcription Validation:** Verify sample rates and audio durations before passing files to [`nova.media_transcribe_start`](nova-media-transcribe-start.md).
-* **Zero External Dependencies:** Built-in container parsers handle WAV, MP3, AAC, and OGG formats.
+* **Pre-Transcription Validation:** Check `transcriptionSupported` and `durationSeconds` before passing a file to [`nova.media_transcribe_start`](nova-media-transcribe-start.md).
+* **Zero External Dependencies:** Built-in container parsers handle WAV, Ogg, MP4/M4A/MOV, MP3, and Matroska/WebM without spawning ffprobe or any other external tool.
 
 ---
 

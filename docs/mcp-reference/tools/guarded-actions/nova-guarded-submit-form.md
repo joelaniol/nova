@@ -8,14 +8,14 @@ High-level guarded macro for form submissions, wrapping click dispatch in an aut
 
 Clicking a form submit button naively often leads to undetected failures: client-side validation errors pop up under inputs, the submit button remains disabled, or the page reloads with error flashes.
 
-`nova.guarded_submit_form` wraps the submit action in an automated **Closed-Loop Transition Contract**:
-1. **Pre-Submit Validation:** Verifies the submit button is interactive and not covered by modal backdrops.
-2. **Atomic Dispatch:** Dispatches a physical CDP click to trigger standard browser form submission.
-3. **Postcondition Settlement:** Asserts that either navigation away from the form completed, a success banner appeared, or validation errors fired. If validation errors occur, Nova reports them immediately with retry advice rather than falsely reporting success.
+`nova.guarded_submit_form` wraps the submit action in an automated transition contract:
+1. **Precondition:** requires `form.fields.valid` to already be true before the click is dispatched, so a form that is visibly invalid is not submitted blindly.
+2. **Atomic Dispatch:** Dispatches a physical click to trigger standard browser form submission.
+3. **Postcondition:** succeeds when either the page URL changed from before the click, or a success-indicator element (`form.successIndicator.visible`) became visible. If neither happens within the verification window, the call is not reported as successful.
 
-* **Automated Postconditions:** Pre-configured to detect navigation away from the form or appearance of confirmation modals.
-* **Idempotency Safeguard:** Prevents agents from rapidly double-clicking payment or order buttons.
-* **Iframe Scoping (`frameId`):** Can submit forms embedded inside cross-origin checkout or login frames.
+* **Automated Postconditions:** Pre-configured to detect navigation away from the form or a success indicator appearing, without the agent having to write the assertions itself.
+* **Idempotency Safeguard:** `non_idempotent` retry policy means a failed call is never advised to just retry the same submit click.
+* **Iframe Scoping (`frameId`):** Can submit forms embedded inside a same-origin checkout or login frame.
 
 ---
 
@@ -60,6 +60,7 @@ Clicking a form submit button naively often leads to undetected failures: client
 | `transitionContract.stabilityMs` | `integer` | No | — | — | Optional stability hold duration in milliseconds. Success must remain true for this long before verification passes. |
 
 Capability bundles: `browser_automation`, `form_submission`.
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -94,13 +95,15 @@ Capability bundles: `browser_automation`, `form_submission`.
   "actionDispatched": true,
   "verified": true,
   "targetId": "tab-101",
-  "navigationCompleted": true,
-  "previousUrl": "https://example.com/checkout/step-2",
-  "currentUrl": "https://example.com/checkout/confirmation",
+  "fromUrl": "https://example.com/checkout/step-2",
+  "toUrl": "https://example.com/checkout/confirmation",
+  "pageUrl": "https://example.com/checkout/confirmation",
+  "pageState": "ok",
   "verifyState": "verified",
   "retryAdvice": "do_not_retry"
 }
 ```
+`retryAdvice` is one of `safe_to_retry`, `do_not_retry`, or `check_postcondition_first`.
 
 ---
 

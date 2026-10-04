@@ -6,9 +6,8 @@ Manages closed-loop task goals, verifying step advancement and milestone criteri
 
 ## 1. Overview
 
-`nova.goal_register` registers, annotates, and tracks multi-step goals. The Nova runtime verifies goal criteria and step advancements against live browser observations.
+`nova.goal_register` creates, reads, annotates and closes multi-step goals. `op: "create"` opens a goal with a `summary`, an execution `mode` and an optional ordered step plan (up to 50 steps). Goal-level `preconditions` are checked against the target when the goal is opened; if one does not hold, the goal is not created and the result names the failed precondition. A goal holds a lease (`leaseMs`, default 120 000 ms); a goal without progress inside that window is aborted automatically.
 
-* **Security Tier:** Tier 2 (Goal Management)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
 ---
@@ -40,6 +39,7 @@ Manages closed-loop task goals, verifying step advancement and milestone criteri
 | `source` | `string` | No | `"agent"` | — | Annotation source identifier (default 'agent'). |
 
 Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -52,7 +52,8 @@ Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_m
   "name": "nova.goal_register",
   "arguments": {
     "op": "create",
-    "goal": "Complete quarterly compliance audit",
+    "summary": "Complete quarterly compliance audit",
+    "mode": "agent_driven",
     "targetId": "tab-1"
   }
 }
@@ -64,23 +65,40 @@ Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_m
   "content": [
     {
       "type": "text",
-      "text": "Registered goal 'goal-881a' with 4 verification milestones."
+      "text": "Goal 'a3f09c1e' created."
     }
   ],
   "structuredContent": {
+    "op": "create",
     "ok": true,
-    "goalId": "goal-881a",
-    "status": "Active",
-    "milestonesCount": 4
+    "goal": {
+      "goalId": "a3f09c1e",
+      "targetId": "tab-1",
+      "summary": "Complete quarterly compliance audit",
+      "mode": "agent_driven",
+      "state": "active",
+      "currentStep": 0,
+      "ownerAgentId": null,
+      "sidecarSessionId": null,
+      "leaseMs": 120000,
+      "leaseExpiresAtUtc": 1791019320000,
+      "heartbeatAtUtc": 1791019200000,
+      "contractRevision": 1,
+      "createdAtUtc": 1791019200000,
+      "updatedAtUtc": 1791019200000
+    }
   }
 }
 ```
+
+The `*AtUtc` fields are Unix timestamps in milliseconds. `op: "close"` takes `goalId` and `state` (`completed`, `failed`, `aborted`); `op: "annotate"` takes `goalId` and `content`; `op: "query"` returns the goal with its steps and, with `includeEvents: true`, its event log.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Milestone Criteria:** Structure complex jobs into discrete, testable milestones rather than open-ended instructions.
+* **Discrete steps:** Split long jobs into an ordered `steps` plan rather than one open-ended summary.
+* **Keep the lease alive:** Choose `leaseMs` to fit the slowest step; a goal without progress inside the lease is aborted.
 
 ---
 

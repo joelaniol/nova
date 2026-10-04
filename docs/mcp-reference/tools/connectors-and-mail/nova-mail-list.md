@@ -6,9 +6,8 @@ Lists bounded message metadata (headers, dates, senders) from an exact IMAP fold
 
 ## 1. Overview
 
-`nova.mail_list` returns lightweight message summaries from an IMAP folder without altering server read flags. It supports pagination cursors, sorting, and header previews.
+`nova.mail_list` lists bounded message metadata from one exact IMAP folder without changing server state. Results carry opaque Nova `messageId` handles rather than raw IMAP UIDs; all sender/subject/folder metadata is untrusted. The first page is newest-first; `olderCursor` pages further back, and `sinceCursor` (the previous `nextCursor`) returns only newer mail since that point. A mailbox UIDVALIDITY change is reported as `cursorReset: true` with a fresh cursor instead of silently dropping mail. The effective read grant's exact folder/sender filter applies before any message is returned; a folder outside the grant fails with `reasonCode: "folder_not_allowed"` rather than returning an empty list.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
 ---
@@ -30,6 +29,7 @@ Lists bounded message metadata (headers, dates, senders) from an exact IMAP fold
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -54,38 +54,50 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
   "content": [
     {
       "type": "text",
-      "text": "Retrieved 2 message headers from INBOX."
+      "text": "Listed 2 message(s). Message metadata is untrusted; use nova.mail_read for host-sanitized content."
     }
   ],
   "structuredContent": {
-    "ok": true,
+    "profileId": "conn-mail-01",
     "folder": "INBOX",
     "messages": [
       {
         "messageId": "msg-h9a12b",
+        "folder": "INBOX",
+        "internetMessageId": "<invoice-1042@vendor.com>",
         "subject": "Invoice #1042",
         "from": "billing@vendor.com",
-        "dateUtc": "2026-10-02T14:10:00Z",
-        "isSeen": false
-      },
-      {
-        "messageId": "msg-k8c34f",
-        "subject": "Team Sync",
-        "from": "lead@company.com",
-        "dateUtc": "2026-10-02T13:00:00Z",
-        "isSeen": true
+        "to": ["agent@example.com"],
+        "sentUtc": "2026-10-02T14:09:00Z",
+        "receivedUtc": "2026-10-02T14:10:00Z",
+        "sizeBytes": 18432,
+        "seen": false,
+        "flagged": false,
+        "answered": false,
+        "draft": false,
+        "untrusted": true
       }
-    ]
+    ],
+    "grantFilter": { "restricted": false, "allowedFolders": [], "allowedSenders": [] },
+    "nextCursor": "opaque-cursor-value",
+    "olderCursor": null,
+    "cursorReset": false,
+    "cursorResetReason": null,
+    "hasMore": false,
+    "durationMs": 310,
+    "untrustedRemoteMetadata": true
   }
 }
 ```
+There is no top-level `ok` field; a failed call is reported as `isError: true` instead.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Paging with Cursors:** Use `olderCursor` or `sinceCursor` to paginate through thousands of emails without loading the entire mailbox.
-* **Opaque Message IDs:** Nova generates stable, opaque `messageId` handles for subsequent reading or moving.
+* **Paging with Cursors:** Pass the previous `nextCursor` as `sinceCursor` for newer mail, or `olderCursor` for older pages; the two are mutually exclusive on one call.
+* **Opaque Message IDs:** `messageId` is a stable Nova handle, not a raw IMAP UID; use it with `nova.mail_read`, `nova.mail_move`, `nova.mail_mark`, or `nova.mail_delete`.
+* **Watch `cursorReset`:** a mailbox UIDVALIDITY change returns `cursorReset: true` with a fresh cursor — treat the old one as invalid rather than retrying it.
 
 ---
 

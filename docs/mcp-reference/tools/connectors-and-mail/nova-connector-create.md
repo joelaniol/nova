@@ -6,9 +6,8 @@ Creates an E-Mail account (IMAP/SMTP) or remote server connection (SFTP/FTP).
 
 ## 1. Overview
 
-`nova.connector_create` provisions a new managed connector profile. Credentials (passwords, private key passphrases) are immediately encrypted using Windows DPAPI and stored in the Global Secret Store. Connection profiles can be scoped to specific workspaces.
+`nova.connector_create` provisions a new mail account or file-transfer connection. Credentials (passwords, SFTP key passphrases) are write-only: they are stored DPAPI-encrypted and are never returned by any tool, including this one. The connector itself is global, not workspace-scoped; only its capability grants (set separately with `nova.connector_grant_set`) can be scoped to a workspace. This whole tool surface is off by default and only appears once the user turns on connectors in Settings.
 
-* **Security Tier:** Tier 2 (Connector Configuration)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
 ---
@@ -44,6 +43,7 @@ Creates an E-Mail account (IMAP/SMTP) or remote server connection (SFTP/FTP).
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -57,8 +57,8 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
   "arguments": {
     "displayName": "Production IMAP",
     "type": "mail",
-    "host": "imap.example.com",
-    "port": 993,
+    "imapHost": "imap.example.com",
+    "smtpHost": "smtp.example.com",
     "username": "agent@example.com",
     "password": "secretPassword123"
   }
@@ -71,19 +71,27 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
   "content": [
     {
       "type": "text",
-      "text": "Created mail connector 'conn-mail-01' (Production IMAP) with default capability grants."
+      "text": "Connector 'Production IMAP' created (id=conn-mail-01). The password is stored encrypted and never returned."
     }
   ],
   "structuredContent": {
-    "ok": true,
     "id": "conn-mail-01",
+    "action": "created",
     "displayName": "Production IMAP",
     "type": "mail",
-    "grants": {
-      "read": "ask",
-      "organize": "ask",
-      "send": "ask"
-    }
+    "username": "agent@example.com",
+    "host": "imap.example.com:993",
+    "hasPassword": true,
+    "authenticationMode": null,
+    "hasPrivateKey": false,
+    "hasKeyPassphrase": false,
+    "usesInsecureTransport": false,
+    "allowsInvalidTlsCertificate": false,
+    "signature": { "available": false, "text": null, "html": null },
+    "credentialCleared": false,
+    "changed": true,
+    "status": "created",
+    "reasonCode": null
   }
 }
 ```
@@ -92,14 +100,15 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
 
 ## 4. Operational Best Practices
 
-* **Secret Vault Integration:** Provide `passwordFromVault: true` to bind directly to a Vault credential without supplying plaintext passwords.
-* **Capability Default:** New connections default all capabilities to `ask` mode, prompting the human user on first interactive use.
-* **Security Profiles:** Always prefer TLS (`imapSecurity: "SslTls"`, `smtpSecurity: "StartTls"`) over plaintext protocols.
+* **Secret Vault Integration:** Pass `passwordFromVault` with the id of a saved Nova vault entry instead of a plaintext `password`; the user confirms the copy once (and can approve it permanently for that entry/connector pair).
+* **Capability Default:** A new connection starts with no explicit grant, which resolves to `ask` (prompt on first interactive use) until `nova.connector_grant_set` is called.
+* **Security Profiles:** Prefer TLS (`imapSecurity: "auto"`, `smtpSecurity: "auto"`) over `"none"`; plaintext or an invalid-certificate exception additionally requires the user's insecure-connections option plus `allowInsecure: true` on the call.
 
 ---
 
 ## 5. Related Tools
 
 * [`nova.connector_list`](nova-connector-list.md)
+* [`nova.connector_update`](nova-connector-update.md)
 * [`nova.connector_grant_set`](nova-connector-grant-set.md)
 * [`nova.connector_delete`](nova-connector-delete.md)

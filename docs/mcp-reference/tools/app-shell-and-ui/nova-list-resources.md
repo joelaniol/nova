@@ -2,15 +2,13 @@
 
 > **Lists all network resources (scripts, stylesheets, frames, images) loaded by the target tab.**
 
-* **Security Tier:** Tier 1 (Read-Only)
-* **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.list_resources` enumerates cached assets and external documents associated with the active web page, including MIME types and byte sizes.
+`nova.list_resources` enumerates the scripts, stylesheets, documents, and other resources a tab has loaded, merging the CDP resource tree with the Performance timeline by default (a rebuilt tree can forget lazily loaded chunks the timeline still knows) and falling back to a DOM scan. Each entry carries its frame id, URL, type, and discovery source; CDP-sourced entries also carry a MIME type and content size.
 
 ---
 
@@ -25,6 +23,7 @@
 | `maxItems` | `integer` | No | `200` | 1–2000 | Maximum number of resources to return. |
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -47,22 +46,32 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
   "content": [
     {
       "type": "text",
-      "text": "Loaded resources: 24 scripts, 5 stylesheets, 1 document."
+      "text": "{ ... same JSON as structuredContent, pretty-printed ... }"
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "resourcesCount": 30,
+    "profileId": "tab-1",
+    "source": "cdp",
+    "sources": ["cdp", "performance"],
+    "sourceCounts": { "cdp": 24, "performance": 6 },
+    "rootFrameId": "frame-abc",
+    "truncated": false,
+    "hint": "performance knew 6 resource(s) the cdp listing did not (cdp: 24, performance: 24). Both are included. Lazily loaded chunks drop out of the CDP tree after a reattach, so a short listing is not proof the page does not load them.",
     "resources": [
       {
+        "frameId": "frame-abc",
         "url": "https://example.com/main.js",
         "type": "Script",
-        "size": 120540
+        "mimeType": "application/javascript",
+        "contentSize": 120540,
+        "discoverySource": "cdp"
       }
     ]
   }
 }
 ```
+
+The `hint` field is only present when the Performance timeline added entries the CDP tree did not have. Entries discovered via the Performance timeline carry `initiatorType`/`transferSize`/`decodedBodySize` instead of `mimeType`/`contentSize`; DOM-fallback entries carry only `frameId`, `url`, `type`, and `discoverySource`.
 
 ---
 

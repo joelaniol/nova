@@ -1,9 +1,8 @@
 # `nova.choose_option`
 
-> **Selects an option from a custom UI or standard dropdown by visible text or index.**
+> **Selects an option from a custom UI or standard dropdown by visible text or value.**
 
-* **Security Tier:** Tier 2 (DOM Input)
-* **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
+* **Core Feature Guide:** [Input Dispatch & Shadow DOM Traversal](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
@@ -36,6 +35,7 @@
 | `screenshotQuality` | `integer` | No | `80` | 1–100 | JPEG quality (1-100). Only used when screenshotFormat is 'jpeg'. |
 
 Capability bundles: `browser_automation`, `form_submission`.
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -45,7 +45,7 @@ Capability bundles: `browser_automation`, `form_submission`.
 ### JSON-RPC Request
 ```json
 {
-  "name": "nova_choose_option",
+  "name": "nova.choose_option",
   "arguments": {
     "selector": "#country-picker",
     "text": "Germany"
@@ -53,30 +53,35 @@ Capability bundles: `browser_automation`, `form_submission`.
 }
 ```
 
-### JSON-RPC Response
+### JSON-RPC Response (abbreviated)
 ```json
 {
   "content": [
     {
       "type": "text",
-      "text": "Selected option 'Germany' in #country-picker."
+      "text": "Chose option for '#country-picker' (controlKind=\"select\")."
     }
   ],
   "structuredContent": {
     "ok": true,
+    "status": "ok",
     "selector": "#country-picker",
-    "selectedText": "Germany",
-    "value": "DE"
+    "text": "Germany",
+    "controlKind": "select",
+    "result": {
+      "selectedText": "Germany"
+    }
   }
 }
 ```
+The full payload also carries `targetId`, `stage`, `pageTitle`/`pageUrl`, and screenshot-sidecar fields; this is a trimmed excerpt.
 
 ---
 
 ## 4. Operational Best Practices
 
 * **Custom Comboboxes:** Handles modern ARIA listboxes where options reside outside the trigger container.
-* **Visible Text Match:** Matches visible label text case-insensitively.
+* **Visible Text Match:** Matches against `textContent`, `aria-label`, or associated label text, with whitespace normalized before comparison.
 
 ---
 

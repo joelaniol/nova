@@ -2,7 +2,6 @@
 
 > **Reads captured window postMessage and cross-frame messaging traffic.**
 
-* **Security Tier:** Tier 1 (Read-Only Telemetry)
 * **Core Feature Guide:** [DOM Perception & Semantic Extraction](../../../core-features/tob.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
@@ -10,7 +9,9 @@
 
 ## 1. Overview
 
-`nova.messages_read` inspects postMessage traffic exchanged between frames, iframes, and worker threads on the page.
+`nova.messages_read` returns messaging events recorded in the page: `window.postMessage` calls (`direction: "out"`), incoming `message` events with their `origin` (`direction: "in"`), `MessagePort.postMessage` calls (`kind: "messagePort"`) and dispatched `CustomEvent`s (`kind: "customEvent"`). Each entry carries a payload summary and, with `includePayloads`, a preview cut at `maxPayloadChars`. Continue with `sinceId`.
+
+Recording starts with the first read on a page, so events from before that moment are missing. The response example below is an excerpt; the budget fields (`outputBudget`, `chars`) are omitted.
 
 ---
 
@@ -28,6 +29,7 @@
 | `maxChars` | `integer` | No | `50000` | 1000–5000000 | Maximum serialized response characters before truncation. Defaults shrink automatically under context pressure unless explicitly provided. |
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -40,7 +42,7 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
   "name": "nova_messages_read",
   "arguments": {
     "targetId": "tab-1",
-    "limit": 20
+    "maxEntries": 20
   }
 }
 ```
@@ -51,20 +53,53 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
   "content": [
     {
       "type": "text",
-      "text": "Found 4 postMessage events."
+      "text": "{\"ok\":true,\"requestedMax\":20,\"sinceId\":0,\"clearAfterRead\":false,\"includePayloads\":true,\"maxPayloadChars\":1000,\"lastId\":4,\"entries\":[{\"id\":4,\"ts\":1791025200456,\"kind\":\"postMessage\",\"direction\":\"in\",\"origin\":\"https://auth.example.com\",\"lastEventId\":\"\",\"payload\":{\"summary\":{\"type\":\"object\",\"keys\":[\"type\"]},\"preview\":\"{\\\"type\\\":\\\"AUTH_SUCCESS\\\"}\",\"truncated\":false,\"chars\":23}}]}"
     }
   ],
   "structuredContent": {
-    "ok": true,
     "targetId": "tab-1",
-    "messages": [
-      {
-        "origin": "https://auth.example.com",
-        "data": {
-          "type": "AUTH_SUCCESS"
+    "ok": true,
+    "maxEntries": 20,
+    "sinceId": 0,
+    "clear": false,
+    "entriesCount": 1,
+    "entriesTotal": 1,
+    "entriesOmitted": 0,
+    "truncated": false,
+    "result": {
+      "ok": true,
+      "requestedMax": 20,
+      "sinceId": 0,
+      "clearAfterRead": false,
+      "includePayloads": true,
+      "maxPayloadChars": 1000,
+      "lastId": 4,
+      "entries": [
+        {
+          "id": 4,
+          "ts": 1791025200456,
+          "kind": "postMessage",
+          "direction": "in",
+          "origin": "https://auth.example.com",
+          "lastEventId": "",
+          "payload": {
+            "summary": {
+              "type": "object",
+              "keys": [
+                "type"
+              ]
+            },
+            "preview": "{\"type\":\"AUTH_SUCCESS\"}",
+            "truncated": false,
+            "chars": 23
+          }
         }
-      }
-    ]
+      ]
+    },
+    "tap": {
+      "includePayloads": true,
+      "maxPayloadChars": 1000
+    }
   }
 }
 ```

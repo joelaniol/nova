@@ -2,15 +2,14 @@
 
 > **Scrolls the page or active container by relative pixel offsets (deltaX, deltaY).**
 
-* **Security Tier:** Tier 2 (Viewport Manipulation)
-* **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
+* **Core Feature Guide:** [Input Dispatch & Shadow DOM Traversal](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.scroll_by` shifts viewport or element offsets by relative pixel values.
+`nova.scroll_by` applies `window.scrollBy(deltaX, deltaY)` immediately — there is no animation or easing, the scroll position jumps directly by the requested delta. If the window does not move (common on single-page apps that scroll an inner container instead of the document), Nova automatically looks for the most plausible visible scrollable container on the page and scrolls that one instead; the response tells you whether the window or a fallback container moved. Pass `containerSelector` to scroll a specific container directly instead of relying on that fallback search.
 
 ---
 
@@ -25,6 +24,7 @@
 | `containerSelector` | `string` | No | — | — | Optional CSS selector for the scroll container. When provided, skips window.scrollBy and scrolls this container directly. |
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -49,22 +49,37 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Scrolled page by 500px vertically."
+      "text": "{\"ok\":true,\"movedWindow\":true,\"beforeWindow\":{\"x\":0,\"y\":700},\"afterWindow\":{\"x\":0,\"y\":1200}, ...}"
     }
   ],
   "structuredContent": {
-    "ok": true,
     "targetId": "tab-1",
-    "newScrollY": 1200
+    "ok": true,
+    "status": "ok",
+    "reasonCode": null,
+    "message": null,
+    "deltaX": 0,
+    "deltaY": 500,
+    "changed": true,
+    "warnings": [],
+    "result": {
+      "ok": true,
+      "movedWindow": true,
+      "beforeWindow": { "x": 0, "y": 700 },
+      "afterWindow": { "x": 0, "y": 1200 }
+    }
   }
 }
 ```
+
+The `content` text is the raw scroll-probe result serialized as JSON (shown truncated above), not a prose sentence. `result` in `structuredContent` carries the same data — there is no separate `newScrollY` field; read the window position from `result.afterWindow.y`, or `result.fallback.after.top` when a fallback container was used. When nothing moved and the page was already at the requested edge, `status` is `"noop"` with `reasonCode: "scroll_by.at_boundary"` (success); when nothing moved and the page was not at the edge, `status` is `"no_effect"` with `reasonCode: "scroll_by.no_effect"`.
 
 ---
 
 ## 4. Operational Best Practices
 
 * **Incremental Discovery:** Scroll down in fixed increments to trigger lazy-loaded image hydration.
+* **Inner Containers:** If `changed` comes back `false` with `reasonCode: "scroll_by.no_effect"`, try `nova.scroll_smart` for broader container detection, or pass an explicit `containerSelector`.
 
 ---
 

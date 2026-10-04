@@ -1,8 +1,7 @@
 # `nova.pks_upsert_hint`
 
-> **Attaches or updates a human operator guidance hint on a phenomenon pattern.**
+> **Creates or updates a domain hint: CSS selectors that mark ad containers, noise regions or result items on a site.**
 
-* **Security Tier:** Tier 2 (Operator Guidance)
 * **Core Feature Guide:** [Phenomenological Knowledge Store (PKS)](../../../core-features/pks.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
@@ -10,7 +9,7 @@
 
 ## 1. Overview
 
-`nova.pks_upsert_hint` binds operator annotations (e.g. "Wait 2 seconds after click for React state settlement") to a phenomenon.
+`nova.pks_upsert_hint` stores a domain hint in the PKS of one domain. A hint is not a free-text note; it is a set of CSS selectors with a `kind`: `content_filter.ad_container` and `noise_region` mark areas that page reading and call-to-action scoring should down-rank or skip (`effect`), `content_container.result_item` marks repeating result entries that Nova can enumerate (`extract`, `enumerateMax`). A hint with an existing `id` is updated (or reactivated if it was deprecated); without `id` Nova generates one. The domain must be open in a tab or sandbox, otherwise the call is rejected with `reasonCode: "pks.scope_not_open"`. For free-text operator guidance use `nova.domain_note`.
 
 ---
 
@@ -31,6 +30,7 @@
 | `domainHint.confidence` | `number` | No | `0.5` | 0–1 | Confidence 0.0-1.0 used as a ranking weight for this hint during Perceive/CTA scoring. Defaults to 0.5. |
 
 Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_learning')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -42,8 +42,13 @@ Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_l
 {
   "name": "nova_pks_upsert_hint",
   "arguments": {
-    "phenomenonId": "phenom-cart-flow-01",
-    "hint": "Requires 500ms settlement after selecting shipping address."
+    "scope": "example.com",
+    "domainHint": {
+      "id": "promo-rail",
+      "kind": "noise_region",
+      "mode": "ancestor",
+      "selectors": ["aside.sponsored", "[data-testid='promo-rail']"]
+    }
   }
 }
 ```
@@ -54,22 +59,29 @@ Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_l
   "content": [
     {
       "type": "text",
-      "text": "Attached guidance hint to phenom-cart-flow-01."
+      "text": "DomainHint 'promo-rail' (noise_region) created for example.com."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "phenomenonId": "phenom-cart-flow-01",
-    "hintsCount": 1
+    "action": "created",
+    "scope": "example.com",
+    "hintId": "promo-rail",
+    "kind": "noise_region",
+    "mode": "ancestor",
+    "selectorCount": 2,
+    "warnings": null
   }
 }
 ```
+
+`action` is `created`, `updated` or `reactivated`. Selectors that look auto-generated (hashed class suffixes) are still stored, but listed in `warnings` with `type: "unstable_selector"`.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Human Knowledge Injection:** Record non-obvious site quirks for future agent runs.
+* **Stable selectors:** Prefer `data-*` attributes or semantic selectors; hashed class names tend to change on the next deploy.
+* **Stable IDs:** Pass the same `id` when refining a hint so it is updated instead of duplicated.
 
 ---
 

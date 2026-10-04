@@ -2,7 +2,6 @@
 
 > **Reads recent redacted entries from Nova's internal MCP JSON-RPC transport log.**
 
-* **Security Tier:** Tier 1 (Read-Only Logging)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
@@ -10,7 +9,9 @@
 
 ## 1. Overview
 
-`nova.mcp_transport_log` provides visibility into incoming client requests, parsed arguments, server response timings, and protocol parsing exceptions.
+`nova.mcp_transport_log` reads Nova's MCP transport log files (`mcp-<UTC timestamp>-<process id>.log` in the `Logs\mcp` folder of the Nova profile). Without `startLine` it returns the last `maxLines` lines (tail mode); with `startLine` it returns a line range; with `contains` it returns matching lines. Authorization headers, bearer tokens and token values are replaced with `<redacted>` before lines are returned.
+
+A transport log file exists only while MCP debug logging with the transport channel is enabled. If no matching file exists, the result is `ok: false` with `status: "not_found"` and `reasonCode: "mcp_transport_log_not_found"`.
 
 ---
 
@@ -26,6 +27,7 @@
 | `caseSensitive` | `boolean` | No | `false` | — | Whether contains matching is case-sensitive. Default false. |
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -37,24 +39,45 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
 {
   "name": "nova_mcp_transport_log",
   "arguments": {
-    "limit": 50
+    "run": "current",
+    "maxLines": 50
   }
 }
 ```
 
 ### JSON-RPC Response
+Abridged example; `entries` and `lines` carry the returned lines.
+
 ```json
 {
   "content": [
     {
       "type": "text",
-      "text": "Returned 50 log records from logs/mcp/mcp-server.log."
+      "text": "MCP transport log mcp-20261002_081500-12840.log (current process) from Logs/mcp: returned 50 lines 1151-1200. Path: C:\\Users\\you\\AppData\\Local\\nova-cognitive\\Nova\\Logs\\mcp\\mcp-20261002_081500-12840.log. Log file name stamps are UTC; Nova-emitted log line stamps use local time with offset."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "recordsCount": 50,
-    "logPath": "logs/mcp/mcp-server.log"
+    "status": "ok",
+    "source": "Logs/mcp",
+    "run": "current",
+    "fileName": "mcp-20261002_081500-12840.log",
+    "processId": 12840,
+    "currentProcessId": 12840,
+    "isCurrentProcess": true,
+    "totalLines": 1200,
+    "mode": "tail",
+    "startLine": 1151,
+    "endLine": 1200,
+    "maxLines": 50,
+    "returnedCount": 50,
+    "hasMore": false,
+    "hasEarlier": true,
+    "nextStartLine": null,
+    "entries": [
+      { "lineNumber": 1151, "text": "2026-10-02 10:31:12.004 +02:00 ..." }
+    ],
+    "lines": ["2026-10-02 10:31:12.004 +02:00 ..."]
   }
 }
 ```
@@ -63,8 +86,9 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
 
 ## 4. Operational Best Practices
 
-* **Protocol Debugging:** Check transport logs when an MCP client encounters unexpected JSON-RPC disconnects or schema rejections.
-* **Redacted Credentials:** Auth tokens and passwords are automatically masked before output.
+* **Protocol Debugging:** Check transport logs when an MCP client reports unexpected disconnects or rejected requests.
+* **Paging:** Use `nextStartLine` with `startLine` to continue reading; `hasEarlier` tells you that a tail read skipped older lines.
+* **Redacted Credentials:** Authorization headers, bearer tokens and `token` values are masked before output.
 
 ---
 

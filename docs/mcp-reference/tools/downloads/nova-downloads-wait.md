@@ -8,7 +8,6 @@ Blocks until downloads reach a terminal state (completed, failed, or cancelled) 
 
 `nova.downloads_wait` is the missing synchronization join point for download automation. Instead of guessing polling intervals after a download click, agents call `nova.downloads_wait` to deterministically pause execution until the download completes or times out, returning exact disk destinations.
 
-* **Security Tier:** Tier 1 (Safe / Synchronization)
 * **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts.md)
 
 ---
@@ -25,6 +24,7 @@ Blocks until downloads reach a terminal state (completed, failed, or cancelled) 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -64,6 +64,7 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
     "failedCount": 0,
     "cancelledCount": 0,
     "pendingCount": 0,
+    "truncated": false,
     "downloads": [
       {
         "id": "dl-4f8a19bc",
@@ -73,12 +74,20 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
         "filePath": "C:\\Users\\GNetwork\\Downloads\\dataset.csv",
         "bytesReceived": 1450200,
         "totalBytes": 1450200,
-        "errorReason": null
+        "errorReason": null,
+        "errorCategory": null,
+        "retryable": false,
+        "startedUtc": "2026-10-02T20:45:10.0000000Z",
+        "completedUtc": "2026-10-02T20:45:13.2400000Z",
+        "sandboxId": "A"
       }
     ]
   }
 }
 ```
+
+At most 50 downloads are reported per call; `truncated: true` marks when more matched than were
+returned.
 
 ---
 

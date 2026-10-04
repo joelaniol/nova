@@ -2,7 +2,6 @@
 
 > **Renames an existing bookmark folder.**
 
-* **Security Tier:** Tier 2 (Bookmark Management)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
@@ -10,7 +9,7 @@
 
 ## 1. Overview
 
-`nova.bookmarks_folder_rename` updates the human-readable display label of an existing bookmark container.
+`nova.bookmarks_folder_rename` changes the display name of an existing bookmark folder. The folder id comes from `nova.bookmarks_folders_list`. An unknown id returns `renamed: false` ("Folder not found.").
 
 ---
 
@@ -23,6 +22,7 @@
 | `name` | `string` | Yes | — | — | New folder name (1..64 printable characters). |
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -34,7 +34,7 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
 {
   "name": "nova_bookmarks_folder_rename",
   "arguments": {
-    "folderId": "folder-101",
+    "id": "3f2a9c1e7b4d4e0f9a6b2c8d1e5f7a90",
     "name": "Competitor Pricing Analysis"
   }
 }
@@ -46,12 +46,12 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "Renamed folder-101 to 'Competitor Pricing Analysis'."
+      "text": "Folder renamed: Competitor Pricing Analysis"
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "folderId": "folder-101",
+    "renamed": true,
+    "id": "3f2a9c1e7b4d4e0f9a6b2c8d1e5f7a90",
     "name": "Competitor Pricing Analysis"
   }
 }

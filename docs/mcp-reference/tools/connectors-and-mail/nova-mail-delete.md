@@ -6,9 +6,8 @@ Moves up to 200 messages into the account's Trash folder (non-permanent delete).
 
 ## 1. Overview
 
-`nova.mail_delete` moves messages to the server's detected Trash folder. It deliberately avoids permanent IMAP expunge operations to ensure deleted messages can be recovered by the user.
+`nova.mail_delete` moves up to 200 messages from one mail account into its detected Trash folder. This is deliberately not permanent deletion: Nova never sets the IMAP Deleted flag and never expunges. Requires the account's `organize` capability and Nova's independent MutatingRemote confirmation policy. Trash resolution prefers the server's SPECIAL-USE Trash folder, then conservative exact localized leaf-name matches; if no selectable Trash folder can be identified, nothing is changed and the call fails with `reasonCode: "mail_trash_folder_not_found"`. Native IMAP MOVE is required, with no copy/delete/expunge fallback. Per-message results preserve `changed`/`already_done`/`not_found` truth; an uncertain dispatched move reports `changed: null, actionDispatched: true` and must not be auto-retried.
 
-* **Security Tier:** Tier 2 (Trash Move)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
 ---
@@ -25,6 +24,7 @@ Moves up to 200 messages into the account's Trash folder (non-permanent delete).
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -49,23 +49,56 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
   "content": [
     {
       "type": "text",
-      "text": "Moved 1 message to Trash."
+      "text": "Mail management completed with status 'updated'. No message body was read; returned folder names are untrusted server metadata."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "deletedCount": 1,
-    "trashFolder": "Trash"
+    "changed": true,
+    "status": "updated",
+    "tool": "nova.mail_delete",
+    "operation": "delete",
+    "profileId": "conn-mail-01",
+    "inputCount": 1,
+    "resultCount": 1,
+    "targetFolder": null,
+    "trashFolder": "Trash",
+    "requestedSeen": null,
+    "requestedFlagged": null,
+    "actionDispatched": false,
+    "reasonCode": null,
+    "message": null,
+    "results": [
+      {
+        "messageId": "msg-h9a12b",
+        "ok": true,
+        "status": "updated",
+        "changed": true,
+        "actionDispatched": false,
+        "previousFolder": "INBOX",
+        "currentFolder": "Trash",
+        "seen": false,
+        "flagged": false,
+        "messageIdStable": true,
+        "reasonCode": null,
+        "message": null,
+        "untrustedRemoteMetadata": true
+      }
+    ],
+    "durationMs": 150,
+    "untrustedRemoteMetadata": true
   }
 }
 ```
+There is no `deletedCount`; the resolved Trash folder is `trashFolder` at the top level, and each message's own outcome is in `results[]`.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Safe Recovery:** Messages can be restored from the Trash folder if deleted by mistake.
-* **Max Batch Limit:** Capped at 200 messages per call for safety.
+* **Safe Recovery:** Messages can be restored from the Trash folder if deleted by mistake; nothing is expunged by this tool.
+* **Max Batch Limit:** Capped at 200 messages per call.
+* **No Trash Folder Is a Failure, Not a Silent No-Op:** if Nova cannot identify a selectable Trash folder, the call fails with `reasonCode: "mail_trash_folder_not_found"` instead of moving messages anywhere else.
 
 ---
 

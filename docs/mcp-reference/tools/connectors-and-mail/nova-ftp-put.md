@@ -6,9 +6,8 @@ Uploads a local regular file over FTP/FTPS to a remote server.
 
 ## 1. Overview
 
-`nova.ftp_put` uploads a file from the local workspace to a remote FTP/FTPS server.
+`nova.ftp_put` uploads one policy-approved local regular file over FTP/FTPS. Requires the connector's transfer-full access and Nova's independent global MutatingRemote confirmation policy. Nova writes a unique remote staging file, verifies its byte count, and renames it into place; an existing destination is preserved unless `overwrite: true`. Directory recursion and remote links are intentionally rejected — this tool uploads exactly one regular file. A plaintext profile additionally needs the user's debug/legacy option plus `allowInsecure: true`.
 
-* **Security Tier:** Tier 2 (File Upload)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
 ---
@@ -29,6 +28,7 @@ Uploads a local regular file over FTP/FTPS to a remote server.
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -54,14 +54,36 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
   "content": [
     {
       "type": "text",
-      "text": "Uploaded app.js (120 KB) over FTP."
+      "text": "Uploaded 1 file(s) via 'Web Host' (122880 bytes)."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "localPath": "dist/app.js",
-    "remotePath": "/public_html/app.js",
-    "bytesTransferred": 122880
+    "profileId": "conn-ftp-01",
+    "status": "uploaded",
+    "changed": true,
+    "stateIndeterminate": false,
+    "reasonCode": null,
+    "durationMs": 980,
+    "remotePathTrust": "untrusted_remote_state",
+    "localPathTrust": "host_verified_local_paths",
+    "entries": [],
+    "returnedCount": 0,
+    "hasMore": false,
+    "files": [
+      {
+        "source": "dist/app.js",
+        "destination": "/public_html/app.js",
+        "size": 122880,
+        "lastWriteUtc": "2026-10-02T09:00:00Z",
+        "sourceTrust": "host_verified_local_path",
+        "destinationTrust": "untrusted_remote_state"
+      }
+    ],
+    "transferredCount": 1,
+    "transferredBytes": 122880,
+    "affectedRemotePaths": ["/public_html/app.js"],
+    "affectedLocalPaths": []
   }
 }
 ```
@@ -70,7 +92,8 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
 
 ## 4. Operational Best Practices
 
-* **Overwrites:** Specify `overwrite: true` when replacing existing remote assets.
+* **Overwrites:** Specify `overwrite: true` when replacing existing remote assets; otherwise an existing destination is preserved and the call fails rather than silently skipping.
+* **Single File Only:** There is no `recursive` option; upload a directory by calling this tool once per file.
 
 ---
 

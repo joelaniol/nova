@@ -1,103 +1,89 @@
 # Agent Awareness Gates (AAG) & Execution Verification Framework
 
 > [!NOTE]
-> The Agent Awareness Gates (AAG) framework protects against accidental destruction, race conditions, and done hallucinations. It enforces deterministic preconditions before an action executes and requires empirical proof in the DOM or network before an agent is allowed to declare a step complete.
+> Agent Awareness Gates (AAG) are checks in Nova's tool pipeline that interrupt an agent when an important precondition is missing: the agent has not loaded a tool bundle, has not looked at the page since it navigated, the user pressed the emergency stop, or the disk is almost full. Depending on the gate and its setting, AAG adds a warning to the tool result or blocks the call with a structured explanation of what to do next.
 
 ---
 
-## 1. Problem Statement: The "Done Hallucination"
+## 1. Problem Statement
 
 In unprotected browser automation, autonomous LLM agents exhibit common failure patterns:
-* **False Belief of Success:** The agent clicks "Save", but a loading spinner was active or an invisible modal backdrop intercepted the click. The agent hallucinates "Successfully saved", while user data is permanently lost.
-* **Accidental Destruction:** During complex form interactions, an agent accidentally clicks "Delete" or "Cancel" instead of "Submit".
-* **Colliding Concurrent Actions (Race Conditions):** Multiple parallel subagents control the same browser tab concurrently, clobbering input fields and corrupting session state.
-* **Token Waste from Missing Initialization:** An agent attempts blind individual tool calls instead of initializing with a structured tool bundle.
+* **False Belief of Success:** The agent clicks "Save", but a loading spinner was active or an invisible backdrop intercepted the click. The agent reports success although nothing was saved.
+* **Acting Blind:** The agent types into a page right after navigating, without having looked at it, and lands in the wrong element.
+* **Colliding Concurrent Actions:** Multiple agents control the same browser tab concurrently and overwrite each other's input.
+* **Token Waste from Missing Initialization:** An agent probes individual tools instead of loading a structured tool bundle first.
 
-**AAG** resolves these vulnerabilities through a multi-tiered safety and verification pipeline.
+AAG and the related verification features address these failure modes.
 
 ---
 
-## 2. The 4-Tier Protection Architecture
+## 2. Where the Checks Sit
 
 ```mermaid
 flowchart TD
-    Request["Agent Tool Call (e.g. nova.input_click / nova.guarded_*)"] --> Gate1["Gate 1: Pre-Execution Safety
-(Parameters, Destructive Guard, Auth)"]
-    Gate1 --> Gate2["Gate 2: Multi-Agent Lease Locking
-(Tab Claim & Isolation)"]
-    Gate2 --> Gate3["Gate 3: Outrider Safety
-(Crash-Resilient OS & Hardware Isolation)"]
-    Gate3 --> Exec["Execution Layer
-(WebView2 DOM / UI Action)"]
-    Exec --> Gate4["Gate 4: Real-Time Evidence Verification
-(Burden of Proof: DOM Delta, Network, Modal State)"]
-    Gate4 --> Result["Verified Result Returned to Agent"]
+    Request["External agent tool call"] --> Global["Global stop gates<br/>emergency stop, low disk space"]
+    Global --> Validation["Argument and schema validation"]
+    Validation --> Gates["Awareness gates<br/>bootstrap, perceive-first and others"]
+    Gates --> Exec["Tool execution"]
+    Exec --> Result["Result with optional warnings<br/>and verification outcome"]
 ```
 
----
-
-## 3. The Gates in Detail
-
-### Gate 1: Pre-Execution Safety & Destructive Action Guards
-Before a mutating command executes, Nova evaluates:
-* **Strict Schema & Argument Validation:** Parameter types are strictly enforced; invalid arguments fail immediately with JSON-RPC error code `-32602`.
-* **Destructive Action Guard:** Scans for dangerous UI triggers (e.g. "Delete Account", "Discard All Data") and requires explicit confirmation, preventing blind clicks.
-* **Emergency Stop & Disk Space Gates:** Global emergency stop signals or low disk space conditions fail-closed immediately to protect local system integrity.
-
-### Gate 2: Multi-Agent Lease Locking (Tab Claims)
-Nova supports multi-agent workflows (e.g. specialized subagents for research, form filling, and monitoring):
-* An agent reserves exclusive write access to a tab via `nova.tab_claim`.
-* Every tab-targeted call is verified against the `claimOwner`. External tool calls are rejected until the lease expires (`leaseRemainingMs`) or is voluntarily released via `nova.tab_release`.
-* Prevents corrupted input and duplicate concurrent form submissions.
-
-### Gate 3: Outrider Process Boundary
-High-risk native calls interacting with Windows hardware, COM, WinRT, or audio/video drivers are never executed in the main browser process. Instead, they are delegated across an isolated boundary to [`NovaBrowser.Outrider.exe`](outrider-boundary.md).
-
-### Gate 4: Real-Time Evidence Verification (Burden of Proof & TOB Integration)
-The core anti-hallucination engine, powered by the [Tool Observation Bus (TOB)](tob.md). An agent cannot consider an action objective achieved until server-side observations verify the postconditions:
-* `absent`: An expected element (e.g. a loading spinner or confirmation dialog) has demonstrably disappeared from the DOM.
-* `wait`: The expected target element or success alert has materialized in the DOM.
-* `topmost_clickability_restored`: Click-blocking backdrops and modals have been completely dismissed.
-* `network_delta`: The corresponding HTTP POST request was completed with a successful status code (2xx/3xx).
-* `strong_visit_window`: The agent has demonstrably observed the page with sufficient dwell time ($\ge$ 1.0s) and a verified read signal (`tob_visit_window`).
+The gates apply to calls from external agents. Internal sequences that Nova runs itself are not interrupted by them.
 
 ---
 
-## 4. Mandatory Bootstrap Gate
+## 3. The Checks in Detail
 
-To prevent agents from wasting context tokens querying dozens of individual tool schemas, AAG enforces a **Mandatory Bootstrap**:
-1. When an agent invokes an interactive tool in a fresh session without having called `nova.tools_bundle`, AAG injects a structured `bootstrapWarning`.
-2. The warning advises the agent which tool bundle is recommended for the current workflow intent (e.g. `browser_automation`, `plugin_management`, `crawler_ops`).
-3. Once the matching bundle is activated, the gate is transparently deactivated for the remainder of the session.
+### Global Stop Gates
+* **Emergency stop:** The **Emergency stop** menu item interrupts running agents, the agent interface (MCP) and running scripts. Until the user chooses **Release emergency stop**, every new tool call is refused (`safety.emergency_stop`); there is no tool to bypass it.
+* **Low disk space:** If a storage location Nova or the agent writes to has 500 MB or less free space, external tool calls are refused (`safety.disk_space_low`) until more space is available.
+
+### Argument Validation
+Parameter types and allowed values are checked before a tool runs; invalid arguments fail immediately with JSON-RPC error code `-32602`.
+
+### Awareness Gates
+* **Bootstrap (`setup.bootstrap_required`):** The first tool call of a session that has not loaded a tool bundle via `nova.tools_bundle` gets a one-time `bootstrapWarning` naming the recommended bundle (usually `browser_automation`). Once a matching bundle has been loaded successfully, the gate stays quiet. Read-only discovery tools such as `nova.tabs`, `nova.get_instructions` and `nova.app_info` are exempt.
+* **Perceive-first (`safety.perceive_first`):** Flags interactive calls on a tab that the agent has not perceived since its last navigation; the resolution is `nova.perceive` with `mode='summary'`.
+* Both gates can run in the modes Off, Warn, ShadowBlock or Block (default: Warn). In Block mode, the call returns `isError: true` with the gate ID and the suggested resolution instead of running.
+
+### Multi-Agent Lease Locking (Tab Claims)
+* An agent reserves exclusive write access to a tab via `nova.tab_claim` (lease of 120 seconds by default, 5 seconds to 30 minutes).
+* Tab-targeted calls from other agents are refused while the lease is active, until it expires or is released via `nova.tab_release`.
+* This prevents overwritten input and duplicate concurrent form submissions.
+
+### Destructive Menu Warnings
+After a right-click opens a context menu, Nova reads the menu and reports destructive entries (such as delete) in the tool result. The scan only recognizes menus that expose ARIA roles or an obvious menu marker; a menu it cannot read is reported as such, not as harmless.
+
+### Outcome Verification
+Interactive tools such as `nova.click_selector` accept a `transitionContract` with preconditions (checked before the click) and postconditions (checked after it). The result reports whether the outcome was verified (`verified_success`, `verified_fail`, `indeterminate`) together with retry advice. See the [Closed-Loop System (CLS)](closed-loop-system.md). Calls that a gate blocked are recorded by the [Tool Observation Bus (TOB)](tob.md) as blocked observations.
 
 ---
 
-## 5. The "Guarded" Tool Family
+## 4. The "Guarded" Tool Family
 
-Nova provides specialized high-level guarded tools for critical user interactions that verify pre- and post-conditions atomically:
+Nova provides guarded macros for common commit points. Each wraps `nova.click_selector` and adds a matching transition contract automatically:
 
 | Tool | Guarded Workflow |
 | :--- | :--- |
-| `nova.guarded_send_message` | Dispatches chat messages only if the composer field contains verified text and confirms response streaming. |
-| `nova.guarded_submit_form` | Validates required input fields prior to submission and verifies form dismissal or page navigation. |
-| `nova.guarded_login` | Executes login workflows using credentials from the secure vault under Auth Surface Detection (ASD) watch. |
-| `nova.guarded_switch_model` | Switches AI models in supported web interfaces and verifies that the selected dropdown pill updated. |
+| `nova.guarded_send_message` | Sends a chat message. With `text`, Nova finds the composer, types the text, verifies it by reading it back, finds the send button and clicks it in one call. |
+| `nova.guarded_submit_form` | Clicks a submit button with a submit-focused transition contract. |
+| `nova.guarded_login` | Clicks a login submit with a contract that fails on explicit authentication errors and treats a continued login flow (for example a second factor) as an ambiguous follow-up state, not a hard failure. |
+| `nova.guarded_switch_model` | Clicks a model switch with a select-option transition contract. |
+| `nova.guarded_switch_sandbox` | Clicks a sandbox/workspace switch with a select-option transition contract. |
 
 ---
 
-## 6. Under the Hood
+## 5. Under the Hood
 
-* **AAG Block Results & Validation:** `McpServer`
-* **Destructive Action Scanners:** `DestructiveMenuScanner`
-* **Evidence & Screenshot Budgets:** `McpServer`
-* **Tab Claims & Lease Locking:** `McpServer`
-* **Tool Observation Bus & Envelopes:** `DispatchEnvelopeBuilder`
+* **Destructive Menu Scan:** `DestructiveMenuScanner`
+* **Dispatch Observation Envelopes:** `DispatchEnvelopeBuilder`
+* **Outcome Verification:** `TransitionVerifier`
 
 ---
 
 ## Related Documentation
 
-* **[Tool Observation Bus (TOB)](tob.md)** — Server-side evidence ledger and tamper-proof visit windows.
-* **[Closed-Loop System (CLS)](closed-loop-system.md)** — Closed feedback loop for automated state verification.
-* **[Humanized Input Engine](humanized-input-engine.md)** — Bot-resilient physical mouse and keyboard execution.
-* **[MCP Reference Index](../mcp-reference/README.md)** — Complete catalog of all 400+ native tools.
+* **[Tool Observation Bus (TOB)](tob.md)** — Server-side record of what agents actually executed.
+* **[Closed-Loop System (CLS)](closed-loop-system.md)** — Verified state transitions.
+* **[Input Dispatch & Shadow DOM Traversal](humanized-input-engine.md)** — How clicks, keys and drags reach the page.
+* **[MCP Reference Index](../mcp-reference/README.md)** — Catalog of all native tools.

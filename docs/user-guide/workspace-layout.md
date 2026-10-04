@@ -1,28 +1,26 @@
-# Workspace Layout & Visual Chrome
+# Workspace Layout & Window Chrome
 
 > [!NOTE]
-> Nova AI Workspace combines the familiar simplicity of a modern Windows 11 browser with specialized instrumentation for monitoring background agent automation and developer workflows.
+> Nova AI Workspace looks and behaves like a familiar Windows browser, with extra indicators for agent activity and for the tools developers use alongside the browser.
 
 ---
 
 ## 1. Visual Anatomy of Nova
 
-Nova's main interface is built using native **WinUI 3** and **Windows App SDK**, providing Mica backdrop effects, rounded geometry, and fluid animations.
+Nova's window is a native Windows app (WinUI 3) with Microsoft Edge WebView2 rendering the web pages. From top to bottom:
 
 ```
 +-----------------------------------------------------------------------------------+
-|  [Nova Icon]  [Tab 1: Work (Blue)]  [Tab 2: Scraping (Orange)]  [+]     [_] [O] [X] |
+|  [Sandbox pills: A  B  ...]  [Tab 1] [Tab 2] [+]                      [_] [O] [X] |
 +-----------------------------------------------------------------------------------+
-|  [<-] [->] [R] |  https://github.com/joelaniol/nova  [AAG Green] [MCP]  | [*] [D] [=] |
+|  [<-] [->] [Reload] [Home] | [Site info] address bar [Star] | status buttons [Menu]|
++-----------------------------------------------------------------------------------+
+|  Bookmark bar (optional)                                                          |
 +-----------------------------------------------------------------------------------+
 |                                                                                   |
+|                             Web page (WebView2)                                   |
 |                                                                                   |
-|                             Active Web Content                                    |
-|                             (Microsoft WebView2)                                  |
-|                                                                                   |
-|                                                                                   |
-+-----------------------------------------------------------------------------------+
-|  >_ PowerShell 7 | C:\Users\...                                        [^] [v] [x] |
+|                   [ terminal dock, when open, lies over the page ]                |
 +-----------------------------------------------------------------------------------+
 ```
 
@@ -30,30 +28,29 @@ Nova's main interface is built using native **WinUI 3** and **Windows App SDK**,
 
 ## 2. Key Interface Elements
 
-### 2.1 Color-Coded Tab Strip
-* **Sandbox Indicator Stripes:** Each tab features a colored bottom border and header tint matching its assigned Sandbox (e.g., Blue for Production/Work, Orange for Scraping, Green for Personal).
-* **Agent Ownership Badge:** When an AI agent claims exclusive programmatic control over a tab, an animated glowing marker appears on the tab header.
-* **Audio & Device Indicators:** Tabs actively playing sound or accessing microphones/cameras display interactive mute/block badges.
+### 2.1 Sandbox Pills & Tab Strip
+* **Sandbox pills:** each visible sandbox has a pill in the title bar. A pill can show a colour or the site icon as its mark (**Mark** in the pill's context menu). See [Sandboxes & Profiles](sandboxes-and-profiles.md).
+* **Tabs:** normal browser tabs. Right-click a tab to **Pin tab**, give it a **Color**, **Mute tab**, or close it, other tabs or all tabs. Private tabs and tabs that belong to a sandbox carry a small badge.
+* **Agent markers:** a tab or sandbox pill that an agent is working in, or has reserved, shows a marker; its tooltip says *Agent active*, *Agent recently active* or *Agent reserved*. See [AI Visualization & Staying in Control](live-assist-and-spectator.md).
+* **Media indicator:** a tab that uses the camera, microphone or screen sharing is marked.
 
-### 2.2 Omnibox & Address Bar
-* **Navigation Field:** Standard URL navigation, local search engine queries, and custom internal scheme routing (`nova://settings`, `nova://downloads`).
-* **MCP Status Pill:** Shows the live connection state of the local MCP Remote Control server:
-  * 🟢 **Connected (Green):** MCP server active, agent connected through the stdio bridge or over HTTP.
-  * 🟡 **Idle (Yellow):** MCP server listening; no active agent session.
-  * 🔴 **Disabled (Red):** Remote control disabled in Settings.
-* **AAG Security Badge:** Visual indicator of Agent Awareness Gates:
-  * Displays current safety level (e.g., `Safe`, `Guarded`, `Restricted`).
-  * Clicking the badge opens the live AAG permission inspector.
+### 2.2 Toolbar & Address Bar
+* **Back**, **Forward**, **Reload** (with hard reload) and **Home**.
+* **Address bar:** enter an address or a search; `Ctrl+L`, `Alt+D` or `F4` puts the cursor there. The site info button in front of it shows the connection and site permissions.
+* **Star:** **Add to favorites** or **Remove from favorites** for the current page (`Ctrl+D`).
+* **Status buttons** appear only when they have something to say, for example the pop-up blocker, the active proxy, device emulation, notifications, scheduled tasks, active recordings or intercepted requests.
 
-### 2.3 Quick Action Controls (Top Right)
-* **Favorites / Bookmarks (`Ctrl+D`):** Access organized bookmark trees and folder structures.
-* **Downloads Drawer (`Ctrl+J`):** Toggles the sliding flyout panel showing active and completed file downloads.
-* **Settings Gear (`Ctrl+,`):** Opens the comprehensive Nova configuration overlay.
-* **Terminal Dock Toggle (`Ctrl+``):** Instantly shows or hides the integrated bottom terminal dock.
+### 2.3 Quick Actions
+* **Terminal:** shows or hides the built-in terminal dock (when the terminal is enabled). See [Terminal Dock](terminal-dock.md).
+* **Downloads:** opens the downloads panel (`Ctrl+J`); the button appears while downloads are active or recent. See [Downloads](downloads-manager.md).
+* **Menu:** among others **New private tab**, **Reopen closed tab**, **Hard reload**, **Print**, **Find on page**, zoom, **Downloads**, **History**, **Scheduled tasks**, **Favorites**, **View** (bookmark bar, **AI visualization**), **Settings**, **Developer tools**, **About** and **Emergency stop**.
+* **Bookmark bar:** shown or hidden with `Ctrl+Shift+B` or **Menu → View → Show bookmark bar**.
 
 ---
 
-## 3. Responsive Window Management
+## 3. Window Behaviour
 
-* **Snap Layouts Support:** Full native support for Windows 11 snap layouts, multi-monitor high-DPI scaling, and virtual desktops.
-* **Spectator Border:** When an agent executes automated actions, an optional subtle purple or amber border illuminates the window perimeter, ensuring you always know when automation is running.
+* **Full screen:** `F11`. Hold `Escape` for about one second to leave it.
+* **Closing:** when you close the window, Nova can ask **Close Nova?** — **Keep running in the background** (so scheduled tasks keep running; Nova then sits in the notification area) or **Quit Nova**.
+
+All keyboard shortcuts: [Keyboard Shortcuts](keyboard-shortcuts.md).

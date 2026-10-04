@@ -6,9 +6,8 @@ Queries the complete CDP network stream of a finalized recording with rich filte
 
 ## 1. Overview
 
-`nova.session_record_query` inspects the decrypted network timeline of a finalized recording. Unlike page-level observers, this tool reads the complete CDP Network domain stream, capturing every asset, API call, redirect chain, and background fetch, including requests from web workers and cross-origin iframes.
+`nova.session_record_query` inspects the decrypted network timeline of a finalized recording. It reads the CDP Network domain stream captured for the recorded tab's root frame — every asset, API call, and redirect on that frame. Cross-origin iframes (OOPIFs) are a known capture gap: Nova attaches to the root target only, so requests from cross-origin subframes are not captured.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
 
 ---
@@ -31,6 +30,7 @@ Queries the complete CDP network stream of a finalized recording with rich filte
 | `limit` | `integer` | No | `50` | 1–1000 | Max entries returned (totalMatchCount reports the full match count). |
 
 Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='session_recording')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -55,22 +55,26 @@ Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='
   "content": [
     {
       "type": "text",
-      "text": "Found 1 matching network entry with status >= 400 in rec-9b21f04a."
+      "text": "Recording rec-9b21f04a: query returned 1 of 1 matching request row(s)."
     }
   ],
   "structuredContent": {
     "ok": true,
+    "recordingId": "rec-9b21f04a",
     "totalMatchCount": 1,
     "entries": [
       {
         "requestId": "req-44810a",
-        "url": "https://example.com/api/v1/checkout/pay",
+        "timestamp": "2026-10-02T20:18:22Z",
         "method": "POST",
+        "url": "https://example.com/api/v1/checkout/pay",
         "status": 402,
         "mimeType": "application/json",
-        "durationMs": 340,
+        "sizeBytes": 128,
         "hasBody": true,
-        "timestampUtc": "2026-10-02T20:18:22Z"
+        "bodyPolicy": "Captured",
+        "vaultFingerprintMatched": false,
+        "errorText": null
       }
     ]
   }
@@ -82,8 +86,8 @@ Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='
 ## 4. Operational Best Practices
 
 * **Pinpoint API Errors:** Use `statusGte: 400` to instantly locate broken endpoints, authentication failures, and rate limit responses without manual inspection.
-* **Follow-Up Detail Inspection:** Pass the discovered `requestId` to [`nova.session_record_get_entry`](nova-session-record-get-entry.md) to inspect complete request/response headers and body payloads.
-* **Vault Verification:** Check `vaultMatched: true` to verify that autofilled credentials were sent correctly and masked from raw logs.
+* **Follow-Up Detail Inspection:** Pass the discovered `requestId` to [`nova.session_record_get_entry`](nova-session-record-get-entry.md) to inspect the raw network event lines and captured body metadata.
+* **Vault Verification:** Check `vaultFingerprintMatched: true` on an entry (or pass `vaultMatched: true` as a filter) to verify that autofilled credentials were sent and recognized by the redaction pipeline.
 
 ---
 

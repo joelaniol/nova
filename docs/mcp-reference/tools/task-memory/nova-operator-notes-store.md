@@ -1,6 +1,6 @@
 # `nova.operator_notes_store`
 
-Stores or updates a persistent operator note with search tags and priority.
+Stores or updates a persistent operator note with search tags and category.
 
 ---
 
@@ -8,7 +8,6 @@ Stores or updates a persistent operator note with search tags and priority.
 
 `nova.operator_notes_store` saves human-authored operating instructions that are automatically indexed and surfaced to agents working in matching domains or tasks.
 
-* **Security Tier:** Tier 2 (Note Storage)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
 ---
@@ -27,6 +26,7 @@ Stores or updates a persistent operator note with search tags and priority.
 | `sandboxRef` | `string` | No | — | — | Opaque PersistentUid token from nova.tabs / nova.sandbox_context / perceive.targetContext. Mandatory when sandboxId is set; protects against letter-id recycling races. Mismatch with current sandbox UID → -32602 stale_sandbox_reference. |
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -53,16 +53,20 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "Stored operator note (id: op-note-102)."
+      "text": "Operator note created."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "id": "op-note-102",
-    "status": "Stored"
+    "action": "created",
+    "noteCount": 1,
+    "noteId": "a3f1c9e2b4d6487f9a21e0d4f1a2b3c4",
+    "missedId": null,
+    "sandboxRef": null
   }
 }
 ```
+
+`action` is one of `created`, `updated`, or `created_id_not_found` (the supplied `id` did not match an existing note, so a new one was created instead — `missedId` then carries the unmatched ID).
 
 ---
 

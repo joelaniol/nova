@@ -8,7 +8,6 @@ Cancels an active in-progress or queued download by ID.
 
 `nova.downloads_cancel` aborts an ongoing transfer. It works across both native WebView2 downloads and background HttpClient fallbacks, returning status confirmation once the cancellation is registered.
 
-* **Security Tier:** Tier 2 (Control)
 * **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts.md)
 
 ---
@@ -23,6 +22,7 @@ Cancels an active in-progress or queued download by ID.
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---

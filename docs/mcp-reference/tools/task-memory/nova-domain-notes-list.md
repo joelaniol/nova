@@ -6,10 +6,9 @@ Lists all stored procedural notes and operator instructions for a specific domai
 
 ## 1. Overview
 
-`nova.domain_notes_list` returns all active notes registered for a target web domain, indicating keys, values, must-read statuses, and sandbox scopes.
+`nova.domain_notes_list` returns all notes registered for a target web domain, indicating keys, values, source, enforcement level, and sandbox scope.
 
-* **Security Tier:** Tier 1 (Read-Only)
-* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
+* **Core Architecture Guide:** [Operational Knowledge](../../../core-features/operational-knowledge.md)
 
 ---
 
@@ -24,6 +23,7 @@ Lists all stored procedural notes and operator instructions for a specific domai
 | `sandboxRef` | `string` | No | — | — | Opaque PersistentUid token from nova.tabs / nova.sandbox_context. Mandatory when sandboxId is set. |
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -46,19 +46,31 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "Found 1 note for internal.corp."
+      "text": "1 note(s) for internal.corp (scope=current_sandbox)."
     }
   ],
   "structuredContent": {
-    "ok": true,
     "domain": "internal.corp",
+    "scope": "current_sandbox",
+    "resolvedSandboxRef": null,
     "notes": [
       {
+        "id": "note-7f2a1",
         "key": "auth_hint",
-        "value": "Use SAML SSO...",
-        "isMustRead": false
+        "value": "Use SAML single sign-on button; avoid username/password form.",
+        "createdUtc": "2026-08-15T09:30:00Z",
+        "updatedUtc": "2026-08-15T09:30:00Z",
+        "source": "agent",
+        "enforcement": "none",
+        "repeatMinutes": null,
+        "repeatToolCalls": null,
+        "sandboxId": null,
+        "sandboxName": null,
+        "sandboxRef": null,
+        "sandboxStatus": null
       }
-    ]
+    ],
+    "hint": "Domain notes are snapshots. source=user notes are user instructions to follow; source=agent notes are your own past observations."
   }
 }
 ```

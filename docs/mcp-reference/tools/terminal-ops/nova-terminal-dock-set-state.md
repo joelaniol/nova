@@ -8,7 +8,6 @@ Sets the visual presentation of the Nova terminal dock to expanded, collapsed, o
 
 `nova.terminal_dock_set_state` toggles the visible dock state. When set to `hidden` or `collapsed`, all active shell sessions continue running in the background without termination.
 
-* **Security Tier:** Tier 2 (UI Control)
 * **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces.md)
 
 ---
@@ -21,6 +20,7 @@ Sets the visual presentation of the Nova terminal dock to expanded, collapsed, o
 | `state` | `string` | Yes | — | `expanded`, `collapsed`, `hidden` | Requested dock state. 'expanded' shows the full dock, 'collapsed' leaves only the tab strip, and 'hidden' hides the dock while preserving running sessions. |
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -43,16 +43,19 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Terminal dock state set to hidden."
+      "text": "Terminal dock is hidden; user sessions were preserved."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "status": "success",
+    "status": "ok",
     "reasonCode": null,
     "requestedState": "hidden",
     "previousState": "expanded",
-    "state": "hidden"
+    "state": "hidden",
+    "changed": true,
+    "sessionsPreserved": true,
+    "agentControlAllowed": true
   }
 }
 ```
@@ -61,7 +64,7 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
 
 ## 4. Operational Best Practices
 
-* **Permission Gate:** Agent control must be enabled in Settings > Terminal (`TerminalAgentCanControlDock`). If disabled, fails with `terminal_dock_agent_control_disabled`.
+* **Permission Gate:** Agent control must be enabled in Settings > Terminal. If disabled, the call fails with `terminal_dock_agent_control_disabled`.
 * **No Data Loss:** Hiding the dock does NOT kill user sessions.
 
 ---

@@ -2,15 +2,13 @@
 
 > **Returns host application window boundaries (position, size) and monitor inventory metadata.**
 
-* **Security Tier:** Tier 1 (Read-Only Window Geometry)
-* **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.window_get_bounds` provides screen geometry: window X/Y coordinates, width, height, current display monitor work area, and connected monitor dimensions.
+`nova.window_get_bounds` returns the host window's position, size, window state, and focus flag, the monitor it currently sits on, and the full inventory of available monitors (each with its index, name, scale factor, resolution, bounds, and work area). Use `availableMonitors` to look up a valid `monitorIndex` before calling `nova.window_move`.
 
 ---
 
@@ -20,6 +18,7 @@
 This tool takes no parameters.
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -40,23 +39,39 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Window bounds: 1920x1080 at (100, 100) on Primary Monitor."
+      "text": "{ ... same JSON as structuredContent, pretty-printed ... }"
     }
   ],
   "structuredContent": {
-    "ok": true,
     "x": 100,
     "y": 100,
     "width": 1920,
     "height": 1080,
+    "presenterKind": "native",
+    "state": "normal",
+    "hasFocus": true,
     "monitor": {
       "index": 0,
+      "name": "\\\\.\\DISPLAY1",
       "isPrimary": true,
-      "workArea": {
-        "width": 2560,
-        "height": 1440
+      "scaleFactor": 1.0,
+      "containsWindowCenter": true,
+      "resolution": { "width": 2560, "height": 1440 },
+      "bounds": { "x": 0, "y": 0, "width": 2560, "height": 1440 },
+      "workArea": { "x": 0, "y": 0, "width": 2560, "height": 1400 }
+    },
+    "availableMonitors": [
+      {
+        "index": 0,
+        "name": "\\\\.\\DISPLAY1",
+        "isPrimary": true,
+        "scaleFactor": 1.0,
+        "containsWindowCenter": true,
+        "resolution": { "width": 2560, "height": 1440 },
+        "bounds": { "x": 0, "y": 0, "width": 2560, "height": 1440 },
+        "workArea": { "x": 0, "y": 0, "width": 2560, "height": 1400 }
       }
-    }
+    ]
   }
 }
 ```
@@ -65,7 +80,7 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
 
 ## 4. Operational Best Practices
 
-* **Multi-Monitor Automation:** Inspect available monitor bounds before calling `nova.window_move`.
+* **Multi-Monitor Automation:** Inspect `availableMonitors` before calling `nova.window_move` to confirm a valid `monitorIndex`.
 
 ---
 

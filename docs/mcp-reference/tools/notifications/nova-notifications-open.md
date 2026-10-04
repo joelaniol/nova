@@ -8,8 +8,6 @@ Navigates to the originating tab, website, or resource referenced by a notificat
 
 `nova.notifications_open` activates the target surface associated with a notification (focusing an open tab or opening the URL in its origin sandbox). If the notification is missing, dismissed, or targetless, returns a structured no-op status.
 
-* **Security Tier:** Tier 2 (Navigation)
-* **Core Architecture Guide:** [Closed-Loop System & Event Propagation](../../../core-features/closed-loop-system.md)
 
 ---
 
@@ -21,6 +19,7 @@ Navigates to the originating tab, website, or resource referenced by a notificat
 | `notificationId` | `string` | Yes | — | — | The notification ID whose target to open. |
 
 Capability bundle: `notifications` (load it with `nova.tools_bundle(bundle='notifications')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---

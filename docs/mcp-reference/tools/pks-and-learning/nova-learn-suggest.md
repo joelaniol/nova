@@ -1,8 +1,7 @@
 # `nova.learn_suggest`
 
-> **Suggests alternative interaction selectors based on historical pattern performance.**
+> **Ranks the learning opportunities Nova has observed: patterns worth storing in the PKS and stored phenomena that are drifting.**
 
-* **Security Tier:** Tier 1 (Read-Only Suggestions)
 * **Core Feature Guide:** [Phenomenological Knowledge Store (PKS)](../../../core-features/pks.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
@@ -10,7 +9,7 @@
 
 ## 1. Overview
 
-`nova.learn_suggest` queries PKS historical execution data to recommend robust fallback selectors when a primary CSS selector breaks.
+`nova.learn_suggest` is read-only. It groups Nova's interaction observations into clusters (for example repeated blocker dismissals, repeated successful actions, action failures, selector drift) and adds stored phenomena whose recent runs are failing (`silent_verify_drift`, `active_failure_drift`). Each entry gets a score and a plain-language suggestion. It does not return replacement selectors; `nova.learn_generate` turns suitable clusters into PKS candidates.
 
 ---
 
@@ -23,6 +22,7 @@
 | `limit` | `integer` | No | `5` | 1–20 | Maximum number of suggestions to return (1-20). Default 5. |
 
 Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_learning')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -34,8 +34,8 @@ Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_l
 {
   "name": "nova_learn_suggest",
   "arguments": {
-    "scope": "shop.example.com",
-    "targetSelector": "button#buy-now"
+    "scope": "example.com",
+    "limit": 5
   }
 }
 ```
@@ -46,24 +46,38 @@ Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_l
   "content": [
     {
       "type": "text",
-      "text": "Suggested 2 fallback selectors: button[data-testid=\"checkout-btn\"], .btn-checkout."
+      "text": "Top 1 learn opportunities for example.com:\n1. [4.1] Phenomenon 'lcj_4b1f0c9a2d7e' on example.com shows drift (consecutiveFailures=3, staleness=0.62). Consider updating selectors or deprecating."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "suggestions": [
-      "button[data-testid=\"checkout-btn\"]",
-      ".btn-checkout"
+    "scope": "example.com",
+    "count": 1,
+    "opportunities": [
+      {
+        "contextHost": "example.com",
+        "candidateKey": "lcj_4b1f0c9a2d7e",
+        "dominantKind": "silent_verify_drift",
+        "supportCount": 3,
+        "successCount": 2,
+        "failureCount": 3,
+        "distinctSessions": 0,
+        "score": 4.12,
+        "suggestion": "Phenomenon 'lcj_4b1f0c9a2d7e' on example.com shows drift (consecutiveFailures=3, staleness=0.62). Consider updating selectors or deprecating.",
+        "scoreBreakdown": null
+      }
     ]
   }
 }
 ```
 
+Entries built from observation clusters carry `dominantKind` values such as `blocker_dismissed`, `action_success`, `action_failure` or `selector_drift` and a `scoreBreakdown` object (`supportScore`, `sessionBonus`, `successRateFactor`, `driftSignal`, `recencyBonus`). Without `scope`, opportunities across all domains are returned and `scope` is reported as `"*"`.
+
 ---
 
 ## 4. Operational Best Practices
 
-* **Self-Healing Scripts:** Call when `nova.click_selector` fails to find an element.
+* **Maintenance pass:** Use it to find stored phenomena that need new selectors or deprecation, and clusters that `nova.learn_generate` can turn into candidates.
 
 ---
 

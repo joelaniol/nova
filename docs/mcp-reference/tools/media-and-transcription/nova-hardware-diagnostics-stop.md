@@ -8,7 +8,6 @@ Stops in-page hardware diagnostics and releases active camera, microphone, or sp
 
 `nova.hardware_diagnostics_stop` halts ongoing hardware diagnostic loops and disposes of in-page media streams and WebAudio analyzers.
 
-* **Security Tier:** Tier 2 (Diagnostics Lifecycle)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
 ---
@@ -23,6 +22,7 @@ Stops in-page hardware diagnostics and releases active camera, microphone, or sp
 | `reason` | `string` | No | — | — | Optional stop reason for diagnostics state tracking. |
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -46,15 +46,18 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Stopped microphone diagnostics on tab-1."
+      "text": "Hardware diagnostics stopped (microphone)."
     }
   ],
   "structuredContent": {
-    "ok": true,
     "targetId": "tab-1",
-    "stoppedChannels": [
-      "microphone"
-    ]
+    "ok": true,
+    "status": "ok",
+    "reasonCode": null,
+    "kind": "microphone",
+    "command": "stop_mic",
+    "reason": "tool_stop",
+    "diagnostics": { "ok": true, "action": "stop_mic", "reason": "tool_stop" }
   }
 }
 ```

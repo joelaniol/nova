@@ -6,9 +6,8 @@ Moves up to 200 messages from one mail account to an exact IMAP destination fold
 
 ## 1. Overview
 
-`nova.mail_move` transfers messages between IMAP folders (e.g. from `INBOX` to `Archive` or `Processed`). Requires the account's `organize` capability grant.
+`nova.mail_move` moves up to 200 messages from one mail account to one exact IMAP folder. Requires the account's `organize` capability and Nova's independent MutatingRemote confirmation policy. Native IMAP MOVE support is required; without it the call is rejected before dispatch rather than falling back to a copy/delete/expunge sequence. Every input handle gets its own ordered result (`changed`/`already_done`/`not_found`); if the server accepted the move but did not confirm a destination UID, that item reports `changed: null, actionDispatched: true, reasonCode: "connector_remote_state_indeterminate"` — do not auto-retry, list the destination folder first.
 
-* **Security Tier:** Tier 2 (Mail Organization)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
 ---
@@ -26,6 +25,7 @@ Moves up to 200 messages from one mail account to an exact IMAP destination fold
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -51,22 +51,56 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
   "content": [
     {
       "type": "text",
-      "text": "Moved 1 message to Archive."
+      "text": "Mail management completed with status 'updated'. No message body was read; returned folder names are untrusted server metadata."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "movedCount": 1,
-    "destination": "Archive"
+    "changed": true,
+    "status": "updated",
+    "tool": "nova.mail_move",
+    "operation": "move",
+    "profileId": "conn-mail-01",
+    "inputCount": 1,
+    "resultCount": 1,
+    "targetFolder": "Archive",
+    "trashFolder": null,
+    "requestedSeen": null,
+    "requestedFlagged": null,
+    "actionDispatched": false,
+    "reasonCode": null,
+    "message": null,
+    "results": [
+      {
+        "messageId": "msg-h9a12b",
+        "ok": true,
+        "status": "updated",
+        "changed": true,
+        "actionDispatched": false,
+        "previousFolder": "INBOX",
+        "currentFolder": "Archive",
+        "seen": false,
+        "flagged": false,
+        "messageIdStable": true,
+        "reasonCode": null,
+        "message": null,
+        "untrustedRemoteMetadata": true
+      }
+    ],
+    "durationMs": 180,
+    "untrustedRemoteMetadata": true
   }
 }
 ```
+There is no `movedCount`/`destination` pair at the top level — check `results[]` for each message's own outcome; `ok`/`changed`/`status` at the top summarize across the whole batch.
 
 ---
 
 ## 4. Operational Best Practices
 
 * **Folder Verification:** Always verify target folder existence using [`nova.mail_folders`](nova-mail-folders.md) before moving messages.
+* **Check Per-Message Results:** A batch can partially succeed; read each entry in `results[]` rather than only the top-level `status`.
+* **Treat `messageIdStable: false` Carefully:** if the server didn't return a destination UID, the handle may not resolve for a follow-up `mail_mark`/`mail_read` until you re-list the folder.
 
 ---
 

@@ -33,6 +33,7 @@ Closing a regular browser tab will not exit Nova AI Workspace even if it was the
 | `targetId` | `string` | No | `"active"` | — | Browser tab ID or 'active' (must resolve to a browser tab). |
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -51,19 +52,28 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
 ### Sample Response
 ```json
 {
+  "requested": "tab-5",
+  "targetId": "tab-5",
   "ok": true,
-  "closedTargetId": "tab-5",
-  "activeTargetId": "tab-1",
-  "remainingTabCount": 3
+  "status": "ok",
+  "reasonCode": null,
+  "stage": "done",
+  "retryable": false,
+  "closed": true,
+  "cancelledPendingRequests": 0,
+  "finalizePersisted": true,
+  "finalizeError": null
 }
 ```
+
+Closing an already-gone tab by an explicit `targetId` is not an error: the response comes back `ok: true, reasonCode: "tab.already_closed"` since the higher-level intent ("this tab is gone") is already satisfied. Closing with no `targetId` and no active tab is a hard error (`-32602`, `reasonCode: "tab.no_active_tab"`).
 
 ---
 
 ## 5. Best Practices & Common Traps
 
 * **Verify Target ID Before Closing:** Always pass an explicit `targetId` when working with multiple tabs. Omitting `targetId` closes the currently focused tab, which might be a tab the human user is actively reading.
-* **Cleaning Orphaned Tabs:** If an automated workflow crashed and left multiple hidden tabs open without known IDs, call [`nova.tab_cleanup_orphans`](nova-tabs.md) instead of closing tabs one by one.
+* **Cleaning Orphaned Tabs:** If an automated workflow crashed and left multiple hidden tabs open without known IDs, call [`nova.tab_cleanup_orphans`](nova-tab-cleanup-orphans.md) instead of closing tabs one by one.
 
 ---
 

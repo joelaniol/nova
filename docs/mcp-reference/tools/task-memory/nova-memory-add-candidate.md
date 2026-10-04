@@ -6,10 +6,9 @@ Proposes a lightweight candidate memory claim for the currently claimed task and
 
 ## 1. Overview
 
-`nova.memory_add_candidate` records an unverified hypothesis or observation during task execution for subsequent offline verification.
+`nova.memory_add_candidate` records a one-line candidate claim for the currently claimed tab in the Learning Candidate Journal (LCJ). The target tab must already be claimed (`nova.tab_claim`) before a candidate can be added.
 
-* **Security Tier:** Tier 2 (Memory Ingestion)
-* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
+* **Core Architecture Guide:** [Agent Learning Pipeline (ALP) & Learning Candidate Journal (LCJ)](../../../core-features/learning-pipeline-alp.md)
 
 ---
 
@@ -26,6 +25,7 @@ Proposes a lightweight candidate memory claim for the currently claimed task and
 | `confidence` | `number` | No | `0.65` | — | Confidence score 0.0-1.0. Default 0.65. |
 
 Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_learning')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -50,17 +50,24 @@ Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_l
   "content": [
     {
       "type": "text",
-      "text": "Added memory candidate for login_form."
+      "text": "LCJ candidate created: #42 (unverified)."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "candidateId": "cand-09a",
-    "component": "login_form",
-    "status": "PendingVerification"
+    "targetId": "tab-1",
+    "taskId": "task-9b10a",
+    "ownerAgentId": "default",
+    "candidateId": 42,
+    "created": true,
+    "status": "unverified",
+    "confidence": 0.65,
+    "updatedAtUtc": "2026-08-15T09:30:00Z"
   }
 }
 ```
+
+`candidateId` is an integer. `created` is `false` when the call updated an existing candidate for the same claim context instead of inserting a new one.
 
 ---
 
@@ -72,5 +79,5 @@ Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_l
 
 ## 5. Related Tools
 
-* [`nova.memory_note`](nova-memory-note.md)
+* [`nova.tab_claim`](../browser-automation/nova-tab-claim.md)
 * [`nova.memory_stats`](nova-memory-stats.md)

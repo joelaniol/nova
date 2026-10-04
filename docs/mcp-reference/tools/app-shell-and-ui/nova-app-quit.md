@@ -2,15 +2,13 @@
 
 > **Gracefully terminates the Nova host application process and all child WebView2 runtimes.**
 
-* **Security Tier:** Tier 3 (Host Process Control)
-* **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.app_quit` triggers an orderly application shutdown: flushes pending SQLite transactions, unregisters MCP endpoints, releases Outrider child processes, and exits.
+`nova.app_quit` requests a shutdown of the Nova host application. The response is returned to the caller before the process actually exits, so a dropped connection right after this call is expected. This programmatic close skips the "Close Nova?" confirmation prompt that a human closing the window would see; it does not restore tabs on the next launch.
 
 ---
 
@@ -25,6 +23,7 @@
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
+Tool category: `high_impact` (highest risk class; Nova's agent permission settings can ask before it runs).
 <!-- /generated:parameters -->
 
 ---
@@ -47,12 +46,13 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Application termination initiated."
+      "text": "Nova shutdown initiated. The connection will drop as the app exits."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "status": "ShuttingDown"
+    "force": false,
+    "shuttingDown": true
   }
 }
 ```
@@ -61,7 +61,7 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
 
 ## 4. Operational Best Practices
 
-* **Final Step Only:** Only invoke when task objectives require full process teardown.
+* **Final Step Only:** Only invoke when task objectives require full process teardown; this is a clean exit and does not trigger tab restoration on the next launch.
 * **Pending State:** Ensure background downloads and tasks are finished or paused prior to quitting.
 
 ---

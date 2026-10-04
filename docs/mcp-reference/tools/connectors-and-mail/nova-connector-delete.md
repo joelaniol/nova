@@ -6,9 +6,8 @@ Deletes a connector profile, associated capability grants, and backing DPAPI sec
 
 ## 1. Overview
 
-`nova.connector_delete` removes a connector profile from the system. If no other connector references the backing credential secret, the encrypted secret is permanently removed from the keystore.
+`nova.connector_delete` removes a connector profile and its capability grants. A backing password/passphrase secret is removed only when no other connector still references it. The result always reports `found` explicitly — a missing connector id is never answered with a silent success.
 
-* **Security Tier:** Tier 3 (Destructive Deletion)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
 ---
@@ -23,6 +22,7 @@ Deletes a connector profile, associated capability grants, and backing DPAPI sec
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -45,13 +45,21 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
   "content": [
     {
       "type": "text",
-      "text": "Deleted connector conn-mail-01 and cleaned up associated capability grants."
+      "text": "Connector 'conn-mail-01' deleted (2 grant(s) removed, 1 secret(s) cleaned up)."
     }
   ],
   "structuredContent": {
-    "ok": true,
     "id": "conn-mail-01",
-    "status": "Deleted"
+    "deleted": true,
+    "found": true,
+    "changed": true,
+    "status": "deleted",
+    "reasonCode": null,
+    "grantsRemoved": 2,
+    "secretsDeleted": ["conn-mail-01-password"],
+    "secretsKept": [],
+    "cleanupIncomplete": false,
+    "cleanupError": null
   }
 }
 ```
@@ -61,7 +69,8 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
 ## 4. Operational Best Practices
 
 * **Verify Dependencies:** Ensure no active scheduled tasks or agents rely on this connector before deletion.
-* **Automatic Secret Cleanup:** Backing secrets are safely dereferenced without orphan leaks.
+* **Check `found`, not just success:** A nonexistent id still returns a normal (non-error) result with `found: false`; check that field instead of assuming the delete happened.
+* **Watch `cleanupIncomplete`:** If grant or secret cleanup fails partway, `status` is `cleanup_incomplete` and `cleanupError` names what is left; nothing is silently dropped.
 
 ---
 

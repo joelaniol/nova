@@ -1,8 +1,7 @@
 # `nova.stream_url`
 
-> **Subscribes to Server-Sent Events (SSE) or WebSocket streaming traffic on the page.**
+> **Returns the local address of a live image stream of a tab or of the Nova window.**
 
-* **Security Tier:** Tier 2 (Streaming Network)
 * **Core Feature Guide:** [DOM Perception & Semantic Extraction](../../../core-features/tob.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
@@ -10,7 +9,9 @@
 
 ## 1. Overview
 
-`nova.stream_url` reads incoming event streams from real-time data feeds, capturing live updates up to a message count or timeout.
+`nova.stream_url` returns the address of a live view of a tab (`kind: "tab"`, page content only) or of the whole Nova window (`kind: "app"`, including tabs and address bar). The address points to Nova's local MCP server; opening it delivers a continuous stream of PNG frames (`multipart/x-mixed-replace`) at `fps` frames per second. The call itself only builds the address; it does not capture anything.
+
+The stream endpoint needs the same bearer token as the MCP server. Pass `includeToken: true` to embed the token in the address so a plain browser can open it; treat such an address like the token itself.
 
 ---
 
@@ -30,6 +31,7 @@
 | `screenshotMaxHeight` | `integer` | No | — | 1–10000 | Preferred frame height limit in pixels. Must match maxHeight if both are provided. |
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -42,9 +44,9 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
   "name": "nova_stream_url",
   "arguments": {
     "targetId": "tab-1",
-    "url": "https://example.com/live/feed",
-    "maxMessages": 10,
-    "timeoutMs": 5000
+    "kind": "tab",
+    "fps": 2,
+    "screenshotMaxWidth": 1280
   }
 }
 ```
@@ -55,18 +57,17 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
   "content": [
     {
       "type": "text",
-      "text": "Streamed 10 SSE messages."
+      "text": "http://127.0.0.1:27183/stream?kind=tab&targetId=tab-1&fps=2&agentId=default&maxWidth=1280"
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "messagesReceived": 10,
-    "events": [
-      {
-        "event": "price_update",
-        "data": "{\"symbol\": \"NVDA\", \"price\": 140.2}"
-      }
-    ]
+    "url": "http://127.0.0.1:27183/stream?kind=tab&targetId=tab-1&fps=2&agentId=default&maxWidth=1280",
+    "kind": "tab",
+    "targetId": "tab-1",
+    "agentId": "default",
+    "fps": 2,
+    "includesToken": false,
+    "maxWidth": 1280
   }
 }
 ```
@@ -75,11 +76,12 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
 
 ## 4. Operational Best Practices
 
-* **Real-time AI Feeds:** Monitor streaming token outputs from web chat interfaces.
+* **Watch Long Runs:** Open the address in a browser or viewer to follow what an agent does in a tab without taking repeated screenshots.
+* **Keep Tokens Private:** Only use `includeToken: true` when the address stays on the local machine.
 
 ---
 
 ## 5. Related Tools
 
-* [`nova.fetch_resource`](nova-fetch-resource.md)
-* [`nova.network_read`](nova-network-read.md)
+* [`nova.capture_screenshot`](../visual-evidence/nova-capture-screenshot.md)
+* [`nova.capture_app_screenshot`](../visual-evidence/nova-capture-app-screenshot.md)

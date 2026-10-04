@@ -2,7 +2,6 @@
 
 > **Lists supported platform UI frameworks and common component models.**
 
-* **Security Tier:** Tier 1 (Read-Only Platform Models)
 * **Core Feature Guide:** [Phenomenological Knowledge Store (PKS)](../../../core-features/pks.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
@@ -10,7 +9,7 @@
 
 ## 1. Overview
 
-`nova.pks_platform_list` lists all available platform knowledge models bundled with Nova.
+`nova.pks_platform_list` lists platform-level vendor knowledge (e.g. consent-management-platform templates) previously registered via [`nova.pks_platform_seed`](nova-pks-platform-seed.md). Nova does not ship this store pre-seeded — the list is empty until something seeds it.
 
 ---
 
@@ -20,6 +19,7 @@
 This tool takes no parameters.
 
 Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_learning')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -40,17 +40,38 @@ Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_l
   "content": [
     {
       "type": "text",
-      "text": "Supported platforms: shopify, salesforce, wordpress, jira, github."
+      "text": "2 platforms registered."
     }
   ],
   "structuredContent": {
-    "ok": true,
+    "count": 2,
     "platforms": [
-      "shopify",
-      "salesforce",
-      "wordpress",
-      "jira",
-      "github"
+      {
+        "stableId": "onetrust",
+        "displayName": "OneTrust",
+        "status": "active",
+        "migratedToStableId": null,
+        "statusReasonJson": null,
+        "description": "OneTrust consent-management-platform pattern.",
+        "homepageUrl": "https://onetrust.com",
+        "lastSeenAtUtc": "2026-10-02T20:10:00Z",
+        "lastRevalidatedAtUtc": null,
+        "patternCount": 1,
+        "totalPatternCount": 1
+      },
+      {
+        "stableId": "didomi",
+        "displayName": "Didomi",
+        "status": "active",
+        "migratedToStableId": null,
+        "statusReasonJson": null,
+        "description": null,
+        "homepageUrl": null,
+        "lastSeenAtUtc": "2026-10-02T20:10:00Z",
+        "lastRevalidatedAtUtc": null,
+        "patternCount": 1,
+        "totalPatternCount": 1
+      }
     ]
   }
 }
@@ -60,10 +81,11 @@ Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_l
 
 ## 4. Operational Best Practices
 
-* **Platform Identification:** Check if target site runs on a recognized platform.
+* **Platform Identification:** Check which vendor templates are already registered before seeding a duplicate via `nova.pks_platform_seed`.
 
 ---
 
 ## 5. Related Tools
 
 * [`nova.pks_platform_get`](nova-pks-platform-get.md)
+* [`nova.pks_platform_seed`](nova-pks-platform-seed.md)

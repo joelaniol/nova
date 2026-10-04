@@ -8,8 +8,6 @@ Dispatches a host-authored Windows toast notification and persists it to the Nov
 
 `nova.notifications_send` presents native Windows desktop toast notifications to the user and stores them in Nova's persistent notification drawer. It includes rate-limiting (10 requests per 30 seconds) and blocks website impersonation (`sourceKind: "website"` is rejected).
 
-* **Security Tier:** Tier 3 (High-Impact)
-* **Core Architecture Guide:** [Closed-Loop System & Event Propagation](../../../core-features/closed-loop-system.md)
 
 ---
 
@@ -29,6 +27,7 @@ Dispatches a host-authored Windows toast notification and persists it to the Nov
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
 
 Capability bundle: `notifications` (load it with `nova.tools_bundle(bundle='notifications')`).
+Tool category: `high_impact` (highest risk class; Nova's agent permission settings can ask before it runs).
 <!-- /generated:parameters -->
 
 ---
@@ -74,6 +73,7 @@ Capability bundle: `notifications` (load it with `nova.tools_bundle(bundle='noti
 * **Rate Limiting:** Guarded by a 10 requests / 30 seconds bucket. Exceeding this limit returns error `-32029` with `retryAfterMs`.
 * **Urgent Scenarios:** Only set `urgent: true` for genuine emergencies or blocking operator interventions (e.g. required 2FA confirmation), to respect user focus.
 * **Toast Replacement:** Use `tag` for progress updates (e.g. `tag: "batch-download-progress"`) to avoid flooding the user's desktop with dozens of individual toast popups.
+* **`status: "sent"` Means Dispatched, Not Delivered:** The OS toast is shown asynchronously after this call returns, so `status: "sent"` only confirms the notification was queued and persisted to the inbox. Check `deliveryState` via [`nova.notifications_get`](nova-notifications-get.md) (`pending`/`delivered`/`failed`/`suppressed`) to confirm the toast actually reached the desktop.
 
 ---
 

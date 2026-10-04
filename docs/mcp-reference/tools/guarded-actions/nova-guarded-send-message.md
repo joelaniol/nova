@@ -63,6 +63,7 @@ Sending a prompt or chat message in modern AI interfaces involves complex intera
 | `message` | `string` | No | — | — | Alias for 'text'. Accepted for convenience — many agents use 'message' instinctively. If both 'text' and 'message' are provided, 'text' wins. |
 
 Capability bundles: `browser_automation`, `form_submission`.
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -96,15 +97,19 @@ Capability bundles: `browser_automation`, `form_submission`.
   "verified": true,
   "targetId": "tab-101",
   "effectiveSelector": "button[data-testid='send-button']",
+  "mode": "compose_and_send",
   "composerResolution": {
-    "inputType": "contenteditable",
-    "textLength": 84,
-    "readbackVerified": true
+    "input": { "selector": "div[contenteditable='true']", "source": "auto_discovery", "confidence": 0.95 },
+    "send": { "selector": "button[data-testid='send-button']", "source": "auto_discovery", "scopeKind": "document" },
+    "pairConfidence": 0.9,
+    "ambiguityMargin": 0.4,
+    "typedChars": 84
   },
   "verifyState": "verified",
   "retryAdvice": "do_not_retry"
 }
 ```
+`composerResolution` and `mode: "compose_and_send"` only appear when `text`/`message` was supplied so Nova did the type-then-send flow itself; a call that only clicks an already-typed composer's send button (explicit `selector`/`ctaRef`, no `text`) omits them.
 
 ---
 
@@ -114,7 +119,10 @@ Capability bundles: `browser_automation`, `form_submission`.
 | :--- | :--- | :--- |
 | `action.no_input_field_found` | No visible chat composer textarea or contenteditable found. | Check if the chat page is finished loading using [`nova.wait_for_selector`](../browser-automation/nova-wait-for-selector.md). |
 | `action.no_send_button_found` | Composer was found, but no send button could be paired with it. | Provide explicit `selector` for the send button. |
+| `action.no_chat_surface_pair_found` | Neither composer nor send button could be resolved as a pair. | Pass an explicit `selector` for the send button, or inspect the page with `nova.perceive`. |
 | `action.ambiguous_input_field` | Multiple input fields exist on page with equal pairing confidence. | Pass an explicit `selector` to identify the desired input. |
+
+These are reported as a failed action outcome (not an invalid-params error).
 
 ---
 

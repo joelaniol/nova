@@ -34,7 +34,7 @@ Fusion multi-modal perception engine: captures visual screenshot evidence and ex
 Traditional scrapers measure only distance from the page bottom. `nova.perceive` returns bidirectional fold metrics in `structuredContent.completeness`:
 * `belowFoldPx`: Unrendered content beneath the visible window.
 * `aboveFoldPx`: Virtualized content above the viewport (critical for reverse-scroll chat windows like ChatGPT, Claude, or Slack).
-* `mechanismHint`: Identifies whether more content requires `"scrollable"`, `"loadMoreControl"`, `"pagination"`, or `"bidirectionalVirtualization"`.
+* `mechanismHint`: Identifies whether more content requires `"scrollable"`, `"loadMoreControl"`, `"pagination"`, or `"bidirectional"` (content loads both above and below the current view, e.g. a reverse-scroll chat).
 
 ### B. Form Analysis with Semantic Interaction Hints
 In `mode: "form_analysis"`, Nova analyzes interactive controls beyond basic HTML attributes:
@@ -83,6 +83,7 @@ When rendering dynamic SPAs, DOM changes may occur between visual pixel capture 
 | `responseDetail` | `string` | No | — | `full`, `essential` | Overall response metadata level. 'full' (default outside state): all metadata (PKS, OK hints, goals, framework, autofill, trusted state). 'essential': reduced metadata. mode='state' requires essential and returns only its requested status families plus the standard tool envelope. Oversized mode='full' responses may still emit overflow safety fields (`responseSizeWarning`, `overflowFallbackHint`, `snapshot`) so the bounded follow-up path stays available. |
 
 Capability bundles: `browser_automation`, `form_submission`, `vault_auth`.
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -131,31 +132,67 @@ Capability bundles: `browser_automation`, `form_submission`, `vault_auth`.
 {
   "targetId": "tab-101",
   "mode": "summary",
-  "url": "https://example.com/checkout",
-  "title": "Nova Checkout",
-  "viewport": { "width": 1280, "height": 800 },
-  "headings": [
-    { "level": 1, "text": "Shipping & Payment Details" },
-    { "level": 2, "text": "Order Summary" }
-  ],
-  "landmarks": ["header", "main", "footer"],
-  "ctas": [
-    { "ctaRef": 1, "label": "Place Order", "selector": "button#submit-order", "score": 98 },
-    { "ctaRef": 2, "label": "Apply Coupon", "selector": "button.apply-promo", "score": 75 }
-  ],
-  "completeness": {
-    "aboveFoldPx": 0,
-    "belowFoldPx": 450,
-    "continuationRisk": "low",
-    "mechanismHint": "scrollable"
+  "screenshot": {
+    "bytes": 84213,
+    "pixelWidth": 1280,
+    "pixelHeight": 800,
+    "scaled": true,
+    "mimeType": "image/jpeg",
+    "filePath": "C:\\Users\\GNetwork\\AppData\\Local\\NovaBrowser\\screenshots\\...jpg"
   },
+  "screenshotOk": true,
+  "screenshotStatus": "ok",
+  "screenshotSkipped": false,
   "perceiveTiming": {
-    "captureGapMs": 14,
-    "skewStatus": "within_threshold"
+    "captureOrder": "screenshot_first",
+    "startedAtUtc": "2026-10-03T20:45:10.0000000Z",
+    "screenshotCapturedAtUtc": "2026-10-03T20:45:10.1200000Z",
+    "extractionStartedAtUtc": "2026-10-03T20:45:10.1300000Z",
+    "extractionCompletedAtUtc": "2026-10-03T20:45:10.1450000Z",
+    "completedAtUtc": "2026-10-03T20:45:10.1460000Z",
+    "screenshotToExtractionStartMs": 10,
+    "screenshotToExtractionEndMs": 25,
+    "extractionMs": 15,
+    "totalMs": 146,
+    "skewStatus": "within_threshold",
+    "screenshotMayLagDom": false,
+    "warning": null
   },
-  "screenshotStatus": "ok"
+  "extraction": {
+    "url": "https://example.com/checkout",
+    "title": "Nova Checkout",
+    "viewport": { "w": 1280, "h": 800, "dpr": 1 },
+    "completeness": {
+      "belowFoldPx": 450,
+      "aboveFoldPx": 0,
+      "continuationRisk": "low",
+      "mechanismHint": "scrollable"
+    },
+    "headings": [
+      { "level": "h1", "text": "Shipping & Payment Details", "selector": "h1" },
+      { "level": "h2", "text": "Order Summary", "selector": "h2.order-summary" }
+    ],
+    "landmarks": [
+      { "tag": "header", "label": null, "selector": "header" },
+      { "tag": "main", "label": null, "selector": "main" }
+    ],
+    "ctas": [
+      { "tag": "button", "text": "Place Order", "selector": "button#submit-order", "href": null, "rect": { "x": 540, "y": 620, "w": 200, "h": 48 } },
+      { "tag": "button", "text": "Apply Coupon", "selector": "button.apply-promo", "href": null, "rect": { "x": 540, "y": 680, "w": 160, "h": 36 } }
+    ]
+  },
+  "deep": false,
+  "frames": null
 }
 ```
+
+The mode-specific page data (`url`, `title`, `viewport`, `headings`, `landmarks`, `ctas`,
+`completeness`, ...) lives under `extraction`, not at the top level — the top level is the shared
+envelope (`screenshot`, `screenshotStatus`, `perceiveTiming`, `pks`, `trustedState`, `snapshot`, ...)
+common to every mode. `viewport` uses `w`/`h`/`dpr`, not `width`/`height`. Heading `level` is the tag
+name (`"h1"`, `"h2"`, ...), not a number. `landmarks` is an array of `{tag, label, selector}`
+objects, not a flat list of strings. Summary-mode CTAs carry `tag`/`text`/`selector`/`href`/`rect`
+only — `ctaRef` and `score` are `cta_detection_v3`-only fields, not part of `summary`.
 
 ---
 
@@ -165,13 +202,13 @@ Capability bundles: `browser_automation`, `form_submission`, `vault_auth`.
 | :--- | :--- | :--- |
 | `screenshotStatus: "failed"` | Tab is minimized or covered by native OS window. | Call `nova.set_active_tab` followed by `nova.window_set_state` to restore focus, then retry. |
 | `possible_skew detected` | Heavy animations or layout re-renders occurred during capture. | Settle page with a brief pause or verify elements with [`nova.wait_for_selector`](../browser-automation/nova-wait-for-selector.md). |
-| `bidirectionalVirtualization reported` | Content above the viewport has not been rendered into DOM yet. | Scroll upward using [`nova.scroll_smart`](../browser-automation/nova-scroll-smart.md) with negative `deltaY`. |
+| `mechanismHint: "bidirectional"` | Content above the viewport has not been rendered into DOM yet. | Scroll upward using [`nova.scroll_smart`](../browser-automation/nova-scroll-smart.md) with negative `deltaY`. |
 
 ---
 
 ## 8. Related Tools & Documentation
 
-* [`nova.read_text_structured`](nova-read-text-structured.md) ? Extract text grouped by semantic landmarks.
-* [`nova.click_selector`](../browser-automation/nova-click-selector.md) ? Click CTAs discovered by `perceive`.
-* [`nova.capture_screenshot`](../visual-evidence/nova-capture-screenshot.md) ? Standalone full-resolution or cropped screenshot captures.
-* [Automated Actions Guide (AAG)](../../../core-features/aag.md) ? In-depth guide to perception and settlement cycles.
+* [`nova.read_text_structured`](nova-read-text-structured.md) — Extract text grouped by semantic landmarks.
+* [`nova.click_selector`](../browser-automation/nova-click-selector.md) — Click CTAs discovered by `perceive`.
+* [`nova.capture_screenshot`](../visual-evidence/nova-capture-screenshot.md) — Standalone full-resolution or cropped screenshot captures.
+* [Automated Actions Guide (AAG)](../../../core-features/aag.md) — In-depth guide to perception and settlement cycles.

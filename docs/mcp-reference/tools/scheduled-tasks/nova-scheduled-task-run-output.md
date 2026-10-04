@@ -6,9 +6,8 @@ Memory-safe tail reader for stdout and stderr log streams of a specific task run
 
 ## 1. Overview
 
-`nova.scheduled_task_run_output` reads log streams produced during task execution. It reads from the tail of the log file to prevent out-of-memory errors on large outputs, returning line slices and pagination metadata.
+`nova.scheduled_task_run_output` reads log streams produced during task execution. For files over 1 MB it streams from the end of the file instead of loading it fully, to avoid out-of-memory errors on large outputs, and returns the requested tail along with line-range metadata (`startLine`, `endLine`, `hasEarlier`). If the run has no log file for the requested stream yet, it reports zero lines rather than an error. The response also includes `structuredResult` — the run's parsed structured-result JSON, if the executor wrote one — alongside the raw log lines.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
 ---
@@ -25,6 +24,7 @@ Memory-safe tail reader for stdout and stderr log streams of a specific task run
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -36,7 +36,7 @@ Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='sc
 {
   "name": "nova.scheduled_task_run_output",
   "arguments": {
-    "runId": "run-8120c",
+    "runId": "8f14e45fceea167a5a36dedd4bea2543",
     "stream": "stdout",
     "maxLines": 50
   }
@@ -49,19 +49,28 @@ Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='sc
   "content": [
     {
       "type": "text",
-      "text": "[stdout] Loaded 3 lines for run-8120c."
+      "text": "[INFO] Navigating to https://store.example.com/item/101...\n[INFO] Element #price resolved: $49.99\n[INFO] Written to shared/price.json. Run finished."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "runId": "run-8120c",
+    "runId": "8f14e45fceea167a5a36dedd4bea2543",
     "stream": "stdout",
     "totalLines": 3,
+    "truncated": false,
+    "mode": "tail",
+    "maxLines": 50,
+    "returnedCount": 3,
+    "startLine": 1,
+    "endLine": 3,
+    "hasEarlier": false,
+    "hasMore": false,
+    "nextStartLine": null,
     "lines": [
       "[INFO] Navigating to https://store.example.com/item/101...",
       "[INFO] Element #price resolved: $49.99",
       "[INFO] Written to shared/price.json. Run finished."
-    ]
+    ],
+    "structuredResult": null
   }
 }
 ```
@@ -71,7 +80,7 @@ Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='sc
 ## 4. Operational Best Practices
 
 * **Error Streams First:** When investigating failed runs, query `stream: "stderr"` first to see exception stack traces.
-* **Bounded Output:** Default 500 lines protects client context from token overflow on verbose shell tasks.
+* **Bounded Output:** Default 500 lines protects client context from token overflow on verbose shell tasks; check `hasEarlier` to know if output was cut off at the start.
 
 ---
 

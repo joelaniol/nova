@@ -8,7 +8,6 @@ Reads localStorage or sessionStorage key-value pairs for the target page.
 
 `nova.storage_inspect` reads HTML5 Web Storage (`localStorage` or `sessionStorage`) for the target tab's origin. By default, it returns keys only; use `includeValues: true` to inspect stored values.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
 ---
@@ -28,6 +27,7 @@ Reads localStorage or sessionStorage key-value pairs for the target page.
 **`_meta.intent` is required for certain arguments.** Passing a short reason in `_meta.intent` is always safe; a rejected call names the argument that made it required.
 
 Capability bundle: `site_data_management` (load it with `nova.tools_bundle(bundle='site_data_management')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -40,9 +40,9 @@ Capability bundle: `site_data_management` (load it with `nova.tools_bundle(bundl
   "name": "nova.storage_inspect",
   "arguments": {
     "targetId": "tab-1",
-    "storageType": "localStorage",
+    "storageType": "local",
     "includeValues": true,
-    "keyFilter": "auth_*"
+    "keyFilter": "auth_"
   }
 }
 ```
@@ -53,19 +53,31 @@ Capability bundle: `site_data_management` (load it with `nova.tools_bundle(bundl
   "content": [
     {
       "type": "text",
-      "text": "Inspected localStorage on tab-1: 1 key found."
+      "text": "Inspected localStorage for all_browser_tabs."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "targetId": "tab-1",
-    "storageType": "localStorage",
-    "entries": [
-      {
-        "key": "auth_token",
-        "value": "eyJh..."
-      }
-    ]
+    "storageType": "local",
+    "data": {
+      "entries": [
+        {
+          "key": "auth_token",
+          "value": "eyJh...",
+          "valueTruncated": false,
+          "valueLength": 142
+        }
+      ],
+      "totalCount": 1,
+      "truncated": false
+    },
+    "scope": {
+      "profileId": "Tabs",
+      "profileScope": "all_browser_tabs",
+      "isSharedProfile": true
+    },
+    "includeValues": true,
+    "topLevelOriginOnly": true
   }
 }
 ```

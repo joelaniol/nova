@@ -84,6 +84,7 @@ Stitches the entire scrollable document vertically (up to 20,000px). Combine wit
 | `fullPage` | `boolean` | No | `false` | — | Capture the entire scrollable page instead of just the visible viewport (Playwright screenshot({fullPage:true})). Ignored when 'region' is set — a crop box already names what to capture. Very long pages are capped (~20000px tall / 20 MP); over that the capture falls back to the viewport. If full-page CDP capture times out, Nova degrades through a precomputed viewport CDP clip before CapturePreviewAsync. Combine with screenshotMaxWidth/Height to downscale the tall result. Tip: prefer responseMode='thumbnail+reference' for full-page shots — they are token-expensive inline. |
 
 Capability bundles: `browser_automation`, `form_submission`, `page_read_debug`, `visual_evidence`.
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -122,23 +123,34 @@ Capability bundles: `browser_automation`, `form_submission`, `page_read_debug`, 
 
 ## 5. Return Value Structure
 
+`structuredContent` is flat (there is no separate top-level envelope) — a representative subset of a `selector` capture with `responseMode: "reference"`:
+
 ```json
 {
-  "targetId": "tab-101",
-  "format": "png",
-  "dimensions": { "width": 640, "height": 380 },
-  "fileSizeBytes": 42180,
-  "resourceUri": "nova://screenshot/evidence-883921.png",
   "structuredContent": {
+    "profileId": "tab-101",
+    "targetId": "tab-101",
+    "bytes": 17408,
+    "pixelWidth": 640,
+    "pixelHeight": 380,
+    "scaled": false,
+    "sourcePixelWidth": 640,
+    "sourcePixelHeight": 380,
+    "mimeType": "image/png",
+    "filePath": "C:\\Users\\me\\AppData\\Local\\NovaBrowser\\Screenshots\\<id>.png",
+    "resource": { "uri": "nova://screenshot/<id>", "mimeType": "image/png", "size": 17408 },
     "evidence": {
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "capturedAtUtc": "2026-10-02T19:30:00Z",
-      "pageUrl": "https://example.com/receipt/4810",
-      "pageTitle": "Transaction Receipt"
-    }
+      "hashedFrom": "file",
+      "filePath": "C:\\Users\\me\\AppData\\Local\\NovaBrowser\\Screenshots\\<id>.png",
+      "capturedAtUtc": "2026-10-02T19:30:00Z"
+    },
+    "selector": "div.invoice-summary-card"
   }
 }
 ```
+
+`evidence.sha256` is `null` with `hashedFrom: "not_available_thumbnail_only"` when only a thumbnail came back (no stored file and no full inline image to hash). Page URL/title are attached by shared response enrichment, not inside `evidence`. The full response also carries `byteAccounting`, `tokens`, `coordinateMeta`, `deliveryMode`, `inlinePreview`/`evidenceImage`, `readabilityRisk`, and `evidenceGuidance`.
 
 ---
 
@@ -146,9 +158,10 @@ Capability bundles: `browser_automation`, `form_submission`, `page_read_debug`, 
 
 | Error Code / Message | Cause | Corrective Action |
 | :--- | :--- | :--- |
-| `Element is not visible` | Target `selector` has `display: none`, `opacity: 0`, or zero dimensions. | Ensure the element is rendered and visible before capturing. |
-| `Screenshot budget exceeded` | Consecutive full-viewport inline captures exceeded session safety budget. | Switch to `responseMode: "thumbnail+reference"` or crop via `selector`. |
-| `Dimension mismatch on diff` | Capture dimensions vary between viewports. | Standardize window bounds with `nova.window_set_size`. |
+| `-32004: Element for selector not capturable (not found): ...` | Target `selector` matched nothing. | Verify the selector against the live DOM. |
+| `-32004: Element for selector not capturable (obstructed): ...` | Another element covers the target near its top edge (or covers it heavily). | Close/dismiss the blocker, or read the box with `nova.get_element_rect` and capture it via `region` instead, which skips this gate. |
+| `-32004: Element for selector not capturable (fully-transparent): ...` | The element (or an ancestor) has `opacity: 0` — a crop would show whatever is behind it. | Make it visible first, or capture the surrounding container. |
+| AAG screenshot-budget block (`isError: true`) | Consecutive large inline captures exceeded the session's safety budget. | Switch to `responseMode: "thumbnail+reference"`/`"reference"`, crop via `selector`/`region`, or pass `force: true` to override (does not bypass the absolute decompression-bomb caps). |
 
 ---
 

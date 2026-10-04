@@ -8,7 +8,6 @@ Instantly extracts and classifies all hyperlinks from an existing active browser
 
 `nova.crawl_links` performs fast, synchronous hyperlink extraction from an open tab without launching a background crawl job. It categorizes links by relation, external vs internal domain status, and navigation intent, while optionally penetrating Shadow DOM roots and iframes.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Autonomous Crawler & Surface Explorer](../../../core-features/crawler-and-discovery.md)
 
 ---
@@ -26,6 +25,7 @@ Instantly extracts and classifies all hyperlinks from an existing active browser
 | `deep` | `boolean` | No | `false` | — | If true, also search iframes and shadow DOM for links. |
 
 Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawler_ops')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -50,32 +50,45 @@ Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawle
   "content": [
     {
       "type": "text",
-      "text": "Extracted 12 same-domain doc links from active tab."
+      "text": "Found 12 links on https://example.com/welcome"
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "count": 12,
-    "pageUrl": "https://example.com/welcome",
     "links": [
       {
         "url": "https://example.com/docs/getting-started",
         "text": "Getting Started Guide",
-        "rel": "",
+        "rel": null,
         "isExternal": false,
         "isNavigation": true
       },
       {
         "url": "https://example.com/docs/api-reference",
         "text": "Full API Reference",
-        "rel": "",
+        "rel": null,
         "isExternal": false,
         "isNavigation": true
       }
-    ]
+    ],
+    "count": 12,
+    "truncated": false,
+    "linkLimit": 500,
+    "pageUrl": "https://example.com/welcome",
+    "sameDomainOnly": true,
+    "sameScopeOnly": true,
+    "frameworkHint": null,
+    "pageSignals": {
+      "title": "Welcome — Example",
+      "lang": "en",
+      "canonical": null,
+      "robots": null
+    },
+    "agentSignals": null
   }
 }
 ```
+
+There is no top-level `ok` field. `linkLimit` reflects Nova's internal cap on extracted links per call (truncation is reported via `truncated`); `pageSignals`/`agentSignals` carry page metadata and any cached AI/MCP discovery signal for the page's origin. `pageSignals` also carries `contentLanguage`, an `hreflang` array, and an `auth` object (login-wall/logged-in signals from the page's auth probe) that are left out of this shortened example.
 
 ---
 

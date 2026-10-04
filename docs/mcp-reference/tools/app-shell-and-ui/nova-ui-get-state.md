@@ -2,15 +2,13 @@
 
 > **Inspects host application UI state: active tab, overlay visibility, responsiveness, and open dialogs.**
 
-* **Security Tier:** Tier 1 (Read-Only UI State)
-* **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.ui_get_state` provides a consolidated view of Nova's visual state. Crucial for detecting whether a native file picker or modal dialog is currently trapping input.
+`nova.ui_get_state` reports the active tab, whether the settings and downloads overlays are open, and whether a native Windows dialog currently has focus. When a native dialog is open, the settings/downloads state is reported as unknown rather than guessed, and `uiThreadResponsive` is `false` because the UI thread is blocked by the dialog.
 
 ---
 
@@ -20,6 +18,7 @@
 This tool takes no parameters.
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -40,15 +39,27 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "UI State: Active tab tab-1. Native dialog open: False. Overlays: None."
+      "text": "ActiveTab=tab-1 SettingsOpen=False DownloadsOpen=False"
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "activeTabId": "tab-1",
-    "hasNativeDialog": false,
-    "isResponsive": true,
-    "openOverlays": []
+    "activeTargetId": "tab-1",
+    "settingsOpen": false,
+    "downloadsOpen": false,
+    "uiThreadResponsive": true,
+    "nativeDialog": { "isOpen": false }
+  }
+}
+```
+While a native dialog has focus, the response looks like:
+```json
+{
+  "structuredContent": {
+    "activeTargetId": "tab-1",
+    "settingsOpen": null,
+    "downloadsOpen": null,
+    "uiThreadResponsive": false,
+    "nativeDialog": { "isOpen": true }
   }
 }
 ```
@@ -57,7 +68,7 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
 
 ## 4. Operational Best Practices
 
-* **Pre-flight Gate:** Call when automation commands time out unexpectedly to detect unhandled modal dialogs.
+* **Pre-flight Gate:** Call when automation commands time out unexpectedly to detect unhandled modal dialogs (`uiThreadResponsive: false`).
 
 ---
 

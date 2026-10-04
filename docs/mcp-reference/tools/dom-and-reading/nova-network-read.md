@@ -2,7 +2,6 @@
 
 > **Reads captured HTTP network requests and responses matching URL filters or status codes.**
 
-* **Security Tier:** Tier 1 (Read-Only Network)
 * **Core Feature Guide:** [DOM Perception & Semantic Extraction](../../../core-features/tob.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
@@ -10,7 +9,9 @@
 
 ## 1. Overview
 
-`nova.network_read` returns recent network log records from the target tab, including request URLs, response status codes, latency timings, and headers.
+`nova.network_read` returns network events recorded in the target tab: `fetch` and `xhr` requests with method, status and duration, plus `websocket`, `eventsource`, `beacon` and `performance` entries. Filters such as `urlContains`, `methods`, `kinds`, `statusMin`/`statusMax` and `onlyFailed` run in the page before the list is returned; `summarize` returns grouped counts instead of single entries. Request and response bodies are only recorded after `includeBodies: true`, and headers only for names listed in `includeHeaders`. Continue with `sinceId`.
+
+Recording starts with the first read on a page; `tapInstalledNow: true` means earlier requests were not captured. `waitForMatchMs` waits for a matching entry instead of polling yourself; if none arrives, the call still succeeds and reports `reasonCode: "network_read.wait_timeout"`. The text block carries the same JSON as `structuredContent.result`; the response example below is shortened (`frames`, `serviceWorker`, `outputBudget` and further fields omitted).
 
 ---
 
@@ -43,6 +44,7 @@
 | `maxChars` | `integer` | No | `50000` | 1000–5000000 | Maximum serialized response characters before truncation. Defaults shrink automatically under context pressure unless explicitly provided. |
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -55,8 +57,8 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
   "name": "nova_network_read",
   "arguments": {
     "targetId": "tab-1",
-    "urlFilter": "/api/",
-    "limit": 25
+    "urlContains": "/api/",
+    "maxEntries": 25
   }
 }
 ```
@@ -67,19 +69,56 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
   "content": [
     {
       "type": "text",
-      "text": "Captured 8 matching network requests."
+      "text": "{\"ok\":true,\"requestedMax\":25,\"sinceId\":0,\"clearAfterRead\":false,\"lastId\":31,\"tapInstalledNow\":false,\"entriesConsidered\":31,\"entriesMatched\":1,\"entriesFilteredOut\":30,\"entries\":[{\"id\":12,\"ts\":1791025200789,\"kind\":\"fetch\",\"url\":\"https://example.com/api/products\",\"method\":\"GET\",\"status\":200,\"ok\":true,\"durationMs\":140,\"contentType\":\"application/json\"}]}"
     }
   ],
   "structuredContent": {
-    "ok": true,
     "targetId": "tab-1",
-    "requests": [
-      {
-        "url": "https://example.com/api/products",
-        "status": 200,
-        "durationMs": 140
-      }
-    ]
+    "ok": true,
+    "maxEntries": 25,
+    "sinceId": 0,
+    "clear": false,
+    "entriesCount": 1,
+    "entriesTotal": 1,
+    "entriesOmitted": 0,
+    "truncated": false,
+    "result": {
+      "ok": true,
+      "requestedMax": 25,
+      "sinceId": 0,
+      "clearAfterRead": false,
+      "lastId": 31,
+      "tapInstalledNow": false,
+      "entriesConsidered": 31,
+      "entriesMatched": 1,
+      "entriesFilteredOut": 30,
+      "entries": [
+        {
+          "id": 12,
+          "ts": 1791025200789,
+          "kind": "fetch",
+          "url": "https://example.com/api/products",
+          "method": "GET",
+          "status": 200,
+          "ok": true,
+          "durationMs": 140,
+          "contentType": "application/json"
+        }
+      ]
+    },
+    "tap": {
+      "filterActive": true,
+      "urlContains": "/api/",
+      "excludeWebSocket": false,
+      "sinceMs": 0,
+      "statusMin": 0,
+      "statusMax": 0,
+      "onlyFailed": false,
+      "summarize": false,
+      "entriesConsidered": 31,
+      "entriesFilteredOut": 30,
+      "tapInstalledNow": false
+    }
   }
 }
 ```

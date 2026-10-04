@@ -8,8 +8,6 @@ Configures the visual outline rendered around an emulated device viewport in the
 
 `nova.emulation_set_viewport_frame` styles the visible border outline around a device-emulated page within the Nova window, making empty surrounding area clearly recognizable during human or visual agent reviews.
 
-* **Security Tier:** Tier 1 (Host UI Appearance)
-* **Core Architecture Guide:** [Fingerprint & Identity Systems](../../../core-features/fingerprint-and-identity.md)
 
 ---
 
@@ -22,6 +20,7 @@ Configures the visual outline rendered around an emulated device viewport in the
 | `color` | `string` | No | — | — | Outline color as '#RRGGBB' or '#AARRGGBB' (6-digit values are treated as fully opaque), or 'default' to restore Nova's accent color. Omit to keep the current color. |
 
 Capability bundle: `device_emulation` (load it with `nova.tools_bundle(bundle='device_emulation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -40,23 +39,34 @@ Capability bundle: `device_emulation` (load it with `nova.tools_bundle(bundle='d
 ```
 
 ### JSON-RPC Response
+
 ```json
 {
   "content": [
     {
       "type": "text",
-      "text": "Viewport frame updated (enabled=True, color=#FF35CCE6)."
+      "text": "Viewport frame enabled with color #FF35CCE6. The frame is drawn only while a device viewport override is active on the visible tab (nova.emulation_set_device_metrics / nova.emulation_use_device)."
     }
   ],
   "structuredContent": {
-    "enabled": true,
-    "effectiveColor": "#FF35CCE6",
+    "ok": true,
+    "status": "updated",
     "changed": true,
+    "enabled": true,
     "enabledChanged": true,
-    "colorChanged": false
+    "color": "#FF35CCE6",
+    "effectiveColor": "#FF35CCE6",
+    "usesDefaultColor": false,
+    "colorChanged": true,
+    "message": "Viewport frame enabled with color #FF35CCE6.",
+    "note": "The frame is drawn only while a device viewport override is active on the visible tab (nova.emulation_set_device_metrics / nova.emulation_use_device)."
   }
 }
 ```
+
+A no-op call (nothing actually changed, e.g. re-sending the same `enabled`/`color` the frame already
+has) returns `status: "noop"`, `changed: false`, and `message: "No change: the viewport frame already
+had these settings."` instead of an error — it is not treated as a failure.
 
 ---
 

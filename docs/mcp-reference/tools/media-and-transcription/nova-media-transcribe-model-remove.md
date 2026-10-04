@@ -8,7 +8,6 @@ Deletes an installed speech model file to reclaim disk space or prepare for re-d
 
 `nova.media_transcribe_model_remove` removes a GGML model file from local storage. Useful for freeing disk space or removing corrupted model downloads.
 
-* **Security Tier:** Tier 2 (Model Management)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
 ---
@@ -23,6 +22,7 @@ Deletes an installed speech model file to reclaim disk space or prepare for re-d
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -34,7 +34,7 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
 {
   "name": "nova.media_transcribe_model_remove",
   "arguments": {
-    "fileName": "ggml-large-v3.bin"
+    "fileName": "ggml-large-v3-turbo-q5_0.bin"
   }
 }
 ```
@@ -45,16 +45,19 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
   "content": [
     {
       "type": "text",
-      "text": "Deleted speech model file ggml-large-v3.bin."
+      "text": "Removed speech model 'ggml-large-v3-turbo-q5_0.bin'."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "fileName": "ggml-large-v3.bin",
-    "status": "removed"
+    "removed": true,
+    "fileName": "ggml-large-v3-turbo-q5_0.bin",
+    "reasonCode": null,
+    "modelsDirectory": "C:\\Users\\<user>\\AppData\\Local\\NovaBrowser\\Models\\whisper"
   }
 }
 ```
+
+When no file by that name exists, the response is `{ "removed": false, "fileName": "...", "reasonCode": "not_found", "modelsDirectory": "..." }` rather than an error — this is also the result when a model file is removed twice.
 
 ---
 

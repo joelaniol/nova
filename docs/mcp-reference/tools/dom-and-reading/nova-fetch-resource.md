@@ -1,8 +1,7 @@
 # `nova.fetch_resource`
 
-> **Fetches content from a URL inside the browser tab context, inheriting session cookies and origin credentials.**
+> **Downloads one or more URLs with the tab's session cookies and saves them to files.**
 
-* **Security Tier:** Tier 2 (Network Fetch)
 * **Core Feature Guide:** [DOM Perception & Semantic Extraction](../../../core-features/tob.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
@@ -10,7 +9,9 @@
 
 ## 1. Overview
 
-`nova.fetch_resource` executes a fetch HTTP request from inside the tab, bypassing CORS restrictions and automatically attaching session cookies and authorization headers.
+`nova.fetch_resource` downloads one URL (`url`) or up to 50 URLs (`urls`) from inside the tab and writes them to disk. The request runs as a page-side `fetch` with the tab's credentials, so it carries the tab's cookies like the page itself would; it is bound by CORS for cross-origin URLs like any other page request and does not bypass it. `blob:` URLs that are live in the tab work too.
+
+The response body never comes back through MCP: Nova writes the bytes to a file and returns only the path, size, HTTP status and content type. Without `savePath`/`saveDir`, files go into Nova's Exports folder; a path of your own needs the 'Allow local files' setting. In bulk mode the result lists each URL in `results` with `savedCount` and `failedCount`.
 
 ---
 
@@ -28,6 +29,7 @@
 | `timeoutMs` | `integer` | No | `30000` | 1000–120000 | Per-resource fetch timeout in milliseconds. |
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -41,7 +43,7 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
   "arguments": {
     "targetId": "tab-1",
     "url": "https://app.example.com/api/v1/user/profile",
-    "method": "GET"
+    "savePath": "C:\\Temp\\profile.json"
   }
 }
 ```
@@ -52,14 +54,18 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
   "content": [
     {
       "type": "text",
-      "text": "Fetched 200 OK from /api/v1/user/profile."
+      "text": "Fetched 2048 bytes from https://app.example.com/api/v1/user/profile -> C:\\Temp\\profile.json"
     }
   ],
   "structuredContent": {
     "ok": true,
+    "url": "https://app.example.com/api/v1/user/profile",
     "status": 200,
+    "httpOk": true,
     "contentType": "application/json",
-    "body": "{\"id\": 101, \"name\": \"Admin\"}"
+    "filePath": "C:\\Temp\\profile.json",
+    "bytes": 2048,
+    "deliveryMode": "file"
   }
 }
 ```
@@ -68,7 +74,8 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
 
 ## 4. Operational Best Practices
 
-* **Session-Bound API Calls:** Call internal endpoints without extracting or leaking session cookies to LLM context.
+* **Session-Bound Downloads:** Pull files from an authenticated tab without exporting its cookies; the agent only sees the saved file path.
+* **Read the File Separately:** The body is not in the response; open the saved file if its content is needed.
 
 ---
 

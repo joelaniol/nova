@@ -8,7 +8,6 @@ Explicitly promotes a guidance log entry into a profile’s stable guidance.
 
 `nova.task_promote_guidance` promotes an observed workaround or tip from `task_guidance_logs` into the permanent `stableGuidance` of a task profile.
 
-* **Security Tier:** Tier 2 (Guidance Promotion)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
 ---
@@ -22,6 +21,7 @@ Explicitly promotes a guidance log entry into a profile’s stable guidance.
 | `profileId` | `string` | Yes | — | — | The profile to promote the guidance into. |
 
 Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -45,23 +45,26 @@ Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_m
   "content": [
     {
       "type": "text",
-      "text": "Promoted guidance log-guid-401 into profile tp-checkout-01."
+      "text": "{\"ok\":true,\"profileId\":\"tp-checkout-01\",\"guidanceLogId\":\"log-guid-401\",\"promotedToContentRev\":4,\"message\":\"Guidance promoted to profile. Profile contentRev bumped.\"}"
     }
   ],
   "structuredContent": {
     "ok": true,
     "profileId": "tp-checkout-01",
     "guidanceLogId": "log-guid-401",
-    "status": "Promoted"
+    "promotedToContentRev": 4,
+    "message": "Guidance promoted to profile. Profile contentRev bumped."
   }
 }
 ```
+
+There is no separate summary sentence: `content[0].text` is the same structured data serialized as plain JSON text. Failure responses set `ok: false` with a `reason` of `not_found`, `already_promoted`, `profile_mismatch`, `profile_archived`, or `size_limit`.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Reviewed Learning:** Promotes validated hints into permanent memory for all future subagents.
+* **Reviewed Learning:** Promotes validated hints into the profile's stable guidance for future task instances.
 
 ---
 

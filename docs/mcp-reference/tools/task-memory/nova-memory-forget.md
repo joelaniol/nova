@@ -6,10 +6,9 @@ Deletes browsing memories matching domain, memoryType, or text query filters.
 
 ## 1. Overview
 
-`nova.memory_forget` removes outdated or incorrect browsing memories from Nova's long-term semantic store.
+`nova.memory_forget` permanently deletes browsing memories saved with `nova.memory_note`, matched by a single memory ID, by domain and/or memory type, or all of them at once. There is no recovery after deletion.
 
-* **Security Tier:** Tier 2 (Memory Deletion)
-* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
+* **Core Architecture Guide:** [Browser Memory & Knowledge Board](../../../core-features/browser-memory-and-board.md)
 
 ---
 
@@ -24,6 +23,7 @@ Deletes browsing memories matching domain, memoryType, or text query filters.
 | `all` | `boolean` | No | `false` | — | Delete ALL browsing memories. Use with care. |
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -47,16 +47,23 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "Deleted 2 memory entries for example.com."
+      "text": "Deleted 2 browsing memories."
     }
   ],
   "structuredContent": {
     "ok": true,
+    "status": "deleted",
+    "reasonCode": null,
+    "deleted": 2,
     "domain": "example.com",
-    "deletedCount": 2
+    "memoryId": null,
+    "memoryType": "preference",
+    "all": false
   }
 }
 ```
+
+When nothing matches (and `all` is not `true`), `deleted` is `0`, `status` is `"not_found"`, `reasonCode` is `"memory.not_found"`, and `ok` is `false`. With `all: true` and nothing to delete, `status` is `"noop"` and `ok` stays `true`.
 
 ---
 

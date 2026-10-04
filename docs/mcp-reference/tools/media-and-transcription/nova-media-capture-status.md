@@ -6,9 +6,8 @@ Reports progress, elapsed time, and bytes written for an active in-tab media cap
 
 ## 1. Overview
 
-`nova.media_capture_status` monitors an ongoing streaming capture, reporting elapsed recording time, bytes written per track, and buffer health.
+`nova.media_capture_status` monitors an ongoing streaming capture started by [`nova.media_capture_start`](nova-media-capture-start.md), reporting elapsed time, total bytes written, how many tracks are open, and whether the byte cap was hit or the page's recorder was lost (e.g. after a navigation).
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
 ---
@@ -23,6 +22,7 @@ Reports progress, elapsed time, and bytes written for an active in-tab media cap
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -45,18 +45,29 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
   "content": [
     {
       "type": "text",
-      "text": "Capture on tab-1: 15.2s elapsed (240 KB written)."
+      "text": "Capturing 1 track(s), 245760 bytes written after 15200 ms."
     }
   ],
   "structuredContent": {
     "ok": true,
+    "capturing": true,
     "targetId": "tab-1",
-    "status": "recording",
-    "elapsedSeconds": 15.2,
-    "bytesWritten": 245760
+    "saveDir": "C:\\Users\\<user>\\AppData\\Local\\NovaBrowser\\Exports\\MediaCaptures",
+    "elapsedMs": 15200,
+    "bytesWritten": 245760,
+    "trackCount": 1,
+    "maxBytes": 2147483648,
+    "limitHit": false,
+    "droppedBytes": 0,
+    "recorderLost": false,
+    "tracks": [
+      { "recorder": "mse", "index": 0, "mime": "video/webm; codecs=\"vp9\"", "filePath": "C:\\Users\\<user>\\AppData\\Local\\NovaBrowser\\Exports\\MediaCaptures\\capture-20261003-120000-mse0.webm", "bytesWritten": 245760 }
+    ]
   }
 }
 ```
+
+When no capture is running on `targetId`, the response is `{ "ok": false, "capturing": false, "targetId": "tab-1", "reasonCode": "not_capturing" }`.
 
 ---
 

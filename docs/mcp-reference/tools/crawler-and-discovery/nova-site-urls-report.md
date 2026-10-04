@@ -6,9 +6,8 @@ Reports live navigation observations (new pages, 404s, redirects) to the Site-UR
 
 ## 1. Overview
 
-`nova.site_urls_report` allows agents to contribute live findings back to the shared Site-URL-Index. When an agent discovers a 404 dead link, a new page title, or a URL redirection during everyday navigation, reporting it keeps the persistent index fresh for future runs.
+`nova.site_urls_report` allows agents to contribute live findings back to the shared Site-URL-Index. Each report's `status` is one of the lifecycle values `active`/`dead`/`stale` (not an HTTP status code); the HTTP status code itself goes in the separate `httpStatus` field. When an agent discovers a dead link, a new page title, or a redirect during everyday navigation, reporting it keeps the persistent index fresh for future runs.
 
-* **Security Tier:** Tier 2 (Index Mutation)
 * **Core Architecture Guide:** [Autonomous Crawler & Surface Explorer](../../../core-features/crawler-and-discovery.md)
 
 ---
@@ -22,6 +21,7 @@ Reports live navigation observations (new pages, 404s, redirects) to the Site-UR
 | `reports` | `array` of `object` | Yes | — | — | Array of URL observations to report. |
 
 Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawler_ops')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -36,12 +36,13 @@ Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawle
     "reports": [
       {
         "url": "https://docs.example.com/api/v1/deprecated",
-        "status": 404,
-        "note": "Endpoint removed in v2 migration"
+        "status": "dead",
+        "httpStatus": 404
       },
       {
         "url": "https://docs.example.com/api/v2/auth",
-        "status": 200,
+        "status": "active",
+        "httpStatus": 200,
         "title": "Updated Auth V2 Guide"
       }
     ]
@@ -55,23 +56,24 @@ Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawle
   "content": [
     {
       "type": "text",
-      "text": "Processed 2 URL observations into Site-URL-Index (1 updated, 1 marked dead)."
+      "text": "Accepted 2 reports, rejected 0."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "processedCount": 2,
-    "updated": 1,
-    "markedDead": 1
+    "accepted": 2,
+    "rejected": 0,
+    "warnings": []
   }
 }
 ```
+
+There is no top-level `ok`, `processedCount`, `updated`, or `markedDead` field — the real fields are `accepted`/`rejected`/`warnings`. Each report object only accepts `url`, `status` (`active`/`dead`/`stale`), `title`, `httpStatus`, `finalUrl`, `sourceUrl`, `isNavigation`, and `entryMode`; an unrecognized property (such as a free-text `note`) causes that report entry to be rejected (listed in `warnings`), not silently accepted.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Self-Healing Navigation:** Whenever [`nova.navigate`](../browser-automation/nova-navigate.md) encounters a 404 or redirect, report it immediately to update the route index.
+* **Self-Healing Navigation:** Whenever [`nova.navigate`](../browser-automation/nova-navigate.md) encounters a dead link or redirect, report it immediately with `status: "dead"`/`"stale"` (plus the observed `httpStatus`) to update the route index.
 * **Batch Reporting:** Collate multiple findings and submit them in a single call to save protocol roundtrips.
 * **Community Value:** Keeping the Site-URL-Index accurate speeds up route finding for all subsequent subagents and workflows.
 

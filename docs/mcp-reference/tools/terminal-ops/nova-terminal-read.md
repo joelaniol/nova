@@ -8,7 +8,6 @@ Reads the recent raw output tail of a terminal session scrollback buffer.
 
 `nova.terminal_read` extracts the most recent output from a running or exited session. The output may contain ANSI escape codes, progress markers, and sensitive environment data.
 
-* **Security Tier:** Tier 1 (Read / Sensitive)
 * **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces.md)
 
 ---
@@ -24,6 +23,7 @@ Reads the recent raw output tail of a terminal session scrollback buffer.
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
 
 Capability bundle: `terminal_ops` (load it with `nova.tools_bundle(bundle='terminal_ops')`).
+Tool category: `high_impact` (highest risk class; Nova's agent permission settings can ask before it runs).
 <!-- /generated:parameters -->
 
 ---
@@ -35,7 +35,7 @@ Capability bundle: `terminal_ops` (load it with `nova.tools_bundle(bundle='termi
 {
   "name": "nova.terminal_read",
   "arguments": {
-    "sessionId": "term-a8f9c1d0",
+    "sessionId": "term_1a2b3c4d5e6f7a8b",
     "maxBytes": 8192
   }
 }
@@ -52,7 +52,7 @@ Capability bundle: `terminal_ops` (load it with `nova.tools_bundle(bundle='termi
   ],
   "structuredContent": {
     "ok": true,
-    "sessionId": "term-a8f9c1d0",
+    "sessionId": "term_1a2b3c4d5e6f7a8b",
     "output": "PS C:\\Work> git status\nOn branch main\nnothing to commit",
     "totalBytes": 2450,
     "truncated": false,

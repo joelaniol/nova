@@ -2,15 +2,13 @@
 
 > **Opens the Chromium DevTools inspection window for a specified browser tab.**
 
-* **Security Tier:** Tier 2 (Developer Tooling)
-* **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.devtools_open` launches the native Chromium developer tools window docked or detached for interactive visual debugging by human operators.
+`nova.devtools_open` opens the native Chromium DevTools window for a target tab, either `docked` to the bottom of Nova's browser surface or as a separate `popout` window, for interactive visual debugging by human operators.
 
 ---
 
@@ -23,6 +21,7 @@
 | `mode` | `string` | No | — | `docked`, `popout` | DevTools display mode override. 'popout': separate window, the mode WebView2 supports natively. 'docked': attached to the bottom of Nova's browser surface — it overlays the lower part of the page instead of shrinking it, so page content underneath stays covered. If omitted, Nova uses the Settings default (fresh default: popout). |
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -45,13 +44,16 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Opened Chromium DevTools for tab-1."
+      "text": "DevTools opened (popout) for tab-1"
     }
   ],
   "structuredContent": {
     "ok": true,
-    "targetId": "tab-1",
-    "isOpen": true
+    "status": "ok",
+    "reasonCode": null,
+    "opened": true,
+    "mode": "popout",
+    "targetId": "tab-1"
   }
 }
 ```

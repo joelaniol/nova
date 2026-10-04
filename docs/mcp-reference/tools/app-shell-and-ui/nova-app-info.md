@@ -1,16 +1,14 @@
 # `nova.app_info`
 
-> **Returns runtime environment metadata, version numbers, process uptime, and storage paths.**
+> **Returns runtime environment metadata: app version, WebView2/OS runtime info, MCP endpoint, and storage paths.**
 
-* **Security Tier:** Tier 1 (Environment Diagnostics)
-* **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.app_info` reports complete host diagnostics: Nova executable version, WebView2 runtime version, Windows OS build, uptime, active profile roots, and memory usage.
+`nova.app_info` reports host diagnostics: the Nova version and build metadata, .NET/OS runtime description (including the WebView2 runtime version where available), the MCP endpoint and port, storage paths (settings file, logs, dumps), whether autofill is enabled, and autostart/activation info (whether an agent may relaunch a closed Nova, which sandbox a cold autostart targets, and which sandbox is active right now).
 
 ---
 
@@ -20,6 +18,7 @@
 This tool takes no parameters.
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -40,25 +39,39 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
   "content": [
     {
       "type": "text",
-      "text": "Nova AI Workspace v1.4.0 (x64), WebView2 131.0.2903.86, Uptime: 04:12:30."
+      "text": "{ \"appName\": \"Nova\", \"version\": \"1.4.0\", ... }"
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "appVersion": "1.4.0",
-    "webView2Version": "131.0.2903.86",
-    "osVersion": "Windows 11 Build 26100",
-    "uptimeSeconds": 15150
+    "appName": "Nova",
+    "version": "1.4.0",
+    "build": { "configuration": "Release", "product": "Nova AI Workspace" },
+    "runtime": {
+      "osDescription": "Microsoft Windows 10.0.26100",
+      "osVersion": "Microsoft Windows NT 10.0.26100.0",
+      "processArchitecture": "X64",
+      "webView2RuntimeVersion": "131.0.2903.86"
+    },
+    "endpoint": "http://127.0.0.1:27183/mcp",
+    "configuredPort": 27183,
+    "boundPort": 27183,
+    "protocolVersion": "2025-06-18",
+    "storageBaseDir": "%LOCALAPPDATA%\\NovaBrowser",
+    "autofillEnabled": true,
+    "autostartAllowed": true,
+    "automationProfileUid": null,
+    "activeSandboxUid": "sandbox-a"
   }
 }
 ```
+The text block is the same object, pretty-printed as JSON; field names above are as returned by the handler. `automationProfileUid` is the sandbox a cold autostart would target (`null` means last-active); `activeSandboxUid` is the sandbox currently active.
 
 ---
 
 ## 4. Operational Best Practices
 
 * **Version Verification:** Call on session initialization to confirm runtime feature compatibility.
-* **Runtime Diagnostics:** Check memory consumption and WebView2 versions during troubleshooting.
+* **Sandbox/Autostart Checks:** Compare `activeSandboxUid` against the sandbox you expect before relying on autostart behavior.
 
 ---
 

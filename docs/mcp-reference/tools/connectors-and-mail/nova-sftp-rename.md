@@ -6,9 +6,8 @@ Renames or moves a remote file or directory over SFTP.
 
 ## 1. Overview
 
-`nova.sftp_rename` performs an atomic remote rename or move operation on an SFTP host. Requires full transfer capability.
+`nova.sftp_rename` renames or moves one remote path. Requires the connector's full capability and Nova's independent global MutatingRemote confirmation policy. An existing destination is preserved unless `overwrite: true`; overwriting a regular file goes through a bounded sibling-recovery stage, and an interrupted stage reports `stateIndeterminate: true` with the paths to inspect rather than claiming success. A missing source or a protected existing destination returns a truthful reasonCode and `changed: false`. SSH host-key trust remains human-only in Settings.
 
-* **Security Tier:** Tier 2 (Remote File Mutation)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
 ---
@@ -27,6 +26,7 @@ Renames or moves a remote file or directory over SFTP.
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -51,13 +51,30 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
   "content": [
     {
       "type": "text",
-      "text": "Renamed /var/www/incoming/summary.json to /var/www/processed/summary.json."
+      "text": "Renamed the remote path via 'Production Server'."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "oldPath": "/var/www/incoming/summary.json",
-    "newPath": "/var/www/processed/summary.json"
+    "profileId": "conn-sftp-01",
+    "status": "renamed",
+    "changed": true,
+    "stateIndeterminate": false,
+    "reasonCode": null,
+    "durationMs": 60,
+    "remotePathTrust": "untrusted_remote_state",
+    "localPathTrust": "host_verified_local_paths",
+    "entries": [],
+    "returnedCount": 0,
+    "hasMore": false,
+    "files": [],
+    "transferredCount": 0,
+    "transferredBytes": 0,
+    "affectedRemotePaths": [
+      "/var/www/incoming/summary.json",
+      "/var/www/processed/summary.json"
+    ],
+    "affectedLocalPaths": []
   }
 }
 ```
@@ -66,7 +83,8 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
 
 ## 4. Operational Best Practices
 
-* **Atomic Staging:** Upload to a staging file name and rename to the target name to ensure downstream services see complete files.
+* **Atomic Staging:** Upload to a staging file name with [`nova.sftp_put`](nova-sftp-put.md) and rename to the target name to ensure downstream services see complete files.
+* **Interrupted Overwrite:** If `overwrite: true` is interrupted mid-stage, the result sets `stateIndeterminate: true` and names the paths to inspect instead of claiming either outcome.
 
 ---
 

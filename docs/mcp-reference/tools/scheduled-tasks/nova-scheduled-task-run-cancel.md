@@ -1,14 +1,13 @@
 # `nova.scheduled_task_run_cancel`
 
-Cancels an in-flight background task run asynchronously.
+Requests cancellation of an in-flight background task run asynchronously.
 
 ---
 
 ## 1. Overview
 
-`nova.scheduled_task_run_cancel` sends a graceful termination signal to the executor process of a running task. If the process does not terminate within a safety grace window, Nova forces a process tree kill to prevent hung background workers.
+`nova.scheduled_task_run_cancel` sends a cancellation request for the given run. Cancellation is asynchronous and not guaranteed to be instantaneous — the response reports whether the request was delivered, not whether the run has actually stopped; poll [`nova.scheduled_task_runs`](nova-scheduled-task-runs.md) or [`nova.scheduled_task_active_runs`](nova-scheduled-task-active-runs.md) to confirm the run reaches a `Cancelled` state. Calling it on a run that already finished, or on an active run this engine instance cannot reach, returns `cancelled: false` with a `reason` explaining why instead of an error.
 
-* **Security Tier:** Tier 2 (Process Control)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
 ---
@@ -23,6 +22,7 @@ Cancels an in-flight background task run asynchronously.
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -34,24 +34,53 @@ Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='sc
 {
   "name": "nova.scheduled_task_run_cancel",
   "arguments": {
-    "runId": "run-8120c"
+    "runId": "8f14e45fceea167a5a36dedd4bea2543"
   }
 }
 ```
 
-### JSON-RPC Response
+### JSON-RPC Response (cancellation delivered)
 ```json
 {
   "content": [
     {
       "type": "text",
-      "text": "Cancellation signal sent to run-8120c."
+      "text": "Cancellation requested for run '8f14e45fceea167a5a36dedd4bea2543'. Poll to confirm the run reaches Cancelled."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "runId": "run-8120c",
-    "status": "Cancelling"
+    "runId": "8f14e45fceea167a5a36dedd4bea2543",
+    "taskId": "a1b2c3d4e5f6",
+    "cancelled": false,
+    "cancelRequested": true,
+    "reason": "cancel_requested_delivered",
+    "status": "Running",
+    "polling": {
+      "hint": "Cancellation is asynchronous. Poll to confirm the run has stopped.",
+      "tool": "nova.scheduled_task_runs",
+      "suggestedIntervalMs": 3000
+    }
+  }
+}
+```
+
+### JSON-RPC Response (run already finished)
+```json
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Run '8f14e45fceea167a5a36dedd4bea2543' already finished with status Completed. Cannot cancel."
+    }
+  ],
+  "structuredContent": {
+    "runId": "8f14e45fceea167a5a36dedd4bea2543",
+    "taskId": "a1b2c3d4e5f6",
+    "cancelled": false,
+    "cancelRequested": false,
+    "reason": "already_finished",
+    "status": "Completed",
+    "polling": null
   }
 }
 ```
@@ -60,8 +89,8 @@ Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='sc
 
 ## 4. Operational Best Practices
 
-* **Asynchronous Drain:** Cancellation is non-blocking; verify termination via [`nova.scheduled_task_active_runs`](nova-scheduled-task-active-runs.md).
-* **Resource Recovery:** Clean cancellation ensures file handles and WebView instances bound to the run are safely released.
+* **Asynchronous Drain:** Cancellation is non-blocking; verify termination by polling [`nova.scheduled_task_active_runs`](nova-scheduled-task-active-runs.md) or `nova.scheduled_task_runs`, not by trusting `cancelRequested: true` alone.
+* **Unknown runId:** Passing a `runId` the scheduler has no record of at all is an invalid-params error, distinct from the `already_finished` / `not_owned` outcomes above.
 
 ---
 

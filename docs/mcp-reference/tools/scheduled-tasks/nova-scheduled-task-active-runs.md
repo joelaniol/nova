@@ -6,9 +6,8 @@ Lists all currently executing task runs across all background tasks.
 
 ## 1. Overview
 
-`nova.scheduled_task_active_runs` queries the scheduler for all tasks currently executing. It reports process IDs, elapsed execution time, memory usage, and assigned worker slots.
+`nova.scheduled_task_active_runs` queries the scheduler for all task runs currently executing, returning each run's run ID and the ID of the task it belongs to. If the scheduler engine is not running, it reports zero active runs and `engineRunning: false` rather than an error.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
 ---
@@ -21,6 +20,7 @@ This tool takes no parameters.
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -41,21 +41,17 @@ Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='sc
   "content": [
     {
       "type": "text",
-      "text": "1 task run currently active."
+      "text": "1 active run(s). Use nova.scheduled_task_run_cancel(runId='<runId>') to stop a run."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "activeCount": 1,
     "activeRuns": [
       {
-        "runId": "run-8120c",
-        "taskId": "task-7c81a2f0",
-        "displayName": "Competitor Price Tracker",
-        "elapsedSeconds": 45,
-        "pid": 14204
+        "runId": "8f14e45fceea167a5a36dedd4bea2543",
+        "taskId": "a1b2c3d4e5f6"
       }
-    ]
+    ],
+    "engineRunning": true
   }
 }
 ```
@@ -64,8 +60,8 @@ Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='sc
 
 ## 4. Operational Best Practices
 
-* **Detect Hung Processes:** Identify runs that have exceeded standard execution times and cancel them using [`nova.scheduled_task_run_cancel`](nova-scheduled-task-run-cancel.md).
-* **System Load Verification:** Verify worker concurrency before manually triggering heavy multi-turn tasks.
+* **Find a Stuck Run's ID:** Use this tool to get the `runId` of a task that appears stuck, then pass it to [`nova.scheduled_task_run_cancel`](nova-scheduled-task-run-cancel.md) to stop it.
+* **Engine Health Check:** `engineRunning: false` means the scheduler engine itself is not running (so no task will fire until it is), not just that there are no active runs.
 
 ---
 

@@ -6,9 +6,8 @@ Deletes a remote regular file or empty directory on an FTP/FTPS server.
 
 ## 1. Overview
 
-`nova.ftp_delete` removes a file or empty folder on an FTP/FTPS host. Destructive operations require transfer full access capability.
+`nova.ftp_delete` deletes one remote FTP/FTPS regular file or empty directory. Requires the connector's transfer-full access and Nova's independent global MutatingRemote confirmation policy. Recursive delete is intentionally not exposed; a missing path or a non-empty directory never reports success. A plaintext profile additionally needs the user's debug/legacy option plus `allowInsecure: true`.
 
-* **Security Tier:** Tier 3 (Destructive Deletion)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
 ---
@@ -26,6 +25,7 @@ Deletes a remote regular file or empty directory on an FTP/FTPS server.
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -49,12 +49,27 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
   "content": [
     {
       "type": "text",
-      "text": "Deleted remote FTP file /public_html/temp.txt."
+      "text": "Deleted 1 remote path(s) via 'Web Host'."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "deletedPath": "/public_html/temp.txt"
+    "profileId": "conn-ftp-01",
+    "status": "deleted",
+    "changed": true,
+    "stateIndeterminate": false,
+    "reasonCode": null,
+    "durationMs": 85,
+    "remotePathTrust": "untrusted_remote_state",
+    "localPathTrust": "host_verified_local_paths",
+    "entries": [],
+    "returnedCount": 0,
+    "hasMore": false,
+    "files": [],
+    "transferredCount": 0,
+    "transferredBytes": 0,
+    "affectedRemotePaths": ["/public_html/temp.txt"],
+    "affectedLocalPaths": []
   }
 }
 ```
@@ -63,7 +78,8 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
 
 ## 4. Operational Best Practices
 
-* **Empty Directories:** FTP protocols require directories to be empty before deletion; delete child files first.
+* **Empty Directories Only:** A non-empty directory is refused rather than deleted; delete its contents first. There is no recursive delete on this tool.
+* **Missing Path Is Not Success:** A path that no longer exists is reported as a failure, not a quiet `ok`.
 
 ---
 

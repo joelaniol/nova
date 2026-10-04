@@ -8,7 +8,6 @@ Sets or clears the per-sandbox fingerprint protection override.
 
 `nova.fingerprint_set_sandbox` assigns a persistent fingerprint protection override to a specific sandbox profile. Pass `level: null` to revert to global defaults.
 
-* **Security Tier:** Tier 2 (Sandbox Configuration)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
 ---
@@ -22,6 +21,7 @@ Sets or clears the per-sandbox fingerprint protection override.
 | `level` | `string or null` | Yes | — | `off`, `standard`, `strict`, `null` | Override level, or null to clear the override. |
 
 Capability bundle: `fingerprint_protection` (load it with `nova.tools_bundle(bundle='fingerprint_protection')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -33,8 +33,8 @@ Capability bundle: `fingerprint_protection` (load it with `nova.tools_bundle(bun
 {
   "name": "nova.fingerprint_set_sandbox",
   "arguments": {
-    "sandboxId": "sb-research",
-    "level": "Strict"
+    "sandboxId": "A",
+    "level": "strict"
   }
 }
 ```
@@ -45,13 +45,13 @@ Capability bundle: `fingerprint_protection` (load it with `nova.tools_bundle(bun
   "content": [
     {
       "type": "text",
-      "text": "Set fingerprint protection override on sandbox sb-research to Strict."
+      "text": "Sandbox 'A' fingerprint override set to strict"
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "sandboxId": "sb-research",
-    "overrideLevel": "Strict"
+    "sandboxId": "A",
+    "sandboxOverride": "strict",
+    "changed": true
   }
 }
 ```
@@ -60,7 +60,7 @@ Capability bundle: `fingerprint_protection` (load it with `nova.tools_bundle(bun
 
 ## 4. Operational Best Practices
 
-* **Stealth Sandboxes:** Create dedicated research sandboxes with `Strict` protection while keeping primary workspaces on `Balanced`.
+* **Stealth Sandboxes:** Give dedicated research sandboxes a `strict` override while keeping primary workspaces on `standard` or the global default.
 
 ---
 

@@ -10,7 +10,6 @@ Initiates encrypted background recording of CDP network, DOM mutations, console 
 
 All sensitive data (passwords, auth tokens, session cookies, DPAPI vault secrets) is automatically redacted at ingestion time prior to disk serialization. Recordings are protected with an ephemeral AES-GCM Data Encryption Key (DEK).
 
-* **Security Tier:** Tier 2 (Session Capture & Tracing)
 * **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
 
 ---
@@ -27,6 +26,7 @@ All sensitive data (passwords, auth tokens, session cookies, DPAPI vault secrets
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='session_recording')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -42,8 +42,8 @@ Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='
     "ttlMs": 600000,
     "permissionClasses": [
       "metadata",
-      "interactions",
-      "console",
+      "interactions_mcp",
+      "dom_snapshots",
       "dom_mutations"
     ]
   }
@@ -56,22 +56,22 @@ Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='
   "content": [
     {
       "type": "text",
-      "text": "Started session recording 'rec-9b21f04a' on tab-1 (TTL: 10m)."
+      "text": "Recording started — recordingId: rec-9b21f04a\n  tab=tab-1  ttl=600000ms  classes=[metadata, interactions_mcp, dom_snapshots, dom_mutations]"
     }
   ],
   "structuredContent": {
     "ok": true,
     "recordingId": "rec-9b21f04a",
     "tabId": "tab-1",
+    "ttlMs": 600000,
     "state": "running",
-    "startedAtUtc": "2026-10-02T20:15:00Z",
-    "expiresAtUtc": "2026-10-02T20:25:00Z",
     "permissionClasses": [
       "metadata",
-      "interactions",
-      "console",
+      "interactions_mcp",
+      "dom_snapshots",
       "dom_mutations"
-    ]
+    ],
+    "captureWaves": ["R1", "R2", "R3"]
   }
 }
 ```
@@ -81,7 +81,7 @@ Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='
 ## 4. Operational Best Practices
 
 * **Pre-Flight Tab Attachment:** Ensure the tab is fully initialized and not in an unattached detached state before starting.
-* **Permission Class Minimization:** Only request `network_bodies` when inspecting raw HTTP payloads to reduce disk footprint and avoid payload buffer overhead.
+* **Permission Class Minimization:** Only request `request_bodies`/`response_bodies` when inspecting raw HTTP payloads to reduce disk footprint and avoid payload buffer overhead.
 * **Lifecycle Pairing:** Always call [`nova.session_record_stop`](nova-session-record-stop.md) when testing or workflow completes to finalize artifacts cleanly.
 
 ---

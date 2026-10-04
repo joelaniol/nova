@@ -6,9 +6,8 @@ Sets or clears persistent or session-based camera, mic, speaker, and geolocation
 
 ## 1. Overview
 
-`nova.media_permission_set` configures origin-specific overrides for media and hardware devices. Supports persistent storage or session-scoped grants with automatic expiration upon tab closure.
+`nova.media_permission_set` configures origin-specific overrides for camera, microphone, speaker, screen-share, and geolocation permissions. Writes are either persistent (survive restart) or session-scoped grants that are cleared on app exit, after a time cap, or once the last tab closes.
 
-* **Security Tier:** Tier 2 (Permission Mutation)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
 ---
@@ -31,6 +30,7 @@ Sets or clears persistent or session-based camera, mic, speaker, and geolocation
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `high_impact` (highest risk class; Nova's agent permission settings can ask before it runs).
 <!-- /generated:parameters -->
 
 ---
@@ -56,25 +56,28 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "Updated permissions for https://meet.example.com: microphone=allow, camera=allow (session)."
+      "text": "Registered session grant(s) for https://meet.example.com: camera, microphone."
     }
   ],
   "structuredContent": {
-    "ok": true,
+    "status": "ok",
     "origin": "https://meet.example.com",
-    "microphone": "allow",
-    "camera": "allow",
-    "lifetime": "session"
+    "requestingOrigin": null,
+    "lifetime": "session",
+    "registered": ["camera", "microphone"],
+    "note": "Session grants only apply to user-initiated getUserMedia calls. Automated JS timers cannot activate the grant without a user gesture."
   }
 }
 ```
+
+A persistent write (no `lifetime`, or `lifetime: "persistent"`) instead returns `{ "status": "ok", "origin": "...", "applied": ["microphone=allow", "camera=allow"] }` — `applied` entries read `"axis=cleared(ask)"` when a mode of `ask` removed the stored override rather than setting a value. `clearAll: true` returns `{ "status": "ok", "origin": "...", "cleared": true }`.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Session Lifetime Preferred:** Use `lifetime: "session"` for testing to avoid leaving persistent microphone or camera grants enabled permanently.
-* **Clear All:** Pass `clearAll: true` to purge all overrides for a domain and revert to global default behavior.
+* **Session Lifetime Preferred:** Use `lifetime: "session"` for testing to avoid leaving persistent microphone or camera grants enabled permanently. Note the guard in `note`: a session grant still only unblocks a user-initiated `getUserMedia` call, not an automated one.
+* **Clear All:** Pass `clearAll: true` to purge all overrides for a domain and revert to global default behavior. Cannot be combined with `requestingOrigin` — use [`nova.site_permissions_reset_origin`](../site-data-and-identity/nova-site-permissions-reset-origin.md) for a full per-origin reset including iframe tuples.
 
 ---
 

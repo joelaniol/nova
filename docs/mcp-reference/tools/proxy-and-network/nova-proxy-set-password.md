@@ -8,8 +8,7 @@ Stores or clears encrypted proxy authentication credentials using Windows DPAPI.
 
 `nova.proxy_set_password` encrypts proxy passwords using Windows Data Protection API (DPAPI). The plaintext secret is never returned in any MCP response or written to plaintext configuration files.
 
-* **Security Tier:** Tier 2 (Credential Management)
-* **Core Architecture Guide:** [Proxy Routing & Stealth Network Engine](../../../core-features/proxy-and-network.md)
+* **Core Architecture Guide:** [Proxy Routing & Network Engine](../../../core-features/proxy-and-network.md)
 
 ---
 
@@ -22,6 +21,7 @@ Stores or clears encrypted proxy authentication credentials using Windows DPAPI.
 | `password` | `string or null` | No | — | — | Password to store. Omit or null to clear the stored password. |
 
 Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='proxy_management')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -33,7 +33,7 @@ Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='p
 {
   "name": "nova.proxy_set_password",
   "arguments": {
-    "profileId": "prx-us-east",
+    "profileId": "proxy-2",
     "password": "super_secret_proxy_pass"
   }
 }
@@ -45,16 +45,17 @@ Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='p
   "content": [
     {
       "type": "text",
-      "text": "Password stored for proxy profile 'prx-us-east'."
+      "text": "Password stored for proxy 'US East SOCKS5'."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "profileId": "prx-us-east",
-    "passwordConfigured": true
+    "success": true,
+    "profileId": "proxy-2",
+    "hasPassword": true
   }
 }
 ```
+Passing `password: null` (or omitting it) clears the stored password instead and returns `"hasPassword": false`.
 
 ---
 

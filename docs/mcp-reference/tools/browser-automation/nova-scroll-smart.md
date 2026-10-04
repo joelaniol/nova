@@ -1,16 +1,16 @@
 # `nova.scroll_smart`
 
-Executes natural, CDP-level mouse wheel scrolls to trigger dynamic lazy-loading and virtualized lists, reporting scroll saturation and completeness.
+Detects the real scroll container on the page (not just the window) and scrolls it by the requested delta, with a real mouse-wheel event as an automatic fallback, reporting whether content kept growing (saturation) across repeated calls.
 
 ---
 
 ## 1. Overview
 
-Many modern web applications (social feeds, e-commerce listings, search results) utilize **virtualized lists** or dynamic `IntersectionObserver` listeners. Calling naive scripts like `window.scrollTo(0, 5000)` fails because synthetic coordinate jumps bypass physical wheel events, leaving feeds unhydrated.
+Many modern web applications (social feeds, e-commerce listings, search results) utilize **virtualized lists** or dynamic `IntersectionObserver` listeners. Calling `window.scrollTo(0, 5000)` on such a page often does nothing visible: the document itself does not scroll because the actual scrollable surface is an inner `div`, so the window position never changes and nothing downstream (including `IntersectionObserver`) has anything to react to.
 
-`nova.scroll_smart` emits physical wheel events directly via the Chrome DevTools Protocol (CDP). It measures the resulting scroll delta and reports **saturation metrics** (`moved: true/false`, `atEnd: true/false`), allowing agents to scroll feeds deterministically without getting stuck in infinite loops.
+`nova.scroll_smart` probes the page for the most plausible visible scroll container (main content area, open dialog, feed/list/grid — or the window itself), applies the requested delta to it directly (`scrollTop`/`scrollLeft`, or `window.scrollBy` for the window), and re-reads the offset to confirm movement. If that direct application reports no movement, Nova automatically retries once with a **real CDP mouse-wheel event** (`Input.dispatchMouseEvent`, `type: "mouseWheel"`) at a detected anchor point, since some custom scroll surfaces only react to genuine wheel input. The response's `changed`/`ok` field and `reasonCode` report what actually happened; `wheelFallback` is present only when that CDP retry was attempted.
 
-* **Underlying Mechanism:** CDP `Input.dispatchMouseEvent` with `type: "mouseWheel"`.
+* **Underlying Mechanism:** Direct DOM scroll-offset assignment first, with a one-shot CDP wheel-event retry as a fallback when nothing moved.
 * **Directionality:** Supports downward scrolls (`deltaY > 0`) and upward scrolls (`deltaY < 0`, crucial for chat history virtualization).
 
 ---
@@ -18,13 +18,13 @@ Many modern web applications (social feeds, e-commerce listings, search results)
 ## 2. Key Capabilities & Features
 
 ### A. Virtualized Feed Hydration
-Because `scroll_smart` fires authentic hardware wheel events, web frameworks (React Virtualized, TanStack Virtual, UI virtualization in AliExpress/Twitter/Reddit) trigger their event listeners and render subsequent DOM cards immediately.
+Where `nova.scroll_to`/`window.scrollTo` fails silently because the page scrolls an inner `div` rather than the document, `scroll_smart` detects that real scroll container (by visibility, overflow, and scroll range) and scrolls it directly, so virtualized feeds (React Virtualized, TanStack Virtual, infinite lists) still see their scroll position change and render subsequent DOM cards. If a container genuinely ignores a programmatic scroll-offset change, the automatic CDP wheel-event retry covers that case too.
 
-### B. Saturation & End-of-List Feedback
-Every call to `nova.scroll_smart` returns a structured report:
-* `moved`: Indicates whether the document or container actually shifted.
-* `atEnd`: Signals that the bottom (or top) of the scrollable surface has been reached.
-* `saturation`: A metric indicating whether continued scrolling produces diminishing returns.
+### B. Movement & End-of-Range Feedback
+Every call to `nova.scroll_smart` returns:
+* `changed` (also mirrored as `ok`): whether the chosen target actually moved.
+* `reasonCode`: set when nothing moved — e.g. `scroll.no_movement`, `scroll.no_scrollable_target`, `scroll.container_not_found`/`scroll.container_not_scrollable` (only with an explicit `containerSelector`), or `scroll.decoy_detected`.
+* `saturation` (only once a scroll range has been observed for the route): `{ grewThisScroll, growthRounds, stableRounds, atEnd, hint }` — an advisory signal for whether repeated downward scrolling is still producing new content, built from the chosen container's scroll range across calls. It is not emitted on upward scrolls (negative `deltaY`).
 
 ### C. Inner Container Scrolling (`containerSelector`)
 If the scrollable content resides inside a modal, side panel, or specific `div` with `overflow-y: scroll`, pass `containerSelector: ".modal-scroll-body"` to target that element directly rather than the main window.
@@ -48,6 +48,7 @@ In chat apps (Slack, Discord, ChatGPT), older messages load **upwards**. Passing
 | `suggestPksHint` | `boolean` | No | `true` | — | If true, include pksSuggestions when a stable scroll container is observed repeatedly. |
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -65,18 +66,37 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
 }
 ```
 
-### Sample Response
+### Sample Response (truncated — real responses also carry telemetry, hint, and cache-related fields)
 ```json
 {
+  "targetId": "tab-1",
+  "deltaX": 0,
+  "deltaY": 1200,
+  "changed": true,
   "ok": true,
-  "moved": true,
-  "deltaYActual": 1200,
-  "scrollTop": 2400,
-  "atEnd": false,
-  "saturation": 0.85,
-  "newDomNodesDetected": 19
+  "status": "ok",
+  "reasonCode": null,
+  "chosenSource": "DETECTED",
+  "chosenSelector": "main.feed",
+  "confidence": 0.82,
+  "wheelFallback": null,
+  "warnings": [],
+  "saturation": {
+    "grewThisScroll": true,
+    "growthRounds": 3,
+    "stableRounds": 0,
+    "atEnd": false,
+    "hint": "still growing"
+  },
+  "result": {
+    "ok": true,
+    "moved": true,
+    "diagnostics": { "candidateCount": 5, "attemptedCount": 1 }
+  }
 }
 ```
+
+There is no `deltaYActual`, top-level `scrollTop`, or `newDomNodesDetected` field. `saturation` is `null` until the route has a measurable scroll range to compare across calls, and it is never emitted on an upward scroll (negative `deltaY`).
 
 ### Scrolling Up in a Virtualized Chat Thread
 ```json
@@ -94,13 +114,13 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
 
 ## 5. Best Practices & Common Traps
 
-* **Never Use `eval("window.scrollTo(...)")`:** In 9 out of 10 modern web applications, `eval(scrollTo)` does not trigger lazy loading because it does not generate user-gesture wheel events.
-* **Stop on `atEnd: true` or `moved: false`:** If `scroll_smart` reports `moved: false`, do not keep scrolling with the same parameters. Check if an inner container needs to be targeted via `containerSelector`.
+* **Avoid `eval("window.scrollTo(...)")` on SPAs:** `window.scrollTo` only moves the document. On pages where the real scroll happens inside an inner container, the window position never changes and lazy-loading never fires — `scroll_smart` detects and scrolls the actual container instead.
+* **Stop on `changed: false` (status `"not_found"` or `"blocked"`):** Do not keep retrying with the same parameters. Check `reasonCode` — `scroll.no_scrollable_target`/`scroll.container_not_found` usually means the wrong `containerSelector` or a page that genuinely has no more room to scroll; `scroll.decoy_detected` means the detected container turned out not to be the right one.
 
 ---
 
 ## See Also
 
-* [`nova.perceive`](nova-navigate.md) — Inspect page completeness (`belowFoldPx`, `aboveFoldPx`).
+* [`nova.perceive`](../dom-and-reading/nova-perceive.md) — Inspect page completeness (`belowFoldPx`, `aboveFoldPx`).
 * [`nova.click_selector`](nova-click-selector.md) — Click loaded elements.
-* [Core Feature: Humanized Input Engine](../../../core-features/humanized-input-engine.md)
+* [Core Feature: Input Dispatch & Shadow DOM Traversal](../../../core-features/humanized-input-engine.md)

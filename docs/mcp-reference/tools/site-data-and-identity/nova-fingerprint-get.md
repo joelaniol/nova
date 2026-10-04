@@ -6,9 +6,8 @@ Reads the active browser fingerprint protection level (global, sandbox, or tab o
 
 ## 1. Overview
 
-`nova.fingerprint_get` inspects the anti-fingerprinting configuration applied to the browser, returning the global level (`Off`, `Balanced`, `Strict`), per-sandbox overrides, and per-tab ephemeral overrides.
+`nova.fingerprint_get` inspects the anti-fingerprinting configuration applied to the browser, returning the global level (`off`, `standard`, `strict`; default `off`), per-sandbox overrides, and per-tab ephemeral overrides. Precedence for the effective level is per-tab, then per-sandbox, then global.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
 ---
@@ -22,6 +21,7 @@ Reads the active browser fingerprint protection level (global, sandbox, or tab o
 | `tabId` | `string` | No | — | — | Browser tab id (8-char hex). When provided, the response includes that tab's ephemeral override. |
 
 Capability bundle: `fingerprint_protection` (load it with `nova.tools_bundle(bundle='fingerprint_protection')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -44,18 +44,23 @@ Capability bundle: `fingerprint_protection` (load it with `nova.tools_bundle(bun
   "content": [
     {
       "type": "text",
-      "text": "Fingerprint protection on tab-1: Strict (sandbox override: Strict, global: Balanced)."
+      "text": "Fingerprint protection: effective=strict, source=sandbox, global=standard, sandbox=strict, tab=(none)"
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "effectiveLevel": "Strict",
+    "globalLevel": "standard",
+    "sandboxOverride": "strict",
     "tabOverride": null,
-    "sandboxOverride": "Strict",
-    "globalLevel": "Balanced"
+    "effectiveLevel": "strict",
+    "effectiveSource": "sandbox",
+    "techniques": ["canvas", "audio", "font", "webgl", "hardware", "screen"],
+    "allLevels": ["off", "standard", "strict"],
+    "activeTabOverrides": {}
   }
 }
 ```
+
+This response has no `ok` field. `techniques` lists the protections active at the effective level; the exact set depends on the level.
 
 ---
 

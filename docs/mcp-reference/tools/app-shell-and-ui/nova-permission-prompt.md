@@ -1,8 +1,7 @@
 # `nova.permission_prompt`
 
-> **Raises an interactive permission dialog asking the Nova human operator to approve a high-risk action.**
+> **Asks the Nova operator to approve or deny an action that an agent wants to run.**
 
-* **Security Tier:** Tier 2 (Interactive Authorization Gate)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
@@ -10,7 +9,9 @@
 
 ## 1. Overview
 
-`nova.permission_prompt` displays an explicit authorization prompt in the Nova UI. The calling agent is blocked until the operator accepts or rejects the action.
+`nova.permission_prompt` is the approval hook for agent clients such as Claude Code: the client calls it with the name of the tool it wants to run and a description, and Nova shows an approval request to the operator. The call returns when the operator decides or the configured approval timeout expires; a timeout counts as not approved. Low-risk requests can be covered by a persistent grant the operator saved earlier; medium- and high-risk requests are asked every time.
+
+`behavior` is `allow` or `deny`. On a denial or timeout, `updatedInput` carries guidance for the agent: continue without the action, or (after a timeout) ask the operator to confirm and retry.
 
 ---
 
@@ -25,6 +26,7 @@
 | `risk_level` | `string` | No | — | `low`, `medium`, `high` | Estimated risk level of the action. |
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -36,8 +38,9 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
 {
   "name": "nova_permission_prompt",
   "arguments": {
-    "action": "delete_production_database",
-    "reason": "User requested reset of staging test data."
+    "tool_name": "Bash",
+    "description": "Run 'npm test'",
+    "risk_level": "low"
   }
 }
 ```
@@ -48,13 +51,14 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "Operator approved the action."
+      "text": "Permission allowed for: Bash"
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "approved": true,
-    "operatorComment": "Confirmed staging only."
+    "schemaVersion": 1,
+    "behavior": "allow",
+    "reasonCode": null,
+    "updatedInput": null
   }
 }
 ```
@@ -63,8 +67,9 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
 
 ## 4. Operational Best Practices
 
-* **Clear Justification:** Provide an unambiguous `reason` string to give the human operator complete context.
-* **Timeout Handling:** Handle potential operator rejection or dismissal gracefully.
+* **Clear Description:** Write `description` so the operator can decide without further context (what runs, on which files or hosts).
+* **Honest risk level:** Only `low` requests can be satisfied by a saved persistent grant.
+* **Respect a denial:** On `deny`, do not retry the same action through another tool; follow `updatedInput`.
 
 ---
 

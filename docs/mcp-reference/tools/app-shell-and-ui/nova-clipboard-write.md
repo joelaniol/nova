@@ -2,8 +2,6 @@
 
 > **Writes plain text to the Windows OS system clipboard.**
 
-* **Security Tier:** Tier 2 (OS Integration)
-* **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
@@ -24,6 +22,7 @@
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `high_impact` (highest risk class; Nova's agent permission settings can ask before it runs).
 <!-- /generated:parameters -->
 
 ---
@@ -46,15 +45,24 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "Wrote 33 characters to Windows clipboard."
+      "text": "Text written to clipboard."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "length": 33
+    "success": true,
+    "status": "ok",
+    "reasonCode": null,
+    "retryable": false,
+    "charsAttempted": 33,
+    "charsWritten": 33,
+    "writeMode": "overwrite_text",
+    "sanitized": false,
+    "sanitizedRemovedChars": 0,
+    "normalizedLineEndings": false
   }
 }
 ```
+An empty/whitespace-only `text` clears the clipboard instead: `writeMode` becomes `"clear_text"` and the text block reads `"Clipboard text cleared."`. Invisible/control characters are stripped before writing (`sanitized: true`, `sanitizedRemovedChars` counts them).
 
 ---
 

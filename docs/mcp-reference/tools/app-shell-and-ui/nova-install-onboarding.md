@@ -1,8 +1,7 @@
 # `nova.install_onboarding`
 
-> **Automatically injects Nova MCP server configurations and reference docs into the current agent workspace.**
+> **Writes Nova's reference files and a Nova block in the project's agent instruction file into a project directory.**
 
-* **Security Tier:** Tier 2 (Workspace Onboarding)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
@@ -10,7 +9,9 @@
 
 ## 1. Overview
 
-`nova.install_onboarding` writes reference files (`.nova/nova-mcp.md`) and updates project agent files with Nova conventions. Adheres strictly to permission boundaries.
+`nova.install_onboarding` writes Nova's reference files into `.nova/` under `projectRoot` (`nova-mcp.quick.md`, `nova-mcp.md` and the connector references under `.nova/tools/`) and adds or replaces a marked Nova block in the project's existing `CLAUDE.md`, `AGENTS.md` or `GEMINI.md`. If none of these exists, it creates a root `CLAUDE.md` containing only that block. Nova never writes agent permission files such as `.claude/settings.json`.
+
+The tool is available only while agent self-onboarding is enabled in Nova's settings. A directory that Nova has not onboarded before needs `confirmNewLocation: true`; without it the call writes nothing and returns `status: "confirmation_required"` with the exact call to repeat.
 
 ---
 
@@ -23,6 +24,7 @@
 | `confirmNewLocation` | `boolean` | No | — | — | Set true to onboard a directory Nova has not onboarded before. Already-onboarded worktrees update without it. |
 
 Capability bundles: `onboarding`, `system_tools`.
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -34,7 +36,8 @@ Capability bundles: `onboarding`, `system_tools`.
 {
   "name": "nova_install_onboarding",
   "arguments": {
-    "workspacePath": "E:\\Projects\\WebWorkflow"
+    "projectRoot": "C:\\Projects\\WebWorkflow",
+    "confirmNewLocation": true
   }
 }
 ```
@@ -45,25 +48,39 @@ Capability bundles: `onboarding`, `system_tools`.
   "content": [
     {
       "type": "text",
-      "text": "Installed Nova onboarding reference docs in E:\\Projects\\WebWorkflow."
+      "text": "Onboarding installed in C:\\Projects\\WebWorkflow (version 4.39.0)"
     }
   ],
   "structuredContent": {
     "ok": true,
+    "status": "ok",
+    "projectRoot": "C:\\Projects\\WebWorkflow",
+    "version": "4.39.0",
     "filesWritten": [
-      ".nova/nova-mcp.quick.md",
-      ".nova/nova-mcp.md"
+      { "path": ".nova\\nova-mcp.quick.md", "outcome": "created", "error": null },
+      { "path": ".nova\\nova-mcp.md", "outcome": "created", "error": null },
+      { "path": ".nova/tools/mail.md", "outcome": "created", "error": null },
+      { "path": ".nova/tools/sftp.md", "outcome": "created", "error": null },
+      { "path": ".nova/tools/ftp.md", "outcome": "created", "error": null },
+      { "path": "CLAUDE.md", "outcome": "markerreplaced", "error": null }
+    ],
+    "registered": true,
+    "bootstrapNow": [
+      "nova.get_instructions(taskKeywords=[...])",
+      "nova.tools_bundle(bundle='browser_automation', includeUnavailable=true)"
     ]
   }
 }
 ```
 
+`outcome` is one of `created`, `updated`, `markerreplaced`, `unchanged`, `skipped` or `error`. `status` is `ok`, `partial` (some files written) or `error`.
+
 ---
 
 ## 4. Operational Best Practices
 
-* **Boundary Adherence:** Nova never modifies client permission files (`settings.local.json`); it only populates reference markdown files.
-* **Idempotent:** Safe to run repeatedly; preserves existing project instructions.
+* **Boundary Adherence:** Nova never modifies agent permission files; it writes only the `.nova/` reference files and its marked block in the agent instruction file.
+* **Idempotent:** Safe to run repeatedly. The Nova block is replaced between its markers, the rest of the instruction file is preserved, and an already current block reports `unchanged`.
 
 ---
 

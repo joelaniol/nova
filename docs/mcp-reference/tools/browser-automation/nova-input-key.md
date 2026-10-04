@@ -37,9 +37,10 @@ When navigating custom comboboxes or dropdown search bars (e.g. search bars with
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
-| `key` | `string` | Yes | — | — | Key name: Enter, Tab, Escape, Backspace, Delete, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Home, End, PageUp, PageDown, F1-F12, Space. |
+| `key` | `string` | Yes | — | — | Key name: Enter, Tab, Escape, Backspace, Delete, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Home, End, PageUp, PageDown, F1-F24, Space. |
 
 Capability bundles: `browser_automation`, `form_submission`.
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -72,6 +73,6 @@ Capability bundles: `browser_automation`, `form_submission`.
 
 ## 5. Related Tools & Documentation
 
-* [`nova.type_selector`](nova-type-selector.md) ? For typing textual strings into inputs.
-* [`nova.click_selector`](nova-click-selector.md) ? For clicking interactive elements.
-* [Automated Actions Guide (AAG)](../../../core-features/aag.md) ? Overview of input automation and focus management.
+* [`nova.type_selector`](nova-type-selector.md) — For typing textual strings into inputs.
+* [`nova.click_selector`](nova-click-selector.md) — For clicking interactive elements.
+* [Agent Awareness Gates (AAG)](../../../core-features/aag.md) — Checks that warn or block `nova.input_key` and other input tools when the agent has not looked at the page since its last navigation.

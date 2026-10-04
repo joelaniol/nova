@@ -6,12 +6,12 @@ Measures geometric dimensions, client/scroll metrics, overflow flags, and constr
 
 ## 1. Overview
 
-Diagnosing responsive layout bugs, clipped text, or unexpected wrapping usually requires dozens of `getBoundingClientRect()` calls. `nova.measure_elements` measures up to 25 selectors simultaneously. Crucially, it calculates the **three critical layout widths**:
-1. The **Window Width**.
-2. The **Constraining Ancestor Offered Width** (the innermost ancestor narrower than the viewport).
-3. The **Element Rendered Width**.
+Diagnosing responsive layout bugs, clipped text, or unexpected wrapping usually requires dozens of `getBoundingClientRect()` calls. `nova.measure_elements` measures up to 25 selectors in one call. Crucially, per matched element it calculates the **three widths a layout defect lives between**:
+1. `viewportWidth` — the window width.
+2. `availableWidth` — the client width of the innermost ancestor narrower than the window (the nearest actual constraint; `null`/equal to the viewport when no ancestor constrains it).
+3. The element's own rendered `rect.width`.
 
-This reveals `usedWidthRatio`—a metric that CSS media queries cannot detect and screenshots cannot explain.
+This reveals `usedWidthRatio` (`width / availableWidth`) — a metric that CSS media queries cannot detect and screenshots cannot explain.
 
 * **Zero Scrolling:** Measuring never shifts or scrolls the page viewport.
 * **Batch Execution:** Evaluates up to 25 distinct selectors in one call.
@@ -22,18 +22,15 @@ This reveals `usedWidthRatio`—a metric that CSS media queries cannot detect an
 ## 2. Key Capabilities & Features
 
 ### A. The Three-Width Constraint Metric
-A UI element frequently breaks not because the screen is too narrow, but because a parent container (such as a sidebar or modal column) offers restricted width:
-* A button inside a 220px sidebar within a 1920px window will report:
-  * `windowWidth`: 1920
-  * `availableWidth`: 220
-  * `renderedWidth`: 245
-  * `usedWidthRatio`: 1.11 (Flagged: element overflows its container by 11%).
+A UI element frequently breaks not because the screen is too narrow, but because a parent container (such as a sidebar or modal column) offers restricted width. Each result's `widthContext` reports:
+* `viewportWidth`: 1920
+* `availableWidth`: 220 (the sidebar's client width)
+* the element's own `rect.width`: 245
+* `usedWidthRatio`: 1.114, plus `overflowsAvailableWidth: true` and `overhangPx: 25` — the element is 25px wider than the space it was given.
+* `withinViewportX`: whether the element's horizontal bounds still fall inside the viewport at all (catches elements pushed off-screen entirely, which a ratio alone would not show).
 
-### B. Overflow and Clipping Flags
-For each matched element, Nova evaluates:
-* `hasHorizontalOverflow`: `scrollWidth > clientWidth`.
-* `hasVerticalOverflow`: `scrollHeight > clientHeight`.
-* `isClipped`: Whether content is clipped by `overflow: hidden` or `text-overflow: ellipsis`.
+### B. Overflow Flags
+For each matched element, `overflow.x`/`overflow.y` report whether `scrollWidth > clientWidth` / `scrollHeight > clientHeight`. This tool does not classify *why* — for clipped-vs-plain overflow (ellipsis, `overflow: hidden`), use [`nova.detect_overflow`](nova-detect-overflow.md).
 
 ### C. Optional Computed Styles (`properties`)
 Pass up to 20 specific CSS property names (e.g. `max-width`, `min-width`, `box-sizing`, `flex-shrink`) to return resolved styles alongside bounding rects.
@@ -52,6 +49,7 @@ Pass up to 20 specific CSS property names (e.g. `max-width`, `min-width`, `box-s
 | `maxMatchesPerSelector` | `integer` | No | `5` | 1–25 | Upper bound on measured matches per selector when matchMode='all'. matchCount always reports how many the selector really had, so a bound is visible rather than silent. |
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -84,35 +82,76 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
 
 ## 5. Return Value Structure
 
+`structuredContent` carries the outcome (`ok`/`status`/`reasonCode`) alongside the probe's own `result`:
+
 ```json
 {
   "targetId": "tab-101",
-  "windowWidth": 1440,
-  "windowHeight": 900,
-  "results": [
-    {
-      "selector": "aside.sidebar",
-      "found": true,
-      "rect": { "x": 0, "y": 64, "width": 280, "height": 836 },
-      "availableWidth": 280,
-      "usedWidthRatio": 1.0,
-      "overflow": { "horizontal": false, "vertical": false },
-      "properties": {
-        "max-width": "300px",
-        "box-sizing": "border-box"
+  "ok": true,
+  "status": "ok",
+  "reasonCode": null,
+  "requestedSelectors": 2,
+  "matchedSelectors": 2,
+  "matchMode": "first",
+  "maxMatchesPerSelector": 5,
+  "result": {
+    "ok": true,
+    "url": "https://example.com/app",
+    "viewport": { "width": 1440, "height": 900, "devicePixelRatio": 1 },
+    "pageHorizontalScroll": false,
+    "requestedSelectors": 2,
+    "matchedSelectors": 2,
+    "results": [
+      {
+        "selector": "aside.sidebar",
+        "matchIndex": 0,
+        "matchCount": 1,
+        "found": true,
+        "tag": "aside",
+        "path": "aside.sidebar",
+        "visible": true,
+        "rect": { "x": 0, "y": 64, "width": 280, "height": 836 },
+        "content": { "clientWidth": 280, "clientHeight": 836, "scrollWidth": 280, "scrollHeight": 836 },
+        "overflow": { "x": false, "y": false },
+        "widthContext": {
+          "viewportWidth": 1440,
+          "availableWidth": 1440,
+          "constrainingAncestor": null,
+          "usedWidthRatio": 0.194,
+          "overflowsAvailableWidth": false,
+          "overhangPx": 0,
+          "withinViewportX": true
+        },
+        "properties": { "max-width": "300px", "box-sizing": "border-box" }
+      },
+      {
+        "selector": "button.cta-primary",
+        "matchIndex": 0,
+        "matchCount": 1,
+        "found": true,
+        "tag": "button",
+        "path": "aside.sidebar > button.cta-primary",
+        "visible": true,
+        "rect": { "x": 20, "y": 120, "width": 245, "height": 44 },
+        "content": { "clientWidth": 245, "clientHeight": 44, "scrollWidth": 245, "scrollHeight": 44 },
+        "overflow": { "x": false, "y": false },
+        "widthContext": {
+          "viewportWidth": 1440,
+          "availableWidth": 220,
+          "constrainingAncestor": { "path": "aside.sidebar", "tag": "aside", "clientWidth": 220, "cssWidth": "220px", "cssMaxWidth": "none", "display": "block", "overflowX": "visible" },
+          "usedWidthRatio": 1.114,
+          "overflowsAvailableWidth": true,
+          "overhangPx": 25,
+          "withinViewportX": true
+        }
       }
-    },
-    {
-      "selector": "button.cta-primary",
-      "found": true,
-      "rect": { "x": 310, "y": 120, "width": 210, "height": 44 },
-      "availableWidth": 800,
-      "usedWidthRatio": 0.26,
-      "overflow": { "horizontal": false, "vertical": false }
-    }
-  ]
+    ],
+    "truncated": false
+  }
 }
 ```
+
+A miss or unparsable selector is reported as its own entry (`found: false`, `reasonCode: "measure.selector_not_found"` or `"measure.invalid_selector"`) rather than failing the whole call.
 
 ---
 
@@ -120,9 +159,11 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
 
 | Error Code / Message | Cause | Corrective Action |
 | :--- | :--- | :--- |
-| `measure.no_matches` | None of the provided selectors matched any elements. | Verify selector spelling or check if elements require dynamic rendering. |
-| `found: false (reasonCode: "not_in_dom")` | Individual selector was not found, but other selectors succeeded. | Check if that specific component is hidden or conditionally rendered. |
-| `usedWidthRatio > 1.0` | Element is physically wider than the container providing its space. | Inspect CSS margins, padding, or flex settings using [`nova.get_computed_style`](nova-get-computed-style.md). |
+| `ok: false`, `reasonCode: "measure.no_matches"` | None of the provided selectors matched any elements. | Verify selector spelling or check if elements require dynamic rendering. |
+| `status: "partial"`, `reasonCode: "measure.partial_matches"` | Some selectors matched, others did not; `ok` is still `true`. | Check each result's `found`/`reasonCode` to see which selectors missed. |
+| `found: false`, `reasonCode: "measure.selector_not_found"` | Individual selector was valid CSS but matched nothing. | Check if that specific component is hidden or conditionally rendered. |
+| `found: false`, `reasonCode: "measure.invalid_selector"` | Individual selector string is not valid CSS. | Fix the selector syntax; other selectors in the same call were still measured. |
+| `widthContext.overflowsAvailableWidth: true` | Element is physically wider than the container providing its space. | Inspect CSS margins, padding, or flex settings using [`nova.get_computed_style`](nova-get-computed-style.md). |
 
 ---
 

@@ -6,9 +6,8 @@ Updates configuration, display name, color tag, or purpose of an existing sandbo
 
 ## 1. Overview
 
-`nova.sandbox_update` modifies metadata for a sandbox profile. It can update display names, color tags, preferred routing keywords, or pause/resume background scheduling for the container.
+`nova.sandbox_update` modifies metadata for a sandbox profile: display name, color tag, start URL, purpose/account/alias routing hints, and the `isPaused` flag. A paused sandbox is hidden from the tab strip and from agent-visible targets, but its profile data and settings are kept (pausing is not deletion).
 
-* **Security Tier:** Tier 2 (Sandbox Mutation)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
 ---
@@ -31,6 +30,7 @@ Updates configuration, display name, color tag, or purpose of an existing sandbo
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -42,7 +42,7 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
 {
   "name": "nova.sandbox_update",
   "arguments": {
-    "sandboxId": "sb-c819a",
+    "sandboxId": "C",
     "name": "Client Staging V2",
     "color": "#008080"
   }
@@ -55,12 +55,13 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "Updated sandbox sb-c819a: name='Client Staging V2'."
+      "text": "Sandbox 'C' updated."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "sandboxId": "sb-c819a",
+    "sandboxId": "C",
+    "name": "Client Staging V2",
+    "status": "updated",
     "updatedFields": [
       "name",
       "color"
@@ -68,6 +69,8 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   }
 }
 ```
+
+This response has no `ok` field. Calling with no recognized fields set returns `status: "unchanged"` and an empty `updatedFields` instead of an error.
 
 ---
 

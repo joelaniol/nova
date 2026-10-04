@@ -8,8 +8,6 @@ Returns the count of unread, non-dismissed notifications currently in the inbox.
 
 `nova.notifications_unread_count` provides an ultra-lightweight check for pending alerts without downloading notification bodies or lists, ideal for periodic polling loops.
 
-* **Security Tier:** Tier 1 (Safe)
-* **Core Architecture Guide:** [Closed-Loop System & Event Propagation](../../../core-features/closed-loop-system.md)
 
 ---
 
@@ -19,6 +17,7 @@ Returns the count of unread, non-dismissed notifications currently in the inbox.
 This tool takes no parameters.
 
 Capability bundle: `notifications` (load it with `nova.tools_bundle(bundle='notifications')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---

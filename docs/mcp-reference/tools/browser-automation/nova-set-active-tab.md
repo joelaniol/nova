@@ -21,6 +21,7 @@ Switches the active visual presentation and input focus in the Nova application 
 | `targetId` | `string` | Yes | — | — | Target ID to switch to (sandbox ID or browser tab ID). |
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -39,12 +40,14 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
 
 ```json
 {
-  "success": true,
-  "activeTargetId": "tab-104",
-  "url": "https://example.com/checkout",
-  "title": "Secure Checkout"
+  "targetId": "tab-104",
+  "ok": true,
+  "webViewReady": true,
+  "activated": true
 }
 ```
+
+If the target activates but its WebView does not finish initializing in time, the call returns `ok: false` with `status: "webview_not_ready"` and `reasonCode: "tab.webview_not_ready_after_activation"` — activation itself still happened, but tools that need a document (eval, navigate, read) will keep failing until the WebView comes up. A target that never becomes active within the internal timeout returns `ok: false` with `reasonCode: "tab.activate_timeout"`.
 
 ---
 

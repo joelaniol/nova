@@ -2,15 +2,13 @@
 
 > **Inspects whether a startup tab restoration prompt is active and previews saved session tabs.**
 
-* **Security Tier:** Tier 1 (Read-Only Recovery State)
-* **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.ui_restore_tabs_prompt_state` checks if Nova booted in a crashed state with tabs awaiting user restoration decisions.
+`nova.ui_restore_tabs_prompt_state` reports whether Nova's "restore previous tabs?" startup prompt is currently open, and if so, previews the pending tab snapshot (tab count, which index was active, when it was saved, and each tab's URL) without answering the prompt. Use `nova.ui_restore_tabs_prompt_resolve` to actually answer it.
 
 ---
 
@@ -20,6 +18,7 @@
 This tool takes no parameters.
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -40,27 +39,28 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Tab restore prompt active: 4 tabs available for restore."
+      "text": "PromptOpen=True HasPendingSnapshot=True SnapshotTabCount=4"
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "isPromptActive": true,
-    "tabs": [
-      {
-        "title": "Dashboard",
-        "url": "https://app.example.com"
-      }
+    "promptOpen": true,
+    "hasPendingSnapshot": true,
+    "snapshotTabCount": 4,
+    "snapshotActiveTabIndex": 0,
+    "snapshotSavedAtUtc": "2026-10-03T08:15:00Z",
+    "snapshotTabs": [
+      { "index": 0, "url": "https://app.example.com", "restorable": true }
     ]
   }
 }
 ```
+The `snapshotTabs` array above is shortened; a real call returns one entry per saved tab.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Startup Check:** Run during initialization to handle unexpected crash recoveries cleanly.
+* **Startup Check:** Run after Nova starts to see whether the restore-tabs prompt is open before deciding how to answer it with `nova.ui_restore_tabs_prompt_resolve`.
 
 ---
 

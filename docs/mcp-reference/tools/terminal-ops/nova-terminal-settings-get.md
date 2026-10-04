@@ -8,7 +8,6 @@ Reads terminal appearance settings and reports why ANSI colour output is enabled
 
 `nova.terminal_settings_get` retrieves terminal UI styling (theme, font size, color preference) and diagnoses the exact reason behind color availability (`colorsReasonCode`).
 
-* **Security Tier:** Tier 1 (Safe)
 * **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces.md)
 
 ---
@@ -19,6 +18,7 @@ Reads terminal appearance settings and reports why ANSI colour output is enabled
 This tool takes no parameters.
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -48,7 +48,13 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
     "fontSize": "medium",
     "programColors": "auto",
     "colorsEnabled": true,
-    "colorsReasonCode": "program_decides"
+    "colorsReasonCode": "program_decides",
+    "autoInstallOnboarding": true,
+    "agentCanControlDock": true,
+    "themeValues": ["nova", "dark"],
+    "fontSizeValues": ["small", "medium", "large", "xlarge"],
+    "programColorsValues": ["auto", "off"],
+    "schemaVersion": "1"
   }
 }
 ```
@@ -58,6 +64,7 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
 ## 4. Operational Best Practices
 
 * **Color Diagnostics:** If CLI commands output plain monochrome text, check `colorsReasonCode`. Values include `"off_by_terminal_setting"`, `"off_by_user_environment"` (`NO_COLOR`), and `"program_decides"`.
+* **Discover Allowed Values:** `themeValues`, `fontSizeValues`, and `programColorsValues` list every value `nova.terminal_settings_set` accepts for the matching field, so an agent does not need to guess or hard-code them.
 
 ---
 

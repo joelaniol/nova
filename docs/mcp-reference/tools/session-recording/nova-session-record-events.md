@@ -6,9 +6,8 @@ Decrypts and streams generic event logs (console, errors, lifecycle, IndexedDB) 
 
 ## 1. Overview
 
-`nova.session_record_events` decrypts and reads arbitrary event streams stored inside a session recording archive. It provides direct access to captured console outputs (`console.jsonl`), unhandled runtime exceptions (`errors.jsonl`), tab lifecycle transitions (`lifecycle.jsonl`), and database transactions (`indexeddb.jsonl`).
+`nova.session_record_events` decrypts and reads arbitrary event streams stored inside a session recording archive. It provides direct access to captured console outputs (`console.jsonl`), unhandled runtime exceptions (`errors.jsonl`), tab lifecycle transitions (`lifecycle.jsonl`), and IndexedDB operation metadata (`indexeddb-ops.jsonl`), among the other streams listed in the `stream` enum below. `console.jsonl`/`errors.jsonl` entries wrap the raw CDP `Runtime.consoleAPICalled`/`Runtime.exceptionThrown` event under a `parameters` object, not a flattened level/message shape.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
 
 ---
@@ -23,6 +22,7 @@ Decrypts and streams generic event logs (console, errors, lifecycle, IndexedDB) 
 | `limit` | `integer` | No | `200` | 1–5000 | Max events returned. |
 
 Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='session_recording')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -47,29 +47,44 @@ Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='
   "content": [
     {
       "type": "text",
-      "text": "Loaded 2 console log events from rec-9b21f04a."
+      "text": "Recording rec-9b21f04a: stream console.jsonl returned 2 event(s)."
     }
   ],
   "structuredContent": {
     "ok": true,
     "recordingId": "rec-9b21f04a",
     "stream": "console.jsonl",
+    "available": true,
     "count": 2,
     "events": [
       {
-        "timestampUtc": "2026-10-02T20:15:10Z",
-        "level": "info",
-        "message": "App initialized: version 2.4.1"
+        "ts": "2026-10-02T20:15:10Z",
+        "method": "Runtime.consoleAPICalled",
+        "parameters": {
+          "type": "info",
+          "args": [
+            { "type": "string", "value": "App initialized: version 2.4.1" }
+          ]
+        }
       },
       {
-        "timestampUtc": "2026-10-02T20:18:22Z",
-        "level": "error",
-        "message": "Uncaught (in promise) Error: Payment failed with status 402"
+        "ts": "2026-10-02T20:18:22Z",
+        "method": "Runtime.consoleAPICalled",
+        "parameters": {
+          "type": "error",
+          "args": [
+            { "type": "string", "value": "Uncaught (in promise) Error: Payment failed with status 402" }
+          ]
+        }
       }
     ]
   }
 }
 ```
+
+Each entry is a thin wrapper (`ts`, `method`, `parameters`) around the raw CDP event; the log level and message text live inside `parameters` (`parameters.type` for the console level, `parameters.args[]` for the logged values; `errors.jsonl` nests the failure under `parameters.exceptionDetails` instead).
+
+If `stream` names a recognised V2 sidecar (`websocket-payloads.jsonl`, `indexeddb-values.jsonl`, `dom-mutations.jsonl`) that this recording never captured, the result still has `ok: true` but with `available: false`, `count: 0`, an empty `events` array, and a `reasonCode: "stream_not_captured"` plus an explanatory `note` — distinguishing "never captured" from "captured but empty".
 
 ---
 
@@ -77,7 +92,7 @@ Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='
 
 * **Console Log Correlation:** Correlate console log timestamps with network events in [`nova.session_record_query`](nova-session-record-query.md) to reconstruct failure sequences.
 * **Crash Forensics:** Read `errors.jsonl` first when diagnosing unexpected script exceptions or blank page render states.
-* **IndexedDB Auditing:** Query `indexeddb.jsonl` to verify local cache mutations and offline sync states.
+* **IndexedDB Auditing:** Query `indexeddb-ops.jsonl` for operation/key-hash metadata (database/store names, operation type, hashed key) — it does not include the stored values unless the `indexeddb_values` permission class was granted, in which case `indexeddb-values.jsonl` carries the actual values.
 
 ---
 

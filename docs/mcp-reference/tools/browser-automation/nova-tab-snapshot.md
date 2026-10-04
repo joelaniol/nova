@@ -1,16 +1,15 @@
 # `nova.tab_snapshot`
 
-> **Captures a full tab state snapshot including URL, scroll position, and form state.**
+> **Reads URL, title, load state and optional text from up to 8 tabs in one call.**
 
-* **Security Tier:** Tier 1 (Read-Only Session State)
-* **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
+* **Core Feature Guide:** [Input Dispatch & Shadow DOM Traversal](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.tab_snapshot` records active browsing state for session preservation or migration across sandboxes.
+`nova.tab_snapshot` reads URL, title and `readyState` (plus an optional text snippet) from up to 8 tabs in one read-only call, without claiming them. Useful for price comparison, multi-source research and data consolidation. A tab that cannot be read gets `ok: false` with an `error` entry; the other tabs still return. An unknown target ID fails the whole call.
 
 ---
 
@@ -25,6 +24,7 @@
 | `includeOkFacts` | `boolean` | No | `false` | — | Reserved OK (Operational Knowledge) facts projection. Omit or pass false; current runtimes reject true instead of silently ignoring it. |
 
 Capability bundles: `browser_automation`, `page_read_debug`.
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -36,7 +36,12 @@ Capability bundles: `browser_automation`, `page_read_debug`.
 {
   "name": "nova_tab_snapshot",
   "arguments": {
-    "targetId": "tab-1"
+    "targetIds": [
+      "tab-1",
+      "tab-2"
+    ],
+    "includeText": true,
+    "maxCharsPerTab": 200
   }
 }
 ```
@@ -47,18 +52,34 @@ Capability bundles: `browser_automation`, `page_read_debug`.
   "content": [
     {
       "type": "text",
-      "text": "Snapshot captured for tab-1."
+      "text": "[{\"targetId\":\"tab-1\",\"ok\":true,\"url\":\"https://shop-a.example.com/item/42\",\"title\":\"Item 42 - Shop A\",\"readyState\":\"complete\",\"textSnippet\":\"Item 42\\nPrice: 19.99 EUR\\nIn stock\",\"textTruncated\":false,\"textChars\":33},{\"targetId\":\"tab-2\",\"ok\":true,\"url\":\"https://shop-b.example.com/p/42\",\"title\":\"Item 42 - Shop B\",\"readyState\":\"complete\",\"textSnippet\":\"Item 42\\nPrice: 18.49 EUR\\nShips in 3 days\",\"textTruncated\":false,\"textChars\":40}]"
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "targetId": "tab-1",
-    "url": "https://app.example.com/editor",
-    "scroll": {
-      "x": 0,
-      "y": 450
-    },
-    "title": "Project Editor"
+    "tabCount": 2,
+    "includeText": true,
+    "tabs": [
+      {
+        "targetId": "tab-1",
+        "ok": true,
+        "url": "https://shop-a.example.com/item/42",
+        "title": "Item 42 - Shop A",
+        "readyState": "complete",
+        "textSnippet": "Item 42\nPrice: 19.99 EUR\nIn stock",
+        "textTruncated": false,
+        "textChars": 33
+      },
+      {
+        "targetId": "tab-2",
+        "ok": true,
+        "url": "https://shop-b.example.com/p/42",
+        "title": "Item 42 - Shop B",
+        "readyState": "complete",
+        "textSnippet": "Item 42\nPrice: 18.49 EUR\nShips in 3 days",
+        "textTruncated": false,
+        "textChars": 40
+      }
+    ]
   }
 }
 ```
@@ -67,7 +88,8 @@ Capability bundles: `browser_automation`, `page_read_debug`.
 
 ## 4. Operational Best Practices
 
-* **Session Checkpointing:** Take snapshots prior to navigating away to allow exact state restoration later.
+* **Batch Reads:** Read several tabs in one call instead of claiming and reading them one after another.
+* **Text Budget:** Keep `includeText` off when URL and title are enough; with text on, `maxCharsPerTab` caps each snippet and `textTruncated` shows whether it was cut.
 
 ---
 

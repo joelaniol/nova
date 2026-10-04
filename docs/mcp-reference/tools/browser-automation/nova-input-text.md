@@ -2,15 +2,14 @@
 
 > **Sends a raw text string into the currently focused DOM element.**
 
-* **Security Tier:** Tier 2 (Keyboard Input)
-* **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
+* **Core Feature Guide:** [Input Dispatch & Shadow DOM Traversal](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.input_text` emits keyboard character events directly to the focused input field, handling unicode text and emoji sequences.
+`nova.input_text` inserts the given text into the currently focused element in a single step via `Input.insertText` — **not** key by key, and with no per-keystroke delay. Because it is one atomic insert, it handles unicode and emoji sequences without needing to simulate individual keystrokes for them. If the text is empty, Nova skips the dispatch entirely (`actionDispatched: false`) instead of sending a no-op insert.
 
 ---
 
@@ -23,6 +22,7 @@
 | `text` | `string` | Yes | — | — | Text to type. Maximum 500000 characters; use nova.type_selector for selector-focused typing. |
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -46,16 +46,18 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Typed 13 characters into focused element."
+      "text": "Typed 13 chars."
     }
   ],
   "structuredContent": {
-    "ok": true,
     "targetId": "tab-1",
-    "charactersTyped": 13
+    "chars": 13,
+    "actionDispatched": true
   }
 }
 ```
+
+There is no top-level `ok` field and no `charactersTyped` — the character count is reported as `chars`.
 
 ---
 

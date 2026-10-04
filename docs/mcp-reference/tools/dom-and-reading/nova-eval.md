@@ -2,8 +2,6 @@
 
 > **Evaluates an arbitrary JavaScript expression in the main page world or isolated world.**
 
-* **Security Tier:** Tier 2 (JavaScript Execution)
-* **Core Feature Guide:** [DOM Perception & Semantic Extraction](../../../core-features/tob.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
@@ -33,6 +31,7 @@
 | `outputDetail` | `string` | No | `"full"` | `full`, `compact` | Response verbosity. 'compact' omits the echoes of your own arguments (isolate, frameScope, frameId, worldMode, includeShadow) and 'chars', which outputBudget.returnedChars already reports. result, truncated, outputBudget and every warning field are unaffected - this setting can never hide a warning. |
 
 Capability bundles: `browser_automation`, `visual_evidence`.
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -42,7 +41,7 @@ Capability bundles: `browser_automation`, `visual_evidence`.
 ### JSON-RPC Request
 ```json
 {
-  "name": "nova_eval",
+  "name": "nova.eval",
   "arguments": {
     "targetId": "tab-1",
     "expression": "document.querySelectorAll(\".card\").length",

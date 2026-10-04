@@ -1,16 +1,15 @@
 # `nova.input_move`
 
-> **Moves the mouse cursor smoothly to specified viewport coordinates.**
+> **Moves the mouse cursor to specified viewport coordinates with a single mouse-move event.**
 
-* **Security Tier:** Tier 2 (Physical Input)
-* **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
+* **Core Feature Guide:** [Input Dispatch & Shadow DOM Traversal](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.input_move` simulates mouse hover movements, triggering CSS `:hover` states, tooltips, and interactive mouseenter listeners.
+`nova.input_move` dispatches a single mouse-move event to the target coordinates through the DevTools input pipeline — there is no movement curve or intermediate steps. It still triggers CSS `:hover` states, tooltips, and `mouseenter`/`mouseover` listeners, since the browser treats the pointer as having arrived at that position.
 
 ---
 
@@ -26,6 +25,7 @@
 | `y` | `number` | Yes | — | — | Mouse Y coordinate in CSS pixels (viewport-relative). |
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -50,17 +50,19 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Moved cursor to (620, 180)."
+      "text": "Mouse moved to (620,180)."
     }
   ],
   "structuredContent": {
-    "ok": true,
     "targetId": "tab-1",
     "x": 620,
-    "y": 180
+    "y": 180,
+    "actionDispatched": true
   }
 }
 ```
+
+There is no top-level `ok` field; `actionDispatched: true` confirms the move event was sent.
 
 ---
 

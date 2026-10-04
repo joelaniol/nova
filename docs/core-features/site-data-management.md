@@ -1,18 +1,18 @@
 # Site Data & Privacy Management (Cookies, Storage, Cache)
 
 > [!NOTE]
-> The Site Data Management subsystem provides AI agents and operators with precise, programmatic control over cookies (including HttpOnly), LocalStorage, SessionStorage, and browser caches—secured by Public Suffix validation and audit logging.
+> Nova AI Workspace gives agents and users direct control over cookies (including HttpOnly cookies), `localStorage`, `sessionStorage` and browsing data — per browser profile, with cookie domain checks, a permission prompt for agent access and an audit log that records hashes instead of values.
 
 ---
 
 ## 1. Problem Statement: Why `document.cookie` Fails in Automation
 
 Conventional browser automation tools rely on in-page JavaScript access (`document.cookie`):
-* **Zero Access to HttpOnly Cookies:** Critical session and authentication cookies are flagged as `HttpOnly` by modern web services, rendering them invisible to in-page JavaScript.
-* **Missing Isolation Boundaries:** Erroneous cookie clearing commands can inadvertently destroy cookies across all open tabs or sandboxes.
-* **Security Hazards from Unvalidated Domain Attributes:** Writing cookies across top-level domains (e.g. `.com` or `.co.uk`) creates cookie-tossing vulnerabilities and security breaches.
+* **No access to HttpOnly cookies:** Session and authentication cookies are usually flagged `HttpOnly` and are invisible to in-page JavaScript.
+* **Missing isolation boundaries:** A careless clear command can wipe cookies for every tab or sandbox at once.
+* **Unvalidated domain attributes:** Setting cookies on a public suffix (for example `.com` or `.co.uk`) enables cookie tossing across unrelated sites.
 
-Nova resolves this via native **WebView2 CookieManager integration**.
+Nova uses the WebView2 cookie manager of the target's browser profile instead.
 
 ---
 
@@ -20,79 +20,72 @@ Nova resolves this via native **WebView2 CookieManager integration**.
 
 ```mermaid
 flowchart TD
-    subgraph AgentCall["Agent MCP Call"]
-        Tool["nova.cookie_* / storage_* / cache_clear
-(targetId: 'active', 'A', 'B'...)"]
+    subgraph AgentCall["Agent MCP call"]
+        Tool["nova.cookie_* / nova.storage_* / nova.cache_clear with targetId"]
     end
 
-    subgraph SecurityLayer["Security & Validation Pipeline"]
-        Scope["TargetContext
-(Resolves targetId to profileId/sandboxId)"]
-        Validator["CookieDomainValidator
-(Public Suffix Blocking, IDN, Prefixes)"]
-        Audit["SiteDataAuditLog
-(Hashes Sensitive Values in Logs)"]
+    subgraph SecurityLayer["Checks in Nova"]
+        Scope["Resolve targetId to its browser profile"]
+        Validator["Cookie domain checks: public suffix, prefixes, SameSite"]
+        Gate["Agent permission: prompt or session grant"]
+        Audit["Audit log with hashed values"]
     end
 
-    subgraph CoreWebView2["CoreWebView2 Native Runtimes"]
-        ManagerTabs["CookieManager (Tabs)
-Scope: all_browser_tabs"]
-        ManagerA["CookieManager (Sandbox A)
-Scope: sandbox:A"]
-        ManagerB["CookieManager (Sandbox B)
-Scope: sandbox:B"]
+    subgraph Profiles["WebView2 browser profiles"]
+        ManagerTabs["Browser tabs profile"]
+        ManagerA["Sandbox A profile"]
+        ManagerB["Sandbox B profile"]
     end
 
     Tool --> Scope
     Scope --> Validator
-    Validator --> Audit
+    Validator --> Gate
+    Gate --> Audit
     Audit --> ManagerTabs
     Audit --> ManagerA
     Audit --> ManagerB
 ```
 
+All browser tabs share one profile; every sandbox has its own. An operation only affects the profile of the `targetId` it names.
+
 ---
 
 ## 3. Core Features & Security Guarantees
 
-1. **Full Access to HttpOnly, Secure, and SameSite Cookies:**
-   * Agents inspect and audit authenticated sessions without executing invasive scripts in the page context.
-2. **Deterministic Cookie Identification:**
-   * Every cookie is assigned an unambiguous `cookieId` calculated from `{profileId, name, domain, path}`, preventing collisions between identically named cookies across subdomains.
-3. **Public Suffix Blocking:**
-   * The built-in validator prevents setting cookies across public suffix boundaries (e.g. `github.io`, `co.uk`, `com`), thwarting cross-tenant attacks.
-4. **Guards Against Accidental Global Purges:**
-   * `nova.cookie_clear` requires a specific `domain` parameter by default. Clearing all cookies profile-wide is classified as a *high-impact action* requiring explicit operator confirmation.
-5. **Visual Cookie Inspector:**
-   * In addition to MCP endpoints, Nova features an integrated WinUI interface for live inspection and editing of cookies and storage.
+1. **HttpOnly, Secure and SameSite cookies:**
+   * Cookies are read and written through the browser's cookie manager, without scripts in the page. `nova.cookie_list` returns metadata only by default; values need `includeValues=true` together with a `domainFilter` and count as a high-impact secret read.
+2. **Deterministic cookie IDs:**
+   * Each cookie gets a `cookieId` derived from profile, name, domain and path, so identically named cookies on different subdomains or paths stay distinguishable.
+3. **Cookie domain checks:**
+   * `nova.cookie_set` only accepts the page's own host or a parent domain, blocks a built-in list of common public suffixes (such as `com`, `de`, `io`, `co.uk`; not the complete Public Suffix List), and enforces the `__Secure-` / `__Host-` prefix rules and `Secure` for `SameSite=None`. `dryRun=true` validates without writing.
+4. **Agent permission prompt:**
+   * Agent access to cookies and storage is controlled by the setting "Agent cookie/storage access": "Always ask" (default), "Ask once per session" or "Always allow". The prompt "Website data access" offers "Allow once" and "Allow for session"; active grants can be revoked under "Active agent permissions".
+5. **High-impact clears:**
+   * `nova.cookie_clear` without `domain` clears all cookies of the profile; with `domain` only that domain and its subdomains. Both `nova.cookie_clear` and `nova.cache_clear` require `_meta.intent` and go through the permission prompt.
+6. **Audit log without values:** Changes are logged with a short SHA-256 hash of the value, not the value itself.
+7. **Cookie inspector:**
+   * With "Show cookie inspector in URL bar" (Settings → Tools, Cookie inspector card), an icon in the address bar opens a panel to view, edit and delete the site's cookies and local storage.
 
 ---
 
 ## 4. MCP Tooling for Site Data Management
 
+All tools are in the `site_data_management` bundle and require a `targetId` (tab or sandbox).
+
 | Tool | Purpose |
 | :--- | :--- |
-| `nova.cookie_list` | Lists cookies with filters for domain, name, or path (paginated). |
-| `nova.cookie_set` | Creates or updates a cookie with explicit flags (Secure, HttpOnly, SameSite). |
-| `nova.cookie_delete` | Deletes a single cookie by `cookieId` or name/domain/path tuple. |
-| `nova.cookie_clear` | Purges cookies selectively for a domain or profile-wide. |
-| `nova.storage_inspect` | Reads `localStorage` and `sessionStorage` for the target origin. |
-| `nova.storage_set` | Sets values directly in web storage for a domain. |
-| `nova.storage_delete` | Removes web storage keys. |
-| `nova.cache_clear` | Selectively purges HTTP cache, DOM storage, or IndexedDB data. |
-
----
-
-## 5. Under the Hood
-
-* **Site Data Service & Abstraction:** `SiteDataService`
-* **Domain & Prefix Validation:** `CookieDomainValidator`
-* **MCP Site Data Handler:** `McpSiteDataHandler`
-* **Audit Logging:** `SiteDataAuditLog`
+| `nova.cookie_list` | Lists cookies, filtered by URI, name or domain, paginated (up to 500 per call). |
+| `nova.cookie_set` | Creates or replaces a cookie with expiry, `HttpOnly`, `Secure` and `SameSite`. |
+| `nova.cookie_delete` | Deletes one cookie by `cookieId` or by name, domain and path. |
+| `nova.cookie_clear` | Clears cookies for one domain or for the whole profile. |
+| `nova.storage_inspect` | Reads `localStorage` or `sessionStorage` keys, optionally with values. |
+| `nova.storage_set` | Sets a web storage value. |
+| `nova.storage_delete` | Removes a web storage key. |
+| `nova.cache_clear` | Clears browsing data of the profile by type, for example `diskCache`, `cacheStorage`, `serviceWorkers`, `cookies`, `allDomStorage` (local and session storage and IndexedDB together), `history`, `allSite` or `allProfile`. |
 
 ---
 
 ## Related Documentation
 
-* **[Multi-Sandbox Session Isolation](sandbox-isolation.md)** — Partitioned user data profiles and storage.
-* **[Proxy Routing & Stealth Network](proxy-and-network.md)** — SOCKS5/HTTP routing and WebRTC leak protection.
+* **[Multi-Sandbox Session Isolation](sandbox-isolation.md)** — Separate browser profiles per sandbox.
+* **[Proxy Routing & Network](proxy-and-network.md)** — Proxy profiles per tab and sandbox.

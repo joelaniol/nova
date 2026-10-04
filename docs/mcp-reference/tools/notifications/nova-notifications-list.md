@@ -8,8 +8,6 @@ Queries the Nova notification inbox with filtering by source, website origin, an
 
 `nova.notifications_list` retrieves notifications stored in Nova's persistent database, allowing agents to monitor background alerts from websites, system events, and peer agents.
 
-* **Security Tier:** Tier 1 (Safe)
-* **Core Architecture Guide:** [Closed-Loop System & Event Propagation](../../../core-features/closed-loop-system.md)
 
 ---
 
@@ -26,6 +24,7 @@ Queries the Nova notification inbox with filtering by source, website origin, an
 | `offset` | `integer` | No | — | ≥ 0 | Number of results to skip for pagination. Default: 0. |
 
 Capability bundle: `notifications` (load it with `nova.tools_bundle(bundle='notifications')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -70,6 +69,8 @@ Capability bundle: `notifications` (load it with `nova.tools_bundle(bundle='noti
   }
 }
 ```
+
+Shortened for readability: each entry also carries `origin`, `targetId`, `sandboxId`, `profileId`, `tag`, `iconPath`, `imagePath`, `isSilent`, `requiresInteraction`, `language`, `timestampMs`, and `deliveryState` (see [`nova.notifications_get`](nova-notifications-get.md)).
 
 ---
 

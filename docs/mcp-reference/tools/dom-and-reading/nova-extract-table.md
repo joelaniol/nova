@@ -51,6 +51,7 @@ If a page contains multiple tables or embeds a table inside a specific dashboard
 | `maxCellChars` | `integer` | No | `500` | 1–20000 | Maximum characters of trimmed text per cell; longer cell text is truncated. |
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -89,25 +90,36 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
 ```json
 {
   "targetId": "tab-101",
-  "tableCount": 1,
-  "tables": [
-    {
-      "index": 0,
-      "selector": "table.pricing-matrix",
-      "headers": ["Plan", "Monthly Price", "Concurrent Sandboxes", "API Calls / Day", "Support"],
-      "rowCount": 3,
-      "colCount": 5,
-      "truncated": false,
-      "rows": [
-        ["Starter", "$29", "2", "10,000", "Community"],
-        ["Professional", "$99", "10", "100,000", "Priority Email"],
-        ["Enterprise", "Custom", "Unlimited", "Unlimited", "Dedicated 24/7 SLA"]
-      ]
-    }
-  ],
-  "truncated": false
+  "selector": "table.pricing-matrix",
+  "result": {
+    "ok": true,
+    "matchedSelectorCount": 1,
+    "tableCount": 1,
+    "truncated": false,
+    "tables": [
+      {
+        "index": 0,
+        "caption": null,
+        "headers": ["Plan", "Monthly Price", "Concurrent Sandboxes", "API Calls / Day", "Support"],
+        "rowCount": 3,
+        "colCount": 5,
+        "colTruncated": false,
+        "truncated": false,
+        "rows": [
+          ["Starter", "$29", "2", "10,000", "Community"],
+          ["Professional", "$99", "10", "100,000", "Priority Email"],
+          ["Enterprise", "Custom", "Unlimited", "Unlimited", "Dedicated 24/7 SLA"]
+        ]
+      }
+    ]
+  }
 }
 ```
+
+`matchedSelectorCount` is only set when `selector` was passed (it is `null` for a full-page scan).
+`caption` is the table's `<caption>` text, or `null` when it has none. Per-table `truncated` means
+rows were dropped (`maxRows`); the outer `result.truncated` means whole tables were dropped
+(`maxTables`); `colTruncated` means more columns exist than `maxCols` returned.
 
 ---
 
@@ -115,9 +127,14 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
 
 | Error Code / Message | Cause | Corrective Action |
 | :--- | :--- | :--- |
-| `Selector matched nothing: ...` | Provided CSS selector does not match any node. | Verify container or table selector with `nova.read_dom`. |
-| `No <table> elements found` | The page uses CSS grids (`display: grid`) or flexboxes instead of HTML `<table>` elements. | Use [`nova.dom_extract`](nova-dom-extract.md) or [`nova.read_text_structured`](nova-read-text-structured.md) to inspect grid items. |
-| `Table rows truncated` | The table exceeds `maxRows` (e.g. large 5,000-row datasets). | Increase `maxRows` or paginate the target web page. |
+| `No element matched selector '...'.` | The provided CSS `selector` does not match any node. | Verify the container or table selector with `nova.read_dom`. |
+| `nova.extract_table failed: ...` | Script execution in the page failed. | Retry, or narrow `selector` to a smaller subtree. |
+
+A page with zero `<table>` elements (e.g. CSS grids or flexboxes instead of HTML tables) is not an
+error: the call returns `ok: true` with `tableCount: 0` and an empty `tables` array. Use
+[`nova.dom_extract`](nova-dom-extract.md) or [`nova.read_text_structured`](nova-read-text-structured.md)
+to inspect grid-based layouts instead. A table that exceeds `maxRows` is likewise not an error — its
+`truncated` flag is set and the extra rows are dropped; increase `maxRows` or paginate the page.
 
 ---
 

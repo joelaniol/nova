@@ -1,8 +1,7 @@
 # `nova.favorites_remove`
 
-> **Removes a bookmark favorite by its unique identifier.**
+> **Removes a saved favorite by its id or URL.**
 
-* **Security Tier:** Tier 2 (Bookmark Management)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
@@ -10,7 +9,7 @@
 
 ## 1. Overview
 
-`nova.favorites_remove` permanently deletes a bookmark from the browser database.
+`nova.favorites_remove` deletes a saved favorite. Pass the stable `id` from `nova.favorites_list` to remove exactly one entry, or `url` to remove the first favorite with that URL. An unknown favorite returns `removed: false` ("Favorite not found.").
 
 ---
 
@@ -23,6 +22,7 @@
 | `url` | `string` | No | — | — | URL to remove (first match). Used when id is omitted. |
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -34,7 +34,7 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
 {
   "name": "nova_favorites_remove",
   "arguments": {
-    "favoriteId": "fav-5501"
+    "id": "8d0c4b6e2f1a4c7e9b3d5a1f6e2c8b40"
   }
 }
 ```
@@ -45,21 +45,23 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "Removed favorite fav-5501."
+      "text": "Favorite removed."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "favoriteId": "fav-5501"
+    "removed": true,
+    "id": "8d0c4b6e2f1a4c7e9b3d5a1f6e2c8b40"
   }
 }
 ```
+
+When the call uses `url` instead of `id`, `structuredContent` carries `url` in place of `id`.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Verify ID:** Obtain exact `favoriteId` from `nova.favorites_list` before deletion.
+* **Verify ID:** Take the exact `id` from `nova.favorites_list` before deleting.
 
 ---
 

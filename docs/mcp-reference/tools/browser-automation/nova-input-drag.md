@@ -2,15 +2,14 @@
 
 > **Executes a physical mouse drag-and-drop gesture from source coordinates to destination.**
 
-* **Security Tier:** Tier 2 (Physical Input)
-* **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
+* **Core Feature Guide:** [Input Dispatch & Shadow DOM Traversal](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.input_drag` moves the mouse pointer from a starting position to a target position while holding down a specified mouse button.
+`nova.input_drag` presses a mouse button at the start coordinates, dispatches an evenly spaced number of mouse-move events (`steps`, default 10) toward the end coordinates, and releases — all through the browser's DevTools input pipeline, so the events are real input (`isTrusted: true`). The movement is linear between the steps: no jitter, no overshoot, no acceleration curve. Nova also hands the gesture to an in-page drag polyfill, so it drives HTML5 `draggable="true"` surfaces (sortable lists, Kanban boards) that plain mouse events cannot start on their own — the start point must sit on a draggable element, and the drop only lands where the page accepts it.
 
 ---
 
@@ -34,6 +33,7 @@
 | `button` | `string` | No | `"left"` | `left`, `middle`, `right` | Mouse button held during drag. |
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -61,23 +61,30 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Dragged from (100, 200) to (400, 200)."
+      "text": "Dragged (left) from (100,200) to (400,200)."
     }
   ],
   "structuredContent": {
-    "ok": true,
     "targetId": "tab-1",
-    "distance": 300
+    "startX": 100,
+    "startY": 200,
+    "endX": 400,
+    "endY": 200,
+    "steps": 10,
+    "button": "left",
+    "actionDispatched": true
   }
 }
 ```
+
+There is no top-level `ok` field and no `distance`; `actionDispatched: true` only confirms the gesture was sent, not that the page accepted a drop.
 
 ---
 
 ## 4. Operational Best Practices
 
 * **Slider Interaction:** Ideal for dragging volume sliders, range inputs, or Kanban cards.
-* **Steps Interpolation:** Increase `steps` parameter for smoother movement recognized by gesture-sensitive UI libraries.
+* **Steps Interpolation:** Increase `steps` for more intermediate move events, useful for UIs that render a live preview based on the pointer position during the drag (e.g. sortable-list reorder previews). It does not change the motion into a curve and is not intended to evade drag-based bot detection — use `nova.input_drag_humanized` for that.
 
 ---
 

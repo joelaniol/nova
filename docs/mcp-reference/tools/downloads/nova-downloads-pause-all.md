@@ -8,7 +8,6 @@ Pauses all in-progress WebView2-native downloads that support pausing.
 
 `nova.downloads_pause_all` iterates through all currently active downloads and dispatches pause commands to those supporting suspension, providing bandwidth relief for critical foreground operations.
 
-* **Security Tier:** Tier 2 (Bulk Control)
 * **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts.md)
 
 ---
@@ -21,6 +20,7 @@ This tool takes no parameters.
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -41,7 +41,7 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "pause requested: 2 dispatched, 1 skipped."
+      "text": "Pause requested: 2 dispatched, 1 skipped."
     }
   ],
   "structuredContent": {

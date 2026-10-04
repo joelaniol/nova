@@ -6,9 +6,8 @@ Lists guidance log entries filtered by profile, domain, or guidance kind.
 
 ## 1. Overview
 
-`nova.task_guidance_logs` queries the guidance observation history to review proposed playbooks, learning traces, and execution anomalies.
+`nova.task_guidance_logs` lists entries of the guidance log written by `nova.task_guidance_log_add`, filtered by profile, instance, guidance kind or status (`logged`, `proposed`, `accepted`, `rejected`, `promoted`). When `profileId` is set, the result also contains `profileLearningStats` for that profile: instance counts, completion percentage, terminal failures, match telemetry, the most frequent overrides and the confidence tuning signals.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
 ---
@@ -25,6 +24,7 @@ Lists guidance log entries filtered by profile, domain, or guidance kind.
 | `limit` | `integer` | No | `50` | 1–200 | Max entries to return. Default: 50. |
 
 Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -36,31 +36,48 @@ Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_m
 {
   "name": "nova.task_guidance_logs",
   "arguments": {
-    "taskProfileId": "tp-checkout-01",
+    "guidanceKind": "workflow",
+    "status": "logged",
     "limit": 5
   }
 }
 ```
 
 ### JSON-RPC Response
+
+The text block carries the same object as `structuredContent`, serialized as JSON (shortened here).
+
 ```json
 {
   "content": [
     {
       "type": "text",
-      "text": "Loaded 1 guidance log entry for tp-checkout-01."
+      "text": "{\"logs\":[{\"guidanceLogId\":\"4d7e1a9c2b6f4e0a8c3d5b7f9e1a2c4d\", ...}],\"count\":1,\"profileLearningStats\":null}"
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "total": 1,
     "logs": [
       {
-        "guidanceLogId": "log-guid-401",
-        "guidanceKind": "workaround",
-        "text": "Modal requires clicking backdrop..."
+        "guidanceLogId": "4d7e1a9c2b6f4e0a8c3d5b7f9e1a2c4d",
+        "profileId": "9b2c4e7a1f3d4c6e8a0b2d4f6a8c0e1f",
+        "instanceId": null,
+        "normalizedHash": "e3a1f0c47b9d2e6a5c8f1b3d7e9a0c2f4b6d8e1a3c5f7b9d0e2a4c6f8b1d3e5a",
+        "guidanceKind": "workflow",
+        "payload": {
+          "text": "Close the newsletter modal by clicking the backdrop; the close icon does not respond.",
+          "url": "https://shop.example.com/checkout"
+        },
+        "sourceKind": "agent",
+        "sourceRef": null,
+        "status": "logged",
+        "occurrenceCount": 2,
+        "createdAtUtc": "2026-10-02T15:41:07.5120000Z",
+        "updatedAtUtc": "2026-10-03T09:12:44.0310000Z",
+        "promotedToContentRev": null
       }
-    ]
+    ],
+    "count": 1,
+    "profileLearningStats": null
   }
 }
 ```
@@ -69,7 +86,7 @@ Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_m
 
 ## 4. Operational Best Practices
 
-* **Audit Opportunities:** Inspect logs before promoting hints to master profiles.
+* **Review before promoting:** Inspect entries and their `occurrenceCount` before promoting guidance into a profile with `nova.task_promote_guidance`.
 
 ---
 

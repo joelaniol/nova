@@ -1,122 +1,91 @@
-# Anti-Fingerprint Protection & Stealth Identity Engine
+# Fingerprint Protection & Browser Identity
 
 > [!NOTE]
-> The Anti-Fingerprint and Identity Engine of Nova AI Workspace (`FingerprintProtection`) protects automated sessions from bot detection and cross-site tracking. It combines a 3-tier configuration hierarchy, mathematically deterministic noise seeding, and consistent high-entropy Client Hints.
+> Nova has two separate controls for what websites learn about the browser: **fingerprint protection** adds seeded noise to, or fixes the values of, browser traits that sites use to recognize a device, and **browser identity** decides which browser the user-agent string and Client Hints announce. Both are off by default: fingerprint protection starts at `off`, and the identity starts as the native WebView2/Edge identity.
 
 ---
 
-## 1. Problem Statement & Motivation
+## 1. Problem Statement
 
-Modern web applications deploy advanced client-side fingerprinting libraries (e.g. FingerprintJS, CreepJS, DataDome, Cloudflare Turnstile):
-1. **Hardware & Canvas Fingerprinting:** Subtle hardware variances in 2D Canvas rendering, WebGL shader compilation, AudioContext frequency responses, and installed system fonts generate a unique persistent hash—even across incognito tabs.
-2. **Inconsistent Headless Signatures:** When User-Agents are manually spoofed, internal `navigator` properties or high-entropy Client Hints (`sec-ch-ua`) frequently mismatch. Anti-bot heuristics immediately flag these discrepancies.
-3. **Breakage of Legitimate Web Features:** Purely random noise per frame breaks WebGL games, 3D product viewports, and canvas-based charts.
-
-**Nova AI Workspace** resolves this through a **deterministic, seeded noise model** that remains stable within a session while rendering cross-site and cross-tab correlation impossible.
+1. **Device fingerprinting:** Small differences in canvas and audio output, installed fonts, GPU name, CPU core count and screen size can be combined into an identifier that survives cookie deletion.
+2. **Incoherent spoofing:** Changing only the user-agent string while `navigator.userAgentData` and the `Sec-CH-UA` Client Hints still describe the real browser is a contradiction that bot detection looks for.
+3. **Breakage:** Noise that changes on every read makes canvas-based charts and drawing tools drift and is itself detectable.
 
 ---
 
-## 2. Architecture & 3-Tier Hierarchy
+## 2. Fingerprint Protection Levels
+
+| Level | Settings label | What it changes |
+| :--- | :--- | :--- |
+| **`off`** *(default)* | Off | Nothing. |
+| **`standard`** | Standard (Canvas + Audio) | Canvas: ±1 noise on RGB values read back via `getImageData`, `toDataURL` and `toBlob` (the visible canvas itself is not modified). Audio: noise far below audibility on audio buffer and analyser readouts. |
+| **`strict`** | Strict (all incl. fonts, graphics, hardware) | Everything in `standard`, plus: `document.fonts.check()` answers `true` only for a small set of common fonts, and `measureText` widths get sub-pixel noise; the WebGL vendor and renderer report a generic NVIDIA/ANGLE value; `hardwareConcurrency` and `deviceMemory` report 8 and `maxTouchPoints` 0; the screen reports 1920 × 1080 (available 1920 × 1040) at 24-bit color depth. |
+
+Strict can occasionally make games or audio apps misbehave. A level change takes effect on the next page load.
+
+---
+
+## 3. Where the Level Comes From
 
 ```mermaid
 flowchart TD
-    subgraph ConfigLayers["Configuration Hierarchy"]
-        Tab["1. Tab Override (Highest Priority)"]
-        Sandbox["2. Sandbox Override (Medium Priority)"]
-        Global["3. Global Browser Setting (Base Default)"]
-    end
-
-    Resolver["FingerprintProtectionResolver
-(Resolves Effective Level & Source)"]
-    
-    subgraph ScriptEngine["Injection & Script Generation"]
-        SeedGen["ComputeSeed
-(SandboxUID + TabID + SessionStart)"]
-        Bundle["fingerprint-protection.js
-(Embedded Resource)"]
-        ScriptBuilder["FingerprintProtectionScriptBuilder"]
-    end
-
-    subgraph RuntimeDOM["WebView2 Injected Environment"]
-        CanvasHook["Canvas 2D / WebGL Noise"]
-        AudioHook["AudioContext Frequency Jitter"]
-        FontHook["Font Enumeration Mitigation"]
-        ClientHints["High-Entropy Client Hints Sync"]
-    end
-
-    Tab --> Resolver
-    Sandbox --> Resolver
-    Global --> Resolver
-    Resolver --> ScriptBuilder
-    SeedGen --> ScriptBuilder
-    Bundle --> ScriptBuilder
-    ScriptBuilder -->|window.__novaFingerprintConfig| RuntimeDOM
-    RuntimeDOM --> CanvasHook
-    RuntimeDOM --> AudioHook
-    RuntimeDOM --> FontHook
-    RuntimeDOM --> ClientHints
+    Tab["Tab override - until the tab closes"] --> Resolver["Effective level and its source"]
+    Sandbox["Sandbox override"] --> Resolver
+    Global["Global setting - default off"] --> Resolver
+    Resolver --> Script["Protection script added before page scripts run"]
 ```
 
----
+The most specific setting wins: **tab > sandbox > global**.
 
-## 3. Standardized Protection Levels
+| Scope | In the UI | Via MCP |
+| :--- | :--- | :--- |
+| Global | Settings: "Fingerprint protection", "Protection level" | `nova.fingerprint_set_global(level)` |
+| Sandbox | Sandbox settings: "Fingerprint protection for this sandbox" ("Use global value" clears it) | `nova.fingerprint_set_sandbox(sandboxId, level)`, `level: null` clears it |
+| Tab | Tab context menu: "Fingerprint protection" ("Use profile setting" clears it) | `nova.fingerprint_set_tab(tabId, level)`, `level: null` clears it |
 
-Nova provides four standardized protection tiers:
-
-| Level | Operational Mode | Active Mitigations | Recommended Use Case |
-| :--- | :--- | :--- | :--- |
-| **`off`** | Disabled | No modifications applied | Internal developer testing or debugging internal sites. |
-| **`balanced`** *(Default)* | Balanced | Canvas noise, Audio jitter, Navigator normalization | Maximum web compatibility while blocking commercial tracking networks. |
-| **`strict`** | Strict | Canvas, Audio, WebGL vendor spoofing, Font limiting, Screen jitter | Challenging web platforms with aggressive fingerprinting heuristics. |
-| **`maximum`** | Maximum Stealth | Complete API masking, sub-pixel jitter, locked hardware profiles | High-security research workflows requiring maximum stealth. |
+A tab override is kept in memory only and ends when the tab is closed. `nova.fingerprint_get` shows the effective level and which scope it comes from.
 
 ---
 
-## 4. Deterministic Seeding (`ComputeSeed`)
+## 4. Stable Noise per Tab
 
-Noise is never pseudo-random per frame; it is derived deterministically from three entropy sources:
-```csharp
-var seed = ComputeSeed(sandboxPersistentUid, tabId, sessionStartUnixMs);
-```
-1. **`sandboxPersistentUid`:** Binds noise characteristics to the user profile.
-2. **`tabId`:** Ensures two tabs within the same session produce distinct values (preventing cross-tab correlation).
-3. **`sessionStartUnixMs`:** Rotates the fingerprint profile cleanly upon every Nova restart.
+The noise is not random per read. It is derived from a seed computed from the sandbox's persistent ID, the tab ID and the time Nova was started (SHA-256, first 32 bits), combined with the position or input that is being read. As a result:
+* Repeated reads in the same document return the same value, and a reload in the same tab produces the same fingerprint.
+* Two tabs produce different values.
+* After a Nova restart the values change.
 
-Following initialization, the injected script immediately deletes `window.__novaFingerprintConfig` from the global scope, ensuring third-party scripts cannot extract the seed.
+The script reads its configuration from a global variable and deletes that variable immediately, so page scripts cannot simply read back the level or the seed. Patched functions report themselves as native code to `Function.prototype.toString`.
 
 ---
 
-## 5. Under the Hood
+## 5. Browser Identity
 
-| Component | Responsibility |
-| :--- | :--- |
-| **`FingerprintProtectionResolver`** | Resolves effective protection level following `Tab > Sandbox > Global` priority. |
-| **`FingerprintProtectionScriptBuilder`** | Generates the bootstrap script with seed and mitigation matrix. |
-| **`BrowserIdentityProfiles`** | Canonical identity presets ensuring coherent User-Agents and Client Hints. |
-| **`PerTabFingerprintOverrides`** | Thread-safe in-memory store managing ephemeral tab-level overrides. |
+`nova.identity_set` stores one browser identity in the settings and applies it immediately to all open tabs. It has no per-tab or per-sandbox scope.
+
+| Preset | User-agent | Client Hints |
+| :--- | :--- | :--- |
+| `default` | Native WebView2/Edge identity, no override | Native, fully consistent |
+| `chrome` | Chrome on Windows | Matching `navigator.userAgentData` / `Sec-CH-UA` |
+| `firefox` | Firefox on Windows | None — the Chromium engine keeps its own `userAgentData`, so this is not fully coherent |
+| `safari` | Safari on macOS | None — not fully coherent, same reason |
+| `custom` | Free-form string (max. 1,024 characters) | Matching hints only if the string looks like Chromium |
+
+`version` selects a browser version for the `chrome`, `firefox` and `safari` presets; `nova.identity_presets` lists the valid values. `nova.identity_get` shows the stored identity and the effective user-agent.
+
+For a single tab, `nova.emulation_set_user_agent` sets a temporary user-agent (plus optional `acceptLanguage` and `platform`). This override is not saved, stays on that tab across navigations until it is replaced or the tab is closed, and is not undone by a later `nova.identity_set`.
 
 ---
 
-## 6. MCP Tooling for Fingerprint & Identity
+## 6. Related Emulation Tools
 
-* **Fingerprint Protection:**
-  * `nova.fingerprint_get`: Inspects active protection level and resolution source.
-  * `nova.fingerprint_set_global`: Configures browser-wide default protection level.
-  * `nova.fingerprint_set_sandbox`: Configures protection override for a sandbox profile.
-  * `nova.fingerprint_set_tab`: Applies an ephemeral override to an individual tab.
-* **Identity & Persona Management:**
-  * `nova.identity_presets`: Lists verified browser presets (Chrome/Windows, Safari/macOS, Firefox/Linux).
-  * `nova.identity_get`: Inspects active identity attributes for a tab.
-  * `nova.identity_set`: Assigns a coherent browser persona to a tab or sandbox.
-* **Hardware & Device Emulation:**
-  * `nova.emulation_set_device_metrics`: Adjusts resolution, device pixel ratio (DPR), and orientation.
-  * `nova.emulation_set_user_agent`: Sets User-Agent and client hints synchronously.
-  * `nova.emulation_set_locale`: Configures language headers and timezones.
-  * `nova.emulation_set_touch`: Enables touch events and gesture emulation.
+These act on one tab or sandbox (`targetId`) and are meant for testing, not as a persistent identity:
+* `nova.emulation_set_device_metrics`: viewport width and height, device scale factor, mobile layout.
+* `nova.emulation_set_locale`: `navigator.language(s)` and `Accept-Language`, time zone, geolocation.
+* `nova.emulation_set_touch`: touch event emulation and `maxTouchPoints`.
 
 ---
 
 ## Related Documentation
 
-* **[Multi-Sandbox Session Isolation](sandbox-isolation.md)** — Partitioned storage profiles and proxy bindings.
-* **[Proxy Routing & Stealth Network](proxy-and-network.md)** — SOCKS5/HTTP routing and WebRTC leak protection.
+* **[Multi-Sandbox Session Isolation](sandbox-isolation.md)** — Separate storage profiles per sandbox.
+* **[Proxy Routing & Network](proxy-and-network.md)** — Proxy routing per sandbox.

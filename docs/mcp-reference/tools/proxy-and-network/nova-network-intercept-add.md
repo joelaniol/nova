@@ -8,8 +8,7 @@ Deposits a CDP network interception rule to mock responses, inject delays, modif
 
 `nova.network_intercept_add` intercepts live network requests matching a URL pattern on the target tab. Nova answers matching requests immediately from this rule without waiting for LLM turns, ensuring page JavaScript never hangs. Rules expire automatically by TTL, hit count, or tab closure.
 
-* **Security Tier:** Tier 2 (Network Interception)
-* **Core Architecture Guide:** [Proxy Routing & Stealth Network Engine](../../../core-features/proxy-and-network.md)
+* **Core Architecture Guide:** [Proxy Routing & Network Engine](../../../core-features/proxy-and-network.md)
 
 ---
 
@@ -44,6 +43,7 @@ Deposits a CDP network interception rule to mock responses, inject delays, modif
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -71,18 +71,41 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
   "content": [
     {
       "type": "text",
-      "text": "Interception rule 'rule-8f12a4b0' armed on tab-1 (*api/checkout/payment* -> respondWith 500)."
+      "text": "Rule ir_8f12a4b0 armed on tab-1: *api/checkout/payment* answered with HTTP 500. Expires in 30000 ms or after 1 hit(s), whichever comes first."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "ruleId": "rule-8f12a4b0",
     "targetId": "tab-1",
-    "urlPattern": "*api/checkout/payment*",
-    "action": "respondWith",
-    "status": 500,
-    "maxHits": 1,
-    "ttlMs": 30000
+    "ruleId": "ir_8f12a4b0",
+    "rule": {
+      "ruleId": "ir_8f12a4b0",
+      "targetId": "tab-1",
+      "urlPattern": "*api/checkout/payment*",
+      "action": "respondWith",
+      "summary": "*api/checkout/payment* answered with HTTP 500",
+      "hits": 0,
+      "maxHits": 1,
+      "applied": 0,
+      "failed": 0,
+      "lastError": null,
+      "expiresAtUtc": "2026-10-04T12:05:30.0000000Z",
+      "remainingMs": 30000,
+      "note": null
+    },
+    "reasonCode": null,
+    "message": null,
+    "guardrails": {
+      "ttlMs": 30000,
+      "maxHits": 1,
+      "delayMs": 0,
+      "maxDelayMs": 30000,
+      "expiresAtUtc": "2026-10-04T12:05:30.0000000Z",
+      "endsOnTabClose": true,
+      "endsOnAppExit": true,
+      "emergencyStop": "nova.network_intercept_clear"
+    },
+    "activeRuleCount": 1
   }
 }
 ```

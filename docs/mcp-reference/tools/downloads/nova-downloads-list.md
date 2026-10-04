@@ -8,7 +8,6 @@ Lists recent downloads tracked by the browser with status, progress, speed, and 
 
 `nova.downloads_list` inspects download history and live in-progress transfers across all sandboxes. It reports detailed telemetry including byte counts, transfer rates, estimated remaining time, network/disk error categories, and live operation capabilities (`canPause`, `canResume`).
 
-* **Security Tier:** Tier 1 (Safe)
 * **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts.md)
 
 ---
@@ -26,6 +25,7 @@ Lists recent downloads tracked by the browser with status, progress, speed, and 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -61,24 +61,40 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
         "id": "dl-4f8a19bc",
         "fileName": "release-v2.4.0.zip",
         "url": "https://releases.example.com/builds/release-v2.4.0.zip",
+        "errorCategory": null,
+        "retryable": false,
+        "canPause": true,
+        "canResume": false,
         "status": "in_progress",
         "bytesReceived": 45088768,
         "totalBytes": 104857600,
-        "speedBytesPerSecond": 5242880,
-        "stalled": false,
-        "estimatedSecondsRemaining": 11.4,
-        "canPause": true,
-        "canResume": false,
         "filePath": "C:\\Users\\GNetwork\\Downloads\\release-v2.4.0.zip",
         "sandboxId": "A",
         "startedUtc": "2026-10-02T20:45:10.0000000Z",
-        "errorCategory": null,
-        "retryable": false
+        "speedBytesPerSecond": 5242880,
+        "stalled": false,
+        "estimatedSecondsRemaining": 11.4,
+        "completedUtc": null,
+        "errorReason": null,
+        "lastUpdatedUtc": "2026-10-02T20:45:21.0000000Z",
+        "elapsedSeconds": 11.0
       }
-    ]
+    ],
+    "idNotFound": null,
+    "proxy": {
+      "mode": "global",
+      "browserDownloads": "no proxy configured (Windows default route)",
+      "novaDownloads": "no proxy configured (Windows default route)",
+      "direct": false
+    }
   }
 }
 ```
+
+The `downloads` array shows one entry with every field the handler returns; `proxy` describes which
+route Nova's own downloads take versus the browser's own downloads (see the proxy-and-network tools
+for configuring one). `direct: true` only appears when the download proxy mode is explicitly set to
+off.
 
 ---
 

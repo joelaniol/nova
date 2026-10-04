@@ -2,15 +2,14 @@
 
 > **Dispatches a physical mouse wheel scroll event at specific coordinates with deltaX and deltaY.**
 
-* **Security Tier:** Tier 2 (Physical Input)
-* **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
+* **Core Feature Guide:** [Input Dispatch & Shadow DOM Traversal](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.input_wheel` delivers raw wheel events at a chosen location, enabling zooming in maps, canvas panning, or scrolling nested scrollable panels.
+`nova.input_wheel` dispatches a single wheel event with the given `deltaX`/`deltaY` at the chosen viewport coordinates, enabling zooming in maps, canvas panning, or scrolling nested scrollable panels. Nova then measures whether the page actually moved (window scroll position and, where detected, a scroll container under the pointer) and reports that in the response — a dispatched event with no observed movement is not silently treated as success.
 
 ---
 
@@ -28,6 +27,7 @@
 | `deltaY` | `number` | Yes | — | — | Vertical scroll delta in pixels. Positive = scroll down. |
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -53,17 +53,39 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Dispatched mouse wheel event (deltaY: 250)."
+      "text": "Wheel at (500,400) deltaY=250."
     }
   ],
   "structuredContent": {
-    "ok": true,
     "targetId": "tab-1",
+    "ok": true,
+    "status": "ok",
+    "reasonCode": null,
+    "message": null,
+    "x": 500,
+    "y": 400,
     "deltaX": 0,
-    "deltaY": 250
+    "deltaY": 250,
+    "changed": true,
+    "movementVerified": true,
+    "warnings": [],
+    "actionDispatched": true,
+    "scrollEvidence": {
+      "beforeWindowX": 0,
+      "beforeWindowY": 1200,
+      "afterWindowX": 0,
+      "afterWindowY": 1450,
+      "evidenceSource": "window",
+      "underPointerHeadroom": false
+    }
   }
 }
 ```
+
+### Status and `reasonCode` When Nothing Moved
+* `status: "noop"`, `reasonCode: "input_wheel.at_boundary"` — the page is already at the scroll edge in the requested direction; this is reported as **success**, not a failure.
+* `status: "no_effect"`, `reasonCode: "input_wheel.no_effect"` — the event was dispatched but no movement was observed anywhere; the page likely handles wheel input itself or scrolls a container Nova could not detect under the pointer.
+* `status: "dispatched_unverified"`, `reasonCode: "input_wheel.iframe_unverified"` or `"input_wheel.evidence_unavailable"` — the event was sent, but movement could not be confirmed (e.g. dispatched into an opaque cross-origin frame).
 
 ---
 

@@ -10,13 +10,12 @@ Dismissing cookie consent dialogs through naive UI clicking is fragile: consent 
 
 `nova.cmp_apply` interfaces directly with the CMP's programmatic JavaScript APIs:
 * **Supported CMP Vendors:** OneTrust, Sourcepoint (TCF v2), and Cookiebot (`window.Cookiebot.submitCustomConsent`).
-* **ConsentStateVector Verification:** Reads the active consent state vector before and after execution, ensuring the privacy flags were actually written into the vendor's storage and cookies.
-* **Autonomous-Safe Default (`RejectOptional`):** Automatically rejects advertising, analytics, and marketing cookies while preserving strictly necessary operational cookies.
-* **AcceptAll Safeguard:** Blanket acceptance of tracking cookies (`AcceptAll`) is hard-gated to prevent rogue autonomous consent inflation.
-* **User Choice Preservation:** If the human user previously made an explicit consent choice on this domain, Nova preserves the user's decision (`user_choice_preserved`) and prevents autonomous overrides.
+* **ConsentStateVector Verification:** Reads the vendor's consent state before and after the call (framework, CMP id/version, TCF purpose flags, OneTrust group states, or Cookiebot category flags, depending on the detected vendor) and compares them to decide whether the intent was actually applied.
+* **Autonomous-Safe Default (`RejectOptional`):** Rejects advertising, analytics, and marketing cookies while preserving strictly necessary operational cookies.
+* **AcceptAll Currently Blocked:** `intent.mode: "AcceptAll"` is rejected outright for every automated call (JSON-RPC error `-32035`, `failureCode: "accept_all_blocked"`) because the verification needed to trust a per-site accept claim is not wired up yet. Use `RejectOptional`, or let the human user accept all cookies manually in the banner.
+* **User Choice Preservation:** For OneTrust and Cookiebot, if the pre-state already shows an explicit prior user accept of an optional category, Nova preserves it (`user_choice_preserved`) instead of overriding it with `RejectOptional`. TCF/Sourcepoint state cannot currently be decoded well enough to detect this, so that vendor always applies the requested intent.
 
-* **Cross-Origin Iframe Piercing:** Communicates with embedded iframe banners via top-frame `__tcfapi` messaging.
-* **Pre-Claim Requirement:** The calling agent must hold an active tab claim via [`nova.tab_claim`](../browser-automation/nova-tab-claim.md).
+* **Cross-Origin Iframe Awareness:** For Sourcepoint, the `__tcfapi` function it relies on commonly lives in the top frame even when the consent UI itself renders inside a cross-origin iframe.
 * **Automatic Fallback:** If no recognized CMP adapter is detected (`failureCode: "no_adapter"`), agents fall back to visual blocker dismissal via [`nova.dismiss_blockers`](../browser-automation/nova-dismiss-blockers.md).
 
 ---
@@ -29,7 +28,7 @@ Dismissing cookie consent dialogs through naive UI clicking is fragile: consent 
 | `targetId` | `string` | Yes | — | — | Target tab or sandbox id from nova.tabs. |
 | `agentId` | `string` | No | — | — | Agent identifier (used for audit trail; optional). |
 | `intent` | `object` | No | — | — | Typed consent intent. Omit to use the default cookie choice from Nova's settings. |
-| `intent.mode` | `string` | No | — | `RejectOptional`, `AcceptAll`, `OpenManage`, `PreserveExisting`, `Revoke` | Consent mode. RejectOptional = strict-necessary only (autonomous-safe default). AcceptAll is hard-gated. PreserveExisting = no-op verify (returns the current ConsentStateVector without mutating). OpenManage/Revoke are reserved values and rejected. |
+| `intent.mode` | `string` | No | — | `RejectOptional`, `AcceptAll`, `OpenManage`, `PreserveExisting`, `Revoke` | Consent mode. RejectOptional = strict-necessary only (autonomous-safe default). AcceptAll is always refused (the user accepts manually). PreserveExisting = no-op verify (returns the current ConsentStateVector without mutating). OpenManage/Revoke are reserved values and rejected. |
 | `intent.allowStrictNecessary` | `boolean` | No | — | — | — |
 | `intent.allowPreferences` | `boolean` | No | — | — | — |
 | `intent.allowStatistics` | `boolean` | No | — | — | — |
@@ -38,10 +37,11 @@ Dismissing cookie consent dialogs through naive UI clicking is fragile: consent 
 | `intent.doNotSellOrShare` | `boolean` | No | — | — | — |
 | `intent.personalizedAds` | `boolean` | No | — | — | — |
 | `intent.frameworkHint` | `string` | No | — | `Unknown`, `TcfEu`, `GppUs`, `VendorCustom` | — |
-| `intent.userPolicyOrigin` | `string` | No | — | `user_per_site`, `user_global`, `agent_task`, `learned_default` | Provenance of the policy decision. Required token 'user_per_site' when calling AcceptAll. |
+| `intent.userPolicyOrigin` | `string` | No | — | `user_per_site`, `user_global`, `agent_task`, `learned_default` | Provenance of the policy decision (recorded in the audit log). |
 | `mode` | `string` | No | — | `auto`, `dry_run` | Tool execution mode. 'auto' = run apply immediately. 'dry_run' = read ConsentStateVector and surface preState only, no mutation. Reserved value 'ask' returns -32002. |
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -74,37 +74,49 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
 ```json
 {
   "ok": true,
+  "status": "ok",
+  "mode": "auto",
+  "vendor": "onetrust",
+  "route": "top_frame",
   "verified": true,
-  "targetId": "tab-101",
-  "adapter": "OneTrust",
+  "verifyMethod": "group_state_diff",
+  "failureCode": "ok",
+  "retryable": false,
+  "nextAction": "none",
+  "userChoicePresent": false,
+  "auditLogged": true,
   "preState": {
-    "strictlyNecessary": true,
-    "performance": true,
-    "targeting": true
+    "framework": "Unknown",
+    "cmpVendor": "onetrust",
+    "oneTrustGroups": { "C0001": true, "C0002": true, "C0003": true, "C0004": true },
+    "source": "OneTrust.GetDomainData"
   },
   "postState": {
-    "strictlyNecessary": true,
-    "performance": false,
-    "targeting": false
-  },
-  "userChoicePresent": false,
-  "retryable": false,
-  "nextAction": "none"
+    "framework": "Unknown",
+    "cmpVendor": "onetrust",
+    "oneTrustGroups": { "C0001": true, "C0002": false, "C0003": false, "C0004": false },
+    "source": "OneTrust.GetDomainData"
+  }
 }
 ```
+`preState`/`postState` are shortened above; the full `ConsentStateVector` projection also carries `cmpId`, `cmpVersion`, `tcfPolicyVersion`, `gdprApplies`, `eventStatus`, the Cookiebot category flags, `tcStringHash`, and `capturedUtc`.
 
 If the site does not use a supported CMP vendor:
 ```json
 {
   "ok": false,
+  "status": "failed",
+  "reasonCode": "cmp.no_adapter",
+  "vendor": "unknown",
   "verified": false,
-  "targetId": "tab-101",
   "failureCode": "no_adapter",
+  "failureReason": "No registered CMP adapter detected in top frame. Fall back to nova.dismiss_blockers or pixel-click.",
   "retryable": false,
-  "nextAction": "call_dismiss_blockers",
-  "guidance": "No recognized CMP API detected. Use nova.dismiss_blockers to click visible banner dismiss buttons."
+  "nextAction": "fallback_dismiss_blockers"
 }
 ```
+
+A call with `intent.mode: "AcceptAll"` does not return a tool result at all; it is rejected as a JSON-RPC error (`-32035`) with `data.failureCode: "accept_all_blocked"` and `data.nextAction: "escalate_to_user"`.
 
 ---
 

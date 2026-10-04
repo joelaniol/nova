@@ -8,7 +8,6 @@ Lists all open agent-owned terminal sessions with status, shell type, and exit c
 
 `nova.terminal_list` queries the terminal session manager for active background sessions created by agents. It excludes the user's interactive dock terminals to maintain clear security and control boundaries.
 
-* **Security Tier:** Tier 1 (Safe)
 * **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces.md)
 
 ---
@@ -21,6 +20,7 @@ This tool takes no parameters.
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `terminal_ops` (load it with `nova.tools_bundle(bundle='terminal_ops')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -49,15 +49,15 @@ Capability bundle: `terminal_ops` (load it with `nova.tools_bundle(bundle='termi
     "count": 2,
     "sessions": [
       {
-        "sessionId": "term-a8f9c1d0",
-        "shell": "powershell.exe",
+        "sessionId": "term_1a2b3c4d5e6f7a8b",
+        "shell": "powershell.exe -NoProfile -NoLogo -NoExit -Command \"Remove-Module PSReadLine -Force -ErrorAction SilentlyContinue\"",
         "running": true,
         "exitCode": null,
         "createdAtUtc": "2026-10-02T20:15:30.1234567Z"
       },
       {
-        "sessionId": "term-b2c3d4e5",
-        "shell": "powershell.exe",
+        "sessionId": "term_9f8e7d6c5b4a3210",
+        "shell": "powershell.exe -NoProfile -NoLogo -NoExit -Command \"Remove-Module PSReadLine -Force -ErrorAction SilentlyContinue\"",
         "running": false,
         "exitCode": 0,
         "createdAtUtc": "2026-10-02T19:40:12.9876543Z"

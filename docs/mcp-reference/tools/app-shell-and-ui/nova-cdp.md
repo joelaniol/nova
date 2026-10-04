@@ -2,15 +2,13 @@
 
 > **Executes a raw Chrome DevTools Protocol (CDP) method directly on the target WebView2 instance.**
 
-* **Security Tier:** Tier 3 (Low-Level Diagnostic & Protocol Passthrough)
-* **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.cdp` provides low-level escape-hatch access to the Chromium DevTools Protocol. It bypasses high-level Nova abstractions to invoke raw CDP domains (e.g. Page, Network, Emulation).
+`nova.cdp` provides low-level escape-hatch access to the Chromium DevTools Protocol. It bypasses high-level Nova abstractions to invoke raw CDP domains (e.g. Page, Network, Emulation) on a resolved target, and must be enabled as CDP passthrough on the host or the call fails. A Chromium-side rejection of the method/params shape (wrong method name or malformed params) is reported as an invalid-params error rather than a generic failure, since the agent composes the call itself. Known binary results (e.g. a screenshot capture) are written to a file on disk and referenced by metadata instead of being inlined; large text results are truncated at `maxChars`.
 
 ---
 
@@ -56,6 +54,7 @@
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
+Tool category: `high_impact` (highest risk class; Nova's agent permission settings can ask before it runs).
 <!-- /generated:parameters -->
 
 ---
@@ -82,28 +81,34 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
   "content": [
     {
       "type": "text",
-      "text": "CDP command executed successfully."
+      "text": "{\"root\":{\"nodeId\":1,\"nodeType\":9,\"nodeName\":\"#document\"}}"
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "result": {
+    "targetId": "tab-1",
+    "method": "DOM.getDocument",
+    "truncated": false,
+    "chars": 58,
+    "cdpResult": {
       "root": {
         "nodeId": 1,
         "nodeType": 9,
         "nodeName": "#document"
       }
-    }
+    },
+    "binaryResult": null,
+    "resultOmittedReason": null
   }
 }
 ```
+The text block is the raw CDP result JSON; `cdpResult` is the same payload parsed into structured content (omitted when the result was truncated). For methods that return binary data (for example a screenshot capture), the bytes are written to a file and `binaryResult`/`resultOmittedReason` describe where instead of inlining them.
 
 ---
 
 ## 4. Operational Best Practices
 
 * **Prefer Native Nova Tools:** Use `nova.navigate`, `nova.dom_extract`, and `nova.eval` when possible; reserve `nova.cdp` for protocol features without high-level wrappers.
-* **Session Lifecycle:** Raw CDP subscriptions must be handled carefully to avoid unhandled async event flooding.
+* **Invalid Params Are Normal Here:** A method/params shape Chromium rejects comes back as an invalid-params error naming the method; fix the call rather than retrying unchanged.
 
 ---
 

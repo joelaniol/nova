@@ -8,7 +8,6 @@ Reveals the downloaded file in Windows Explorer with the item selected.
 
 `nova.downloads_open_folder` opens Windows File Explorer at the target directory and selects the downloaded file, allowing human operators to locate and manage files quickly.
 
-* **Security Tier:** Tier 1 (Safe Host Inspection)
 * **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts.md)
 
 ---
@@ -23,6 +22,7 @@ Reveals the downloaded file in Windows Explorer with the item selected.
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -45,7 +45,7 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Download dl-4f8a19bc revealed in folder: C:\\Users\\GNetwork\\Downloads."
+      "text": "Download dl-4f8a19bc folder opened: C:\\Users\\GNetwork\\Downloads."
     }
   ],
   "structuredContent": {

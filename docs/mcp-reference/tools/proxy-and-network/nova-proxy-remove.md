@@ -8,8 +8,7 @@ Deletes a proxy profile and resets any sandbox bindings back to the global defau
 
 `nova.proxy_remove` deletes a proxy profile and removes its encrypted credentials. Any sandboxes assigned to the deleted profile are automatically reset to `global`.
 
-* **Security Tier:** Tier 2 (Cleanup)
-* **Core Architecture Guide:** [Proxy Routing & Stealth Network Engine](../../../core-features/proxy-and-network.md)
+* **Core Architecture Guide:** [Proxy Routing & Network Engine](../../../core-features/proxy-and-network.md)
 
 ---
 
@@ -21,6 +20,7 @@ Deletes a proxy profile and resets any sandbox bindings back to the global defau
 | `profileId` | `string` | Yes | — | — | ID of the proxy profile to delete. |
 
 Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='proxy_management')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -32,7 +32,7 @@ Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='p
 {
   "name": "nova.proxy_remove",
   "arguments": {
-    "profileId": "prx-de-socks5"
+    "profileId": "proxy-1"
   }
 }
 ```
@@ -43,13 +43,12 @@ Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='p
   "content": [
     {
       "type": "text",
-      "text": "Proxy profile 'prx-de-socks5' removed."
+      "text": "Proxy profile 'proxy-1' removed."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "profileId": "prx-de-socks5",
-    "removed": true
+    "success": true,
+    "removedProfileId": "proxy-1"
   }
 }
 ```

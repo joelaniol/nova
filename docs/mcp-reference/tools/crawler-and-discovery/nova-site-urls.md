@@ -8,7 +8,6 @@ Queries the persistent Site-URL-Index for known endpoints, utility scores, and r
 
 `nova.site_urls` queries the persistent cross-crawl URL index maintained in `crawl.db`. As Nova crawls websites, navigates pages, and executes tasks, it indexes discovered endpoints along with utility scores, observed HTTP statuses, and content freshness. Agents use this index to locate routes instantly without crawling from scratch.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Autonomous Crawler & Surface Explorer](../../../core-features/crawler-and-discovery.md)
 
 ---
@@ -28,6 +27,7 @@ Queries the persistent Site-URL-Index for known endpoints, utility scores, and r
 | `limit` | `integer` | No | `50` | 1–200 | Maximum number of URLs to return. Sorted by utility_score descending. |
 
 Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawler_ops')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -52,46 +52,69 @@ Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawle
   "content": [
     {
       "type": "text",
-      "text": "Found 3 indexed URLs for docs.example.com matching path prefix /api."
+      "text": "28 known URLs for https://docs.example.com (26 active, 2 stale, 0 dead)."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "scopeKey": "https://docs.example.com",
-    "totalMatches": 28,
-    "urls": [
+    "origin": "https://docs.example.com",
+    "matchedOrigins": ["https://docs.example.com"],
+    "queryInput": "docs.example.com",
+    "authoritative": false,
+    "advisory": "Historical route candidates from prior crawls. Verify before relying.",
+    "freshness": {
+      "oldestEntry": "2026-09-25T14:10:00Z",
+      "newestEntry": "2026-10-02T18:35:12Z",
+      "indexSize": 28,
+      "activeCount": 26,
+      "staleCount": 2,
+      "deadCount": 0
+    },
+    "recommendedStartUrls": [
       {
         "url": "https://docs.example.com/api",
         "title": "API Overview",
-        "httpStatus": 200,
+        "lifecycleState": "active",
+        "accessState": "ok",
+        "confidence": 0.95,
         "utilityScore": 0.98,
-        "lastSeenAt": "2026-10-02T18:35:12Z"
-      },
+        "seenInCrawls": 3,
+        "lastSeenUtc": "2026-10-02T18:35:12Z"
+      }
+    ],
+    "otherCandidates": [
       {
         "url": "https://docs.example.com/api/auth",
         "title": "Authentication & Tokens",
-        "httpStatus": 200,
+        "lifecycleState": "active",
+        "accessState": "ok",
+        "confidence": 0.9,
         "utilityScore": 0.94,
-        "lastSeenAt": "2026-10-02T18:35:12Z"
+        "seenInCrawls": 3,
+        "lastSeenUtc": "2026-10-02T18:35:12Z"
       },
       {
         "url": "https://docs.example.com/api/pricing",
         "title": "API Pricing & Tiers",
-        "httpStatus": 200,
+        "lifecycleState": "active",
+        "accessState": "ok",
+        "confidence": 0.85,
         "utilityScore": 0.88,
-        "lastSeenAt": "2026-10-02T18:35:12Z"
+        "seenInCrawls": 2,
+        "lastSeenUtc": "2026-10-02T18:35:12Z"
       }
     ]
   }
 }
 ```
 
+There is no top-level `ok`, `scopeKey`, `totalMatches`, or flat `urls[]` array. The origin field is `origin`; the total/active/stale/dead counts live under `freshness`; matched entries are split into `recommendedStartUrls` and `otherCandidates` (not a single ranked `urls` list); there is no `httpStatus` field (the closest signals are `lastResult`/`accessState`), and the timestamp is `lastSeenUtc`, not `lastSeenAt`. The response also includes a `navigationGraph`/`graphEdgeCount` projection of links between indexed URLs, omitted above for brevity.
+
 ---
 
 ## 4. Operational Best Practices
 
 * **Index-First Retrieval:** Before starting an expensive crawl, query `nova.site_urls` to see if the required route is already known in the index.
-* **Utility Sorting:** Results are sorted by `utilityScore` descending, ranking high-traffic landing pages and API hubs higher than peripheral leaf nodes.
+* **Utility Sorting:** Entries carry a `utilityScore`; `recommendedStartUrls` are Nova's pre-filtered high-value picks, with the rest in `otherCandidates`.
 * **Path Prefix Filtering:** Use `pathPrefix` to narrow candidates to specific application sub-trees (e.g. `"/settings"`, `"/dashboard"`).
 
 ---

@@ -6,9 +6,8 @@ Enables a paused or circuit-broken scheduled task and resets failure counters.
 
 ## 1. Overview
 
-`nova.scheduled_task_enable` resumes automatic scheduling for a task that was previously disabled or tripped by Nova's circuit breaker. It resets the consecutive failure count and schedules the next run based on the task's cron or interval expression.
+`nova.scheduled_task_enable` resumes a task that was previously disabled or tripped by Nova's circuit breaker. Enabling a task always resets its consecutive-failure counter to 0, whether or not the circuit breaker was actually tripped; the response's `circuitBreakerReset` flag tells you whether it had been.
 
-* **Security Tier:** Tier 2 (Task Control)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
 ---
@@ -23,6 +22,7 @@ Enables a paused or circuit-broken scheduled task and resets failure counters.
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -34,7 +34,7 @@ Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='sc
 {
   "name": "nova.scheduled_task_enable",
   "arguments": {
-    "taskId": "task-7c81a2f0"
+    "taskId": "a1b2c3d4e5f6"
   }
 }
 ```
@@ -45,15 +45,13 @@ Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='sc
   "content": [
     {
       "type": "text",
-      "text": "Enabled scheduled task task-7c81a2f0. Circuit breaker reset. Next run: 2026-10-03 09:00 Europe/Berlin."
+      "text": "Task 'a1b2c3d4e5f6' enabled. Circuit breaker failure count was reset to 0."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "taskId": "task-7c81a2f0",
-    "status": "Enabled",
-    "consecutiveFailures": 0,
-    "nextRunUtc": "2026-10-03T07:00:00Z"
+    "taskId": "a1b2c3d4e5f6",
+    "enabled": true,
+    "circuitBreakerReset": true
   }
 }
 ```
@@ -62,7 +60,7 @@ Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='sc
 
 ## 4. Operational Best Practices
 
-* **Circuit Breaker Recovery:** When a task auto-disables after repeated failures (e.g. 5 consecutive errors), resolve the underlying issue and call `enable` to reset the breaker.
+* **Circuit Breaker Recovery:** When a task auto-disables after repeated failures (5 consecutive errors by default), resolve the underlying issue and call `enable` to reset the breaker.
 * **Immediate Execution:** If you want the task to run right away upon enabling, follow up with [`nova.scheduled_task_trigger`](nova-scheduled-task-trigger.md).
 
 ---

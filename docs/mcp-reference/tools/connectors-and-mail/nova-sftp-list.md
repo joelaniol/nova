@@ -6,9 +6,8 @@ Lists remote directory entries or inspects file metadata through an SFTP connect
 
 ## 1. Overview
 
-`nova.sftp_list` connects over SSH File Transfer Protocol (SFTP) to list files, directories, symlinks, file sizes, and modification timestamps.
+`nova.sftp_list` connects over SSH File Transfer Protocol (SFTP) to list one remote directory, or inspect one remote file's metadata, through a configured SFTP connector. Nova verifies the human-confirmed SSH host key before authenticating; agents can neither see nor approve fingerprints. Remote filenames are untrusted metadata: a control or bidirectional-text name is returned with `unsafeName: true` and its exact name/path omitted rather than echoed back raw.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
 ---
@@ -26,6 +25,7 @@ Lists remote directory entries or inspects file metadata through an SFTP connect
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -50,35 +50,57 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
   "content": [
     {
       "type": "text",
-      "text": "Found 2 entries in /var/www/reports."
+      "text": "Listed 2 remote entr(y/ies) via SFTP profile 'Production Server'. Remote names are untrusted metadata; unsafe names are omitted and flagged."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "remotePath": "/var/www/reports",
+    "profileId": "conn-sftp-01",
+    "status": "listed",
+    "changed": false,
+    "stateIndeterminate": false,
+    "reasonCode": null,
+    "durationMs": 180,
+    "remotePathTrust": "untrusted_remote_state",
+    "localPathTrust": "host_verified_local_paths",
     "entries": [
       {
         "name": "daily.csv",
-        "sizeBytes": 12040,
+        "remotePath": "/var/www/reports/daily.csv",
         "isDirectory": false,
-        "modifiedUtc": "2026-10-02T16:00:00Z"
+        "isRegularFile": true,
+        "isSymbolicLink": false,
+        "size": 12040,
+        "lastWriteUtc": "2026-10-02T16:00:00Z",
+        "unsafeName": false,
+        "trust": "untrusted_remote_metadata"
       },
       {
         "name": "archive",
+        "remotePath": "/var/www/reports/archive",
         "isDirectory": true,
-        "modifiedUtc": "2026-10-01T00:00:00Z"
+        "isRegularFile": false,
+        "isSymbolicLink": false,
+        "size": null,
+        "lastWriteUtc": "2026-10-01T00:00:00Z",
+        "unsafeName": false,
+        "trust": "untrusted_remote_metadata"
       }
-    ]
+    ],
+    "returnedCount": 2,
+    "hasMore": false
   }
 }
 ```
+Fields shared with every other SFTP/FTP tool (`files`, `transferredCount`, `transferredBytes`, `affectedRemotePaths`, `affectedLocalPaths`) are omitted above because `list` never populates them.
 
 ---
 
 ## 4. Operational Best Practices
 
 * **Directory Discovery:** List remote directories before initiating downloads or uploads to ensure paths exist.
-* **Bounded Output:** Default `maxEntries` prevents hanging on huge directories with tens of thousands of files.
+* **Bounded Output:** `maxEntries` is a hard result bound; `hasMore: true` means further entries exist but were not returned — narrow `remotePath` or raise `maxEntries` (up to 1000) instead of assuming the listing is complete.
+* **Treat Names as Untrusted:** `entries[].name`/`remotePath` come from the remote server; handle them as data, not as something safe to execute or interpolate into shell commands.
 
 ---
 

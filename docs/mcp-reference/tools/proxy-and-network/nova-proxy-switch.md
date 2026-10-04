@@ -6,10 +6,9 @@ Dynamically switches the active proxy for global tabs or a specific sandbox with
 
 ## 1. Overview
 
-`nova.proxy_switch` reconfigures routing for a target sandbox or global tabs. Nova seamlessly recreates affected WebView2 instances so new proxy startup arguments take effect immediately.
+`nova.proxy_switch` changes the global default proxy, or stores a sandbox's own proxy choice (`global`, `none`, or a specific profile). For a global switch, Nova recreates the open tab WebViews so the new proxy applies right away. A sandbox-scoped switch restarts that sandbox's WebView, but WebView2 does not currently give one profile its own outbound proxy — every surface still carries the single global proxy regardless of a sandbox's stored choice.
 
-* **Security Tier:** Tier 2 (Routing Control)
-* **Core Architecture Guide:** [Proxy Routing & Stealth Network Engine](../../../core-features/proxy-and-network.md)
+* **Core Architecture Guide:** [Proxy Routing & Network Engine](../../../core-features/proxy-and-network.md)
 
 ---
 
@@ -23,6 +22,7 @@ Dynamically switches the active proxy for global tabs or a specific sandbox with
 | `mode` | `string` | No | — | `global`, `none`, `profile` | Sandbox proxy scope: 'global' follows the global default, 'none' requests a direct connection, 'profile' uses profileId. Requires sandboxId. Omit for the legacy behaviour where profileId alone decides between 'profile' and 'none'. |
 
 Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='proxy_management')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -35,7 +35,7 @@ Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='p
   "name": "nova.proxy_switch",
   "arguments": {
     "sandboxId": "B",
-    "profileId": "prx-us-east"
+    "profileId": "proxy-2"
   }
 }
 ```
@@ -46,23 +46,25 @@ Capability bundle: `proxy_management` (load it with `nova.tools_bundle(bundle='p
   "content": [
     {
       "type": "text",
-      "text": "Sandbox B proxy switched to 'prx-us-east'."
+      "text": "Sandbox 'B' proxy switched to profile 'proxy-2'."
     }
   ],
   "structuredContent": {
-    "ok": true,
+    "success": true,
+    "scope": "sandbox",
     "sandboxId": "B",
-    "profileId": "prx-us-east",
-    "recreated": true
+    "profileId": "proxy-2",
+    "mode": "profile"
   }
 }
 ```
+A request without `sandboxId` switches the global default instead and returns `{"success": true, "scope": "global", "profileId": ...}`. Because WebView2 currently gives no profile its own outbound proxy, the sandbox's `mode`/`profileId` choice is stored but every surface still carries the one global proxy — see the [proxy routing guide](../../../core-features/proxy-and-network.md) for the current limitation.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Sandbox Isolation:** Assigning Sandbox B to a US proxy while keeping Sandbox A direct allows concurrent multi-regional testing side-by-side.
+* **Per-sandbox proxies are not routed independently today:** browser tabs and every sandbox share one browser process, so the global proxy applies to all of them. Setting one sandbox's `mode` to `profile` records that choice, but the sandbox is switched back to the global proxy the next time Nova starts.
 
 ---
 

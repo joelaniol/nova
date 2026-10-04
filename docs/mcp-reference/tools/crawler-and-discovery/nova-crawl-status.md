@@ -8,7 +8,6 @@ Checks the live progress, active phase, and error metrics of a background crawl 
 
 `nova.crawl_status` queries the current operational status of an active or completed crawl job. It provides real-time counts of discovered, visited, failed, and remaining URLs, as well as circuit breaker status and poll hints.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Autonomous Crawler & Surface Explorer](../../../core-features/crawler-and-discovery.md)
 
 ---
@@ -23,6 +22,7 @@ Checks the live progress, active phase, and error metrics of a background crawl 
 | `outputDetail` | `string` | No | `"full"` | `minimal`, `summary`, `full` | Status projection. 'minimal' keeps state/counts/watermarks/phase/error/poll and compact rate control. 'summary' adds compact config and session/readiness/script counters without raw customScript. 'full' preserves complete config and diagnostics. |
 
 Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawler_ops')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -46,30 +46,50 @@ Capability bundle: `crawler_ops` (load it with `nova.tools_bundle(bundle='crawle
   "content": [
     {
       "type": "text",
-      "text": "Crawl job crawl-4a92c81e is running: 12/25 pages visited (1 queued, 0 errors)."
+      "text": "Crawl crawl-4a92c81e: running — 12 visited, 1 queued, 0 failed"
     }
   ],
   "structuredContent": {
-    "ok": true,
     "crawlId": "crawl-4a92c81e",
     "status": "running",
+    "crawlKind": "bfs",
+    "crawlMode": "hidden",
+    "ownerAgentId": "default",
+    "visited": 12,
+    "queued": 1,
+    "failed": 0,
+    "elapsedMs": 18400,
+    "resultsComplete": false,
+    "pauseRequested": false,
+    "challengeHold": null,
     "phase": "visiting",
-    "visitedPages": 12,
-    "queuedPages": 1,
-    "discoveredUrls": 38,
-    "consecutiveErrors": 0,
-    "circuitBreakerOpen": false,
-    "pollHintMs": 2000
+    "pollAfterMs": 2000,
+    "resultCount": 12,
+    "latestSequence": 12,
+    "lastResultAtUtc": "2026-10-02T18:34:50Z",
+    "currentUrl": "https://docs.example.com/api/webhooks",
+    "error": null,
+    "rateControl": {
+      "scope": "origin",
+      "configuredParallel": 1,
+      "effectiveParallel": 1,
+      "pageDelayMs": 500,
+      "backoffActiveOrigins": 0,
+      "throttledUrls": 0
+    },
+    "research": null
   }
 }
 ```
+
+There is no top-level `ok` field, and the real field names are `visited`/`queued`/`failed`, not `visitedPages`/`queuedPages`/`consecutiveErrors`; there is no `discoveredUrls` or scalar `circuitBreakerOpen` field. Per-origin circuit-breaker state lives inside `health.domains[host].circuitBroken` (only present with `outputDetail: "full"`, where this tool also returns `health`, `config`, `robotsTxt`, `sitemap`, and more); with the default/`minimal` detail shown above, use `rateControl.backoffActiveOrigins` (count of origins currently backing off) as the lightweight signal instead.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Respect Poll Hints:** Use the returned `pollHintMs` value to pace status queries and avoid flooding the MCP host.
-* **Circuit Breaker Awareness:** If `circuitBreakerOpen: true`, the target server has returned consecutive rate-limit (429) or forbidden (403) responses, and the crawl has been halted to prevent IP blocks.
+* **Respect Poll Hints:** Use the returned `pollAfterMs` value to pace status queries and avoid flooding the MCP host.
+* **Circuit Breaker Awareness:** A nonzero `rateControl.backoffActiveOrigins` means at least one origin is currently backing off after errors; request `outputDetail: "full"` and inspect `health.domains[host].circuitBroken` for the per-domain detail.
 * **Minimal Projections:** Prefer `outputDetail: "minimal"` when polling in high-frequency monitoring loops.
 
 ---

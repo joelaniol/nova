@@ -2,8 +2,6 @@
 
 > **Pins or unpins a tab in the browser tab bar to prevent accidental closure.**
 
-* **Security Tier:** Tier 2 (Tab Strip Management)
-* **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
@@ -24,6 +22,7 @@
 | `agentId` | `string` | No | — | — | Calling agent's ID for attribution in logs. |
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -33,7 +32,7 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
 ### JSON-RPC Request
 ```json
 {
-  "name": "nova_tab_pin",
+  "name": "nova.tab_pin",
   "arguments": {
     "targetId": "tab-1",
     "pinned": true
@@ -47,16 +46,23 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Pinned tab-1."
+      "text": "Tab 'tab-1' is now pinned."
     }
   ],
   "structuredContent": {
-    "ok": true,
+    "requested": { "targetId": "tab-1", "pinned": true },
     "targetId": "tab-1",
-    "isPinned": true
+    "ok": true,
+    "status": "ok",
+    "message": "Tab 'tab-1' is now pinned.",
+    "changed": true,
+    "pinned": true,
+    "outcome": "Changed",
+    "sandboxTabOrder": ["tab-1", "tab-2"]
   }
 }
 ```
+A repeated call with the same `pinned` value is not an error: it returns `status: "noop"`, `reasonCode: "tab.pin_unchanged"`, `changed: false`, and the already-current `pinned` state.
 
 ---
 

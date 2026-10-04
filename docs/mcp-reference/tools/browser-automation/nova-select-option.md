@@ -1,9 +1,8 @@
 # `nova.select_option`
 
-> **Selects an option in a standard HTML <select> dropdown by its value attribute.**
+> **Selects an option in a standard HTML <select> dropdown by its value attribute or visible text.**
 
-* **Security Tier:** Tier 2 (DOM Input)
-* **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
+* **Core Feature Guide:** [Input Dispatch & Shadow DOM Traversal](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
@@ -36,6 +35,7 @@
 | `screenshotQuality` | `integer` | No | `80` | 1–100 | JPEG quality (1-100). Only used when screenshotFormat is 'jpeg'. |
 
 Capability bundles: `browser_automation`, `form_submission`.
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -45,7 +45,7 @@ Capability bundles: `browser_automation`, `form_submission`.
 ### JSON-RPC Request
 ```json
 {
-  "name": "nova_select_option",
+  "name": "nova.select_option",
   "arguments": {
     "selector": "select#state",
     "value": "CA"
@@ -53,22 +53,25 @@ Capability bundles: `browser_automation`, `form_submission`.
 }
 ```
 
-### JSON-RPC Response
+### JSON-RPC Response (abbreviated)
 ```json
 {
   "content": [
     {
       "type": "text",
-      "text": "Selected value 'CA' in select#state."
+      "text": "Selected option for 'select#state'."
     }
   ],
   "structuredContent": {
     "ok": true,
+    "status": "ok",
     "selector": "select#state",
-    "selectedValue": "CA"
+    "value": "CA",
+    "verified": true
   }
 }
 ```
+The full payload also carries `targetId`, `stage`, the raw selection `result`, and screenshot-sidecar fields; this is a trimmed excerpt.
 
 ---
 

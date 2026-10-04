@@ -10,7 +10,7 @@ Runs an automated Accessibility (a11y) and UX compliance audit over the DOM, che
 
 * **Three Core Check Families:** WCAG Text Contrast, Tap Target Size, and Accessible Labels/Alt-Text.
 * **Component-Level Scoping (`selector`):** Audit an individual design component, modal, or form subtree.
-* **Dark Mode Compatible:** Works seamlessly with [`nova.emulation_set_media`](../browser-automation/nova-navigate.md) to audit both light and dark themes.
+* **Dark Mode Compatible:** Runs against whatever is currently rendered, so pair it with [`nova.emulation_set_media`](../device-emulation/nova-emulation-set-media.md) to audit dark/light themes or `prefers-reduced-motion`.
 
 ---
 
@@ -22,7 +22,7 @@ Calculates the relative luminance ratio between computed text color and the near
 * **Large Text** (≥18pt or ≥14pt bold): Flags contrast ratios `< 3.0:1`.
 
 ### B. Interactive Target Size (`includeTargetSize: true`)
-Checks the physical rendered dimensions (`width` and `height`) of all interactive nodes (`<button>`, `<a>`, `<input>`, `<select>`, and elements with `role="button"`):
+Checks the physical rendered dimensions (`width` and `height`) of interactive nodes: `<a href>`, `<button>`, `<select>`, `<textarea>`, non-hidden `<input>` elements, and anything with `role="button"`, `"link"`, `"checkbox"`, `"radio"`, `"switch"`, `"tab"`, or `"menuitem"`:
 * **Default Threshold (`minTargetSize: 24`):** Enforces WCAG 2.2 SC 2.5.8 (Target Size Minimum, Level AA).
 * **Mobile / AAA Guidance (`minTargetSize: 44`):** Can be raised to 44px to audit touch-screen and mobile viewport compliance.
 
@@ -48,6 +48,7 @@ Identifies elements missing programmatic names for screen readers:
 | `includeLabels` | `boolean` | No | `true` | — | Include missing alt-text / form-label / accessible-name checks. |
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -85,40 +86,51 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
 
 ## 5. Return Value Structure
 
+`structuredContent` wraps the in-page probe's own result under `result`; `issueCount`, `truncated`, and `selector` are lifted to the top level for convenience. Each issue's `type` is one of `contrast`, `target-size`, `missing-alt`, `missing-label`, or `empty-control`, and `details` varies by type:
+
 ```json
 {
   "targetId": "tab-101",
-  "scannedRoot": "form#payment-form",
-  "totalIssues": 3,
+  "ok": true,
+  "selector": "form#payment-form",
+  "minTargetSize": 24,
+  "issueCount": 2,
   "truncated": false,
-  "issues": [
-    {
-      "category": "contrast",
-      "severity": "serious",
-      "selector": "p.terms-disclaimer",
-      "ratio": 2.8,
-      "requiredRatio": 4.5,
-      "textColor": "rgb(170, 170, 170)",
-      "backgroundColor": "rgb(255, 255, 255)",
-      "message": "Text contrast ratio of 2.8:1 fails WCAG AA standard of 4.5:1."
-    },
-    {
-      "category": "target_size",
-      "severity": "moderate",
-      "selector": "button.close-icon-btn",
-      "size": { "width": 18, "height": 18 },
-      "minRequired": 24,
-      "message": "Target dimensions (18x18px) are below minimum 24px requirement."
-    },
-    {
-      "category": "labels",
-      "severity": "critical",
-      "selector": "input#promo-code",
-      "message": "Input element lacks an accessible label or aria-label."
-    }
-  ]
+  "result": {
+    "ok": true,
+    "selectorMatched": true,
+    "url": "https://example.com/checkout",
+    "scanned": 184,
+    "summary": { "contrast": 1, "targetSize": 1, "labels": 0, "total": 2 },
+    "issues": [
+      {
+        "type": "contrast",
+        "selector": "p.terms-disclaimer",
+        "tag": "p",
+        "text": "By continuing you agree to the terms.",
+        "details": {
+          "ratio": 2.8,
+          "threshold": 4.5,
+          "fontSizePx": 13,
+          "largeText": false,
+          "color": "rgb(170, 170, 170)",
+          "background": "rgb(255, 255, 255)"
+        }
+      },
+      {
+        "type": "target-size",
+        "selector": "button.close-icon-btn",
+        "tag": "button",
+        "text": "",
+        "details": { "width": 18, "height": 18, "min": 24 }
+      }
+    ],
+    "truncated": false
+  }
 }
 ```
+
+Each scan examines at most 8000 elements (`scanned` reports how many were actually visible and checked); a larger subtree sets `truncated: true` without a separate warning field.
 
 ---
 
@@ -126,8 +138,10 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
 
 | Error Code / Message | Cause | Corrective Action |
 | :--- | :--- | :--- |
-| `Selector matched nothing: ...` | Provided root `selector` does not exist in the DOM. | Check selector spelling. |
-| `Contrast advisory note` | Alpha-blended or background image elements cannot be statically evaluated for contrast. | Inspect manually or use [`nova.perceive`](../dom-and-reading/nova-perceive.md) with visual screenshots. |
+| `-32004: No element matched selector '...'` | Provided root `selector` does not exist in the DOM. | Check selector spelling or verify the component has rendered. |
+| `-32602: at least one of includeContrast, includeTargetSize, includeLabels must be enabled` | All three check families were disabled at once. | Enable at least one family. |
+| `-32002: Accessibility audit probe failed: ...` | The in-page probe threw (e.g. a selector querySelector cannot parse). | Check the selector syntax and retry. |
+| Contrast is advisory only | Alpha-blended text/backgrounds and background images are not modelled; the probe assumes white when no opaque ancestor background is found. | Treat contrast findings as a lead, not a verdict; verify visually when alpha-blending is involved. |
 
 ---
 

@@ -8,7 +8,6 @@ Sends a named control key or key combination to the active terminal session.
 
 `nova.terminal_send_key` transmits special keyboard events to the ConPTY input pipe, allowing agents to interrupt running jobs, navigate interactive menus, or confirm prompts.
 
-* **Security Tier:** Tier 2 (Control)
 * **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces.md)
 
 ---
@@ -24,6 +23,7 @@ Sends a named control key or key combination to the active terminal session.
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
 
 Capability bundle: `terminal_ops` (load it with `nova.tools_bundle(bundle='terminal_ops')`).
+Tool category: `high_impact` (highest risk class; Nova's agent permission settings can ask before it runs).
 <!-- /generated:parameters -->
 
 ---
@@ -35,7 +35,7 @@ Capability bundle: `terminal_ops` (load it with `nova.tools_bundle(bundle='termi
 {
   "name": "nova.terminal_send_key",
   "arguments": {
-    "sessionId": "term-a8f9c1d0",
+    "sessionId": "term_1a2b3c4d5e6f7a8b",
     "key": "Ctrl+C"
   }
 }
@@ -47,12 +47,12 @@ Capability bundle: `terminal_ops` (load it with `nova.tools_bundle(bundle='termi
   "content": [
     {
       "type": "text",
-      "text": "Sent 'Ctrl+C' to 'term-a8f9c1d0'."
+      "text": "Sent 'Ctrl+C' to 'term_1a2b3c4d5e6f7a8b'."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "sessionId": "term-a8f9c1d0",
+    "sessionId": "term_1a2b3c4d5e6f7a8b",
     "key": "Ctrl+C"
   }
 }

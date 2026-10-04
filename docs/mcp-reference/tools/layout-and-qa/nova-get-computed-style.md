@@ -16,13 +16,16 @@ Testing whether a button is visually disabled, checking font family hierarchy, o
 
 ## 2. Default Curated Properties
 
-When called, Nova always returns the following primary design properties:
+When called, Nova always returns the following curated fields, grouped under `result`:
 
-* **Typography:** `font-family`, `font-size`, `font-weight`, `line-height`, `letter-spacing`, `text-align`.
-* **Colors & Borders:** `color`, `background-color`, `border-width`, `border-style`, `border-color`, `border-radius`.
-* **Box Model:** `margin`, `padding`, `box-sizing`, `width`, `height`.
-* **Layout & Visibility:** `display`, `position`, `z-index`, `opacity`, `visibility`, `overflow`.
-* **Bounding Box:** Screen coordinates `{ x, y, width, height }`.
+* **`box`:** bounding rect `{ width, height, x, y }` (CSS pixels, from `getBoundingClientRect`).
+* **`color` / `backgroundColor`:** resolved `color` and `background-color`.
+* **`font`:** `family`, `size`, `weight`, `style`, `lineHeight`, `letterSpacing`, `textAlign`, `textTransform`.
+* **`spacing`:** `marginTop`/`Right`/`Bottom`/`Left`, `paddingTop`/`Right`/`Bottom`/`Left`.
+* **`boxModel`:** `display`, `position`, `boxSizing`, `borderTopWidth`/`RightWidth`/`BottomWidth`/`LeftWidth`, `borderRadius`, `overflow`, `zIndex`.
+* **`visibility`:** `opacity`, `visibility`.
+
+Only per-side border widths and `borderRadius` are included — there is no combined `border-style`/`border-color` field, and `width`/`height` live only in `box`, not duplicated under `boxModel`.
 
 ---
 
@@ -36,6 +39,7 @@ When called, Nova always returns the following primary design properties:
 | `properties` | `array` of `string` | No | — | — | Optional extra CSS property names to return under result.requested (in addition to the curated set). |
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -69,31 +73,34 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
 ```json
 {
   "targetId": "tab-101",
-  "selector": "button#submit-button",
-  "rect": {
-    "x": 480,
-    "y": 620,
-    "width": 180,
-    "height": 44
-  },
-  "styles": {
+  "ok": true,
+  "result": {
+    "ok": true,
+    "found": true,
+    "selector": "button#submit-button",
+    "tag": "button",
+    "box": { "width": 180, "height": 44, "x": 480, "y": 620 },
     "color": "rgb(255, 255, 255)",
     "backgroundColor": "rgb(15, 98, 254)",
-    "fontFamily": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
-    "fontSize": "16px",
-    "fontWeight": "600",
-    "display": "inline-flex",
-    "visibility": "visible",
-    "opacity": "1",
-    "cursor": "pointer",
-    "zIndex": "auto"
-  },
-  "requested": {
-    "grid-template-columns": "none",
-    "grid-gap": "normal"
+    "font": {
+      "family": "-apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, sans-serif",
+      "size": "16px",
+      "weight": "600",
+      "style": "normal",
+      "lineHeight": "20px",
+      "letterSpacing": "normal",
+      "textAlign": "center",
+      "textTransform": "none"
+    },
+    "spacing": { "marginTop": "0px", "marginRight": "0px", "marginBottom": "0px", "marginLeft": "0px", "paddingTop": "8px", "paddingRight": "16px", "paddingBottom": "8px", "paddingLeft": "16px" },
+    "boxModel": { "display": "inline-flex", "position": "static", "boxSizing": "border-box", "borderTopWidth": "0px", "borderRightWidth": "0px", "borderBottomWidth": "0px", "borderLeftWidth": "0px", "borderRadius": "6px", "overflow": "visible", "zIndex": "auto" },
+    "visibility": { "opacity": "1", "visibility": "visible" },
+    "requested": { "grid-template-columns": "none", "grid-gap": "normal" }
   }
 }
 ```
+
+`requested` is present only when `properties` was passed; a custom property name that `getPropertyValue` does not recognize simply comes back as an empty string, not an error.
 
 ---
 
@@ -101,8 +108,9 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
 
 | Error Code / Message | Cause | Corrective Action |
 | :--- | :--- | :--- |
-| `Selector matched nothing: ...` | Target element does not exist in the active document. | Verify selector using [`nova.dom_extract`](../dom-and-reading/nova-dom-extract.md). |
-| `Unsupported property format` | CSS property name contains invalid characters. | Use standard kebab-case CSS property names (e.g. `flex-direction`). |
+| `-32602: selector is required` | `selector` was omitted or blank. | Pass a non-empty CSS selector. |
+| `-32004: No element matched selector '...'` | Target element does not exist in the active document. | Verify the selector against the live DOM, e.g. with [`nova.measure_elements`](nova-measure-elements.md). |
+| `-32002: Computed-style probe failed: ...` | The in-page probe threw. | Check the selector syntax and retry. |
 
 ---
 

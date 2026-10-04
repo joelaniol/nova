@@ -8,7 +8,6 @@ Retrieves an audit trail of stored media permissions joined with recent decision
 
 `nova.media_activity_audit` compiles stored per-site media permissions joined with timestamped decisions from Nova's in-memory permission activity log.
 
-* **Security Tier:** Tier 1 (Read-Only Audit)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
 ---
@@ -24,6 +23,7 @@ Retrieves an audit trail of stored media permissions joined with recent decision
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -46,17 +46,26 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "Loaded audit trail for 2 origins."
+      "text": "1 site(s) with stored media permissions."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "auditRecords": [
+    "count": 1,
+    "limit": 10,
+    "entries": [
       {
         "origin": "https://meet.example.com",
         "camera": "allow",
         "microphone": "allow",
-        "lastDecisionUtc": "2026-10-02T19:00:00Z"
+        "speaker": null,
+        "screenCapture": null,
+        "geolocation": null,
+        "lifetime": "persistent",
+        "devicePreferenceKnown": false,
+        "storedAtUtc": "2026-10-02T19:00:00Z",
+        "lastDecisionAtUtc": "2026-10-02T19:00:00Z",
+        "lastDecisionState": "allow",
+        "lastDecisionSource": "SiteGrant"
       }
     ]
   }

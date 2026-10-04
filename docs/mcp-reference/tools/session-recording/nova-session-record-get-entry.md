@@ -6,9 +6,8 @@ Retrieves the complete event timeline, headers, and decoded payload for a single
 
 ## 1. Overview
 
-`nova.session_record_get_entry` performs a deep lookup for a specific `requestId` identified via `nova.session_record_query`. It reconstructs the entire network lifecycle: request headers, response headers, redirect chains, timing breakdowns (DNS, TLS, TTFB), and optional base64 payload bytes.
+`nova.session_record_get_entry` performs a deep lookup for a specific `requestId` identified via `nova.session_record_query`. It returns every raw CDP Network event line recorded for that request ID (request/response/redirect events as captured), plus the separately tracked response-body metadata (policy, MIME type, size, SHA-256) and, when requested, the inline base64 body bytes.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
 
 ---
@@ -23,6 +22,7 @@ Retrieves the complete event timeline, headers, and decoded payload for a single
 | `includeBody` | `boolean` | No | `false` | — | Include the inline base64-encoded body bytes. |
 
 Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='session_recording')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -47,41 +47,55 @@ Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='
   "content": [
     {
       "type": "text",
-      "text": "Loaded full network entry req-44810a: POST https://example.com/api/v1/checkout/pay (402 Payment Required)."
+      "text": "Recording rec-9b21f04a: entry req-44810a returned 2 event(s)."
     }
   ],
   "structuredContent": {
     "ok": true,
+    "recordingId": "rec-9b21f04a",
     "requestId": "req-44810a",
-    "url": "https://example.com/api/v1/checkout/pay",
-    "method": "POST",
-    "status": 402,
-    "requestHeaders": {
-      "Content-Type": "application/json",
-      "Authorization": "[REDACTED_BEARER]"
-    },
-    "responseHeaders": {
-      "Content-Type": "application/json; charset=utf-8",
-      "Date": "Fri, 02 Oct 2026 20:18:22 GMT"
-    },
-    "bodyText": "{\"error\":\"card_declined\",\"code\":\"insufficient_funds\"}",
-    "timings": {
-      "dnsMs": 12,
-      "tlsMs": 45,
-      "ttfbMs": 180,
-      "downloadMs": 5
+    "events": [
+      {
+        "method": "Network.requestWillBeSent",
+        "parameters": {
+          "requestId": "req-44810a",
+          "request": {
+            "url": "https://example.com/api/v1/checkout/pay",
+            "method": "POST"
+          }
+        }
+      },
+      {
+        "method": "Network.responseReceived",
+        "parameters": {
+          "requestId": "req-44810a",
+          "response": {
+            "status": 402,
+            "mimeType": "application/json"
+          }
+        }
+      }
+    ],
+    "body": {
+      "policy": "Captured",
+      "mimeType": "application/json",
+      "sizeBytes": 58,
+      "sha256": "8e4b7c129f...",
+      "inlineBase64": "eyJlcnJvciI6ImNhcmRfZGVjbGluZWQiLCJjb2RlIjoiaW5zdWZmaWNpZW50X2Z1bmRzIn0="
     }
   }
 }
 ```
 
+`events` holds the raw matching CDP Network lines as captured (field shapes follow the CDP Network domain); there is no separate flattened `requestHeaders`/`responseHeaders`/`timings` projection — read those values out of the relevant CDP event's `parameters`.
+
 ---
 
 ## 4. Operational Best Practices
 
-* **Decoded Text Convenience:** If the response is UTF-8 text or JSON, Nova provides `bodyText` directly alongside raw base64 data.
-* **Masked Secrets:** Authorization headers and cookie values remain safely masked according to Nova's redaction policies.
-* **Timing Diagnostics:** Use `timings` to determine whether a slow API call was caused by network latency or backend processing delays.
+* **Body Metadata:** `body.inlineBase64` is only populated when `includeBody: true` was passed and a response body was actually captured (`body.policy` reflects whether/how it was stored).
+* **Masked Secrets:** Authorization headers and cookie values remain safely masked according to Nova's redaction policies before they reach the CDP event lines.
+* **Raw Event Inspection:** Use the `method` field on each entry in `events` (e.g. `Network.requestWillBeSent`, `Network.responseReceived`) to find the specific lifecycle stage you need.
 
 ---
 

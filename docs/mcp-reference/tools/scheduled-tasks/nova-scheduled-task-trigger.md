@@ -8,7 +8,6 @@ Manually triggers an immediate run of a scheduled task with optional dynamic inp
 
 `nova.scheduled_task_trigger` starts an out-of-schedule run of a task immediately. The task must be in an enabled state. Callers can supply an optional `inputs` JSON string, which is written to `shared/trigger-inputs.json` inside the task workspace for the executor to consume.
 
-* **Security Tier:** Tier 2 (Task Trigger)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
 ---
@@ -24,6 +23,7 @@ Manually triggers an immediate run of a scheduled task with optional dynamic inp
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -47,15 +47,21 @@ Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='sc
   "content": [
     {
       "type": "text",
-      "text": "Triggered run 'run-8120c' for task task-7c81a2f0."
+      "text": "Manual run triggered. RunId=run-8120c. Poll nova.scheduled_task_runs(taskId='task-7c81a2f0') to check completion status, or nova.scheduled_task_run_output(runId='run-8120c') for output."
     }
   ],
   "structuredContent": {
-    "ok": true,
     "taskId": "task-7c81a2f0",
     "runId": "run-8120c",
     "status": "Starting",
-    "triggeredAtUtc": "2026-10-02T20:30:00Z"
+    "polling": {
+      "hint": "Task runs asynchronously. Poll for status and output using the tools below.",
+      "statusTool": "nova.scheduled_task_runs",
+      "statusArgs": { "taskId": "task-7c81a2f0" },
+      "outputTool": "nova.scheduled_task_run_output",
+      "outputArgs": { "runId": "run-8120c" },
+      "suggestedIntervalMs": 5000
+    }
   }
 }
 ```

@@ -65,6 +65,7 @@ If the matching text lives inside an open shadow root or same-origin iframe:
 | `deep` | `boolean` | No | `false` | — | If true, searches in same-origin iframes and open shadow roots in addition to the top document. Returns full >>> selector chains for shadow-contained elements. |
 
 Capability bundles: `browser_automation`, `form_submission`, `visual_evidence`.
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -105,36 +106,51 @@ Capability bundles: `browser_automation`, `form_submission`, `visual_evidence`.
 ```json
 {
   "targetId": "tab-101",
-  "query": "Complete Purchase",
-  "totalMatches": 1,
-  "matches": [
-    {
-      "index": 0,
-      "text": "Complete Purchase",
-      "tagName": "BUTTON",
-      "selector": "button#btn-checkout-submit",
-      "selectorKind": "id",
-      "visible": true,
-      "rect": {
-        "x": 680,
-        "y": 520,
-        "width": 210,
-        "height": 48
+  "text": "Complete Purchase",
+  "match": "exact",
+  "deep": false,
+  "result": {
+    "count": 1,
+    "matches": [
+      {
+        "index": 0,
+        "tagName": "button",
+        "text": "Complete Purchase",
+        "selector": "button#btn-checkout-submit",
+        "selectorAmbiguous": false,
+        "selectorKind": "id",
+        "shadowSelector": null,
+        "rect": { "x": 680, "y": 520, "width": 210, "height": 48 },
+        "visible": true,
+        "scope": "top",
+        "attributes": { "id": "btn-checkout-submit", "type": "submit" }
       }
-    }
-  ]
+    ],
+    "meta": { "shadowRootsScanned": 0 }
+  }
 }
 ```
+
+The match list and count live under `result` (`result.count`, `result.matches`), not top-level
+`totalMatches`; the request's own `text`/`match`/`deep` are echoed at top level for context.
+`tagName` is lowercase. `shadowSelector` is the full ` >>> `-chain selector when the match is inside
+a shadow root (`null` otherwise); when zero matches are found and shadow roots exist on the page, an
+`advisory` string is added suggesting `deep: true`.
 
 ---
 
 ## 6. Common Errors & Troubleshooting
 
-| Error Code / Message | Cause | Corrective Action |
+`nova.search_text` does not raise a special error for zero matches: it returns `ok` content with
+`result.count: 0` and an empty `result.matches` array (plus an `advisory` hint when shadow roots or
+custom elements were detected). A malformed `match: "regex"` pattern fails the call with
+`-32602 Invalid params`.
+
+| Situation | Cause | Corrective Action |
 | :--- | :--- | :--- |
-| `0 matches found` | Text is split across child nodes, hidden, or inside a shadow root without `deep: true`. | Set `deep: true`, use `match: "contains"`, or check with [`nova.read_text_structured`](nova-read-text-structured.md). |
-| `Ancestor container returned` | `match: "contains"` matched a large wrapper `<div>` containing the text. | Use `match: "exact"` or pass `tag: "button"` / `tag: "a"`. |
-| `Invalid regex syntax` | A malformed regular expression pattern was provided in `text`. | Verify regex escaping before sending. |
+| `result.count: 0` | Text is split across child nodes, hidden, or inside a shadow root without `deep: true`. | Set `deep: true`, use `match: "contains"`, or check with [`nova.read_text_structured`](nova-read-text-structured.md). |
+| A large wrapper element matches instead of the expected control | `match: "contains"` matched a large ancestor container holding the text. | Use `match: "exact"` or pass `tag: "button"` / `tag: "a"`. |
+| `Invalid params: ...` (regex) | A malformed regular expression pattern was provided. | Verify regex escaping before sending. |
 
 ---
 

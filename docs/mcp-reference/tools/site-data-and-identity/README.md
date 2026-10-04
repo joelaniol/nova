@@ -14,7 +14,7 @@ Capability bundles of these tools: `browser_automation`, `fingerprint_protection
 
 | Tool | What it does |
 | :--- | :--- |
-| **[`nova.cache_clear`](nova-cache-clear.md)** | Clears HTTP cache, cookies, DOM storage, and indexedDB for the target profile. |
+| **[`nova.cache_clear`](nova-cache-clear.md)** | Clears selected browsing data (cache, cookies, storage, service workers, or history) for the target profile. |
 | **[`nova.cookie_clear`](nova-cookie-clear.md)** | Clears cookies across the target profile, with optional domain filtering. |
 | **[`nova.cookie_delete`](nova-cookie-delete.md)** | Deletes a specific cookie by cookieId or by name, domain, and path tuple. |
 | **[`nova.cookie_list`](nova-cookie-list.md)** | Lists cookies for the target tab's profile with metadata (domain, path, flags, expiry). |

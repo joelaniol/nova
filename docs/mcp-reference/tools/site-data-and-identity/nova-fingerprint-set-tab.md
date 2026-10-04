@@ -8,7 +8,6 @@ Sets an ephemeral per-tab fingerprint protection override that expires on tab cl
 
 `nova.fingerprint_set_tab` sets a temporary, in-memory fingerprint protection level for a single browser tab. The override does not touch disk settings and automatically disappears when the tab closes.
 
-* **Security Tier:** Tier 2 (Ephemeral Override)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
 ---
@@ -22,6 +21,7 @@ Sets an ephemeral per-tab fingerprint protection override that expires on tab cl
 | `level` | `string or null` | Yes | — | `off`, `standard`, `strict`, `null` | Override level, or null to clear the override. |
 
 Capability bundle: `fingerprint_protection` (load it with `nova.tools_bundle(bundle='fingerprint_protection')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -33,8 +33,8 @@ Capability bundle: `fingerprint_protection` (load it with `nova.tools_bundle(bun
 {
   "name": "nova.fingerprint_set_tab",
   "arguments": {
-    "tabId": "tab-1",
-    "level": "Off"
+    "tabId": "a1b2c3d4",
+    "level": "off"
   }
 }
 ```
@@ -45,14 +45,12 @@ Capability bundle: `fingerprint_protection` (load it with `nova.tools_bundle(bun
   "content": [
     {
       "type": "text",
-      "text": "Set ephemeral fingerprint protection on tab-1 to Off."
+      "text": "Tab 'a1b2c3d4' fingerprint override set to off"
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "tabId": "tab-1",
-    "overrideLevel": "Off",
-    "ephemeral": true
+    "tabId": "a1b2c3d4",
+    "tabOverride": "off"
   }
 }
 ```
@@ -61,7 +59,7 @@ Capability bundle: `fingerprint_protection` (load it with `nova.tools_bundle(bun
 
 ## 4. Operational Best Practices
 
-* **Compatibility Recovery:** Temporarily disable fingerprinting (`Off`) if a specialized legacy web application fails under Canvas or WebGL noise.
+* **Compatibility Recovery:** Temporarily disable fingerprinting (`level: "off"`) if a specialized legacy web application fails under canvas or WebGL noise.
 
 ---
 

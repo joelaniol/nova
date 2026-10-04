@@ -37,7 +37,7 @@ Deutsch: [weiter unten](#dokumentation-auf-deutsch).
 | [Sandboxes and profiles](user-guide/sandboxes-and-profiles.md) | Separate logins side by side in one window |
 | [Settings and connection wizard](user-guide/settings-and-connection-wizard.md) | Settings panel and the setup for AI programs |
 | [Terminal dock](user-guide/terminal-dock.md) | The built-in terminal next to the browser |
-| [Live assist and spectator mode](user-guide/live-assist-and-spectator.md) | Watching and steering what the agent does |
+| [AI visualization and staying in control](user-guide/live-assist-and-spectator.md) | Seeing what the agent does, taking over a tab, emergency stop |
 | [Downloads](user-guide/downloads-manager.md) | Download list and safety checks |
 | [Native dialogs](user-guide/native-dialogs-ui.md) | File pickers, sign-in and permission prompts |
 | [Keyboard shortcuts](user-guide/keyboard-shortcuts.md) | All shortcuts in one table |
@@ -52,7 +52,7 @@ Deutsch: [weiter unten](#dokumentation-auf-deutsch).
 | [Claude Desktop](integration/claude-desktop.md) | Connecting the Claude Desktop app |
 | [OpenAI Codex](integration/openai-codex.md) | Connecting the Codex CLI |
 | [Google Antigravity and Gemini CLI](integration/google-antigravity.md) | Connecting Antigravity and Gemini |
-| [Codex and Antigravity notes](integration/codex-and-antigravity.md) | Shared notes for both clients |
+| [Codex and Antigravity notes](integration/codex-and-antigravity.md) | Pointer page to the two guides above |
 | [Custom agents](integration/custom-agents.md) | Your own agent in Python, Node.js or raw JSON-RPC |
 
 ## MCP reference
@@ -99,7 +99,7 @@ Deutsch: [weiter unten](#dokumentation-auf-deutsch).
 
 | Page | What it covers |
 |---|---|
-| [Humanized input](core-features/humanized-input-engine.md) | Real mouse and keyboard input, Shadow DOM |
+| [Input dispatch](core-features/humanized-input-engine.md) | How clicks, keys and drags reach the page; open Shadow DOM |
 | [Visual evidence (EVM)](core-features/evm-and-visual-evidence.md) | Screenshots as proof of what the page shows |
 | [Native dialogs and prompts](core-features/native-dialogs-and-prompts.md) | Dialogs outside the web page |
 | [Sign-in detection](core-features/auth-surface-detection.md) | Recognising login pages and checking a sign-in worked |
@@ -113,17 +113,17 @@ Deutsch: [weiter unten](#dokumentation-auf-deutsch).
 | [Agent awareness gates (AAG)](core-features/aag.md) | Checks that stop an agent from acting blind |
 | [Tool observation bus (TOB)](core-features/tob.md) | What the agent really did, recorded on Nova's side |
 | [Vault and secrets](core-features/vault-and-secrets.md) | Passwords filled in without the agent seeing them |
-| [Outrider boundary](core-features/outrider-boundary.md) | Risky hardware probes in a separate process |
+| [Outrider boundary](core-features/outrider-boundary.md) | Risky Windows and hardware probes in a separate, killable process |
 
 **Memory and learning**
 
 | Page | What it covers |
 |---|---|
 | [PKS knowledge store](core-features/pks.md) | What Nova learns about how a site works |
-| [Operational knowledge](core-features/operational-knowledge.md) | The current state of tabs, connections and sandboxes |
+| [Operational knowledge](core-features/operational-knowledge.md) | Login state, plan and active model of a site, as signals agents report; domain notes |
 | [Task memory (ETM)](core-features/etm-and-task-memory.md) | Recurring tasks and their progress |
 | [Learning pipeline (ALP)](core-features/learning-pipeline-alp.md) | How a lesson is checked before it is kept |
-| [Browser memory and board](core-features/browser-memory-and-board.md) | Your notes per site, shared with agents |
+| [Browser memory and board](core-features/browser-memory-and-board.md) | Notes and preferences per site; an opt-in board for tool problems agents hit |
 
 **Sessions, network and identity**
 
@@ -166,8 +166,10 @@ Deutsch: [weiter unten](#dokumentation-auf-deutsch).
 ## Dokumentation auf Deutsch
 
 Die Dokumentation ist überwiegend englisch. Eine deutsche Fassung gibt es bisher für die
+[Installation](getting-started/installation.md#nova-ai-workspace-installieren), die
 [MCP-Fehlerbehebung](mcp-troubleshooting/README.md) (im unteren Teil der Seite) und die
 [Antigravity-Hinweise](mcp-troubleshooting/antigravity.md).
 
-Schnelleinstieg: [Installation](getting-started/installation.md) → [Erster Start](getting-started/first-run.md)
-→ [KI-Programm verbinden](integration/README.md). Alles Weitere steht in der Übersicht oben.
+Schnelleinstieg: [Installation](getting-started/installation.md#nova-ai-workspace-installieren) →
+[Erster Start](getting-started/first-run.md) (englisch) → [KI-Programm verbinden](integration/README.md)
+(englisch). Alles Weitere steht in der Übersicht oben.

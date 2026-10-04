@@ -8,8 +8,7 @@ Lists all tools available on an external MCP server, with optional full inputSch
 
 `nova.external_tools` discovers capabilities exposed by a connected external server. By default, it returns tool names and descriptions; passing `includeSchema: true` returns complete JSON Schema definitions required for invocation.
 
-* **Security Tier:** Tier 1 (Safe Discovery)
-* **Core Architecture Guide:** [Plugins & External Extensions](../../../core-features/plugins.md)
+* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md) (section 7, "External MCP Servers")
 
 ---
 
@@ -25,6 +24,7 @@ Lists all tools available on an external MCP server, with optional full inputSch
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `external_mcp` (load it with `nova.tools_bundle(bundle='external_mcp')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -48,7 +48,7 @@ Capability bundle: `external_mcp` (load it with `nova.tools_bundle(bundle='exter
   "content": [
     {
       "type": "text",
-      "text": "Found 1 tool(s) on server 'a1b2c3d4'."
+      "text": "1 tool(s) on server 'a1b2c3d4' (fresh)."
     }
   ],
   "structuredContent": {
@@ -72,11 +72,16 @@ Capability bundle: `external_mcp` (load it with `nova.tools_bundle(bundle='exter
         }
       }
     ],
-    "cached": false,
-    "inventoryAgeMs": 0
+    "fromCache": false,
+    "inventoryAge": null,
+    "includeSchema": true,
+    "refresh": false,
+    "effectiveRefresh": true
   }
 }
 ```
+
+`inventoryAge` is a human-readable age string (e.g. `"5s"`, `"2m"`) when `fromCache` is `true`, and `null` on a fresh fetch. `effectiveRefresh` is `true` whenever `refresh` or `includeSchema` was requested, since the summary cache never stores schemas.
 
 ---
 

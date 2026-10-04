@@ -20,17 +20,17 @@ Capability bundles of these tools: `browser_automation`, `page_read_debug`, `sys
 | **[`nova.media_activity_audit`](nova-media-activity-audit.md)** | Retrieves an audit trail of stored media permissions joined with recent decision records per origin. |
 | **[`nova.media_activity_delta`](nova-media-activity-delta.md)** | Performs an incremental read of the in-memory media permission activity ring buffer. |
 | **[`nova.media_activity_status`](nova-media-activity-status.md)** | Returns an O(1) instant snapshot of currently active camera, microphone, and screen-sharing streams. |
-| **[`nova.media_capture_start`](nova-media-capture-start.md)** | Starts streaming capture of live audio/video playing in a tab (WebAudio, MSE, dynamic blobs). |
+| **[`nova.media_capture_start`](nova-media-capture-start.md)** | Starts streaming capture of live audio/video playing in a tab (Media Source Extensions streams and WebAudio playback). |
 | **[`nova.media_capture_status`](nova-media-capture-status.md)** | Reports progress, elapsed time, and bytes written for an active in-tab media capture. |
-| **[`nova.media_capture_stop`](nova-media-capture-stop.md)** | Stops in-tab media capture, flushes pending segments, closes files, and returns completed paths. |
+| **[`nova.media_capture_stop`](nova-media-capture-stop.md)** | Stops in-tab media capture, flushes pending segments, closes the per-track files, and returns their paths. |
 | **[`nova.media_device_preferences_list`](nova-media-device-preferences-list.md)** | Lists stored per-site preferred device IDs (camera, microphone, speaker). |
-| **[`nova.media_file_info`](nova-media-file-info.md)** | Inspects media container metadata, duration, channels, and codecs from a local file without ffmpeg. |
-| **[`nova.media_permission_activity_list`](nova-media-permission-activity-list.md)** | Reads the complete in-memory ring buffer audit log of camera, mic, and screen permission decisions. |
+| **[`nova.media_file_info`](nova-media-file-info.md)** | Identifies a local media file's container and duration from its header, without decoding it. |
+| **[`nova.media_permission_activity_list`](nova-media-permission-activity-list.md)** | Reads recent entries from the in-memory ring buffer of camera, microphone, speaker, screen-share, and geolocation permission decisions. |
 | **[`nova.media_permission_get`](nova-media-permission-get.md)** | Reads the effective and stored media permissions for a specific web origin. |
 | **[`nova.media_permission_set`](nova-media-permission-set.md)** | Sets or clears persistent or session-based camera, mic, speaker, and geolocation permissions. |
 | **[`nova.media_permissions_clear_session_grants`](nova-media-permissions-clear-session-grants.md)** | Drops all temporary session permissions and halts any live media tracks relying on them. |
 | **[`nova.media_permissions_list`](nova-media-permissions-list.md)** | Lists all stored per-origin permission overrides along with global default policies. |
-| **[`nova.media_status`](nova-media-status.md)** | Inspects playback status, current timestamp, duration, and volume of in-page audio/video elements. |
+| **[`nova.media_status`](nova-media-status.md)** | Inspects the first `<video>` or `<audio>` element on a page: playback state, position, and why it may have stopped. |
 | **[`nova.media_stop_all`](nova-media-stop-all.md)** | Emergency kill switch terminating all active camera, microphone, and screen-sharing tracks browser-wide. |
 | **[`nova.media_transcribe_model_install`](nova-media-transcribe-model-install.md)** | Downloads a Whisper speech model or adopts an existing local GGML model file. |
 | **[`nova.media_transcribe_model_remove`](nova-media-transcribe-model-remove.md)** | Deletes an installed speech model file to reclaim disk space or prepare for re-download. |

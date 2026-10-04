@@ -6,10 +6,9 @@ Recalls browsing memories and stored preferences for a domain or across all site
 
 ## 1. Overview
 
-`nova.memory_recall` retrieves relevant user preferences, session contexts, and domain notes using semantic relevance and keyword scoring.
+`nova.memory_recall` retrieves stored browsing memories (notes, preferences and context entries saved with `nova.memory_note`), optionally filtered by domain, free-text query, or memory type. Each hit resets the memory's access time and increases its access count, which slows its relevance decay.
 
-* **Security Tier:** Tier 1 (Read-Only)
-* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
+* **Core Architecture Guide:** [Browser Memory & Knowledge Board](../../../core-features/browser-memory-and-board.md)
 
 ---
 
@@ -25,6 +24,7 @@ Recalls browsing memories and stored preferences for a domain or across all site
 | `includeExpired` | `boolean` | No | `false` | — | Include memories with very low decay scores that would normally be filtered. Defaults to false. |
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -47,21 +47,28 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "Recalled 1 memory for billing.example.com."
+      "text": "{\"memories\":[{\"memoryId\":301,\"domain\":\"billing.example.com\",\"urlPattern\":null,\"memoryType\":\"preference\",\"content\":\"User prefers German language invoices when available\",\"source\":\"agent\",\"decayScore\":0.97,\"accessCount\":3}],\"count\":1}"
     }
   ],
   "structuredContent": {
-    "ok": true,
     "memories": [
       {
-        "memoryId": "mem-301a",
-        "content": "User prefers German language invoices...",
-        "memoryType": "preference"
+        "memoryId": 301,
+        "domain": "billing.example.com",
+        "urlPattern": null,
+        "memoryType": "preference",
+        "content": "User prefers German language invoices when available",
+        "source": "agent",
+        "decayScore": 0.97,
+        "accessCount": 3
       }
-    ]
+    ],
+    "count": 1
   }
 }
 ```
+
+There is no top-level `ok` field. When nothing matches, `memories` is an empty array and `count` is `0`.
 
 ---
 
@@ -74,4 +81,4 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
 ## 5. Related Tools
 
 * [`nova.memory_note`](nova-memory-note.md)
-* [`nova.operator_notes_query`](nova-operator-notes-query.md)
+* [`nova.memory_forget`](nova-memory-forget.md)

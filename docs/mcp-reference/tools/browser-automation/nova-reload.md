@@ -9,7 +9,7 @@ Reloads the active tab with configurable cache bypassing, SPA settlement verific
 Reloading a tab during automated operations must be handled with extreme care: if an agent triggers a reload on an authenticated banking portal, social network feed, or checkout form, session tokens stored in memory may be wiped out.
 
 `nova.reload` protects against unintended session destruction through **Agent Awareness Gates (AAG)**:
-* **Session Destruction Confirmation (`confirmSessionDestruction`):** If Nova's Auth Surface Detection (ASD) identifies an active authenticated session, calling reload with `force: true` is blocked unless `confirmSessionDestruction: true` is also explicitly supplied.
+* **Session Destruction Confirmation (`confirmSessionDestruction`):** Because a reload keeps the same URL, cookie- and `sessionStorage`-backed auth survive it. Ephemeral (memory-only) auth does not: reloading destroys the in-memory token. When Nova's Auth Surface Detection (ASD) classifies the page's auth as ephemeral, reload is blocked and requires both `force: true` and `confirmSessionDestruction: true` to proceed.
 * **Hard Reload (`hard: true`):** Bypasses browser HTTP caching to fetch fresh assets.
 * **Renderer Crash Recovery (`recoverRenderer: true`):** If a heavy script or GPU deadlock freezes the WebView2 renderer process (returning `cdp.renderer_stalled`), passing `recoverRenderer: true` terminates and respawns a fresh renderer process at the same URL.
 
@@ -42,6 +42,7 @@ Reloading a tab during automated operations must be handled with extreme care: i
 | `agentId` | `string` | No | `"default"` | — | Your agent identity. recoverRenderer requires that this agent holds the claim on the tab. |
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -88,12 +89,19 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
 ```json
 {
   "ok": true,
+  "status": "ok",
+  "stage": "load_complete",
   "targetId": "tab-101",
-  "url": "https://example.com/dashboard",
+  "hard": false,
+  "waitForLoad": true,
   "loadCompleted": true,
-  "hardReload": false,
+  "pageUrl": "https://example.com/dashboard",
+  "pageTitle": "Dashboard",
+  "waitForSettlement": true,
   "settlement": {
     "settled": true,
+    "quietMs": 400,
+    "pendingResources": 0,
     "elapsedMs": 920
   }
 }
@@ -103,10 +111,12 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
 
 ## 5. Common Errors & Troubleshooting
 
-| Error Code / Message | Cause | Corrective Action |
+| reasonCode | Cause | Corrective Action |
 | :--- | :--- | :--- |
-| `AAG Block: Active auth session detected` | Attempted to reload an authenticated tab without explicit confirmation. | Pass both `force: true` and `confirmSessionDestruction: true`. |
+| `navigate.session_destruction_requires_confirmation` | `force: true` on a tab with an active authenticated session, without `confirmSessionDestruction`. | Pass both `force: true` and `confirmSessionDestruction: true`, or reload without `force` if the session should be preserved. |
 | `reload.recover_renderer_not_stalled` | `recoverRenderer: true` was called on a tab whose renderer is healthy. | Use standard `nova.reload` without `recoverRenderer`. |
+| `reload.recover_renderer_not_claimed` | `recoverRenderer: true` was called on a tab not claimed by the calling `agentId`. | Claim the tab first, or call without `recoverRenderer`. |
+| `reload.recover_renderer_failed` | The target was not a recreatable browser tab, or it was already closed. | Verify the `targetId` with `nova.tabs` before retrying. |
 
 ---
 

@@ -6,9 +6,8 @@ Discovers interactive UI triggers (buttons, tabs, accordions) and activates them
 
 ## 1. Overview
 
-`nova.explore_surface` performs automated single-page surface exploration. It detects interactive elements, simulates clicks under strict safety guards, and maps out hidden menus and modals.
+`nova.explore_surface` performs automated single-page surface exploration across four modes: `discover` scans the page for interactive triggers, `activate` clicks or focuses one of them under strict safety guards, `hover` does a read-only hover peek for tooltip/hover content, and `close` ends an exploration run.
 
-* **Security Tier:** Tier 2 (Surface Discovery)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
 ---
@@ -60,6 +59,7 @@ Discovers interactive UI triggers (buttons, tabs, accordions) and activates them
 **`_meta.intent` is required for certain arguments.** Passing a short reason in `_meta.intent` is always safe; a rejected call names the argument that made it required.
 
 Capability bundle: `surface_explorer` (load it with `nova.tools_bundle(bundle='surface_explorer')`).
+Tool category: `high_impact` (highest risk class; Nova's agent permission settings can ask before it runs).
 <!-- /generated:parameters -->
 
 ---
@@ -72,9 +72,9 @@ Capability bundle: `surface_explorer` (load it with `nova.tools_bundle(bundle='s
   "name": "nova.explore_surface",
   "arguments": {
     "targetId": "tab-1",
-    "mode": "passive",
-    "executionSurface": "tab",
-    "guardProfile": "safe"
+    "mode": "discover",
+    "executionSurface": "live_tab",
+    "guardProfile": "phase1_default"
   }
 }
 ```
@@ -85,15 +85,25 @@ Capability bundle: `surface_explorer` (load it with `nova.tools_bundle(bundle='s
   "content": [
     {
       "type": "text",
-      "text": "Explored page surface: discovered 8 interactive triggers (3 expanded)."
+      "text": "Discovered 8 triggers (5 eligible, 1 denied) on https://example.com/page"
     }
   ],
   "structuredContent": {
     "ok": true,
-    "targetId": "tab-1",
-    "triggersDiscovered": 8,
-    "elementsExpanded": 3,
-    "revealedDomNodes": 45
+    "tool": "nova.explore_surface",
+    "mode": "discover",
+    "tab": { "targetId": "tab-1", "claimAccepted": true },
+    "guardProfile": "phase1_default",
+    "operation": {
+      "status": "discovered",
+      "surface": {
+        "contentStats": {
+          "interactiveTriggerCount": 8,
+          "eligibleTriggerCount": 5,
+          "deniedTriggerCount": 1
+        }
+      }
+    }
   }
 }
 ```
@@ -102,7 +112,7 @@ Capability bundle: `surface_explorer` (load it with `nova.tools_bundle(bundle='s
 
 ## 4. Operational Best Practices
 
-* **Safe Guard Profiles:** Use `guardProfile: "safe"` to prevent the explorer from clicking destructive buttons (delete, submit, checkout).
+* **Guard Profile:** `guardProfile` currently only accepts `"phase1_default"`, which classifies triggers before activation and restricts `activate` to triggers the safety pipeline marked eligible — it does not hand an agent free rein to click anything discovered.
 
 ---
 

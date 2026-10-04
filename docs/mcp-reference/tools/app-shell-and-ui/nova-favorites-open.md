@@ -1,8 +1,7 @@
 # `nova.favorites_open`
 
-> **Navigates to a stored favorite bookmark in the current or a new browser tab.**
+> **Opens a saved favorite in the current or a new browser tab.**
 
-* **Security Tier:** Tier 2 (Navigation)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
@@ -10,7 +9,7 @@
 
 ## 1. Overview
 
-`nova.favorites_open` resolves a bookmark URL by its ID and performs navigation, avoiding manual URL copying.
+`nova.favorites_open` looks up a saved favorite by its URL and navigates to it. The URL must belong to a saved favorite; otherwise the tool returns `opened: false` ("Favorite not found.") and does not navigate. To open an arbitrary URL, use `nova.navigate`.
 
 ---
 
@@ -23,6 +22,7 @@
 | `openInNewTab` | `boolean` | No | `false` | — | If true, open in a new browser tab instead of the current tab. |
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -34,8 +34,8 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
 {
   "name": "nova_favorites_open",
   "arguments": {
-    "favoriteId": "fav-5501",
-    "newTab": true
+    "url": "https://docs.example.com/api",
+    "openInNewTab": true
   }
 }
 ```
@@ -46,13 +46,13 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "Opened favorite fav-5501 in new tab tab-4."
+      "text": "Favorite opened."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "targetId": "tab-4",
-    "url": "https://docs.example.com/api"
+    "opened": true,
+    "url": "https://docs.example.com/api",
+    "openInNewTab": true
   }
 }
 ```
@@ -61,7 +61,7 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
 
 ## 4. Operational Best Practices
 
-* **Parallel Browsing:** Use `newTab: true` to preserve current page context.
+* **Parallel Browsing:** Use `openInNewTab: true` to preserve the current page.
 
 ---
 

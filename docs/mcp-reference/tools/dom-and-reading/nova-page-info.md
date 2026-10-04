@@ -18,22 +18,22 @@ Retrieves essential page metadata (URL, title, DOM ready state, viewport dimensi
 
 ### A. Navigation & Document State
 Returns:
-* `url` / `href`: Current resolved canonical URL.
+* `href`: Current resolved canonical URL (`location.href`).
 * `title`: Document `<title>` string.
 * `readyState`: `"loading"`, `"interactive"`, or `"complete"`.
-* `charset`: Character encoding of the document.
+* `userAgent`: The page's `navigator.userAgent` string.
 
 ### B. Viewport & Scroll Coordinates
 Provides instantaneous physical geometry:
-* Viewport width and height.
-* Document total scrollable width and height.
-* Current `scrollX` and `scrollY` positions.
+* Viewport `innerWidth`/`innerHeight` and `devicePixelRatio`.
+* Current `scrollX` and `scrollY` positions (document total scrollable size is not included; use
+  [`nova.get_layout_metrics`](nova-get-layout-metrics.md) for that).
 
 ### C. Active Element Inspection
 Identifies the element currently holding keyboard focus:
-* Tag name (e.g. `INPUT`, `BUTTON`, `BODY`).
-* ID and CSS class names.
-* ARIA role or input type.
+* Tag name, `id`, and trimmed `className`.
+* `name` attribute and input `type`, plus `isContentEditable`.
+* `null` when nothing in the document currently has focus.
 
 ---
 
@@ -46,6 +46,7 @@ Identifies the element currently holding keyboard focus:
 | `maxChars` | `integer` | No | `20000` | 1000–5000000 | Maximum characters to return. Defaults shrink automatically under context pressure unless explicitly provided. |
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -71,27 +72,39 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
 ```json
 {
   "targetId": "tab-101",
-  "url": "https://example.com/app/settings",
-  "title": "Account Settings - Nova Workspace",
-  "readyState": "complete",
-  "viewport": {
-    "width": 1440,
-    "height": 900
+  "truncated": false,
+  "chars": 212,
+  "result": {
+    "ok": true,
+    "href": "https://example.com/app/settings",
+    "title": "Account Settings - Nova Workspace",
+    "readyState": "complete",
+    "viewport": {
+      "innerWidth": 1440,
+      "innerHeight": 900,
+      "devicePixelRatio": 1
+    },
+    "scroll": { "x": 0, "y": 320 },
+    "userAgent": "Mozilla/5.0 ...",
+    "activeElement": {
+      "tagName": "INPUT",
+      "id": "user-display-name",
+      "className": null,
+      "name": null,
+      "type": "text",
+      "isContentEditable": false
+    }
   },
-  "scroll": {
-    "x": 0,
-    "y": 320,
-    "maxX": 0,
-    "maxY": 1840
-  },
-  "activeElement": {
-    "tagName": "INPUT",
-    "id": "user-display-name",
-    "type": "text",
-    "selector": "input#user-display-name"
-  }
+  "resultOmittedReason": null,
+  "outputBudget": { "maxChars": 20000, "sourceChars": 212, "returnedChars": 212, "truncated": false }
 }
 ```
+
+The page data lives under `result` (the raw object the in-page probe returns); `targetId`,
+`truncated`, `chars`, `resultOmittedReason` and `outputBudget` are the envelope around it. Under
+heavy context pressure `result` can come back `null` with `resultOmittedReason:
+"output_budget_truncated"` — the plain-text `content` block still carries the (possibly truncated)
+JSON in that case.
 
 ---
 

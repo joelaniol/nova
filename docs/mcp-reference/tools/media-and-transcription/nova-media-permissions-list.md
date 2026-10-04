@@ -8,7 +8,6 @@ Lists all stored per-origin permission overrides along with global default polic
 
 `nova.media_permissions_list` retrieves all configured domain permissions across camera, microphone, speaker, and screenCapture axes, including global defaults.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
 ---
@@ -25,6 +24,7 @@ Lists all stored per-origin permission overrides along with global default polic
 | `offset` | `integer` | No | — | ≥ 0 | Pagination offset. |
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -47,22 +47,32 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "Loaded 2 stored media permission overrides."
+      "text": "1 media permission entry/entries."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "total": 2,
-    "globalDefaults": {
-      "camera": "ask",
-      "microphone": "ask"
-    },
-    "overrides": [
+    "permissions": [
       {
         "origin": "https://meet.example.com",
-        "microphone": "allow"
+        "requestingOrigin": null,
+        "camera": "ask",
+        "microphone": "allow",
+        "speaker": null,
+        "screenCapture": null,
+        "geolocation": null,
+        "lifetime": "persistent",
+        "devicePreferenceKnown": false,
+        "updatedAtUtc": "2026-10-02T19:00:00Z"
       }
-    ]
+    ],
+    "count": 1,
+    "limit": 20,
+    "offset": 0,
+    "globalDefaults": {
+      "camera": "ask",
+      "microphone": "ask",
+      "speaker": "ask"
+    }
   }
 }
 ```

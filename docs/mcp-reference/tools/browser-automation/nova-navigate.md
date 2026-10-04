@@ -60,6 +60,7 @@ Allows capturing a visual proof crop in the exact same round-trip. If screenshot
 **`_meta.intent` is required for certain arguments.** Passing a short reason in `_meta.intent` is always safe; a rejected call names the argument that made it required.
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -107,7 +108,7 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
 
 ## See Also
 
-* [`nova.route`](nova-navigate.md) — Client-side SPA navigation without document reload.
+* [`nova.route`](nova-route.md) — Client-side SPA navigation without document reload.
 * [`nova.tab_new`](nova-tab-new.md) — Create a new browser tab.
-* [`nova.scroll_smart`](nova-scroll-smart.md) — Natural wheel scrolling after landing.
+* [`nova.scroll_smart`](nova-scroll-smart.md) — Scroll the most relevant container after landing, with lazy-load saturation detection.
 * [Core Feature: Agent Awareness Gates (AAG)](../../../core-features/aag.md)

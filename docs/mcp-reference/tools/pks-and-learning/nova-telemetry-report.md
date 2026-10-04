@@ -8,14 +8,14 @@ Reports empirical execution outcomes (`success`, `failure`, or `not_applicable`)
 
 The Phenomenological Knowledge Store (PKS) is a living, self-healing memory store. To prevent stale, broken selectors from lingering when websites change, Nova calculates rolling health scores for every stored playbook.
 
-`nova.telemetry_report` is the feedback channel. Whenever an agent attempts to execute a playbook?or verifies an action sequence?it reports the outcome. High success rates promote playbooks from `Shadow` to `Active` status; repeated failures trigger automated demotion and deprecation warnings.
+`nova.telemetry_report` is the feedback channel. Whenever an agent attempts to execute a playbook — or verifies an action sequence — it reports the outcome. High success rates promote playbooks from `Shadow` to `Active` status; repeated failures trigger automated demotion and deprecation warnings.
 
 * **Three Interaction Outcomes:**
   * `success`: Action sequence executed and verified correctly.
   * `failure`: Action timed out, selector missing, or postcondition check failed.
   * `not_applicable`: Element legitimately does not exist on this page variant (does *not* penalize health scores).
-* **Automated Promotion Engine:** Consecutive verified successes automatically graduate candidate playbooks to active status.
-* **Deprecation Safeguard:** High failure rates automatically flag playbooks as deprecated to prevent other agents from looping on broken actions.
+* **Feeds the Promotion/Demotion Engine:** Recorded outcomes update the phenomenon's health counters, which the separate promotion/demotion logic reads when deciding Candidate->Shadow->Active transitions. This tool's own response does not report a promotion decision — use [`nova.explain`](nova-explain.md) to see current gate status.
+* **Deprecation Safeguard:** `nova.telemetry_report` can itself auto-deprecate a phenomenon after repeated consecutive failures; the response's `autoDeprecated` flag reports whether that happened on this call.
 
 ---
 
@@ -48,6 +48,7 @@ The Phenomenological Knowledge Store (PKS) is a living, self-healing memory stor
 | `features.notes` | `string` | No | — | — | Short human-readable evidence note. |
 
 Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_learning')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -86,20 +87,31 @@ Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_l
 
 ```json
 {
-  "acknowledged": true,
-  "phenomenonId": "spiegel-cmp-reject",
+  "recorded": true,
   "scope": "spiegel.de",
-  "newHealthScore": 0.99,
-  "totalAttempts": 421,
-  "currentLearningLevel": "Active",
-  "promotionStatus": "maintained"
+  "phenomenonId": "spiegel-cmp-reject",
+  "outcome": "success",
+  "elapsedMs": 420,
+  "hasFeatures": true,
+  "autoDeprecated": false,
+  "health": {
+    "totalAttempts": 421,
+    "successCount": 418,
+    "failureCount": 3,
+    "successRate30d": 0.99,
+    "consecutiveFailures": 0,
+    "lastOutcome": "success",
+    "lastAttempt": "2026-10-02T20:10:00Z"
+  }
 }
 ```
+
+`health` is abbreviated here; it returns the phenomenon's full stored health record. When `scope` or `phenomenonId` is not found, the response instead returns `{ "ok": false, "status": "not_found", "reasonCode": "pks.scope_not_found" | "pks.phenomenon_not_found", "recorded": false, "found": false, "scope", "phenomenonId", "agentDriftSuspect", "hint" }` — not a JSON-RPC error.
 
 ---
 
 ## 6. Related Tools & Documentation
 
-* [`nova.pks_upsert`](nova-pks-upsert.md) ? Create or update phenomenon entries in PKS.
-* [`nova.explain`](nova-explain.md) ? Inspect the detailed health score and promotion gate breakdown.
-* [Phenomenological Knowledge Store (PKS)](../../../core-features/pks.md) ? Mathematical health scoring and gate definitions.
+* [`nova.pks_upsert`](nova-pks-upsert.md) — Create or update phenomenon entries in PKS.
+* [`nova.explain`](nova-explain.md) — Inspect the detailed health score and promotion gate breakdown.
+* [Phenomenological Knowledge Store (PKS)](../../../core-features/pks.md) — Mathematical health scoring and gate definitions.

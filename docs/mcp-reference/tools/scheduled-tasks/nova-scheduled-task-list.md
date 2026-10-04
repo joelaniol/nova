@@ -1,14 +1,13 @@
 # `nova.scheduled_task_list`
 
-Lists all scheduled tasks with execution status, next run times, last results, and cumulative costs.
+Lists all scheduled tasks with enabled state, next run time, last result, and cumulative cost.
 
 ---
 
 ## 1. Overview
 
-`nova.scheduled_task_list` retrieves an inventory of all configured background tasks. It reports runtime states (`Enabled`, `Paused`, `Disabled`), next scheduled execution timestamps, consecutive failure counts, cumulative costs, and chaining configurations.
+`nova.scheduled_task_list` retrieves an inventory of all configured background tasks. Each entry reports whether the task is enabled, its next scheduled fire time, the last run's status, the consecutive-failure count against the circuit-breaker threshold (and whether it has tripped), total run count, cumulative cost, budget cap, and any chained follow-up task. There is no separate "Paused" state — a task is either `enabled: true` or `enabled: false`.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
 ---
@@ -21,6 +20,7 @@ This tool takes no parameters.
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -41,31 +41,44 @@ Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='sc
   "content": [
     {
       "type": "text",
-      "text": "Found 2 scheduled tasks: 1 Enabled, 1 Paused."
+      "text": "2 scheduled task(s)."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "totalTasks": 2,
     "tasks": [
       {
-        "taskId": "task-7c81a2f0",
+        "taskId": "a1b2c3d4e5f6",
         "displayName": "Competitor Price Tracker",
-        "status": "Enabled",
-        "schedule": "daily 09:00",
-        "nextRunUtc": "2026-10-03T07:00:00Z",
-        "lastRunStatus": "Success",
-        "lastRunDurationMs": 14200,
-        "cumulativeCostUsd": 0.12
+        "executorKind": "ClaudeCode",
+        "enabled": true,
+        "nextFireAtUtc": "2026-10-03T07:00:00Z",
+        "lastRunStatus": "Completed",
+        "lastRunFinishedAtUtc": "2026-10-02T07:00:12Z",
+        "consecutiveFailureCount": 0,
+        "maxConsecutiveFailures": 5,
+        "circuitBreakerTripped": false,
+        "totalRunCount": 14,
+        "cumulativeCostUsd": 0.56,
+        "totalBudgetCapUsd": null,
+        "triggerNextTaskId": null,
+        "triggerNextTaskDisplayName": null
       },
       {
-        "taskId": "task-19e0b44a",
+        "taskId": "9f3e7d2c08b1",
         "displayName": "Daily Standup Summary",
-        "status": "Paused",
-        "schedule": "daily 18:00",
-        "nextRunUtc": null,
-        "lastRunStatus": "Success",
-        "cumulativeCostUsd": 1.45
+        "executorKind": "ClaudeCode",
+        "enabled": false,
+        "nextFireAtUtc": null,
+        "lastRunStatus": "Completed",
+        "lastRunFinishedAtUtc": "2026-09-30T18:00:05Z",
+        "consecutiveFailureCount": 0,
+        "maxConsecutiveFailures": 5,
+        "circuitBreakerTripped": false,
+        "totalRunCount": 30,
+        "cumulativeCostUsd": 1.45,
+        "totalBudgetCapUsd": null,
+        "triggerNextTaskId": null,
+        "triggerNextTaskDisplayName": null
       }
     ]
   }
@@ -76,7 +89,7 @@ Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='sc
 
 ## 4. Operational Best Practices
 
-* **Circuit Breaker Inspection:** If a task shows consecutive failures, check `lastRunStatus` and query [`nova.scheduled_task_runs`](nova-scheduled-task-runs.md) for error logs.
+* **Circuit Breaker Inspection:** If `circuitBreakerTripped` is true, query [`nova.scheduled_task_runs`](nova-scheduled-task-runs.md) for the failing run's error output.
 * **Cost Tracking:** Monitor `cumulativeCostUsd` across recurring tasks to verify spend remains within expected limits.
 
 ---

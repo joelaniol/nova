@@ -8,19 +8,20 @@ Identifies and removes click-blocking overlays, cookie consent banners, notifica
 
 Autonomously operating agents are frequently halted by popups, promotional modals, cookie consent walls (CMPs), and translucent backdrops that intercept mouse clicks.
 
-`nova.dismiss_blockers` is an active remediation tool that inspects the page for common blocker patterns, triggers polite close buttons or Escape keys, and optionally hides persistent blocking roots to restore page clickability.
+`nova.dismiss_blockers` is an active remediation tool that inspects the page for common blocker patterns, clicks a dismiss/reject control when it can identify one safely, optionally presses Escape, and in aggressive mode hides persistent blocking roots to restore page clickability.
 
-* **Modes:** Supports `"polite"` (clicks close/reject buttons) and `"aggressive"` (hides stubborn backdrop roots).
-* **Return Value:** Reports how many blockers were found, how many were dismissed, and whether the page surface is now clear.
+* **Modes:** Supports `"conservative"` (targets common consent/cookie/GDPR banners only) and `"aggressive"` (also removes overlay divs, fixed-position blockers, and backdrop elements).
+* **Return Value:** Reports whether the page is still blocked, whether a dismiss action was taken, a verdict, and the dismiss actions that were attempted.
 
 ---
 
 ## 2. Key Capabilities & Features
 
-### A. Two-Phase Dismissal
-1. **Pass 1 (Polite Click):** Searches for standard close buttons (`[aria-label*="close"]`, `button.close`, `.modal-close`, `button:has(svg)`).
-2. **Pass 2 (Keyboard Escape):** When `pressEscape: true` is enabled, dispatches an Escape key event to trigger native modal dismiss handlers.
-3. **Pass 3 (Aggressive Style Reset):** Under `mode: "aggressive"`, identifies top-layer backdrop containers (`.backdrop`, `.modal-overlay`, fixed zero-content overlays) and temporarily sets their CSS style to `display: none !important`.
+### A. Detection and Dismissal
+1. **Blocker detection:** Looks for semantic dialogs (`[role="dialog"]`, `[aria-modal="true"]`, `dialog[open]`), then for floating elements whose id/class names suggest a consent, cookie, privacy, modal, overlay, or popup layer, then falls back to a broader heuristic scan of `div`/`section`/`aside`/`dialog` elements that behave like an overlay (fixed/high z-index, covers a large area, sits in the viewport).
+2. **Click pass:** Among buttons, `[role="button"]` elements, submit/button inputs, and links inside a detected blocker, scores candidates by their label and only clicks one that looks like a safe dismiss/reject action; in `"conservative"` mode it will not click an action that does not look dismissive.
+3. **Escape pass:** When `pressEscape: true` (default) and a blocker was seen, dispatches an Escape keydown/keyup pair after the click pass.
+4. **Aggressive hide:** Only in `mode: "aggressive"`, remaining overlay roots get `display: none !important` set directly on their style, tagged internally as an `aggressive_overlay_hide` action.
 
 ### B. CMP Cookie Banner Resolution
 If a cookie consent banner belongs to a known vendor (OneTrust, Cookiebot, Klaro, Didomi), prefer calling [`nova.cmp_apply`](../../../core-features/closed-loop-system.md) first to reject optional cookies cleanly. If `cmp_apply` reports `failureCode: "no_adapter"`, fall back to `nova.dismiss_blockers`.
@@ -38,6 +39,7 @@ If a cookie consent banner belongs to a known vendor (OneTrust, Cookiebot, Klaro
 | `pressEscape` | `boolean` | No | `true` | — | If true, also press Escape key to dismiss keyboard-closable modals/dialogs. |
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -49,7 +51,7 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
   "name": "nova.dismiss_blockers",
   "arguments": {
     "targetId": "tab-1",
-    "mode": "polite",
+    "mode": "conservative",
     "maxPasses": 3
   }
 }
@@ -58,14 +60,19 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
 ### Sample Response
 ```json
 {
-  "ok": true,
-  "blockersDetected": 1,
-  "blockersDismissed": 1,
-  "surfaceClear": true,
-  "actionsTaken": [
-    "Clicked button.cookie-dismiss",
-    "Dispatched Escape key"
-  ]
+  "content": [
+    { "type": "text", "text": "Blocker pass completed. clicked=1, hidden=0, verdict=NOOP" }
+  ],
+  "structuredContent": {
+    "targetId": "tab-1",
+    "mode": "conservative",
+    "ok": true,
+    "status": "ok",
+    "didDismiss": true,
+    "blocked": false,
+    "verdict": "NOOP",
+    "actionsTriedTotal": 1
+  }
 }
 ```
 

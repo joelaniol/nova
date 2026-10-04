@@ -6,9 +6,8 @@ Loads a task instance snapshot for session-crossing resume and progress inspecti
 
 ## 1. Overview
 
-`nova.task_instance_get` retrieves the full state of a task instance: current revision, completed work units, pending mandatory checks, and execution logs.
+`nova.task_instance_get` retrieves the full state of a task instance: current revision, unit progress counts, mandatory-check state, and (opt-in via `includeRecentEvents`) recent event-log entries.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
 ---
@@ -27,6 +26,7 @@ Loads a task instance snapshot for session-crossing resume and progress inspecti
 | `recentEventLimit` | `integer` | No | `10` | 1–100 | Max recent events to return. Default: 10. |
 
 Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -46,22 +46,31 @@ Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_m
 ### JSON-RPC Response
 ```json
 {
-  "content": [
-    {
-      "type": "text",
-      "text": "Loaded task instance inst-881a (status: InProgress, rev: 3)."
-    }
-  ],
   "structuredContent": {
     "ok": true,
     "instanceId": "inst-881a",
-    "status": "InProgress",
-    "currentRev": 3,
-    "completedUnits": 8,
-    "pendingChecksCount": 1
+    "profileId": "prof-checkout-flow",
+    "instanceRev": 3,
+    "status": "active",
+    "discoveryState": "discovering",
+    "progress": {
+      "totalUnits": 10,
+      "checkedUnits": 8,
+      "remainingUnits": 2,
+      "blockedUnits": 0,
+      "failedUnits": 0,
+      "percentComplete": 80.0
+    },
+    "mandatoryChecksState": { "chk-order-conf": "pending" },
+    "targetUrl": "https://example.com/checkout",
+    "startedAtUtc": "2026-09-30T11:00:00Z",
+    "lastActivityAtUtc": "2026-09-30T11:45:00Z",
+    "completedAtUtc": null
   }
 }
 ```
+
+`content[0].text` for this tool is a JSON dump of the same data, not a separate human summary. The full response also carries `effectiveContextHash`, `effectiveContextJson`, `resumeState`, `agentId`, `discoveredUnitsPreview` (only with `includeDiscoveredUnitsPreview`), `recentEvents` (only with `includeRecentEvents`), `evidenceSummary`, `urlCoverage` (only when the instance has URL units), and `taskAwareness`; trimmed above for brevity.
 
 ---
 

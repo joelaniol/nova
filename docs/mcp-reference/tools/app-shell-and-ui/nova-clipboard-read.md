@@ -2,15 +2,13 @@
 
 > **Reads the current plain text contents from the Windows OS system clipboard.**
 
-* **Security Tier:** Tier 1 (Read-Only OS Integration)
-* **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.clipboard_read` accesses the OS clipboard buffer securely, retrieving copied snippets, URLs, or tokens generated during automation.
+`nova.clipboard_read` reads the current plain-text contents of the OS clipboard. If the clipboard is empty or holds no text, the response says so instead of returning an error.
 
 ---
 
@@ -22,6 +20,7 @@ This tool takes no parameters.
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `high_impact` (highest risk class; Nova's agent permission settings can ask before it runs).
 <!-- /generated:parameters -->
 
 ---
@@ -42,16 +41,16 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "Clipboard content: 'https://login.example.com/oauth/token'."
+      "text": "https://login.example.com/oauth/token"
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "text": "https://login.example.com/oauth/token",
-    "length": 42
+    "hasText": true,
+    "text": "https://login.example.com/oauth/token"
   }
 }
 ```
+When the clipboard has no text, `hasText` is `false`, `text` is an empty string, and the text block reads `"(clipboard is empty or has no text)"`.
 
 ---
 

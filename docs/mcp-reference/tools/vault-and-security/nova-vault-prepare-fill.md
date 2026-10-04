@@ -8,10 +8,11 @@ Prepares stored credentials from the secure Vault for automated form-filling, re
 
 LLM-driven browser automation poses a severe credential security risk: if an agent reads a plaintext password to fill a web login form, that secret is exposed in LLM context logs, API provider telemetry, and prompt histories.
 
-`nova.vault_prepare_fill` solves this by issuing an ephemeral **`SecretRef`** handle. The agent receives only an opaque token (e.g. `sref_98a7f1...`), which is cryptographically bound to the target tab's origin and expires automatically. The agent then passes this token to [`nova.type_selector_secret`](nova-type-selector-secret.md) to type the password directly into the browser without ever knowing the underlying plaintext.
+`nova.vault_prepare_fill` solves this by issuing an ephemeral **`SecretRef`** handle. The agent receives only an opaque token (a random hex string), which is cryptographically bound to the target tab's origin and expires automatically. The agent then passes this token to [`nova.type_selector_secret`](nova-type-selector-secret.md) to type the password directly into the browser without ever knowing the underlying plaintext.
 
 * **Zero Plaintext Exposure:** Passwords never touch the LLM conversation context or prompt logs.
-* **Origin Binding:** Tokens are strictly bound to the target tab's active origin (e.g. `https://github.com`); redemption on any other domain is rejected.
+* **Site Check:** A token is only issued when the tab already shows the entry's site (same host or a subdomain of it); otherwise the call is refused with `vault.site_mismatch`.
+* **Host Binding:** The token is bound to the tab's host (e.g. `github.com`); redemption on any other host is rejected.
 * **Single-Use & Time-Bounded:** Tokens expire after 120 minutes and can only be redeemed once.
 
 ---
@@ -28,14 +29,14 @@ sequenceDiagram
     Agent->>MCP: nova.vault_prepare_fill(site="github.com", targetId="tab-1")
     MCP->>Vault: Match origin & retrieve credentials
     Vault-->>MCP: Plaintext secret (in-memory only)
-    MCP->>MCP: Mint single-use SecretRef (origin=github.com, ttl=120m)
-    MCP-->>Agent: { username: "octocat", passwordRef: "sref_..." }
+    MCP->>MCP: Mint single-use SecretRef (boundOrigin=github.com, ttl=120m)
+    MCP-->>Agent: { username: "octocat", passwordRef: "<token>" }
     Note over Agent: Agent holds opaque token<br/>Password never exposed in context!
-    Agent->>MCP: nova.type_selector_secret(selector="#password", secretRef="sref_...")
+    Agent->>MCP: nova.type_selector_secret(selector="#password", secretRef="<token>")
     MCP->>MCP: Validate origin, expiry, and single-use lock
-    MCP->>DOM: Inject keystrokes directly into password input
+    MCP->>DOM: Set the field value via its native setter and dispatch input/change
     DOM-->>MCP: Success
-    MCP-->>Agent: { typed: true, charCount: 16 }
+    MCP-->>Agent: { ok: true, actionDispatched: true }
 ```
 
 ---
@@ -52,6 +53,7 @@ sequenceDiagram
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
 
 Capability bundle: `vault_auth` (load it with `nova.tools_bundle(bundle='vault_auth')`).
+Tool category: `high_impact` (highest risk class; Nova's agent permission settings can ask before it runs).
 <!-- /generated:parameters -->
 
 ---
@@ -83,30 +85,33 @@ Capability bundle: `vault_auth` (load it with `nova.tools_bundle(bundle='vault_a
 
 ```json
 {
+  "found": true,
+  "entryId": "a1b2c3d4",
   "site": "github.com",
   "username": "octocat",
-  "passwordRef": "sref_a819b02fe4918237c1894d",
-  "targetOrigin": "https://github.com",
-  "expiresInSeconds": 7200,
-  "singleUse": true
+  "passwordRef": "A819B02FE4918237C1894D2FF009988",
+  "expiresAt": "2026-10-02T21:55:00Z",
+  "boundOrigin": "github.com"
 }
 ```
+
+The token is single-use and bound to `boundOrigin`; both facts are enforced by `nova.type_selector_secret`, not re-stated as separate response fields.
 
 ---
 
 ## 6. Common Errors & Troubleshooting
 
-| Error Code / Message | Cause | Corrective Action |
+| reasonCode / Message | Cause | Corrective Action |
 | :--- | :--- | :--- |
-| `Vault entry not found: ...` | No saved credentials match the specified domain. | Verify domain name or check stored entries with [`nova.vault_list`](nova-vault-list.md). |
-| `Multiple accounts found` | Multiple credentials exist for the domain and no `username` was specified. | Inspect returned usernames and supply `username` in the call. |
-| `Origin mismatch` | Target tab navigated to another domain before token redemption. | Re-issue a new token on the target origin. |
+| `found: false` ("No vault entry found for '...'.") | No saved credentials match the specified site. | Verify the site, or check stored entries with [`nova.vault_list`](nova-vault-list.md). |
+| `ambiguous: true` ("Multiple accounts for '...' (N). Specify username.") | Multiple credentials exist for the site and no `username` was specified. | Inspect the returned `accounts` and supply `username` in the call. |
+| `vault.site_mismatch` | The target tab is not already showing the entry's site (same host or a subdomain of it). | Navigate the tab to the entry's site first, then retry. |
 
 ---
 
 ## 7. Related Tools & Documentation
 
-* [`nova.type_selector_secret`](nova-type-selector-secret.md) ? Redeem the `SecretRef` to type the password.
-* [`nova.vault_list`](nova-vault-list.md) ? List available credential sites and usernames.
-* [`nova.vault_get`](nova-vault-get.md) ? Inspect site credential metadata without passwords.
-* [Vault & Secret Management](../../../core-features/vault-and-secrets.md) ? Architectural overview of DPAPI-encrypted credential management.
+* [`nova.type_selector_secret`](nova-type-selector-secret.md) — Redeem the `SecretRef` to type the password.
+* [`nova.vault_list`](nova-vault-list.md) — List available credential sites and usernames.
+* [`nova.vault_get`](nova-vault-get.md) — Inspect site credential metadata without passwords.
+* [Vault & Secret Management](../../../core-features/vault-and-secrets.md) — Architectural overview of DPAPI-encrypted credential management.

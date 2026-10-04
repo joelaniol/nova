@@ -1,47 +1,50 @@
-# Browser Memory & Knowledge Board (User Context & Team Collaboration)
+# Browser Memory & Knowledge Board (User Context & Agent Findings)
 
 > [!NOTE]
-> **Browser Memory** (`BrowsingMemoryRepository`) and the **Knowledge Board** (`KnowledgeBoard`) form the user-centric and collaborative memory tier of Nova AI Workspace. They preserve cross-session operator preferences with biological time-decay and allow multi-agent swarms to share intermediate findings on a synchronized whiteboard.
+> **Browser Memory** keeps notes, preferences and session context per domain across sessions, with relevance that decays over time. The **Agent Knowledge Board** is an opt-in shared board where agents record symptoms, refutations and reproductions of problems they hit with Nova's tools, so later agents can find them.
 
 ---
 
 ## 1. Problem Statement & Motivation
 
-Cognitive browser automation architectures typically distinguish only site mechanics (PKS) and transient tab state (OK):
-1. **Loss of Personal Context:** An operator reviews pull request #42 on `github.com` and records notes about unresolved discussion points. Following a browser reboot, the agent forgets these notes, forcing the user to restate the entire context.
-2. **Missing Time-Decay:** Notes that were critical 6 months ago (e.g. a temporary layout workaround) permanently pollute prompt context if they never expire.
-3. **Absence of Multi-Agent Coordination:** When multiple subagents conduct concurrent research (e.g. competitive pricing audits), they lack a shared scratchpad where Agent A can post discoveries for Agent B.
+Browser automation memory usually covers only site mechanics (PKS) and the current tab state (OK):
+1. **Loss of Personal Context:** A user reviews pull request #42 on `github.com` and leaves open discussion points. In the next session, the agent no longer knows this, and the user has to explain the context again.
+2. **Missing Time-Decay:** Notes that mattered months ago keep crowding the context if they never expire.
+3. **Repeated Dead Ends:** When an agent hits a tool problem and works out what does not help, the next agent starts the same investigation from scratch.
 
-**Nova AI Workspace** resolves this through a dual-layer memory architecture:
-* **Browser Memory:** Domain-bound personal operator notes with mathematically calibrated half-lives.
-* **Knowledge Board:** A global, thread-safe whiteboard for asynchronous multi-agent coordination.
+Nova addresses this with two separate stores:
+* **Browser Memory:** Domain-bound notes, preferences and context with a half-life per type.
+* **Agent Knowledge Board:** Findings about tool problems, matched by a structured anchor.
 
 ---
 
-## 2. The Mathematical Decay Model
+## 2. The Decay Model
 
-Browser Memory implements an exponential forgetting curve modeled after biological retention:
+Browser Memory scores relevance with an exponential decay, calculated when memories are read:
 $$\text{Relevance}(t) = \text{InitialWeight} \times e^{-\lambda \cdot \Delta t}$$
 
-Each memory category is calibrated with a tailored half-life:
+Each memory type has its own half-life:
 
-| Memory Category | Half-Life | Purpose |
+| Memory Type | Half-Life | Purpose |
 | :--- | :---: | :--- |
-| **`preference`** | **120 Days** | Stable operator preferences (e.g. "prefers dark mode", "always summarize in German"). |
-| **`note`** | **60 Days** | General workflow notes regarding website behaviors and project milestones. |
-| **`context`** | **14 Days** | Short-lived operational context (e.g. "Ticket #104 in progress, awaiting review"). |
+| **`preference`** | **120 days** | User preferences (e.g. "prefers the compact view on GitHub"). |
+| **`note`** | **60 days** | Explicit notes from the agent or user. |
+| **`context`** | **14 days** | Short-lived session context (e.g. "last visited: github.com/pulls/42"). |
 
-* **Reinforcement on Access:** Every recall query (`nova.memory_recall`) updates the access timestamp, slowing the decay rate of actively used knowledge.
-* **Privacy by Default:** Explicit deletion (`nova.memory_forget`) executes a permanent hard-delete.
+* **Reinforcement on Access:** Every `nova.memory_recall` hit resets the access time and increases the access count, so memories that are used often stay relevant longer.
+* **Limits:** A memory holds up to 2000 characters; there are at most 500 memories per domain. Memories whose relevance has fallen below 0.05 are deleted once the retention period (default 90 days) has passed.
+* **Hard Delete:** `nova.memory_forget` deletes permanently; there is no recovery.
+* **Optional Auto-Capture:** When enabled in the settings, Nova records a `context` memory with domain and path (no page content) on navigation, at most once per domain every 5 minutes. Excluded domains are never captured.
 
 ---
 
-## 3. The Knowledge Board (Multi-Agent Whiteboard)
+## 3. The Agent Knowledge Board
 
-For multi-agent workflows requiring collaborative reasoning:
-* **Shared Bulletin Board:** Subagents post structured findings, discovered URLs, or intermediate data payloads using `nova.board_contribute`.
-* **Consistent State Querying:** Peer agents query the board with `nova.board_get`, eliminating redundant API calls and repeated tab navigations.
-* **Actor Provenance:** Every board entry records the contributing agent's ID (`actorId`), timestamp, and cryptographic evidence hashes.
+The board is off by default and is enabled in the settings (**Enable shared agent knowledge board**).
+* **Contributions:** `nova.board_contribute` opens a topic with an `observation` or appends a `refutation` (a path that was tried and did not help) or a `reproduction` (the symptom confirmed with evidence). Each contribution carries a structured anchor (component, capability, operation, symptom class, optional host), optional evidence references, and an idempotency key.
+* **Hints on failures:** When a tool call fails with a symptom that matches an existing topic, Nova adds a `boardHint` to the result with the topic ID and a suggested `nova.board_get` call.
+* **Reading:** `nova.board_get` reads a topic by ID or exact anchor. By default (`blind`), the original hypothesis is hidden while the symptom and refutations are shown, so the next agent is not steered by an earlier guess.
+* **Provenance:** Each contribution records which agent client wrote it.
 
 ---
 
@@ -49,27 +52,28 @@ For multi-agent workflows requiring collaborative reasoning:
 
 | Component | Responsibility |
 | :--- | :--- |
-| **`BrowsingMemoryRepository`** | SQLite persistence (`pks_browsing_memory`), deduplication, relevance scoring, and decay. |
-| **`BrowsingMemoryService`** | High-level memory service with caching and domain exclusion filtering. |
-| **`KnowledgeBoardStore`** | Thread-safe in-memory and persisted storage for multi-agent contributions. |
+| **`BrowsingMemoryRepository`** | SQLite persistence (`pks_browsing_memory` in `pks.db`), deduplication, relevance scoring, and decay. |
+| **`BrowsingMemoryService`** | Memory service with domain exclusion, auto-capture and pruning. |
+| **`KnowledgeBoardStore`** | SQLite persistence of board topics, contributions and hint deliveries (`agent-knowledge-board.db`). |
 
 ---
 
 ## 5. MCP Tooling for Memory & Board
 
-* **Personal Browser Memory:**
-  * `nova.memory_note`: Saves an explicit note, preference, or context snippet for the target domain.
-  * `nova.memory_recall`: Retrieves relevant memories for a domain or URL (ordered by relevance and decay).
-  * `nova.memory_forget`: Purges specified notes or all memories associated with a domain.
-  * `nova.memory_stats`: Returns storage telemetry, category distributions, and expiration schedules.
-* **Collaborative Knowledge Board:**
-  * `nova.board_contribute`: Posts a fresh hypothesis, finding, or dataset to the shared board.
-  * `nova.board_get`: Reads active board topics with filters for tags, domains, and contributing actors.
+* **Browser Memory:**
+  * `nova.memory_note`: Saves a note, preference or context entry, bound to a domain (by default the active tab's domain) and optionally a URL path pattern.
+  * `nova.memory_recall`: Retrieves memories for a domain or across all domains, sorted by decay-weighted relevance.
+  * `nova.memory_forget`: Deletes memories by domain, ID, type, or all of them.
+* **Agent Knowledge Board:**
+  * `nova.board_contribute`: Opens a topic or appends a contribution.
+  * `nova.board_get`: Reads one topic by topic ID or exact anchor.
+
+`nova.memory_stats` and `nova.memory_add_candidate` belong to the Learning Candidate Journal, not to Browser Memory; see [Learning Pipeline (ALP)](learning-pipeline-alp.md).
 
 ---
 
 ## Related Documentation
 
 * **[Episodic Task Memory (ETM)](etm-and-task-memory.md)** — Work unit tracking and task profile management.
-* **[Operational Knowledge (OK)](operational-knowledge.md)** — Dynamic tab state and account capability tracking.
-* **[Phenomenological Knowledge Store (PKS)](pks.md)** — Procedural UI memory and learned fast-paths.
+* **[Operational Knowledge (OK)](operational-knowledge.md)** — Live tab state and account capabilities.
+* **[Phenomenological Knowledge Store (PKS)](pks.md)** — Procedural UI memory and learned playbooks.

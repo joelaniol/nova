@@ -8,7 +8,6 @@ Reads a UTF-8 text file from a task’s shared workspace folder.
 
 `nova.scheduled_task_workspace_read` reads text content from a file inside the task's `shared/` directory. It returns the complete file string, encoding information, and byte size.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
 ---
@@ -24,6 +23,7 @@ Reads a UTF-8 text file from a task’s shared workspace folder.
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -47,16 +47,17 @@ Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='sc
   "content": [
     {
       "type": "text",
-      "text": "Read price.json (128 bytes)."
+      "text": "{\n  \"sku\": \"101\",\n  \"price\": 49.99,\n  \"currency\": \"USD\",\n  \"timestamp\": \"2026-10-02T20:30:12Z\"\n}"
     }
   ],
   "structuredContent": {
-    "ok": true,
     "taskId": "task-7c81a2f0",
     "relativePath": "price.json",
-    "byteCount": 128,
+    "content": "{\n  \"sku\": \"101\",\n  \"price\": 49.99,\n  \"currency\": \"USD\",\n  \"timestamp\": \"2026-10-02T20:30:12Z\"\n}",
     "encoding": "utf-8",
-    "content": "{\n  \"sku\": \"101\",\n  \"price\": 49.99,\n  \"currency\": \"USD\",\n  \"timestamp\": \"2026-10-02T20:30:12Z\"\n}"
+    "bytesRead": 128,
+    "size": 128,
+    "lastWriteUtc": "2026-10-02T20:30:12Z"
   }
 }
 ```
@@ -66,6 +67,7 @@ Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='sc
 ## 4. Operational Best Practices
 
 * **Safe Path Resolution:** Only files inside the task's `shared/` directory can be accessed; attempts to access parent directories fail closed.
+* **Size Limit:** Files larger than 1 MB are rejected; read them in pieces via your own logic or shrink the output written to `shared/`.
 * **JSON Parsing:** When reading JSON artifacts, parse `structuredContent.content` in your agent workflow to make automated decisions.
 
 ---

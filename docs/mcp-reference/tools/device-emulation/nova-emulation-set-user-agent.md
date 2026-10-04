@@ -8,7 +8,6 @@ Overrides the HTTP User-Agent header, navigator.userAgent, and client hints for 
 
 `nova.emulation_set_user_agent` overrides browser identity for a specific tab via CDP. For Chromium user agents, it automatically populates `navigator.userAgentData` and `Sec-CH-UA` headers to pass sophisticated bot detection checks.
 
-* **Security Tier:** Tier 2 (Identity Emulation)
 * **Core Architecture Guide:** [Fingerprint & Identity Systems](../../../core-features/fingerprint-and-identity.md)
 
 ---
@@ -24,6 +23,7 @@ Overrides the HTTP User-Agent header, navigator.userAgent, and client hints for 
 | `platform` | `string` | No | — | — | Navigator.platform override, e.g. 'iPhone', 'Linux x86_64', 'Win32', 'MacIntel'. |
 
 Capability bundle: `device_emulation` (load it with `nova.tools_bundle(bundle='device_emulation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -47,12 +47,13 @@ Capability bundle: `device_emulation` (load it with `nova.tools_bundle(bundle='d
   "content": [
     {
       "type": "text",
-      "text": "User-agent override applied (platform=iPhone, clientHints=False)."
+      "text": "User agent override set."
     }
   ],
   "structuredContent": {
     "targetId": "tab-1",
     "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1",
+    "acceptLanguage": null,
     "platform": "iPhone",
     "clientHintsApplied": false
   }

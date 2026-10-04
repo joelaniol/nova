@@ -6,9 +6,8 @@ Permanently removes a sandbox profile and deletes its storage, cookies, and cach
 
 ## 1. Overview
 
-`nova.sandbox_delete` deletes a sandbox profile and permanently removes its browser data directory from disk. All tabs belonging to the sandbox are immediately closed.
+`nova.sandbox_delete` removes a sandbox profile's settings entry and its disk anchor, and schedules its browser data directory for cleanup; all tabs belonging to the sandbox are closed. At least one sandbox must always remain — the call is rejected if it would delete the last one.
 
-* **Security Tier:** Tier 3 (Destructive Sandbox Deletion)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
 ---
@@ -24,6 +23,7 @@ Permanently removes a sandbox profile and deletes its storage, cookies, and cach
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `high_impact` (highest risk class; Nova's agent permission settings can ask before it runs).
 <!-- /generated:parameters -->
 
 ---
@@ -35,7 +35,7 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
 {
   "name": "nova.sandbox_delete",
   "arguments": {
-    "sandboxId": "sb-c819a",
+    "sandboxId": "C",
     "confirm": true
   }
 }
@@ -47,16 +47,17 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "Deleted sandbox sb-c819a and purged its profile data."
+      "text": "Sandbox 'C' deleted."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "sandboxId": "sb-c819a",
-    "status": "Deleted"
+    "sandboxId": "C",
+    "status": "deleted"
   }
 }
 ```
+
+This response has no `ok` field.
 
 ---
 

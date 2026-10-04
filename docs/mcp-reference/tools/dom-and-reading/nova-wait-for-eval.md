@@ -2,8 +2,6 @@
 
 > **Polls the target tab until a JavaScript expression evaluates to a truthy value or times out.**
 
-* **Security Tier:** Tier 1 (Synchronization)
-* **Core Feature Guide:** [DOM Perception & Semantic Extraction](../../../core-features/tob.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
@@ -31,6 +29,7 @@
 | `screenshotResponseMode` | `string` | No | `"inline"` | `inline`, `reference`, `thumbnail+reference`, `auto` | Screenshot delivery mode when includeScreenshot=true. inline returns the image directly; reference stores a nova://screenshot resource; thumbnail+reference returns a small preview plus resource; auto lets Nova choose based on budget. |
 
 Capability bundles: `browser_automation`, `form_submission`, `page_read_debug`.
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -40,7 +39,7 @@ Capability bundles: `browser_automation`, `form_submission`, `page_read_debug`.
 ### JSON-RPC Request
 ```json
 {
-  "name": "nova_wait_for_eval",
+  "name": "nova.wait_for_eval",
   "arguments": {
     "targetId": "tab-1",
     "expression": "window.__dataLoaded === true",
@@ -55,17 +54,21 @@ Capability bundles: `browser_automation`, `form_submission`, `page_read_debug`.
   "content": [
     {
       "type": "text",
-      "text": "Predicate evaluated to true after 1,200ms."
+      "text": "Condition met after 1200ms. Result: true"
     }
   ],
   "structuredContent": {
-    "ok": true,
     "targetId": "tab-1",
-    "resolved": true,
-    "elapsedMs": 1200
+    "ok": true,
+    "waitedMs": 1200,
+    "result": true
   }
 }
 ```
+
+On timeout, `ok` is `false`, `waitedMs` is replaced by `reasonCode: "wait_for_eval.timeout"` plus
+`reason: "timeout"`, and `lastResult` carries the last (falsy) value observed — the call never
+throws for a timeout.
 
 ---
 

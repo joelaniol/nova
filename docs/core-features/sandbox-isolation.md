@@ -1,93 +1,67 @@
-# Multi-Sandbox Session Isolation & Profile Security
+# Multi-Sandbox Session Isolation
 
 > [!NOTE]
-> The multi-sandbox architecture of Nova AI Workspace allows concurrent, interference-free execution of multiple isolated user profiles, authentication sessions, and network routing configurations within a single WinUI 3 desktop application.
+> Sandboxes let you stay signed in to the same website with different accounts at the same time. Each sandbox has its own browser profile with its own cookies, storage and cache, so a login in one sandbox does not affect another.
 
 ---
 
-## 1. Problem Statement: Session Bleeding & Identity Collision
+## 1. Problem Statement: Session Bleeding
 
-Automated workflows and multi-agent operations frequently require concurrent execution across distinct user personas:
-* **Personal vs. Corporate:** Concurrent sessions in WhatsApp Web, Google Workspace, GitHub, or LinkedIn.
-* **Testing vs. Production:** Verifying web applications with distinct permission roles (Administrator, Auditor, Customer) simultaneously in the same workstation.
-* **Privacy & Cookie Leak Risks:** In conventional multi-tab browsers, tabs share the same global cookie jar and LocalStorage, leading to inadvertent session overwrites or cross-site tracking.
+Many workflows need several identities side by side:
+* **Personal vs. work:** two accounts of the same web app, open at the same time.
+* **Testing roles:** checking a web app as administrator and as customer in parallel.
 
-**Nova AI Workspace** resolves this through a strict, hardware-accelerated **Sandbox Architecture**.
+In a normal browser window, all tabs share one cookie jar and one set of web storage, so a second login overwrites the first.
 
 ---
 
-## 2. Partitioned Storage Architecture
+## 2. How Sandboxes Are Stored
 
-Each sandbox in Nova (designated by letters such as `A`, `B`, `C` or custom unique IDs) is an independent, completely decoupled WebView2 execution context:
+Each sandbox is a separate WebView2 browser profile. All profiles live under one shared WebView2 data folder inside the Nova profile folder:
 
 ```
-%LOCALAPPDATA%\NovaBrowser\
-  ├── settings.json                    # Sandbox configurations & persona definitions
-  ├── EBWebView\
-  │     ├── A\                         # Profile A: Isolated cookies, cache, web storage
-  │     ├── B\                         # Profile B: Isolated cookies, cache, web storage
-  │     └── C\                         # Profile C: Isolated cookies, cache, web storage
-  └── pks.db                           # Shared knowledge base with sandbox affinity
+%LOCALAPPDATA%\nova-cognitive\Nova\
+  ├── settings.json                        # Sandbox list (name, color, start URL, ...)
+  └── UserData\Shared\EBWebView\
+        ├── WV2Profile_<sandbox-uid>\      # One profile per sandbox
+        └── WV2Profile_<sandbox-uid>\
 ```
+
+Installations upgraded from older versions may still use `%LOCALAPPDATA%\NovaBrowser\` as the profile folder.
+
+Sandboxes are addressed by a short ID (`A`, `B`, `C`, ...) and also carry a persistent internal ID that names their profile folder. Up to 100 sandboxes can exist; at least one always remains.
 
 ```mermaid
 flowchart TD
-    subgraph Host["Nova AI Workspace Host (WinUI 3)"]
-        Nav["Address Bar & Sandbox Switcher"]
-    end
-
-    subgraph SandboxA["Sandbox A (e.g. ChatGPT / Personal)"]
-        WebA["WebView2 Instance A"]
-        StorageA["Isolated User Data Dir (EBWebView/A)
-• Cookies
-• LocalStorage / IndexedDB
-• Cache & ServiceWorker"]
-        ProxyA["Proxy: Direct Connection (Home IP)"]
-    end
-
-    subgraph SandboxB["Sandbox B (e.g. Business / Recruiter)"]
-        WebB["WebView2 Instance B"]
-        StorageB["Isolated User Data Dir (EBWebView/B)
-• Cookies
-• LocalStorage / IndexedDB
-• Cache & ServiceWorker"]
-        ProxyB["Proxy: Dedicated SOCKS5/HTTP Proxy"]
-    end
-
-    Nav --> WebA
-    Nav --> WebB
-    WebA --> StorageA
-    WebA --> ProxyA
-    WebB --> StorageB
-    WebB --> ProxyB
+    Nova["Nova AI Workspace - one browser process"]
+    Nova --> A["Sandbox A - own profile"]
+    Nova --> B["Sandbox B - own profile"]
+    A --> SA["Cookies, localStorage, IndexedDB, cache"]
+    B --> SB["Cookies, localStorage, IndexedDB, cache"]
 ```
 
 ---
 
-## 3. Core Isolation Guarantees
+## 3. What Is Separated — and What Is Not
 
-1. **Complete Storage & Session Partitioning:**
-   * Cookies, Web Storage (`localStorage`, `sessionStorage`, `IndexedDB`), and HTTP caches are strictly partitioned per sandbox.
-   * Authenticating in Sandbox A has zero impact on Sandbox B.
-2. **Dedicated Proxy Profiles:**
-   * Each sandbox can be bound to its own dedicated proxy route (SOCKS5 or HTTP/HTTPS).
-   * Built-in WebRTC and DNS leak guards prevent exposing the real host IP address in anonymized sandboxes.
-3. **Fingerprint & Identity Customization:**
-   * Specific User-Agents, viewport metrics, touch capabilities, and system locales can be assigned per sandbox.
-4. **Resilient Persistence & Reconciliation:**
-   * Sandboxes possess persistent Unique Identifiers (UIDs). At startup, Nova reconciles sandbox definitions with filesystem directory anchors, preventing accidental loss of persistent sessions.
+**Separated per sandbox:**
+* Cookies, `localStorage`, `sessionStorage`, IndexedDB, cache and other profile data.
+* Signing in in sandbox A has no effect on sandbox B.
+* Fingerprint protection can be overridden per sandbox (see [Fingerprint Protection & Browser Identity](fingerprint-and-identity.md)).
+
+**Shared by all sandboxes:**
+* **One browser process and one proxy.** All sandboxes and browser tabs run in the same WebView2 browser process, which takes its proxy from the global setting. A separate proxy per sandbox is currently not possible; sandboxes that were set to their own proxy are switched to follow the global one. See [Proxy Routing & Network](proxy-and-network.md).
+* **WebRTC and DNS protection.** "Protect WebRTC local IP leaks" (off by default) applies to the whole browser. With a SOCKS5 proxy it also routes DNS lookups through the proxy; if several SOCKS5 proxies are configured, this DNS protection covers only one of them.
+* **Browser identity.** The user-agent preset set with `nova.identity_set` applies to all tabs.
+
+> [!IMPORTANT]
+> Sandboxes separate sessions; they do not give each sandbox its own network identity. Sites can still see the same IP address and the same browser engine across sandboxes.
 
 ---
 
-## 4. Test Profile Isolation (Critical System Invariant)
+## 4. Persistence & Recovery
 
-> [!CAUTION]
-> Real user sandboxes (containing active sessions in ChatGPT, WhatsApp, etc.) must NEVER be overwritten or accessed during automated tests or smoke runs.
-
-Nova enforces strict profile isolation for testing:
-* **Environment Variable `NOVA_TEST_LOCALAPPDATA_DIR`:**
-  All automated test suites (`dotnet test`, xUnit, PowerShell selftests) redirect `StoragePaths` to an isolated temporary scratch directory.
-* Neither the production `settings.json` nor real session tokens are touched during test execution.
+Each sandbox profile folder contains a small metadata file. At startup Nova compares the sandbox list in `settings.json` with these folders; if the list is ever empty while profile folders still exist, Nova restores the sandboxes from them, so a damaged settings file does not lose your logins. A deleted sandbox is marked so that it is not restored by accident.
 
 ---
 
@@ -95,27 +69,17 @@ Nova enforces strict profile isolation for testing:
 
 | Tool | Purpose |
 | :--- | :--- |
-| `nova.sandbox_context` | Retrieves metadata, assigned proxy, and identity configuration of a sandbox. |
-| `nova.resolve_sandbox` | Deterministically resolves sandbox references and intent keys to container IDs. |
-| `nova.sandbox_create` / `update` | Spawns or modifies sandbox containers (display name, color tag, start URL). |
-| `nova.sandbox_delete` | Permanently removes a sandbox profile and deletes its isolated storage directories. |
-| `nova.proxy_switch` | Dynamically switches the active proxy route assigned to a sandbox at runtime. |
-| `nova.cookie_list` / `cookie_set` / `cookie_delete` | Inspects and manipulates cookies strictly within the target sandbox context. |
-| `nova.storage_inspect` | Inspects `localStorage` and `sessionStorage` of a sandbox origin. |
-
----
-
-## 6. Under the Hood
-
-* **Sandbox Identity & Context:** `Sandbox` subsystem
-* **Storage & Profile Path Resolution:** `StoragePaths`
-* **WebView2 Lifecycle & Surface Hosting:** `MainPage`
-* **Tab & Session Management:** `TabManager`
+| `nova.sandbox_context` | Metadata and context of a sandbox. |
+| `nova.resolve_sandbox` | Picks the best matching sandbox for an intent key (e.g. `email.compose`), with optional service and account hints. |
+| `nova.sandbox_create` / `nova.sandbox_update` | Creates or changes a sandbox (name, color, start URL, purpose, account label, aliases, preferred intents; `update` can also pause it). |
+| `nova.sandbox_delete` | Removes a sandbox and its profile data (`confirm: true` required). |
+| `nova.cookie_list` / `nova.cookie_set` / `nova.cookie_delete` | Cookies of the target tab's or sandbox's profile. |
+| `nova.storage_inspect` | `localStorage` or `sessionStorage` of the target page. |
 
 ---
 
 ## Related Documentation
 
-* **[Site Data & Privacy Management](site-data-management.md)** — Cookie jars, storage, and cache clearing.
-* **[Proxy Routing & Stealth Network](proxy-and-network.md)** — SOCKS5/HTTP routing and WebRTC leak protection.
-* **[Anti-Fingerprint Protection](fingerprint-and-identity.md)** — Hardware noise seeding and client hints.
+* **[Site Data & Privacy Management](site-data-management.md)** — Cookies, storage and cache clearing.
+* **[Proxy Routing & Network](proxy-and-network.md)** — Proxy profiles and WebRTC leak protection.
+* **[Fingerprint Protection & Browser Identity](fingerprint-and-identity.md)** — Fingerprint protection levels and browser identity presets.

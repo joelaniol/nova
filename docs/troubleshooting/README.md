@@ -1,6 +1,6 @@
 # Troubleshooting & Diagnostics Hub
 
-Welcome to the **Nova AI Workspace Troubleshooting & Diagnostics Hub**. This section provides actionable guidance, log locations, and proven recovery procedures for common runtime issues, agent disconnections, and system diagnostics.
+This section collects log locations, diagnosis steps and recovery procedures for **Nova AI Workspace**: agent connection problems, log analysis, and restoring tabs and sandboxes.
 
 ---
 
@@ -9,18 +9,18 @@ Welcome to the **Nova AI Workspace Troubleshooting & Diagnostics Hub**. This sec
 ```mermaid
 flowchart TD
     A["Troubleshooting Hub"] --> B["1. Agent & MCP Connection Issues<br>(Bridge, Port, Antigravity, Client Config)"]
-    A --> C["2. Diagnostics & Log Analysis<br>(diagnostics.log, mcp-transport.log, Error Codes)"]
-    A --> D["3. Sandbox & Session Recovery<br>(Orphaned Tabs, Crash Dumps, Emergency Stops)"]
+    A --> C["2. Diagnostics & Log Analysis<br>(Profile Folder, Logs, Crash Dumps, Error Codes)"]
+    A --> D["3. Sandbox & Session Recovery<br>(Orphaned Tabs, Tab Claims, Media Stop, Sandbox Restore)"]
 ```
 
 1. **[Agent & MCP Connection Issues (`agent-connection-issues.md`)](agent-connection-issues.md)**
    Step-by-step diagnosis when an agent cannot reach Nova, Claude Desktop shows no Nova tools, Antigravity / Gemini CLI quirks, and client switches like `--mirror-structured-content`.
 
 2. **[Diagnostics & Log Analysis (`diagnostics.md`)](diagnostics.md)**
-   Where logs and crash dumps are stored on Windows (`%LOCALAPPDATA%\NovaBrowser\`), how to stream real-time logs via MCP, and how to decode standard JSON-RPC error codes (`-32602`, `-32002`).
+   Where Nova keeps its logs and crash dumps (`%LOCALAPPDATA%\nova-cognitive\Nova\`, or `%LOCALAPPDATA%\NovaBrowser\` on older installations), how agents read the transport log over MCP, and what the common error codes (`-32602`, `-32040`) mean.
 
 3. **[Sandbox & Session Recovery (`sandbox-and-session-recovery.md`)](sandbox-and-session-recovery.md)**
-   Procedures for clearing orphaned background tabs, recovering closed sandbox contexts, releasing hung leases, and triggering emergency media stops.
+   Closing abandoned agent tabs, resolving tab claims held by another agent, stopping camera and microphone streams, and how Nova restores sandboxes after a damaged `settings.json`.
 
 ---
 

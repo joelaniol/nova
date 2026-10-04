@@ -8,8 +8,6 @@ Retrieves complete metadata and payload for a single notification by ID.
 
 `nova.notifications_get` fetches full details of a specific notification entry, including origin, target tab, sandbox association, delivery state, and timestamps.
 
-* **Security Tier:** Tier 1 (Safe)
-* **Core Architecture Guide:** [Closed-Loop System & Event Propagation](../../../core-features/closed-loop-system.md)
 
 ---
 
@@ -21,6 +19,7 @@ Retrieves complete metadata and payload for a single notification by ID.
 | `notificationId` | `string` | Yes | — | — | The notification ID to retrieve. |
 
 Capability bundle: `notifications` (load it with `nova.tools_bundle(bundle='notifications')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -60,6 +59,8 @@ Capability bundle: `notifications` (load it with `nova.tools_bundle(bundle='noti
   }
 }
 ```
+
+Shortened for readability: the full entry also carries `origin`, `profileId`, `iconPath`, `imagePath`, `isSilent`, `requiresInteraction`, `language`, `timestampMs`, and `deliveryState` (`"pending"`, `"delivered"`, `"failed"`, or `"suppressed"` — this tracks only whether the OS toast went out; inbox persistence is unaffected).
 
 ---
 

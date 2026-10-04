@@ -6,10 +6,9 @@ Explicitly acknowledges a MUST-read domain note block to unblock subsequent tool
 
 ## 1. Overview
 
-`nova.domain_note_ack` acknowledges a mandatory compliance or safety note encountered during navigation, satisfying the server-side safety gate.
+`nova.domain_note_ack` acknowledges a MUST-read domain note, satisfying the server-side gate that otherwise blocks further tool calls on that domain's tab.
 
-* **Security Tier:** Tier 1 (Acknowledgment Gate)
-* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
+* **Core Architecture Guide:** [Operational Knowledge](../../../core-features/operational-knowledge.md)
 
 ---
 
@@ -23,6 +22,7 @@ Explicitly acknowledges a MUST-read domain note block to unblock subsequent tool
 | `targetId` | `string` | No | — | — | Optional tab targetId. Defaults to the active tab. Must point at a tab whose host matches `domain` for the acknowledge to apply where the gate fires. |
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -46,17 +46,18 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "Acknowledged must-read note auth_hint for internal.corp."
+      "text": "Acknowledged site-note internal.corp/auth_hint. Subsequent tool calls on this tab pass freely."
     }
   ],
   "structuredContent": {
-    "ok": true,
+    "acknowledged": true,
     "domain": "internal.corp",
-    "key": "auth_hint",
-    "acknowledged": true
+    "key": "auth_hint"
   }
 }
 ```
+
+The acknowledge is scoped to the resolved tab; a `host_mismatch` error is returned if the active (or specified) tab is not on `domain`, and `no_target_resolved` if no tab can be resolved at all.
 
 ---
 

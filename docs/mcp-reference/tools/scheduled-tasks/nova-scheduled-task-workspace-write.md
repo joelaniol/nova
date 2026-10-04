@@ -8,7 +8,6 @@ Atomically writes a UTF-8 text file into a task’s shared workspace folder (tem
 
 `nova.scheduled_task_workspace_write` writes UTF-8 text content into a file located in a task's `shared/` folder. To prevent partial or corrupt reads by concurrent runs, Nova writes to a temporary file first and performs an atomic rename.
 
-* **Security Tier:** Tier 2 (Workspace Write)
 * **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
 
 ---
@@ -25,6 +24,7 @@ Atomically writes a UTF-8 text file into a task’s shared workspace folder (tem
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='scheduled_tasks')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -49,11 +49,10 @@ Capability bundle: `scheduled_tasks` (load it with `nova.tools_bundle(bundle='sc
   "content": [
     {
       "type": "text",
-      "text": "Atomically wrote config.json (48 bytes) into task-7c81a2f0 workspace."
+      "text": "Written 48 bytes to shared/config.json."
     }
   ],
   "structuredContent": {
-    "ok": true,
     "taskId": "task-7c81a2f0",
     "relativePath": "config.json",
     "bytesWritten": 48

@@ -6,9 +6,8 @@ Renames or moves a remote file or directory on an FTP/FTPS server.
 
 ## 1. Overview
 
-`nova.ftp_rename` renames or relocates a file or directory on an FTP/FTPS host.
+`nova.ftp_rename` renames or moves one remote FTP/FTPS file or directory. Requires the connector's transfer-full access and Nova's independent global MutatingRemote confirmation policy. A missing source or a protected existing destination returns a truthful reasonCode; `overwrite: true` is limited to regular files — directories and links are never overwritten. A plaintext profile additionally needs the user's debug/legacy option plus `allowInsecure: true`.
 
-* **Security Tier:** Tier 2 (Remote Mutation)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
 ---
@@ -28,6 +27,7 @@ Renames or moves a remote file or directory on an FTP/FTPS server.
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -52,13 +52,30 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
   "content": [
     {
       "type": "text",
-      "text": "Renamed /public_html/app.old.js to /public_html/app.bak.js."
+      "text": "Renamed the remote path via 'Web Host'."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "oldPath": "/public_html/app.old.js",
-    "newPath": "/public_html/app.bak.js"
+    "profileId": "conn-ftp-01",
+    "status": "renamed",
+    "changed": true,
+    "stateIndeterminate": false,
+    "reasonCode": null,
+    "durationMs": 70,
+    "remotePathTrust": "untrusted_remote_state",
+    "localPathTrust": "host_verified_local_paths",
+    "entries": [],
+    "returnedCount": 0,
+    "hasMore": false,
+    "files": [],
+    "transferredCount": 0,
+    "transferredBytes": 0,
+    "affectedRemotePaths": [
+      "/public_html/app.old.js",
+      "/public_html/app.bak.js"
+    ],
+    "affectedLocalPaths": []
   }
 }
 ```
@@ -67,7 +84,8 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
 
 ## 4. Operational Best Practices
 
-* **Atomic Deployments:** Deploy new code by uploading to a versioned directory and renaming over FTP.
+* **Atomic Deployments:** Deploy new code by uploading to a staging name with [`nova.ftp_put`](nova-ftp-put.md) and renaming it into place.
+* **Overwrite Is File-Only:** `overwrite: true` replaces an existing regular-file destination only; an existing directory or link destination is never overwritten.
 
 ---
 

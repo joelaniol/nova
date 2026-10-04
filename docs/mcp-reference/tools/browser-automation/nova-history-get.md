@@ -2,15 +2,13 @@
 
 > **Retrieves session navigation history entries, active index, and title metadata for a tab.**
 
-* **Security Tier:** Tier 1 (Read-Only History)
-* **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.history_get` returns the forward/backward navigation stack of the target tab, including visited URLs, timestamps, page titles, and the current index.
+`nova.history_get` returns the WebView2 navigation history stack of the target tab: each entry's index, ID, URL, title, and transition type, plus the current index and whether the tab can still go back or forward.
 
 ---
 
@@ -22,6 +20,7 @@
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -49,21 +48,39 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
   ],
   "structuredContent": {
     "ok": true,
+    "status": "ok",
+    "reasonCode": null,
+    "stage": "history_get",
+    "retryable": false,
     "targetId": "tab-1",
     "currentIndex": 3,
+    "canGoBack": true,
+    "canGoForward": false,
+    "totalEntries": 4,
+    "truncated": false,
     "entries": [
       {
+        "index": 0,
+        "id": 1001,
         "url": "https://example.com",
-        "title": "Example Domain"
+        "title": "Example Domain",
+        "transitionType": "typed",
+        "isCurrent": false
       },
       {
+        "index": 3,
+        "id": 1004,
         "url": "https://example.com/login",
-        "title": "Login"
+        "title": "Login",
+        "transitionType": "link",
+        "isCurrent": true
       }
     ]
   }
 }
 ```
+
+The full entry list can be large; large stacks are clipped to a maximum entry count, with `truncated`/`droppedBefore`/`droppedAfter` reporting what was cut.
 
 ---
 

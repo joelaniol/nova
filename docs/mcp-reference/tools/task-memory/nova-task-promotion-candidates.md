@@ -8,7 +8,6 @@ Lists guidance log entries and override patterns that are candidates for profile
 
 `nova.task_promotion_candidates` surfaces frequently observed workarounds and high-confidence guidance entries that are ready for permanent promotion.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
 
 ---
@@ -22,6 +21,7 @@ Lists guidance log entries and override patterns that are candidates for profile
 | `threshold` | `integer` | No | `3` | 1–100 | Minimum occurrence count to qualify as candidate. Default: 3. |
 
 Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_memory')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -44,22 +44,31 @@ Capability bundle: `task_memory` (load it with `nova.tools_bundle(bundle='task_m
   "content": [
     {
       "type": "text",
-      "text": "Found 1 guidance promotion candidate for tp-checkout-01."
+      "text": "{\"profileId\":\"tp-checkout-01\",\"threshold\":3,\"guidanceCandidates\":[...],\"guidanceCandidateCount\":1, ...}"
     }
   ],
   "structuredContent": {
-    "ok": true,
     "profileId": "tp-checkout-01",
-    "candidates": [
+    "threshold": 3,
+    "guidanceCandidates": [
       {
         "guidanceLogId": "log-guid-401",
-        "text": "Modal requires clicking backdrop...",
-        "confidence": 0.92
+        "guidanceKind": "workflow",
+        "payload": { "text": "Modal requires clicking backdrop to dismiss." },
+        "sourceKind": "agent",
+        "occurrenceCount": 4,
+        "status": "pending",
+        "createdAtUtc": "2026-09-18T09:00:00Z"
       }
-    ]
+    ],
+    "guidanceCandidateCount": 1,
+    "overrideCandidates": [],
+    "overrideCandidateCount": 0
   }
 }
 ```
+
+There is no separate summary sentence: `content[0].text` is the same structured data serialized as plain JSON text. There is no `candidates` or `confidence` field — guidance candidates are listed under `guidanceCandidates` (by `occurrenceCount >= threshold`), and recurring override patterns are listed separately under `overrideCandidates`.
 
 ---
 

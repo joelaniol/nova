@@ -2,8 +2,6 @@
 
 > **Lists in-memory Blob and Object URLs (blob:http://...) created by the page.**
 
-* **Security Tier:** Tier 1 (Read-Only Resource State)
-* **Core Feature Guide:** [DOM Perception & Semantic Extraction](../../../core-features/tob.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
@@ -27,6 +25,7 @@
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -36,7 +35,7 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
 ### JSON-RPC Request
 ```json
 {
-  "name": "nova_page_blobs_list",
+  "name": "nova.page_blobs_list",
   "arguments": {
     "targetId": "tab-1"
   }
@@ -49,22 +48,57 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
   "content": [
     {
       "type": "text",
-      "text": "Found 2 blob URLs: blob:https://example.com/3f8a-..."
+      "text": "1 live blob: URL(s) across 1 frame(s) (1 from the DOM, 0 from the createObjectURL watch)."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "targetId": "tab-1",
+    "count": 1,
+    "totalFound": 1,
+    "limit": 50,
+    "truncated": false,
+    "coverage": "dom_only",
+    "watchActive": false,
+    "watchInstalled": false,
+    "probeMetadata": true,
+    "scannedFrames": 1,
+    "inaccessibleFrames": 0,
+    "droppedUnresolvable": 0,
+    "revokedTotal": null,
+    "revokedSinceLastCall": null,
+    "revokedUrls": [],
+    "mediaHints": {
+      "audioElements": 0,
+      "videoElements": 0,
+      "mediaElementsWithBlobSrc": 0,
+      "mediaElementsWithoutBlobSrc": 0,
+      "mediaSourceSupported": true,
+      "webAudioSupported": true,
+      "audioContextsCreated": null,
+      "decodeAudioDataCalls": null,
+      "advice": ""
+    },
     "blobs": [
       {
         "url": "blob:https://example.com/3f8a-9b10",
         "mimeType": "application/pdf",
-        "sizeBytes": 154200
+        "sizeBytes": 154200,
+        "source": "dom",
+        "ownerSelector": "#invoice-link",
+        "ownerTag": "a",
+        "ownerAttribute": "href",
+        "framePath": null,
+        "sequence": null,
+        "createdAtMs": null
       }
     ]
   }
 }
 ```
+
+There is no `targetId` field in the response (only in the request). `revokedTotal`/
+`revokedSinceLastCall` stay `null` unless `watch: true` was passed on a previous call — null means
+"not measured", not "zero revocations".
 
 ---
 

@@ -6,9 +6,8 @@ Downloads a remote regular file over FTP/FTPS into Downloads or the workspace.
 
 ## 1. Overview
 
-`nova.ftp_get` transfers a single file from an FTP/FTPS server to the local workspace or Downloads folder.
+`nova.ftp_get` downloads one remote regular file over FTP/FTPS into Downloads or Nova's host-verified current workspace. Requires the connector's transfer-read access plus Nova's persistent-write policy. The file is staged through an already-validated local handle and committed only after its exact byte count is received; an existing destination is preserved unless `overwrite: true`. Remote links and directory recursion are intentionally rejected — this tool transfers exactly one regular file. A plaintext profile additionally needs the user's debug/legacy option plus `allowInsecure: true`.
 
-* **Security Tier:** Tier 2 (File Transfer)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
 ---
@@ -29,6 +28,7 @@ Downloads a remote regular file over FTP/FTPS into Downloads or the workspace.
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -53,14 +53,36 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
   "content": [
     {
       "type": "text",
-      "text": "Downloaded logo.svg (8 KB) over FTP."
+      "text": "Downloaded 1 file(s) via 'Web Host' (8192 bytes)."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "remotePath": "/public_html/assets/logo.svg",
-    "localPath": "assets/logo.svg",
-    "bytesTransferred": 8192
+    "profileId": "conn-ftp-01",
+    "status": "downloaded",
+    "changed": true,
+    "stateIndeterminate": false,
+    "reasonCode": null,
+    "durationMs": 430,
+    "remotePathTrust": "untrusted_remote_state",
+    "localPathTrust": "host_verified_local_paths",
+    "entries": [],
+    "returnedCount": 0,
+    "hasMore": false,
+    "files": [
+      {
+        "source": "/public_html/assets/logo.svg",
+        "destination": "assets/logo.svg",
+        "size": 8192,
+        "lastWriteUtc": "2026-10-02T12:00:00Z",
+        "sourceTrust": "untrusted_remote_state",
+        "destinationTrust": "host_verified_local_path"
+      }
+    ],
+    "transferredCount": 1,
+    "transferredBytes": 8192,
+    "affectedRemotePaths": [],
+    "affectedLocalPaths": ["assets/logo.svg"]
   }
 }
 ```
@@ -69,7 +91,9 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
 
 ## 4. Operational Best Practices
 
-* **Path Security:** Destination paths are validated to prevent writing outside authorized workspace bounds.
+* **Path Security:** `localPath` is checked against Downloads/workspace roots before any prompt or connection; a path outside those roots is refused with `reasonCode: "local_path_not_allowed"`.
+* **Overwrite Safety:** An existing local destination is preserved unless `overwrite: true` is set.
+* **Single File Only:** There is no `recursive` option here; a remote directory or link is rejected rather than followed.
 
 ---
 

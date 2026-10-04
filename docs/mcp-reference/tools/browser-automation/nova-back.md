@@ -1,19 +1,18 @@
 # `nova.back`
 
-Navigates backward in browser history with automated SPA session preservation, DOM settlement tracking, and guarded navigation gates.
+Navigates backward in browser history, with optional load/settlement waiting and a screenshot sidecar.
 
 ---
 
 ## 1. Overview
 
-Executing a browser back action in automated workflows can easily destroy unsaved form entries or log users out of authenticated Single Page Applications. `nova.back` provides **Guarded History Traversal**:
-* On SPA-aware surfaces, Nova attempts a same-document history pop (`popstate`), preserving in-memory JavaScript states and session tokens.
-* If moving back would trigger a full-document unload on an authenticated or session-sensitive page, Nova's Agent Awareness Gates (AAG) intercept the leave and require explicit `force: true`.
-* Supports awaiting DOM settlement (`waitForSettlement: true`) so dynamic client-side rendering settles before subsequent tool calls.
+`nova.back` moves the target tab one step back through its WebView2 history stack. This is a same-document history operation — it does not trigger the full-document-unload Agent Awareness Gate that [`nova.navigate`](nova-navigate.md) and [`nova.reload`](nova-reload.md) enforce, because stepping through history this way cannot break an in-memory SPA session the way a hard navigation can.
 
-* **SPA Settlement Engine:** Waits for microtasks, DOM mutations, and network activity to stabilize.
-* **Session Preservation Gate:** Prevents accidental session destruction unless explicitly bypassed via `force: true`.
+* **Settlement Tracking (`waitForSettlement: true`):** Waits for SPA DOM mutations and network activity to quiet down after the page reports `readyState=complete`, so client-side rendering has a chance to settle before the next tool call.
+* **Screenshot Sidecar (`includeScreenshot`):** Optionally captures a screenshot in the same round-trip; a capture failure does not change the navigation result.
 * **Output Tiers:** Supports `"full"`, `"compact"`, or `"minimal"` response envelopes.
+
+The `force` parameter exists for parity with `nova.navigate`/`nova.reload`, but since `nova.back` never runs their full-document-unload gate, it has no effect on this tool.
 
 ---
 
@@ -36,6 +35,7 @@ Executing a browser back action in automated workflows can easily destroy unsave
 | `outputDetail` | `string` | No | `"full"` | `full`, `compact`, `minimal` | Response verbosity. 'full' (default) is the unchanged payload. 'compact' drops the advisory blocks you did not ask for (pks/pksMeta, discoverySignals, routingHint, taskDiscoveryWarning, byte accounting) and keeps everything you did - state, screenshot, settlement. 'minimal' is the lean envelope: core contract (ok/status/reasonCode/stage/retryable), the navigation proof (url/requestedUrl/loadCompleted/navigationFailed/webErrorStatus/settlement), target and page info, claim/private state, screenshot sidecar status, and the never-suppressible safety warnings. No setting can hide a warning. |
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -50,14 +50,6 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
 }
 ```
 
-### Force History Back Across Document Boundaries
-```json
-{
-  "force": true,
-  "waitForLoad": true
-}
-```
-
 ---
 
 ## 4. Return Value Structure
@@ -65,15 +57,24 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
 ```json
 {
   "ok": true,
+  "status": "ok",
+  "stage": "history_back",
   "targetId": "tab-101",
-  "url": "https://example.com/products",
+  "waitForLoad": true,
   "loadCompleted": true,
+  "pageUrl": "https://example.com/products",
+  "pageTitle": "Products",
+  "waitForSettlement": true,
   "settlement": {
     "settled": true,
+    "quietMs": 300,
+    "pendingResources": 0,
     "elapsedMs": 850
   }
 }
 ```
+
+If there is no previous history entry to go back to, the call returns `ok: false` with `reasonCode: "navigation.cannot_go_back"`.
 
 ---
 
@@ -82,4 +83,3 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
 * [`nova.forward`](nova-forward.md) — Navigate forward in history.
 * [`nova.route`](nova-route.md) — Single Page Application client-side routing.
 * [`nova.navigate`](nova-navigate.md) — Navigate to an absolute or relative URL.
-* [Agent Awareness Gates (AAG)](../../../core-features/aag.md) — Protection against accidental session loss.

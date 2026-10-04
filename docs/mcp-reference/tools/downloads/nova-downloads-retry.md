@@ -8,7 +8,6 @@ Retries a failed download by re-navigating to its original URL.
 
 `nova.downloads_retry` initiates a fresh download request for a transfer marked `status: "failed"`. Cancelled, active, or completed downloads cannot be retried.
 
-* **Security Tier:** Tier 2 (Execute)
 * **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts.md)
 
 ---
@@ -23,6 +22,7 @@ Retries a failed download by re-navigating to its original URL.
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---

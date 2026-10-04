@@ -6,9 +6,8 @@ One-click reset of all stored permissions (media, notifications, geolocation) fo
 
 ## 1. Overview
 
-`nova.site_permissions_reset_origin` provides a comprehensive single-call purge of all permissions configured for a web domain: camera, microphone, speaker, screen sharing, desktop notifications, and geolocation.
+`nova.site_permissions_reset_origin` provides a single-call purge of all stored permissions for a web origin: camera, microphone, speaker, screen sharing, and geolocation (one combined row), desktop notifications (a separate row), and remembered per-site device preferences. It also unconditionally drops any in-memory session grants, active clipboard-read and advanced-hardware decisions, and stops active media streams for that origin — even if no persisted row existed. Clipboard-read and advanced-hardware only have a global default, not a per-site override, so there is nothing persisted to remove for those two.
 
-* **Security Tier:** Tier 2 (Permission Reset)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
 ---
@@ -23,6 +22,7 @@ One-click reset of all stored permissions (media, notifications, geolocation) fo
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -45,22 +45,24 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "Reset all stored site permissions for https://meet.example.com."
+      "text": "Reset all permissions for https://meet.example.com (media=True, notifications=True, devicePrefs=False)."
     }
   ],
   "structuredContent": {
-    "ok": true,
+    "status": "ok",
     "origin": "https://meet.example.com",
-    "resetAxes": [
-      "camera",
-      "microphone",
-      "speaker",
-      "notifications",
-      "geolocation"
-    ]
+    "anyRemoved": true,
+    "removed": {
+      "media": true,
+      "notifications": true,
+      "devicePreferences": false
+    },
+    "note": "Clipboard-read and advanced-hardware axes use global defaults only; their per-site behaviour reverts automatically. Device label cache is preserved as non-consent UX metadata."
   }
 }
 ```
+
+`removed.media` covers camera, microphone, speaker, screen sharing, and geolocation together — the response does not break that row down further. This response has no `ok` field; use `status`/`anyRemoved` instead. If nothing was stored for the origin, the call still succeeds with `anyRemoved: false` and all `removed.*` set to `false`.
 
 ---
 

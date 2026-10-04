@@ -6,9 +6,8 @@ Gracefully stops an in-flight mail backup job, committing all downloaded message
 
 ## 1. Overview
 
-`nova.mail_backup_stop` signals a running mail backup job to halt. In-flight message downloads are cleanly committed so no downloaded progress is lost.
+`nova.mail_backup_stop` stops a running mail backup. The open ZIP part is finished and committed, so nothing already downloaded is lost; a later `nova.mail_backup_start` with `mode='auto'` continues after it. The call returns the job status with `state: "stopping"` until the worker has actually closed the part.
 
-* **Security Tier:** Tier 2 (Job Control)
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 
 ---
@@ -23,6 +22,7 @@ Gracefully stops an in-flight mail backup job, committing all downloaded message
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='connector_ops')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -45,22 +45,34 @@ Capability bundle: `connector_ops` (load it with `nova.tools_bundle(bundle='conn
   "content": [
     {
       "type": "text",
-      "text": "Stopped backup job job-mb-819a."
+      "text": "Stop requested for job-mb-819a: the open part is finished and kept; continue later with mode='auto'."
     }
   ],
   "structuredContent": {
     "ok": true,
     "jobId": "job-mb-819a",
-    "status": "stopped"
+    "profileId": "conn-mail-01",
+    "account": "Work Email",
+    "mode": "full",
+    "state": "stopping",
+    "complete": false,
+    "messagesDone": 80,
+    "messagesSkipped": 0,
+    "parts": [
+      { "number": 1, "path": "C:\\Users\\you\\Downloads\\mail-backup_Work-Email_2026-10-03_120000_part01.zip", "bytes": 27000000, "sha256": "...", "messages": 80 }
+    ],
+    "destination": "C:\\Users\\you\\Downloads"
   }
 }
 ```
+The field is `state`, not `status`, and this call returns the full job status object shared with `nova.mail_backup_status` (abbreviated above) rather than a bare `{jobId, status}` pair. Poll `nova.mail_backup_status` to see `state` move from `"stopping"` to `"stopped"`.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Safe Resumption:** Subsequent backup runs will resume incrementally from the committed watermark.
+* **Safe Resumption:** Subsequent backup runs will resume incrementally from the committed watermark using `mode='auto'`.
+* **Poll for Confirmation:** `state: "stopping"` means the worker is still closing the current part; call `nova.mail_backup_status` afterward to confirm `"stopped"`.
 
 ---
 

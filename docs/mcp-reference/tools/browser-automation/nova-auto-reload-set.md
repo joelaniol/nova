@@ -2,15 +2,16 @@
 
 > **Configures native periodic reloading for a tab with a specified interval in seconds.**
 
-* **Security Tier:** Tier 2 (Navigation Control)
-* **Core Feature Guide:** [Humanized Input & Navigation](../../../core-features/humanized-input-engine.md)
+* **Core Feature Guide:** [Input Dispatch & Shadow DOM Traversal](../../../core-features/humanized-input-engine.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.auto_reload_set` starts or stops native browser tab refresh cycles. Useful for dashboard monitoring and live status tracking without writing custom setTimeout loops.
+`nova.auto_reload_set` starts, pauses or removes Nova's own reload schedule for one tab (`mode`: `running`, `paused`, `off`). The schedule lives only for the current session. Useful for dashboard monitoring and live status tracking without writing custom setTimeout loops.
+
+The call needs an explicit claim on `targetId`, the current `expectedRevision` from `nova.auto_reload_get` (0 when no schedule exists) and a `clientRequestId`; retrying identical arguments is safe. A stale revision returns `status: "conflict"` with `reasonCode: "auto_reload.revision_conflict"`. If Auto-Reload is turned off in Nova's settings, the call returns `status: "blocked"` with `reasonCode: "auto_reload.feature_disabled"`.
 
 ---
 
@@ -27,6 +28,7 @@
 | `agentId` | `string` | No | `"default"` | — | Agent identity that already owns the explicit target claim. |
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -39,8 +41,10 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
   "name": "nova_auto_reload_set",
   "arguments": {
     "targetId": "tab-1",
+    "mode": "running",
     "intervalSeconds": 120,
-    "enabled": true
+    "expectedRevision": 0,
+    "clientRequestId": "dashboard-reload-1"
   }
 }
 ```
@@ -51,14 +55,30 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Configured auto-reload for tab-1 every 120 seconds."
+      "text": "Auto-Reload created for tab-1 (revision 1)."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "targetId": "tab-1",
-    "enabled": true,
-    "intervalSeconds": 120
+    "status": "created",
+    "changed": true,
+    "previousRevision": 0,
+    "clientRequestId": "dashboard-reload-1",
+    "state": {
+      "ok": true,
+      "status": "updated",
+      "targetId": "tab-1",
+      "targetExists": true,
+      "featureEnabled": true,
+      "mode": "running",
+      "intervalSeconds": 120,
+      "revision": 1,
+      "previousRevision": 0,
+      "nextRunAtUtc": "2026-10-03T09:02:00.0000000+00:00",
+      "lastOutcome": "scheduled",
+      "configuredBy": "agent",
+      "boundUrl": "https://status.example.com/"
+    }
   }
 }
 ```
@@ -68,7 +88,7 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
 ## 4. Operational Best Practices
 
 * **Preserve Form Data:** Do not enable auto-reload on tabs containing unsubmitted forms.
-* **Turn Off When Done:** Explicitly call with `enabled: false` upon workflow completion.
+* **Turn Off When Done:** Call with `mode: "off"` (and the current revision) upon workflow completion.
 
 ---
 

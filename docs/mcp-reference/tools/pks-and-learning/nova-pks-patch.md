@@ -2,7 +2,6 @@
 
 > **Applies partial updates or selector refinements to an existing PKS phenomenon playbook.**
 
-* **Security Tier:** Tier 2 (Knowledge Refinement)
 * **Core Feature Guide:** [Phenomenological Knowledge Store (PKS)](../../../core-features/pks.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
@@ -10,7 +9,7 @@
 
 ## 1. Overview
 
-`nova.pks_patch` updates specific properties (selectors, timeout values, assertion rules) of a phenomenon without rebuilding the entire playbook.
+`nova.pks_patch` updates whole sections of a phenomenon (`type`, `fingerprint`, `playbook`, `context`, `deprecated`) without touching the sections you omit. Within `playbook`, `policy`/`actions`/`verify`/`requiredCapabilities` are each replaced independently when provided — so fixing one drifted selector means resending that phenomenon's full `actions` array with the corrected selector, not a single-field edit. Like other PKS writes, the call is rejected unless `scope` matches a currently open tab or sandbox host.
 
 ---
 
@@ -29,6 +28,7 @@
 | `patch.deprecated` | `boolean` | No | — | — | Set to false to reactivate a deprecated phenomenon. |
 
 Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_learning')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -40,9 +40,14 @@ Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_l
 {
   "name": "nova_pks_patch",
   "arguments": {
+    "scope": "example.com",
     "phenomenonId": "phenom-login",
     "patch": {
-      "selector": "button[type=\"submit\"].btn-primary"
+      "playbook": {
+        "actions": [
+          { "type": "click", "selector": "button[type=\"submit\"].btn-primary" }
+        ]
+      }
     }
   }
 }
@@ -54,13 +59,13 @@ Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_l
   "content": [
     {
       "type": "text",
-      "text": "Patched selector in phenom-login."
+      "text": "Phenomenon 'phenom-login' patched for example.com."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "phenomenonId": "phenom-login",
-    "version": 2
+    "patched": true,
+    "scope": "example.com",
+    "phenomenonId": "phenom-login"
   }
 }
 ```
@@ -69,7 +74,7 @@ Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_l
 
 ## 4. Operational Best Practices
 
-* **Surgical Repairs:** Fix minor selector drifts without losing historical execution telemetry.
+* **Repairs Keep Telemetry:** Fix selector drift without resetting the phenomenon's accumulated health/attempt counters (unlike deprecate+recreate).
 
 ---
 

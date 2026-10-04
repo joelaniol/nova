@@ -2,15 +2,13 @@
 
 > **Lists all bookmark folders with hierarchical parent-child relationships and depths.**
 
-* **Security Tier:** Tier 1 (Read-Only)
-* **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.bookmarks_folders_list` retrieves the bookmark tree structure, returning IDs, labels, parent references, sort orders, and item counts.
+`nova.bookmarks_folders_list` retrieves the bookmark folder tree, returning each folder's id, name, parent id, sort order, creation timestamp, and computed nesting depth.
 
 ---
 
@@ -20,6 +18,7 @@
 This tool takes no parameters.
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -44,14 +43,14 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
     }
   ],
   "structuredContent": {
-    "ok": true,
     "folders": [
       {
-        "folderId": "folder-101",
+        "id": "f-7c2a1e90",
         "name": "Research",
         "parentId": null,
-        "depth": 0,
-        "itemsCount": 5
+        "sortOrder": 0,
+        "createdUtc": "2026-10-03T12:00:00.0000000Z",
+        "depth": 0
       }
     ]
   }

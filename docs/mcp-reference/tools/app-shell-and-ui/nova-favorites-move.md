@@ -2,7 +2,6 @@
 
 > **Moves a bookmark favorite into a different folder or to the root collection.**
 
-* **Security Tier:** Tier 2 (Bookmark Management)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
@@ -10,7 +9,7 @@
 
 ## 1. Overview
 
-`nova.favorites_move` reassigns the `folderId` parent of an existing bookmark favorite.
+`nova.favorites_move` moves an existing favorite into another bookmark folder or back to the top level. Address the favorite by its stable `id` (preferred, from `nova.favorites_list`) or by `url` (first match). Omitting `folderId` or passing `null` moves it to the top level. An unknown favorite returns `moved: false` ("Favorite not found.").
 
 ---
 
@@ -24,6 +23,7 @@
 | `folderId` | `string` | No | — | — | Target folder id. Null or omitted = root. |
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -35,8 +35,8 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
 {
   "name": "nova_favorites_move",
   "arguments": {
-    "favoriteId": "fav-5501",
-    "folderId": "folder-102"
+    "id": "8d0c4b6e2f1a4c7e9b3d5a1f6e2c8b40",
+    "folderId": "3f2a9c1e7b4d4e0f9a6b2c8d1e5f7a90"
   }
 }
 ```
@@ -47,22 +47,25 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "Moved favorite fav-5501 to folder-102."
+      "text": "Favorite moved."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "favoriteId": "fav-5501",
-    "folderId": "folder-102"
+    "moved": true,
+    "id": "8d0c4b6e2f1a4c7e9b3d5a1f6e2c8b40",
+    "folderId": "3f2a9c1e7b4d4e0f9a6b2c8d1e5f7a90"
   }
 }
 ```
+
+When the call uses `url` instead of `id`, `structuredContent` carries `url` in place of `id`.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Move to Root:** Pass `folderId: null` to move a bookmark to top-level.
+* **Move to Root:** Pass `folderId: null` (or omit it) to move a favorite to the top level.
+* **Prefer the id:** `url` moves only the first match; use `id` when the same URL is saved in several folders.
 
 ---
 

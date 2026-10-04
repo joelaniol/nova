@@ -2,15 +2,13 @@
 
 > **Creates a hierarchical folder in the browser bookmark collection.**
 
-* **Security Tier:** Tier 2 (Bookmark Management)
-* **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.bookmarks_folder_create` creates a named container for bookmarks, either at the root level or nested inside an existing parent folder.
+`nova.bookmarks_folder_create` creates a named container for bookmarks, either at the root level or nested inside an existing parent folder. Folders are capped at 256 total and 5 levels of nesting; a request that would exceed either limit, or that names an invalid parent, is rejected without throwing (`created: false` in the response, not an error).
 
 ---
 
@@ -23,6 +21,7 @@
 | `parentId` | `string` | No | — | — | Optional parent folder id. |
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -46,24 +45,29 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "Created folder 'E-Commerce Research' (folder-101)."
+      "text": "Folder created: E-Commerce Research"
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "folderId": "folder-101",
-    "name": "E-Commerce Research",
-    "parentId": null
+    "created": true,
+    "folder": {
+      "id": "f-7c2a1e90",
+      "name": "E-Commerce Research",
+      "parentId": null,
+      "sortOrder": 3,
+      "createdUtc": "2026-10-03T12:00:00.0000000Z"
+    }
   }
 }
 ```
+A rejected request (limit/depth exceeded or invalid parent) returns `{ "created": false, "parentId": ... }` with a text explanation instead of an error.
 
 ---
 
 ## 4. Operational Best Practices
 
 * **Structured Research:** Organize batch browsing outputs into dedicated session folders.
-* **Hierarchy Depth:** Avoid excessive nesting for easier retrieval across automation workflows.
+* **Hierarchy Depth:** Nesting is capped at 5 levels and 256 folders total; avoid excessive nesting for easier retrieval across automation workflows.
 
 ---
 

@@ -1,8 +1,7 @@
 # `nova.ok_observe`
 
-> **Pushes a structured Operational Knowledge (OK) signal about page state, blocking patterns, or layout shifts.**
+> **Records structured Operational Knowledge (OK) claims about the service open in a tab, such as login state or active model.**
 
-* **Security Tier:** Tier 2 (Telemetry Ingestion)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
@@ -10,7 +9,9 @@
 
 ## 1. Overview
 
-`nova.ok_observe` feeds semantic telemetry into Nova's heuristic adaptation engine. Informs the browser about detected captchas, dynamic layouts, or slow loading triggers.
+`nova.ok_observe` stores what an agent has observed about the service in a tab as facts in Nova's Operational Knowledge store. Each claim has a `signalKey`, a JSON `value`, an optional `certainty` (`certain`, `likely` or `tentative`; default `likely`) and optional `evidence` text. Canonical keys such as `core.login_state` or `core.model.active` come from `nova.ok_signal_schema`; an unknown `core.*` key is rejected with `-32602`, while keys in another namespace (for example `vendor.*`) are accepted without registration. Up to 50 claims per call.
+
+A claim that contradicts a stronger existing fact is recorded but not applied (`conflicted`); a weaker differing claim may be stored as `observation_only`. Only `accepted` claims changed the stored fact.
 
 ---
 
@@ -26,6 +27,7 @@
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -38,11 +40,14 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
   "name": "nova_ok_observe",
   "arguments": {
     "targetId": "tab-1",
-    "signalKey": "modal_blocker_detected",
-    "confidence": 0.95,
-    "metadata": {
-      "selector": ".newsletter-modal"
-    }
+    "claims": [
+      {
+        "signalKey": "core.login_state",
+        "value": "logged_in",
+        "certainty": "certain",
+        "evidence": "Account menu with avatar is visible"
+      }
+    ]
   }
 }
 ```
@@ -53,13 +58,25 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
   "content": [
     {
       "type": "text",
-      "text": "Ingested OK signal: modal_blocker_detected."
+      "text": "OK observe: 1 accepted, 0 rejected, 0 conflicted, 0 observation-only, 0 superseded."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "signalKey": "modal_blocker_detected",
-    "accepted": true
+    "accepted": 1,
+    "rejected": 0,
+    "conflicted": 0,
+    "observationOnly": 0,
+    "superseded": 0,
+    "facts": [
+      {
+        "key": "core.login_state",
+        "value": "logged_in",
+        "state": "fresh",
+        "isNew": true
+      }
+    ],
+    "warnings": null
   }
 }
 ```
@@ -68,8 +85,9 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
 
 ## 4. Operational Best Practices
 
-* **Signal Keys:** Query `nova.ok_signal_schema` first to verify canonical signal names.
-* **Confidence Weight:** Only submit signals with confidence >= 0.8 to prevent telemetry noise.
+* **Signal Keys:** Query `nova.ok_signal_schema` first to use canonical signal names and value types.
+* **Honest certainty:** Use `certain` only for directly visible evidence; `tentative` claims do not override an existing fact with a different value.
+* **Read the counters:** `rejected`, `conflicted` and `observationOnly` mean the stored fact was not changed; `warnings` names the reason.
 
 ---
 

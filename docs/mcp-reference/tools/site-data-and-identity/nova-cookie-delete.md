@@ -8,7 +8,6 @@ Deletes a specific cookie by cookieId or by name, domain, and path tuple.
 
 `nova.cookie_delete` removes a single cookie from the target sandbox profile. It can target cookies using the stable `cookieId` returned by `nova.cookie_list` or an explicit `{name, domain, path}` tuple.
 
-* **Security Tier:** Tier 2 (Cookie Deletion)
 * **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
 
 ---
@@ -26,6 +25,7 @@ Deletes a specific cookie by cookieId or by name, domain, and path tuple.
 | `dryRun` | `boolean` | No | `false` | — | Preview deletion without executing. Returns matchCount. |
 
 Capability bundle: `site_data_management` (load it with `nova.tools_bundle(bundle='site_data_management')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -51,14 +51,18 @@ Capability bundle: `site_data_management` (load it with `nova.tools_bundle(bundl
   "content": [
     {
       "type": "text",
-      "text": "Deleted cookie 'user_pref' on .example.com."
+      "text": "Deleted 1 of 1 matching cookie(s) (sandbox:tab-1)."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "targetId": "tab-1",
-    "deletedCookie": "user_pref",
-    "status": "Deleted"
+    "deletedCount": 1,
+    "matchCount": 1,
+    "scope": {
+      "profileId": "tab-1",
+      "profileScope": "sandbox:tab-1",
+      "isSharedProfile": false
+    }
   }
 }
 ```
@@ -68,6 +72,7 @@ Capability bundle: `site_data_management` (load it with `nova.tools_bundle(bundl
 ## 4. Operational Best Practices
 
 * **Exact Identity:** Cookies must match the exact domain and path under which they were registered.
+* **Idempotent:** Deleting a cookie that no longer exists is not an error — `matchCount: 0` still returns `ok: true`.
 
 ---
 

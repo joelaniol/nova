@@ -8,7 +8,7 @@ Executes a verified click on a DOM element matching a CSS selector or CTA handle
 
 `nova.click_selector` is the primary interaction tool for activating buttons, links, toggles, and interactive DOM nodes. Unlike naive browser clicks, Nova enforces **Pre-Click Visibility & Clickability Verification**, **Deep Shadow-DOM Piercing**, and **Postcondition Settlement** to eliminate silent click failures.
 
-* **Shadow-DOM Syntax:** Uses ` >>> ` to pierce through open and closed shadow roots cleanly.
+* **Shadow-DOM Syntax:** Uses ` >>> ` to pierce through open shadow roots (closed shadow roots are not reachable this way).
 * **Pre-Check Safety:** Verifies element is not covered by modal backdrops or cookie banners.
 
 ---
@@ -27,12 +27,10 @@ If a click cannot land because a cookie banner, modal backdrop, or promotional p
 * When `autoDismissBlockers: true` is set, Nova automatically identifies the obscuring overlay, dismisses it, and retries the click seamlessly in a single step.
 
 ### C. Postcondition Verification (`verify`)
-Prevents clicking and immediately declaring victory while the page is still mutating:
-* `verify.absent`: Asserts that an element (e.g. the clicked modal or loading spinner) disappears from the DOM.
-* `verify.present`: Asserts that the expected success message or resulting container appears.
+Prevents clicking and immediately declaring victory while the page is still mutating: `verify` takes a JS expression (e.g. `'!document.querySelector(".ad-showing")'`) that Nova polls until truthy, confirming the click had the expected effect. Pair it with `transitionContract` for commit-point actions (send, submit, login) that need stronger pre/postcondition checks.
 
 ### D. Multi-Match Strictness (`strict: true`)
-If multiple elements match the selector and `strict: true` is passed, Nova fails-fast with `-32602` and reports the count and locations rather than clicking the wrong element arbitrarily.
+If multiple visible elements match the selector and `strict: true` is passed, Nova refuses the click (`ok: false`, `reasonCode: "selector.ambiguous"`) and reports `matchCount`/`candidateCount` instead of clicking the wrong element arbitrarily. If Nova cannot count matches at all (e.g. across shadow-DOM chains), it refuses with `reasonCode: "selector.uniqueness_unverified"` instead.
 
 ---
 
@@ -78,6 +76,7 @@ If multiple elements match the selector and `strict: true` is passed, Nova fails
 | `transitionContract.stabilityMs` | `integer` | No | — | — | Optional stability hold duration in milliseconds. Success must remain true for this long before verification passes. |
 
 Capability bundles: `browser_automation`, `form_submission`.
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -91,9 +90,7 @@ Capability bundles: `browser_automation`, `form_submission`.
   "arguments": {
     "targetId": "tab-1",
     "selector": "button#submit-order",
-    "verify": {
-      "present": ".order-confirmation-badge"
-    },
+    "verify": "document.querySelector('.order-confirmation-badge') !== null",
     "timeoutMs": 10000
   }
 }
@@ -126,4 +123,4 @@ Capability bundles: `browser_automation`, `form_submission`.
 * [`nova.type_selector`](nova-type-selector.md) — Type text into inputs.
 * [`nova.scroll_smart`](nova-scroll-smart.md) — Bring off-screen elements into view.
 * [`nova.dismiss_blockers`](nova-dismiss-blockers.md) — Standalone modal and banner dismissal.
-* [Core Feature: Humanized Input Engine](../../../core-features/humanized-input-engine.md)
+* [Core Feature: Input Dispatch & Shadow DOM Traversal](../../../core-features/humanized-input-engine.md)

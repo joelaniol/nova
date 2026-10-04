@@ -23,6 +23,7 @@ Remove the plugin's host-owned injected stylesheet from active page sessions. If
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `plugin_management` (load it with `nova.tools_bundle(bundle='plugin_management')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---

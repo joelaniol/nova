@@ -16,7 +16,7 @@ Capability bundles of these tools: `connector_ops`.
 | :--- | :--- |
 | **[`nova.connector_create`](nova-connector-create.md)** | Creates an E-Mail account (IMAP/SMTP) or remote server connection (SFTP/FTP). |
 | **[`nova.connector_delete`](nova-connector-delete.md)** | Deletes a connector profile, associated capability grants, and backing DPAPI secrets. |
-| **[`nova.connector_grant_set`](nova-connector-grant-set.md)** | Sets capability access modes (ask, allow, blocked) for a connector. |
+| **[`nova.connector_grant_set`](nova-connector-grant-set.md)** | Sets capability access modes (ask, always, blocked) for a connector. |
 | **[`nova.connector_list`](nova-connector-list.md)** | Lists configured E-Mail accounts and remote file transfer server connections. |
 | **[`nova.connector_recipient_set`](nova-connector-recipient-set.md)** | Configures recipient allow-lists for autonomous email sending without human prompts. |
 | **[`nova.connector_update`](nova-connector-update.md)** | Updates configuration, endpoints, credentials, or signatures of an existing connection. |
@@ -37,7 +37,7 @@ Capability bundles of these tools: `connector_ops`.
 | **[`nova.mail_list`](nova-mail-list.md)** | Lists bounded message metadata (headers, dates, senders) from an exact IMAP folder. |
 | **[`nova.mail_mark`](nova-mail-mark.md)** | Updates seen and/or flagged status flags for up to 200 messages. |
 | **[`nova.mail_move`](nova-mail-move.md)** | Moves up to 200 messages from one mail account to an exact IMAP destination folder. |
-| **[`nova.mail_read`](nova-mail-read.md)** | Reads the parsed body (text, HTML, markdown) and attachment inventory of a specific email. |
+| **[`nova.mail_read`](nova-mail-read.md)** | Reads the sanitized body and attachment inventory of a specific email. |
 | **[`nova.mail_search`](nova-mail-search.md)** | Searches mail metadata across the IMAP server and local encrypted search archives. |
 | **[`nova.mail_send`](nova-mail-send.md)** | Sends an email with optional HTML body, CC/BCC, priority, and attachments via SMTP. |
 | **[`nova.sftp_delete`](nova-sftp-delete.md)** | Deletes a remote file, empty directory, or bounded directory tree over SFTP. |

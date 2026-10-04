@@ -8,8 +8,7 @@ Launches an external MCP server, runs initialize handshake, and discovers availa
 
 `nova.external_server_start` initiates the server process or network connection, exchanges MCP initialization capabilities, and queries tools/list. Returns PID, duration, and tool count on success.
 
-* **Security Tier:** Tier 2 (Server Lifecycle)
-* **Core Architecture Guide:** [Plugins & External Extensions](../../../core-features/plugins.md)
+* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md) (section 7, "External MCP Servers")
 
 ---
 
@@ -23,6 +22,7 @@ Launches an external MCP server, runs initialize handshake, and discovers availa
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
 
 Capability bundle: `external_mcp` (load it with `nova.tools_bundle(bundle='external_mcp')`).
+Tool category: `high_impact` (highest risk class; Nova's agent permission settings can ask before it runs).
 <!-- /generated:parameters -->
 
 ---
@@ -45,19 +45,27 @@ Capability bundle: `external_mcp` (load it with `nova.tools_bundle(bundle='exter
   "content": [
     {
       "type": "text",
-      "text": "Server 'a1b2c3d4' started (pid=14820, 5 tool(s), 420ms)."
+      "text": "Server 'Postgres Gateway' started (PID 14820, 5 tools, 420ms)."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "serverKey": "a1b2c3d4",
-    "processId": 14820,
-    "toolCount": 5,
-    "durationMs": 420,
-    "status": "Connected"
+    "result": {
+      "serverKey": "a1b2c3d4",
+      "displayName": "Postgres Gateway",
+      "status": "Connected",
+      "pid": 14820,
+      "toolCount": 5,
+      "startupDurationMs": 420,
+      "serverName": "postgres-mcp",
+      "serverVersion": "0.4.1",
+      "protocolVersion": "2025-03-26"
+    }
   }
 }
 ```
+
+On failure, `ok` is `false`, `result.status` is `"Failed"`, `result.pid` is omitted, and `result` instead carries `errorPhase`, `errorMessage`, an optional `exitCode`/`stderr`, and `suggestions` (a short list of likely fixes).
 
 ---
 

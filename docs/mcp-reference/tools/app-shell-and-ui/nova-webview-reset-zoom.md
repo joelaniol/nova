@@ -2,15 +2,13 @@
 
 > **Resets the target tab's WebView2 zoom factor back to the default 1.0 (100%).**
 
-* **Security Tier:** Tier 2 (Viewport Configuration)
-* **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.webview_reset_zoom` restores normal 1:1 pixel scaling for a tab, clearing previous zoom adjustments.
+`nova.webview_reset_zoom` restores 1.0 (100%) zoom for a tab and clears any level saved for that site, since a reset is the counterpart of a persisted set rather than a session-local override sitting on top of a stale level.
 
 ---
 
@@ -22,6 +20,7 @@
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -44,13 +43,18 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Reset zoom factor for tab-1 to 1.0."
+      "text": "ZoomFactor reset to 1."
     }
   ],
   "structuredContent": {
     "ok": true,
+    "status": "ok",
     "targetId": "tab-1",
-    "zoomFactor": 1
+    "zoomFactor": 1,
+    "requestedZoomFactor": 1,
+    "requestedPersistForSite": true,
+    "persistedForSite": true,
+    "persistScope": "site"
   }
 }
 ```

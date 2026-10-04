@@ -1,8 +1,7 @@
 # `nova.ui_download_security_prompt_resolve`
 
-> **Resolves Nova's executable download security warning dialog (.exe, .msi, .ps1, .bat).**
+> **Answers Nova's "Keep this file?" question for a download that Windows can run (for example .exe, .msi, .bat, .ps1).**
 
-* **Security Tier:** Tier 2 (Security Gate Resolution)
 * **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
@@ -10,7 +9,9 @@
 
 ## 1. Overview
 
-`nova.ui_download_security_prompt_resolve` allows or blocks potentially dangerous file downloads flagged by Windows SmartScreen heuristics.
+Before a file type that Windows can execute is written to disk, Nova replaces the WebView2 default handling with its own question "Keep this file?" (buttons **Keep** and **Discard**). The same blocklist decides which types Nova never opens automatically after download. `nova.ui_download_security_prompt_resolve` answers that question for the agent: `discard` does not write the file and unblocks browsing; `keep` writes it to the downloads folder and is recorded in Nova's log. Nova does not check what the file does.
+
+If no question is open, the call returns `ok: false` with `reasonCode: "download_security.no_prompt_open"`.
 
 ---
 
@@ -22,6 +23,7 @@
 | `decision` | `string` | Yes | — | `keep`, `discard` | discard: do not write the file (safe, unblocks browsing). keep: write it to the downloads folder. |
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
+Tool category: `high_impact` (highest risk class; Nova's agent permission settings can ask before it runs).
 <!-- /generated:parameters -->
 
 ---
@@ -33,7 +35,7 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
 {
   "name": "nova_ui_download_security_prompt_resolve",
   "arguments": {
-    "action": "allow_once"
+    "decision": "discard"
   }
 }
 ```
@@ -44,22 +46,30 @@ Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle=
   "content": [
     {
       "type": "text",
-      "text": "Allowed executable download once."
+      "text": "Download security prompt resolved (discard, status=discarded)."
     }
   ],
   "structuredContent": {
     "ok": true,
-    "action": "allow_once",
-    "downloadAllowed": true
+    "decision": "discard",
+    "status": "discarded",
+    "reasonCode": "none",
+    "message": "The file was not written; browsing is unblocked.",
+    "promptWasOpen": true,
+    "fileName": "setup.exe",
+    "extension": ".exe"
   }
 }
 ```
+
+With `decision: "keep"` the result reports `status: "kept"`.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Verified Hashes:** Only allow executable downloads from known, trusted sources with verified file hashes.
+* **Keep only what the task needs:** Use `keep` when the download is the point of the task (a build artefact, an installer under test) and the source is known; otherwise `discard`.
+* **Check the outcome:** After `keep`, confirm the finished download with `nova.downloads_wait`.
 
 ---
 

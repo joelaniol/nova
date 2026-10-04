@@ -1,6 +1,6 @@
 # `nova.media_permission_activity_list`
 
-Reads the complete in-memory ring buffer audit log of camera, mic, and screen permission decisions.
+Reads recent entries from the in-memory ring buffer of camera, microphone, speaker, screen-share, and geolocation permission decisions.
 
 ---
 
@@ -8,7 +8,6 @@ Reads the complete in-memory ring buffer audit log of camera, mic, and screen pe
 
 `nova.media_permission_activity_list` retrieves historical prompt decisions, showing whether requests were allowed once, remembered, or denied.
 
-* **Security Tier:** Tier 1 (Read-Only)
 * **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
 
 ---
@@ -24,6 +23,7 @@ Reads the complete in-memory ring buffer audit log of camera, mic, and screen pe
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
+Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -46,23 +46,32 @@ Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='syste
   "content": [
     {
       "type": "text",
-      "text": "Retrieved 1 permission decision from activity log."
+      "text": "1 activity entry/entries (in-memory ring buffer, cleared on app restart)."
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "total": 1,
-    "decisions": [
+    "entries": [
       {
+        "sequence": 1,
+        "timestampUtc": "2026-10-02T19:00:00Z",
+        "targetId": "tab-1",
         "origin": "https://meet.example.com",
-        "axis": "microphone",
-        "decision": "allow_session",
-        "timestampUtc": "2026-10-02T19:00:00Z"
+        "kind": "Microphone",
+        "state": "allow",
+        "source": "SiteGrant",
+        "lifetime": "session",
+        "isUserInitiated": true,
+        "isHiddenCrawl": false,
+        "hashedDeviceIdHex": null
       }
-    ]
+    ],
+    "count": 1,
+    "limit": 10
   }
 }
 ```
+
+The ring buffer is in-memory only and resets when Nova restarts — it is a live trace, not a permanent audit log.
 
 ---
 

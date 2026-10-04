@@ -20,8 +20,8 @@ Clears the `claimOwner` entry in Nova's target registry and resets the lease cou
 
 ### B. Task & ETM Finalization
 When releasing a tab as part of an **Episodic Task Memory (ETM)** workflow:
-* Pass `finalizeDecision: "success"` or `"aborted"`.
-* Pass `finalizeReasonCode: "task_completed"` or a descriptive reason.
+* Pass `finalizeDecision: "commit"` to persist the completed task outcome, or `"skip"` to release without committing curated output. If omitted, the server auto-plans the decision.
+* Optionally pass `finalizeReasonCode` with a short reason code for the decision.
 * If performing URL audits, pass `coverageExhausted: true` to certify that all planned URLs on the domain have been verified.
 
 ---
@@ -63,6 +63,7 @@ When releasing a tab as part of an **Episodic Task Memory (ETM)** workflow:
 | `finalizeOutboxPayload.candidateIds` | `array` of `integer` | No | — | — | LCJ candidate IDs to promote for 'finalize.memory.promote'. |
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
@@ -75,7 +76,7 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
   "arguments": {
     "targetId": "tab-2",
     "agentId": "subagent-pricing-1",
-    "finalizeDecision": "success",
+    "finalizeDecision": "commit",
     "finalizeReasonCode": "extraction_complete"
   }
 }
@@ -84,10 +85,19 @@ Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle=
 ### Sample Response
 ```json
 {
-  "ok": true,
-  "targetId": "tab-2",
-  "claimed": false,
-  "releasedBy": "subagent-pricing-1"
+  "content": [
+    { "type": "text", "text": "Tab tab-2 released by subagent-pricing-1. ..." }
+  ],
+  "structuredContent": {
+    "ok": true,
+    "targetId": "tab-2",
+    "releaseState": "released",
+    "claimState": "active",
+    "released": true,
+    "finalized": true,
+    "finalizeDecision": "commit",
+    "finalizeReasonCode": "extraction_complete"
+  }
 }
 ```
 

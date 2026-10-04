@@ -8,8 +8,7 @@ Targeted HTTP request repeater for replaying, editing, and comparing network pay
 
 `nova.network_replay` provides an out-of-band HTTP repeater (similar to Burp Repeater) executed via an independent .NET HTTP client. Agents can freeze a captured request (`prepare`), mutate headers or body parameters, dispatch it once (`send`), and compare the outcome against a baseline (`compareTo`).
 
-* **Security Tier:** Tier 3 (High-Impact)
-* **Core Architecture Guide:** [Proxy Routing & Stealth Network Engine](../../../core-features/proxy-and-network.md)
+* **Core Architecture Guide:** [Proxy Routing & Network Engine](../../../core-features/proxy-and-network.md)
 
 ---
 
@@ -38,6 +37,7 @@ Targeted HTTP request repeater for replaying, editing, and comparing network pay
 **`_meta.intent` is required for certain arguments.** Passing a short reason in `_meta.intent` is always safe; a rejected call names the argument that made it required.
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
+Tool category: `high_impact` (highest risk class; Nova's agent permission settings can ask before it runs).
 <!-- /generated:parameters -->
 
 ---
@@ -50,7 +50,7 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
   "name": "nova.network_replay",
   "arguments": {
     "action": "send",
-    "replayId": "rep-4f8a19bc",
+    "replayId": "8f12a4b0c3d9e4f5a6b7c8d9e0f1a2b3",
     "_meta": {
       "intent": "Repeat GraphQL query with modified pagination variable"
     }
@@ -59,27 +59,39 @@ Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='pa
 ```
 
 ### JSON-RPC Response
+Both `content[0].text` and `structuredContent` carry the same serialized result object.
 ```json
 {
   "content": [
     {
       "type": "text",
-      "text": "Replay rep-4f8a19bc sent: 200 OK (340 bytes in 120ms)."
+      "text": "{\"status\":\"response\",\"replayId\":\"8f12a4b0c3d9e4f5a6b7c8d9e0f1a2b3\",\"reused\":false,\"actionDispatched\":true,\"httpOk\":true,\"response\":{...},\"comparison\":null}"
     }
   ],
   "structuredContent": {
-    "ok": true,
-    "replayId": "rep-4f8a19bc",
-    "status": 200,
-    "statusText": "OK",
-    "durationMs": 120,
-    "responseHeaders": {
-      "content-type": "application/json; charset=utf-8"
+    "status": "response",
+    "replayId": "8f12a4b0c3d9e4f5a6b7c8d9e0f1a2b3",
+    "reused": false,
+    "actionDispatched": true,
+    "httpOk": true,
+    "response": {
+      "statusCode": 200,
+      "headers": {
+        "content-type": ["application/json; charset=utf-8"]
+      },
+      "bodyBase64": "eyJyZXN1bHRzIjogW119",
+      "capturedBytes": 20,
+      "truncated": false,
+      "sha256": "2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae",
+      "elapsedMs": 120,
+      "outcome": "response",
+      "mayHaveBeenSent": true
     },
-    "bodyBase64": "eyJyZXN1bHRzIjogW119"
+    "comparison": null
   }
 }
 ```
+`status`/`response.outcome` is `"response"` on a completed send, not an HTTP status — the HTTP status lives at `response.statusCode`. Other outcomes are `"cancelled"` and `"transport_error"`. `comparison` is only populated when the prepared request carried `compareTo`.
 
 ---
 

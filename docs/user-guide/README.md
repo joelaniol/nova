@@ -1,23 +1,23 @@
 # Nova AI Workspace — User Guide
 
 > [!NOTE]
-> Welcome to the Nova AI Workspace User Guide. While Nova is designed for deep programmatic control by AI agents via the Model Context Protocol (MCP), it is equally a high-performance, modern Windows browser for human operators, developers, and power users.
+> Welcome to the Nova AI Workspace User Guide. Nova is built to be controlled by AI agents through the Model Context Protocol (MCP), and it is at the same time a Windows browser that you use yourself, side by side with your agents.
 
 ---
 
 ## 1. Navigating the User Guide
 
-This user guide walks you through the day-to-day visual workflows, workspace customization, security controls, and hybrid co-pilot capabilities of Nova AI Workspace.
+This guide covers the everyday parts of Nova: the window, sandboxes, the built-in terminal, how agent activity is shown, downloads, dialogs, settings and shortcuts.
 
 ```mermaid
 flowchart TD
-    User["Human Operator"] --> Layout["Workspace Layout<br>(Tabs, Omnibox, Status Pills)"]
-    User --> Sandboxes["Multi-Sandbox Profiles<br>(Isolated Cookie Jars)"]
-    User --> Terminal["Integrated Terminal Dock<br>(ConPTY PowerShell Dock)"]
-    User --> Spectator["Spectator Mode & AAG<br>(Visual Rings & Takeover)"]
-    User --> Downloads["Downloads & Security<br>(SmartScreen & Verification)"]
-    User --> Settings["Settings & Setup Wizard<br>(1-Click Agent Integration)"]
-    User --> Shortcuts["Keyboard Shortcuts<br>(Productivity Hotkeys)"]
+    User["You"] --> Layout["Workspace Layout<br>Tabs, address bar, menu"]
+    User --> Sandboxes["Sandboxes<br>Separate logins in one window"]
+    User --> Terminal["Terminal Dock<br>Built-in terminal"]
+    User --> Visual["AI Visualization<br>Agent cursor and emergency stop"]
+    User --> Downloads["Downloads<br>Panel and executable check"]
+    User --> Settings["Settings and Setup<br>Connecting AI programs"]
+    User --> Shortcuts["Keyboard Shortcuts"]
 ```
 
 ---
@@ -26,20 +26,20 @@ flowchart TD
 
 | Guide | Description | Primary Workflows |
 | :--- | :--- | :--- |
-| **[Workspace Layout](workspace-layout.md)** | Anatomy of the browser window and chrome controls. | Tab strip, omnibox, MCP connection badge, sidebar, status pill. |
-| **[Sandboxes & Profiles](sandboxes-and-profiles.md)** | Multi-account isolation without profile switching overhead. | Color-coded tabs, isolated storage jars, ephemeral containers. |
-| **[Terminal Dock](terminal-dock.md)** | Built-in Windows ConPTY terminal interface. | PowerShell, Git CLI, dock modes (Hidden, Collapsed, Expanded). |
-| **[Live Assist & Spectator Mode](live-assist-and-spectator.md)** | Real-time observation of AI agent interactions. | AAG visual halos, glowing click rings, human-in-the-loop takeover. |
-| **[Downloads Manager](downloads-manager.md)** | In-browser file transfer drawer and safety gate. | Windows SmartScreen prompts, hash verification, pause/resume. |
-| **[Settings & Setup Wizard](settings-and-connection-wizard.md)** | Configuring Nova and connecting AI tools in 60 seconds. | Claude Code, Codex, Antigravity, local MCP token rotation. |
-| **[Native Dialogs & Prompts](native-dialogs-ui.md)** | Operator experience for system-level modals. | File uploaders, basic auth, untrusted certificates, permission gates. |
-| **[Keyboard Shortcuts](keyboard-shortcuts.md)** | Comprehensive hotkey cheat sheet for rapid navigation. | Browser shortcuts, terminal toggles, emergency abort keys. |
+| **[Workspace Layout](workspace-layout.md)** | The parts of the Nova window. | Sandbox pills, tab strip, address bar, status buttons, menu. |
+| **[Sandboxes & Profiles](sandboxes-and-profiles.md)** | Several accounts side by side without switching profiles. | Separate browser profiles per sandbox, sandbox tabs, private tabs. |
+| **[Terminal Dock](terminal-dock.md)** | The terminal built into Nova. | Workspaces, PowerShell, Claude Code, Codex; dock modes (expanded, collapsed, hidden). |
+| **[AI Visualization & Staying in Control](live-assist-and-spectator.md)** | Seeing what an agent does in the browser. | AI cursor and step captions, agent markers, emergency stop. |
+| **[Downloads](downloads-manager.md)** | The downloads panel and the check for executable files. | Pause/resume, auto-open, "Keep this file?". |
+| **[Settings & Setup Wizard](settings-and-connection-wizard.md)** | Configuring Nova and connecting AI programs. | Claude Code, Claude Desktop, Codex, Antigravity. |
+| **[Native Dialogs & Prompts](native-dialogs-ui.md)** | Dialogs outside the web page. | File pickers, HTTP sign-in, certificate warnings, permission requests. |
+| **[Keyboard Shortcuts](keyboard-shortcuts.md)** | All shortcuts in one place. | Tabs, navigation, page tools, panels. |
 
 ---
 
-## 3. The Co-Pilot Philosophy
+## 3. Working Together with Agents
 
-Unlike headless automation tools (Puppeteer, Playwright) that hide the browser in a dark container, Nova AI Workspace operates on the **Dual-Operator Model**:
-1. **Full Transparency:** Every action taken by an AI agent (clicks, text input, scrolling, tab switching) is rendered visually with identifiable indicator badges.
-2. **Instant Takeover:** At any moment, the human operator can move the mouse, type into an input field, or press `Ctrl+Shift+X` to freeze agent automation and take full manual control.
-3. **Shared Context:** You and your AI agent share the exact same DOM, cookies, and authenticated sessions — no re-authenticating with 2FA or passing cookies through insecure scripts.
+Unlike headless automation tools (Puppeteer, Playwright) that run the browser out of sight, Nova runs agents in the browser you are looking at:
+1. **Visible actions:** with the AI visualization switched on (the default), agent clicks, typing and scrolling are shown with an on-screen cursor and a short caption, and tabs an agent works in are marked.
+2. **Stopping at any time:** **Menu → Emergency stop** interrupts agent work immediately and stays active until you release it.
+3. **Shared context:** you and your agent use the same pages, cookies and logged-in sessions — no logging in again, no copying cookies into scripts.
