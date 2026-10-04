@@ -410,7 +410,7 @@ Background task automation, cron expressions, file-system watches, task workspac
 | **[`nova.scheduled_task_active_runs`](tools/scheduled-tasks/nova-scheduled-task-active-runs.md)** | *(none)* | Lists all currently executing task runs across all background tasks. |
 | **[`nova.scheduled_task_templates`](tools/scheduled-tasks/nova-scheduled-task-templates.md)** | *(none)* | Lists pre-built task templates for common automation scenarios (monitoring, reporting, maintenance). |
 | **[`nova.scheduled_task_export`](tools/scheduled-tasks/nova-scheduled-task-export.md)** | *(none)* | Exports all scheduled task definitions as a structured array (excluding secrets and history). |
-| **[`nova.scheduled_task_import`](tools/scheduled-tasks/nova-scheduled-task-import.md)** | `tasksJson` | Imports scheduled task definitions from a JSON array, creating fresh task IDs and isolated workspaces. |
+| **[`nova.scheduled_task_import`](tools/scheduled-tasks/nova-scheduled-task-import.md)** | `tasksJson`, `enable?` | Imports scheduled task definitions from a JSON array, creating fresh task IDs and isolated workspaces. |
 | **[`nova.scheduled_task_secret_set`](tools/scheduled-tasks/nova-scheduled-task-secret-set.md)** | `taskId`, `key`, `value` | Stores an encrypted secret (API key, auth token) for a task using Windows DPAPI encryption. |
 | **[`nova.scheduled_task_secret_list`](tools/scheduled-tasks/nova-scheduled-task-secret-list.md)** | `taskId`, `limit?`, `offset?` | Lists registered secret key names for a task without exposing plaintext secret values. |
 | **[`nova.scheduled_task_var_set`](tools/scheduled-tasks/nova-scheduled-task-var-set.md)** | `taskId`, `key`, `value` | Sets a persistent key-value state variable for a task that survives across runs. |

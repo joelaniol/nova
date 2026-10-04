@@ -6,7 +6,7 @@ Configures recipient allow-lists for autonomous email sending without human prom
 
 ## 1. Overview
 
-`nova.connector_recipient_set` replaces a mail connector's whole send allow-list: full addresses or bare domains that `nova.mail_send` may message without an extra per-recipient prompt. It always replaces the entire list (read it from `nova.connector_list` first, edit, write back); pass `[]` to clear it. There is no wildcard or regex syntax — a bare domain such as `lieferant.de` or `@lieferant.de` already matches any mailbox at that domain. The user can turn agent editing of this list off in Settings; while off, this tool does not appear in discovery and a direct call fails with error code -32002 and `reasonCode: "recipient_management_disabled"` (sending to already-allowed recipients still works; only Settings can change the list).
+`nova.connector_recipient_set` replaces a mail connector's whole send allow-list: full addresses or bare domains that `nova.mail_send` may message without an extra per-recipient prompt. It always replaces the entire list (read it from `nova.connector_list` first, edit, write back); pass `[]` to clear it. There is no wildcard or regex syntax — a bare domain such as `lieferant.de` or `@lieferant.de` already matches any mailbox at that domain. The user can turn agent editing of this list off in Settings; while off, this tool does not appear in discovery and a direct call fails with error code -32005 and `reasonCode: "recipient_management_disabled"` (sending to already-allowed recipients still works; only Settings can change the list).
 
 * **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
 

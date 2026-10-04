@@ -18,6 +18,7 @@ Imports scheduled task definitions from a JSON array, creating fresh task IDs an
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `tasksJson` | `string` | Yes | — | — | JSON array of task definitions as a string: pass structuredContent.tasksJson from nova.scheduled_task_export unchanged. |
+| `enable` | `boolean` | No | — | — | Switch the imported tasks on right away. Default false: they arrive disabled and run only after nova.scheduled_task_enable. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 

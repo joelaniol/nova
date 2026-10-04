@@ -70,7 +70,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 }
 ```
 
-A not-found, expired, or inaccessible URI fails with error code -32002 and a `reasonCode` of `RESOURCE_EXPIRED_OR_NOT_FOUND`, `RESOURCE_ACCESS_DENIED`, or `RESOURCE_FILE_MISSING`.
+A not-found, expired, or inaccessible URI fails with error code -32002 and a `reasonCode` of `resource.expired_or_not_found`, `resource.access_denied`, or `resource.file_missing`. Until the end of the alpha, `legacyReasonCode` still carries the former names (`RESOURCE_EXPIRED_OR_NOT_FOUND`, `RESOURCE_ACCESS_DENIED`, `RESOURCE_FILE_MISSING`).
 
 ---
 
