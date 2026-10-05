@@ -1,5 +1,7 @@
 # Integrating Google Antigravity & Gemini CLI
 
+**Start here:** use Nova's connection wizard, click **Connect** if offered, and restart your AI program. Then follow the [first-task Quickstart](../getting-started/quickstart.md). The sections below cover manual configuration and advanced workflows.
+
 > [!NOTE]
 > This guide covers setting up **Google Antigravity (AGY)** and **Gemini CLI** to control **Nova AI Workspace**, detailing client-specific adapter flags (`--antigravity-tool-names`, `--mirror-structured-content`), lazy schema loading, and subagent swarm coordination.
 

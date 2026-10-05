@@ -1,36 +1,50 @@
-# Troubleshooting & Diagnostics Hub
+# Troubleshooting
 
-This section collects log locations, diagnosis steps and recovery procedures for **Nova AI Workspace**: agent connection problems, log analysis, and restoring tabs and sandboxes.
+Choose the problem you can see. You do not need to know whether it belongs to the browser, the bridge or the agent.
 
----
+## Start here
 
-## Troubleshooting Navigation
+| What is happening? | Go to |
+|---|---|
+| Setup will not run, or Nova asks for activation | [Installation](#installation) |
+| Your AI program cannot find or connect to Nova | [Connection](#connection) |
+| It connects, but does not use Nova or cannot read its results | [Agent behavior](#agent-behavior) |
+| A tab, login, sandbox or running agent needs attention | [Browser and sessions](#browser-and-sessions) |
+| You need logs or details of a failure | [Diagnostics](#diagnostics) |
+| The problem happens with one particular AI program | [Client-specific quirks](#client-specific-quirks) |
 
-```mermaid
-flowchart TD
-    A["Troubleshooting Hub"] --> B["1. Agent & MCP Connection Issues<br>(Bridge, Port, Antigravity, Client Config)"]
-    A --> C["2. Diagnostics & Log Analysis<br>(Profile Folder, Logs, Crash Dumps, Error Codes)"]
-    A --> D["3. Sandbox & Session Recovery<br>(Orphaned Tabs, Tab Claims, Media Stop, Sandbox Restore)"]
-```
+## Installation
 
-1. **[Agent & MCP Connection Issues (`agent-connection-issues.md`)](agent-connection-issues.md)**
-   Step-by-step diagnosis when an agent cannot reach Nova, Claude Desktop shows no Nova tools, Antigravity / Gemini CLI quirks, and client switches like `--mirror-structured-content`.
+Check the [installation requirements and setup notes](../getting-started/installation.md), including WebView2 and SmartScreen. For the current public alpha activation details, use [Alpha Trial License](../getting-started/trial-license.md).
 
-2. **[Diagnostics & Log Analysis (`diagnostics.md`)](diagnostics.md)**
-   Where Nova keeps its logs and crash dumps (`%LOCALAPPDATA%\nova-cognitive\Nova\`, or `%LOCALAPPDATA%\NovaBrowser\` on older installations), how agents read the transport log over MCP, and what the common error codes (`-32602`, `-32040`) mean.
+If Nova does not start after setup, follow [Diagnostics](diagnostics.md). Do not reinstall or delete your browser profile as the first troubleshooting step.
 
-3. **[Sandbox & Session Recovery (`sandbox-and-session-recovery.md`)](sandbox-and-session-recovery.md)**
-   Closing abandoned agent tabs, resolving tab claims held by another agent, stopping camera and microphone streams, and how Nova restores sandboxes after a damaged `settings.json`.
+## Connection
 
-See also: **[MCP client troubleshooting](../mcp-troubleshooting/README.md)** for client-specific quirks, and **[Alpha Trial License](../getting-started/trial-license.md)** if Nova asks for a license key.
+First, keep Nova open, use its connection wizard to check your AI program, and restart that program after connecting. Claude Desktop must be fully quit, including its tray icon.
 
----
+If that does not help, follow [Agent connection issues](agent-connection-issues.md) for the local server, bridge and client entry checks. Manual configuration belongs in your [client's integration guide](../integration/README.md).
 
-## Quick Diagnostic Checklist
+## Agent behavior
 
-If your AI agent cannot communicate with Nova:
+For a connected agent that avoids Nova, reports missing tools, sees only summary text or gets stuck on a page, follow [Agent behavior](agent-behavior.md).
 
-1. **Does Nova's server answer?** Run `Invoke-RestMethod http://127.0.0.1:27183/health` in PowerShell; `status : ready` means yes. If not, start Nova and check that **Allow agents to control the browser** is ticked in its settings.
-2. **Does the bridge work?** Run `& "$env:LOCALAPPDATA\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe" --self-test` (older installations: `%LOCALAPPDATA%\NovaBrowser\bin\`).
-3. **Is the entry current?** Open the connection wizard in Nova's settings (**Set up**) and connect the program again. Entries with `--pipe` come from outdated instructions and stop the bridge.
-4. **Is your AI program restarted?** Clients read their MCP configuration only at startup; restart the program after any change.
+## Browser and sessions
+
+- To interrupt work or take over a tab, use [Staying in control](../user-guide/live-assist-and-spectator.md).
+- For abandoned tabs, held claims, media streams or missing sandboxes, use [Sandbox and session recovery](sandbox-and-session-recovery.md).
+- For everyday tabs, profiles, downloads and prompts, use the [User guide](../user-guide/README.md).
+
+## Diagnostics
+
+[Diagnostics and logs](diagnostics.md) explains where to find startup, browser and connection evidence. Note what you were doing and the visible error. Review logs and screenshots for personal data and secrets before sharing them; follow the [alpha reporting policy](../../ALPHA.md#what-to-report).
+
+## Client-specific quirks
+
+| Client | Setup and help |
+|---|---|
+| Claude Code | [Client guide](../integration/claude-code.md) |
+| Claude Desktop | [Client guide](../integration/claude-desktop.md) · [Connection issues](agent-connection-issues.md#2-claude-desktop-shows-no-nova-tools) |
+| OpenAI Codex CLI | [Client guide](../integration/openai-codex.md) |
+| Google Antigravity / Gemini CLI | [Client guide](../integration/google-antigravity.md) · [Compatibility help](antigravity.md) |
+| Another MCP client | [Custom agents](../integration/custom-agents.md) · [Missing result data](agent-behavior.md#the-agent-sees-only-summaries) |

@@ -1,5 +1,7 @@
 # Integrating Anthropic Claude Code
 
+**Start here:** use Nova's connection wizard, click **Connect** if offered, and restart your AI program. Then follow the [first-task Quickstart](../getting-started/quickstart.md). The sections below cover manual configuration and advanced workflows.
+
 This guide explains how to connect Anthropic's **Claude Code** CLI assistant with **Nova AI Workspace** for autonomous, verified browser automation.
 
 ---
@@ -48,44 +50,15 @@ The entry in `~/.claude.json` then looks like this:
 
 ## 3. Automated Onboarding (`nova.install_onboarding`)
 
-Once Claude Code connects to Nova for the first time, execute the onboarding tool:
+For recurring project work, you can optionally install Nova's reference files in a project folder you choose. This is not needed for your first browser task.
 
-```
-Run nova.install_onboarding to setup project documentation.
-```
-
-### What `install_onboarding` Does:
-1. **Generates `.nova/nova-mcp.quick.md`:** The compact tool router, bootstrap instructions, and recovery procedures.
-2. **Generates `.nova/nova-mcp.md`:** The comprehensive 100KB+ reference of all 400+ tools, schemas, and parameter options.
-3. **Injects the Session Marker Block into `CLAUDE.md` / `AGENTS.md`:**
-   ```markdown
-   <!-- NOVA-BROWSER-MCP-START version=4.40.0 -->
-   ## Nova MCP — Session startup
-   1. Before the first Nova tool call, read .nova/nova-mcp.quick.md.
-   2. Start session discovery: get_instructions -> tools_bundle(includeUnavailable=true).
-   3. Call task tools directly. Use tabs for target choice, explicit tab_claim for ownership.
-   ...
-   <!-- NOVA-BROWSER-MCP-END -->
-   ```
-
-> [!IMPORTANT]
-> **Zero Permission Pollution:** Nova strictly adheres to agent boundary policies. `nova.install_onboarding` will **never** modify your `.claude/settings.json` or force-approve tool permissions. Tool execution approvals remain 100% under your explicit control.
+Nova writes references under `.nova/` and marked sections in supported project agent files. It does not change Claude Code's permission configuration. Follow [Advanced onboarding](../getting-started/advanced-onboarding.md) for the folder confirmation and current tool options.
 
 ---
 
 ## 4. Session Startup Contract
 
-Every Claude Code session calling Nova tools must execute the two-call bootstrap:
-
-```
-1. nova.get_instructions(taskKeywords=["search", "web", "automation"])
-2. nova.tools_bundle(bundle="browser_automation", includeUnavailable=true)
-```
-
-This handshake:
-* Loads active domain notes and site-specific quirks into Claude's context.
-* Returns `bundleCatalog` (the authoritative list of capability bundles).
-* Clears the bootstrap warning flag on the server.
+The agent should load Nova's current instructions and discover the capabilities needed for the task. You do not need to paste this sequence into every chat. Custom workflows can use the [explicit bootstrap guide](../getting-started/advanced-onboarding.md#explicit-session-bootstrap).
 
 ---
 

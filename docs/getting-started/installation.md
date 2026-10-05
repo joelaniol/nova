@@ -68,6 +68,8 @@ Nova AI Workspace/
 
 ## 4. Check That It Works
 
+For the simplest first-use check, follow [Quickstart](quickstart.md). The server health check below is optional diagnostic detail.
+
 1. **Start Nova** from the Start menu. The main window opens with a first tab.
 2. **Check the MCP server.** While Nova is running, it listens for AI programs on
    `127.0.0.1`, port `27183` by default (you can change it in the settings under **Local port**). In
@@ -93,7 +95,7 @@ Nova AI Workspace/
 
 ## Next Step
 
-Proceed to **[First Run & UI Tour](first-run.md)** to configure your workspace profiles and learn the navigation layout.
+Continue with **[Quickstart](quickstart.md)** to connect your AI program and try your first task. For a short tour of the window and how to stop an agent, see [First run](first-run.md).
 
 ---
 

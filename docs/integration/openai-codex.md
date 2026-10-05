@@ -1,5 +1,7 @@
 # Integrating OpenAI Codex CLI
 
+**Start here:** use Nova's connection wizard, click **Connect** if offered, and restart your AI program. Then follow the [first-task Quickstart](../getting-started/quickstart.md). The sections below cover manual configuration and advanced workflows.
+
 > [!NOTE]
 > This guide covers setting up **OpenAI Codex CLI** to control **Nova AI Workspace**, including configuration, task execution, and multi-agent coordination.
 
@@ -51,11 +53,7 @@ Once configured, launch Codex tasks requiring browser verification or DOM extrac
 codex "Audit the pricing table on https://example.com/pricing and verify subscription tiers using Nova."
 ```
 
-Codex will automatically:
-1. Launch or connect to Nova AI Workspace.
-2. Call `nova.tab_new` or `nova.navigate` to open the target URL.
-3. Extract DOM elements with `nova.dom_extract` or read layout geometries with `nova.measure_elements`.
-4. Return structured facts verified against live browser state.
+For a successful task, look for the requested page in Nova and results checked against that page. The agent chooses the tools for the task; a connection alone does not guarantee a particular call sequence or a verified outcome.
 
 ---
 

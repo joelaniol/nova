@@ -1,68 +1,38 @@
-# Agent Integration Hub
+# Connect Your AI Program
 
-AI agents connect to Nova AI Workspace over the open **Model Context Protocol (MCP)**.
+Nova detects supported AI programs on your computer and helps them connect to its browser. Most users can use the connection wizard rather than edit configuration files.
 
----
+## The normal setup
 
-## Supported Agent Clients
+1. Open Nova's connection wizard: **Settings → AI & agents → Connection & setup → Set up**. It may already be open on first start.
+2. Choose **Easy setup (recommended)**. Review the programs Nova found, then continue to **How the connection is saved**.
+3. Click **Connect** beside your program if offered. Already managed entries need no new connection.
+4. Restart your AI program or start a new CLI session. Then ask: **“Use Nova to find cat pictures and give me three source links.”**
 
-When Nova starts, it registers itself with Claude Code, Claude Desktop, OpenAI Codex and Google Antigravity if they are installed. Other MCP clients and your own agents connect by hand, through the stdio bridge or directly over HTTP:
+For the complete first task, follow [Quickstart](../getting-started/quickstart.md).
 
-```mermaid
-flowchart TD
-    subgraph Clients["Supported AI Clients"]
-        CC["Anthropic Claude Code"]
-        CD["Anthropic Claude Desktop"]
-        Codex["OpenAI Codex CLI"]
-        AGY["Google Antigravity and Gemini CLI"]
-        Custom["Custom Python and Node agents<br>(SDK or HTTP)"]
-    end
+## Choose your client
 
-    subgraph Transports["Transport Layer"]
-        Stdio["Stdio bridge (NovaBrowser.McpProxy.exe)<br>finds Nova, adds the token, starts Nova if needed"]
-        Http["Streamable HTTP on 127.0.0.1<br>Bearer token, event streaming"]
-    end
+Each supported client has one setup guide. Use it for manual configuration and client-specific details.
 
-    subgraph Server["Nova AI Workspace Runtime"]
-        Core["Local MCP server<br>(over 400 tools)"]
-    end
+| Your AI program | Guide |
+|---|---|
+| Claude Code | [Claude Code](claude-code.md) |
+| Claude Desktop | [Claude Desktop](claude-desktop.md) |
+| OpenAI Codex CLI | [Codex](openai-codex.md) |
+| Google Antigravity / Gemini CLI | [Antigravity and Gemini](google-antigravity.md) |
+| Your own Python, Node.js or other MCP client | [Custom agents](custom-agents.md) |
 
-    CC -->|stdio| Stdio
-    CD -->|stdio| Stdio
-    Codex -->|stdio| Stdio
-    AGY -->|stdio| Stdio
-    Custom -->|SDK via stdio| Stdio
-    Custom -->|direct HTTP| Http
+If a program is missing, install it and choose **Search again**. For another compatible program, the wizard's **Connect another program** step offers setup text and manual connection details.
 
-    Stdio --> Http
-    Http --> Core
-```
+## What the connection does
 
----
+Supported clients start Nova's bridge, `NovaBrowser.McpProxy.exe`. The bridge finds Nova's local MCP server and adds its access token. Nova keeps its own client entry current when automatic sync is enabled; other entries are preserved. The token is not written into those client config entries.
 
-## Integration Guides
+Nova listens on this computer by default. Access from other devices requires a separate setting. Page data your agent reads may be sent to its AI provider under that provider's terms; see the [privacy notice](../../PRIVACY.md).
 
-Choose the guide matching your agent client:
+## Beyond the first task
 
-1. **[Claude Code CLI (`claude-code.md`)](claude-code.md)**
-   Setup for Anthropic's autonomous terminal agent. Learn how Nova registers itself, how to add it by hand, run `nova.install_onboarding`, and structure agent instructions.
-
-2. **[Claude Desktop (`claude-desktop.md`)](claude-desktop.md)**
-   Configure Anthropic's official desktop application on Windows using `NovaBrowser.McpProxy.exe` as the stdio bridge.
-
-3. **[OpenAI Codex CLI (`openai-codex.md`)](openai-codex.md)**
-   The Codex entry in `~/.codex/config.toml`, running tasks and coordinating several agents.
-
-4. **[Google Antigravity & Gemini CLI (`google-antigravity.md`)](google-antigravity.md)**
-   The bridge switches these clients need (`--antigravity-tool-names`, `--mirror-structured-content`), loading tools in bundles and coordinating several agents.
-
-5. **[Custom Python & Node.js Agents (`custom-agents.md`)](custom-agents.md)**
-   Build custom agent loops using the official Python MCP SDK, Node.js MCP SDK, or a direct Streamable HTTP connection with Nova's access token.
-
----
-
-## Transports & Security Principles
-
-* **Local only by default:** Nova's MCP server listens on `127.0.0.1`. Other machines cannot connect unless you switch on **Allow access from other devices on the network** in Nova's settings.
-* **Access token:** Every request needs Nova's access token. It is stored encrypted for your Windows account and stays the same across restarts until you choose **Regenerate token** in Nova's settings, so registered AI programs keep working. The stdio bridge reads it by itself; Nova does not write it into the config files of your AI programs.
-* **What leaves your machine:** The MCP connection itself stays on your computer. What your AI program reads through Nova goes on to that program's provider, under its terms. What Nova itself transmits is listed in the [privacy notice](../../PRIVACY.md).
+- [Advanced onboarding and bootstrap](../getting-started/advanced-onboarding.md) — optional project references and agent discovery.
+- [Protocol and transport](../mcp-reference/protocol-and-transport.md) — custom integrations.
+- [Troubleshooting](../troubleshooting/README.md) — missing connections, agent behavior and client-specific quirks.

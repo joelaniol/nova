@@ -1,7 +1,5 @@
-# OpenAI Codex & Google Antigravity Guides
+# Codex and Antigravity Guides
 
-> [!NOTE]
-> This guide has been split into dedicated documentation pages to address client-specific requirements and adapter flags:
->
-> * **👉 [OpenAI Codex CLI Guide](openai-codex.md)** — TOML configuration, autonomous tasks, and subagent orchestration.
-> * **👉 [Google Antigravity & Gemini CLI Guide](google-antigravity.md)** — Required client switches (`--antigravity-tool-names`, `--mirror-structured-content`), lazy schema loading, and multi-agent swarms.
+For current setup instructions, choose [OpenAI Codex](openai-codex.md) or [Google Antigravity / Gemini CLI](google-antigravity.md).
+
+The [integration hub](README.md) lists all supported clients. This page remains available for older links.

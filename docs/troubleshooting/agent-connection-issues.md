@@ -60,7 +60,7 @@ The simplest repair for steps 2–3 is the connection wizard in Nova's settings:
 
 Antigravity has two quirks of its own: it rejects tool names with dots, and it passes only the text of a tool result to the model. Nova's entry for Antigravity therefore starts the bridge with `--antigravity-tool-names`, which handles both. Nova keeps that entry in `%USERPROFILE%\.gemini\config\mcp_config.json` up to date by itself.
 
-Symptoms, causes and fixes are collected in **[MCP troubleshooting → Antigravity](../mcp-troubleshooting/antigravity.md)**.
+Symptoms and Nova's compatibility settings are explained in [Antigravity compatibility](antigravity.md).
 
 ---
 
@@ -93,12 +93,11 @@ The bridge then copies the structured data into the text block, so the model see
 ## 5. Renderer Stalls & Bot Challenge Freezes (`cdp.renderer_stalled`)
 
 ### Symptoms
-* A navigation or DOM query on heavy sites (e.g., AliExpress, Cloudflare Turnstile, Cloudflare WAF, Akamai) times out after 10–30 seconds with error `cdp.renderer_stalled`.
+* A navigation or DOM query times out with error `cdp.renderer_stalled`.
 
-### Cause
-Anti-bot systems intentionally suspend or freeze the JavaScript rendering thread (`window.stop()` or intensive worker loops) until a human solves an interactive captcha.
+### Check the actual page
+A renderer timeout does not identify its cause. Inspect the visible page before retrying. If a CAPTCHA or other human verification challenge is present, complete it yourself and let the agent continue afterwards.
 
-### Resolution
-1. **Do not repeat the action in a tight loop:** Retrying the identical tool call will repeatedly hit the stalled thread.
-2. **Inspect Page State:** Call `nova.perceive(mode="state")` or capture a visual proof crop via `nova.capture_screenshot(fullPage=false)`.
-3. **Request Human Assistance:** Inform the human operator that an anti-bot challenge is blocking the page so they can complete the verification challenge directly in the Nova GUI window.
+For a stuck page without a clear challenge, use [Agent behavior](agent-behavior.md#a-page-is-stuck-or-asks-for-human-verification) and [Diagnostics](diagnostics.md). Do not repeatedly dispatch an action without checking its outcome.
+
+Return to the [Troubleshooting hub](README.md) for another symptom.

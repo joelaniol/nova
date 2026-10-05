@@ -1,22 +1,23 @@
 # Nova AI Workspace Documentation
 
-Every page of the documentation on one screen. Pick the row that matches what you want to do;
-each section also has its own overview page.
+## I want to use Nova
 
-Deutsch: [weiter unten](#dokumentation-auf-deutsch).
+**[Install](getting-started/installation.md) → [Connect your AI program](integration/README.md) → [Try your first task](getting-started/quickstart.md)**
 
-## Where to start
+Already connected? Ask your AI program: **“Use Nova to find cat pictures and give me three source links.”**
 
-| I want to … | Go to |
-|---|---|
-| Install Nova and get it running | [Installation](getting-started/installation.md) → [First run](getting-started/first-run.md) |
-| See an agent do something useful in five minutes | [Quickstart](getting-started/quickstart.md) |
-| Connect my AI assistant (Claude, Codex, Antigravity, …) | [Agent integration](integration/README.md) |
-| Fix an agent that is connected but behaves oddly | [MCP troubleshooting](mcp-troubleshooting/README.md) |
-| Fix an agent that cannot connect at all | [Connection issues](troubleshooting/agent-connection-issues.md) |
-| Look up a specific tool | [Tool catalog](mcp-reference/tool-catalog.md) |
-| Understand how Nova works under the hood | [Core features](core-features/README.md) |
-| Identify a Nova-related process in Task Manager | [Components and processes](components/README.md) |
+[First-run orientation](getting-started/first-run.md) explains where you are, where to see the agent and how to stop it. The [User guide](user-guide/README.md) covers everyday browser features. For any problem, start at [Troubleshooting](troubleshooting/README.md).
+
+## I want to understand Nova
+
+**[Architecture and processes](components/README.md) → [Core features](core-features/README.md) → [MCP reference](mcp-reference/README.md)**
+
+Explore how Nova acts, verifies and learns; identify its helper processes; or look up a tool in the [catalog](mcp-reference/tool-catalog.md).
+
+## Complete reference
+
+<details>
+<summary>Browse all documentation sections and pages</summary>
 
 ## Getting started
 
@@ -26,7 +27,8 @@ Deutsch: [weiter unten](#dokumentation-auf-deutsch).
 |---|---|
 | [Installation](getting-started/installation.md) | System requirements and the setup on Windows |
 | [First run](getting-started/first-run.md) | A tour of the window after the first launch |
-| [Quickstart](getting-started/quickstart.md) | From a fresh start to the first verified agent action |
+| [Quickstart](getting-started/quickstart.md) | Connect, restart your AI program and ask for a first task |
+| [Advanced onboarding](getting-started/advanced-onboarding.md) | Optional project references and explicit bootstrap |
 
 ## User guide
 
@@ -53,7 +55,6 @@ Deutsch: [weiter unten](#dokumentation-auf-deutsch).
 | [Claude Desktop](integration/claude-desktop.md) | Connecting the Claude Desktop app |
 | [OpenAI Codex](integration/openai-codex.md) | Connecting the Codex CLI |
 | [Google Antigravity and Gemini CLI](integration/google-antigravity.md) | Connecting Antigravity and Gemini |
-| [Codex and Antigravity notes](integration/codex-and-antigravity.md) | Pointer page to the two guides above |
 | [Custom agents](integration/custom-agents.md) | Your own agent in Python, Node.js or raw JSON-RPC |
 
 ## MCP reference
@@ -163,29 +164,25 @@ Deutsch: [weiter unten](#dokumentation-auf-deutsch).
 
 ## Troubleshooting
 
+[One troubleshooting hub](troubleshooting/README.md) covers installation, connection, agent behavior, browser sessions, diagnostics and client-specific quirks.
+
 | Page | What it covers |
 |---|---|
-| [MCP troubleshooting](mcp-troubleshooting/README.md) | Agent is connected but does not use Nova properly |
-| [Antigravity](mcp-troubleshooting/antigravity.md) | Known quirks of Google Antigravity and Gemini CLI |
-| [Troubleshooting overview](troubleshooting/README.md) | Entry point for runtime problems |
-| [Connection issues](troubleshooting/agent-connection-issues.md) | Agent cannot connect or find Nova |
-| [Diagnostics](troubleshooting/diagnostics.md) | Logs and where to find them |
-| [Sandbox and session recovery](troubleshooting/sandbox-and-session-recovery.md) | Hanging tabs, lost sessions, restoring sandboxes |
+| [Connection issues](troubleshooting/agent-connection-issues.md) | Missing connections, local server and bridge checks |
+| [Agent behavior](troubleshooting/agent-behavior.md) | Connected but not using tools, missing data or unchecked outcomes |
+| [Antigravity compatibility](troubleshooting/antigravity.md) | Nova's client-compatible names and result handling |
+| [Diagnostics](troubleshooting/diagnostics.md) | Logs and failure evidence |
+| [Sandbox and session recovery](troubleshooting/sandbox-and-session-recovery.md) | Abandoned tabs, held claims and missing sandboxes |
 
 ## More
 
 - [Interactive demo](../demos/README.md) — an experience loop with repeat visits, a changed page and checked outcomes, plus eight browser exercises ([German guide](../demos/README.de.md))
 - [Alpha notes](../ALPHA.md) · [Privacy](../PRIVACY.md) · [Acceptable use](../ACCEPTABLE-USE.md) · [Disclaimer](../DISCLAIMER.md) · [License](../LICENSE)
 
----
+</details>
 
 ## Dokumentation auf Deutsch
 
-Die Dokumentation ist überwiegend englisch. Eine deutsche Fassung gibt es bisher für die
-[Installation](getting-started/installation.md#nova-ai-workspace-installieren), die
-[MCP-Fehlerbehebung](mcp-troubleshooting/README.md) (im unteren Teil der Seite) und die
-[Antigravity-Hinweise](mcp-troubleshooting/antigravity.md).
+Der [Demo-Guide](../demos/README.de.md), die [Installation](getting-started/installation.md#nova-ai-workspace-installieren), die [Hilfe zum Agentenverhalten](troubleshooting/agent-behavior.md#deutsch-der-agent-ist-verbunden-arbeitet-aber-nicht-richtig) und die [Antigravity-Hinweise](troubleshooting/antigravity.md#google-antigravity-deutsch) sind auch auf Deutsch verfügbar. Die übrige Dokumentation ist überwiegend englisch.
 
-Schnelleinstieg: [Installation](getting-started/installation.md#nova-ai-workspace-installieren) →
-[Erster Start](getting-started/first-run.md) (englisch) → [KI-Programm verbinden](integration/README.md)
-(englisch). Alles Weitere steht in der Übersicht oben.
+Zum Einstieg: [Installieren](getting-started/installation.md#nova-ai-workspace-installieren) → [KI-Programm verbinden](integration/README.md) → [Erste Aufgabe](getting-started/quickstart.md).

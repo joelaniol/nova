@@ -1,5 +1,7 @@
 # Integrating Anthropic Claude Desktop
 
+**Start here:** use Nova's connection wizard, click **Connect** if offered, and restart your AI program. Then follow the [first-task Quickstart](../getting-started/quickstart.md). The sections below cover manual configuration and advanced workflows.
+
 This guide explains how to connect Anthropic's official **Claude Desktop** application on Windows with **Nova AI Workspace**.
 
 ---

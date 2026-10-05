@@ -1,105 +1,51 @@
-# 5-Minute Quickstart
+# Your First Task with Nova
 
-This walkthrough takes you from a freshly started **Nova AI Workspace** to your first agent-driven web task.
+Start Nova, connect your AI program, and ask for something you want. You do not need to learn tool names to begin.
 
----
+## 1. Open Nova and connect
 
-## 1. Prerequisites
+If you have not installed Nova yet, follow [Installation](installation.md). You also need a supported AI program, such as Claude Code, Claude Desktop, Codex or Antigravity, installed on this computer.
 
-1. Nova AI Workspace is installed and running (`NovaAIWorkspace.exe`).
-2. Your AI program (such as Claude Code, OpenAI Codex, Claude Desktop or Google Antigravity) is installed on your machine.
+On first start, follow Nova's connection wizard:
 
----
+1. Choose **Easy setup (recommended)**. Nova shows the compatible programs it found.
+2. Continue to **How the connection is saved** and click **Connect** beside your program if offered. If Nova already lists its entry as managed, you can continue.
+3. Restart your AI program, or start a new CLI session, so it loads the connection. For Claude Desktop, quit it completely, including its tray icon, before reopening it.
 
-## 2. Step 1: Check That Agents May Connect
+If the wizard is not open, use **Settings → AI & agents → Connection & setup → Set up**. If your program is not detected, use **Search again** after installing it, or choose its [integration guide](../integration/README.md).
 
-1. Start Nova and open **Settings → AI & agents → Connection & setup**.
-2. Check that **Enable local agent control** and **Allow agents to control the browser** are ticked. Both are on by default.
-3. Nova runs its local MCP server on `127.0.0.1` (port `27183` by default), protected by an access token. It keeps its entry up to date in Claude Code, Claude Desktop, Codex and Antigravity by itself.
+## 2. Ask for your first task
 
----
+In your AI program, ask:
 
-## 3. Step 2: Connect Your Agent
+> Use Nova to find cat pictures. Open the results in Nova and give me three source links.
 
-If your AI program is not connected yet, click **Set up** on the same settings page and use **Connect** next to your program in the wizard. Restart the program afterwards; AI programs read their MCP configuration only at startup.
+Watch Nova's tabs as the agent browses. You should see a results page and receive links you can open yourself. If your AI program asks permission to use Nova's tools, review and approve the requests needed for your task.
 
-Then start an agent session, for example with Claude Code:
-```bash
-claude
-```
+The agent should handle Nova's working instructions and tool discovery. You do not need to paste a bootstrap sequence, install project files or manage tab claims for this first task.
 
-Optionally, let the agent install Nova's reference files into your project:
-```
-Call nova.install_onboarding with this project's folder as projectRoot.
-```
-Nova writes `.nova/nova-mcp.quick.md` and `.nova/nova-mcp.md` into the project and adds a short marked section to the project's `CLAUDE.md`, `AGENTS.md` or `GEMINI.md`, so later sessions find Nova's instructions. For a folder Nova has not onboarded before, the call also needs `"confirmNewLocation": true`.
+Prefer a local exercise? Try the [interactive demo](../../demos/README.md).
 
-*(For Claude Desktop, Codex, Antigravity or your own agents, see the [Agent Integration Hub](../integration/README.md).)*
+## 3. See what is happening and stay in control
 
----
+Agent activity is marked on tabs. With **AI visualization** enabled, an AI cursor and captions show supported browser actions.
 
-## 4. Step 3: The Bootstrap Handshake
+**Menu → Emergency stop** interrupts agent work and remains active until you choose **Release emergency stop**. Typing or moving your mouse does not pause the agent. See [Staying in control](../user-guide/live-assist-and-spectator.md) for taking over a single tab and the scope of the stop.
 
-An agent session starts with two calls:
+## If the first task does not work
 
-```json
-// Call 1: load the session instructions and notes that match the task
-nova.get_instructions({
-  "taskKeywords": ["research", "documentation"]
-})
+Start at [Troubleshooting](../troubleshooting/README.md). Choose **Connection** if Nova is missing or disconnected; choose **Agent behavior** if it is connected but the agent does not use it or cannot read its results.
 
-// Call 2: load the tools for browser automation
-nova.tools_bundle({
-  "bundle": "browser_automation",
-  "includeUnavailable": true
-})
-```
+## What Nova configured for you
 
-* `nova.get_instructions` returns Nova's working rules for agents, hints for the current site, and operator notes that match `taskKeywords`.
-* `nova.tools_bundle` returns the tools of one bundle plus the list of all bundles (`knownBundles`, `bundleCatalog`), so the agent can load further bundles when it needs them. Nova has more than 400 tools in total; see the [tool catalog](../mcp-reference/tool-catalog.md).
+Nova adds or updates its own connection entry in supported AI programs, subject to your connection settings. The entry starts Nova's bridge, which finds the browser and supplies its access token. You do not need to copy the token into client configuration.
 
----
+Nova keeps its own entry current when automatic sync is enabled. Your AI program's tool approvals remain your decision; connecting Nova does not create a permission allowlist for it.
 
-## 5. Step 4: Your First Automated Action
+Details: [Agent integration](../integration/README.md).
 
-Ask your agent to perform a simple research task:
+## Advanced onboarding / bootstrap
 
-> *"Open Hacker News in a new tab, claim the tab, and extract the top 5 articles."*
+Project reference files, explicit tool discovery and tab coordination are useful for development and custom agents. They are optional setup beyond this first task: [Advanced onboarding and bootstrap](advanced-onboarding.md).
 
-A typical sequence looks like this:
-
-```mermaid
-sequenceDiagram
-    autonumber
-    actor Agent as AI Agent
-    participant Nova as Nova MCP Server
-    participant Tab as Browser Tab
-
-    Agent->>Nova: nova.tab_new url=news.ycombinator.com, waitForLoad=true
-    Nova->>Tab: Create tab and navigate
-    Tab-->>Nova: Page loaded
-    Nova-->>Agent: New tab with its targetId
-
-    Agent->>Nova: nova.tab_claim targetId, agentId
-    Nova-->>Agent: Claim granted, lease 120 s
-
-    Agent->>Nova: nova.read_text_structured targetId
-    Nova->>Tab: Read page text by region
-    Nova-->>Agent: Structured page text
-
-    Agent->>Nova: nova.tab_release targetId, agentId
-    Nova-->>Agent: Tab released
-```
-
-### What happens here
-1. **Claiming the tab (`nova.tab_claim`):** the agent reserves the tab for itself. Other agents cannot act on it until it is released or the lease runs out (120 seconds by default, adjustable with `ttlMs`). `nova.tab_new` can also claim the new tab directly with its `claim` parameter.
-2. **Reading text instead of screenshots (`nova.read_text_structured`):** the agent reads the page text grouped by region, which costs far fewer tokens than a screenshot. A `selector` limits the scan to one part of the page.
-3. **Releasing (`nova.tab_release`):** frees the tab for you and other agents right away instead of waiting for the lease to run out.
-
----
-
-## 6. What Next?
-
-* Explore the full agent configuration options in **[Agent Integration](../integration/README.md)**.
-* Learn how Nova learns from sites in **[PKS & Continuous Learning](../core-features/pks.md)**.
-* Read how Nova performs mouse and keyboard input in **[Input Dispatch & Shadow DOM Traversal](../core-features/humanized-input-engine.md)**.
+Next: [First-run orientation](first-run.md) or the [User guide](../user-guide/README.md).

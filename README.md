@@ -42,13 +42,12 @@ The **Dual-Operator Model** connects the person and the agent:
 
 1. **[Download Setup from Releases](https://github.com/joelaniol/nova/releases)** — Windows 10 / 11 (x64).
 2. **Activate.** No account required — the setup comes with the shared alpha license already filled in.
-3. **Connect your agent.** Automatically configured for Claude Code, Codex, Claude Desktop and Google Antigravity.  
-   Restart your agent, then say: **"please run the Nova onboarding."**
+3. **Connect your agent.** Nova detects supported AI programs. Follow **Easy setup**, click **Connect** if offered, and restart your AI program. Then ask: **"Use Nova to find cat pictures and give me three source links."**
 
 Looking for the trial key? → **[Alpha Trial License](docs/getting-started/trial-license.md)**
 
 > [!NOTE]
-> On first launch Windows SmartScreen may warn that the app is not code-signed — expected for independent alpha builds. Choose **"More info" → "Run anyway"**.
+> Windows SmartScreen may show **"Windows protected your PC"**. See the [installation notes](docs/getting-started/installation.md) before continuing with **"More info" → "Run anyway"**.
 
 > [!WARNING]
 > **ALPHA SOFTWARE — USE AT YOUR OWN RISK.** Nova is in active alpha development. Bugs, crashes, data loss and breaking changes may occur. By using Nova you accept the [Disclaimer](DISCLAIMER.md), [Acceptable Use Policy](ACCEPTABLE-USE.md), [Privacy Policy](PRIVACY.md), and [License](LICENSE). · [Alpha status & known issues →](ALPHA.md)
@@ -152,29 +151,13 @@ Traditional agent tools provide raw browser automation commands. Nova surrounds 
 
 ## ⚡ 1-Minute Agent Quickstart
 
-**Usually there is nothing to configure.** When Nova starts, it registers itself with the supported AI
-programs it finds on your machine: Claude Code, Claude Desktop, OpenAI Codex and Google Antigravity.
-Restart the AI program once afterwards so it loads the new entry. For other programs, open the
-connection wizard in Nova's settings.
+Start Nova, connect your AI program in the setup wizard if needed, then restart that program.
 
-The entry Nova writes only starts its bridge program. The bridge finds the running Nova by itself and
-starts it if needed, so no password or port ends up in your AI program's config:
+> Use Nova to find cat pictures. Open the results in Nova and give me three source links.
 
-```json
-{
-  "mcpServers": {
-    "nova": {
-      "command": "C:\\Users\\<you>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe"
-    }
-  }
-}
-```
+Watch the browser as your agent works. You do not need to install project reference files or paste a bootstrap sequence for this first task. **Menu → Emergency stop** interrupts agent work; ordinary mouse or keyboard input does not pause it.
 
-Google Antigravity also gets `"args": ["--antigravity-tool-names"]`, because it does not accept the
-dots in names like `nova.tabs`. Installations from before the product rename use
-`%LOCALAPPDATA%\NovaBrowser` instead of `%LOCALAPPDATA%\nova-cognitive\Nova`.
-
-For detailed configuration of custom clients, see the [Agent Integration Hub](docs/integration/README.md).
+[Follow the Quickstart](docs/getting-started/quickstart.md) · [Choose your client](docs/integration/README.md) · [Get help](docs/troubleshooting/README.md)
 
 ---
 
@@ -184,13 +167,13 @@ Explore the comprehensive documentation for operators, developers, and AI agents
 
 | Section | Focus Area | Key Documents |
 | :--- | :--- | :--- |
-| **[Getting Started](docs/getting-started/README.md)** | Installation & Onboarding | [Installation](docs/getting-started/installation.md) • [First Run Tour](docs/getting-started/first-run.md) • [Quickstart](docs/getting-started/quickstart.md) |
+| **[Getting Started](docs/getting-started/README.md)** | Installation & First Task | [Installation](docs/getting-started/installation.md) • [First Run Tour](docs/getting-started/first-run.md) • [Quickstart](docs/getting-started/quickstart.md) |
 | **[User Guide](docs/user-guide/README.md)** | Human Workspace & UI Controls | [Workspace Layout](docs/user-guide/workspace-layout.md) • [Sandboxes](docs/user-guide/sandboxes-and-profiles.md) • [Terminal Dock](docs/user-guide/terminal-dock.md) • [AI Visualization](docs/user-guide/live-assist-and-spectator.md) • [Shortcuts](docs/user-guide/keyboard-shortcuts.md) |
 | **[Core Features](docs/core-features/README.md)** | Deep Architecture & Systems | [AAG Gates](docs/core-features/aag.md) • [PKS Knowledge Store](docs/core-features/pks.md) • [Outrider Boundary](docs/core-features/outrider-boundary.md) • [Vault & Secrets](docs/core-features/vault-and-secrets.md) • [Session Recording](docs/core-features/session-recording.md) |
 | **[Components & Processes](docs/components/README.md)** | Identify Nova-related processes | Main app • Outrider • MCP Proxy • TerminalRunner • ReplayValidator • WebView2 |
 | **[MCP Reference](docs/mcp-reference/README.md)** | Tools & Protocol | [Tool Catalog](docs/mcp-reference/tool-catalog.md) • [Protocol & Transport](docs/mcp-reference/protocol-and-transport.md) • [Dedicated Tool Guides](docs/mcp-reference/tools/README.md) |
 | **[Integration](docs/integration/README.md)** | AI Assistants & Clients | [Claude Code](docs/integration/claude-code.md) • [Codex](docs/integration/openai-codex.md) • [Antigravity](docs/integration/google-antigravity.md) • [Claude Desktop](docs/integration/claude-desktop.md) • [Custom Agents](docs/integration/custom-agents.md) |
-| **[Troubleshooting](docs/troubleshooting/README.md)** | Diagnostics & Error Recovery | [Connection Issues](docs/troubleshooting/agent-connection-issues.md) • [Diagnostics Logs](docs/troubleshooting/diagnostics.md) • [Session Recovery](docs/troubleshooting/sandbox-and-session-recovery.md) |
+| **[Troubleshooting](docs/troubleshooting/README.md)** | Help by Symptom | [Connection Issues](docs/troubleshooting/agent-connection-issues.md) • [Agent Behavior](docs/troubleshooting/agent-behavior.md) • [Diagnostics Logs](docs/troubleshooting/diagnostics.md) • [Session Recovery](docs/troubleshooting/sandbox-and-session-recovery.md) |
 
 ---
 
@@ -211,7 +194,7 @@ Echte Browsersitzungen · ConPTY-Terminal · Wissensspeicher · Scheduler · [MC
 ### Schnellstart in 3 Schritten
 1. **[Setup herunterladen](https://github.com/joelaniol/nova/releases)** (Windows 10 / 11 x64).
 2. **Aktivieren:** Kein Konto nötig, das Setup bringt den Alpha-Testzugang schon ausgefüllt mit.
-3. **Agenten verbinden:** Claude Code, Codex, Claude Desktop und Antigravity werden automatisch eingerichtet. Nach Neustart des Agenten sagen: **„please run the Nova onboarding“**.
+3. **Agenten verbinden:** Nova erkennt unterstützte KI-Programme. Folge der einfachen Einrichtung, klicke bei Bedarf **Verbinden** und starte dein KI-Programm neu. Sage dann: **„Such mir mit Nova Katzenbilder und gib mir drei Quellenlinks.“**
 
 Testschlüssel gesucht? → **[Alpha-Testlizenz](docs/getting-started/trial-license.md#alpha-testlizenz)**
 
