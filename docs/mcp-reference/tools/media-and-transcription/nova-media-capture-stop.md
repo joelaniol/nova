@@ -53,7 +53,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
     "stopped": true,
     "targetId": "tab-1",
     "reasonCode": null,
-    "saveDir": "C:\\Users\\<user>\\AppData\\Local\\NovaBrowser\\Exports\\MediaCaptures",
+    "saveDir": "C:\\Users\\<user>\\AppData\\Local\\nova-cognitive\\Nova\\Exports\\MediaCaptures",
     "elapsedMs": 24300,
     "bytesWritten": 389120,
     "limitHit": false,
@@ -61,7 +61,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
     "recorderLost": false,
     "trackCount": 1,
     "tracks": [
-      { "recorder": "mse", "index": 0, "mime": "audio/webm; codecs=\"opus\"", "filePath": "C:\\Users\\<user>\\AppData\\Local\\NovaBrowser\\Exports\\MediaCaptures\\capture-20261003-120000-mse0.webm", "bytesWritten": 389120 }
+      { "recorder": "mse", "index": 0, "mime": "audio/webm; codecs=\"opus\"", "filePath": "C:\\Users\\<user>\\AppData\\Local\\nova-cognitive\\Nova\\Exports\\MediaCaptures\\capture-20261003-120000-mse0.webm", "bytesWritten": 389120 }
     ],
     "muxHint": null
   }

@@ -76,7 +76,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
     ],
     "targetId": "tab-1",
     "resource": { "uri": "nova://screenshot/<id>", "mimeType": "image/jpeg", "size": 184320 },
-    "filePath": "C:\\Users\\me\\AppData\\Local\\NovaBrowser\\Screenshots\\<id>.jpg"
+    "filePath": "C:\\Users\\me\\AppData\\Local\\nova-cognitive\\Nova\\Screenshots\\<id>.jpg"
   }
 }
 ```

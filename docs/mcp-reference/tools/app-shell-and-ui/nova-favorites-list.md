@@ -9,7 +9,9 @@
 
 ## 1. Overview
 
-`nova.favorites_list` returns every stored favorite with its stable id, URL, title, creation timestamp, folder id and sort order. Favorites with the same URL in different folders appear as separate entries, each with its own id. The tool takes no filter; filter by `folderId` on the client side (`null` = top level).
+`nova.favorites_list` returns stored favorites with their stable id, URL, title, creation timestamp, folder id and sort order. Favorites with the same URL in different folders appear as separate entries, each with its own id.
+
+Without arguments it lists every favorite in stored order. `folderId` limits the list to one bookmark folder and its subfolders. `query` searches the way the user's favorites search box does: word start before substring before letters in order, title before address before folder name, case and accents ignored, often visited pages first among equal matches, and a favorite the user already picked for this text in the address bar or the favorites search first. Each hit then carries `folderPath`. `maxResults` caps the list; `totalMatches` and `truncated` say whether it was cut.
 
 ---
 

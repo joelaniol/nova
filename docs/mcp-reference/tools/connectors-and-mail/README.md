@@ -8,7 +8,7 @@ IMAP/SMTP email client automation, EML exports, SFTP/FTP server operations, and 
 ---
 
 <!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
-## Tool Inventory (37 Tools)
+## Tool Inventory (39 Tools)
 
 Capability bundles of these tools: `connector_ops`.
 
@@ -43,9 +43,11 @@ Capability bundles of these tools: `connector_ops`.
 | **[`nova.mail_read`](nova-mail-read.md)** | Reads the sanitized body and attachment inventory of a specific email. |
 | **[`nova.mail_search`](nova-mail-search.md)** | Searches mail metadata across the IMAP server and local encrypted search archives. |
 | **[`nova.mail_send`](nova-mail-send.md)** | Sends an email with optional HTML body, CC/BCC, priority, and attachments via SMTP. |
+| **[`nova.sftp_chmod`](nova-sftp-chmod.md)** | Changes the POSIX permissions of a remote file or directory over an SFTP connection. |
 | **[`nova.sftp_delete`](nova-sftp-delete.md)** | Deletes a remote file, empty directory, or bounded directory tree over SFTP. |
 | **[`nova.sftp_get`](nova-sftp-get.md)** | Downloads a remote file or directory tree of any size over SFTP into Downloads or the workspace, as a resumable background job. |
 | **[`nova.sftp_list`](nova-sftp-list.md)** | Lists remote directory entries or inspects file metadata through an SFTP connector. |
+| **[`nova.sftp_mkdir`](nova-sftp-mkdir.md)** | Creates a remote directory over an SFTP connection, optionally with its parent directories and POSIX permissions. |
 | **[`nova.sftp_put`](nova-sftp-put.md)** | Uploads a local file or directory tree of any size over SFTP, as a resumable background job. |
 | **[`nova.sftp_rename`](nova-sftp-rename.md)** | Renames or moves a remote file or directory over SFTP. |
 | **[`nova.sftp_transfer_status`](nova-sftp-transfer-status.md)** | Reports progress and result of background SFTP transfers started by `nova.sftp_get` or `nova.sftp_put`. |

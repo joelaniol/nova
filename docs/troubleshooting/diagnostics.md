@@ -9,7 +9,7 @@ This guide shows where **Nova AI Workspace** keeps its logs, crash dumps and dat
 Nova keeps its data, logs and crash artifacts in one profile folder per Windows user:
 
 * `%LOCALAPPDATA%\nova-cognitive\Nova\` on new installations.
-* `%LOCALAPPDATA%\NovaBrowser\` if Nova was first installed with version 1.0.0-alpha.18 or older. Nova keeps using that folder after updates; nothing is moved.
+* `%LOCALAPPDATA%\NovaBrowser\` on installations from version 1.0.0-alpha.17 or older. The setup of a newer version moves this folder to the new location; if the move is not possible, Nova keeps using the old folder.
 
 The paths below are relative to that profile folder:
 

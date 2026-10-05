@@ -47,7 +47,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
   "content": [
     {
       "type": "text",
-      "text": "Transcription tr_a1b2c3d4e5f6 completed: 1 segment(s), 24.3s of audio, written to C:\\Users\\<user>\\AppData\\Local\\NovaBrowser\\Exports\\Transcripts\\tr_a1b2c3d4e5f6.txt."
+      "text": "Transcription tr_a1b2c3d4e5f6 completed: 1 segment(s), 24.3s of audio, written to C:\\Users\\<user>\\AppData\\Local\\nova-cognitive\\Nova\\Exports\\Transcripts\\tr_a1b2c3d4e5f6.txt."
     }
   ],
   "structuredContent": {
@@ -69,7 +69,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
     "budgetStallMs": 15000,
     "elapsedMs": 4210,
     "truncated": false,
-    "transcriptPath": "C:\\Users\\<user>\\AppData\\Local\\NovaBrowser\\Exports\\Transcripts\\tr_a1b2c3d4e5f6.txt",
+    "transcriptPath": "C:\\Users\\<user>\\AppData\\Local\\nova-cognitive\\Nova\\Exports\\Transcripts\\tr_a1b2c3d4e5f6.txt",
     "accuracyNote": "Machine transcript from model 'ggml-base-q5_1'. Do not take numbers, amounts, proper nouns or technical terms as verified, and treat a passage that does not add up as a transcription error rather than an odd statement.",
     "segments": [
       { "start": 0, "end": 24.3, "text": "Hello, this is a test recording confirming that speech to text works completely offline." }

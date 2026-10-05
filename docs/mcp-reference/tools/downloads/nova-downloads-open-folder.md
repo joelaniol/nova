@@ -45,14 +45,14 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
   "content": [
     {
       "type": "text",
-      "text": "Download dl-4f8a19bc folder opened: C:\\Users\\GNetwork\\Downloads."
+      "text": "Download dl-4f8a19bc folder opened: C:\\Users\\you\\Downloads."
     }
   ],
   "structuredContent": {
     "opened": true,
     "id": "dl-4f8a19bc",
-    "filePath": "C:\\Users\\GNetwork\\Downloads\\archive.tar.gz",
-    "folderPath": "C:\\Users\\GNetwork\\Downloads",
+    "filePath": "C:\\Users\\you\\Downloads\\archive.tar.gz",
+    "folderPath": "C:\\Users\\you\\Downloads",
     "reason": null
   }
 }

@@ -1,62 +1,31 @@
-# Native Dialogs & System Prompts
+# File Pickers, Sign-in & System Prompts
 
-> [!NOTE]
-> How Nova AI Workspace presents file pickers, HTTP sign-ins, certificate warnings and permission requests to you — and how AI agents can answer them without getting stuck.
+A website may need a file, a login, a certificate or permission before you can continue. Read the site and requested action in the prompt before choosing an answer. These questions appear outside the web page, so they may also explain why an agent seems to be waiting.
 
----
+## Choose a file
 
-## 1. The Native Dialog Problem
+Uploads and Save As use Windows file dialogs. Choose the file or destination as usual, or cancel to return to the page. An agent can also select upload files directly or operate a supported open file dialog.
 
-Dialogs outside the web page are a classic dead end for browser automation:
-* JavaScript in the page cannot operate the Windows file dialogs (Open / Save As).
-* An HTTP sign-in request (a server asking for user name and password) appears outside the page.
-* An invalid or self-signed certificate stops the page before it loads.
+## Sign in to a server
 
-While such a dialog is open, the agent's next action cannot proceed. Nova therefore shows these questions in its own dialogs and gives agents tools to inspect and answer them.
+The **Sign in** dialog identifies the site and the area requesting authentication. Choose a **Saved login** from the password vault, or enter **User name** and **Password**. **Save in password vault** stores the login for later use. The dialog warns when the connection is not encrypted.
 
-```mermaid
-flowchart TD
-    Web["Web page or server"] -->|"file picker, sign-in, certificate, permission"| Host["Nova window"]
-    Host --> UI["Dialog for you"]
-    Host --> MCP["MCP tools for agents"]
-    MCP --> Agent["AI agent"]
-    Agent -->|"answer"| Host
-    UI -->|"answer"| Host
-    Host --> Web
-```
+This is server authentication, which can appear before a website's own login page. Cancel if you did not expect the request.
 
----
+## Handle certificate questions
 
-## 2. Handled Dialog Categories
+**Connection is not secure** means Nova could not validate the website's certificate. **Show details** lets you inspect it. **Go back** refuses the connection; **Continue anyway** makes an exception for that certificate in the current profile until Nova closes. It does not permanently trust the certificate.
 
-### 2.1 File Pickers (Upload & Download)
-* When a page opens a file chooser, Windows' standard Open or Save dialog appears and you can use it as usual.
-* An agent can inspect an open dialog with `nova.ui_inspect_native_dialog`, type a path into its file-name field with `nova.ui_set_native_dialog_file_name`, and press the main button with `nova.ui_confirm_native_dialog`. `nova.ui_dismiss_native_dialog` cancels it.
-* For uploads an agent usually skips the dialog entirely: `nova.file_upload` attaches files directly to the page's file field.
+**Identify yourself?** is a different question: the server requests a client certificate from you. Choose **Send selected** only for the identity you intend to use, or **Send none**.
 
-### 2.2 HTTP Sign-in
-* Nova shows a **Sign in** dialog that names the site, the area the server asks for, and warns when the connection is not encrypted.
-* You can pick a **Saved login** from the password vault, or enter **User name** and **Password** and tick **Save in password vault**.
-* An agent answers with `nova.ui_auth_prompt_resolve`: `use_vault` signs in with a stored vault entry for that site; `cancel` declines. The agent never handles the password itself.
+## Answer a permission request
 
-### 2.3 Certificate Problems
-* For an invalid certificate (expired, wrong address, revoked, not trusted — for example a self-signed certificate on `https://localhost`), Nova shows **Connection is not secure** with **Go back** and **Continue anyway**. **Show details** lists issuer, validity and fingerprint.
-* **Continue anyway** applies only to this certificate, in this profile, until Nova closes. Nova never trusts a certificate permanently.
-* An agent answers with `nova.ui_certificate_prompt_resolve` (`proceed` or `refuse`).
-* When a server asks *you* to identify yourself with a certificate, Nova asks **Identify yourself?** with **Send selected** and **Send none**.
+For supported device requests, **Allow once** gives temporary access, **Always allow** remembers a decision, and **Block** refuses it. Some requests also ask which device to use. Review saved choices in [Permissions](permissions.md).
 
-### 2.4 Permission Requests
-* Camera, microphone and similar requests appear as **Allow access?** with **Allow once**, **Always allow** and **Block**.
-* An agent can answer or postpone such a request with `nova.ui_permission_prompt_resolve` (`allow`, `deny` or `defer`).
+For a runnable download, **Keep this file?** offers **Keep** or **Discard**. See [Download safety](downloads-manager.md#3-executable-files-keep-this-file). Keeping a file does not establish that it is safe to run.
 
-### 2.5 Executable Downloads
-* See [Downloads](downloads-manager.md#3-executable-files-keep-this-file).
+## When an agent is working
 
----
+Agents can inspect and answer supported prompts too. A prompt is not necessarily waiting for a human-only approval. If you want to interrupt agent work before deciding, use [Emergency stop](live-assist-and-spectator.md#3-staying-in-control).
 
-## 3. Operator Controls & Safety
-
-* In the security questions (**Connection is not secure**, **Keep this file?**), the safe answer is the default button, and `Escape` also gives the safe answer. Only an explicit click on **Continue anyway** or **Keep** takes the risky path.
-* Agents can see which tab or sandbox raised an open dialog, so in a shared Nova an agent can tell whether a dialog is its own to answer.
-
-More background: [Native Dialogs & Prompts](../core-features/native-dialogs-and-prompts.md).
+For the agent-facing interfaces, use the [MCP reference](../mcp-reference/README.md). For background, see [Native dialogs and prompts](../core-features/native-dialogs-and-prompts.md).

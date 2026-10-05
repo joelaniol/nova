@@ -7,7 +7,7 @@
 
 ## 1. Visual Anatomy of Nova
 
-Nova's window is a native Windows app (WinUI 3) with Microsoft Edge WebView2 rendering the web pages. From top to bottom:
+Use the top row to switch pages and accounts, the address bar to navigate, and the menu to open settings or stop an agent. From top to bottom:
 
 ```
 +-----------------------------------------------------------------------------------+
@@ -18,7 +18,7 @@ Nova's window is a native Windows app (WinUI 3) with Microsoft Edge WebView2 ren
 |  Bookmark bar (optional)                                                          |
 +-----------------------------------------------------------------------------------+
 |                                                                                   |
-|                             Web page (WebView2)                                   |
+|                             Web page                                   |
 |                                                                                   |
 |                   [ terminal dock, when open, lies over the page ]                |
 +-----------------------------------------------------------------------------------+
@@ -37,7 +37,7 @@ Nova's window is a native Windows app (WinUI 3) with Microsoft Edge WebView2 ren
 ### 2.2 Toolbar & Address Bar
 * **Back**, **Forward**, **Reload** (with hard reload) and **Home**.
 * **Address bar:** enter an address or a search; `Ctrl+L`, `Alt+D` or `F4` puts the cursor there. The site info button in front of it shows the connection and site permissions.
-* **Star:** **Add to favorites** or **Remove from favorites** for the current page (`Ctrl+D`).
+* **Star:** opens the favorite dialog for the current page (`Ctrl+D`), where you can save or manage its bookmark.
 * **Status buttons** appear only when they have something to say, for example the pop-up blocker, the active proxy, device emulation, notifications, scheduled tasks, active recordings or intercepted requests.
 
 ### 2.3 Quick Actions

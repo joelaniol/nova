@@ -63,7 +63,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
     "bytes": 184320,
     "resourceText": null,
     "resourceBase64": "iVBORw0KGgoAAAANSUhEUgAA...",
-    "filePath": "%LOCALAPPDATA%\\NovaBrowser\\mcp\\screenshots\\ctx-7f2a\\20261003_120000_a1b2c3d4.png",
+    "filePath": "%LOCALAPPDATA%\\nova-cognitive\\Nova\\mcp\\screenshots\\ctx-7f2a\\20261003_120000_a1b2c3d4.png",
     "expiresAt": "2026-10-03T12:05:00.0000000Z",
     "outputBudget": { "...": "..." }
   }

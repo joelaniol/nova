@@ -56,7 +56,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
     "configuredPort": 27183,
     "boundPort": 27183,
     "protocolVersion": "2025-06-18",
-    "storageBaseDir": "%LOCALAPPDATA%\\NovaBrowser",
+    "storageBaseDir": "%LOCALAPPDATA%\\nova-cognitive\\Nova",
     "autofillEnabled": true,
     "autostartAllowed": true,
     "automationProfileUid": null,

@@ -45,14 +45,14 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
   "content": [
     {
       "type": "text",
-      "text": "Workspace for task 'task-7c81a2f0': C:\\Users\\<user>\\AppData\\Local\\NovaBrowser\\Workspaces\\<workspaceId>\\nova-tasks\\task-7c81a2f0"
+      "text": "Workspace for task 'task-7c81a2f0': C:\\Users\\<user>\\AppData\\Local\\nova-cognitive\\Nova\\Workspaces\\<workspaceId>\\nova-tasks\\task-7c81a2f0"
     }
   ],
   "structuredContent": {
     "taskId": "task-7c81a2f0",
     "workspaceId": "<workspaceId>",
-    "path": "C:\\Users\\<user>\\AppData\\Local\\NovaBrowser\\Workspaces\\<workspaceId>\\nova-tasks\\task-7c81a2f0",
-    "sharedPath": "C:\\Users\\<user>\\AppData\\Local\\NovaBrowser\\Workspaces\\<workspaceId>\\nova-tasks\\task-7c81a2f0\\shared",
+    "path": "C:\\Users\\<user>\\AppData\\Local\\nova-cognitive\\Nova\\Workspaces\\<workspaceId>\\nova-tasks\\task-7c81a2f0",
+    "sharedPath": "C:\\Users\\<user>\\AppData\\Local\\nova-cognitive\\Nova\\Workspaces\\<workspaceId>\\nova-tasks\\task-7c81a2f0\\shared",
     "exists": true,
     "lastRunId": "run-8120c",
     "lastRunStatus": "Completed",

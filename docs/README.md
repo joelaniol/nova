@@ -42,6 +42,7 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 | [Terminal dock](user-guide/terminal-dock.md) | The built-in terminal next to the browser |
 | [AI visualization and staying in control](user-guide/live-assist-and-spectator.md) | Seeing what the agent does, taking over a tab, emergency stop |
 | [Downloads](user-guide/downloads-manager.md) | Download list and safety checks |
+| [Permissions](user-guide/permissions.md) | Website access, agent autonomy and client approvals |
 | [Native dialogs](user-guide/native-dialogs-ui.md) | File pickers, sign-in and permission prompts |
 | [Keyboard shortcuts](user-guide/keyboard-shortcuts.md) | All shortcuts in one table |
 

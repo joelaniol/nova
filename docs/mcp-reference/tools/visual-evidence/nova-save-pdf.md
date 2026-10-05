@@ -92,12 +92,12 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 ```json
 {
   "content": [
-    { "type": "text", "text": "Saved PDF (184520 bytes) to C:\\Users\\user\\AppData\\Local\\NovaBrowser\\Exports\\page_20261002_194512_a1b2c3d4.pdf" }
+    { "type": "text", "text": "Saved PDF (184520 bytes) to C:\\Users\\user\\AppData\\Local\\nova-cognitive\\Nova\\Exports\\page_20261002_194512_a1b2c3d4.pdf" }
   ],
   "structuredContent": {
     "ok": true,
     "targetId": "tab-101",
-    "filePath": "C:\\Users\\user\\AppData\\Local\\NovaBrowser\\Exports\\page_20261002_194512_a1b2c3d4.pdf",
+    "filePath": "C:\\Users\\user\\AppData\\Local\\nova-cognitive\\Nova\\Exports\\page_20261002_194512_a1b2c3d4.pdf",
     "savePath": null,
     "bytes": 184520,
     "deliveryMode": "file",

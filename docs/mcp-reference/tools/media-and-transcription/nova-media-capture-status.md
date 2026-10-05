@@ -52,7 +52,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
     "ok": true,
     "capturing": true,
     "targetId": "tab-1",
-    "saveDir": "C:\\Users\\<user>\\AppData\\Local\\NovaBrowser\\Exports\\MediaCaptures",
+    "saveDir": "C:\\Users\\<user>\\AppData\\Local\\nova-cognitive\\Nova\\Exports\\MediaCaptures",
     "elapsedMs": 15200,
     "bytesWritten": 245760,
     "trackCount": 1,
@@ -61,7 +61,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
     "droppedBytes": 0,
     "recorderLost": false,
     "tracks": [
-      { "recorder": "mse", "index": 0, "mime": "video/webm; codecs=\"vp9\"", "filePath": "C:\\Users\\<user>\\AppData\\Local\\NovaBrowser\\Exports\\MediaCaptures\\capture-20261003-120000-mse0.webm", "bytesWritten": 245760 }
+      { "recorder": "mse", "index": 0, "mime": "video/webm; codecs=\"vp9\"", "filePath": "C:\\Users\\<user>\\AppData\\Local\\nova-cognitive\\Nova\\Exports\\MediaCaptures\\capture-20261003-120000-mse0.webm", "bytesWritten": 245760 }
     ]
   }
 }

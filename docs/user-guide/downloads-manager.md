@@ -7,7 +7,7 @@
 
 ## 1. Overview
 
-Downloads during agent browsing carry a specific risk: a page can start a download nobody asked for, and an agent could fetch a program file that later gets run. Nova handles this with two parts:
+Open Downloads to find a file, check progress or retry a failed transfer. Whether you or an agent started it, Nova provides:
 
 * the **Downloads** panel, where every download is visible and can be controlled, and
 * a confirmation before a file Windows can execute is written to disk.
@@ -31,24 +31,18 @@ The download folder is set under **Settings → General → Downloads** (**Choos
 
 When a download is a file type Windows can run — for example `.exe`, `.msi`, `.bat`, `.cmd`, `.ps1`, `.lnk` or `.reg` — Nova stops before saving and asks **Keep this file?**, naming the file and the site it came from.
 
-* **Discard** is the default answer and writes nothing to disk. `Escape` also discards.
+* **Discard** refuses the download. `Escape` also discards. No default button is selected.
 * **Keep** saves the file to the download folder.
 * On surfaces nobody is watching, Nova refuses such downloads instead of asking.
 
-Nova makes this decision itself; it does not add a separate Windows SmartScreen check on top of this question.
+This check identifies a runnable file type; it is not a malware verdict. **Keep** does not mean the file is safe to run.
 
 An agent that triggers such a download can answer the same question with `nova.ui_download_security_prompt_resolve` (`keep` or `discard`). The decision is logged either way.
 
 ---
 
-## 4. Agent MCP Controls
+## 4. Downloads started by an agent
 
-Agents manage downloads with these tools:
+Agent downloads appear in the same panel. Agents can wait for completion, inspect paths and control transfers. For these interfaces, see [Downloads tools](../mcp-reference/tools/downloads/README.md).
 
-* `nova.downloads_list` — lists active and finished downloads.
-* `nova.downloads_wait` — waits until downloads reach a final state (completed, failed or cancelled) and returns the file paths.
-* `nova.downloads_pause` / `nova.downloads_resume` / `nova.downloads_cancel` / `nova.downloads_retry` — control a single download; the `*_all` variants act on every download.
-* `nova.downloads_open_file` / `nova.downloads_open_folder` / `nova.downloads_preview` — open or preview a finished file.
-* `nova.ui_open_downloads` / `nova.ui_close_downloads` — show or hide the panel.
-
-Full parameter lists: [Downloads tools](../mcp-reference/tools/downloads/README.md).
+Private browsing does not delete files you download. Removing a list entry or clearing download history also leaves saved files on disk.

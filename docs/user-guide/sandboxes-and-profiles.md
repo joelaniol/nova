@@ -7,12 +7,12 @@
 
 ## 1. What Are Sandboxes?
 
-Traditional browsers isolate accounts into separate profile windows, which makes side-by-side work and automated switching clumsy.
+For example, keep a work account in sandbox A and a personal account in sandbox B. Both remain available in the same window without repeatedly signing out.
 
 In Nova:
 * **One window, several identities:** sandbox A can be logged into one account of a service while sandbox B is logged into a second account of the same service, and your normal tabs use a third session.
 * **Separate browser profiles:** each sandbox has its own browser profile with its own cookies, sessions, site storage and cache. Proxy, fingerprint protection and vault autofill can be set per sandbox.
-* **Normal tabs and private tabs** are separate from all sandboxes. Normal tabs share one common profile; a private tab (`Ctrl+Shift+N`) starts logged out and keeps nothing after it closes.
+* **Normal tabs and private tabs** are separate from all sandboxes. Normal tabs share one common profile; private tabs (`Ctrl+Shift+N`) use a temporary session separate from your normal tabs. Private tabs in the same session can share a login; the session ends when its last tab closes and is not restored after a restart. Downloaded files remain on disk. Private browsing does not hide your activity from websites or your network.
 
 ```mermaid
 flowchart TD
@@ -27,7 +27,7 @@ flowchart TD
         ProfA["Profile of sandbox A - cookies, storage, cache"]
         ProfB["Profile of sandbox B - cookies, storage, cache"]
         ProfTabs["Shared tab profile"]
-        ProfPrivate["Private session - in memory only"]
+        ProfPrivate["Temporary private browsing session"]
     end
 
     PillA --> ProfA
@@ -65,15 +65,12 @@ A sandbox shows one page. When a page in it opens a link in a new tab or a popup
 If a page in a sandbox tries to continue on a host that does not belong to the sandbox — often an age check, sign-in or payment step — Nova asks **This page wants to leave the sandbox** with **Allow for this step** or **Always in this sandbox**.
 
 > [!NOTE]
-> Site permissions (camera, microphone, notifications) currently apply to all sandboxes: granting access in one sandbox grants it everywhere.
+> Browser-profile isolation and website permission policy are separate. Do not assume a saved permission is restricted to the sandbox where you granted it. See [Website and agent permissions](permissions.md).
 
 ---
 
-## 3. Agent & MCP Interaction
+## 3. Working beside an agent
 
-AI agents work with sandboxes through MCP tools:
-* `nova.tabs` lists sandboxes and tabs as targets; `nova.sandbox_context` describes one sandbox.
-* `nova.sandbox_create`, `nova.sandbox_update` and `nova.sandbox_delete` manage sandboxes.
-* `nova.tab_new` with the parameter `sandbox` (the sandbox's letter id, e.g. `A`) opens a tab that shares that sandbox's session; `private: true` opens a private tab instead.
+Agents can work in normal tabs, sandbox pages, sandbox tabs and private sessions. The agent marker shows where a claim is active; it does not merge the profiles. Check the sandbox name before signing in or asking an agent to use a particular account.
 
-More background: [Sandbox Isolation](../core-features/sandbox-isolation.md).
+For the underlying design, see [Sandbox isolation](../core-features/sandbox-isolation.md). Agent interfaces are documented in the [MCP reference](../mcp-reference/README.md).

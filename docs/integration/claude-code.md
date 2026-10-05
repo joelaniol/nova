@@ -41,7 +41,7 @@ The entry in `~/.claude.json` then looks like this:
 ```
 
 > [!NOTE]
-> Installations from before the product rename keep their profile in `%LOCALAPPDATA%\NovaBrowser`; the bridge is then at `%LOCALAPPDATA%\NovaBrowser\bin\NovaBrowser.McpProxy.exe`. Use the folder that exists on your machine.
+> If the setup could not move the profile of an installation from before the product rename, it is still in `%LOCALAPPDATA%\NovaBrowser`; the bridge is then at `%LOCALAPPDATA%\NovaBrowser\bin\NovaBrowser.McpProxy.exe`. Use the folder that exists on your machine.
 
 > [!TIP]
 > Prefer the user-level entry over a project `.mcp.json`. A project entry takes precedence inside that repository, so an outdated one there hides the working user entry.

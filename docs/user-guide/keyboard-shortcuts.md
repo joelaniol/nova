@@ -10,7 +10,7 @@
 | Shortcut | Action | Description |
 | :--- | :--- | :--- |
 | **`Ctrl + T`** | New Tab | Opens a new browser tab. |
-| **`Ctrl + Shift + N`** | New Private Tab | Opens a private tab: it starts logged out and keeps nothing after it closes. |
+| **`Ctrl + Shift + N`** | New Private Tab | Opens a private tab: it uses a temporary session separate from normal tabs. Related private tabs can share that session; downloaded files remain. |
 | **`Ctrl + Shift + T`** | Reopen Closed Tab | Reopens the most recently closed tab. |
 | **`Ctrl + W`** | Close Tab | Closes the active tab. |
 | **`Ctrl + Tab`** | Next Tab | Switches to the next tab. |

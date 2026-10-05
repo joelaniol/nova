@@ -68,7 +68,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
         "status": "in_progress",
         "bytesReceived": 45088768,
         "totalBytes": 104857600,
-        "filePath": "C:\\Users\\GNetwork\\Downloads\\release-v2.4.0.zip",
+        "filePath": "C:\\Users\\you\\Downloads\\release-v2.4.0.zip",
         "sandboxId": "A",
         "startedUtc": "2026-10-02T20:45:10.0000000Z",
         "speedBytesPerSecond": 5242880,

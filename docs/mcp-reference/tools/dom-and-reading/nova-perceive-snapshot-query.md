@@ -73,7 +73,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
     "matches": [
       { "index": 1824, "length": 7, "contextStart": 1764, "snippet": "...<button class=\"signup-btn\">Sign Up</button>..." }
     ],
-    "artifactFilePath": "C:\\Users\\GNetwork\\AppData\\Local\\NovaBrowser\\perceive-snapshots\\snap-4012.json",
+    "artifactFilePath": "C:\\Users\\you\\AppData\\Local\\nova-cognitive\\Nova\\perceive-snapshots\\snap-4012.json",
     "queryTool": "nova.perceive_snapshot_query"
   }
 }

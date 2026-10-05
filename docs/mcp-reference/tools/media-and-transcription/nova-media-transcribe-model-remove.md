@@ -52,7 +52,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
     "removed": true,
     "fileName": "ggml-large-v3-turbo-q5_0.bin",
     "reasonCode": null,
-    "modelsDirectory": "C:\\Users\\<user>\\AppData\\Local\\NovaBrowser\\Models\\whisper"
+    "modelsDirectory": "C:\\Users\\<user>\\AppData\\Local\\nova-cognitive\\Nova\\Models\\whisper"
   }
 }
 ```

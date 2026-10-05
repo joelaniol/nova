@@ -59,7 +59,7 @@ Add the entry to `%USERPROFILE%\.gemini\config\mcp_config.json`, keeping any oth
 }
 ```
 
-`--antigravity-tool-names` already includes `--mirror-structured-content`; you do not need to list both. Installations from before the product rename keep their profile in `%LOCALAPPDATA%\NovaBrowser`; the bridge is then at `%LOCALAPPDATA%\NovaBrowser\bin\NovaBrowser.McpProxy.exe`.
+`--antigravity-tool-names` already includes `--mirror-structured-content`; you do not need to list both. If the setup could not move the profile of an installation from before the product rename, it is still in `%LOCALAPPDATA%\NovaBrowser`; the bridge is then at `%LOCALAPPDATA%\NovaBrowser\bin\NovaBrowser.McpProxy.exe`.
 
 > [!WARNING]
 > Add `--antigravity-tool-names` only to Antigravity's entry. Claude Code, Claude Desktop and Codex expect the normal dotted names (`nova.tabs`).

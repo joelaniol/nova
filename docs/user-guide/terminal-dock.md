@@ -51,8 +51,14 @@ The dock lies over the page; it does not shrink the page. You can move it (**Mov
 
 1. **Full terminal emulation:** colours, cursor control and full-screen interactive programs are supported. If you prefer plain output, **Colours in programs** in the terminal settings switches colours off for new sessions.
 2. **Appearance:** **Theme** (**Standard Nova** or **Dark (VS Code)**) and **Font size** (Small to Very large) are set in the terminal settings. The font is Cascadia Mono, with Consolas as fallback.
-3. **Stored credentials:** under **Credentials & keys** you can store API keys and tokens once and share them with chosen workspaces. Programs in those workspaces receive them as environment variables; agents never see the stored value.
-4. **Agent terminals:** agents open their own terminal sessions through MCP (`nova.terminal_open`, `nova.terminal_run_command`, `nova.terminal_read`, `nova.terminal_write`). These are separate from your terminals — an agent cannot type into yours. They appear in the dock under **Agent terminals** as read-only, so you can watch what they run.
-5. **Agent dock control:** with **Allow agents to control the terminal dock** (on by default), agents may collapse, hide or show the dock via `nova.terminal_dock_set_state`. They cannot close your sessions this way.
+3. **Stored credentials:** under **Credentials & keys** you can store API keys and tokens once and share them with chosen workspaces. Programs granted access in those workspaces receive them as environment variables. Those programs can read the values, so grant access only to workspaces and programs that should receive the credentials.
+4. **Agent terminals:** agents open their own terminal sessions through Nova. These are separate from your terminals — an agent cannot type into yours. They appear in the dock under **Agent terminals** as read-only, so you can watch what they run.
+5. **Agent dock control:** with **Allow agents to control the terminal dock** (on by default), agents may collapse, hide or show the dock through Nova. They cannot close your sessions this way.
 
 More on the architecture: [Terminal Workspaces](../core-features/terminal-workspaces.md).
+
+## 5. Stopping work
+
+Hiding or collapsing the dock does not stop a command. **Menu → Emergency stop** interrupts Nova's terminal sessions, including your own dock terminals, alongside agent work. It stays active until you release it. See [Staying in control](live-assist-and-spectator.md#3-staying-in-control).
+
+Agent interfaces: [Terminal tools](../mcp-reference/tools/terminal-ops/README.md). Helper process: [Terminal runner](../components/terminal-runner.md).

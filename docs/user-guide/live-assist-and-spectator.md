@@ -7,7 +7,7 @@
 
 ## 1. What Is the AI Visualization?
 
-Automating a browser with traditional tools often feels like handing your computer to an invisible ghost: you don't see where the agent clicks, what it types, or when it gets stuck.
+Keep this view enabled when you want to follow an agent's browser work without reading its tool calls. It shows supported actions as they happen; it is not a transcript of the agent's private reasoning.
 
 The **AI visualization** (also called the assist cursor) mirrors agent actions on screen:
 * An on-screen cursor labelled **AI** moves to the element the agent is about to use and pulses when it acts.
@@ -44,6 +44,6 @@ flowchart LR
 
 1. **Emergency stop:** **Menu → Emergency stop** interrupts agent work at once — pending MCP requests, running crawls, scheduled task runs, all sessions of Nova's terminal service (including your own terminals in the dock) and connections to external MCP servers. Nova confirms with *Emergency stop active. Agents, the agent interface (MCP), and running scripts were interrupted.*
 2. **Releasing the stop:** the stop stays active until you choose **Menu → Release emergency stop**. After that, agents and the agent interface can run again.
-3. **Your own input:** you can keep using the browser while an agent works — it is the same browser with the same sessions. When you type or use browser shortcuts, the visualization steps aside. This does not pause the agent; to stop it, use the emergency stop or release its claim.
+3. **Your own input:** you can keep using the browser while an agent works — it is the same browser with the same sessions. When you type or use browser shortcuts, the visualization steps aside. This does not pause the agent; to interrupt all agent work, use the emergency stop. To take over one claimed tab, release its claim from the activity details or choose **Release agent** on the sandbox pill; confirm **Take over control** if prompted. Releasing a claim is distinct from the global emergency stop.
 
 There is no keyboard shortcut for the emergency stop.

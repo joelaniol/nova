@@ -58,7 +58,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
     "timeZoneId": "Europe/Berlin",
     "timeoutSeconds": 180,
     "mcpAccess": true,
-    "workspacePath": "%LOCALAPPDATA%\\NovaBrowser\\Workspaces\\a1b2c3d4e5f6\\nova-tasks\\a1b2c3d4e5f6",
+    "workspacePath": "%LOCALAPPDATA%\\nova-cognitive\\Nova\\Workspaces\\a1b2c3d4e5f6\\nova-tasks\\a1b2c3d4e5f6",
     "concurrencyPolicy": "Skip",
     "nextFireAtUtc": "2026-10-03T07:00:00Z",
     "cumulativeCostUsd": 0.12

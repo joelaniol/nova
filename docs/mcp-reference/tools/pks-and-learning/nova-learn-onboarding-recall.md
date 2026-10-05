@@ -54,7 +54,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
       "domain": "app.example.com",
       "pksMechanics": "PKS phenomena are written as Shadow (LearningLevel.Shadow). nova.learn_promote moves a Shadow phenomenon to Active. ...",
       "recommendedToolsAndTactics": "This list is not exhaustive ... (abbreviated)",
-      "existingPksDataHint": "Before writing new phenomena: check via nova.pks_list(scope=<domain>) or nova.pks_match ... (abbreviated)",
+      "existingPksDataHint": "Before writing new phenomena: check via nova.pks_list(prefix=<domain>) or nova.pks_match ... (abbreviated)",
       "operatorFeedbackContract": "Watch for operator feedback in chat. ... (abbreviated)",
       "existingMemory": {
         "domainNotes": null,

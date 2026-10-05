@@ -49,7 +49,7 @@ If the entry is missing, open the connection wizard in Nova's settings and choos
 > **Windows paths in JSON:** every backslash must be written twice (`\\`), as above. Replace `<you>` with your Windows user name.
 
 > [!NOTE]
-> Installations from before the product rename keep their profile in `%LOCALAPPDATA%\NovaBrowser`; the bridge is then at `%LOCALAPPDATA%\NovaBrowser\bin\NovaBrowser.McpProxy.exe`. Use the folder that exists on your machine.
+> If the setup could not move the profile of an installation from before the product rename, it is still in `%LOCALAPPDATA%\NovaBrowser`; the bridge is then at `%LOCALAPPDATA%\NovaBrowser\bin\NovaBrowser.McpProxy.exe`. Use the folder that exists on your machine.
 
 ---
 

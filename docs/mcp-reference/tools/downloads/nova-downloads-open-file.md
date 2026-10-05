@@ -45,13 +45,13 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
   "content": [
     {
       "type": "text",
-      "text": "Download dl-4f8a19bc file opened: C:\\Users\\GNetwork\\Downloads\\invoice.pdf."
+      "text": "Download dl-4f8a19bc file opened: C:\\Users\\you\\Downloads\\invoice.pdf."
     }
   ],
   "structuredContent": {
     "opened": true,
     "id": "dl-4f8a19bc",
-    "filePath": "C:\\Users\\GNetwork\\Downloads\\invoice.pdf",
+    "filePath": "C:\\Users\\you\\Downloads\\invoice.pdf",
     "reason": null
   }
 }

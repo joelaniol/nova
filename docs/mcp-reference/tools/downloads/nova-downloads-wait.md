@@ -71,7 +71,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
         "fileName": "dataset.csv",
         "url": "https://data.example.com/dataset.csv",
         "status": "completed",
-        "filePath": "C:\\Users\\GNetwork\\Downloads\\dataset.csv",
+        "filePath": "C:\\Users\\you\\Downloads\\dataset.csv",
         "bytesReceived": 1450200,
         "totalBytes": 1450200,
         "errorReason": null,

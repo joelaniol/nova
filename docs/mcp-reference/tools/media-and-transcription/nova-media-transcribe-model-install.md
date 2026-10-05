@@ -55,7 +55,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
     "fileName": "ggml-small-q5_1.bin",
     "state": "installed",
     "size": "181 MB",
-    "path": "C:\\Users\\<user>\\AppData\\Local\\NovaBrowser\\Models\\whisper\\ggml-small-q5_1.bin",
+    "path": "C:\\Users\\<user>\\AppData\\Local\\nova-cognitive\\Nova\\Models\\whisper\\ggml-small-q5_1.bin",
     "verified": true
   }
 }
@@ -67,7 +67,7 @@ A download that fails the pinned checksum, or an adopted file that is not a ggml
 
 ## 4. Operational Best Practices
 
-* **One-Time Setup:** Models are installed into `%LOCALAPPDATA%\NovaBrowser\Models\whisper` and survive application updates. The `base` model ships with the installer and is already present without a download.
+* **One-Time Setup:** Models are installed into `%LOCALAPPDATA%\nova-cognitive\Nova\Models\whisper` and survive application updates. The `base` model ships with the installer and is already present without a download.
 * **Offline Resilience:** Once downloaded, transcription runs 100% offline with zero external network requests.
 
 ---

@@ -45,7 +45,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
     }
   ],
   "structuredContent": {
-    "modelsDirectory": "C:\\Users\\<user>\\AppData\\Local\\NovaBrowser\\Models\\whisper",
+    "modelsDirectory": "C:\\Users\\<user>\\AppData\\Local\\nova-cognitive\\Nova\\Models\\whisper",
     "cpuSupported": true,
     "localFileAccessEnabled": true,
     "chosenModelId": null,
@@ -60,7 +60,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
       "inUse": false
     },
     "models": [
-      { "id": "base", "fileName": "ggml-base-q5_1.bin", "state": "bundled", "size": "57 MB", "sizeBytes": 59707625, "tier": "baseline", "path": "C:\\Users\\<user>\\AppData\\Local\\NovaBrowser\\Models\\whisper\\ggml-base-q5_1.bin" },
+      { "id": "base", "fileName": "ggml-base-q5_1.bin", "state": "bundled", "size": "57 MB", "sizeBytes": 59707625, "tier": "baseline", "path": "C:\\Users\\<user>\\AppData\\Local\\nova-cognitive\\Nova\\Models\\whisper\\ggml-base-q5_1.bin" },
       { "id": "small", "fileName": "ggml-small-q5_1.bin", "state": "available", "size": "181 MB", "sizeBytes": 190085487, "tier": "recommended", "path": null },
       { "id": "large-v3-turbo", "fileName": "ggml-large-v3-turbo-q5_0.bin", "state": "available", "size": "547 MB", "sizeBytes": 574041195, "tier": "highaccuracy", "path": null }
     ]

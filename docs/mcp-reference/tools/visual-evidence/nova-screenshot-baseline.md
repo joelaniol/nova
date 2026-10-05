@@ -108,7 +108,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
   "maxDiffRatio": 0,
   "ignoreAntialiasing": false,
   "maskedRectCount": 0,
-  "baselinePath": "C:\\Users\\me\\AppData\\Local\\NovaBrowser\\ScreenshotBaselines\\login_modal_dark_theme.png"
+  "baselinePath": "C:\\Users\\me\\AppData\\Local\\nova-cognitive\\Nova\\ScreenshotBaselines\\login_modal_dark_theme.png"
 }
 ```
 
@@ -123,7 +123,7 @@ If a regression is detected outside tolerance, `changedRegions` carries flat `{x
   "changedRegions": [
     { "x": 120, "y": 340, "width": 420, "height": 80, "pixelCount": 29800 }
   ],
-  "diffOverlayPath": "C:\\Users\\me\\AppData\\Local\\NovaBrowser\\ScreenshotBaselines\\diff-overlays\\login_modal_dark_theme.diff-20261002_194512_123.png",
+  "diffOverlayPath": "C:\\Users\\me\\AppData\\Local\\nova-cognitive\\Nova\\ScreenshotBaselines\\diff-overlays\\login_modal_dark_theme.diff-20261002_194512_123.png",
   "diffOverlayStatus": "created"
 }
 ```

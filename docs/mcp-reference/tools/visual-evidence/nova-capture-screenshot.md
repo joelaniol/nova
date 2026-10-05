@@ -137,12 +137,12 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
     "sourcePixelWidth": 640,
     "sourcePixelHeight": 380,
     "mimeType": "image/png",
-    "filePath": "C:\\Users\\me\\AppData\\Local\\NovaBrowser\\Screenshots\\<id>.png",
+    "filePath": "C:\\Users\\me\\AppData\\Local\\nova-cognitive\\Nova\\Screenshots\\<id>.png",
     "resource": { "uri": "nova://screenshot/<id>", "mimeType": "image/png", "size": 17408 },
     "evidence": {
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "hashedFrom": "file",
-      "filePath": "C:\\Users\\me\\AppData\\Local\\NovaBrowser\\Screenshots\\<id>.png",
+      "filePath": "C:\\Users\\me\\AppData\\Local\\nova-cognitive\\Nova\\Screenshots\\<id>.png",
       "capturedAtUtc": "2026-10-02T19:30:00Z"
     },
     "selector": "div.invoice-summary-card"

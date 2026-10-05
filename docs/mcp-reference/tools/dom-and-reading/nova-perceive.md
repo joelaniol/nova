@@ -138,7 +138,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
     "pixelHeight": 800,
     "scaled": true,
     "mimeType": "image/jpeg",
-    "filePath": "C:\\Users\\GNetwork\\AppData\\Local\\NovaBrowser\\screenshots\\...jpg"
+    "filePath": "C:\\Users\\you\\AppData\\Local\\nova-cognitive\\Nova\\screenshots\\...jpg"
   },
   "screenshotOk": true,
   "screenshotStatus": "ok",
