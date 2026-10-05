@@ -6,6 +6,8 @@ Nova AI Workspace was built **with AI agents, as well as for them**. Their recur
 
 This is a core feature of Nova's cognitive runtime: the fit between the agent and the interface through which it perceives, acts, verifies and learns. Aliases are one concrete mechanism behind that fit.
 
+**Affordances include naming compatibility, argument conventions, discoverability, repair guidance, and familiar interaction patterns.** The principle shapes both the names an agent recognizes and the way it discovers capabilities, recovers from a rejected call and chooses a level of control.
+
 ## Learned expectations as design input
 
 An agent arrives with patterns learned from browser automation, computer-use tools and previous tasks. It may reach for `goto`, `fill` or `evaluate`, or describe a text payload as `value`. Here, **bias** means this learned expectation about how an interface works.
@@ -55,9 +57,15 @@ Antigravity additionally has a dedicated proxy mode that presents compatible und
 
 ### Instructions and capability bundles
 
-`nova.get_instructions` gives the agent its operating guidance. `nova.tools_bundle` provides task-specific discovery and schemas on demand. Together with the compatibility layer, these make the interface both discoverable and familiar.
+`nova.get_instructions` gives the agent its operating guidance. `nova.tools_bundle` provides task-specific discovery and schemas on demand. An agent can search in natural language, such as `query="table extraction"`, without knowing the tool's name. Together with the compatibility layer, these make the interface both discoverable and familiar.
 
 See the [MCP discovery model](../mcp-reference/README.md) and [agent integration guides](../integration/README.md).
+
+### Repair guidance and levels of control
+
+Supported error and gate responses give the agent a concrete next step. For example, a perceive-first gate identifies the missing observation and directs the agent to `nova.perceive` with `mode='summary'`. Repair guidance helps an agent continue through the valid workflow rather than repeatedly guessing at a rejected call. See [AAG](aag.md).
+
+Nova also offers progressively lower levels of control: guarded workflow macros such as `nova.guarded_login`, individual selector and input operations, and Chrome DevTools Protocol (CDP) access. An agent can start with a task-level operation and move to finer control when the task requires it. Each level retains its own contract and permissions; lower-level access does not bypass safety gates.
 
 ## One operation, one contract
 
