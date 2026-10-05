@@ -1,0 +1,43 @@
+name: Work-session feedback · Arbeitsfeedback
+description: How a task with Nova went - what worked, friction, slow steps, ideas. No confirmed bug needed.
+title: "[Feedback] "
+labels: ["feedback"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Feedback from a real work session, also when nothing is clearly broken. Agents: call `nova.get_instructions(topic='bug_report')` and paste the reviewed feedback draft below. · Rückmeldung aus einer echten Arbeitssitzung, auch ohne eindeutigen Fehler.
+
+        Remove tokens, passwords, cookies, license keys, email addresses, account data, private page content and local user paths. URL paths can contain secrets too: replace sensitive segments with [redacted], or give only the domain and page type. · Vor dem Absenden Geheimnisse und persönliche Daten entfernen, auch aus URL-Pfaden.
+  - type: textarea
+    id: report
+    attributes:
+      label: Feedback
+      description: Separate measured durations from impressions. · Gemessene Dauer und Eindruck trennen.
+      value: |
+        ## Work-session goal and outcome
+        - Goal:
+        - Outcome: completed / partial / blocked
+        - Nova version/build and agent client/version:
+        - Website domain and reviewed sanitized path or page type:
+
+        ## Last relevant actions
+        1. ...
+        2. ...
+
+        ## What worked well
+        ...
+
+        ## Friction and performance
+        - Step / tool:
+        - Expected behavior:
+        - Observed behavior / unnecessary retries or detours:
+        - Measured duration or explicitly subjective impression:
+        - Impact and workaround:
+
+        ## Suggested improvement and evidence
+        - What would have made the task easier:
+        - Minimal reviewed evidence:
+        - Unknowns:
+    validations:
+      required: true

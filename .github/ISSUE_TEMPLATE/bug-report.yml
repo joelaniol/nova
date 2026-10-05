@@ -1,0 +1,59 @@
+name: Bug report · Fehler melden
+description: A Nova defect - wrong MCP result, broken feature or performance regression. Crashes have their own form.
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        One problem per report. Agents: call `nova.get_instructions(topic='bug_report')` and paste the finished, reviewed draft below. · Ein Problem pro Meldung. Agenten: `nova.get_instructions(topic='bug_report')` aufrufen und den fertigen, geprüften Entwurf unten einfügen.
+
+        Remove tokens, passwords, cookies, license keys, email addresses, account data, private page content and local user paths. URL paths can contain secrets too: replace sensitive segments with [redacted], or give only the domain and page type. · Vor dem Absenden Geheimnisse und persönliche Daten entfernen, auch aus URL-Pfaden.
+
+        Security vulnerabilities do not belong here: [report them privately](https://github.com/joelaniol/nova/security/advisories/new).
+  - type: textarea
+    id: report
+    attributes:
+      label: Report · Meldung
+      description: Fill in what you know; write "unknown" instead of guessing. Delete sections that do not apply. · Ausfüllen, was bekannt ist; Unbekanntes als "unknown" stehen lassen.
+      value: |
+        ## Goal and impact
+        - Goal:
+        - Impact: blocked / partial / completed with workaround
+
+        ## Environment
+        - Nova version/build:
+        - Agent client/version:
+        - Windows / WebView2 (if relevant):
+        - Website domain and reviewed sanitized path or page type:
+        - Occurrence time and timezone:
+
+        ## Last relevant actions / reproduction
+        - Preconditions / starting state (sanitized settings or permission context if relevant):
+        1. ...
+        2. ...
+        - What worked:
+        - First friction point:
+        - Frequency / reproduction actually tested:
+
+        ## Expected behavior
+        ...
+        - Observable acceptance criterion: under the stated conditions, this behavior succeeds.
+
+        ## Observed behavior
+        ...
+        - MCP tool / relevant sanitized parameters (if applicable):
+        - Exact sanitized error / reasonCode (if available):
+
+        ## Performance (if relevant)
+        - Slow step:
+        - Measured duration or explicitly subjective impression:
+        - Observed retries/timeouts / comparison conditions:
+
+        ## Evidence, workaround, and uncertainty
+        - Minimal reviewed evidence:
+        - Workaround tried and outcome:
+        - Unknowns / untested assumptions:
+        - Duplicate check: checked / not checked
+    validations:
+      required: true
