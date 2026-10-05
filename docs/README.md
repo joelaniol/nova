@@ -16,6 +16,7 @@ Deutsch: [weiter unten](#dokumentation-auf-deutsch).
 | Fix an agent that cannot connect at all | [Connection issues](troubleshooting/agent-connection-issues.md) |
 | Look up a specific tool | [Tool catalog](mcp-reference/tool-catalog.md) |
 | Understand how Nova works under the hood | [Core features](core-features/README.md) |
+| Identify a Nova-related process in Task Manager | [Components and processes](components/README.md) |
 
 ## Getting started
 
@@ -90,6 +91,19 @@ Deutsch: [weiter unten](#dokumentation-auf-deutsch).
 | [Terminal](mcp-reference/tools/terminal-ops/) | Opening and driving terminals |
 | [External MCP servers](mcp-reference/tools/external-mcp/) | Other MCP servers run through Nova |
 | [Plugins](mcp-reference/tools/plugins/) | Plugins an agent writes, tests and installs for a site |
+
+## Components and processes
+
+[Overview](components/README.md) — What each process does, when it runs and why it is separate.
+
+| Component | Learn more |
+|---|---|
+| Main app | [Nova AI Workspace](components/nova-ai-workspace.md) |
+| Native work | [Outrider](components/outrider.md) |
+| Agent connection | [MCP Proxy](components/mcp-proxy.md) |
+| Console host | [TerminalRunner](components/terminal-runner.md) |
+| Recording diagnostics | [ReplayValidator](components/replay-validator.md) |
+| Microsoft browser runtime and task programs | [WebView2 and child processes](components/webview2-and-child-processes.md) |
 
 ## Core features
 

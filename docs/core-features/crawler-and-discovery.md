@@ -5,9 +5,27 @@
 
 ---
 
-## 1. Problem Statement: Manual Navigation vs. Structured Discovery
+## 1. A Concrete Example: Find the Relevant Documentation
+
+An agent needs to review an API's documentation. It starts a crawl with a documentation-path filter, a depth limit and a page budget. Nova follows discovered links, extracts page content and stores the results. The agent then queries the index for relevant paths and revisits the pages that answer its questions.
+
+On the next run, the index provides a starting map. It records known URLs and previous observations, not a guarantee that every page was discovered or that old content is still current.
+
+## 2. Discovery Has a Scope
+
+| Mechanism | What it discovers |
+| :--- | :--- |
+| Hidden crawl | Reachable pages within its link, depth, page and URL-filter limits. |
+| Live-tab crawl | Supported routes in an existing visible tab, preserving its current page context where possible. |
+| Site URL index | URLs Nova already knows from crawls and reported navigation observations. |
+| Surface Explorer | Interactive triggers on the current page, such as menus and dialogs. |
+
+A crawl that finishes has finished its configured traversal. Pages behind pagination, unvisited interactions, login barriers or excluded paths can remain undiscovered. JavaScript settlement is a readiness heuristic, not proof that all content has loaded. For an exhaustive task, define and verify the required units with [ETM](etm-and-task-memory.md).
+
+## 3. Why Keep a Reusable Map?
 
 When an AI agent needs to locate a product in an online catalog with hundreds of categories or analyze comprehensive developer documentation, manual page-by-page traversal (`navigate` → `search_text` → `click`) quickly breaks down:
+
 * Enormous token burn caused by repeatedly parsing raw, incomplete intermediate pages.
 * No shared memory across sessions: after a browser restart, the agent cannot recall previously visited URLs.
 * Rate limits and bot blocks triggered by unthrottled, burst navigation.
@@ -16,7 +34,7 @@ Nova addresses this with an **embedded breadth-first crawler** and a **persisten
 
 ---
 
-## 2. Crawler Subsystem Architecture
+## 4. Crawler Subsystem Architecture
 
 ```mermaid
 flowchart TD
@@ -49,12 +67,12 @@ flowchart TD
 
 ---
 
-## 3. Core Capabilities & Protective Mechanisms
+## 5. Core Capabilities & Protective Mechanisms
 
 1. **Separate from the tabs:**
-   * By default (`crawlMode='hidden'`) the crawler runs in 1 to 3 parallel hidden WebViews (`parallel`, default 1). They do not appear in `nova.tabs`. Each extra WebView uses roughly 150 MB of RAM.
+   * By default (`crawlMode='hidden'`) the crawler runs in 1 to 3 parallel hidden WebViews (`parallel`, default 1). They do not appear in `nova.tabs`. Memory use depends on the pages and browser runtime.
    * With `targetId`, the hidden crawl uses the browser profile of that tab or sandbox, so it shares its cookies and local storage.
-   * `crawlMode='live_tab'` crawls inside the visible tab instead, by following routes in the page. It keeps the logged-in session but is slower and always sequential.
+   * `crawlMode='live_tab'` follows supported routes inside the visible tab and is always sequential. It requires `targetId`; robots enforcement, sitemap expansion, crawl screenshots and delta mode are not supported in this mode. Keeping the tab avoids creating a new document for supported same-document routes, but session preservation still depends on the website.
 2. **Limits per crawl:** `maxDepth` 0–10 (default 2), `maxPages` 1–500 (default 30), `settleTimeMs` 500–15,000 ms per page (default 3,000), `pageDelayMs` 200–5,000 ms between page starts on the same origin (default 500). Parallel workers share the same per-origin spacing, so they do not multiply the request rate.
 3. **Persistent SQLite index (`crawl.db`):**
    * Crawled pages, links, metadata and the site URL index are stored in `crawl.db` in the Nova profile and survive restarts. `nova.crawl_history` and `nova.crawl_diff` work on past crawls.
@@ -71,7 +89,7 @@ flowchart TD
 
 ---
 
-## 4. MCP Tool Reference for Crawler & Discovery
+## 6. MCP Tool Reference for Crawler & Discovery
 
 Crawler tools are in the `crawler_ops` bundle; the discovery probe tools are in `system_tools`, the Surface Explorer is in `surface_explorer`.
 
@@ -90,3 +108,9 @@ Crawler tools are in the `crawler_ops` bundle; the discovery probe tools are in 
 | `nova.discovery_reset_scope` | Deletes the stored crawl history, results and URL index for one site. |
 | `nova.site_discovery_probe`, `nova.site_discovery_get` | Checks a site for AI and MCP discovery files (such as `llms.txt` and `/.well-known/mcp.json`); reads the cached result. |
 | `nova.explore_surface` | Surface Explorer: finds interactive triggers in the visible tab (`discover`), opens one classified as safe (`activate`), hovers (`hover`) or ends a run (`close`). Hovering always needs approval; activating asks for approval under the default activation policy. |
+
+## Related Documentation
+
+* **[Task Memory (ETM)](etm-and-task-memory.md)** — Defined work units and evidence of task coverage.
+* **[Auth Surface Detection](auth-surface-detection.md)** — Login barriers and session-state assessment.
+* **[PKS](pks.md)** — Reusable procedural knowledge about recurring situations.

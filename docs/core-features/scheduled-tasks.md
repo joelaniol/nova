@@ -5,23 +5,42 @@
 
 ---
 
-## 1. Problem Statement: Recurring Workflows & Unattended Execution
+## 1. A Concrete Example: A Daily API Health Check
+
+You define a daily task in a workspace, choose an executor and specify the expected output. While Nova is open, its scheduler starts the run, preserves output and status, and stores any reported result. Later you can inspect that run instead of relying on a remembered agent conversation.
+
+If Nova was closed at the scheduled time, eligible catch-up can launch one run after it starts again. This is an in-app scheduler, not a Windows service that continues dispatching while Nova is closed.
+
+## 2. Execution Success and Task Success
+
+| Result | What it establishes |
+| :--- | :--- |
+| `Completed` for Shell or CustomCommand | The launched process exited successfully. |
+| `Completed` for HttpWebhook | The HTTP request received a successful response status. |
+| CLI run output or structured result | What the executor or agent reported, subject to that executor's result handling. |
+| Expected artifact or verified state | Evidence that the requested work actually produced its intended outcome. |
+
+A successful run status does not by itself prove that a report is correct or a backup is restorable. Include meaningful checks in the task, and inspect their evidence. [ETM](etm-and-task-memory.md) provides a separate task-coverage model; a scheduled run's lifecycle status is not equivalent to verified completion of every work unit.
+
+## 3. Why Schedule Work with a Run History?
 
 Many analytical, monitoring, and web automation tasks must occur periodically:
+
 * Hourly price tracking and product availability checks.
 * Daily status checks of websites and APIs.
 * Weekly reports and regular clean-up jobs.
 
 **Problems with naive script loops (`sleep`):**
-* They block the agent conversation and waste tokens while idling.
-* They do not survive a sleeping computer, a dropped network or a restart.
+
+* Manual supervision keeps an agent waiting for recurring work instead of leaving a durable schedule and run record.
+* A loop alone provides no persisted catch-up policy or run history across restarts and downtime.
 * Credentials end up hard-coded in scripts or in prompt logs.
 
 Nova runs such work as scheduled tasks with a stored run history, catch-up after downtime and encrypted per-task secrets.
 
 ---
 
-## 2. Task Runner Architecture
+## 4. Task Runner Architecture
 
 ```mermaid
 flowchart TD
@@ -52,27 +71,29 @@ flowchart TD
 
 ---
 
-## 3. Core Features & Security Safeguards
+## 5. Core Features & Security Safeguards
 
 1. **Schedules:**
    * `cronExpression` takes one of these readable patterns (not classic five-field cron): `daily HH:MM`, `weekdays HH:MM`, `weekly mon HH:MM` (any weekday), `hourly :MM`, `every Nh`, `every Nm`. Times use `timeZoneId` (IANA or Windows name); default is UTC.
    * Alternatively `intervalSeconds` (minimum 60), or `watchPath` to start a run when files in a folder change (2-second debounce).
    * A run missed while Nova was closed or the computer was asleep is caught up once at the next start, within 24 hours (`catchUpMissed`, on by default). While runs are active, Nova keeps the computer from going to standby.
 2. **Executors:** `ClaudeCode` (default), `CodexCli`, `Shell` (PowerShell script; needs the setting "Allow scheduled tasks to run PowerShell scripts (Shell executor)"), `CustomCommand` and `HttpWebhook`. Claude Code and Codex runs use `autonomyMode='Safe'` by default; `Unsafe` (full access) is refused unless `scheduledTaskUnsafeModeEnabled` is set in the settings file; there is no switch for it on the Settings page. `mcpAccess` (off by default) gives the run access to Nova's tools.
-3. **Run limits:** `timeoutSeconds` (default 300), `maxTurns` (default 50), optional `maxBudgetUsd` per run and `totalBudgetCapUsd` across all runs — the task disables itself when the total is exceeded. Overlapping runs are skipped by default (`concurrencyPolicy`). Repeated failures trip a per-task circuit breaker; `nova.scheduled_task_enable` resets it.
-4. **Chaining:** `triggerNextTaskId` starts another task when a run completes (or always), optionally only if a key in the structured result is true. Chains are limited to a depth of 5.
+3. **Run limits:** `timeoutSeconds` defaults to 300. Tasks created through MCP default to `maxTurns=50`; executor support determines which turn and per-run budget controls are applied. `totalBudgetCapUsd` uses reported run costs, so unavailable cost data cannot establish a spending cap. Overlapping runs are skipped by default (`concurrencyPolicy`). Repeated failures trip a per-task circuit breaker; `nova.scheduled_task_enable` resets it.
+   * Claude Code receives `--max-turns` and `--max-budget-usd` (a $1 per-run budget when none is configured). The current Codex executor does not pass equivalent turn or dollar-budget limits. Inspect executor support rather than assuming every saved field is enforced by every runner.
+4. **Chaining:** `triggerNextTaskId` requests another task after a matching run status (`Completed` by default, or `Any`). `triggerConditionKey` evaluates a truthy value when a structured result is present; the current implementation does not make missing structured output block the chain. Do not treat this condition as a safety gate. Chains are limited to a depth of 5.
 5. **Task workspaces:**
    * Each task is bound to a terminal workspace — by default Nova creates a dedicated one — so its run files can be opened in the terminal dock. `nova.scheduled_task_workspace_write`, `_read` and `_list` work on the task's `shared/` folder.
 6. **Encrypted secrets and persistent variables:**
    * Secrets set with `nova.scheduled_task_secret_set` are encrypted with Windows DPAPI for the current user and stored with the task workspace. They are decrypted only when a run starts: `Shell` and `CustomCommand` runs receive them as environment variables, and `{SECRET:keyname}` placeholders in the argument template of `CustomCommand` and `HttpWebhook` tasks are filled in. `nova.scheduled_task_secret_list` shows key names only.
+   * Encryption protects stored values, not everything the receiving program does. Argument substitution can expose a secret in process arguments; programs can also print environment values. Prefer environment delivery where the executor and program support it.
    * Variables (`nova.scheduled_task_var_*`, up to 64 KB per value) keep state between runs.
 7. **Run history:**
-   * Every run records status (for example `Completed`, `Failed`, `Timeout`, `Cancelled`, `Missed`, `SkippedOverlap`), duration, exit code and cost; `nova.scheduled_task_run_output` reads the tail of its stdout and stderr. By default Nova keeps runs for 30 days and at most 100 runs per task.
+   * Every run records its status (for example `Completed`, `Failed`, `Timeout`, `Cancelled`, `Missed`, `SkippedOverlap`) and available timing, exit-code and cost information; `nova.scheduled_task_run_output` reads the tail of its stdout and stderr. By default Nova keeps runs for 30 days and at most 100 runs per task.
 8. **Templates:** `nova.scheduled_task_templates` lists ready-made tasks, such as a website status check, an SEO audit, a backup check, a weekly report, an API health check and a data clean-up.
 
 ---
 
-## 4. MCP Tool Reference for Scheduled Tasks
+## 6. MCP Tool Reference for Scheduled Tasks
 
 All tools are in the `scheduled_tasks` bundle.
 
@@ -89,3 +110,9 @@ All tools are in the `scheduled_tasks` bundle.
 | `nova.scheduled_task_var_set`, `_get`, `_list`, `_delete` | Persistent variables. |
 | `nova.scheduled_task_export`, `nova.scheduled_task_import` | Exports task definitions as JSON (without secrets and history); imports them with new task IDs. |
 | `nova.scheduled_task_templates` | Lists task templates. |
+
+## Related Documentation
+
+* **[Terminal Workspaces](terminal-workspaces.md)** — Saved projects and live console sessions.
+* **[Task Memory (ETM)](etm-and-task-memory.md)** — Task scope and evidence of coverage.
+* **[Vault and Secrets](vault-and-secrets.md)** — Secret scopes and delivery boundaries.

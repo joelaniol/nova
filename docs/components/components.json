@@ -1,0 +1,9 @@
+{
+  "processes": [
+    { "executable": "NovaAIWorkspace.exe", "page": "nova-ai-workspace.md" },
+    { "executable": "NovaBrowser.Outrider.exe", "page": "outrider.md" },
+    { "executable": "NovaBrowser.McpProxy.exe", "page": "mcp-proxy.md" },
+    { "executable": "NovaBrowser.TerminalRunner.exe", "page": "terminal-runner.md" },
+    { "executable": "NovaBrowser.ReplayValidator.exe", "page": "replay-validator.md" }
+  ]
+}
