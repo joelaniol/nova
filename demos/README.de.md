@@ -1,24 +1,38 @@
-# Nova ausprobieren: Interaktive Browser-Demo
+# Nova ausprobieren: Der Experience Loop
 
 [English guide](README.md) · Die Demo-Oberfläche ist englisch.
 
-Probiere acht Browser-Aufgaben mit Nova und deinem verbundenen KI-Agenten aus. Melde dich an, suche einen Eintrag, verschiebe eine Karte und arbeite mit Dateien und Seiteninhalten. Die Ergebnisse kannst du direkt auf der Seite prüfen.
+Die neue Hauptdemo zeigt wiederverwendbare Erfahrung: einen wiederkehrenden Hinweis, einen erneuten Besuch, eine veränderte Oberfläche und ein geprüftes Speicherergebnis. Acht kleinere Browser-Aufgaben bleiben zusätzlich verfügbar.
 
 Stand: 2026-10-05
 
 ## Loslegen
 
-1. Lade das Repository über **Code → Download ZIP** herunter und entpacke es. Der Ordner `demos` und sein Unterordner `assets` müssen zusammenbleiben.
-2. Öffne die heruntergeladene Datei `demos/lab.html` in Nova. Ein Webserver ist nicht nötig.
-3. Verbinde deinen Agenten mithilfe der [Integrationsanleitung](../docs/integration/README.md) und stelle ihm eine Aufgabe. Du kannst die Steuerelemente auch selbst ausprobieren.
+Lade das Repository über **Code → Download ZIP** herunter und entpacke es. Für persistentes Website-Wissen brauchst du eine lokale HTTP-Adresse. Mit installiertem Python startest du im entpackten Repository:
 
-GitHub zeigt den HTML-Quelltext. Für die interaktive Seite musst du die Dateien herunterladen. Die Demo selbst stellt keine externen Netzwerkanfragen; dein Agent nutzt seinen konfigurierten Dienst.
+```sh
+python -m http.server 8765 --bind 127.0.0.1 --directory demos
+```
 
-## Eine erste Aufgabe
+Öffne `http://127.0.0.1:8765/lab.html` in Nova und [verbinde deinen Agenten](../docs/integration/README.md). Behalte Adresse und Port für weitere Besuche bei. Ctrl+C beendet den Server. Direktes Öffnen von `demos/lab.html` ermöglicht die Seiteninteraktionen, stellt aber keinen Website-Scope für diese Wissensübung bereit.
 
-> Melde dich mit dem Benutzernamen **demo** und dem Passwort **nova** an. Finde Build 8472 in der langen Liste und verschiebe die Karte „Deploy release“ nach Done. Beschreibe, was sich auf der Seite geändert hat.
+## Drei Besuche
 
-Prüfe den Anmeldestatus, den hervorgehobenen Build und die Karte in Done. Lade die Seite im selben Browserprofil neu und kontrolliere, ob die Demo-Anmeldung erhalten bleibt. Das ist eine lokale Simulation, kein echtes Konto.
+1. **First visit:** Bitte den Agenten, den Hinweis zu schließen und den Entwurf zu speichern. Er soll das Ergebnis prüfen, dich bei Bedarf um Bestätigung bitten und den Bestätigungsbutton dir überlassen. Danach soll er die verifizierte Erfahrung zur Hinweisbehandlung in Nova speichern und ID sowie Lernstufe zeigen. Der erste Speicherversuch lässt den Entwurf absichtlich ungespeichert. Erst ein weiterer Versuch mit deiner Bestätigung und vollständigen Feldern erzeugt einen Beleg.
+2. **Return visit:** Starte für einen deutlicheren Nachweis einen neuen Chat mit derselben Nova-Instanz und demselben Browserprofil. Bitte den Agenten, das gespeicherte Wissen abzurufen, seine Anwendbarkeit zu prüfen und es innerhalb der aktuellen Vertrauensgrenzen zu verwenden. Ein Erfolg macht Wissen nicht automatisch aktiv. Shadow-Wissen bleibt bewusst zu prüfen; keine Promotion für die Demo erzwingen.
+3. **Site changed:** Bitte den Agenten, das alte Rezept vor der Anwendung gegen die neue Oberfläche zu revalidieren und Novas tatsächliche Antwort zu zeigen. Der Hinweis hat jetzt einen anderen Buttonselektor und eine andere Beschriftung. Ein verifiziertes Vorgehen muss die Änderung berücksichtigen. Automatische Reparatur oder Herabstufung darf er nur behaupten, wenn Nova das tatsächlich meldet.
+
+Die gespeicherte Erfahrung betrifft den Hinweis und die Prüfung, dass der Entwurf wieder bedienbar ist. Deine Bestätigung gehört nicht in dieses Rezept. **I confirm this demo draft** ist eine Übergabeübung, kein Identitätsnachweis und keine technische Berechtigungsgrenze.
+
+Nutze den tatsächlich beobachteten Schließbutton als Erkennungssignal. Prüfe nach der Änderung auch das Ziel der gespeicherten Aktion: Ein breiter Fingerprint kann noch einen Teil der Seite erkennen, obwohl die Aktion nicht mehr ausführbar ist.
+
+## Was die Demo belegt
+
+Die einzelnen Klicks und Formularaktionen lassen sich auch mit Playwright automatisieren. Nova soll hier den zusammenhängenden Ablauf zeigen: persistente Erfahrung außerhalb des Chats, explizite Vertrauensstufen, Revalidierung nach einer Änderung und Ergebnisprüfung mit einer Übergabe an den Menschen.
+
+Verlange echte Nova-Antworten zu gespeichertem Wissen, Revalidierung und Ausführungsprüfung. Die Seitenzähler und **Page activity** sind nur Zustände dieser Beispielswebsite. Wenn Lernen deaktiviert oder nicht verfügbar ist, bleibt die Lernvorführung unvollständig. Es gibt keine garantierte Einsparung von Aufrufen oder Tokens.
+
+**Reset page** setzt den aktuellen Seitenbesuch zurück, löscht aber kein Nova-Wissen. Alle Entwürfe sind simuliert; nichts wird veröffentlicht. Die Seite stellt keine externen Netzwerkanfragen, dein Agent nutzt seinen konfigurierten Dienst.
 
 ## Weitere Aufgaben
 

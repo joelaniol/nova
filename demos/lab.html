@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Try Nova — Interactive Browser Demo</title>
 <link rel="stylesheet" href="assets/lab.css" />
+<link rel="stylesheet" href="assets/experience.css" />
 </head>
 <body>
 
@@ -12,16 +13,17 @@
   <div class="wrap">
     <div class="brandline">
       <h1>Try Nova</h1>
-      <span class="sub">Eight browser tasks. See the results yourself.</span>
+      <span class="sub">Experience, checked against a changing page.</span>
     </div>
     <p class="lead">
-      Explore the sections yourself or ask your connected AI agent to complete a task.
-      Start with: “Sign in as demo with password nova, find Build 8472, and move
-      ‘Deploy release’ to Done.” This local demo uses simulated sign-in and fictional data.
+      Start with the Experience loop: clear a recurring notice, reuse what Nova learned,
+      handle a changed page, and verify a saved draft. The other sections are smaller browser exercises.
+      All accounts, approvals and records on this page are simulated.
     </p>
 
     <nav class="tabs" role="tablist" aria-label="Demo sections">
-      <button role="tab" id="tab-session"  aria-controls="panel-session"  aria-selected="true"  data-panel="session">Session</button>
+      <button role="tab" id="tab-experience" aria-controls="panel-experience" aria-selected="true" data-panel="experience">Experience loop</button>
+      <button role="tab" id="tab-session"  aria-controls="panel-session"  aria-selected="false" data-panel="session">Session</button>
       <button role="tab" id="tab-lists"    aria-controls="panel-lists"    aria-selected="false" data-panel="lists">Long list</button>
       <button role="tab" id="tab-hidden"   aria-controls="panel-hidden"   aria-selected="false" data-panel="hidden">Embedded controls</button>
       <button role="tab" id="tab-gestures" aria-controls="panel-gestures" aria-selected="false" data-panel="gestures">Drag and drop</button>
@@ -34,6 +36,67 @@
 </header>
 
 <main class="wrap">
+
+  <section class="panel" id="panel-experience" role="tabpanel" aria-labelledby="tab-experience">
+    <div class="experience-intro">
+      <p class="experience-kicker">THE EXPERIENCE LOOP</p>
+      <h2>One task. Three visits. A checked result.</h2>
+      <p>Ask your agent to clear the release notice and save the sample draft. On your next visit,
+        ask it to retrieve the experience stored in Nova. Then change the page and see whether
+        that experience still holds up.</p>
+    </div>
+    <ol class="experience-stages" aria-label="Demo visits">
+      <li><span>01</span><strong>Encounter</strong><small>Observe, act, verify, store.</small></li>
+      <li><span>02</span><strong>Return</strong><small>Retrieve experience from Nova.</small></li>
+      <li><span>03</span><strong>Change</strong><small>Check the old recipe again.</small></li>
+    </ol>
+    <div class="experience-controls" aria-label="Choose a demo visit">
+      <button class="act primary" type="button" id="experience-first">First visit</button>
+      <button class="act" type="button" id="experience-return">Return visit</button>
+      <button class="act" type="button" id="experience-change">Site changed</button>
+      <button class="act" type="button" id="experience-reset">Reset page</button>
+    </div>
+    <p class="experience-origin" id="experience-origin"></p>
+    <div class="experience-layout">
+      <div class="experience-site" id="experience-site">
+        <header class="experience-sitebar"><strong>Release desk</strong><span id="experience-revision">Original layout</span></header>
+        <div class="experience-workspace" id="experience-workspace">
+          <p class="experience-kicker">SAMPLE DRAFT / LOCAL ONLY</p>
+          <h3>Release notes, ready for review.</h3>
+          <label class="field"><span>Draft title</span><input id="experience-title" type="text" value="Release desk update" maxlength="120" /></label>
+          <label class="field"><span>Summary</span><textarea id="experience-summary" rows="3" maxlength="1000">A small workspace update for the demo team.</textarea></label>
+          <button class="act primary" type="button" id="experience-save">Save demo draft</button>
+          <p id="experience-save-message" role="status">Draft not saved.</p>
+          <div id="experience-receipt-slot"></div>
+        </div>
+        <div id="experience-notice-slot"></div>
+      </div>
+      <aside class="experience-observation" aria-labelledby="experience-observation-title">
+        <p class="experience-kicker">OBSERVABLE PAGE STATE</p>
+        <h3 id="experience-observation-title">A click is only the beginning.</h3>
+        <dl>
+          <div><dt>Visit</dt><dd id="experience-visit-state">First visit</dd></div>
+          <div><dt>Notice</dt><dd id="experience-notice-state">Blocking the draft</dd></div>
+          <div><dt>Save requests</dt><dd id="experience-attempt-state">0</dd></div>
+          <div><dt>Saved drafts</dt><dd id="experience-saved-state">0</dd></div>
+          <div><dt>Demo confirmation</dt><dd id="experience-approval-state">Waiting for the user</dd></div>
+        </dl>
+        <div class="experience-human">
+          <h4>A step for the person</h4>
+          <p>When your agent asks you to confirm, use this control yourself, then let it continue.</p>
+          <button class="act" type="button" id="experience-confirm">I confirm this demo draft</button>
+          <small>This is a page-level handoff exercise, not identity verification.</small>
+        </div>
+      </aside>
+    </div>
+    <div class="experience-evidence">
+      <h3>Look for evidence in Nova, not a badge on this page.</h3>
+      <p>These counters describe the sample website only. Ask your agent to show the stored knowledge,
+        its current learning level, the result of checking it after the change, and the action's
+        verification result. The page never declares a Nova playbook learned, trusted or successful.</p>
+      <p class="experience-reset-note">Reset page clears this visit's page state. It does not delete knowledge stored in Nova.</p>
+    </div>
+  </section>
 
   <!-- 1 ------------------------------------------------------------------ -->
   <section class="panel" id="panel-session" role="tabpanel" aria-labelledby="tab-session">
@@ -309,5 +372,6 @@
 </div>
 
 <script src="assets/lab.js"></script>
+<script src="assets/experience.js"></script>
 </body>
 </html>

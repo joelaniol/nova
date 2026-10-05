@@ -29,9 +29,9 @@
 
 **Nova AI Workspace** is a next-generation Windows browser designed from the ground up for the era of agentic computing. It bridges the gap between human browsing and autonomous AI coding assistants, providing a single unified workspace where humans and agents collaborate seamlessly.
 
-Traditional browser automation tools (Puppeteer, Playwright, Selenium) run in headless black boxes, separate windows, or disposable containers. They cannot leverage your daily authenticated sessions, cookies, or password managers, and they freeze when encountering captchas or 2FA prompts.
+Nova brings browser interaction, persistent procedural knowledge, outcome verification and human handoffs into the workspace you use every day. The [Experience loop demo](demos/README.md) makes that combination tangible, including what happens when a previously useful recipe no longer fits the page.
 
-Nova changes this paradigm with the **Dual-Operator Model**:
+The **Dual-Operator Model** connects the person and the agent:
 * **Shared Context:** You and your AI agent (Anthropic Claude Code, OpenAI Codex, Google Antigravity, or custom agents) share the same browser window, authenticated sessions, and tab strip.
 * **AI Visualization:** Watch your agent navigate, click and fill forms in real time. An optional on-screen cursor labelled "AI" shows where the agent acts, with an optional card for the current and next step.
 * **You Stay in Control:** A tab an agent is working in says so; click it and confirm **Take over** to end the agent's control of that tab. **Emergency stop** in the main menu interrupts all agents at once. Typing or moving the mouse does not pause the agent by itself.
@@ -57,13 +57,13 @@ Looking for the trial key? → **[Alpha Trial License](docs/getting-started/tria
 
 ## 🔬 Try Nova with an Interactive Demo
 
-The [interactive demo](demos/README.md) gives you eight small browser tasks: keep a demo sign-in across a reload, find a build in a long list, use embedded controls, move a card, work with files, handle dialogs, wait for changing content and read table or image data.
+The [interactive demo](demos/README.md) starts with an **Experience loop**: encounter a recurring notice, retrieve the experience on a return visit, handle a changed page, and verify an actual saved result. Eight smaller browser exercises are also included.
 
-Download the repository, open `demos/lab.html` in Nova and ask your connected agent:
+Download the repository and follow the guide to open the demo on a local HTTP address. Ask your connected agent:
 
-> Sign in with username **demo** and password **nova**, find Build 8472 in the long list, and move “Deploy release” to Done. Tell me what changed on the page.
+> Clear the release notice and save the sample draft. Check the actual saved result, ask me to confirm when needed, and record the verified notice-handling experience in Nova. Show me what was stored and its current learning level.
 
-Check the visible results yourself. The page runs locally with simulated sign-in and fictional data; it is an interaction demo, not a performance benchmark.
+The first save request deliberately leaves the draft unsaved. Later, **Site changed** invalidates the original dismissal selector. Look for real knowledge and verification evidence from Nova alongside the page's counters. All records are simulated; this is a workflow demonstration, not a performance benchmark.
 
 [Open the demo guide →](demos/README.md) · [Deutsche Anleitung](demos/README.de.md)
 

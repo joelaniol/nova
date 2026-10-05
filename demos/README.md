@@ -1,28 +1,61 @@
-# Try Nova: Interactive Browser Demo
+# Try Nova: The Experience Loop
 
 [Deutsche Anleitung](README.de.md)
 
-Explore eight everyday browser tasks with Nova and your connected AI agent. Sign in, find an item in a long list, move a card, work with files and read information from a page. Each section lets you see the result directly.
+Nova can carry verified experience from one visit into the next. This demo gives that idea a concrete test: a recurring notice, a changed interface, a save request with no saved result, and a step that belongs to you.
 
 Updated: 2026-10-05
 
 ## Get Started
 
 1. Download this repository using **Code → Download ZIP**, then extract it. Keep the `demos` folder and its `assets` subfolder together.
-2. Open the downloaded `demos/lab.html` in Nova. The demo runs locally and needs no web server.
-3. Connect your agent using the [integration guide](../docs/integration/README.md), then give it one of the tasks below. You can also explore the controls yourself.
+2. For persistent website knowledge, serve the demo on a **local HTTP address**. If Python is installed, run this from the extracted repository folder:
 
-GitHub displays the HTML source; download the files to use the interactive page. The page itself makes no external network requests. Your connected agent uses its own configured service.
+   ```sh
+   python -m http.server 8765 --bind 127.0.0.1 --directory demos
+   ```
 
-## Start with This Task
+3. Open `http://127.0.0.1:8765/lab.html` in Nova and connect your agent using the [integration guide](../docs/integration/README.md). Keep the same address and port for return visits. Stop the local server with Ctrl+C when finished.
 
-> Sign in with username **demo** and password **nova**. Find Build 8472 in the long list, then move the “Deploy release” card to Done. Tell me what changed on the page.
+Opening `demos/lab.html` directly also works for page interactions, but `file://` does not provide the website scope needed for this persistent-knowledge exercise. GitHub displays HTML source, so download the files first. The page makes no external network requests; your agent uses its configured service.
 
-Look for the signed-in status, the highlighted build and the card in the Done column. Reload the page in the same browser profile to check whether the demo sign-in remains available.
+## One Task, Three Visits
 
-This is a simulated sign-in stored locally, not a real account. Use the supplied demo credentials.
+### 1. Encounter: check the result, then keep the experience
 
-## Eight Things to Try
+Select **First visit** and ask:
+
+> Clear the release notice and save the sample draft. Check the actual saved result rather than treating a successful click as completion. Ask me to confirm when needed; leave the confirmation control to me. After verifying that the notice is gone and the draft is usable, store the notice-handling experience in Nova. Use the observed dismissal control as a recognition signal. Show me what was stored and its current learning level.
+
+The first save request deliberately leaves **Saved drafts** at **0**, even if you confirmed early. Your agent should notice that difference, request your confirmation, and continue with a checked save. Use **I confirm this demo draft** yourself when asked. Completion has a visible receipt and **Saved drafts: 1**.
+
+The reusable experience concerns the notice: how to recognize it, dismiss it and verify that the draft becomes available. Your confirmation is not part of that recipe. The confirmation control is a handoff exercise, not an identity or permission security boundary.
+
+### 2. Return: retrieve, do not just remember the conversation
+
+Select **Return visit**. For a clearer demonstration, start a fresh conversation with the same Nova instance and browser profile:
+
+> Retrieve Nova's stored experience for the release notice on this address. Show its ID and current learning level. Check whether it still applies, use it within its current trust limits, and verify that the notice is gone. Save the draft again, leaving confirmation to me.
+
+A fresh conversation separates persistent Nova knowledge from the previous chat's context. A single successful encounter does **not** imply an active autonomous playbook. New knowledge may remain Shadow: retrievable, but still requiring deliberate checking and normal guarded actions. Active application is only appropriate if Nova actually reports that it is eligible. Do not force promotion for the demo.
+
+### 3. Change: let the evidence challenge the recipe
+
+Select **Site changed** and ask:
+
+> Revalidate the stored notice recipe against the current page before using it. Show the result from Nova. If it no longer fits, inspect the changed interface, resolve the notice safely and verify the outcome. Explain what changed and what happened to the stored knowledge. Do not claim automatic recovery or demotion unless Nova reports it.
+
+The dismissal control now has a different selector and label. Check the stored action's target as well as its recognition signals: a broad fingerprint can still match part of the page while its action is no longer usable. Look for the actual revalidation result and any reported health or trust change, followed by a checked recovery. The page changes the website; it does not alter Nova's knowledge itself.
+
+## What Makes This a Nova Demonstration?
+
+The individual clicks, form fields and simulated failures can also be automated with tools such as Playwright. The demonstration concerns the **integrated workflow**: procedural knowledge persists outside the conversation, has an explicit trust state, can be checked against a changed page, and is applied alongside outcome verification and a user handoff.
+
+Ask the agent to show actual Nova responses for stored knowledge, revalidation and execution verification. Page counters and **Page activity** describe the sample website only. They cannot prove that Nova learned anything. If learning is unavailable or disabled, say so; the page remains an interaction exercise, but the learning demonstration is incomplete.
+
+Compare the first and return visits using actual action evidence if you want to assess reuse. This fixture is not a benchmark and does not promise fewer calls or tokens. It does not simulate real authentication, cross-origin access or external publishing.
+
+## More Browser Exercises
 
 | Section | Ask your agent | What you can check |
 | :--- | :--- | :--- |

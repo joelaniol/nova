@@ -397,9 +397,9 @@
 
   /* ---------------- boot ---------------- */
 
-  var startTab = "session";
-  try { startTab = localStorage.getItem("novaDemo.tab") || "session"; } catch (e) { /* ignore */ }
-  if (!document.getElementById("panel-" + startTab)) { startTab = "session"; }
+  var startTab = "experience";
+  try { startTab = localStorage.getItem("novaDemo.tab") || "experience"; } catch (e) { /* ignore */ }
+  if (!document.getElementById("panel-" + startTab)) { startTab = "experience"; }
   selectTab(startTab, true);
   paintSession();
   log("demo ready");

@@ -174,7 +174,7 @@ Deutsch: [weiter unten](#dokumentation-auf-deutsch).
 
 ## More
 
-- [Interactive demo](../demos/README.md) — eight local browser tasks to explore with your agent ([German guide](../demos/README.de.md))
+- [Interactive demo](../demos/README.md) — an experience loop with repeat visits, a changed page and checked outcomes, plus eight browser exercises ([German guide](../demos/README.de.md))
 - [Alpha notes](../ALPHA.md) · [Privacy](../PRIVACY.md) · [Acceptable use](../ACCEPTABLE-USE.md) · [Disclaimer](../DISCLAIMER.md) · [License](../LICENSE)
 
 ---
