@@ -174,6 +174,15 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 | [Diagnostics](troubleshooting/diagnostics.md) | Logs and failure evidence |
 | [Sandbox and session recovery](troubleshooting/sandbox-and-session-recovery.md) | Abandoned tabs, held claims and missing sandboxes |
 
+## Research
+
+[Overview](research/README.md)
+
+| Page | What it covers |
+|---|---|
+| [BREACH](research/breach/README.md) | A method for structurally new concepts by breaking load-bearing assumptions |
+| [The BREACH prompt](research/breach/prompt.md) | The meta-prompt that runs the method with a language model |
+
 ## More
 
 - [Interactive demo](../demos/README.md) — an experience loop with repeat visits, a changed page and checked outcomes, plus eight browser exercises ([German guide](../demos/README.de.md))

@@ -8,7 +8,7 @@ IMAP/SMTP email client automation, EML exports, SFTP/FTP server operations, and 
 ---
 
 <!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
-## Tool Inventory (36 Tools)
+## Tool Inventory (37 Tools)
 
 Capability bundles of these tools: `connector_ops`.
 
@@ -50,6 +50,7 @@ Capability bundles of these tools: `connector_ops`.
 | **[`nova.sftp_rename`](nova-sftp-rename.md)** | Renames or moves a remote file or directory over SFTP. |
 | **[`nova.sftp_transfer_status`](nova-sftp-transfer-status.md)** | Reports progress and result of background SFTP transfers started by `nova.sftp_get` or `nova.sftp_put`. |
 | **[`nova.sftp_transfer_stop`](nova-sftp-transfer-stop.md)** | Stops a running background SFTP transfer softly and keeps everything for a resume. |
+| **[`nova.ssh_run`](nova-ssh-run.md)** | Runs shell commands on the server of an SSH/SFTP connection and reports exit status, output and timing honestly. |
 <!-- /generated:tool-list -->
 
 ---
