@@ -3,29 +3,29 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Nova Demo Lab — after navigation</title>
+<title>Try Nova — Session Check</title>
 <link rel="stylesheet" href="assets/lab.css" />
 </head>
 <body>
 <header class="top">
   <div class="wrap">
     <div class="brandline">
-      <h1>Another page entirely</h1>
-      <span class="sub">Different document, same session.</span>
+      <h1>Check your demo sign-in</h1>
+      <span class="sub">A second page in the same demo.</span>
     </div>
     <p class="lead">
-      A fresh automation run would arrive here signed out. The state below was established on the
-      previous page and is still valid.
+      This page checks whether the demo sign-in you created is available here too.
+      Use the same browser profile, then return to the demo to continue exploring.
     </p>
   </div>
 </header>
 
 <main class="wrap">
   <div class="card">
-    <h3>Session as seen from here</h3>
-    <p class="why">Read straight from storage, not passed along in the URL.</p>
+    <h2>Demo sign-in status</h2>
+    <p class="why">A local simulation, not a real account or authentication service.</p>
     <p class="row"><span class="dot" id="dot"></span> <span id="state" class="mono">checking…</span></p>
-    <p style="margin-top:14px"><a class="act" style="text-decoration:none;display:inline-block" href="lab.html">Back to the lab</a></p>
+    <p style="margin-top:14px"><a class="act" style="text-decoration:none;display:inline-block" href="lab.html">Back to the demo</a></p>
   </div>
 </main>
 
@@ -40,7 +40,7 @@
       state.style.color = "var(--accent)";
       dot.style.background = "var(--accent)";
     } else {
-      state.textContent = "signed out — sign in on the lab page first";
+      state.textContent = "signed out — sign in on the demo page first";
       dot.style.background = "var(--text-faint)";
     }
   })();

@@ -1,6 +1,4 @@
-/* Nova Demo Lab — behaviour.
-   Everything is deliberate: the list really is virtualised, the shadow root really is nested, the
-   delays really are unknown in advance. A demo that fakes its difficulty proves nothing. */
+/* Local demo interactions. No external requests or real account actions. */
 
 (function () {
   "use strict";
@@ -49,7 +47,7 @@
       b.setAttribute("aria-selected", on ? "true" : "false");
       $("panel-" + b.dataset.panel).hidden = !on;
     });
-    if (!quiet) { log("section: " + name); }
+    if (!quiet) { log("section: " + document.querySelector('nav.tabs button[aria-selected="true"]').textContent); }
     try { localStorage.setItem("novaDemo.tab", name); } catch (e) { /* private window */ }
   }
 
@@ -149,7 +147,7 @@
 
     if (!found && document.getElementById("row-" + TARGET)) {
       found = true;
-      $("vstatus").textContent = "row " + TARGET + " is in the DOM";
+      $("vstatus").textContent = "Build " + TARGET + " is in view";
       $("vstatus").style.color = "var(--accent)";
       log("row " + TARGET + " reached", true);
     }
@@ -181,15 +179,15 @@
     'button{background:#1b2228;border:1px solid #2f3a42;color:#dce8ec;border-radius:8px;' +
     'padding:8px 14px;font:15px/1.5 "Segoe UI Variable","Segoe UI",system-ui,sans-serif;cursor:pointer}' +
     'button:hover{border-color:#3f8c62}' +
-    'p{color:#5d6a72;font-size:13px;margin:0 0 10px}' +
+    'p{color:#89969f;font-size:13px;margin:0 0 10px}' +
     '</style>' +
-    '<p>Two shadow roots above this button.</p>' +
-    '<button id="deepBtn">Press the deep button</button>';
+    '<p>A button inside nested web components.</p>' +
+    '<button id="deepBtn">Press the nested button</button>';
 
   inner.getElementById("deepBtn").addEventListener("click", function () {
     $("shadowState").textContent = "pressed at " + new Date().toLocaleTimeString();
     $("shadowState").style.color = "var(--accent)";
-    log("deep shadow button pressed", true);
+    log("nested button pressed", true);
   });
 
   window.addEventListener("message", function (ev) {
@@ -259,13 +257,13 @@
   /* ---------------- 6. dialogs and overlays ---------------- */
 
   $("alertBtn").addEventListener("click", function () {
-    window.alert("The page thread is blocked until this is answered.");
+    window.alert("This is a demo alert. Close it to continue.");
     $("dialogState").textContent = "alert dismissed";
     log("alert dismissed", true);
   });
 
   $("confirmBtn").addEventListener("click", function () {
-    var ok = window.confirm("Delete the selected build?");
+    var ok = window.confirm("Simulate deleting the selected build? No real build will be deleted.");
     $("dialogState").textContent = "confirm: " + (ok ? "accepted" : "dismissed");
     log("confirm " + (ok ? "accepted" : "dismissed"), true);
   });
@@ -290,11 +288,11 @@
 
   $("cmpAccept").addEventListener("click", function () { cmpDecide("accepted all"); });
   $("cmpReject").addEventListener("click", function () { cmpDecide("rejected"); });
-  $("cmpManage").addEventListener("click", function () { cmpDecide("opened options, then rejected"); });
+  $("cmpManage").addEventListener("click", function () { cmpDecide("rejected"); });
 
   $("modalBtn").addEventListener("click", function () {
     $("modal").hidden = false;
-    $("modalState").textContent = "open — page underneath is inert";
+    $("modalState").textContent = "open — close the panel to continue";
     log("modal opened");
   });
 
@@ -332,7 +330,7 @@
         log("late button pressed", true);
       });
       slot.appendChild(b);
-      log("#lateBtn appeared");
+      log("delayed button appeared");
     }, wait);
   });
 
@@ -355,12 +353,12 @@
   /* ---------------- 8. table + canvas ---------------- */
 
   var TABLE = [
-    ["1.0.0-alpha.14", "2026-09-04", "312", "0.8%", "superseded"],
-    ["1.0.0-alpha.15", "2026-09-08", "489", "0.6%", "superseded"],
-    ["1.0.0-alpha.16", "2026-09-10", "540", "0.4%", "superseded"],
-    ["1.0.0-alpha.17", "2026-09-10", "1204", "0.3%", "current"],
-    ["1.0.0-beta.1", "2026-10-01", "0", "—", "planned"],
-    ["1.0.0", "2026-11-15", "0", "—", "planned"]
+    ["Sample A", "2026-01-04", "312", "0.8%", "archived"],
+    ["Sample B", "2026-01-08", "489", "0.6%", "archived"],
+    ["Sample C", "2026-01-10", "540", "0.4%", "archived"],
+    ["Sample D", "2026-01-14", "1204", "0.3%", "active"],
+    ["Sample E", "2026-01-18", "220", "0.2%", "active"],
+    ["Sample F", "2026-01-22", "180", "—", "draft"]
   ];
 
   var tbody = document.querySelector("#dataTable tbody");
@@ -387,7 +385,7 @@
     g.fillStyle = "#7bf5ac";
     g.font = "bold 30px Consolas, monospace";
     g.fillText("NV-4831", 14, 64);
-    // Noise, so the value cannot be guessed from the markup.
+    // Decorative strokes make this a visual reading exercise.
     g.strokeStyle = "rgba(123,245,172,0.18)";
     for (var i = 0; i < 14; i++) {
       g.beginPath();
@@ -404,5 +402,5 @@
   if (!document.getElementById("panel-" + startTab)) { startTab = "session"; }
   selectTab(startTab, true);
   paintSession();
-  log("demo lab ready");
+  log("demo ready");
 })();

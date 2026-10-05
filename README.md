@@ -55,14 +55,17 @@ Looking for the trial key? → **[Alpha Trial License](docs/getting-started/tria
 
 ---
 
-## 🔬 Don't Take Our Word For It — Test It on the Lab
+## 🔬 Try Nova with an Interactive Demo
 
-[`demos/lab.html`](demos/) is a benchmark page built specifically for challenging automation limits: an active session that must survive, a virtualized list with 10,000 rows (only about twenty in the DOM at a time), nested shadow roots, an iframe boundary, drag-and-drop that a dispatched click cannot do, file upload and download, native dialogs that stop JavaScript execution, and a verification code that exists only as canvas pixels.
+The [interactive demo](demos/README.md) gives you eight small browser tasks: keep a demo sign-in across a reload, find a build in a long list, use embedded controls, move a card, work with files, handle dialogs, wait for changing content and read table or image data.
 
-Open it directly in Nova with no server required, and give your agent the benchmark task:
-> *"Sign in, locate build 8472 in the virtual list, drag 'Deploy release' to Done, and extract the verification code from the canvas."*
+Download the repository, open `demos/lab.html` in Nova and ask your connected agent:
 
-[Read the interactive lab guide and solutions →](demos/README.md)
+> Sign in with username **demo** and password **nova**, find Build 8472 in the long list, and move “Deploy release” to Done. Tell me what changed on the page.
+
+Check the visible results yourself. The page runs locally with simulated sign-in and fictional data; it is an interaction demo, not a performance benchmark.
+
+[Open the demo guide →](demos/README.md) · [Deutsche Anleitung](demos/README.de.md)
 
 ---
 

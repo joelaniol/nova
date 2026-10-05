@@ -1,85 +1,56 @@
-# Nova Demo Lab
+# Try Nova: Interactive Browser Demo
 
-Stand: 2026-10-01
+[Deutsche Anleitung](README.de.md)
 
-Eine Seite zum Vorführen — gebaut für Videoaufnahmen und für den ersten Eindruck bei jemandem, der
-Nova noch nicht kennt. Sie läuft **ohne Server**: `demos/lab.html` im Browser öffnen, fertig.
+Explore eight everyday browser tasks with Nova and your connected AI agent. Sign in, find an item in a long list, move a card, work with files and read information from a page. Each section lets you see the result directly.
 
-```
-# Nova starten, dann im Agenten (Pfad zum heruntergeladenen Ordner einsetzen):
-nova.navigate url="file:///C:/Pfad/zu/demos/lab.html"
-```
+Updated: 2026-10-05
 
-## Wozu das Ganze
+## Get Started
 
-Ein Feature-Poster überzeugt niemanden. Was überzeugt, ist eine Aufgabe, an der übliche
-Browser-Automatisierung sichtbar scheitert, gefolgt davon, dass Nova sie erledigt. Jede Sektion
-hier ist genau so ein Fall — keine erfundene Schwierigkeit, sondern die, an denen echte Läufe
-hängenbleiben.
+1. Download this repository using **Code → Download ZIP**, then extract it. Keep the `demos` folder and its `assets` subfolder together.
+2. Open the downloaded `demos/lab.html` in Nova. The demo runs locally and needs no web server.
+3. Connect your agent using the [integration guide](../docs/integration/README.md), then give it one of the tasks below. You can also explore the controls yourself.
 
-Unten auf der Seite läuft ein **Aktivitätsstreifen** mit. Er macht im Video sichtbar, dass wirklich
-etwas passiert ist, statt dass nur ein Cursor zuckt. Derselbe Verlauf liegt als
-`window.novaDemoLog` bereit — aber nur mit `worldMode: "main"`:
+GitHub displays the HTML source; download the files to use the interactive page. The page itself makes no external network requests. Your connected agent uses its own configured service.
 
-```
-nova.eval expression="JSON.stringify(window.novaDemoLog.map(e => e.what))" worldMode="main"
-```
+## Start with This Task
 
-Ohne `worldMode` läuft `eval` in einer isolierten Welt und bekommt eine **leere Liste** zurück, ohne
-zu meckern. Das ist beim Bauen dieser Seite passiert und wäre in einer Aufnahme peinlich.
+> Sign in with username **demo** and password **nova**. Find Build 8472 in the long list, then move the “Deploy release” card to Done. Tell me what changed on the page.
 
-## Die acht Fälle
+Look for the signed-in status, the highlighted build and the card in the Done column. Reload the page in the same browser profile to check whether the demo sign-in remains available.
 
-Die Spalte rechts ist **nachgemessen**, nicht angenommen — jeder Weg wurde am 20.09.2026 gegen
-diese Seite ausgeführt.
+This is a simulated sign-in stored locally, not a real account. Use the supplied demo credentials.
 
-| Reiter | Was schwer daran ist | Der Weg, der funktioniert |
-|---|---|---|
-| **Session** | Ein frischer Lauf startet immer abgemeldet. | Einmal anmelden (`demo`/`nova`); die Sitzung übersteht Reload und Navigation. Zustand lesen mit `nova.storage_inspect(storageType='local')`. |
-| **Deep list** | 10 000 Zeilen, ~12 im DOM. `#row-8472` existiert nicht, bis jemand dorthin scrollt. | `nova.scroll_element(selector='#vlist', deltaY=288000)` — der Container scrollt, nicht die Seite. Danach ist die Zeile da und `nova.wait_for_selector` greift. |
-| **Hidden DOM** | Zwei verschachtelte Shadow Roots und ein Frame. | **`nova.click_selector` findet `#deepBtn` NICHT** — es durchdringt keine Shadow Roots und läuft in einen Timeout. Der Weg: `nova.eval(includeShadow=true)` liefert das Rechteck, dann `nova.input_click` auf dessen Mitte. Das Frame-Formular ist über `frameScope`/`frameId` erreichbar. |
-| **Gestures** | Ziehen ist eine Folge echter Zeigerereignisse an echten Koordinaten. Ein `click` bewegt nichts. | Mittelpunkte per `eval` holen, dann `nova.input_drag(fromX, fromY, toX, toY)`. Hat die Karte zuverlässig nach DONE gelegt. |
-| **Files** | Der Dateidialog gehört dem Betriebssystem, nicht der Seite. Ein Download muss irgendwo landen. | `nova.file_upload` umgeht den OS-Dialog; `nova.downloads_wait` + `nova.downloads_list` belegen die erzeugte CSV. |
-| **Dialogs** | `alert`/`confirm`/`prompt` halten den Seitenthread an; Consent-Wall und Modal fressen jeden Klick. | **Nova beantwortet JS-Dialoge selbst** (sie werden abgewiesen) und läuft weiter — `nova.ui_inspect_native_dialog` findet hier nichts, das Tool ist für **OS- und Nova-eigene** Dialoge. Genau das ist der Punkt: ein Skript ohne Dialog-Handler bleibt hier stehen, Nova nicht. Consent-Wall und Modal sind normale Overlays: `nova.cmp_apply` bzw. `nova.dismiss_blockers`. |
-| **Timing** | Die Wartezeit ist unbekannt, und ein Wert rendert zweimal. Ein fester Sleep ist entweder zu kurz oder verschenkt. | `nova.wait_for_selector` auf `#lateBtn`, `nova.wait_for_eval` für den zweiten Wert. |
-| **Data** | Die Tabelle will strukturiert raus, und der Canvas-Code existiert nur als Pixel. | `nova.extract_table(selector='#dataTable')`. Für den Canvas: `nova.capture_screenshot(selector='#pixelCanvas')` — der Code **NV-4831** ist nur im Bild lesbar, kein Selektor gibt ihn je zurück. |
+## Eight Things to Try
 
-## Vorschlag für den Videoablauf
+| Section | Ask your agent | What you can check |
+| :--- | :--- | :--- |
+| **Session** | “Sign in, reload the page and check whether I am still signed in.” | The sign-in status after reloading; the linked second page also displays the locally stored state. |
+| **Long list** | “Find Build 8472.” | The highlighted build in a list of 10,000 items that renders only the nearby rows. |
+| **Embedded controls** | “Press the nested button, then enter DEMO-123 in the embedded ticket form and submit it.” | A button confirmation and the submitted ticket in the embedded form. |
+| **Drag and drop** | “Move ‘Deploy release’ to Done.” | The card's new column and its status below the board. No release is deployed. |
+| **Files** | “Choose the sample file I provide, then download the report.” | The chosen file's name and size on the page; the CSV in Nova's downloads. |
+| **Dialogs** | “Show the cookie banner and reject optional cookies. Then open the sample modal and close it without saving.” | The recorded demo cookie choice and modal status. JavaScript dialog examples are also available. |
+| **Waiting** | “Start the delayed button and press it when it appears. Then load the value and report the final result.” | The button's pressed state and a value that replaces an initial placeholder. |
+| **Reading data** | “Summarize the sample table and read the code drawn in the image.” | Structured table values and the code visible on the canvas. The table is fictional demo data. |
 
-Kurz halten. Ein Fall, den jeder kennt, dann zwei, die wehtun.
+Choose a section before trying its task. You do not need to know tool names or selectors to describe the desired result to your agent.
 
-1. **Der Haken im Bild (20 s).** Adressleiste zeigt `lab.html`, Agentenpanel daneben. Eine Aufgabe
-   stellen: *„Melde dich an, hol Build 8472 aus der Liste und zieh 'Deploy release' nach Done."*
-2. **Zuschauen (40 s).** Der Aktivitätsstreifen schreibt mit. Nichts kommentieren — das Mitlaufen
-   ist das Argument.
-3. **Der Beweis (15 s).** Seite neu laden. Immer noch angemeldet. Das ist der Moment, den ein
-   Headless-Lauf nicht hat.
-4. **Die Zugabe (20 s).** Den Canvas-Code vorlesen lassen. Kein Selektor der Welt findet ihn.
+## Understand the Results
 
-Insgesamt unter zwei Minuten. Wer danach mehr will, klickt auf Releases.
+The **Page activity** panel records events handled by this demo, such as a submitted form or a moved card. Use it alongside the visible result. It is a page-local activity list, not Nova's full action log or independent proof that an external task succeeded.
 
-## Grenzen
+The examples are deliberately small and self-contained. They demonstrate interaction patterns rather than a performance benchmark or a guarantee that every website behaves the same way. Embedded forms use a local frame; the page does not demonstrate cross-origin access, real authentication, external uploads or network interception.
 
-- **`file://` reicht für alles hier.** Der Frame nutzt `srcdoc`, damit er ohne Server funktioniert;
-  eine echte fremde Herkunft (cross-origin) ist damit **nicht** abgedeckt. Dafür gibt es
-  `tests/evil-pages/` mit zwei Ursprüngen und einem Server.
-- **Die Wartezeiten sind zufällig** (2–6 s), damit man sie nicht auswendig lernen kann. Für eine
-  Aufnahme, die exakt sitzen muss, ist das eher unbequem — dann lieber zweimal drehen als die
-  Zufälligkeit rausnehmen, sonst beweist die Sektion nichts mehr.
-- **Kein Netzwerkverkehr.** Die Seite lädt nichts nach. Wer `nova.network_read` oder
-  `network_intercept` zeigen will, braucht eine Seite, die wirklich etwas anfragt.
-- **Die Tabelle scrollt auf schmalen Fenstern seitwärts**, in ihrem eigenen Container. Das ist
-  Absicht und die einzige Stelle, die breiter als der Inhaltsbereich wird; die Seite selbst hat bei
-  390 px keinen horizontalen Scroll (`pageHorizontalScroll: false`, gemessen).
+The simulated cookie banner records a demo choice. Choosing a file reads its name and size without uploading it. The download creates a CSV from the fictional table. Session persistence depends on the browser profile and available local storage; signing out clears the demo sign-in.
 
-## Wenn etwas nicht klappt
+## Try Again
 
-- **Die Liste zeigt nur eine Handvoll Zeilen.** Sie rendert nach der sichtbaren Höhe. War der
-  Reiter beim Laden versteckt, ist die Höhe 0 — ein `ResizeObserver` holt das nach, sobald der
-  Reiter sichtbar wird. Wenn es doch einmal klemmt: Reiter wechseln oder neu laden.
-- **`#deepBtn` wird nicht gefunden.** Richtig so, siehe Tabelle: erst `eval(includeShadow=true)`
-  für das Rechteck, dann `input_click`.
-- **`novaDemoLog` ist leer.** `worldMode: "main"` fehlt.
-- **Der Aktivitätsstreifen bleibt stumm, obwohl etwas passiert ist.** Er protokolliert nur, was
-  durch die Seite läuft. Ein `eval`, das einen Wert direkt setzt, umgeht ihn — und genau deshalb
-  taugt er als Beweis: was dort steht, ist wirklich über die Oberfläche gegangen.
+Use **Sign out**, **Back to top** or **Clear activity** for the relevant section. Reloading resets most page interactions, while the demo sign-in and last selected section can remain stored. Delayed content takes a few seconds to appear.
+
+## Learn More
+
+* [Get Nova](../README.md)
+* [Connect an agent](../docs/integration/README.md)
+* [Explore core features](../docs/core-features/README.md)
