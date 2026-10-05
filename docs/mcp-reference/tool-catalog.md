@@ -28,7 +28,7 @@ Every tool exposed by **Nova AI Workspace**, grouped by operational domain. Clic
 - [19. Media Intelligence & Whisper Speech-to-Text](#19-media-intelligence--whisper-speech-to-text) (24)
 - [20. Site Data, Fingerprinting & Sandboxes](#20-site-data-fingerprinting--sandboxes) (23)
 - [21. Episodic Task Memory & Guidance](#21-episodic-task-memory--guidance) (34)
-- [22. App Shell, Dialogs & DevTools](#22-app-shell-dialogs--devtools) (59)
+- [22. App Shell, Dialogs & DevTools](#22-app-shell-dialogs--devtools) (61)
 - [23. Agent-Authored Plugins](#23-agent-authored-plugins) (22)
 <!-- /generated:catalog-toc -->
 
@@ -596,7 +596,7 @@ WinUI window controls, native OS dialog handling, DevTools panels, setup wizard,
 | **[`nova.devtools_open`](tools/app-shell-and-ui/nova-devtools-open.md)** | `targetId?`, `mode?` | Opens the Chromium DevTools inspection window for a specified browser tab. |
 | **[`nova.devtools_select_panel`](tools/app-shell-and-ui/nova-devtools-select-panel.md)** | `panel`, `targetId?` | Dispatches the keyboard shortcut for a DevTools panel (Console, Elements, Network, Sources, ...) in an already-open DevTools window. |
 | **[`nova.favorites_add`](tools/app-shell-and-ui/nova-favorites-add.md)** | `url`, `title?`, `folderId?` | Adds a URL to the browser favorites collection with optional title and target folder. |
-| **[`nova.favorites_list`](tools/app-shell-and-ui/nova-favorites-list.md)** | *(none)* | Lists all saved browser favorites. |
+| **[`nova.favorites_list`](tools/app-shell-and-ui/nova-favorites-list.md)** | `query?`, `folderId?`, `maxResults?` | Lists all saved browser favorites. |
 | **[`nova.favorites_move`](tools/app-shell-and-ui/nova-favorites-move.md)** | `id?`, `url?`, `folderId?` | Moves a bookmark favorite into a different folder or to the root collection. |
 | **[`nova.favorites_open`](tools/app-shell-and-ui/nova-favorites-open.md)** | `url`, `openInNewTab?` | Opens a saved favorite in the current or a new browser tab. |
 | **[`nova.favorites_remove`](tools/app-shell-and-ui/nova-favorites-remove.md)** | `id?`, `url?` | Removes a saved favorite by its id or URL. |
@@ -622,6 +622,7 @@ WinUI window controls, native OS dialog handling, DevTools panels, setup wizard,
 | **[`nova.ui_certificate_prompt_resolve`](tools/app-shell-and-ui/nova-ui-certificate-prompt-resolve.md)** | `decision` | Answers Nova's dialog for a server certificate it could not verify: refuse the connection or proceed for this session. |
 | **[`nova.ui_client_certificate_prompt_resolve`](tools/app-shell-and-ui/nova-ui-client-certificate-prompt-resolve.md)** | `decision`, `subject?` | Answers Nova's client-certificate dialog: send a named certificate or continue without one. |
 | **[`nova.ui_close_downloads`](tools/app-shell-and-ui/nova-ui-close-downloads.md)** | *(none)* | Closes the download manager drawer panel in the Nova host user interface. |
+| **[`nova.ui_close_favorites`](tools/app-shell-and-ui/nova-ui-close-favorites.md)** | *(none)* | Closes the favorites panel if one is open. |
 | **[`nova.ui_close_settings`](tools/app-shell-and-ui/nova-ui-close-settings.md)** | *(none)* | Closes the settings drawer overlay in the Nova host user interface. |
 | **[`nova.ui_confirm_native_dialog`](tools/app-shell-and-ui/nova-ui-confirm-native-dialog.md)** | `button?` | Presses a button in the open dialog: by name in any dialog, including Nova's own, or the affirmative button of a Windows dialog. |
 | **[`nova.ui_dismiss_native_dialog`](tools/app-shell-and-ui/nova-ui-dismiss-native-dialog.md)** | *(none)* | Dismisses or cancels the currently active host-owned Win32 native dialog. |
@@ -629,6 +630,7 @@ WinUI window controls, native OS dialog handling, DevTools panels, setup wizard,
 | **[`nova.ui_get_state`](tools/app-shell-and-ui/nova-ui-get-state.md)** | *(none)* | Inspects host application UI state: active tab, overlay visibility, responsiveness, and open dialogs. |
 | **[`nova.ui_inspect_native_dialog`](tools/app-shell-and-ui/nova-ui-inspect-native-dialog.md)** | *(none)* | Inspects the open dialog — a Windows dialog Nova owns or one of Nova's own dialogs — with its texts and buttons. |
 | **[`nova.ui_open_downloads`](tools/app-shell-and-ui/nova-ui-open-downloads.md)** | *(none)* | Opens the download manager drawer panel in the Nova host user interface. |
+| **[`nova.ui_open_favorites`](tools/app-shell-and-ui/nova-ui-open-favorites.md)** | `query?`, `folderId?` | Opens the favorites panel in the Nova user interface, optionally with a search already typed. |
 | **[`nova.ui_open_settings`](tools/app-shell-and-ui/nova-ui-open-settings.md)** | `section?` | Opens the settings drawer overlay in the Nova host user interface. |
 | **[`nova.ui_permission_prompt_resolve`](tools/app-shell-and-ui/nova-ui-permission-prompt-resolve.md)** | `decision?` | Defers or answers the permission dialog that Nova is showing for a site (for example location, notifications, clipboard read or advanced device access). |
 | **[`nova.ui_restore_tabs_prompt_resolve`](tools/app-shell-and-ui/nova-ui-restore-tabs-prompt-resolve.md)** | `decision` | Resolves the startup tab restoration prompt modal after an abnormal browser termination. |

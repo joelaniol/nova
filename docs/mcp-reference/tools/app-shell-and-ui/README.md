@@ -8,7 +8,7 @@ WinUI window controls, native OS dialog handling, DevTools panels, setup wizard,
 ---
 
 <!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
-## Tool Inventory (59 Tools)
+## Tool Inventory (61 Tools)
 
 Capability bundles of these tools: `app_shell_recovery`, `onboarding`, `page_read_debug`, `system_tools`, `visual_evidence`.
 
@@ -54,6 +54,7 @@ Capability bundles of these tools: `app_shell_recovery`, `onboarding`, `page_rea
 | **[`nova.ui_certificate_prompt_resolve`](nova-ui-certificate-prompt-resolve.md)** | Answers Nova's dialog for a server certificate it could not verify: refuse the connection or proceed for this session. |
 | **[`nova.ui_client_certificate_prompt_resolve`](nova-ui-client-certificate-prompt-resolve.md)** | Answers Nova's client-certificate dialog: send a named certificate or continue without one. |
 | **[`nova.ui_close_downloads`](nova-ui-close-downloads.md)** | Closes the download manager drawer panel in the Nova host user interface. |
+| **[`nova.ui_close_favorites`](nova-ui-close-favorites.md)** | Closes the favorites panel if one is open. |
 | **[`nova.ui_close_settings`](nova-ui-close-settings.md)** | Closes the settings drawer overlay in the Nova host user interface. |
 | **[`nova.ui_confirm_native_dialog`](nova-ui-confirm-native-dialog.md)** | Presses a button in the open dialog: by name in any dialog, including Nova's own, or the affirmative button of a Windows dialog. |
 | **[`nova.ui_dismiss_native_dialog`](nova-ui-dismiss-native-dialog.md)** | Dismisses or cancels the currently active host-owned Win32 native dialog. |
@@ -61,6 +62,7 @@ Capability bundles of these tools: `app_shell_recovery`, `onboarding`, `page_rea
 | **[`nova.ui_get_state`](nova-ui-get-state.md)** | Inspects host application UI state: active tab, overlay visibility, responsiveness, and open dialogs. |
 | **[`nova.ui_inspect_native_dialog`](nova-ui-inspect-native-dialog.md)** | Inspects the open dialog — a Windows dialog Nova owns or one of Nova's own dialogs — with its texts and buttons. |
 | **[`nova.ui_open_downloads`](nova-ui-open-downloads.md)** | Opens the download manager drawer panel in the Nova host user interface. |
+| **[`nova.ui_open_favorites`](nova-ui-open-favorites.md)** | Opens the favorites panel in the Nova user interface, optionally with a search already typed. |
 | **[`nova.ui_open_settings`](nova-ui-open-settings.md)** | Opens the settings drawer overlay in the Nova host user interface. |
 | **[`nova.ui_permission_prompt_resolve`](nova-ui-permission-prompt-resolve.md)** | Defers or answers the permission dialog that Nova is showing for a site (for example location, notifications, clipboard read or advanced device access). |
 | **[`nova.ui_restore_tabs_prompt_resolve`](nova-ui-restore-tabs-prompt-resolve.md)** | Resolves the startup tab restoration prompt modal after an abnormal browser termination. |

@@ -16,7 +16,11 @@
 ## 2. Parameter Reference
 
 <!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
-This tool takes no parameters.
+| Parameter | Type | Required | Default | Allowed | Description |
+| :--- | :--- | :---: | :--- | :--- | :--- |
+| `query` | `string` | No | — | ≤ 200 characters | Optional search text, e.g. 'cha' for ChatGPT. All words must match. Omit to list favorites in stored order. |
+| `folderId` | `string` | No | — | ≤ 200 characters | Optional bookmark folder id (from nova.bookmarks_folders_list). Limits the result to this folder and all its subfolders. Unknown ids are rejected. |
+| `maxResults` | `integer` | No | — | 1–500 | Optional cap on returned favorites. Default: all (a query returns at most 500). |
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 Tool category: `safe` (lowest risk class in Nova's agent permission settings).

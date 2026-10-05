@@ -5,20 +5,45 @@
 
 ---
 
-## 1. Problem Statement: Premature Abandonment & Task Amnesia
+## 1. Start with a task that spans sessions
 
-Without structured task memory, autonomous agents suffer from two recurring failure modes:
-1. **Premature Done-Claiming:** An agent receives the instruction: *"Audit all 120 subpages of our developer portal for broken links."* After checking 17 pages, it loses track and announces: *"All relevant pages verified – done!"*
-2. **Episodic Amnesia:** When the same audit is requested a week later, the agent starts from scratch instead of using the existing task profile, its guidance and known exceptions.
+An agent is asked to audit 120 pages for broken links. After checking 17, the session ends. The next agent needs more than a summary saying “the audit is in progress”: it needs the remaining pages, blocked work, findings and checks required before completion.
+
+ETM keeps that structure durably. The agent can retrieve the existing instance and continue its open work units. For a new audit a week later, it can reuse the task profile's guidance and completion rules while starting a new instance for the new run.
+
+**A profile describes the recurring task; an instance records one run of it.** Resuming an instance preserves progress. Reusing a profile does not prove that last week's checked pages are still correct today.
 
 **The ETM Guiding Principle:**
 > *"The final report is the byproduct, not the goal."*
 
 Completion is evaluated by Nova against the instance's completion condition (discovery state, work units, mandatory checks), not against the agent's narrative.
 
+### The task objects in plain language
+
+| Object | Question it answers |
+| :--- | :--- |
+| Task profile | What does this recurring task require, and what guidance should be reused? |
+| Task instance | Which particular run are we working on? |
+| Work unit | What individual item remains, was checked, or is blocked? |
+| Completion condition | What must be satisfied before this run counts as complete? |
+| TUC — Task URL Coverage | Which URL units have acceptable coverage evidence? |
+
+ETM preserves task state; it does not perform the unfinished work merely because that state exists. The agent must retrieve it, continue the work and request completion.
+
 ---
 
 ## 2. Knowledge Taxonomy in Nova
+
+Each memory system answers a different question:
+
+| System | Main question |
+| :--- | :--- |
+| [Browser Memory](browser-memory-and-board.md) | What notes, preferences or context should be remembered for this site? |
+| [Operational Knowledge](operational-knowledge.md) | What state is currently reported for this target? |
+| [PKS](pks.md) | How can a recurring web situation be recognized, handled and verified? |
+| **ETM** | What task is this, and how far has this run progressed? |
+
+ETM uses [TOB](tob.md) evidence when evaluating configured evidence policies. A checked status reported by an agent remains distinguishable from coverage supported by server-observed calls.
 
 ```mermaid
 flowchart TD
@@ -71,11 +96,13 @@ A task's completion condition uses one of three coverage modes:
 
 | Mode | Completion allowed when… |
 | :--- | :--- |
-| `exhaustive` | discovery is `frozen`, no work units remain open, none are blocked or failed, and all mandatory checks are satisfied. |
+| `exhaustive` | discovery is `frozen`, at least one work unit exists, no work units remain open, none are blocked or failed, and all mandatory checks are satisfied. |
 | `threshold` | the stop metric reaches its value and all mandatory checks are satisfied. |
 | `exploratory` | the minimum number of checked units is reached and all mandatory checks are satisfied. |
 
-If the policy is not met, `nova.task_instance_complete` returns `completed: false` with a reason instead of an error. A profile can additionally define an evidence policy: Nova then compares the units the agent marked as checked with the tool calls TOB actually observed and rejects completion with `evidence_gap` if too many lack evidence.
+If the completion policy is not met, `nova.task_instance_complete` returns `completed: false` with a reason. Ordinary unmet completion conditions are reported as readiness results; the separate blocking URL-coverage gate can return an error. A profile can additionally define an evidence policy: Nova then compares the units the agent marked as checked with the tool calls TOB actually observed and rejects completion with `evidence_gap` if too many lack evidence.
+
+These checks apply to the declared task scope, discovered units and configured policy. Freezing discovery is an explicit assertion that the work set has been found; ETM cannot establish that every relevant page on an unknown site has been discovered merely because all stored units are checked. Excluded units and threshold or exploratory completion should therefore be visible in the report rather than described as exhaustive coverage.
 
 ---
 
@@ -89,19 +116,7 @@ For tasks that must cover a list of URLs (audits, accessibility or link checks),
 
 ---
 
-## 6. Under the Hood
-
-| Component | Responsibility |
-| :--- | :--- |
-| **`McpTaskMemoryHandler`** | Handles the task profile, instance, progress, guidance and promotion tools. |
-| **`TaskCompletionEvaluator`** | Evaluates the completion condition of an instance. |
-| **`TaskUrlCoverageTracker`** | Records coverage observations after tool calls and advances URL units on trusted evidence. |
-| **`TaskKindResolver`** | Resolves the sampling policy for grouped URLs from the declared, profile and keyword-based task kind; the stricter one wins. |
-| **`EvidenceLedger`** | Correlates TOB observations and visit windows with work units at completion. |
-
----
-
-## 7. MCP Tooling for ETM & TUC
+## 6. MCP Tooling for ETM & TUC
 
 * **Task Profiles & Discovery:**
   * `nova.task_search`: Free-text search over existing task profiles.
@@ -123,6 +138,18 @@ For tasks that must cover a list of URLs (audits, accessibility or link checks),
   * `nova.task_guidance_logs`: Lists guidance logs and learning statistics.
   * `nova.task_promotion_candidates`: Lists guidance that is ready for promotion.
   * `nova.task_promote_guidance`: Promotes guidance into the task profile.
+
+---
+
+## 7. Implementation notes
+
+| Component | Responsibility |
+| :--- | :--- |
+| **`McpTaskMemoryHandler`** | Handles the task profile, instance, progress, guidance and promotion tools. |
+| **`TaskCompletionEvaluator`** | Evaluates the completion condition of an instance. |
+| **`TaskUrlCoverageTracker`** | Records coverage observations after tool calls and advances URL units on trusted evidence. |
+| **`TaskKindResolver`** | Resolves the sampling policy for grouped URLs from the declared, profile and keyword-based task kind; the stricter one wins. |
+| **`EvidenceLedger`** | Correlates TOB observations and visit windows with work units at completion. |
 
 ---
 
