@@ -10,7 +10,7 @@ Nova needs an activated license.
 
 * **During setup:** the setup has an optional page **Activate Nova now (optional)** with your Nova account email address and license key. If you fill it in, Nova activates with it on its first start. Leave both fields empty to activate later in the app.
 * **In the app:** without an activation, Nova starts with its sign-in window (**Sign in with your license**). Enter the email address and license key and click **Sign in**.
-* **Alpha trial:** during the public alpha no registration is needed. **Get trial key** opens the GitHub page with the shared trial key; the setup page and the sign-in window are already filled with it.
+* **Alpha trial:** during the public alpha no registration is needed. **Get trial key** opens the GitHub page with the shared trial key; the setup page and the sign-in window are already filled with it. The key is also on [Alpha Trial License](trial-license.md).
 
 ---
 

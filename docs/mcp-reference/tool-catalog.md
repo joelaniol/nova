@@ -24,7 +24,7 @@ Every tool exposed by **Nova AI Workspace**, grouped by operational domain. Clic
 - [15. Site Crawler & URL Discovery Index](#15-site-crawler--url-discovery-index) (14)
 - [16. Session Tracing & DOM Event Recording](#16-session-tracing--dom-event-recording) (14)
 - [17. Scheduled Tasks, Cron & Workspaces](#17-scheduled-tasks-cron--workspaces) (25)
-- [18. Connectors, Mail & File Transfer](#18-connectors-mail--file-transfer) (35)
+- [18. Connectors, Mail & File Transfer](#18-connectors-mail--file-transfer) (36)
 - [19. Media Intelligence & Whisper Speech-to-Text](#19-media-intelligence--whisper-speech-to-text) (24)
 - [20. Site Data, Fingerprinting & Sandboxes](#20-site-data-fingerprinting--sandboxes) (23)
 - [21. Episodic Task Memory & Guidance](#21-episodic-task-memory--guidance) (34)
@@ -433,6 +433,7 @@ IMAP/SMTP email client automation, EML exports, SFTP/FTP server operations, and 
 | :--- | :--- | :--- |
 | **[`nova.connector_create`](tools/connectors-and-mail/nova-connector-create.md)** | `displayName`, `type`, `username?`, `password?`, `passwordFromVault?`, `authMode?`, `privateKeyPath?`, `keyPassphrase?`, `imapHost?`, `imapPort?`, `imapSecurity?`, `imapAllowInvalidCertificate?`, `signatureText?`, `signatureHtml?`, `smtpHost?`, `smtpPort?`, `smtpSecurity?`, `smtpAllowInvalidCertificate?`, `host?`, `port?`, `security?`, `allowInsecure?` | Creates an E-Mail account (IMAP/SMTP) or remote server connection (SFTP/FTP). |
 | **[`nova.connector_list`](tools/connectors-and-mail/nova-connector-list.md)** | `type?` | Lists configured E-Mail accounts and remote file transfer server connections. |
+| **[`nova.connector_probe`](tools/connectors-and-mail/nova-connector-probe.md)** | `profileId`, `depth?`, `includeTranscript?`, `allowInsecure?`, `unattended?` | Diagnoses a configured mail account or SFTP/FTP server: reachability, TLS, server identity, features and limits, read-only. |
 | **[`nova.connector_update`](tools/connectors-and-mail/nova-connector-update.md)** | `id`, `displayName?`, `username?`, `password?`, `passwordFromVault?`, `authMode?`, `privateKeyPath?`, `keyPassphrase?`, `imapHost?`, `imapPort?`, `imapSecurity?`, `imapAllowInvalidCertificate?`, `signatureText?`, `signatureHtml?`, `smtpHost?`, `smtpPort?`, `smtpSecurity?`, `smtpAllowInvalidCertificate?`, `host?`, `port?`, `security?`, `allowInsecure?` | Updates configuration, endpoints, credentials, or signatures of an existing connection. |
 | **[`nova.connector_delete`](tools/connectors-and-mail/nova-connector-delete.md)** | `id` | Deletes a connector profile, associated capability grants, and backing DPAPI secrets. |
 | **[`nova.connector_grant_set`](tools/connectors-and-mail/nova-connector-grant-set.md)** | `profileId`, `capability`, `mode`, `scope?`, `allowedMailFolders?`, `allowedMailSenders?` | Sets capability access modes (ask, always, blocked) for a connector. |

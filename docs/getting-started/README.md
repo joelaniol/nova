@@ -25,6 +25,10 @@ flowchart LR
 
 ---
 
+Looking for the alpha trial key? It is on **[Alpha Trial License](trial-license.md)**; the setup normally fills it in for you.
+
+---
+
 ## Next Steps
 
 Once your workspace is running and connected:

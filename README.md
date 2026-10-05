@@ -4,6 +4,8 @@
 
 <div align="center">
 
+### **Built for what's next.**
+
 **The Autonomous AI Browser & Cognitive Runtime for Windows**  
 *Built for Human Operators and AI Coding Assistants*
 
@@ -12,12 +14,12 @@
 [![UI Framework](https://img.shields.io/badge/UI-WinUI%203%20%2B%20Windows%20App%20SDK-512BD4)](#)
 [![Engine](https://img.shields.io/badge/Engine-Microsoft%20Edge%20WebView2-0078D4?logo=microsoftedge&logoColor=white)](#)
 [![Protocol](https://img.shields.io/badge/Protocol-Model%20Context%20Protocol%20(MCP)-FF6B6B)](#)
-[![Tools](https://img.shields.io/badge/MCP%20Tools-400%2B-success)](#)
+[![Tools](https://img.shields.io/badge/MCP-Tool%20Catalog-success)](docs/mcp-reference/tool-catalog.md)
 [![Terminal](https://img.shields.io/badge/Terminal-ConPTY%20PowerShell-2D7D9A?logo=powershell&logoColor=white)](#)
 [![Local-first](https://img.shields.io/badge/data-local--first-2ea44f)](#)
 [![Made in Germany](https://img.shields.io/badge/Made%20in-Germany-FFCC00?labelColor=DD0000)](#)
 
-[Quickstart](docs/getting-started/quickstart.md) • [User Guide](docs/user-guide/README.md) • [Core Features](docs/core-features/README.md) • [Tool Catalog (400+ Tools)](docs/mcp-reference/tool-catalog.md) • [Deutsch](#nova-ai-workspace-deutsch)
+[Quickstart](docs/getting-started/quickstart.md) • [User Guide](docs/user-guide/README.md) • [Core Features](docs/core-features/README.md) • [Tool Catalog](docs/mcp-reference/tool-catalog.md) • [Troubleshooting](docs/troubleshooting/README.md)
 
 </div>
 
@@ -39,11 +41,11 @@ Nova changes this paradigm with the **Dual-Operator Model**:
 ## 🚀 Try It — 3 Minutes, No Sign-up Needed
 
 1. **[Download Setup from Releases](https://github.com/joelaniol/nova/releases)** — Windows 10 / 11 (x64).
-2. **Activate** with the shared alpha license — no account required:
-   > **License key:** `NOVA-M89A9-JW3BT-RMTD7-Z4RWL-PQGT9`  
-   > **Email:** `demo@example.com`
+2. **Activate.** No account required — the setup comes with the shared alpha license already filled in.
 3. **Connect your agent.** Automatically configured for Claude Code, Codex, Claude Desktop and Google Antigravity.  
    Restart your agent, then say: **"please run the Nova onboarding."**
+
+Looking for the trial key? → **[Alpha Trial License](docs/getting-started/trial-license.md)**
 
 > [!NOTE]
 > On first launch Windows SmartScreen may warn that the app is not code-signed — expected for independent alpha builds. Choose **"More info" → "Run anyway"**.
@@ -101,7 +103,7 @@ flowchart TD
 
 ## 🚀 Key Highlights & Capabilities
 
-### ⚡ 400+ Deep Model Context Protocol (MCP) Tools
+### ⚡ Deep Model Context Protocol (MCP) Tools
 Agents can inspect DOM trees, measure element layout, compare screenshots against baselines, download files, run background crawlers, record and transcribe page audio, and manage tabs. The tools are grouped into 25 capability bundles that an agent loads as needed.
 * Explore the complete [MCP Tool Catalog](docs/mcp-reference/tool-catalog.md).
 
@@ -183,7 +185,7 @@ Explore the comprehensive documentation for operators, developers, and AI agents
 | **[User Guide](docs/user-guide/README.md)** | Human Workspace & UI Controls | [Workspace Layout](docs/user-guide/workspace-layout.md) • [Sandboxes](docs/user-guide/sandboxes-and-profiles.md) • [Terminal Dock](docs/user-guide/terminal-dock.md) • [AI Visualization](docs/user-guide/live-assist-and-spectator.md) • [Shortcuts](docs/user-guide/keyboard-shortcuts.md) |
 | **[Core Features](docs/core-features/README.md)** | Deep Architecture & Systems | [AAG Gates](docs/core-features/aag.md) • [PKS Knowledge Store](docs/core-features/pks.md) • [Outrider Boundary](docs/core-features/outrider-boundary.md) • [Vault & Secrets](docs/core-features/vault-and-secrets.md) • [Session Recording](docs/core-features/session-recording.md) |
 | **[Components & Processes](docs/components/README.md)** | Identify Nova-related processes | Main app • Outrider • MCP Proxy • TerminalRunner • ReplayValidator • WebView2 |
-| **[MCP Reference](docs/mcp-reference/README.md)** | 400+ Tools & Protocol | [Tool Catalog](docs/mcp-reference/tool-catalog.md) • [Protocol & Transport](docs/mcp-reference/protocol-and-transport.md) • [Dedicated Tool Guides](docs/mcp-reference/tools/README.md) |
+| **[MCP Reference](docs/mcp-reference/README.md)** | Tools & Protocol | [Tool Catalog](docs/mcp-reference/tool-catalog.md) • [Protocol & Transport](docs/mcp-reference/protocol-and-transport.md) • [Dedicated Tool Guides](docs/mcp-reference/tools/README.md) |
 | **[Integration](docs/integration/README.md)** | AI Assistants & Clients | [Claude Code](docs/integration/claude-code.md) • [Codex](docs/integration/openai-codex.md) • [Antigravity](docs/integration/google-antigravity.md) • [Claude Desktop](docs/integration/claude-desktop.md) • [Custom Agents](docs/integration/custom-agents.md) |
 | **[Troubleshooting](docs/troubleshooting/README.md)** | Diagnostics & Error Recovery | [Connection Issues](docs/troubleshooting/agent-connection-issues.md) • [Diagnostics Logs](docs/troubleshooting/diagnostics.md) • [Session Recovery](docs/troubleshooting/sandbox-and-session-recovery.md) |
 
@@ -201,14 +203,14 @@ Explore the comprehensive documentation for operators, developers, and AI agents
 ## 🇩🇪 Nova AI Workspace (Deutsch)
 
 **Der lokale KI-Browser & die kognitive Laufzeitumgebung für Windows.**  
-Echte Browsersitzungen · ConPTY-Terminal · Wissensspeicher · Scheduler · über 400 MCP-Tools — lokal, transparent und auditierbar.
+Echte Browsersitzungen · ConPTY-Terminal · Wissensspeicher · Scheduler · [MCP-Werkzeugkatalog](docs/mcp-reference/tool-catalog.md) — lokal, transparent und auditierbar.
 
 ### Schnellstart in 3 Schritten
 1. **[Setup herunterladen](https://github.com/joelaniol/nova/releases)** (Windows 10 / 11 x64).
-2. **Aktivieren** mit dem Alpha-Testschlüssel:
-   > **Schlüssel:** `NOVA-M89A9-JW3BT-RMTD7-Z4RWL-PQGT9`  
-   > **E-Mail:** `demo@example.com`
+2. **Aktivieren:** Kein Konto nötig, das Setup bringt den Alpha-Testzugang schon ausgefüllt mit.
 3. **Agenten verbinden:** Claude Code, Codex, Claude Desktop und Antigravity werden automatisch eingerichtet. Nach Neustart des Agenten sagen: **„please run the Nova onboarding“**.
+
+Testschlüssel gesucht? → **[Alpha-Testlizenz](docs/getting-started/trial-license.md#alpha-testlizenz)**
 
 Detaillierte Anleitungen: **[Installationsanleitung auf Deutsch](docs/getting-started/installation.md#nova-ai-workspace-installieren)**.
 

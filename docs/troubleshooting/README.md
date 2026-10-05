@@ -22,6 +22,8 @@ flowchart TD
 3. **[Sandbox & Session Recovery (`sandbox-and-session-recovery.md`)](sandbox-and-session-recovery.md)**
    Closing abandoned agent tabs, resolving tab claims held by another agent, stopping camera and microphone streams, and how Nova restores sandboxes after a damaged `settings.json`.
 
+See also: **[MCP client troubleshooting](../mcp-troubleshooting/README.md)** for client-specific quirks, and **[Alpha Trial License](../getting-started/trial-license.md)** if Nova asks for a license key.
+
 ---
 
 ## Quick Diagnostic Checklist

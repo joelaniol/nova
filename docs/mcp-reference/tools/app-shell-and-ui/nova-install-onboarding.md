@@ -48,14 +48,14 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
   "content": [
     {
       "type": "text",
-      "text": "Onboarding installed in C:\\Projects\\WebWorkflow (version 4.39.0)"
+      "text": "Onboarding installed in C:\\Projects\\WebWorkflow (version 4.40.0)"
     }
   ],
   "structuredContent": {
     "ok": true,
     "status": "ok",
     "projectRoot": "C:\\Projects\\WebWorkflow",
-    "version": "4.39.0",
+    "version": "4.40.0",
     "filesWritten": [
       { "path": ".nova\\nova-mcp.quick.md", "outcome": "created", "error": null },
       { "path": ".nova\\nova-mcp.md", "outcome": "created", "error": null },

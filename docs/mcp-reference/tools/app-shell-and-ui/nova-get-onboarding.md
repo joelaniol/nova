@@ -39,13 +39,13 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
   "content": [
     {
       "type": "text",
-      "text": "Nova MCP onboarding reference (version 4.39.0). Prefer nova.install_onboarding(projectRoot=...): one call writes every file and marker block of this plan. Use this plan only when you must write the files yourself; if your client shows only part of it, use install_onboarding instead."
+      "text": "Nova MCP onboarding reference (version 4.40.0). Prefer nova.install_onboarding(projectRoot=...): one call writes every file and marker block of this plan. Use this plan only when you must write the files yourself; if your client shows only part of it, use install_onboarding instead."
     }
   ],
   "structuredContent": {
     "ok": true,
     "status": "ok",
-    "version": "4.39.0",
+    "version": "4.40.0",
     "preferredAlternative": {
       "tool": "nova.install_onboarding",
       "reason": "One call — Nova writes all reference files and marker blocks for you. Use get_onboarding only when you must write the files yourself."
