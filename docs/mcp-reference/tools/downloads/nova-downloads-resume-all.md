@@ -1,12 +1,12 @@
 # `nova.downloads_resume_all`
 
-Resumes all paused downloads whose underlying WebView2 operation supports resumption.
+Resumes all paused downloads, and interrupted ones that can continue where they stopped, when their underlying WebView2 operation supports resumption.
 
 ---
 
 ## 1. Overview
 
-`nova.downloads_resume_all` bulk-resumes paused transfers once priority tasks finish or network connectivity is restored.
+`nova.downloads_resume_all` bulk-resumes paused transfers once priority tasks finish, and continues downloads a network drop interrupted once connectivity is restored.
 
 * **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts.md)
 

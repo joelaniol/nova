@@ -41,6 +41,12 @@ Nova is a licensed application. To activate your license and keep it valid, Nova
 
 You can deactivate a device at any time, which removes that activation from the server.
 
+### Optional Address-Bar Diagnostics
+
+If you enable developer options and host performance timings, Nova records technical address-bar measurements in its local application log to investigate delays and flicker. These include elapsed times, suggestion counts, text lengths, cursor and selection positions, popup changes and navigation events. This diagnostic trace does not record the addresses or search phrases you type. It is off by default and stops collecting when host performance timings are disabled.
+
+These measurements are not automatically transmitted. If you choose to send a crash report, its application-log excerpt may include them, as described below.
+
 ### Crash Reports (Opt-In Only)
 
 If Nova did not shut down cleanly (crash, forced termination, system failure), it will show a dialog on the next launch offering to send a crash report.
@@ -196,6 +202,12 @@ Nova ist eine lizenzierte Anwendung. Um deine Lizenz zu aktivieren und gültig z
 - Keine Drittanbieter-Analysedienste sind beteiligt
 
 Du kannst ein Gerät jederzeit deaktivieren, wodurch diese Aktivierung vom Server entfernt wird.
+
+### Optionale Adresszeilen-Diagnose
+
+Wenn du Entwickleroptionen und Host-Performance-Zeiten aktivierst, protokolliert Nova technische Messwerte der Adresszeile im lokalen Anwendungslog, um Verzögerungen und Flackern zu untersuchen. Dazu gehören verstrichene Zeiten, Vorschlagszahlen, Textlängen, Cursor- und Auswahlpositionen, Popup-Wechsel und Navigationsereignisse. Diese Diagnose zeichnet die eingegebenen Adressen oder Suchphrasen nicht auf. Sie ist standardmäßig aus und erfasst keine weiteren Messwerte, sobald Host-Performance-Zeiten deaktiviert sind.
+
+Diese Messwerte werden nicht automatisch übertragen. Wenn du einen Absturzbericht sendest, kann dessen Anwendungslog-Auszug sie enthalten, wie unten beschrieben.
 
 ### Absturzberichte (nur auf Zustimmung)
 

@@ -192,6 +192,9 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 |---|---|---|
 | [1.0.0-alpha.18](changelog/v1.0.0-alpha.18.md) | upcoming | New product name & look, favorites panel, SQLite history, native permission dialogs, AI setup, expanded sandboxes, password vault, resumable transfers, local transcription |
 | [1.0.0-alpha.17](changelog/v1.0.0-alpha.17.md) | 2026-09-10 | Targeted hotfix for blank context menu spellcheck rows, official slogan adoption ("Built for what's next."), UI blank label scanner |
+| [1.0.0-alpha.16](changelog/v1.0.0-alpha.16.md) | 2026-09-10 | Background agent mode with notification area icon, taskbar integration & autostart fix, console read for agent devtools |
+| [1.0.0-alpha.15](changelog/v1.0.0-alpha.15.md) | 2026-09-08 | Network request inspection & interception rules for agents, agent tab pinning & reordering, terminal settings & NO_COLOR chip, media file info, update & install repair |
+| [1.0.0-alpha.14](changelog/v1.0.0-alpha.14.md) | 2026-09-04 | Local speech-to-text transcription engine (Whisper), browser-built and streaming media capture, PDF reading/saving, private tabs, loops in agent sequences |
 
 ## More
 
