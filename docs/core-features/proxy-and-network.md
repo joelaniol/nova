@@ -5,9 +5,26 @@
 
 ---
 
-## 1. Problem Statement: Rate Limits, Geo-Restrictions & Leak Risks
+## 1. A Concrete Example: Check the Route Before Using a Session
+
+You select a proxy profile for a browsing task. Nova can probe that endpoint and report its latency and external IP. You then check the route from an actual browser page after applying the setting and any recommended restart.
+
+These checks answer different questions. A proxy probe uses a separate HTTP client; a healthy endpoint does not prove that an already-open WebView is using it. Browser routing comes from the shared browser process's launch configuration, which applies to normal tabs and sandboxes together.
+
+## 2. Three Different Network Controls
+
+| Control | What it does |
+| :--- | :--- |
+| Proxy routing | Selects the shared browser's route to the network, subject to configured bypasses. |
+| Network interception | Temporarily changes matching requests or responses in one tab. |
+| Request repeater | Sends a separate HTTP request outside the page, optionally adopting session material. |
+
+Session isolation, proxy routing and browser identity are separate controls. Two sandboxes can have different logins while still using the same proxy and outward-facing IP.
+
+## 3. Why Route and Leak Checks Matter
 
 Autonomous agents browsing the web encounter standard network hurdles:
+
 * **IP Rate Limits & Geo-Blocking:** Region-restricted content (localized pricing, news) or IP rate limits during heavy research.
 * **WebRTC IP Leaks:** Even with a proxy active, WebRTC can reveal local and public IP addresses to a page.
 * **Plaintext Credential Exposure:** Automation frameworks commonly put proxy credentials into command-line arguments, where they show up in process lists.
@@ -16,7 +33,7 @@ Nova manages proxies as profiles with separately stored passwords and offers Web
 
 ---
 
-## 2. Architecture & Routing Model
+## 4. Architecture & Routing Model
 
 ```mermaid
 flowchart TD
@@ -44,7 +61,7 @@ flowchart TD
 
 ---
 
-## 3. Core Features in Detail
+## 5. Core Features in Detail
 
 1. **One global proxy for all surfaces:**
    * The profile marked "Use as global proxy for normal tabs" carries the traffic. Browser tabs and all sandboxes run in one shared browser process, so this global proxy applies to every tab and every sandbox.
@@ -58,7 +75,7 @@ flowchart TD
    * "Protect WebRTC local IP leaks" (off by default) stops WebRTC from using UDP outside the proxy; some calls then fall back to TURN or fail. With a SOCKS5 proxy, local DNS resolution is additionally blocked except for the proxy host itself.
 5. **Applying changes:**
    * When the global proxy changes, Nova recreates the open tab WebViews. Because the proxy and WebRTC switches belong to the shared browser process, Nova shows "Restart recommended" — after a restart the setting applies to all tabs.
-6. **Emergency stop:**
+6. **Scoped traffic disconnect:**
    * `nova.proxy_disconnect` blocks HTTP(S) traffic for a scope; `nova.proxy_reconnect` checks the proxy and unblocks it.
 7. **Network interception:**
    * `nova.network_intercept_add` arms a rule for one tab: let matching requests fail, answer them without reaching the network, change the request or the server's response, or delay them. A rule needs a URL pattern with at least 4 literal characters, lives at most 15 minutes (`ttlMs`, default 2 minutes) and removes itself after `maxHits` requests (default 20). Nova shows an indicator while rules are active. The tools are available whenever agent control is enabled; listing them does not arm anything.
@@ -67,7 +84,7 @@ flowchart TD
 
 ---
 
-## 4. MCP Tooling for Proxy & Network
+## 6. MCP Tooling for Proxy & Network
 
 Proxy tools are in the `proxy_management` bundle; interception and replay are in `page_read_debug`.
 

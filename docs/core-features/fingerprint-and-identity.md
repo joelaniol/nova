@@ -5,7 +5,25 @@
 
 ---
 
-## 1. Problem Statement
+## 1. A Concrete Example: Change Readouts Without Changing the Engine
+
+A site reads a canvas image, audio samples and hardware properties to help recognise a browser. With Standard fingerprint protection, Nova changes supported canvas and audio readouts using stable seeded noise. Repeating the same read in the same tab does not generate fresh noise every time.
+
+Separately, a browser identity preset changes the user-agent and, for Chromium-shaped identities, matching Client Hints. Selecting Firefox does not turn WebView2 into Firefox: the rendering engine remains Chromium, and that preset does not provide a fully coherent Firefox identity.
+
+These controls alter selected signals. They do not establish anonymity or guarantee that a site cannot link visits through an account, cookies, IP address or other browser characteristics.
+
+## 2. Which Control Answers Which Question?
+
+| Control | Question it answers |
+| :--- | :--- |
+| Fingerprint protection | Which supported device and rendering readouts should be modified? |
+| Browser identity | Which user-agent and Client Hints should the browser announce? |
+| Tab emulation | Which viewport, locale, touch or temporary user-agent should a test use? |
+| [Sandbox isolation](sandbox-isolation.md) | Which cookies and persistent site data belong to this session? |
+| [Proxy routing](proxy-and-network.md) | Which network route does the shared browser use? |
+
+## 3. Why Consistency Matters
 
 1. **Device fingerprinting:** Small differences in canvas and audio output, installed fonts, GPU name, CPU core count and screen size can be combined into an identifier that survives cookie deletion.
 2. **Incoherent spoofing:** Changing only the user-agent string while `navigator.userAgentData` and the `Sec-CH-UA` Client Hints still describe the real browser is a contradiction that bot detection looks for.
@@ -13,7 +31,7 @@
 
 ---
 
-## 2. Fingerprint Protection Levels
+## 4. Fingerprint Protection Levels
 
 | Level | Settings label | What it changes |
 | :--- | :--- | :--- |
@@ -25,7 +43,7 @@ Strict can occasionally make games or audio apps misbehave. A level change takes
 
 ---
 
-## 3. Where the Level Comes From
+## 5. Where the Level Comes From
 
 ```mermaid
 flowchart TD
@@ -47,9 +65,10 @@ A tab override is kept in memory only and ends when the tab is closed. `nova.fin
 
 ---
 
-## 4. Stable Noise per Tab
+## 6. Stable Noise per Tab
 
 The noise is not random per read. It is derived from a seed computed from the sandbox's persistent ID, the tab ID and the time Nova was started (SHA-256, first 32 bits), combined with the position or input that is being read. As a result:
+
 * Repeated reads in the same document return the same value, and a reload in the same tab produces the same fingerprint.
 * Two tabs produce different values.
 * After a Nova restart the values change.
@@ -58,7 +77,7 @@ The script reads its configuration from a global variable and deletes that varia
 
 ---
 
-## 5. Browser Identity
+## 7. Browser Identity
 
 `nova.identity_set` stores one browser identity in the settings and applies it immediately to all open tabs. It has no per-tab or per-sandbox scope.
 
@@ -76,9 +95,10 @@ For a single tab, `nova.emulation_set_user_agent` sets a temporary user-agent (p
 
 ---
 
-## 6. Related Emulation Tools
+## 8. Related Emulation Tools
 
 These act on one tab or sandbox (`targetId`) and are meant for testing, not as a persistent identity:
+
 * `nova.emulation_set_device_metrics`: viewport width and height, device scale factor, mobile layout.
 * `nova.emulation_set_locale`: `navigator.language(s)` and `Accept-Language`, time zone, geolocation.
 * `nova.emulation_set_touch`: touch event emulation and `maxTouchPoints`.
@@ -88,4 +108,4 @@ These act on one tab or sandbox (`targetId`) and are meant for testing, not as a
 ## Related Documentation
 
 * **[Multi-Sandbox Session Isolation](sandbox-isolation.md)** — Separate storage profiles per sandbox.
-* **[Proxy Routing & Network](proxy-and-network.md)** — Proxy routing per sandbox.
+* **[Proxy Routing & Network](proxy-and-network.md)** — Shared browser routing and optional leak protection.

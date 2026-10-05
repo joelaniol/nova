@@ -30,7 +30,7 @@ Nova AI Workspace is a Windows browser built on **.NET 8, WinUI 3 and Microsoft 
 | [Closed-loop system](closed-loop-system.md) | Expected state, action, checked outcome | `nova.goal_register`, `nova.run_sequence`, `nova.phenomenon_apply` |
 | [Agent awareness gates (AAG)](aag.md) | Checks that stop an agent from acting blind | `nova.guarded_*`, `nova.tab_claim`, `nova.task_instance_verify` |
 | [Tool observation bus (TOB)](tob.md) | What the agent really did, recorded on Nova's side | `nova.task_instance_verify`, `nova.task_instance_progress`, `nova.task_instance_get` |
-| [Vault and secrets](vault-and-secrets.md) | Passwords filled in without the agent seeing them | `nova.vault_*`, `nova.type_selector_secret`, `nova.secret_*` |
+| [Vault and secrets](vault-and-secrets.md) | Saved-password delivery through references; scoped terminal secrets | `nova.vault_*`, `nova.type_selector_secret`, `nova.secret_*` |
 | [Outrider boundary](outrider-boundary.md) | Risky Windows and hardware probes in a separate, killable process | `nova.permission_center_get`, `nova.media_transcribe_start` |
 
 ### Agent interface
@@ -55,7 +55,7 @@ Nova AI Workspace is a Windows browser built on **.NET 8, WinUI 3 and Microsoft 
 | :--- | :--- | :--- |
 | [Sandbox isolation](sandbox-isolation.md) | Separate profiles with their own logins | `nova.sandbox_context`, `nova.resolve_sandbox`, `nova.sandbox_create` |
 | [Site data](site-data-management.md) | Cookies, storage and cache | `nova.cookie_list`, `nova.cookie_set`, `nova.storage_inspect`, `nova.cache_clear` |
-| [Proxy and network](proxy-and-network.md) | Proxies per sandbox and network routing | `nova.proxy_switch`, `nova.proxy_status`, `nova.network_intercept_*` |
+| [Proxy and network](proxy-and-network.md) | Shared browser proxy, tab-scoped interception and request replay | `nova.proxy_switch`, `nova.proxy_status`, `nova.network_intercept_*` |
 | [Fingerprint and identity](fingerprint-and-identity.md) | Browser fingerprint protection | `nova.fingerprint_*`, `nova.identity_*`, `nova.emulation_*` |
 | [Session recording](session-recording.md) | Recording a run to see later what happened | `nova.session_record_start`, `nova.session_record_query`, `nova.session_record_export` |
 

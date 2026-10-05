@@ -91,7 +91,7 @@ Vault retrieval and secret-fill results do not contain the password. It exists i
 
 ## 8. Redaction in Session Recordings
 
-When a session recording is running, Nova keeps HMAC-SHA-256 fingerprints of the vault passwords (in six encodings: raw, URL-encoded upper and lower case, JSON-escaped, Base64, Base64url) under a random key that exists only in memory. Recorded HTTP bodies and WebSocket payloads that contain a vault password in one of these forms are stored with the value replaced by a `[redacted:vault-fingerprint:...]` marker, and the entry is flagged `vaultFingerprintMatched`. This applies to session recordings only; it does not filter console output or what a page itself does with a field's value.
+When a session recording is running, Nova keeps HMAC-SHA-256 fingerprints of the vault passwords (in six encodings: raw, URL-encoded upper and lower case, JSON-escaped, Base64, Base64url) under a random key that exists only in memory. With capture-time redaction enabled, supported matches in recorded HTTP bodies and WebSocket payloads are replaced with a `[redacted:vault-fingerprint:...]` marker and flagged `vaultFingerprintMatched`. The redaction setting is off by default; granting a payload capture class does not automatically turn it on. This mechanism does not filter console output or what a page itself does with a field's value. See [Session Recording](session-recording.md).
 
 ---
 

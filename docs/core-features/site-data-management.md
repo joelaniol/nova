@@ -5,18 +5,37 @@
 
 ---
 
-## 1. Problem Statement: Why `document.cookie` Fails in Automation
+## 1. A Concrete Example: Repair One Session Without Clearing Another
 
-Conventional browser automation tools rely on in-page JavaScript access (`document.cookie`):
+A website in your work sandbox keeps returning to an expired login. Before changing anything, an agent lists cookie metadata for that target and inspects the current page's storage keys. It can then remove a specific cookie or clear a domain's cookies in the selected profile, while your personal sandbox keeps its own session.
+
+The target selects the profile; it does not make every operation page-local. Clearing a whole profile affects other tabs using that profile too. Choosing `diskCache` clears cached files; choosing `cookies`, `allDomStorage` or `allProfile` can also remove session or application data.
+
+## 2. Why Browser-Level Access Matters
+
+In-page JavaScript access (`document.cookie`) has limits:
+
 * **No access to HttpOnly cookies:** Session and authentication cookies are usually flagged `HttpOnly` and are invisible to in-page JavaScript.
-* **Missing isolation boundaries:** A careless clear command can wipe cookies for every tab or sandbox at once.
-* **Unvalidated domain attributes:** Setting cookies on a public suffix (for example `.com` or `.co.uk`) enables cookie tossing across unrelated sites.
+* **Limited view:** A page's cookie view is not an inventory of the whole browser profile. Profile-level inspection and clearing need an explicit target and scope.
+* **Cookie write constraints:** A requested domain, cookie prefix, `Secure` flag and `SameSite` value must satisfy the applicable rules before a write is attempted.
 
 Nova uses the WebView2 cookie manager of the target's browser profile instead.
 
 ---
 
-## 2. Architecture & Isolation Model
+## 3. Understand the Scope Before Changing Data
+
+| Operation | Scope |
+| :--- | :--- |
+| Cookie list, write or delete | The browser profile behind `targetId`, narrowed by the requested cookie filters or identity. |
+| `cookie_clear` with a domain | Cookies for that domain and its subdomains in the selected profile. |
+| `cookie_clear` without a domain | All cookies in the selected profile. |
+| `storage_inspect`, `storage_set`, `storage_delete` | The current target document's origin and selected local or session storage. |
+| `cache_clear` | The requested browsing-data categories across the selected profile. |
+
+Ordinary browser tabs share their normal profile. Sandbox targets and tabs belonging to a sandbox use that sandbox's profile; private-session tabs use their private profile. A tab ID alone therefore does not tell you whether a clear operation affects one tab or several.
+
+### Architecture
 
 ```mermaid
 flowchart TD
@@ -35,6 +54,7 @@ flowchart TD
         ManagerTabs["Browser tabs profile"]
         ManagerA["Sandbox A profile"]
         ManagerB["Sandbox B profile"]
+        ManagerPrivate["Private-session profile"]
     end
 
     Tool --> Scope
@@ -44,13 +64,14 @@ flowchart TD
     Audit --> ManagerTabs
     Audit --> ManagerA
     Audit --> ManagerB
+    Audit --> ManagerPrivate
 ```
 
-All browser tabs share one profile; every sandbox has its own. An operation only affects the profile of the `targetId` it names.
+Nova resolves the actual profile from the target before applying profile-level operations or permission grants. Page-storage tools then execute against the target's current document.
 
 ---
 
-## 3. Core Features & Security Guarantees
+## 4. Access Controls and Validation
 
 1. **HttpOnly, Secure and SameSite cookies:**
    * Cookies are read and written through the browser's cookie manager, without scripts in the page. `nova.cookie_list` returns metadata only by default; values need `includeValues=true` together with a `domainFilter` and count as a high-impact secret read.
@@ -62,13 +83,14 @@ All browser tabs share one profile; every sandbox has its own. An operation only
    * Agent access to cookies and storage is controlled by the setting "Agent cookie/storage access": "Always ask" (default), "Ask once per session" or "Always allow". The prompt "Website data access" offers "Allow once" and "Allow for session"; active grants can be revoked under "Active agent permissions".
 5. **High-impact clears:**
    * `nova.cookie_clear` without `domain` clears all cookies of the profile; with `domain` only that domain and its subdomains. Both `nova.cookie_clear` and `nova.cache_clear` require `_meta.intent` and go through the permission prompt.
+   * For `cache_clear`, even the accepted `localStorage` category maps to WebView2's `AllDomStorage`: it clears local storage, session storage and IndexedDB together. Use a page-storage key deletion when that is the intended scope.
 6. **Audit log without values:** Changes are logged with a short SHA-256 hash of the value, not the value itself.
 7. **Cookie inspector:**
    * With "Show cookie inspector in URL bar" (Settings → Tools, Cookie inspector card), an icon in the address bar opens a panel to view, edit and delete the site's cookies and local storage.
 
 ---
 
-## 4. MCP Tooling for Site Data Management
+## 5. MCP Tooling for Site Data Management
 
 All tools are in the `site_data_management` bundle and require a `targetId` (tab or sandbox).
 
@@ -88,4 +110,4 @@ All tools are in the `site_data_management` bundle and require a `targetId` (tab
 ## Related Documentation
 
 * **[Multi-Sandbox Session Isolation](sandbox-isolation.md)** — Separate browser profiles per sandbox.
-* **[Proxy Routing & Network](proxy-and-network.md)** — Proxy profiles per tab and sandbox.
+* **[Proxy Routing & Network](proxy-and-network.md)** — Shared browser routing and tab-scoped request interception.

@@ -5,18 +5,33 @@
 
 ---
 
-## 1. Problem Statement & Motivation
+## 1. A Concrete Example: Why Did Save Fail?
+
+An agent clicks Save, but the expected confirmation never appears. If a recording was started beforehand, the agent can correlate the interaction timestamp with the network request, console errors and a DOM snapshot. A server error, a missing request and a changed page state suggest different next steps.
+
+The recording preserves captured evidence so the investigation can continue after the page changes. It cannot recover events from before recording started, and it does not automatically prove that the business action succeeded. [CLS](closed-loop-system.md) checks outcomes; [TOB](tob.md) records tool execution; a session recording adds the captured page and network context.
+
+## 2. Read a Recording as Scoped Evidence
+
+Only granted streams can be captured. Bodies, storage values and additional streams have their own permissions and limits. Under load, the bounded writer queue may drop events; a missing event therefore does not always mean nothing happened.
+
+Here, “time-travel debugging” means inspecting preserved history. Reading or exporting a recording does not restore the website's old state or undo a submitted request.
+
+The default permission classes omit request and response bodies and storage values, but this does not make the recording free of sensitive information: URLs, headers, console output and DOM content can still contain it. Capture-time redaction is a separate setting and is off by default. Exports are decrypted files, so their protection differs from the encrypted recording.
+
+## 3. Why Preserve the History?
 
 Browser automation workflows are often difficult to debug when things go wrong:
+
 1. **Ephemeral Failure States:** When a multi-step workflow fails (such as an automated checkout or complex web form submission), reproducing the exact DOM state and network traffic post-mortem is nearly impossible without a recording.
-2. **Data at Rest:** A recording contains whatever the page sent and received. Writing it to disk in plain text would leave session data readable for anything that can open the file.
+2. **Data at Rest:** Granted streams can contain sensitive page and session data. Writing them to disk in plain text would leave that captured data readable for anything that can open the file.
 3. **Performance Degradation:** Recording must not block the browser while a page produces a burst of events.
 
 Nova records into separate JSONL streams per category, writes them through a bounded background queue and encrypts every line before it reaches the disk.
 
 ---
 
-## 2. Architecture & Data Flow
+## 4. Architecture & Data Flow
 
 ```mermaid
 flowchart TD
@@ -51,7 +66,7 @@ flowchart TD
 
 ---
 
-## 3. What a Recording Contains
+## 5. What a Recording Contains
 
 A recording is a folder in the `Recordings` subfolder of the Nova profile (`%LOCALAPPDATA%\nova-cognitive\Nova\`; installations from 1.0.0-alpha.18 and earlier keep `%LOCALAPPDATA%\NovaBrowser\`). Which stream files it contains depends on the permission classes granted when the recording was started:
 
@@ -72,7 +87,7 @@ Without an explicit `permissionClasses` list, a recording uses `metadata`, `inte
 
 ---
 
-## 4. Lifetime and Limits
+## 6. Lifetime and Limits
 
 | Limit | Value |
 | :--- | :--- |
@@ -86,7 +101,7 @@ While a recording runs, Nova shows a recording indicator in the toolbar (setting
 
 ---
 
-## 5. MCP Tool Reference
+## 7. MCP Tool Reference
 
 Agents control and inspect session recordings through the `session_recording` bundle:
 
@@ -108,9 +123,18 @@ Agents control and inspect session recordings through the `session_recording` bu
 
 ---
 
-## 6. Encryption & Redaction
+## 8. Encryption & Redaction
 
 1. **Encryption at rest:** Each recording gets its own random 256-bit key. Every stream line is encrypted with AES-GCM; the key itself is stored only in wrapped form, protected with Windows DPAPI for the current user. A copy of the files on another account or machine cannot be decrypted. DPAPI does not protect against other programs running as the same Windows user — the automatic deletion after 7 days limits how long data stays on disk.
 2. **Plain-text manifest:** `manifest.json` stays readable without the key so recordings can be listed; it contains no URLs, host names, tab titles or counts.
 3. **Redaction is off by default:** A recording stores raw debug data; the protection boundary is the permission classes you grant per recording. When capture-time redaction is switched on (`sessionRecordingRedactionEnabled` in the settings file; there is no switch on the Settings page), sensitive header values such as `Authorization` and `Cookie`, sensitive query parameters, sensitive JSON fields and values that match a secret stored in the [Vault](vault-and-secrets.md) are replaced with `[redacted:...]` markers before they are written.
 4. **Revoked classes stay closed:** If a permission class is revoked after capture, its streams are no longer returned by the read tools and are skipped by the export.
+
+Revocation controls subsequent tool access and export. It does not retract plaintext files already exported or information already returned to a client.
+
+## Related Documentation
+
+* **[Closed-Loop System (CLS)](closed-loop-system.md)** — Checking the outcome of an action.
+* **[Tool Observation Bus (TOB)](tob.md)** — Evidence of tool execution.
+* **[Vault and Secrets](vault-and-secrets.md)** — Saved-credential delivery and recording redaction boundaries.
+* **[Proxy Routing & Network](proxy-and-network.md)** — Live interception and separate request replay.
