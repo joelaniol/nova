@@ -8,11 +8,11 @@
 
 ### Alpha Software
 
-Nova Cognitive Browser is **alpha software**. It is incomplete, contains known and unknown bugs, and is under active development. Features may change, break, or be removed without notice.
+Nova AI Workspace is **alpha software**. It is incomplete, contains known and unknown bugs, and is under active development. Features may change, break, or be removed without notice.
 
 ### No Warranty
 
-Nova Cognitive Browser is provided **"as is" and "as available"**, without warranty of any kind, express or implied. This includes, but is not limited to, warranties of:
+Nova AI Workspace is provided **"as is" and "as available"**, without warranty of any kind, express or implied. This includes, but is not limited to, warranties of:
 
 - Merchantability
 - Fitness for a particular purpose
@@ -20,7 +20,7 @@ Nova Cognitive Browser is provided **"as is" and "as available"**, without warra
 - Uninterrupted or error-free operation
 - Security or data integrity
 
-**There is no guarantee that Nova Cognitive Browser is free of defects, vulnerabilities, or errors.**
+**There is no guarantee that Nova AI Workspace is free of defects, vulnerabilities, or errors.**
 
 ### Limitation of Liability
 
@@ -37,18 +37,18 @@ This applies regardless of the cause and whether arising from contract, tort, ne
 
 ### AI Agent Actions
 
-Nova Cognitive Browser enables AI agents to interact with websites, services, and local data. **You are solely responsible for:**
+Nova AI Workspace enables AI agents to interact with websites, services, and local data. **You are solely responsible for:**
 
 - All actions performed by AI agents you configure, authorize, or allow to run
 - Reviewing and approving agent requests before granting permissions
 - Monitoring agent activity during execution
 - Any consequences resulting from agent actions, whether intended or unintended
 
-The author of Nova Cognitive Browser has no control over and accepts no liability for the behavior of third-party AI models (Claude, Codex, Gemini, or others) accessed through Nova.
+The author of Nova AI Workspace has no control over and accepts no liability for the behavior of third-party AI models (Claude, Codex, Gemini, or others) accessed through Nova.
 
 ### Not for Critical Use
 
-**Do not use Nova Cognitive Browser in environments where failure could cause harm**, including but not limited to:
+**Do not use Nova AI Workspace in environments where failure could cause harm**, including but not limited to:
 
 - Medical, healthcare, or life-safety systems
 - Financial trading or transactions involving significant sums
@@ -58,7 +58,7 @@ The author of Nova Cognitive Browser has no control over and accepts no liabilit
 
 ### Third-Party Services
 
-Nova Cognitive Browser connects to third-party services including AI providers, websites, and MCP endpoints. The author is not responsible for:
+Nova AI Workspace connects to third-party services including AI providers, websites, and MCP endpoints. The author is not responsible for:
 
 - Availability, accuracy, or behavior of third-party services
 - Data processed by third-party AI providers
@@ -67,7 +67,7 @@ Nova Cognitive Browser connects to third-party services including AI providers, 
 
 ### Acceptance
 
-By downloading, installing, or using Nova Cognitive Browser, you acknowledge that you have read and understood this disclaimer and agree to its terms. If you do not agree, do not use the software.
+By downloading, installing, or using Nova AI Workspace, you acknowledge that you have read and understood this disclaimer and agree to its terms. If you do not agree, do not use the software.
 
 ---
 
@@ -75,11 +75,11 @@ By downloading, installing, or using Nova Cognitive Browser, you acknowledge tha
 
 ### Alpha-Software
 
-Nova Cognitive Browser ist **Alpha-Software**. Sie ist unvollständig, enthält bekannte und unbekannte Fehler und wird aktiv weiterentwickelt. Funktionen können sich ohne Vorankündigung ändern, fehlschlagen oder entfernt werden.
+Nova AI Workspace ist **Alpha-Software**. Sie ist unvollständig, enthält bekannte und unbekannte Fehler und wird aktiv weiterentwickelt. Funktionen können sich ohne Vorankündigung ändern, fehlschlagen oder entfernt werden.
 
 ### Keine Gewährleistung
 
-Nova Cognitive Browser wird **"wie besehen" und "wie verfügbar"** bereitgestellt, ohne jegliche ausdrückliche oder stillschweigende Gewährleistung. Dies umfasst insbesondere Gewährleistungen für:
+Nova AI Workspace wird **"wie besehen" und "wie verfügbar"** bereitgestellt, ohne jegliche ausdrückliche oder stillschweigende Gewährleistung. Dies umfasst insbesondere Gewährleistungen für:
 
 - Handelsüblichkeit
 - Eignung für einen bestimmten Zweck
@@ -87,7 +87,7 @@ Nova Cognitive Browser wird **"wie besehen" und "wie verfügbar"** bereitgestell
 - Unterbrechungsfreien oder fehlerfreien Betrieb
 - Sicherheit oder Datenintegrität
 
-**Es gibt keine Garantie, dass Nova Cognitive Browser frei von Mängeln, Schwachstellen oder Fehlern ist.**
+**Es gibt keine Garantie, dass Nova AI Workspace frei von Mängeln, Schwachstellen oder Fehlern ist.**
 
 ### Haftungsbeschränkung
 
@@ -104,18 +104,18 @@ Dies gilt unabhängig von der Ursache und unabhängig davon, ob der Anspruch aus
 
 ### KI-Agenten-Aktionen
 
-Nova Cognitive Browser ermöglicht KI-Agenten die Interaktion mit Websites, Diensten und lokalen Daten. **Du bist allein verantwortlich für:**
+Nova AI Workspace ermöglicht KI-Agenten die Interaktion mit Websites, Diensten und lokalen Daten. **Du bist allein verantwortlich für:**
 
 - Alle Aktionen von KI-Agenten, die du konfigurierst, autorisierst oder laufen lässt
 - Die Prüfung und Genehmigung von Agentenanfragen vor Erteilung von Berechtigungen
 - Die Überwachung der Agentenaktivität während der Ausführung
 - Alle Folgen von Agentenaktionen, ob beabsichtigt oder unbeabsichtigt
 
-Der Autor von Nova Cognitive Browser hat keine Kontrolle über und übernimmt keine Haftung für das Verhalten von Drittanbieter-KI-Modellen (Claude, Codex, Gemini oder andere), die über Nova genutzt werden.
+Der Autor von Nova AI Workspace hat keine Kontrolle über und übernimmt keine Haftung für das Verhalten von Drittanbieter-KI-Modellen (Claude, Codex, Gemini oder andere), die über Nova genutzt werden.
 
 ### Nicht für kritische Einsätze
 
-**Verwende Nova Cognitive Browser nicht in Umgebungen, in denen ein Ausfall Schaden verursachen könnte**, einschließlich aber nicht beschränkt auf:
+**Verwende Nova AI Workspace nicht in Umgebungen, in denen ein Ausfall Schaden verursachen könnte**, einschließlich aber nicht beschränkt auf:
 
 - Medizinische, gesundheitliche oder lebenserhaltende Systeme
 - Finanzhandel oder Transaktionen mit erheblichen Summen
@@ -125,7 +125,7 @@ Der Autor von Nova Cognitive Browser hat keine Kontrolle über und übernimmt ke
 
 ### Drittanbieterdienste
 
-Nova Cognitive Browser verbindet sich mit Drittanbieterdiensten wie KI-Providern, Websites und MCP-Endpunkten. Der Autor ist nicht verantwortlich für:
+Nova AI Workspace verbindet sich mit Drittanbieterdiensten wie KI-Providern, Websites und MCP-Endpunkten. Der Autor ist nicht verantwortlich für:
 
 - Verfügbarkeit, Richtigkeit oder Verhalten von Drittanbieterdiensten
 - Daten, die von Drittanbieter-KI-Providern verarbeitet werden
@@ -134,4 +134,4 @@ Nova Cognitive Browser verbindet sich mit Drittanbieterdiensten wie KI-Providern
 
 ### Akzeptanz
 
-Mit dem Herunterladen, Installieren oder Nutzen von Nova Cognitive Browser bestätigst du, dass du diesen Haftungsausschluss gelesen und verstanden hast und seinen Bedingungen zustimmst. Wenn du nicht zustimmst, nutze die Software nicht.
+Mit dem Herunterladen, Installieren oder Nutzen von Nova AI Workspace bestätigst du, dass du diesen Haftungsausschluss gelesen und verstanden hast und seinen Bedingungen zustimmst. Wenn du nicht zustimmst, nutze die Software nicht.

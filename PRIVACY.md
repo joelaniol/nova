@@ -8,7 +8,7 @@
 
 ### Overview
 
-Nova Cognitive Browser is designed to keep your data local. It does not collect usage analytics, does not track your browsing behavior, and does not build a behavioral profile of you. Nova only contacts its own server (`nova-cognitive.com`) for two purposes: **license activation and renewal** (required for the licensed app to run), and **optional, user-consented crash reports** after an unclean shutdown. Everything else stays on your machine.
+Nova AI Workspace is designed to keep your data local. It does not collect usage analytics, does not track your browsing behavior, and does not build a behavioral profile of you. Nova only contacts its own server (`nova-cognitive.com`) for two purposes: **license activation and renewal** (required for the licensed app to run), and **optional, user-consented crash reports** after an unclean shutdown. A few features also connect directly to other services; they are listed under "Connections to Other Services". Your browsing, files and Nova data stay on your machine.
 
 ### What Nova Does NOT Collect
 
@@ -82,6 +82,18 @@ Before the report is shown to you and before it could be sent, Nova automaticall
 - No third-party analytics services are involved
 - Reports are used solely to diagnose and fix bugs
 
+### Connections to Other Services
+
+Apart from the license and crash-report requests above, Nova itself contacts these services. Each of them receives your IP address and Nova's request, but nothing from your Nova profile:
+
+- **Update check — GitHub** (`api.github.com`). Nova asks GitHub for its newest release, at most about once a day and when you click **Check for updates**. If you install an update, the setup file is downloaded from GitHub. On by default; turn it off in Settings → About with **Check for new versions automatically**.
+- **Search suggestions — your search engine.** While you type in the address bar, Nova sends the typed text to your default search engine (Google unless you changed it; Bing or DuckDuckGo otherwise) to show search suggestions. If that engine returns none, Nova asks DuckDuckGo. On by default; turn it off in Settings with **Show search suggestions from the internet**.
+- **Speech models — Hugging Face** (`huggingface.co`). Only when you or an agent installs an additional transcription model is it downloaded from there. The basic model ships with Nova.
+- **Proxy check — ipify** (`api.ipify.org`). Only if you use a proxy: while it is active, Nova asks this service about every 30 seconds, and whenever you or an agent tests a proxy, which public IP address the proxy shows. The request goes through the proxy, so ipify sees the proxy's address.
+- **WebView2 runtime — Microsoft.** Only if the browser engine is missing or damaged does Nova download it from Microsoft.
+
+The websites you open in Nova are contacted by the browser engine as in any browser; that traffic is not covered by this list.
+
 ### Third-Party AI Providers
 
 When you use AI features in Nova (Claude, Codex, Gemini), your prompts and interactions are sent to the respective AI provider's API. Nova does not control how these providers handle your data. Please refer to their individual privacy policies:
@@ -140,7 +152,7 @@ This includes settings, browser profiles, history, favorites, vault entries, kno
 
 ### Children
 
-Nova Cognitive Browser is not directed at children under 13. We do not knowingly collect data from children.
+Nova AI Workspace is not directed at children under 13. We do not knowingly collect data from children.
 
 ### Contact
 
@@ -152,7 +164,7 @@ For privacy-related questions: [LinkedIn](https://www.linkedin.com/in/joelaniol/
 
 ### Überblick
 
-Nova Cognitive Browser ist darauf ausgelegt, deine Daten lokal zu halten. Es werden keine Nutzungsanalysen gesammelt, dein Browserverhalten wird nicht getrackt und es wird kein Verhaltensprofil von dir erstellt. Nova kontaktiert seinen eigenen Server (`nova-cognitive.com`) nur für zwei Zwecke: **Lizenzaktivierung und -verlängerung** (erforderlich, damit die lizenzierte App läuft) und **optionale, von dir bestätigte Absturzberichte** nach einem unsauberen Beenden. Alles andere bleibt auf deinem Rechner.
+Nova AI Workspace ist darauf ausgelegt, deine Daten lokal zu halten. Es werden keine Nutzungsanalysen gesammelt, dein Browserverhalten wird nicht getrackt und es wird kein Verhaltensprofil von dir erstellt. Nova kontaktiert seinen eigenen Server (`nova-cognitive.com`) nur für zwei Zwecke: **Lizenzaktivierung und -verlängerung** (erforderlich, damit die lizenzierte App läuft) und **optionale, von dir bestätigte Absturzberichte** nach einem unsauberen Beenden. Einige Funktionen verbinden sich außerdem direkt mit anderen Diensten; sie stehen unter „Verbindungen zu anderen Diensten“. Dein Surfen, deine Dateien und deine Nova-Daten bleiben auf deinem Rechner.
 
 ### Was Nova NICHT sammelt
 
@@ -226,6 +238,18 @@ Bevor der Bericht dir angezeigt wird und bevor er gesendet werden könnte, schw�
 - Keine Drittanbieter-Analysedienste sind beteiligt
 - Berichte werden ausschließlich zur Diagnose und Behebung von Fehlern verwendet
 
+### Verbindungen zu anderen Diensten
+
+Neben den oben beschriebenen Anfragen für Lizenz und Absturzberichte kontaktiert Nova selbst diese Dienste. Jeder davon erhält deine IP-Adresse und die Anfrage von Nova, aber nichts aus deinem Nova-Profil:
+
+- **Update-Prüfung — GitHub** (`api.github.com`). Nova fragt bei GitHub nach der neuesten Version, höchstens etwa einmal am Tag und wenn du auf **Nach Updates suchen** klickst. Installierst du ein Update, wird die Setup-Datei von GitHub geladen. Standardmäßig an; abschalten unter Einstellungen → Info mit **Automatisch nach neuen Versionen suchen**.
+- **Suchvorschläge — deine Suchmaschine.** Während du in die Adressleiste tippst, sendet Nova den getippten Text an deine Standardsuchmaschine (Google, sofern du nichts anderes gewählt hast, sonst Bing oder DuckDuckGo), um Suchvorschläge anzuzeigen. Liefert diese keine, fragt Nova bei DuckDuckGo. Standardmäßig an; abschalten in den Einstellungen mit **Suchvorschläge aus dem Internet**.
+- **Sprachmodelle — Hugging Face** (`huggingface.co`). Nur wenn du oder ein Agent ein zusätzliches Transkriptionsmodell installiert, wird es von dort geladen. Das Basismodell liefert Nova mit.
+- **Proxy-Prüfung — ipify** (`api.ipify.org`). Nur wenn du einen Proxy nutzt: Solange er aktiv ist, fragt Nova diesen Dienst etwa alle 30 Sekunden, und bei jedem Test durch dich oder einen Agenten, welche öffentliche IP-Adresse der Proxy zeigt. Die Anfrage läuft über den Proxy, ipify sieht also dessen Adresse.
+- **WebView2-Laufzeit — Microsoft.** Nur wenn die Browser-Engine fehlt oder beschädigt ist, lädt Nova sie von Microsoft.
+
+Die Websites, die du in Nova öffnest, kontaktiert die Browser-Engine wie in jedem Browser; dieser Verkehr ist von dieser Liste nicht erfasst.
+
 ### Drittanbieter-KI-Provider
 
 Bei Nutzung der KI-Funktionen in Nova (Claude, Codex, Gemini) werden deine Eingaben und Interaktionen an die API des jeweiligen KI-Anbieters gesendet. Nova hat keinen Einfluss darauf, wie diese Anbieter deine Daten verarbeiten. Bitte beachte deren individuelle Datenschutzerklärungen:
@@ -287,7 +311,7 @@ Dies umfasst Einstellungen, Browser-Profile, Verlauf, Favoriten, Vault-Einträge
 
 ### Kinder
 
-Nova Cognitive Browser richtet sich nicht an Kinder unter 13 Jahren. Es werden wissentlich keine Daten von Kindern erhoben.
+Nova AI Workspace richtet sich nicht an Kinder unter 13 Jahren. Es werden wissentlich keine Daten von Kindern erhoben.
 
 ### Kontakt
 

@@ -3,7 +3,7 @@
 ## Reporting a vulnerability (EN)
 
 Nova is alpha software. If you find a **security vulnerability** — not a normal bug or crash
-(for those, see *Reporting bugs* in the [README](README.md)) — please report it **privately via
+(for those, see [What to report](ALPHA.md#what-to-report)) — please report it **privately via
 GitHub**: open this repository's **Security** tab → **"Report a vulnerability"** (private
 vulnerability reporting is enabled).
 
@@ -16,7 +16,7 @@ You can also reach the maintainer on LinkedIn: [Joel Aniol](https://www.linkedin
 ## Sicherheitslücke melden (DE)
 
 Nova ist Alpha-Software. Wenn du eine **Sicherheitslücke** findest — keinen normalen Bug/Absturz
-(dafür *Fehler melden* in der [README](README.md)) — melde sie bitte **privat über GitHub**: im
+(dafür [Was bitte melden](ALPHA.md#was-bitte-melden)) — melde sie bitte **privat über GitHub**: im
 **Security**-Tab dieses Repositorys → **„Report a vulnerability"** (privates Vulnerability-Reporting
 ist aktiviert).
 
