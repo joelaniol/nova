@@ -5,15 +5,32 @@
 
 ---
 
-## 1. Problem Statement
+## 1. A Concrete Example: Save Inside a Web Component
+
+An agent sees a Save button inside a custom dialog, but an ordinary CSS query cannot find it. If the components expose open shadow roots, a selector such as `my-custom-dialog >>> user-avatar >>> button.save-btn` follows those boundaries. Nova resolves the element and dispatches a browser-input click.
+
+The click result establishes that input was dispatched. It does not establish that the application saved the record. A [CLS transition contract](closed-loop-system.md) can check the expected confirmation or state change; a [visual capture](evm-and-visual-evidence.md) can show what the user sees afterward.
+
+## 2. Choose the Interaction Path
+
+| Need | Path | Important boundary |
+| :--- | :--- | :--- |
+| Act on a known element | Selector-based click or type | Resolve the current element, including supported open shadow roots. |
+| Act at a visible position | Coordinate input | Coordinates refer to the page viewport; layout changes can move the target. |
+| Send browser mouse or keyboard input | DevTools input tools | Browser-dispatched input does not by itself verify the application outcome. |
+| Use the humanized drag profile | `input_drag_humanized` | Page-script mouse events are synthetic, even though the movement is eased. |
+
+“Humanized” describes this drag's movement profile. It does not guarantee acceptance by a website or change synthetic events into trusted ones.
+
+## 3. Why Input Delivery Matters
 
 1. **Shadow roots:** Web components keep their markup inside a shadow root. `document.querySelector("#submit")` returns `null` for a button that is clearly visible on screen.
 2. **Synthetic events:** Events created in page JavaScript carry `isTrusted: false`, and some pages ignore them.
-3. **HTML5 drag and drop:** Inside a WebView2 hosted in a WinUI window, dragging within a page does not work on its own, so sortable lists and Kanban boards stay unreachable.
+3. **HTML5 drag and drop:** Mouse movement alone does not ensure that a page receives the HTML5 drag-event sequence its sortable list expects. Nova provides a polyfill for supported draggable elements.
 
 ---
 
-## 2. Shadow DOM Piercing (` >>> `)
+## 4. Shadow DOM Piercing (` >>> `)
 
 Selector-based tools (`nova.click_selector`, `nova.type_selector`, `nova.select_option`, `nova.guarded_*` and others) accept the ` >>> ` combinator. Each segment is a normal CSS selector; ` >>> ` steps into the shadow root of the element matched so far:
 
@@ -27,7 +44,7 @@ my-custom-dialog >>> user-avatar >>> button.save-btn
 
 ---
 
-## 3. How Input Is Delivered
+## 5. How Input Is Delivered
 
 | Tool | What Nova sends |
 | :--- | :--- |
@@ -44,7 +61,7 @@ If the Nova window is minimized, Nova restores it before dispatching input, beca
 
 ---
 
-## 4. The Humanized Drag (`nova.input_drag_humanized`)
+## 6. The Humanized Drag (`nova.input_drag_humanized`)
 
 This tool runs as a script inside the page and dispatches **synthetic** mouse events (`isTrusted: false`; the result reports `mode: "humanized_js"`). Use `nova.input_drag` when a page only accepts real input.
 
@@ -63,13 +80,13 @@ flowchart LR
 
 ---
 
-## 5. HTML5 Drag and Drop
+## 7. HTML5 Drag and Drop
 
-Nova injects a drag polyfill into pages that turns a held mouse gesture over a `draggable` element into HTML5 drag events (`dragstart`, `dragover`, `drop`, `dragend`). Both `nova.input_drag` and `nova.input_drag_humanized` hand such gestures to it, so sortable lists and boards work through either tool.
+Nova injects a drag polyfill into pages that turns a held mouse gesture over a supported `draggable` element into HTML5 drag events (`dragstart`, `dragover`, `drop`, `dragend`). Gestures from both `nova.input_drag` and `nova.input_drag_humanized` can reach this polyfill. Its HTML5 events are synthesized in page script; a control that requires trusted drag events or a different interaction model may still need another approach. Check the resulting order or value after the gesture.
 
 ---
 
-## 6. MCP Tooling for Input & Interaction
+## 8. MCP Tooling for Input & Interaction
 
 * **Selector-based actions:**
   * `nova.click_selector`: Clicks the element matched by a CSS selector (with ` >>> ` support) or a CTA handle from `nova.perceive`; optional verification and blocker dismissal.
