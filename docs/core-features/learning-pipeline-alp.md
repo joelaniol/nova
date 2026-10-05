@@ -7,21 +7,43 @@
 
 ## 1. Problem Statement: The Knowledge Gap
 
-Browser automation tends toward two extremes:
+Imagine an agent closes the same newsletter modal on several visits. One successful click is an observation, not yet a rule that should run on future visits. ALP looks for recurring evidence, proposes a description and playbook, and asks whether that knowledge has earned enough trust to become active.
+
+If the modal changes later, the same learning lifecycle can lower trust rather than preserving the original recipe indefinitely. **ALP governs how experience becomes trusted knowledge, and how that trust can be lost.**
+
+The learning pipeline avoids two failure modes:
+
 1. **Zero Learning:** The agent gathers observations but forgets them when the session ends. On every visit, it must guess anew.
 2. **Uncontrolled Pollution:** Every action is saved as a permanent rule. If a site changes its layout or an action succeeded by accident, wrong rules keep causing failures.
 
 **The interplay between LCJ, ALP, and PKS addresses this gap:**
+
 ```
-LCJ (record observations) ──→ ALP (rank, generate, promote) ──→ PKS (active playbooks)
+LCJ (record evidence) ──→ ALP (rank, generate, evaluate trust) ──→ PKS (candidates and learned playbooks)
 ```
 
-* Without ALP, LCJ only accumulates observations while PKS stays empty.
+* Journal observations alone do not become active playbooks. An agent may also write a manual PKS entry; it still starts as Shadow and must earn active status.
 * With ALP, patterns reach active memory only after repeated success, and drifting knowledge is demoted again.
+
+### Where ALP fits
+
+**[TOB](tob.md)** supplies server-side execution evidence and selector proof; **LCJ** holds observations and promotion evidence. **ALP** ranks opportunities, generates candidates and evaluates trust. **[PKS](pks.md)** stores the procedural entries, and **[CLS](closed-loop-system.md)** applies actions with outcome checks that can inform further learning.
+
+The process combines supported heuristic generation, explicit agent tools and background lifecycle checks. It does not guarantee that every observed interaction can be turned into a safe reusable playbook.
 
 ---
 
-## 2. The ALP Pipeline Architecture
+## 2. Automatic Lifecycle
+
+While an agent works on a site, Nova runs two background passes for that site:
+* **Promotion pass** (at most every 30 minutes): the same evaluation as `nova.learn_promote`, covering promotion, demotion, deprecation and revive.
+* **Revalidation pass** (at most every 6 hours): the same silent checks as `nova.revalidate` for stale phenomena; missing selectors count as drift and push the phenomenon toward demotion.
+
+When all learned selectors of a phenomenon are gone, revalidation may suggest a replacement selector based on the phenomenon's text signals. Nova never applies such a suggestion automatically; the agent has to verify it and update the phenomenon via `nova.pks_patch`.
+
+---
+
+## 3. The ALP Pipeline Architecture
 
 ```mermaid
 flowchart TD
@@ -38,7 +60,7 @@ flowchart TD
     end
 
     subgraph PKSStore["3. PKS: Phenomenological Knowledge Store"]
-        FastPath["Phenomena at L1 and L2"]
+        FastPath["Generated L0 candidates<br/>L1 Shadow and L2 Active phenomena"]
     end
 
     Obs --> Suggest
@@ -53,14 +75,16 @@ flowchart TD
 
 The LCJ lives in its own database (`memory.db` in the `Memory` folder of Nova's profile), separate from `pks.db`.
 
+The journal holds observations and candidate evidence. `nova.learn_generate` can already store a new phenomenon in PKS at L0, linked to that evidence by its candidate key. `nova.learn_promote` evaluates existing PKS entries against LCJ evidence; L0 therefore does not mean that an entry exists only in the journal. See [PKS learning levels](pks.md#5-why-knowledge-needs-trust-levels).
+
 ---
 
-## 3. The Core Modules of ALP
+## 4. The Core Modules of ALP
 
 | Module | Core Responsibility |
 | :--- | :--- |
 | **`LearningSuggestor`** | Ranks observation clusters by support, sessions, success rate, drift and recency, and reports drift on existing phenomena. Backs `nova.learn_suggest`. |
-| **`CandidateGenerator`** | Runs heuristic rules over observation clusters to propose new candidates. Generated playbooks must pass the same strict parser as manual ones; changes to an active phenomenon are written as a new Shadow revision that must earn L2 again. Backs `nova.learn_generate`. |
+| **`CandidateGenerator`** | Runs heuristic rules over observation clusters to propose new candidates. New phenomena are persisted at L0; generated playbooks must pass the same strict parser as manual ones. Changes to an active phenomenon are written as a new Shadow revision that must earn L2 again. Backs `nova.learn_generate`. |
 | **Quality layer** | Compares fingerprints (including a 64-bit SimHash over text tokens) so near-duplicate candidates are dropped or turned into a patch, and normalizes selectors. |
 | **`PromotionService`** | Enforces the learning-level gates (for example at least 3 successes from 2 distinct sessions for L1 → L2). |
 | **`SilentVerifyEngine`** | Checks DOM-only, without running playbooks, whether a phenomenon's fingerprint selectors still exist. |
@@ -70,7 +94,7 @@ The LCJ lives in its own database (`memory.db` in the `Memory` folder of Nova's 
 
 ---
 
-## 4. Scoring Model (`LearningSuggestor`)
+## 5. Scoring Model (`LearningSuggestor`)
 
 The score of a learning suggestion is calculated deterministically:
 $$\text{Score} = \text{SupportScore} + \text{SessionBonus} + \text{SuccessRateFactor} + \text{DriftSignal} + \text{RecencyBonus}$$
@@ -83,29 +107,7 @@ $$\text{Score} = \text{SupportScore} + \text{SessionBonus} + \text{SuccessRateFa
 
 ---
 
-## 5. Automatic Lifecycle
-
-While an agent works on a site, Nova runs two background passes for that site:
-* **Promotion pass** (at most every 30 minutes): the same evaluation as `nova.learn_promote`, covering promotion, demotion, deprecation and revive.
-* **Revalidation pass** (at most every 6 hours): the same silent checks as `nova.revalidate` for stale phenomena; missing selectors count as drift and push the phenomenon toward demotion.
-
-When all learned selectors of a phenomenon are gone, revalidation may suggest a replacement selector based on the phenomenon's text signals. Nova never applies such a suggestion automatically; the agent has to verify it and update the phenomenon via `nova.pks_patch`.
-
----
-
-## 6. Under the Hood
-
-| Component | Responsibility |
-| :--- | :--- |
-| **`LearningSuggestor`** | Ranks learning opportunities from journal observations. |
-| **`CandidateGenerator`** | Builds candidate phenomena from observation clusters. |
-| **`PromotionService`** | Enforces the gates for transitions between learning levels. |
-| **`RevalidationBudget`** | Throttles background verification. |
-| **`SilentVerifyEngine`** | Runs DOM-only background checks. |
-
----
-
-## 7. MCP Tooling for the Learning Pipeline
+## 6. MCP Tooling for the Learning Pipeline
 
 * **Learning Opportunities & Discovery:**
   * `nova.learn_suggest`: Returns the top learning opportunities from accumulated observations.
@@ -117,6 +119,12 @@ When all learned selectors of a phenomenon are gone, revalidation may suggest a 
 * **Explainability & Revalidation:**
   * `nova.explain`: Explains why a phenomenon is at its current learning level, gate by gate.
   * `nova.revalidate`: Checks DOM-only whether fingerprint selectors still exist, within a per-session budget.
+
+---
+
+## 7. Implementation notes
+
+The module table above separates pure ranking and gate decisions from persistence and browser checks. Learning orchestration loads PKS entries and their LCJ evidence, writes generated candidates or approved transitions, and records the reasons for later inspection. Silent revalidation probes recognition selectors without executing the playbook; it cannot by itself prove that the interaction still works.
 
 ---
 
