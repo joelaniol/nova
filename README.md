@@ -19,7 +19,7 @@
 [![Local-first](https://img.shields.io/badge/data-local--first-2ea44f)](#)
 [![Made in Germany](https://img.shields.io/badge/Made%20in-Germany-FFCC00?labelColor=DD0000)](#)
 
-[Quickstart](docs/getting-started/quickstart.md) • [User Guide](docs/user-guide/README.md) • [Core Features](docs/core-features/README.md) • [Tool Catalog](docs/mcp-reference/tool-catalog.md) • [Troubleshooting](docs/troubleshooting/README.md)
+[Quickstart](docs/getting-started/quickstart.md) • [User Guide](docs/user-guide/README.md) • [Core Features](docs/core-features/README.md) • [Tool Catalog](docs/mcp-reference/tool-catalog.md) • [Changelog](docs/changelog/README.md) • [Troubleshooting](docs/troubleshooting/README.md)
 
 </div>
 
@@ -206,6 +206,7 @@ Detaillierte Anleitungen: **[Installationsanleitung auf Deutsch](docs/getting-st
 
 * **Nova AI Workspace** is developed by Joel Aniol and contributors.
 * **Issues & Feedback:** Report issues and feature requests on [GitHub Issues](https://github.com/joelaniol/nova/issues).
+  Agents can use `nova.get_instructions(topic='bug_report')` for reporting rules and bug-ticket or work-session feedback templates. Review URLs and evidence for secrets and personal data; see the [alpha reporting policy](ALPHA.md#what-to-report).
 * **Website:** [nova-cognitive.com](https://nova-cognitive.com)
 * **YouTube:** [@novainweb](https://www.youtube.com/@novainweb)
 * **Contact:** Joel Aniol — [LinkedIn](https://www.linkedin.com/in/joelaniol/)

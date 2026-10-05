@@ -24,7 +24,7 @@ Every tool exposed by **Nova AI Workspace**, grouped by operational domain. Clic
 - [15. Site Crawler & URL Discovery Index](#15-site-crawler--url-discovery-index) (14)
 - [16. Session Tracing & DOM Event Recording](#16-session-tracing--dom-event-recording) (14)
 - [17. Scheduled Tasks, Cron & Workspaces](#17-scheduled-tasks-cron--workspaces) (25)
-- [18. Connectors, Mail & File Transfer](#18-connectors-mail--file-transfer) (39)
+- [18. Connectors, Mail & File Transfer](#18-connectors-mail--file-transfer) (41)
 - [19. Media Intelligence & Whisper Speech-to-Text](#19-media-intelligence--whisper-speech-to-text) (24)
 - [20. Site Data, Fingerprinting & Sandboxes](#20-site-data-fingerprinting--sandboxes) (23)
 - [21. Episodic Task Memory & Guidance](#21-episodic-task-memory--guidance) (34)
@@ -459,6 +459,8 @@ IMAP/SMTP email client automation, EML exports, SFTP/FTP server operations, and 
 | **[`nova.sftp_rename`](tools/connectors-and-mail/nova-sftp-rename.md)** | `profileId`, `remotePath`, `destinationRemotePath`, `overwrite?`, `unattended?` | Renames or moves a remote file or directory over SFTP. |
 | **[`nova.sftp_mkdir`](tools/connectors-and-mail/nova-sftp-mkdir.md)** | `profileId`, `remotePath`, `recursive?`, `mode?`, `unattended?` | Creates a remote directory over an SFTP connection, optionally with its parent directories and POSIX permissions. |
 | **[`nova.sftp_chmod`](tools/connectors-and-mail/nova-sftp-chmod.md)** | `profileId`, `remotePath`, `mode`, `unattended?` | Changes the POSIX permissions of a remote file or directory over an SFTP connection. |
+| **[`nova.sftp_chown`](tools/connectors-and-mail/nova-sftp-chown.md)** | `profileId`, `remotePath`, `uid?`, `gid?`, `unattended?` | Changes the owner and/or group of a remote file or directory over an SFTP connection. |
+| **[`nova.sftp_symlink`](tools/connectors-and-mail/nova-sftp-symlink.md)** | `profileId`, `remotePath`, `targetPath`, `unattended?` | Creates a symbolic link on the server over an SFTP connection. |
 | **[`nova.ssh_run`](tools/connectors-and-mail/nova-ssh-run.md)** | `profileId`, `command?`, `commands?`, `commandTimeoutSeconds?`, `overallTimeoutSeconds?`, `stopOnError?`, `expectedExitCodes?`, `maxOutputBytes?`, `stdin?`, `unattended?` | Runs shell commands on the server of an SSH/SFTP connection and reports exit status, output and timing honestly. |
 | **[`nova.sftp_transfer_status`](tools/connectors-and-mail/nova-sftp-transfer-status.md)** | `jobId?`, `profileId?` | Reports progress and result of background SFTP transfers started by `nova.sftp_get` or `nova.sftp_put`. |
 | **[`nova.sftp_transfer_stop`](tools/connectors-and-mail/nova-sftp-transfer-stop.md)** | `jobId` | Stops a running background SFTP transfer softly and keeps everything for a resume. |

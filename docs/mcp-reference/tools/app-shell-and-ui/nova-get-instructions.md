@@ -11,6 +11,10 @@
 
 `nova.get_instructions` returns Nova's agent operating contract as text: tool usage conventions, debugging/escalation guidance, and (in `task` mode) the evidence-verification rules (EVM). The same content is mirrored into `structuredContent`, plus structured addenda (PKS domain hints, operator notes, task awareness, native-dialog state, and more) that only populate when the matching optional parameters are supplied.
 
+Use `nova.get_instructions(topic='bug_report')` to prepare a GitHub bug ticket or work-session feedback. This topic returns reporting rules and separate Markdown templates covering the goal, last relevant actions, successful steps, friction, expected and observed behavior, performance, environment, evidence, and workarounds. Both detail levels return the complete guide. Only `topic`, optional `mode='task'`, and `detail` are accepted for this topic.
+
+The reporting response contains `structuredContent.mode='task'`, `structuredContent.topic='bug_report'`, `structuredContent.instructionsText`, and `structuredContent.bugReport` (`guidanceVersion`, `issuesUrl`, `securityReportUrl`, `collectsUserData=false`, `submitsIssue=false`, `rules`, and `templates.bug` / `templates.feedback`). It does not collect tabs, logs, or personal data, alter learn-mode state, or create an issue. Website URLs and evidence must be reviewed and sanitized before publication; secrets can appear in URL paths as well as query parameters. Security vulnerabilities belong in private reports. See [alpha reporting policy](../../../../ALPHA.md#what-to-report).
+
 ---
 
 ## 2. Parameter Reference
@@ -19,6 +23,7 @@
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `mode` | `string` | No | `"task"` | `task`, `learn` | Agent mode: 'task' for execution flows, 'learn' for Learn Mode v3 (evidence-backed exploration + PLATFORM_PLAYBOOK deliverable). |
+| `topic` | `string` | No | — | `bug_report` | Optional focused guide: 'bug_report' returns static bug-ticket and work-feedback rules with Markdown templates instead of the operational contract. Only topic, mode='task' (or omitted), and detail are accepted; both detail levels return the complete guide. No page/log collection, learn-state changes, or issue submission. |
 | `scope` | `string` | No | `"target"` | `target`, `allOwnerClaims` | Learn-mode claim activation scope: 'target' (default, current/explicit target only) or 'allOwnerClaims' (explicit owner-wide activation). |
 | `targetId` | `string` | No | — | — | Optional target for learn-mode claim activation. Uses the same target semantics as other tab tools. |
 | `agentId` | `string` | No | `"default"` | — | Optional agent identity for learn-mode claim ownership resolution. Defaults to 'default'. |
@@ -92,6 +97,7 @@ This example is shortened; the real response carries additional fields (`learnMo
 ## 4. Operational Best Practices
 
 * **Session Warm-up:** Execute during agent boot or context resets to refresh operational rules.
+* **Bug reports and feedback:** Call with `{"topic":"bug_report"}`, fill the appropriate template using observed facts, and distinguish measured durations from subjective impressions. Missing evidence stays unknown. Review the draft for secrets and personal data before any separately authorized publication.
 
 ---
 

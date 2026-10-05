@@ -184,6 +184,15 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 | [BREACH](research/breach/README.md) | A method for structurally new concepts by breaking load-bearing assumptions |
 | [The BREACH prompt](research/breach/prompt.md) | The meta-prompt that runs the method with a language model |
 
+## Changelog & releases
+
+[Overview](changelog/README.md)
+
+| Version | Release date | Highlights |
+|---|---|---|
+| [1.0.0-alpha.18](changelog/v1.0.0-alpha.18.md) | upcoming | New product name & look, favorites panel, SQLite history, native permission dialogs, AI setup, expanded sandboxes, password vault, resumable transfers, local transcription |
+| [1.0.0-alpha.17](changelog/v1.0.0-alpha.17.md) | 2026-09-10 | Targeted hotfix for blank context menu spellcheck rows, official slogan adoption ("Built for what's next."), UI blank label scanner |
+
 ## More
 
 - [Interactive demo](../demos/README.md) — an experience loop with repeat visits, a changed page and checked outcomes, plus eight browser exercises ([German guide](../demos/README.de.md))

@@ -1,6 +1,8 @@
 # BREACH — Baseline Reorganization through Explicit Assumption Change & Hypothesis
 
-Author: Joel Aniol · First documented: March 2026 · Status: experimental
+Author: Joel Aniol · First draft: 7 March 2026 · First published: 22 March 2026 · Status: experimental
+
+**Video:** [BREACH explained on YouTube](https://www.youtube.com/watch?v=RQBagueu0K4)
 
 BREACH is a working method for turning a topic into concepts that are **structurally new** and **operationally viable**. It can be run by a person or handed to a language model as a structured prompt ([the prompt](prompt.md)).
 
@@ -71,6 +73,13 @@ Destabilization does not just produce "wilder ideas". It produces a controlled s
 - at best, the result is not a variant but a new category or a new building block
 
 If everything stays essentially the same after the break, the destabilization was too weak or not honest.
+
+Destabilization means an assumption is **removed** or **inverted** — not weakened, not made "a bit more flexible", and not quietly reintroduced later:
+
+- weak: "the process stays manual, but with a bit more automation"
+- strong: "the process no longer needs a manual operator as a structural precondition"
+
+If the result only looks faster, cheaper or more convenient but keeps the same core logic, it is not a BREACH idea. The question is always: *was a load-bearing assumption really broken, and did the system have to reorganize afterwards?*
 
 ### Choosing the right assumption
 
@@ -155,6 +164,38 @@ Test: if A, B and C all end up preferring the same kind of solution, the choice 
 
 BREACH is not free-form creativity. Every iteration has to include a measurable improvement against the goal criteria, explicit trade-offs, an implementation route, a risk and misuse assessment, and a test plan.
 
+## When to use it
+
+BREACH is meant for the moments where ordinary feature planning becomes too narrow:
+
+- existing assumptions keep leading to variants of the same thing
+- new product or system axes are needed
+- a loose topic first has to become a viable innovation framework
+- a new approach should be tested right away against reality: usability, risk and feasibility
+
+The goal is not to rescue every idea. The goal is to produce structurally new candidates and then filter them through real practice. The method itself is under test as well: does it repeatedly produce robust novelty or only interesting theory, does it make the invention process more reliable, and does it carry over to fields outside software?
+
+## Input and output
+
+**Input.** Required is only the topic. Optional: target group, goal criteria (top 3–5, measurable), constraints, context or use case, and exclusions. If goal criteria are missing, exactly one follow-up question is allowed — *"Which 3 goal criteria matter most (measurable)?"* — and without a clear answer the work continues on explicitly stated assumptions.
+
+**Output.** The prompt always produces exactly ten blocks:
+
+1. Goal & context
+2. Working definition
+3. Baseline model
+4. Assumption list
+5. Iteration A — targeted
+6. Iteration B — orthogonal
+7. Iteration C — counter-intuitive
+8. Final synthesis
+9. Guardrails
+10. Closing
+
+The closing is deliberately fixed to one sentence, *"Start now with step 1."*, so that the framework turns directly into an operational work flow instead of ending as a document.
+
+The full text is in [the BREACH prompt](prompt.md).
+
 ## Quality check
 
 A good BREACH result answers every question with "yes":
@@ -188,6 +229,18 @@ A fair test compares, for the same topics and the same token budget: (a) one pla
 
 Known limits: the quality of the result depends on choosing assumptions that really carry the model; a weak assumption list yields weak iterations. The model can also reintroduce a broken assumption without saying so — the guardrails make this visible, but they do not prevent it.
 
+## History and first publication
+
+BREACH was developed by Joel Aniol on his own.
+
+- **7 March 2026 — first draft.** A short working prompt titled "Innovation destabilization": build a classic base concept, list its 5–7 central assumptions, break one radically, reorganize the whole system, check whether a worse version or a structurally new category came out, repeat at least three times. The text is preserved in [the BREACH prompt](prompt.md#the-first-draft-7-march-2026).
+- **22 March 2026 — BREACH.** The draft became the full method with its name, the explicit assumption form, orthogonal iterations, hypotheses and test plans, the ten-block meta-prompt — and its first public presentation.
+
+Public records of the method:
+
+- Aniol, J. *BREACH* — first public post on LinkedIn, 22 March 2026: <https://www.linkedin.com/posts/joelaniol_artificialintelligence-aiagents-futureofwork-activity-7441558430269706240-PsHJ>
+- Aniol, J. *BREACH* — video explanation on YouTube: <https://www.youtube.com/watch?v=RQBagueu0K4>
+
 ## References
 
 - Altshuller, G. S. *Creativity as an Exact Science: The Theory of the Solution of Inventive Problems.* Gordon and Breach, 1984.
@@ -202,6 +255,6 @@ Known limits: the quality of the result depends on choosing assumptions that rea
 
 ## Citing
 
-> Aniol, J. (2026). *BREACH — Baseline Reorganization through Explicit Assumption Change & Hypothesis.* First documented March 2026.
+> Aniol, J. (2026). *BREACH — Baseline Reorganization through Explicit Assumption Change & Hypothesis.* First documented March 2026 (LinkedIn, 22 March 2026).
 
 Next: [the BREACH prompt](prompt.md)
