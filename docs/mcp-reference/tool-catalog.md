@@ -20,7 +20,7 @@ Every tool exposed by **Nova AI Workspace**, grouped by operational domain. Clic
 - [11. Desktop Notifications & Alerts](#11-desktop-notifications--alerts) (11)
 - [12. Device Emulation & Responsive Testing](#12-device-emulation--responsive-testing) (10)
 - [13. External MCP Servers & Secondary Tool Bridging](#13-external-mcp-servers--secondary-tool-bridging) (10)
-- [14. Proxy Routing & Network Interception](#14-proxy-routing--network-interception) (15)
+- [14. Proxy Routing & Network Interception](#14-proxy-routing--network-interception) (16)
 - [15. Site Crawler & URL Discovery Index](#15-site-crawler--url-discovery-index) (14)
 - [16. Session Tracing & DOM Event Recording](#16-session-tracing--dom-event-recording) (14)
 - [17. Scheduled Tasks, Cron & Workspaces](#17-scheduled-tasks-cron--workspaces) (25)
@@ -341,6 +341,7 @@ Proxy profile management, authentication, traffic redirection, and CDP network r
 | **[`nova.proxy_switch`](tools/proxy-and-network/nova-proxy-switch.md)** | `profileId?`, `sandboxId?`, `mode?` | Dynamically switches the active proxy for global tabs or a specific sandbox without restarting Nova. |
 | **[`nova.proxy_test`](tools/proxy-and-network/nova-proxy-test.md)** | `profileId`, `probeUrl?` | Executes an active network diagnostic probe through a proxy profile to verify connectivity and external IP. |
 | **[`nova.proxy_update`](tools/proxy-and-network/nova-proxy-update.md)** | `profileId`, `name?`, `protocol?`, `host?`, `port?`, `bypassList?`, `username?`, `enabled?`, `isGlobalDefault?` | Updates host, port, protocol, or bypass list of an existing proxy profile. |
+| **[`nova.tls_inspect`](tools/proxy-and-network/nova-tls-inspect.md)** | `url?`, `targetId?`, `checks?`, `checkHosts?`, `ctDomain?`, `maxCtEntries?`, `includePem?` | Inspects the TLS certificate and server configuration of one host in depth: full chain, names, purpose, validation level, protocol and cipher support, HSTS and Certificate Transparency subdomains. |
 
 ---
 

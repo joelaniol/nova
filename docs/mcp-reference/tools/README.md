@@ -25,12 +25,12 @@ Looking for a tool by what it does rather than by area? The [tool catalog](../to
 | [Layout Quality, Geometry & Web Vitals](layout-and-qa/README.md) | 7 | Bounding box measurements, container width constraints, text clipping, WCAG accessibility audits, and Core Web Vitals. |
 | [Media Intelligence & Whisper Speech-to-Text](media-and-transcription/README.md) | 24 | In-browser audio/video recording, local OpenAI Whisper transcription, model management, and camera/mic permissions. |
 | [Phenomenological Knowledge Store & Self-Learning](pks-and-learning/README.md) | 21 | Cross-session procedural UI memory, learned interaction playbooks, fingerprint matching, and health telemetry. |
-| [Proxy Routing & Network Interception](proxy-and-network/README.md) | 15 | Proxy profile management, authentication, traffic redirection, and CDP network request/response interception. |
+| [Proxy Routing & Network Interception](proxy-and-network/README.md) | 16 | Proxy profile management, authentication, traffic redirection, and CDP network request/response interception. |
 | [Scheduled Tasks, Cron & Workspaces](scheduled-tasks/README.md) | 25 | Background task automation, cron expressions, file-system watches, task workspaces, and execution logs. |
 | [Session Tracing & DOM Event Recording](session-recording/README.md) | 14 | Network HAR capture, user interaction timelines, DOM change snapshots, and replay verification. |
 | [Site Crawler & URL Discovery Index](crawler-and-discovery/README.md) | 14 | Broad-surface website crawling, URL indexing, sitemap verification, and discovery probes. |
 | [Site Data, Fingerprinting & Sandboxes](site-data-and-identity/README.md) | 23 | Cookie jars, localStorage/sessionStorage, cache purging, browser fingerprint spoofing, and sandbox isolation. |
 | [Visual Evidence, Screenshots & Archiving](visual-evidence/README.md) | 7 | Lossless cropped screenshots, pixel-by-pixel diffing, persistent baselines, and print-to-PDF generation. |
 
-**436 tools in total.**
+**437 tools in total.**
 <!-- /generated:area-list -->

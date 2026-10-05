@@ -5,9 +5,18 @@
 
 ---
 
-## 1. Problem Statement: Native Code in the Browser Process
+## 1. A Concrete Example: A Camera Driver Stops Responding
+
+You open a device list, and a camera driver hangs during enumeration. Nova waits only until the probe's deadline, then reports a degraded result with a reason. Your browser tabs remain available. Repeated timeouts cause Nova to end the helper session and temporarily pause further probes before attempting a fresh helper.
+
+An unavailable inventory does not establish that the computer has no cameras. It means the probe could not supply a reliable list. Nova keeps that failure separate from the state of your browser sessions.
+
+Outrider contains native process failures. It runs in the user's Windows context, so it is not an operating-system security sandbox and does not grant permissions or decide whether an agent action is authorized. [Sandboxes](sandbox-isolation.md) separate website sessions; [AAG](aag.md) checks action prerequisites; the [vault](vault-and-secrets.md) controls saved-credential delivery.
+
+## 2. Why Native Work Needs a Process Boundary
 
 Some features need to call into Windows and third-party native code:
+
 * Listing cameras, microphones and speakers (DirectShow and Windows device APIs).
 * Detecting whether the GPU can run local speech recognition.
 * Running speech recognition (whisper.cpp) on an audio file.
@@ -17,7 +26,7 @@ Native code can hang or crash in ways .NET cannot catch — a faulty virtual cam
 
 ---
 
-## 2. Two Ways Nova Uses Outrider
+## 3. Two Ways Nova Uses Outrider
 
 ```mermaid
 flowchart LR
@@ -48,7 +57,7 @@ flowchart LR
 
 ---
 
-## 3. Transport & Safety Rules
+## 4. Transport & Safety Rules
 
 1. **Pipe restricted to the current user:** Nova creates the pipe with a random name (`nova-outrider-<pid>-<guid>`) and restricts it to the current Windows user. The helper receives the pipe name, a random session token and Nova's process ID on its command line.
 2. **Helper identity check:** When the helper connects, Nova checks that the process on the other end of the pipe is the helper it just started, and the helper must answer the handshake with the expected token and capabilities. Otherwise the connection is dropped.
@@ -63,7 +72,7 @@ flowchart LR
 
 ---
 
-## 4. Features Backed by Outrider
+## 5. Features Backed by Outrider
 
 | Feature | Where it shows up |
 | :--- | :--- |

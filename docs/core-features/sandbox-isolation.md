@@ -5,17 +5,24 @@
 
 ---
 
-## 1. Problem Statement: Session Bleeding
+## 1. A Concrete Example: Two Accounts, Side by Side
+
+Open your work account in sandbox A and your personal account on the same website in sandbox B. Each website session uses a different browser profile, so signing out in A does not sign out B. Tabs within A share A's profile and can use the same login.
+
+The separation concerns browser sessions. A Nova sandbox is not an operating-system virtual machine or a security boundary for running untrusted native programs. [Outrider](outrider-boundary.md) provides a separate boundary for native process failures; [AAG](aag.md) checks agent-action prerequisites.
+
+## 2. Why Separate Sessions?
 
 Many workflows need several identities side by side:
+
 * **Personal vs. work:** two accounts of the same web app, open at the same time.
 * **Testing roles:** checking a web app as administrator and as customer in parallel.
 
-In a normal browser window, all tabs share one cookie jar and one set of web storage, so a second login overwrites the first.
+Tabs using the same browser profile share cookies and persistent site storage. On sites that support only one account per session, signing in to another account changes the session for those tabs.
 
 ---
 
-## 2. How Sandboxes Are Stored
+## 3. How Sandboxes Are Stored
 
 Each sandbox is a separate WebView2 browser profile. All profiles live under one shared WebView2 data folder inside the Nova profile folder:
 
@@ -31,6 +38,8 @@ Installations upgraded from older versions may still use `%LOCALAPPDATA%\NovaBro
 
 Sandboxes are addressed by a short ID (`A`, `B`, `C`, ...) and also carry a persistent internal ID that names their profile folder. Up to 100 sandboxes can exist; at least one always remains.
 
+For agents, resolving the intended account is a routing decision: a service or intent hint helps choose a sandbox, but does not prove that it is currently signed in to the desired account. Inspect the selected target's actual session before acting.
+
 ```mermaid
 flowchart TD
     Nova["Nova AI Workspace - one browser process"]
@@ -42,14 +51,16 @@ flowchart TD
 
 ---
 
-## 3. What Is Separated — and What Is Not
+## 4. What Is Separated — and What Is Not
 
 **Separated per sandbox:**
+
 * Cookies, `localStorage`, `sessionStorage`, IndexedDB, cache and other profile data.
 * Signing in in sandbox A has no effect on sandbox B.
 * Fingerprint protection can be overridden per sandbox (see [Fingerprint Protection & Browser Identity](fingerprint-and-identity.md)).
 
 **Shared by all sandboxes:**
+
 * **One browser process and one proxy.** All sandboxes and browser tabs run in the same WebView2 browser process, which takes its proxy from the global setting. A separate proxy per sandbox is currently not possible; sandboxes that were set to their own proxy are switched to follow the global one. See [Proxy Routing & Network](proxy-and-network.md).
 * **WebRTC and DNS protection.** "Protect WebRTC local IP leaks" (off by default) applies to the whole browser. With a SOCKS5 proxy it also routes DNS lookups through the proxy; if several SOCKS5 proxies are configured, this DNS protection covers only one of them.
 * **Browser identity.** The user-agent preset set with `nova.identity_set` applies to all tabs.
@@ -59,13 +70,19 @@ flowchart TD
 
 ---
 
-## 4. Persistence & Recovery
+## 5. Persistence & Recovery
 
-Each sandbox profile folder contains a small metadata file. At startup Nova compares the sandbox list in `settings.json` with these folders; if the list is ever empty while profile folders still exist, Nova restores the sandboxes from them, so a damaged settings file does not lose your logins. A deleted sandbox is marked so that it is not restored by accident.
+Each sandbox profile folder contains a small metadata file. At startup Nova reconciles these profile identities with the sandbox list in `settings.json`:
+
+* If the configured list is empty, surviving profiles can restore the list.
+* An individually missing sandbox can also be reattached when its profile survives, it was not deleted, its short ID is free and the sandbox limit permits it.
+* Conflicting identities or a full sandbox list require the recovery dialog rather than automatic attachment.
+
+Deletion markers prevent intentional deletions from being restored by accident. This recovery uses surviving local profile data; it is not a backup and cannot undo deletion of that data.
 
 ---
 
-## 5. MCP Tooling for Sandbox Management
+## 6. MCP Tooling for Sandbox Management
 
 | Tool | Purpose |
 | :--- | :--- |

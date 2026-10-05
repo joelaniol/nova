@@ -1,6 +1,6 @@
 # Acceptable Use Policy / Nutzungsrichtlinie
 
-*Last updated: September 2026*
+*Last updated: October 2026*
 
 ---
 
@@ -16,6 +16,7 @@ By using Nova Cognitive Browser, you agree to the following terms. Violation of 
 - Research and development within legal boundaries
 - Connecting MCP-compatible tools and agents for legitimate purposes
 - Inspecting, intercepting and replaying network traffic of your own sites and services — and of third-party services only within a scope their operator has authorized in writing
+- Checking the TLS certificate and TLS configuration of a server (`nova.tls_inspect`) — what every server presents to every client that connects. The check covers one host per call, stays within a fixed handshake budget and does not attack the server
 
 ### Prohibited Use
 
@@ -67,6 +68,7 @@ Mit der Nutzung von Nova Cognitive Browser stimmst du den folgenden Bedingungen 
 - Forschung und Entwicklung innerhalb gesetzlicher Grenzen
 - Anbindung MCP-kompatibler Tools und Agenten für legitime Zwecke
 - Beobachten, Abfangen und erneutes Senden von Netzwerkverkehr eigener Websites und Dienste — bei Drittanbieterdiensten nur in einem Rahmen, den deren Betreiber schriftlich genehmigt hat
+- Prüfen des TLS-Zertifikats und der TLS-Konfiguration eines Servers (`nova.tls_inspect`) — das, was jeder Server jedem Client zeigt, der sich verbindet. Die Prüfung umfasst einen Host pro Aufruf, bleibt in einem festen Handshake-Budget und greift den Server nicht an
 
 ### Verbotene Nutzung
 

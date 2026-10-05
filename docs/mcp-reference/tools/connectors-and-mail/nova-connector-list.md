@@ -77,7 +77,8 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
     ],
     "returnedCount": 1,
     "contextScope": "global",
-    "workspaceBound": false
+    "workspaceBound": false,
+    "insecureConnectionsAllowed": false
   }
 }
 ```
@@ -88,6 +89,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 * **Secrets never appear here:** `hasPassword`/`hasPrivateKey`/`hasKeyPassphrase` are booleans only; no secret value is ever part of this or any other connector response.
 * **Filtered Scanning:** Use `type: "mail"`, `type: "sftp"`, or `type: "ftp"` to narrow results when managing specific automation tasks.
+* **Plaintext needs the user's switch:** `insecureConnectionsAllowed` mirrors the Settings option for plaintext mail/FTP and disabled mail certificate checks. When it is `false`, a connector with `requiresAllowInsecure: true` cannot be created, changed or used; ask the user to enable it instead of retrying.
 * **Check `capabilitiesMissing` before acting:** a capability not listed under `capabilities` will either prompt the user or fail, depending on whether the call is interactive or unattended; the `reason` text says which.
 
 ---

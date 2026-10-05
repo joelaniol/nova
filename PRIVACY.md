@@ -114,6 +114,18 @@ intercept them. This is off until you ask for it, and it changes nothing about w
 - **An interception rule is visible and temporary** — the toolbar shows it while it is armed, it is
   bound to one tab and a URL scope, and it expires on its own
 
+### TLS Inspection
+
+An agent can ask Nova to check a server's TLS certificate and configuration (`nova.tls_inspect`). This
+runs only when an agent calls it:
+
+- **Nova connects to the server the agent named**, over the same proxy route your browser uses, and
+  reads what the server presents to every client. The result goes to that agent and is not stored
+- **The optional subdomain lookup sends the domain name to crt.sh**, a public Certificate
+  Transparency search operated by Sectigo. Only the domain is sent, nothing about you or your
+  browsing. Nova asks crt.sh only when the agent requests this lookup explicitly
+- **The action log keeps metadata only**, as for every other tool
+
 ### Local Data Storage
 
 All application data is stored locally on your machine:
@@ -247,6 +259,19 @@ deine Daten gehen:
   URLs. Nutze es, wenn der Verkehr nicht dir gehört
 - **Eine Abfang-Regel ist sichtbar und vorübergehend** — die Symbolleiste zeigt sie, solange sie
   scharf ist, sie ist an einen Tab und einen URL-Bereich gebunden, und sie läuft von selbst ab
+
+### TLS-Prüfung
+
+Ein Agent kann Nova das TLS-Zertifikat und die TLS-Konfiguration eines Servers prüfen lassen
+(`nova.tls_inspect`). Das läuft nur, wenn ein Agent es aufruft:
+
+- **Nova verbindet sich mit dem Server, den der Agent nennt**, über denselben Proxy-Weg wie dein
+  Browser, und liest, was der Server jedem Client zeigt. Das Ergebnis geht an diesen Agenten und
+  wird nicht gespeichert
+- **Die optionale Subdomain-Suche schickt den Domainnamen an crt.sh**, eine öffentliche Suche in den
+  Certificate-Transparency-Logs, betrieben von Sectigo. Gesendet wird nur die Domain, nichts über
+  dich oder dein Surfen. Nova fragt crt.sh nur, wenn der Agent diese Suche ausdrücklich anfordert
+- **Das Aktionsprotokoll führt nur Metadaten**, wie bei jedem anderen Werkzeug
 
 ### Lokale Datenspeicherung
 
