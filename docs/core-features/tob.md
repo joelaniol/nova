@@ -1,4 +1,4 @@
-# Tool Observation Bus (TOB) — Server-Side Truth & Evidence Ledger
+# Tool Observation Bus (TOB) — Server-Observed Evidence Ledger
 
 > [!NOTE]
 > The **Tool Observation Bus (TOB)** is the server-side observation layer of Nova AI Workspace. It records what agents actually execute, builds visit windows from those records, and provides evidence to AAG, PKS, and task completion checks.

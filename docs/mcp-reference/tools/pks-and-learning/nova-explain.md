@@ -18,24 +18,9 @@ Nova's Phenomenological Knowledge Store (PKS) uses empirical quality gates to go
 
 ## 2. PKS Learning Levels & Promotion Gates
 
-```
-  [Level: Candidate (L0)]
-          |
-          | requires: not disproven, confidence >= 0.70, >= 2 supporting
-          | observations (>= 1 successful), evidence score >= 0.55
-          v
-  [Level: Shadow (L1)]  -- passive monitoring; evaluated without modifying the live page
-          |
-          | requires: >= 3 successful executions, <= 1 failure, success in
-          | >= 2 distinct sessions, 0 selector-drift events in the last 7 days
-          v
-  [Level: Active (L2)]  -- execution allowed via nova.phenomenon_apply
-          |
-          | demoted when: hard drift in the last 24h, or >= 2 consecutive failures
-          | deprecated when: >= 5 consecutive failures (>= 3 if still at Shadow)
-          v
-  [Deprecated]  -- execution blocked until revived (needs renewed evidence over 30 days)
-```
+Candidate (L0) → Shadow (L1) → Active (L2). Each transition requires appropriate supporting evidence. Failures and drift can lower trust or deprecate knowledge; revival requires fresh evidence and does not immediately restore active status.
+
+The tool explains the decision for the requested phenomenon. Active status is separate from runtime permission and ambient-application eligibility. See [PKS learning levels](../../../core-features/pks.md#5-why-knowledge-needs-trust-levels).
 
 ---
 

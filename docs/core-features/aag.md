@@ -1,4 +1,4 @@
-# Agent Awareness Gates (AAG) & Execution Verification Framework
+# Agent Awareness Gates (AAG)
 
 > [!NOTE]
 > Agent Awareness Gates (AAG) are checks in Nova's tool pipeline that interrupt an agent when an important precondition is missing: the agent has not loaded a tool bundle, has not looked at the page since it navigated, the user pressed the emergency stop, or the disk is almost full. Depending on the gate and its setting, AAG adds a warning to the tool result or blocks the call with a structured explanation of what to do next.

@@ -85,8 +85,8 @@ The journal holds observations and candidate evidence. `nova.learn_generate` can
 | :--- | :--- |
 | **`LearningSuggestor`** | Ranks observation clusters by support, sessions, success rate, drift and recency, and reports drift on existing phenomena. Backs `nova.learn_suggest`. |
 | **`CandidateGenerator`** | Runs heuristic rules over observation clusters to propose new candidates. New phenomena are persisted at L0; generated playbooks must pass the same strict parser as manual ones. Changes to an active phenomenon are written as a new Shadow revision that must earn L2 again. Backs `nova.learn_generate`. |
-| **Quality layer** | Compares fingerprints (including a 64-bit SimHash over text tokens) so near-duplicate candidates are dropped or turned into a patch, and normalizes selectors. |
-| **`PromotionService`** | Enforces the learning-level gates (for example at least 3 successes from 2 distinct sessions for L1 → L2). |
+| **Quality layer** | Compares fingerprints (including text similarity) so near-duplicate candidates are dropped or turned into a patch, and normalizes selectors. |
+| **`PromotionService`** | Evaluates whether repeated evidence has earned promotion, or whether failure and drift require lower trust. |
 | **`SilentVerifyEngine`** | Checks DOM-only, without running playbooks, whether a phenomenon's fingerprint selectors still exist. |
 | **`RevalidationBudget`** | Limits those background checks (per site, per tab and navigation, and globally per hour). |
 | **`PlatformMatcher`** | Scores how well observed signals fit a platform template (the preinstalled templates are consent vendors such as OneTrust and Cookiebot). |
@@ -94,16 +94,11 @@ The journal holds observations and candidate evidence. `nova.learn_generate` can
 
 ---
 
-## 5. Scoring Model (`LearningSuggestor`)
+## 5. How Learning Opportunities Are Prioritized
 
-The score of a learning suggestion is calculated deterministically:
-$$\text{Score} = \text{SupportScore} + \text{SessionBonus} + \text{SuccessRateFactor} + \text{DriftSignal} + \text{RecencyBonus}$$
+ALP considers recurring support, evidence across sessions, observed outcomes, drift and recency. A frequently repeated interaction and a deteriorating existing playbook can both deserve attention, for different reasons.
 
-* **SupportScore:** log2 of the number of supporting observations.
-* **SessionBonus:** +2 when the pattern was seen in at least 2 distinct sessions.
-* **SuccessRateFactor:** success rate × 2 (0.5 × 2 when there are no outcomes yet).
-* **DriftSignal:** +3 for selector drift on an existing phenomenon; a small penalty when failures outweigh successes.
-* **RecencyBonus:** +1 if seen in the last 24 hours, +0.5 in the last 7 days.
+A suggestion's rank identifies a learning opportunity; it does not authorize execution or establish that a candidate is already trusted. Promotion is a separate evidence-based decision. Use the explanation and feedback tools to inspect the reasons for a particular entry's current state.
 
 ---
 

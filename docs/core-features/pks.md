@@ -91,8 +91,8 @@ L0 is a learning level, not a synonym for a particular database. LCJ stores the 
 
 `nova.learn_promote` supports `dryRun` to inspect decisions without applying them. While an agent works on a site, Nova also runs the same lifecycle evaluation in the background, at most once every 30 minutes per site.
 
-* **L0 → L1:** A disproven candidate is rejected. Other candidates need confidence of at least 0.70, at least 2 supporting observations including at least 1 success, and an evidence score of at least 0.55.
-* **L1 → L2:** At least 3 eligible successful applications in the current 30-day LCJ window, from at least 2 distinct sessions, at most 1 failure, and no drift in the last 7 days. Cookie-consent phenomena (`consent_cmp`) need 5 successes from 3 sessions and no failure. The decision also reports ambient eligibility separately: active knowledge can remain available only for explicit use.
+* **L0 → L1:** A disproven candidate is rejected. Other candidates need sufficient confidence and supporting evidence, including observed success.
+* **L1 → L2:** Repeated successful applications across sessions must establish reliability, with failures and recent drift taken into account. Cookie-consent knowledge has stricter requirements. Ambient eligibility is evaluated separately: active knowledge can remain available only for explicit use.
 
 `nova.explain` shows which gate passes or fails for a phenomenon and why. See [CLS](closed-loop-system.md) for the separate eligibility and confirmation rules governing ambient auto-apply.
 
@@ -102,8 +102,8 @@ Learned knowledge is not permanently true. A website can change its layout, move
 
 PKS's lifecycle therefore includes **learn → verify → trust → monitor → detect drift → reduce trust → retire**:
 
-* **Demotion L2 → L1:** 2 consecutive failures, or hard drift within the last 24 hours.
-* **Deprecation:** 3 consecutive failures for an L1 phenomenon, 5 for an L2 phenomenon. Deprecated entries are excluded from active matching.
+* **Demotion L2 → L1:** Repeated failures or significant recent drift can remove active trust.
+* **Deprecation:** Persistently unreliable knowledge can be retired. Deprecated entries are excluded from active matching.
 * **Revalidation:** Background checks can detect missing fingerprint selectors without executing the playbook. Suggested replacement selectors are not applied automatically; an agent must verify and update them.
 * **Revival:** A deprecated entry may return to Shadow when fresh evidence passes the revival gates. It must earn active status again.
 
@@ -113,12 +113,7 @@ A missing or demoted match is useful information: Nova should stop treating outd
 
 A learned “Reject optional cookies” playbook must never silently become “Accept all” because a selector now points at a different button. Clearing an overlay alone would not prove that the intended consent choice was preserved.
 
-Cookie-consent phenomena therefore have stricter trust thresholds and polarity checks. For `consent_cmp`, `nova.pks_upsert` rejects entries that break these rules:
-
-1. Every mutating action (`click`, `type`, `press_key`) must declare `declaredPolarity` (`reject`, `accept`, `manage`, `navigate`, `noop`).
-2. Wildcard selectors (universal `*`, substring matches such as `[class*=...]` or `[id*=...]`) are not accepted; use an exact id, class, or attribute-equals selector.
-3. The declared polarity must match the supplied target text when that text implies a recognized polarity; an “Accept all” label cannot substantiate a `reject` declaration.
-4. A declared vendor consent API call must be allowlisted, and its implied polarity must match the declaration.
+Cookie-consent phenomena therefore have stricter trust requirements and checks that preserve the intended consent choice. Declared intent, target evidence and the proposed interaction must be consistent. An overlay disappearing is insufficient evidence that optional consent was rejected.
 
 Learning does not grant permission to change consent. Runtime policy and apply-time checks still govern execution. The principle remains **dynamic knowledge, static guardrails**.
 
