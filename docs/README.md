@@ -14,6 +14,8 @@ Already connected? Ask your AI program: **“Use Nova to find cat pictures and g
 
 Explore how Nova acts, verifies and learns; identify its helper processes; or look up a tool in the [catalog](mcp-reference/tool-catalog.md).
 
+[Gemini code-review reliability](research/ai-code-review-evaluation.md) — 552 independently counterchecked findings, outcome charts and a timeline alongside project growth.
+
 ## Complete reference
 
 <details>
