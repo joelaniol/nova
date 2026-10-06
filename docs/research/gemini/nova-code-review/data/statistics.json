@@ -1,6 +1,6 @@
 {
   "evaluation_date": "2026-10-06",
-  "attribution": "Owner-attributed Gemini review cohort, separately counterchecked by another agent. Seven catalogs now linked to local3.8 generation metadata and matching original text;25 individually unlinked. Local backend identifiers are not authenticated upstream provenance.",
+  "attribution": "Owner-attributed Gemini review cohort, separately counterchecked by another agent. Seven catalogs now linked to local 3.8 generation metadata and matching original text; 25 individually unlinked. Local backend identifiers are not authenticated upstream provenance.",
   "coverage": "Scored sample: 27 October plus five individually adjudicated September catalogs. Further same-pattern September candidates inventoried but unscored. Not a full-archive rate.",
   "unit": "primary labeled finding or separately adjudicated numbered subfinding",
   "categories": {
@@ -858,7 +858,7 @@
     "last_observed_3_7": "2026-09-02T20:53:21+00:00",
     "first_observed_3_8": "2026-09-03T14:17:19+00:00",
     "time_zone": "Europe/Berlin",
-    "switch_boundary": "3.8 first observed on September3; exact switch could lie after last retained3.7 record and before first retained3.8 record. No later3.7 metadata record observed.",
+    "switch_boundary": "3.8 first observed on September 3; exact switch could lie after last retained 3.7 record and before first retained 3.8 record. No later 3.7 metadata record observed.",
     "metadata_linked_3_7": {
       "catalog_ids": [],
       "catalogs": 0,
@@ -935,7 +935,7 @@
     "limitations": [
       "Generation metadata records are not review findings and do not enter reliability denominators.",
       "Countercheck date alone does not prove the generation model.",
-      "No scored3.7 catalog currently linked, so3.7 versus3.8 reliability difference is not estimable.",
+      "No scored 3.7 catalog currently linked, so 3.7 versus 3.8 reliability difference is not estimable.",
       "Local history contains other models and other workspaces; these are not added to the Gemini Nova review cohort."
     ]
   },
