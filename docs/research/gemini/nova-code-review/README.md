@@ -28,6 +28,7 @@ Evaluation date: 6 October 2026. Scored countercheck-file dates: 27 September–
 - [Context and intentional behavior](#context-and-intentional-behavior)
 - [Evidence strength and planned validation](#evidence-strength-and-planned-validation)
 - [Results by catalog](#results-by-catalog)
+- [Relation to Google Search](#relation-to-google-search)
 - [Limitations](#limitations)
 - [Future controlled evaluation](#future-controlled-evaluation)
 - [Conclusion](#conclusion)
@@ -207,6 +208,24 @@ A proposed **context-sensitive false diagnosis rate** would ask whether a wrong 
 | R32 | 2026-09-29 | Password vault | 32 | 21 | 2 | 2 | 5 | 2 | 0 |
 | **Total** | | | **552** | **265** | **78** | **82** | **92** | **29** | **6** |
 
+## Relation to Google Search
+
+Deployment sources checked: **7 October 2026**. These product announcements provide context; they are not additional observations in the 552-finding dataset.
+
+| Product or channel | What the official sources establish |
+|---|---|
+| Google Search AI Mode, paid access | Google's 2 September announcement makes Gemini 3.8 Flash available in AI Mode to Google AI Pro and Ultra subscribers. The model card also lists Google AI Mode as a distribution channel. [Launch announcement](https://blog.google/innovation-and-ai/models-and-research/gemini-models/3-8-flash-and-3-8-flash-cyber/), [model card](https://deepmind.google/models/model-cards/gemini-3-8-flash/) |
+| Google Search AI Mode, global default announcement | On 19 May, Google announced Gemini 3.5 Flash as AI Mode's new global default. This dated announcement does not authenticate the model used for every subsequent response or account. [Search I/O announcement](https://blog.google/products-and-platforms/products/search/search-io-2026/) |
+| Google Search AI Overviews | The sources checked here do not establish a switch to Gemini 3.8 Flash. AI Mode availability should not be treated as proof of the model powering AI Overviews. |
+
+**Gemini 3.8 Flash is therefore officially available in a Google Search product. That does not establish a Search error rate.** Google describes AI Mode as decomposing questions into subtopics and issuing parallel searches through query fan-out. Its retrieval and synthesis workflow differs from the Nova review workflow; a shared model-family label does not establish identical checkpoints, prompts, context, tools or behavior. [Google's explanation of AI Mode](https://blog.google/products-and-platforms/products/search/google-search-ai-mode-update/)
+
+The 45.7% materially corrected or non-defect share concerns code-review findings in the owner-attributed Nova cohort. Only seven catalogs are linked to local 3.8 generation metadata. It must not be reported as a general 3.8 error rate, a Google Search error rate or evidence that Search is equally dangerous. No Google Search answers were scored in this study, and the study has no scored 3.5 comparison group. An earlier model version alone is not evidence that 3.5 would perform worse on these tasks.
+
+Google's 3.8 model card acknowledges hallucinations as a limitation. Its capability benchmarks and safety/tone evaluations do not measure this study's diagnosis-correction rate or quantify how often Search grounding prevents context-sensitive errors. [Gemini 3.8 Flash model card](https://deepmind.google/models/model-cards/gemini-3-8-flash/)
+
+**Open research question:** does Search's retrieval and grounding reduce comparable context-sensitive errors? This is a hypothesis for a separate product-level evaluation, not a result of the Nova dataset. Such a study should preserve queries, answers, dates, account/model selection, cited sources and available context; rate factual claims and citation support against primary evidence with blinded second adjudication. It should distinguish AI Mode from AI Overviews and report claim-level results with its own denominator.
+
 ## Limitations
 
 - **Incomplete, non-random coverage:** 32 of 53 comparable catalogs are scored; 21 September catalogs remain unscored, and their findings have not been enumerated. Catalog coverage is not finding coverage.
@@ -234,6 +253,8 @@ In this Nova workflow, owner-attributed Gemini reviews were frequently useful, b
 Context mismatch was a relevant failure mode: 68 findings encountered documented intent, constraints or known architectural context that changed the assessment. This suggests that context retrieval and verification deserve explicit evaluation alongside reasoning capability; the current data do not measure the benefit of improving either.
 
 These results apply to Nova and this review workflow, not to Gemini outputs in general. More complete coverage, authenticated model versions, preserved prompts/context, matched tasks, standardized evidence types and blinded second adjudication would make the next evaluation stronger.
+
+The Search deployment evidence establishes an overlapping model family, not comparable product reliability. This study cannot infer error rates for AI Mode or AI Overviews, or rank Gemini 3.5 against 3.8; evaluating Search requires a separate claim-level dataset.
 
 ## Auditability
 
