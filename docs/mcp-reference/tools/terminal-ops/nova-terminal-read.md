@@ -19,6 +19,7 @@ Reads the recent raw output tail of a terminal session scrollback buffer.
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `sessionId` | `string` | Yes | — | — | Session id from terminal_open. |
 | `maxBytes` | `integer` | No | — | 256–200000 | Max bytes from the tail to return. Default 16384. |
+| `agentId` | `string` | No | — | — | Accepted for compatibility and ignored: terminal sessions are addressed by sessionId and are not bound to a tab or a tab claim. |
 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
 

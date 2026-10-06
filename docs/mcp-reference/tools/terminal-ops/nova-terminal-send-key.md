@@ -19,6 +19,7 @@ Sends a named control key or key combination to the active terminal session.
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `sessionId` | `string` | Yes | — | — | Session id from terminal_open. |
 | `key` | `string` | Yes | — | — | Key name (e.g. 'Enter', 'Ctrl+C', 'ArrowUp'). |
+| `agentId` | `string` | No | — | — | Accepted for compatibility and ignored: terminal sessions are addressed by sessionId and are not bound to a tab or a tab claim. |
 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
 

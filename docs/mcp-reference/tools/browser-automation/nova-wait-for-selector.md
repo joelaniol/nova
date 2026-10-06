@@ -9,6 +9,7 @@ Waits for a DOM element matching a CSS selector to appear, become visible, or di
 `nova.wait_for_selector` provides deterministic synchronization for dynamic web pages, Single Page Applications (SPAs), streaming LLM responses, and modal workflows. Instead of fragile arbitrary delays (`sleep(3000)`), agents wait explicitly for DOM elements to exist, become visible, or disappear completely.
 
 * **Inversion Support (`absent: true`):** Wait for spinners, overlays, or modals to disappear.
+* **Streamed content finished (`stableMs`):** Wait until text that keeps arriving (a chat reply, a log, progress output) has stopped changing, on any site and without site-specific selectors. By default the content must change at least once first, and an element inside the region marked `aria-busy="true"` (the standard "still updating" marker many sites set while a reply is written) keeps the wait open, so a model that is still thinking is not mistaken for a finished answer. A model that searches the web or runs tools can stay silent for longer stretches without that marker; use a larger `stableMs` (10000-15000) there. `result.stability` says how much it grew, how long it has been quiet and whether the busy marker was seen; `includeText: true` returns the finished text.
 * **Shadow-DOM Piercing:** Deep selector traversal across shadow boundaries using ` >>> `.
 * **Blocker Dismissal:** Optional automatic dismissal of consent banners or backdrops encountered during polling.
 
@@ -64,6 +65,11 @@ If a newly rendered consent dialog or marketing overlay blocks the view while po
 | `timeoutMs` | `integer` | No | `10000` | 0–300000 | Max wait time in ms before timing out. |
 | `pollMs` | `integer` | No | `200` | 50–2000 | Polling interval in ms between checks. |
 | `absent` | `boolean` | No | `false` | — | If true, wait for the element to DISAPPEAR (not exist or not visible). Useful for waiting on loading spinners, streaming indicators, or modal close. |
+| `stableMs` | `integer` | No | — | 250–120000 | Wait until the matched content stops changing for this many ms (streamed text finished). 2000 suits plain chat replies. A model that searches the web or runs tools can stay silent for 10+ seconds between steps without marking the page busy, so use 10000-15000 there. Counts against timeoutMs, so give timeoutMs room (e.g. 180000). Not combinable with absent. |
+| `requireChange` | `boolean` | No | `true` | — | Only with stableMs. If true (default), the content must change at least once before quiet counts, so a model still thinking is not mistaken for a finished answer. Set false when the content may already be complete. |
+| `includeText` | `boolean` | No | `false` | — | Only with stableMs. If true, a settled result also carries text: the text of the last matched element (the newest message when the selector matches messages), saving a separate read call. |
+| `maxTextChars` | `integer` | No | `20000` | 1–200000 | Only with includeText. Keeps the END of a longer text (textTruncated=true), where a streamed answer finishes. |
+| `frameId` | `string` | No | — | — | Optional same-origin frame ID from nova.perceive(deep=true).structuredContent.frames[].frameId. Waits for the selector inside that iframe; stableMs then watches content inside it as well. |
 | `scrollIntoView` | `boolean` | No | `true` | — | If true, scroll the element into view once found. |
 | `autoDismissBlockers` | `boolean` | No | `false` | — | If true, explicitly dismiss overlays/modals during polling that may hide the target element. Default false: use overlayDetected plus cmp_apply/dismiss_blockers for consent banners. |
 | `autoDismissMode` | `string` | No | `"conservative"` | `conservative`, `aggressive` | Blocker dismissal strategy during polling. 'conservative': common banners only. 'aggressive': all overlay/fixed-position blockers. |
@@ -82,6 +88,16 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 ---
 
 ## 4. Example Calls
+
+### Wait for a Streamed Reply to Finish
+```json
+{
+  "selector": "main [role='log'] > *",
+  "stableMs": 2000,
+  "timeoutMs": 120000
+}
+```
+Point the selector at the region the stream writes into. A timeout with `wait_for_selector.no_change` means nothing arrived yet; `wait_for_selector.still_changing` means the content never stayed quiet for `stableMs`.
 
 ### Wait for Dynamic Search Results
 ```json

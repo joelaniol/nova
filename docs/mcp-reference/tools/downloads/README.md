@@ -26,7 +26,7 @@ Capability bundles of these tools: `app_shell_recovery`.
 | **[`nova.downloads_pause_all`](nova-downloads-pause-all.md)** | Pauses all in-progress WebView2-native downloads that support pausing. |
 | **[`nova.downloads_preview`](nova-downloads-preview.md)** | Opens a completed download inline in a new browser tab using a secure file:// URL. |
 | **[`nova.downloads_resume`](nova-downloads-resume.md)** | Resumes a paused live WebView2-native download by ID. |
-| **[`nova.downloads_resume_all`](nova-downloads-resume-all.md)** | Resumes all paused downloads whose underlying WebView2 operation supports resumption. |
+| **[`nova.downloads_resume_all`](nova-downloads-resume-all.md)** | Resumes all paused downloads, and interrupted ones that can continue where they stopped, when their underlying WebView2 operation supports resumption. |
 | **[`nova.downloads_retry`](nova-downloads-retry.md)** | Retries a failed download by re-navigating to its original URL. |
 | **[`nova.downloads_wait`](nova-downloads-wait.md)** | Blocks until downloads reach a terminal state (completed, failed, or cancelled) and returns disk file paths. |
 <!-- /generated:tool-list -->

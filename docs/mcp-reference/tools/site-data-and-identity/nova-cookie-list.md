@@ -17,7 +17,7 @@ Lists cookies for the target tab's profile with metadata (domain, path, flags, e
 <!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
-| `targetId` | `string` | Yes | — | — | Tab or sandbox ID. Required. |
+| `targetId` | `string` | No | `"active"` | — | Tab or sandbox ID whose profile to read, or 'active' / 'activeBrowserTab'. All browser tabs share one cookie store, so any browser tab returns the same cookies; a sandbox has its own. The response's scope names the profile that was read. |
 | `uri` | `string` | No | — | — | Optional URI filter. Only returns cookies that apply to this URI. Without: all cookies in the profile. |
 | `nameFilter` | `string` | No | — | — | Optional substring match on cookie name. |
 | `domainFilter` | `string` | No | — | — | Optional exact domain match (case-insensitive, leading dot stripped). Required when includeValues=true. |

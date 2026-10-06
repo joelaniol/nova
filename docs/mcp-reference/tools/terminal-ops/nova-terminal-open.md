@@ -21,6 +21,7 @@ Opens a new agent-owned PowerShell session in an isolated working directory and 
 | `cwd` | `string` | No | — | — | Working directory. Optional — defaults to an isolated per-session temp dir. If given, must be inside an allowed root (terminal workspace, runtime temp, or install dir); otherwise cwd_not_allowed. |
 | `cols` | `integer` | No | — | 80–500 | Initial width in columns. Default 120; values below 80 are raised to 80 so run_command's completion marker never wraps. |
 | `rows` | `integer` | No | — | 24–200 | Initial height in rows. Default 30; values below 24 are raised to 24 for a stable renderer. |
+| `agentId` | `string` | No | — | — | Accepted for compatibility and ignored: terminal sessions are addressed by sessionId and are not bound to a tab or a tab claim. |
 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
 
@@ -73,7 +74,7 @@ Tool category: `high_impact` (highest risk class; Nova's agent permission settin
 * **Geometry Guarding:** Always preserve at least 80 columns. Narrower viewports cause CLI tools and sentinels to wrap lines, corrupting regex parsers.
 * **Session Cleanup:** Always pair `nova.terminal_open` with `nova.terminal_close` once the task is done, to end the shell process and free its working directory.
 * **Command Execution:** For running one-shot commands, prefer `nova.terminal_run_command` over raw writes.
-* **Session Limit:** At most 8 agent-owned terminal sessions can be open at once; opening a 9th fails with `reasonCode: "terminal_session_cap"` until one is closed.
+* **Session Limit:** At most 8 agent-owned terminal sessions can be open at once. At the limit, Nova closes the oldest session whose shell has already exited to make room; if all 8 are still running, opening another fails with `reasonCode: "terminal_session_cap"` until one is closed.
 
 ---
 

@@ -18,6 +18,7 @@ Queries lifecycle status, working directory, and exit code for a specific sessio
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `sessionId` | `string` | Yes | — | — | Session id from terminal_open. |
+| `agentId` | `string` | No | — | — | Accepted for compatibility and ignored: terminal sessions are addressed by sessionId and are not bound to a tab or a tab claim. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 

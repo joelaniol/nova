@@ -8,7 +8,7 @@ WinUI window controls, native OS dialog handling, DevTools panels, setup wizard,
 ---
 
 <!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
-## Tool Inventory (61 Tools)
+## Tool Inventory (62 Tools)
 
 Capability bundles of these tools: `app_shell_recovery`, `onboarding`, `page_read_debug`, `system_tools`, `visual_evidence`.
 
@@ -35,6 +35,7 @@ Capability bundles of these tools: `app_shell_recovery`, `onboarding`, `page_rea
 | **[`nova.get_instructions`](nova-get-instructions.md)** | Retrieves the complete Nova AI operational contract, conventions, and agent guidelines. |
 | **[`nova.get_onboarding`](nova-get-onboarding.md)** | Returns a manual edit plan — reference file contents and marker-block edits — for onboarding an agent to Nova's MCP tools, as an alternative to the one-call `nova.install_onboarding`. |
 | **[`nova.grep_resources`](nova-grep-resources.md)** | Searches the text of a tab's loaded resources (scripts, stylesheets, documents) for literal text or a regex. |
+| **[`nova.history_search`](nova-history-search.md)** | Searches the browsing history. |
 | **[`nova.install_onboarding`](nova-install-onboarding.md)** | Writes Nova's reference files and a Nova block in the project's agent instruction file into a project directory. |
 | **[`nova.list_resources`](nova-list-resources.md)** | Lists all network resources (scripts, stylesheets, frames, images) loaded by the target tab. |
 | **[`nova.mcp_transport_log`](nova-mcp-transport-log.md)** | Reads recent redacted entries from Nova's internal MCP JSON-RPC transport log. |

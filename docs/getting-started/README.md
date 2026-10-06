@@ -8,6 +8,7 @@ Install Nova, connect your AI program, and give it your first task.
 |---|---|
 | Nova on your Windows computer | [Installation](installation.md) |
 | Your first agent task | [Quickstart](quickstart.md) |
+| Your AI program does not see Nova after the setup | [MCP setup](mcp-setup.md) |
 | A short tour: connect, watch, stop | [First run](first-run.md) |
 | The current public alpha activation details | [Alpha Trial License](trial-license.md) |
 | Optional project reference files or a custom bootstrap | [Advanced onboarding and bootstrap](advanced-onboarding.md) |

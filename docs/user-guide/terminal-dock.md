@@ -54,6 +54,8 @@ The dock lies over the page; it does not shrink the page. You can move it (**Mov
 3. **Stored credentials:** under **Credentials & keys** you can store API keys and tokens once and share them with chosen workspaces. Programs granted access in those workspaces receive them as environment variables. Those programs can read the values, so grant access only to workspaces and programs that should receive the credentials.
 4. **Agent terminals:** agents open their own terminal sessions through Nova. These are separate from your terminals — an agent cannot type into yours. They appear in the dock under **Agent terminals** as read-only, so you can watch what they run.
 5. **Agent dock control:** with **Allow agents to control the terminal dock** (on by default), agents may collapse, hide or show the dock through Nova. They cannot close your sessions this way.
+6. **Activity at a glance:** the dot on a terminal tab pulses green while the program in it is producing output on its own, for example while Claude Code or Codex is working. This works for the terminal you are looking at as well as for terminals in the background. Your own typing does not count as activity.
+7. **Links:** web addresses in the output are clickable. A click opens the address in a new Nova tab, a right-click copies it. A right-click on selected text copies the selection. Only `http` and `https` addresses are opened.
 
 More on the architecture: [Terminal Workspaces](../core-features/terminal-workspaces.md).
 

@@ -28,7 +28,7 @@ Every tool exposed by **Nova AI Workspace**, grouped by operational domain. Clic
 - [19. Media Intelligence & Whisper Speech-to-Text](#19-media-intelligence--whisper-speech-to-text) (24)
 - [20. Site Data, Fingerprinting & Sandboxes](#20-site-data-fingerprinting--sandboxes) (23)
 - [21. Episodic Task Memory & Guidance](#21-episodic-task-memory--guidance) (34)
-- [22. App Shell, Dialogs & DevTools](#22-app-shell-dialogs--devtools) (61)
+- [22. App Shell, Dialogs & DevTools](#22-app-shell-dialogs--devtools) (62)
 - [23. Agent-Authored Plugins](#23-agent-authored-plugins) (22)
 <!-- /generated:catalog-toc -->
 
@@ -52,7 +52,7 @@ Manage the browser lifecycle, open tabs, switch profiles, and claim exclusive ac
 | **[`nova.back`](tools/browser-automation/nova-back.md)** | `targetId?`, `force?`, `waitForLoad?`, `waitForLoadTimeoutMs?`, `waitForSettlement?`, `settlementTimeoutMs?`, `includeScreenshot?`, `screenshotMaxWidth?`, `screenshotMaxHeight?`, `screenshotFormat?`, `screenshotQuality?`, `outputDetail?` | Navigates backward in browser history, with optional load/settlement waiting and a screenshot sidecar. |
 | **[`nova.forward`](tools/browser-automation/nova-forward.md)** | `targetId?`, `force?`, `waitForLoad?`, `waitForLoadTimeoutMs?`, `waitForSettlement?`, `settlementTimeoutMs?`, `includeScreenshot?`, `screenshotMaxWidth?`, `screenshotMaxHeight?`, `screenshotFormat?`, `screenshotQuality?`, `outputDetail?` | Navigates forward in browser history, with optional load/settlement waiting and a screenshot sidecar. |
 | **[`nova.reload`](tools/browser-automation/nova-reload.md)** | `targetId?`, `hard?`, `force?`, `confirmSessionDestruction?`, `waitForLoad?`, `waitForLoadTimeoutMs?`, `waitForSettlement?`, `settlementTimeoutMs?`, `includeScreenshot?`, `screenshotMaxWidth?`, `screenshotMaxHeight?`, `screenshotFormat?`, `screenshotQuality?`, `outputDetail?`, `recoverRenderer?`, `agentId?` | Reloads the active tab with configurable cache bypassing, SPA settlement verification, session-destruction protection, and stuck-renderer recovery. |
-| **[`nova.wait_for_selector`](tools/browser-automation/nova-wait-for-selector.md)** | `selector`, `targetId?`, `visible?`, `timeoutMs?`, `pollMs?`, `absent?`, `scrollIntoView?`, `autoDismissBlockers?`, `autoDismissMode?`, `includeScreenshot?`, `screenshotMaxWidth?`, `screenshotMaxHeight?`, `screenshotFormat?`, `screenshotQuality?`, `screenshotResponseMode?`, `outputDetail?` | Waits for a DOM element matching a CSS selector to appear, become visible, or disappear, returning its exact bounding rectangle and settlement state. |
+| **[`nova.wait_for_selector`](tools/browser-automation/nova-wait-for-selector.md)** | `selector`, `targetId?`, `visible?`, `timeoutMs?`, `pollMs?`, `absent?`, `stableMs?`, `requireChange?`, `includeText?`, `maxTextChars?`, `frameId?`, `scrollIntoView?`, `autoDismissBlockers?`, `autoDismissMode?`, `includeScreenshot?`, `screenshotMaxWidth?`, `screenshotMaxHeight?`, `screenshotFormat?`, `screenshotQuality?`, `screenshotResponseMode?`, `outputDetail?` | Waits for a DOM element matching a CSS selector to appear, become visible, or disappear, returning its exact bounding rectangle and settlement state. |
 | **[`nova.auto_reload_get`](tools/browser-automation/nova-auto-reload-get.md)** | `targetId`, `agentId?` | Reads the native auto-reload configuration and countdown timer for the target tab. |
 | **[`nova.auto_reload_set`](tools/browser-automation/nova-auto-reload-set.md)** | `targetId`, `mode`, `expectedRevision`, `clientRequestId`, `intervalSeconds?`, `agentId?` | Configures native periodic reloading for a tab with a specified interval in seconds. |
 | **[`nova.history_get`](tools/browser-automation/nova-history-get.md)** | `targetId?` | Retrieves session navigation history entries, active index, and title metadata for a tab. |
@@ -223,14 +223,14 @@ Isolated pseudo-terminals (ConPTY), command execution streams, terminal dock con
 
 | Tool Name | Parameters | Description |
 | :--- | :--- | :--- |
-| **[`nova.terminal_open`](tools/terminal-ops/nova-terminal-open.md)** | `shell?`, `cwd?`, `cols?`, `rows?` | Opens a new agent-owned PowerShell session in an isolated working directory and returns its unique sessionId. |
-| **[`nova.terminal_list`](tools/terminal-ops/nova-terminal-list.md)** | *(none)* | Lists all open agent-owned terminal sessions with status, shell type, and exit codes. |
-| **[`nova.terminal_read`](tools/terminal-ops/nova-terminal-read.md)** | `sessionId`, `maxBytes?` | Reads the recent raw output tail of a terminal session scrollback buffer. |
-| **[`nova.terminal_write`](tools/terminal-ops/nova-terminal-write.md)** | `sessionId`, `data` | Writes raw characters to the session stdin without appending an implicit newline. |
-| **[`nova.terminal_send_key`](tools/terminal-ops/nova-terminal-send-key.md)** | `sessionId`, `key` | Sends a named control key or key combination to the active terminal session. |
-| **[`nova.terminal_close`](tools/terminal-ops/nova-terminal-close.md)** | `sessionId` | Terminates an agent-owned terminal session and cleans up its process tree and temporary directory. |
-| **[`nova.terminal_run_command`](tools/terminal-ops/nova-terminal-run-command.md)** | `sessionId`, `command`, `timeoutSeconds?` | Executes a single command line in an existing session and waits synchronously for its completion. |
-| **[`nova.terminal_get_state`](tools/terminal-ops/nova-terminal-get-state.md)** | `sessionId` | Queries lifecycle status, working directory, and exit code for a specific session. |
+| **[`nova.terminal_open`](tools/terminal-ops/nova-terminal-open.md)** | `shell?`, `cwd?`, `cols?`, `rows?`, `agentId?` | Opens a new agent-owned PowerShell session in an isolated working directory and returns its unique sessionId. |
+| **[`nova.terminal_list`](tools/terminal-ops/nova-terminal-list.md)** | `agentId?` | Lists all open agent-owned terminal sessions with status, shell type, and exit codes. |
+| **[`nova.terminal_read`](tools/terminal-ops/nova-terminal-read.md)** | `sessionId`, `maxBytes?`, `agentId?` | Reads the recent raw output tail of a terminal session scrollback buffer. |
+| **[`nova.terminal_write`](tools/terminal-ops/nova-terminal-write.md)** | `sessionId`, `data`, `agentId?` | Writes raw characters to the session stdin without appending an implicit newline. |
+| **[`nova.terminal_send_key`](tools/terminal-ops/nova-terminal-send-key.md)** | `sessionId`, `key`, `agentId?` | Sends a named control key or key combination to the active terminal session. |
+| **[`nova.terminal_close`](tools/terminal-ops/nova-terminal-close.md)** | `sessionId`, `agentId?` | Terminates an agent-owned terminal session and cleans up its process tree and temporary directory. |
+| **[`nova.terminal_run_command`](tools/terminal-ops/nova-terminal-run-command.md)** | `sessionId`, `command`, `timeoutSeconds?`, `agentId?` | Executes a single command line in an existing session and waits synchronously for its completion. |
+| **[`nova.terminal_get_state`](tools/terminal-ops/nova-terminal-get-state.md)** | `sessionId`, `agentId?` | Queries lifecycle status, working directory, and exit code for a specific session. |
 | **[`nova.terminal_dock_get_state`](tools/terminal-ops/nova-terminal-dock-get-state.md)** | *(none)* | Reads the presentation state of the visible terminal dock in the Nova application shell. |
 | **[`nova.terminal_dock_set_state`](tools/terminal-ops/nova-terminal-dock-set-state.md)** | `state` | Sets the visual presentation of the Nova terminal dock to expanded, collapsed, or hidden. |
 | **[`nova.terminal_settings_get`](tools/terminal-ops/nova-terminal-settings-get.md)** | *(none)* | Reads terminal appearance settings and reports why ANSI colour output is enabled or disabled. |
@@ -251,7 +251,7 @@ Download tracking, pause/resume, security prompt resolution, and directory manag
 | **[`nova.downloads_pause`](tools/downloads/nova-downloads-pause.md)** | `id` | Pauses an active WebView2-native download by ID. |
 | **[`nova.downloads_pause_all`](tools/downloads/nova-downloads-pause-all.md)** | *(none)* | Pauses all in-progress WebView2-native downloads that support pausing. |
 | **[`nova.downloads_resume`](tools/downloads/nova-downloads-resume.md)** | `id` | Resumes a paused live WebView2-native download by ID. |
-| **[`nova.downloads_resume_all`](tools/downloads/nova-downloads-resume-all.md)** | *(none)* | Resumes all paused downloads whose underlying WebView2 operation supports resumption. |
+| **[`nova.downloads_resume_all`](tools/downloads/nova-downloads-resume-all.md)** | *(none)* | Resumes all paused downloads, and interrupted ones that can continue where they stopped, when their underlying WebView2 operation supports resumption. |
 | **[`nova.downloads_retry`](tools/downloads/nova-downloads-retry.md)** | `id` | Retries a failed download by re-navigating to its original URL. |
 | **[`nova.downloads_open_file`](tools/downloads/nova-downloads-open-file.md)** | `id` | Opens a completed download using the operating system default application. |
 | **[`nova.downloads_open_folder`](tools/downloads/nova-downloads-open-folder.md)** | `id` | Reveals the downloaded file in Windows Explorer with the item selected. |
@@ -514,7 +514,7 @@ Cookie jars, localStorage/sessionStorage, cache purging, browser fingerprint spo
 
 | Tool Name | Parameters | Description |
 | :--- | :--- | :--- |
-| **[`nova.cookie_list`](tools/site-data-and-identity/nova-cookie-list.md)** | `targetId`, `uri?`, `nameFilter?`, `domainFilter?`, `includeValues?`, `maxEntries?`, `cursor?` | Lists cookies for the target tab's profile with metadata (domain, path, flags, expiry). |
+| **[`nova.cookie_list`](tools/site-data-and-identity/nova-cookie-list.md)** | `targetId?`, `uri?`, `nameFilter?`, `domainFilter?`, `includeValues?`, `maxEntries?`, `cursor?` | Lists cookies for the target tab's profile with metadata (domain, path, flags, expiry). |
 | **[`nova.cookie_set`](tools/site-data-and-identity/nova-cookie-set.md)** | `targetId`, `name`, `value`, `domain`, `path?`, `expires?`, `httpOnly?`, `secure?`, `sameSite?`, `dryRun?` | Sets or updates a cookie in the target sandbox profile's cookie jar. |
 | **[`nova.cookie_delete`](tools/site-data-and-identity/nova-cookie-delete.md)** | `targetId`, `cookieId?`, `name?`, `domain?`, `path?`, `dryRun?` | Deletes a specific cookie by cookieId or by name, domain, and path tuple. |
 | **[`nova.cookie_clear`](tools/site-data-and-identity/nova-cookie-clear.md)** | `targetId`, `domain?` | Clears cookies across the target profile, with optional domain filtering. |
@@ -604,6 +604,7 @@ WinUI window controls, native OS dialog handling, DevTools panels, setup wizard,
 | **[`nova.devtools_select_panel`](tools/app-shell-and-ui/nova-devtools-select-panel.md)** | `panel`, `targetId?` | Dispatches the keyboard shortcut for a DevTools panel (Console, Elements, Network, Sources, ...) in an already-open DevTools window. |
 | **[`nova.favorites_add`](tools/app-shell-and-ui/nova-favorites-add.md)** | `url`, `title?`, `folderId?` | Adds a URL to the browser favorites collection with optional title and target folder. |
 | **[`nova.favorites_list`](tools/app-shell-and-ui/nova-favorites-list.md)** | `query?`, `folderId?`, `maxResults?` | Lists all saved browser favorites. |
+| **[`nova.history_search`](tools/app-shell-and-ui/nova-history-search.md)** | `query?`, `maxResults?`, `cursor?` | Searches the browsing history. |
 | **[`nova.favorites_move`](tools/app-shell-and-ui/nova-favorites-move.md)** | `id?`, `url?`, `folderId?` | Moves a bookmark favorite into a different folder or to the root collection. |
 | **[`nova.favorites_open`](tools/app-shell-and-ui/nova-favorites-open.md)** | `url`, `openInNewTab?` | Opens a saved favorite in the current or a new browser tab. |
 | **[`nova.favorites_remove`](tools/app-shell-and-ui/nova-favorites-remove.md)** | `id?`, `url?` | Removes a saved favorite by its id or URL. |
