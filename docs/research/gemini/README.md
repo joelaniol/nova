@@ -1,16 +1,41 @@
-# Gemini code-review reliability: an empirical case study
+# Reliability of owner-attributed Gemini code reviews in Nova: an empirical case study
 
 Evaluation date: 6 October 2026. Scored countercheck-file dates: 27 September–6 October 2026.
 
-**32 independently counterchecked Gemini-pattern review catalogs contain 552 scored findings.** 265 (48.0%) retained their useful core without a materially corrected diagnosis; another 78 (14.1%) contained a useful issue alongside a material correction. 82 technical claims were refuted and 92 allegations concerned design choices, requested features or known boundaries.
+**Coverage: 32 of 53 identified audit/countercheck-pattern catalogs scored (60.4%); 21 September catalogs remain unscored.** This is catalog coverage, not finding coverage: the missing catalogs’ findings have not been enumerated and scored. The sample is not random, and selection bias is a major limitation of the current estimates.
 
-This measures the reliability of reported code-review findings in Nova’s workflow. The denominator is original findings from the recurring Gemini audit pattern, independently adjudicated by another agent. Ordinary bug reports, other-model reviews and new findings discovered by the counterchecker are excluded. It does not measure every Gemini answer or missed defects.
+**32 owner-attributed Gemini-pattern review catalogs, separately counterchecked by another agent, contain 552 scored findings.** 265 (48.0%) retained their useful core without a materially corrected diagnosis; another 78 (14.1%) contained a useful issue alongside a material correction. 82 technical claims were refuted and 92 allegations concerned design choices, requested features or known boundaries.
+
+This measures the reliability of reported code-review findings in Nova’s workflow. The denominator is original findings from the recurring Gemini audit pattern, separately counterchecked by another agent. Ordinary bug reports, other-model reviews and new findings discovered by the counterchecker are excluded. It does not measure every Gemini answer or missed defects.
 
 ## Attribution and coverage
 
 The project owner identifies this recurring audit/countercheck pattern as Gemini output, including work through AGY/Antigravity. That owner attribution defines the cohort; topic names such as “Antigravity integration” do not establish which model authored a report. The archive does not consistently preserve authenticated model identifiers or supplied prompts/context. Therefore this is an **owner-attributed Gemini-pattern cohort**, not a verified benchmark for a particular Gemini version or a separate measurement of the Antigravity client.
 
 **Coverage is a scored sample, not the entire archive.** A recursive inventory inspected 172 archived Markdown files. The sample includes 27 October catalogs and five September catalogs whose individual counterchecks were adjudicated. Another 21 September files match the audit/countercheck format but remain unscored; they are not assumed correct, incorrect or zero-finding reports. Their omission can change the estimates. The remaining 119 files do not establish comparable original review units for this cohort.
+
+## Gemini 3.7 versus 3.8
+
+Retained AGY history records model identifiers in generation metadata, alongside step timestamps. These are local backend-reported identifiers, not an independently authenticated provider record. We inspected 501 retained conversations across workspaces and used only matching Nova review text for report-level attribution.
+
+| History observation | Europe/Berlin time | Recorded identifier |
+|---|---|---|
+| Last retained 3.7 generation | 02 September 2026, 22:53:21 +0200 | `gemini-3.7-flash` |
+| First retained 3.8 generation | 03 September 2026, 16:17:19 +0200 | `gemini-3.8-flash` |
+
+**3.8 is first recorded on 3 September 2026.** The exact switch lies between these observations; the first surviving entry is not proof of the exact selection time. No later 3.7 generation record appeared in the inspected history. The owner reports using 3.8 consistently after switching. The labels include Flash variants; they are grouped by the recorded 3.7/3.8 family, not treated as identical configurations.
+
+Seven scored catalogs could be linked more directly: a generation-associated payload matched at least two exact original finding headings and most of its finding IDs. Broad numeric-ID matches, quoted/read steps and other-workspace material were excluded. Original generation dates can precede archive/countercheck dates.
+
+| Attribution group | Catalogs | Findings | Confirmed C | Mixed P | Refuted F | Design/request D | Undecided U | Superseded S |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| 3.7 — metadata-linked scored reports | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| 3.8 — metadata-linked scored reports | 7 | 123 | 39 | 20 | 21 | 34 | 8 | 1 |
+| Version unlinked — post-switch countercheck dates | 25 | 429 | 226 | 58 | 61 | 58 | 21 | 5 |
+
+The 3.8-linked subset contains catalogs R04, R08, R10, R13, R16, R25, R31. Its confirmed-core share is 39/123 = 31.7%; including mixed diagnoses, useful-core yield is 48.0%. This is a selected attribution subset, not a different matched benchmark.
+
+**There is currently no scored 3.7 comparison group.** Zero scored findings means unavailable comparison data, not zero reliability or zero mistakes. The 25 unlinked catalogs remain in the overall cohort but are not silently assigned to a verified model version. Consequently, the study cannot yet quantify a 3.7-to-3.8 improvement, decline or lack of difference. All dates in the current outcome timeline are after the first retained 3.8 observation.
 
 ## Outcomes
 
@@ -26,13 +51,15 @@ Each finding receives one outcome. All percentages below use 552 findings.
 | Already fixed or superseded (S) | 6 | 1.1% | No longer applicable at countercheck time; not proof it was originally false. |
 | **Total** | **552** | **100%** | Rounded category percentages can differ slightly from 100%. |
 
-![Outcome counts and shares for independently counterchecked Gemini-pattern findings](ai-review-outcomes.png)
+![Outcome counts and shares for Gemini-pattern findings separately counterchecked by another agent](figures/outcomes.png)
 
 The **confirmed-core share** is 265/552 = 48.0%. This is the stricter finding-level reliability indicator; C still does not certify every sentence. The broader **useful-core yield** is 343/552 = 62.1% (C + P). The **refuted or non-defect share** is 174/552 = 31.5% (F + D). Mixed findings should not be described as fully correct, and a true observation about intended behavior should not be described as a technically false statement.
 
+The **materially corrected or non-defect share** is **252/552 = 45.7%** (P + F + D). These findings needed a material diagnosis correction or did not establish a defect against the existing contract. This overlapping summary is not another outcome category and is not a hallucination rate: P may retain a real issue, and D may accurately observe intended behavior.
+
 ## Reliability over time and project growth
 
-![Daily review outcomes and main-application C# size on a shared date axis](ai-review-timeline.png)
+![Daily review outcomes and main-application C# size on a shared date axis](figures/timeline.png)
 
 **Top panel:** finding-weighted outcome shares per countercheck-file date, with the number of original findings shown above each bar. **Bottom panel:** tracked main-application C# nonblank physical lines and file counts from daily Git snapshots, aligned to the same calendar dates. White space between bars means no scored data for that date; it does not mean perfect reliability. Separate panels avoid making two unrelated quantities look proportional.
 
@@ -58,7 +85,7 @@ Snapshots use the last first-parent commit in the observed HEAD history at or be
 
 A separately enumerated subset of **68/552 findings (12.3%)** encountered an existing intention, documented constraint or known contract that changed the assessment. This conservative subset overlaps the outcome categories and is not added to them. It measures a demonstrated diagnosis/context mismatch, not proof that the model read and ignored an instruction.
 
-![Known context and intention cases, with their overlapping outcome distribution](ai-review-intent.png)
+![Known context and intention cases, with their overlapping outcome distribution](figures/intent.png)
 
 Some of these findings still contained a real issue. Others asked to remove behavior that served a documented purpose. Examples below paraphrase the archived counterchecks and omit private implementation details.
 
@@ -83,11 +110,31 @@ There were also genuine defects despite reassuring comments or intended architec
 4. Count each original output once within its report. Repeated findings across reports remain repeated review output; the totals do not represent unique defects. Secondary summaries do not add findings.
 5. Leave unmeasured claims U. Keep already-fixed claims S because the generation-time truth may be unknown. Use later documented evidence when it supersedes a stale heading.
 
-This is a retrospective adjudication of counterchecks, not a fresh runtime reproduction of all 552 findings. Evidence ranges from code inspection to targeted tests and live measurements. There is no gold-standard list of all existing defects, so recall and full answer accuracy cannot be calculated.
+This is a retrospective adjudication of counterchecks, not a fresh runtime reproduction of all 552 findings. The counterchecks were performed by other agents in the development workflow; neither blindness to the original reviewer nor independent, blinded adjudication is established. The counterchecker can also make mistakes, and there is no measured inter-rater agreement yet. Evidence ranges from code inspection to targeted tests and live measurements. There is no gold-standard list of all existing defects, so recall and full answer accuracy cannot be calculated.
+
+## Evidence strength and planned validation
+
+The existing ledger records outcome judgments and source references, but **does not yet assign a standardized evidence type to every finding**. Consequently, the study cannot currently report how many refutations rest on direct tests, code-path proof, contracts or reviewer interpretation. A completed fix alone is not evidence that the original diagnosis was correct.
+
+The planned finding-level evidence taxonomy is:
+
+| Evidence type | Basis |
+|---|---|
+| `static_code_proof` | A concrete code path establishes or excludes the claimed mechanism. |
+| `runtime_reproduction` | Recorded runtime observation reproduces or contradicts the claim. |
+| `targeted_test` | A relevant test exercises the claimed behavior with an observable result. |
+| `documentation_contract` | An existing documented contract or intention establishes what behavior is required. |
+| `reasoned_code_review` | Interpretation from code review without a stronger recorded demonstration. |
+
+Each finding should retain its primary `evidence_type`, supporting evidence types, source reference and evidence date. Supporting evidence can overlap; it must not inflate finding counts. These fields describe the countercheck evidence, not a fresh rerun of every historical case.
+
+A future blinded second adjudication should preregister a random 10–20% sample, seed and sampling rule, then provide the original claims and corresponding code/contracts without revealing existing C/P/F/D/U/S classifications or countercheck verdicts. Report initial agreement and a chance-adjusted agreement measure before reconciling disagreements. **No such second-rating result has been measured in this study.**
+
+A proposed **context-sensitive false diagnosis rate** would ask whether a wrong or materially corrected diagnosis was avoidable using context available to the original reviewer. That requires a finding-level causal assessment and a defined context-availability denominator. The current 68 context/intention cases are an overlapping descriptive subset; they do not establish that rate or prove context adherence. Original context reads are not consistently preserved.
 
 ## Results by catalog
 
-![Outcome shares for each scored catalog; catalog sizes are shown at the right](ai-review-catalogs.png)
+![Outcome shares for each scored catalog; catalog sizes are shown at the right](figures/catalogs.png)
 
 | ID | File date | Topic | Total | C | P | F | D | U | S |
 |---|---|---|---:|---:|---:|---:|---:|---:|---:|
@@ -127,10 +174,10 @@ This is a retrospective adjudication of counterchecks, not a fresh runtime repro
 
 ## Auditability
 
-The [aggregate dataset](ai-code-review-statistics.json) contains outcome counts per catalog, intent-subset counts and every timeline value; the tables and figures are reproducible from it. Original reports and implementation details remain private. A private ledger preserves finding identifiers, source hashes, classification notes, exclusions, the complete archive inventory and exact Git snapshot revisions. Public readers can recompute counts but cannot independently validate all private adjudications.
+The [aggregate dataset](data/statistics.json) contains outcome counts per catalog, intent-subset counts and every timeline value; the tables and figures are reproducible from it. Original reports and implementation details remain private. A private ledger preserves finding identifiers, source hashes, classification notes, exclusions, the complete archive inventory and exact Git snapshot revisions. Public readers can recompute counts but cannot independently validate all private adjudications.
 
 The September download catalog illustrates a scoring correction: 24 repaired findings include eight materially corrected diagnoses, not 24 wholly correct reports. In the learning catalog, a new counterchecker finding cannot rescue a refuted original diagnosis. In the notification catalog, updated counterchecks distinguish a real registration retry gap from intentional lifecycle behavior and nonexistent settings.
 
-A future controlled comparison should preserve authenticated model/version, client, generation time, code revision, prompt, supplied context and independent adjudication, and use matched tasks across models. Cite the current result as **Nova’s owner-attributed Gemini-pattern review study, scored sample of 32 catalogs, evaluated 6 October 2026**.
+A future controlled comparison should preserve authenticated model/version, client, generation time, code revision, prompt, supplied context and blinded second adjudication, and use matched tasks across models. Cite the current result as **Nova’s owner-attributed Gemini-pattern review study, scored sample of 32 catalogs, evaluated 6 October 2026**.
 
-[Back to documentation](../README.md)
+[Back to documentation](../../README.md)

@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="864pt" height="576pt" viewBox="0 0 864 576" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Nova review evaluation</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 576
+L 864 576
+L 864 0
+L 0 0
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 233.28 478.08
+L 838.08 478.08
+L 838.08 92.16
+L 233.28 92.16
+z
+" style="fill: #ffffff"/>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <path d="M 233.28 478.08
+L 233.28 92.16
+" clip-path="url(#p944558c0c0)" style="fill: none; stroke: #e9edf1; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_2">
+      <defs>
+       <path id="mdae9aa1e36" d="M 0 0
+L 0 3.5
+" style="stroke: #506173; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#mdae9aa1e36" x="233.28" y="478.08" style="fill: #506173; stroke: #506173; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #506173" x="233.28" y="493.437422" transform="rotate(-0 233.28 493.437422)">0</text>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_3">
+      <path d="M 321.05939 478.08
+L 321.05939 92.16
+" clip-path="url(#p944558c0c0)" style="fill: none; stroke: #e9edf1; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#mdae9aa1e36" x="321.05939" y="478.08" style="fill: #506173; stroke: #506173; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #506173" x="321.05939" y="493.437422" transform="rotate(-0 321.05939 493.437422)">50</text>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_5">
+      <path d="M 408.838781 478.08
+L 408.838781 92.16
+" clip-path="url(#p944558c0c0)" style="fill: none; stroke: #e9edf1; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_6">
+      <g>
+       <use xlink:href="#mdae9aa1e36" x="408.838781" y="478.08" style="fill: #506173; stroke: #506173; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #506173" x="408.838781" y="493.437422" transform="rotate(-0 408.838781 493.437422)">100</text>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_7">
+      <path d="M 496.618171 478.08
+L 496.618171 92.16
+" clip-path="url(#p944558c0c0)" style="fill: none; stroke: #e9edf1; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_8">
+      <g>
+       <use xlink:href="#mdae9aa1e36" x="496.618171" y="478.08" style="fill: #506173; stroke: #506173; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #506173" x="496.618171" y="493.437422" transform="rotate(-0 496.618171 493.437422)">150</text>
+     </g>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_9">
+      <path d="M 584.397562 478.08
+L 584.397562 92.16
+" clip-path="url(#p944558c0c0)" style="fill: none; stroke: #e9edf1; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_10">
+      <g>
+       <use xlink:href="#mdae9aa1e36" x="584.397562" y="478.08" style="fill: #506173; stroke: #506173; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #506173" x="584.397562" y="493.437422" transform="rotate(-0 584.397562 493.437422)">200</text>
+     </g>
+    </g>
+    <g id="xtick_6">
+     <g id="line2d_11">
+      <path d="M 672.176952 478.08
+L 672.176952 92.16
+" clip-path="url(#p944558c0c0)" style="fill: none; stroke: #e9edf1; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_12">
+      <g>
+       <use xlink:href="#mdae9aa1e36" x="672.176952" y="478.08" style="fill: #506173; stroke: #506173; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_6">
+      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #506173" x="672.176952" y="493.437422" transform="rotate(-0 672.176952 493.437422)">250</text>
+     </g>
+    </g>
+    <g id="xtick_7">
+     <g id="line2d_13">
+      <path d="M 759.956343 478.08
+L 759.956343 92.16
+" clip-path="url(#p944558c0c0)" style="fill: none; stroke: #e9edf1; stroke-width: 0.8; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_14">
+      <g>
+       <use xlink:href="#mdae9aa1e36" x="759.956343" y="478.08" style="fill: #506173; stroke: #506173; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_7">
+      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #506173" x="759.956343" y="493.437422" transform="rotate(-0 759.956343 493.437422)">300</text>
+     </g>
+    </g>
+    <g id="text_8">
+     <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #162332" x="535.68" y="508.438281" transform="rotate(-0 535.68 508.438281)">Original review findings</text>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_15">
+      <defs>
+       <path id="m9763e4cad4" d="M 0 0
+L -3.5 0
+" style="stroke: #162332; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m9763e4cad4" x="233.28" y="129.882671" style="fill: #162332; stroke: #162332; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_9">
+      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #162332" x="226.28" y="134.061812" transform="rotate(-0 226.28 134.061812)">Confirmed core (C)</text>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_16">
+      <g>
+       <use xlink:href="#m9763e4cad4" x="233.28" y="191.977603" style="fill: #162332; stroke: #162332; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_10">
+      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #162332" x="226.28" y="196.156743" transform="rotate(-0 226.28 196.156743)">Mixed diagnosis (P)</text>
+     </g>
+    </g>
+    <g id="ytick_3">
+     <g id="line2d_17">
+      <g>
+       <use xlink:href="#m9763e4cad4" x="233.28" y="254.072534" style="fill: #162332; stroke: #162332; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_11">
+      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #162332" x="226.28" y="258.251675" transform="rotate(-0 226.28 258.251675)">Refuted claim (F)</text>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_18">
+      <g>
+       <use xlink:href="#m9763e4cad4" x="233.28" y="316.167466" style="fill: #162332; stroke: #162332; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_12">
+      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #162332" x="226.28" y="320.346606" transform="rotate(-0 226.28 320.346606)">Design / request (D)</text>
+     </g>
+    </g>
+    <g id="ytick_5">
+     <g id="line2d_19">
+      <g>
+       <use xlink:href="#m9763e4cad4" x="233.28" y="378.262397" style="fill: #162332; stroke: #162332; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_13">
+      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #162332" x="226.28" y="382.441538" transform="rotate(-0 226.28 382.441538)">Undecided (U)</text>
+     </g>
+    </g>
+    <g id="ytick_6">
+     <g id="line2d_20">
+      <g>
+       <use xlink:href="#m9763e4cad4" x="233.28" y="440.357329" style="fill: #162332; stroke: #162332; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_14">
+      <text style="font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: end; fill: #162332" x="226.28" y="444.53647" transform="rotate(-0 226.28 444.53647)">Superseded (S)</text>
+     </g>
+    </g>
+   </g>
+   <g id="patch_3">
+    <path d="M 233.28 109.701818
+L 698.510769 109.701818
+L 698.510769 150.063524
+L 233.28 150.063524
+z
+" clip-path="url(#p944558c0c0)" style="fill: #187565"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 233.28 171.79675
+L 370.215849 171.79675
+L 370.215849 212.158455
+L 233.28 212.158455
+z
+" clip-path="url(#p944558c0c0)" style="fill: #436ab3"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 233.28 233.891681
+L 377.2382 233.891681
+L 377.2382 274.253387
+L 233.28 274.253387
+z
+" clip-path="url(#p944558c0c0)" style="fill: #b23f46"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 233.28 295.986613
+L 394.794078 295.986613
+L 394.794078 336.348319
+L 233.28 336.348319
+z
+" clip-path="url(#p944558c0c0)" style="fill: #9b641e"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 233.28 358.081545
+L 284.192046 358.081545
+L 284.192046 398.44325
+L 233.28 398.44325
+z
+" clip-path="url(#p944558c0c0)" style="fill: #697383"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 233.28 420.176476
+L 243.813527 420.176476
+L 243.813527 460.538182
+L 233.28 460.538182
+z
+" clip-path="url(#p944558c0c0)" style="fill: #948aab"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 233.28 478.08
+L 838.08 478.08
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_15">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #162332" x="705.53312" y="132.740093" transform="rotate(-0 705.53312 132.740093)">265  ·  48.0%</text>
+   </g>
+   <g id="text_16">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #162332" x="377.2382" y="194.835024" transform="rotate(-0 377.2382 194.835024)">78  ·  14.1%</text>
+   </g>
+   <g id="text_17">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #162332" x="384.260552" y="256.929956" transform="rotate(-0 384.260552 256.929956)">82  ·  14.9%</text>
+   </g>
+   <g id="text_18">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #162332" x="401.81643" y="319.024888" transform="rotate(-0 401.81643 319.024888)">92  ·  16.7%</text>
+   </g>
+   <g id="text_19">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #162332" x="291.214398" y="381.119819" transform="rotate(-0 291.214398 381.119819)">29  ·  5.3%</text>
+   </g>
+   <g id="text_20">
+    <text style="font-weight: 700; font-size: 11px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #162332" x="250.835878" y="443.214751" transform="rotate(-0 250.835878 443.214751)">6  ·  1.1%</text>
+   </g>
+  </g>
+  <g id="text_21">
+   <text style="font-weight: 700; font-size: 22px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #162332" x="51.84" y="28.236562" transform="rotate(-0 51.84 28.236562)">What survived a separate agent countercheck?</text>
+  </g>
+  <g id="text_22">
+   <text style="font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #162332" x="51.84" y="57.6" transform="rotate(-0 51.84 57.6)">Owner-attributed Gemini cohort  |  32 catalogs  |  552 scored findings</text>
+  </g>
+  <g id="text_23">
+   <text style="font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #162332" x="51.84" y="539.136" transform="rotate(-0 51.84 539.136)">Confirmed core: 48.0%  •  Useful core including mixed: 62.1%  •  Refuted or non-defect: 31.5%</text>
+  </g>
+  <g id="text_24">
+   <text style="font-size: 10.5px; font-family: 'DejaVu Sans'; text-anchor: start; fill: #162332" x="51.84" y="557.568" transform="rotate(-0 51.84 557.568)">Materially corrected or non-defect (P + F + D): 45.7%  |  Overlapping summary, not a hallucination rate</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p944558c0c0">
+   <rect x="233.28" y="92.16" width="604.8" height="385.92"/>
+  </clipPath>
+ </defs>
+</svg>
