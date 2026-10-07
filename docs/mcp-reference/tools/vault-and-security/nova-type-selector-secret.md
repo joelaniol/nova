@@ -91,4 +91,4 @@ Tool category: `high_impact` (highest risk class; Nova's agent permission settin
 * [`nova.vault_prepare_fill`](nova-vault-prepare-fill.md) — Request the ephemeral `SecretRef` token.
 * [`nova.type_selector`](../browser-automation/nova-type-selector.md) — For typing non-secret fields (usernames, emails).
 * [`nova.click_selector`](../browser-automation/nova-click-selector.md) — Click submit buttons after typing credentials.
-* [Automated Actions Guide (AAG)](../../../core-features/aag.md) — Guardrails for automated credential submission.
+* [Automated Actions Guide (AAG)](../../../core-features/agent-awareness-gates-aag/README.md) — Guardrails for automated credential submission.

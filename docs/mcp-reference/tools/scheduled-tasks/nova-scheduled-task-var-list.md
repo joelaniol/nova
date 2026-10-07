@@ -8,7 +8,7 @@ Lists persistent variable keys and value previews configured for a task.
 
 `nova.scheduled_task_var_list` returns a paginated list of all persistent state variables stored for a task, with value previews or full values.
 
-* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
+* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks/README.md)
 
 ---
 

@@ -2,7 +2,7 @@
 
 > **Extracts the text of a local PDF file, optionally per page and for selected pages only.**
 
-* **Core Feature Guide:** [Visual Evidence & Auditing](../../../core-features/evm-and-visual-evidence.md)
+* **Core Feature Guide:** [Visual Evidence & Auditing](../../../core-features/evidence-verification-mode-evm/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

@@ -118,4 +118,4 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 * [`nova.navigate`](nova-navigate.md) — For full document-level HTTP navigations.
 * [`nova.click_selector`](nova-click-selector.md) — Standard button and element clicks.
 * [`nova.back`](nova-back.md) — Guarded history traversal.
-* [Agent Awareness Gates (AAG)](../../../core-features/aag.md) — Session-preservation gates during navigation.
+* [Agent Awareness Gates (AAG)](../../../core-features/agent-awareness-gates-aag/README.md) — Session-preservation gates during navigation.

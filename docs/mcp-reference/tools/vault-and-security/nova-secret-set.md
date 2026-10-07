@@ -102,4 +102,4 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 * [`nova.secret_list`](nova-secret-list.md) — List configured secret names and scopes without reading values.
 * [`nova.vault_prepare_fill`](nova-vault-prepare-fill.md) — Web browser password filling via `SecretRef`.
-* [Vault & Secret Architecture](../../../core-features/vault-and-secrets.md) — Deep dive into Nova's encryption boundary.
+* [Vault & Secret Architecture](../../../core-features/vault-and-secrets/README.md) — Deep dive into Nova's encryption boundary.

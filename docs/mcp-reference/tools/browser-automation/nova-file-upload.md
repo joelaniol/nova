@@ -129,4 +129,4 @@ The response also includes `fileName` (single-file case), `uploadedFile`, `frame
 
 * [`nova.click_selector`](nova-click-selector.md) — Click submit buttons after attaching files.
 * [`nova.perceive`](../dom-and-reading/nova-perceive.md) — Identify iframes and file upload widgets on the page.
-* [Native Dialog Handling](../../../core-features/native-dialogs-and-prompts.md) — Understanding how Nova handles file open/save dialogs.
+* [Native Dialog Handling](../../../core-features/native-dialogs-and-prompts/README.md) — Understanding how Nova handles file open/save dialogs.

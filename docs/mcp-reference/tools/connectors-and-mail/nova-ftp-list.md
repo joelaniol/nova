@@ -8,7 +8,7 @@ Lists remote directory entries or inspects file metadata through an FTP/FTPS con
 
 `nova.ftp_list` lists one remote FTP/FTPS directory, or inspects one remote regular file, through a configured FTP connector. Requires the connector's transfer-read access. Remote filenames are untrusted metadata: a control or bidirectional-text name is returned with `unsafeName: true` and its exact name/path omitted. `auto`/`start_tls` uses explicit FTPS, `ssl_on_connect` uses implicit FTPS, and the connector never silently downgrades to plaintext; an explicit plaintext profile additionally needs the user's debug/legacy option plus `allowInsecure: true` on this call. FTP has no SSH host-key verification step — that check is SFTP-specific.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
+* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
 
 ---
 

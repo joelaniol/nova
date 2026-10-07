@@ -8,7 +8,7 @@ Invokes a specific tool on a connected external MCP server and returns the raw r
 
 `nova.external_tool_call` bridges execution to an external MCP server. It passes arguments transparently, tracks latency and correlation IDs, and formats tool output and errors.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md) (section 7, "External MCP Servers")
+* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md) (section 7, "External MCP Servers")
 
 ---
 

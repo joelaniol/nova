@@ -8,7 +8,7 @@ Resumes all paused downloads, and interrupted ones that can continue where they 
 
 `nova.downloads_resume_all` bulk-resumes paused transfers once priority tasks finish, and continues downloads a network drop interrupted once connectivity is restored.
 
-* **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts.md)
+* **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts/README.md)
 
 ---
 

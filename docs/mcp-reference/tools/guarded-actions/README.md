@@ -2,7 +2,7 @@
 
 High-impact interaction macros with pre-flight safety gates, auth surface verification, and cookie banner dismissals.
 
-* **Core Architecture Guide:** [Core Features: aag.md](../../../core-features/aag.md)
+* **Core Architecture Guide:** [Core Features: aag.md](../../../core-features/agent-awareness-gates-aag/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

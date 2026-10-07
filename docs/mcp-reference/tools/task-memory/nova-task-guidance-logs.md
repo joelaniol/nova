@@ -8,7 +8,7 @@ Lists guidance log entries filtered by profile, domain, or guidance kind.
 
 `nova.task_guidance_logs` lists entries of the guidance log written by `nova.task_guidance_log_add`, filtered by profile, instance, guidance kind or status (`logged`, `proposed`, `accepted`, `rejected`, `promoted`). When `profileId` is set, the result also contains `profileLearningStats` for that profile: instance counts, completion percentage, terminal failures, match telemetry, the most frequent overrides and the confidence tuning signals.
 
-* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
+* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/episodic-task-memory-etm/README.md)
 
 ---
 

@@ -8,7 +8,7 @@ Lists all currently executing task runs across all background tasks.
 
 `nova.scheduled_task_active_runs` queries the scheduler for all task runs currently executing, returning each run's run ID and the ID of the task it belongs to. If the scheduler engine is not running, it reports zero active runs and `engineRunning: false` rather than an error.
 
-* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
+* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks/README.md)
 
 ---
 

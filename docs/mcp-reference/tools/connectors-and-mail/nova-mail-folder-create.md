@@ -8,7 +8,7 @@ Creates a top-level personal IMAP message folder.
 
 `nova.mail_folder_create` creates one top-level personal IMAP message folder. Requires the account's `organize` capability and Nova's independent MutatingRemote confirmation policy. The name is limited to one visually stable child name without hierarchy separators; an existing exact name returns `already_done`/`changed: false` instead of an error. If creation was dispatched but the final state is uncertain, the result reports `changed: null, actionDispatched: true` — list folders before retrying. The returned folder name is untrusted server metadata.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
+* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
 
 ---
 

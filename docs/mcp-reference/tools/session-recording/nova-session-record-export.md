@@ -8,7 +8,7 @@ Decodes a finalized encrypted recording to plaintext files on disk for debugging
 
 `nova.session_record_export` decrypts every captured event stream in a finalized recording and writes each one as a plaintext `.jsonl` file into a `decoded/` subfolder inside the recording directory, alongside a copy of `manifest.json` and a generated `_summary.txt`. The decoded content is exactly what the replay tools already read — capture-time redaction stays in place, so this does not reveal raw secrets.
 
-* **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
+* **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording/README.md)
 
 ---
 

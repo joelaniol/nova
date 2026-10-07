@@ -51,5 +51,5 @@ Ending the proxy breaks its client's transport. It does not switch off the brows
 
 * [Agent integration](../integration/README.md)
 * [Protocol and transport](../mcp-reference/protocol-and-transport.md)
-* [Agent-native affordances](../core-features/agent-native-affordances.md)
+* [Agent-native affordances](../core-features/agent-native-affordances/README.md)
 * [All components](README.md)

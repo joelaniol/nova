@@ -8,7 +8,7 @@ Retrieves full details of a scheduled task including prompt, schedule, chaining,
 
 `nova.scheduled_task_get` returns the complete configuration and runtime state for a specific background task: the prompt text, executor settings, timezone, retry/budget configuration, the on-disk workspace path, and any chaining to a follow-up task. The response has no `ok` field; an unknown `taskId` throws an invalid-params error instead. `argsTemplate` is reported as the literal string `"[REDACTED]"` (not omitted) when a value is stored, since it may embed secret placeholders.
 
-* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
+* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks/README.md)
 
 ---
 

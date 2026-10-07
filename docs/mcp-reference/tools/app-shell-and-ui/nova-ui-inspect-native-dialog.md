@@ -2,7 +2,7 @@
 
 > **Inspects the open dialog — a Windows dialog Nova owns or one of Nova's own dialogs — with its texts and buttons.**
 
-* **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
+* **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

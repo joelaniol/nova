@@ -8,7 +8,7 @@ Deletes a proxy profile and resets any sandbox bindings back to the global defau
 
 `nova.proxy_remove` deletes a proxy profile and removes its encrypted credentials. Any sandboxes assigned to the deleted profile are automatically reset to `global`.
 
-* **Core Architecture Guide:** [Proxy Routing & Network Engine](../../../core-features/proxy-and-network.md)
+* **Core Architecture Guide:** [Proxy Routing & Network Engine](../../../core-features/proxy-and-network/README.md)
 
 ---
 

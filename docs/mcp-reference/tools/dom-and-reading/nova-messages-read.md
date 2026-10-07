@@ -2,7 +2,7 @@
 
 > **Reads captured window postMessage and cross-frame messaging traffic.**
 
-* **Core Feature Guide:** [DOM Perception & Semantic Extraction](../../../core-features/tob.md)
+* **Core Feature Guide:** [DOM Perception & Semantic Extraction](../../../core-features/tool-observation-bus-tob/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

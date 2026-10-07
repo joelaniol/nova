@@ -10,7 +10,7 @@ Initiates in-page hardware diagnostic loop for camera, microphone, or audio spea
 
 Camera and microphone diagnostics drive the page over CDP, which carries no user gesture. If the origin does not already hold an Allow for that device (a stored permission or an active session grant), the browser's own gesture requirement blocks the request and the call fails — this is a deliberate guard, not a transient error, and retrying will not help. The speaker test needs no capture permission and is unaffected.
 
-* **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
+* **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence/README.md)
 
 ---
 

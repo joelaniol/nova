@@ -8,7 +8,7 @@ Opens a completed download inline in a new browser tab using a secure file:// UR
 
 `nova.downloads_preview` renders images, PDFs, videos, audio, and structured text files directly inside a new browser tab without launching external applications. For security, SVG and HTML files are strictly excluded to prevent script injection.
 
-* **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts.md)
+* **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts/README.md)
 
 ---
 

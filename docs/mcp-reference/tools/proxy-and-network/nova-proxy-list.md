@@ -8,7 +8,7 @@ Lists all configured proxy profiles with connection settings, protocols, and san
 
 `nova.proxy_list` inventories all proxy profiles registered in Nova. Passwords are never returned; it reports profile IDs, hostnames, ports, protocols (HTTP, HTTPS, SOCKS4, SOCKS5), active status, and sandbox bindings.
 
-* **Core Architecture Guide:** [Proxy Routing & Network Engine](../../../core-features/proxy-and-network.md)
+* **Core Architecture Guide:** [Proxy Routing & Network Engine](../../../core-features/proxy-and-network/README.md)
 
 ---
 
@@ -71,7 +71,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
   }
 }
 ```
-Sandbox assignments are listed separately from profiles, not nested under each profile — a sandbox's stored `proxyMode`/`proxyProfileId` does not currently give it an independent outbound proxy (see [proxy routing guide](../../../core-features/proxy-and-network.md)).
+Sandbox assignments are listed separately from profiles, not nested under each profile — a sandbox's stored `proxyMode`/`proxyProfileId` does not currently give it an independent outbound proxy (see [proxy routing guide](../../../core-features/proxy-and-network/README.md)).
 
 ---
 

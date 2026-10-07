@@ -41,7 +41,7 @@ For an unfamiliar process, first identify its executable path, parent and the fe
 
 ## Learn More
 
-* [Sandbox isolation](../core-features/sandbox-isolation.md)
+* [Sandbox isolation](../core-features/sandbox-isolation/README.md)
 * [TerminalRunner](terminal-runner.md)
-* [Scheduled tasks](../core-features/scheduled-tasks.md)
+* [Scheduled tasks](../core-features/scheduled-tasks/README.md)
 * [All components](README.md)

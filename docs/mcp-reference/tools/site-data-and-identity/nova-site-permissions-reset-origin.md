@@ -8,7 +8,7 @@ One-click reset of all stored permissions (media, notifications, geolocation) fo
 
 `nova.site_permissions_reset_origin` provides a single-call purge of all stored permissions for a web origin: camera, microphone, speaker, screen sharing, and geolocation (one combined row), desktop notifications (a separate row), and remembered per-site device preferences. It also unconditionally drops any in-memory session grants, active clipboard-read and advanced-hardware decisions, and stops active media streams for that origin — even if no persisted row existed. Clipboard-read and advanced-hardware only have a global default, not a per-site override, so there is nothing persisted to remove for those two.
 
-* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
+* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation/README.md)
 
 ---
 

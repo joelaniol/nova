@@ -39,6 +39,6 @@ TerminalRunner may still host a shell after Nova exits. Conversely, a running MC
 
 ## Learn More
 
-* [Workspace layout](../user-guide/workspace-layout.md)
-* [Scheduled tasks](../core-features/scheduled-tasks.md)
+* [Workspace layout](../user-guide/browser/tabs-and-windows.md)
+* [Scheduled tasks](../core-features/scheduled-tasks/README.md)
 * [All components](README.md)

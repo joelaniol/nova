@@ -2,7 +2,7 @@
 
 > **Activate a plugin that is either disabled or waiting in Testing state.**
 
-* **Core Feature Guide:** [Agent-Authored Plugins](../../../core-features/plugins.md)
+* **Core Feature Guide:** [Agent-Authored Plugins](../../../core-features/plugins/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
@@ -31,4 +31,4 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 ## See Also
 
 * [All plugin tools](README.md)
-* [Agent-Authored Plugins](../../../core-features/plugins.md)
+* [Agent-Authored Plugins](../../../core-features/plugins/README.md)

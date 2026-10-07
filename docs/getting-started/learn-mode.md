@@ -69,4 +69,4 @@ If the previous playbook exists only in an earlier conversation or a saved docum
 
 **Project onboarding and Learn Mode serve different purposes.** [Project onboarding](advanced-onboarding.md) puts Nova references in your working folder so later agent sessions can find its instructions. Learn Mode explores a website and its workflows. Neither grants permission for purchases, sending messages or account changes.
 
-You can watch the exploration in Nova and use [Emergency Stop](emergency-stop.md) to interrupt it. For deeper technical explanations, see [Website memory (PKS)](../core-features/pks.md) and [the learning pipeline](../core-features/learning-pipeline-alp.md).
+You can watch the exploration in Nova and use [Emergency Stop](emergency-stop.md) to interrupt it. For deeper technical explanations, see [Website memory (PKS)](../core-features/phenomenological-knowledge-store-pks/README.md) and [the learning pipeline](../core-features/agent-learning-pipeline-alp/README.md).

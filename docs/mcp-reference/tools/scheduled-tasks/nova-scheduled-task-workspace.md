@@ -8,7 +8,7 @@ Returns the task's workspace paths, a page of its shared files, and the status o
 
 `nova.scheduled_task_workspace` inspects the folder dedicated to a task. Each task is bound to a terminal workspace (by default a dedicated one Nova creates), and its files live under that workspace's `nova-tasks/<taskId>/` subtree with a `shared/` folder for agent-visible output. The tool returns the workspace and shared-folder paths, up to 25 files from `shared/` (paginated), and the status of the task's last run.
 
-* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
+* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks/README.md)
 
 ---
 

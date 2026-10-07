@@ -8,7 +8,7 @@ Retrieves the complete event timeline, headers, and decoded payload for a single
 
 `nova.session_record_get_entry` performs a deep lookup for a specific `requestId` identified via `nova.session_record_query`. It returns every raw CDP Network event line recorded for that request ID (request/response/redirect events as captured), plus the separately tracked response-body metadata (policy, MIME type, size, SHA-256) and, when requested, the inline base64 body bytes.
 
-* **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
+* **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording/README.md)
 
 ---
 

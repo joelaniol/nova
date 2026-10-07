@@ -8,7 +8,7 @@ Lists known Whisper speech models, installation statuses, and machine CPU/AVX2 c
 
 `nova.media_transcribe_models` queries Nova's local speech model catalog. It lists every known ggml model (bundled, installed, available to download, user-supplied, or damaged) with size and tier, reports whether the CPU supports the AVX2/FMA instructions transcription requires, whether local file access is enabled (audio is read from disk, so this gates every run too), which model a run would use right now, and GPU information. Transcription itself always runs on CPU today — the GPU block is detection only (`inUse` is always `false`).
 
-* **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
+* **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence/README.md)
 
 ---
 

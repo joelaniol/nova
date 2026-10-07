@@ -8,7 +8,7 @@ Returns detailed identity, cookie jar bounds, and context metadata for a specifi
 
 `nova.sandbox_context` returns profile metadata for a sandbox container: profile id, name, current/start URL, detected account, recognized service, user-declared purpose and routing hints (`aliases`, `preferredFor`), and last-active timestamp. `targetId` must name a sandbox (`kind=sandbox` in `nova.tabs`); passing a sandbox tab's target resolves to its owning sandbox, and passing an ordinary browser tab's target is rejected.
 
-* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
+* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation/README.md)
 
 ---
 

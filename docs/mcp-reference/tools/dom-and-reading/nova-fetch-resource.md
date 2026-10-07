@@ -2,7 +2,7 @@
 
 > **Downloads one or more URLs with the tab's session cookies and saves them to files.**
 
-* **Core Feature Guide:** [DOM Perception & Semantic Extraction](../../../core-features/tob.md)
+* **Core Feature Guide:** [DOM Perception & Semantic Extraction](../../../core-features/tool-observation-bus-tob/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

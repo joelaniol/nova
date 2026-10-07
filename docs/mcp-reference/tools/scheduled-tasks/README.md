@@ -2,7 +2,7 @@
 
 Background task automation, cron expressions, file-system watches, task workspaces, and execution logs.
 
-* **Core Architecture Guide:** [Core Features: scheduled-tasks.md](../../../core-features/scheduled-tasks.md)
+* **Core Architecture Guide:** [Core Features: scheduled-tasks.md](../../../core-features/scheduled-tasks/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

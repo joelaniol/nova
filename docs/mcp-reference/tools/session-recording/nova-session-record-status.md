@@ -8,7 +8,7 @@ Returns the live state, start/expiry timestamps, tab/sandbox binding, and grante
 
 `nova.session_record_status` reports the current lifecycle state (`recording`, exposed as `running`; or `completed`, `aborted`, `stopped_revoked`, `aborted_crash`, `aborted_crash_dek_lost`), the bound tab/sandbox, start/expiry/stop timestamps, and the granted permission classes and capture waves of a session recording. It is used to monitor recording health and detect approaching TTL expiration.
 
-* **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
+* **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording/README.md)
 
 ---
 

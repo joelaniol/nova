@@ -2,7 +2,7 @@
 
 > **Detailed inspection of a plugin: full state snapshot, manifest details, granted permissions, contentScriptInventory for static/dynamic scripts vs active/known live frames, plugin storage key counts (persistent KV plus host-managed keys), active mutation count, and recent mutations.**
 
-* **Core Feature Guide:** [Agent-Authored Plugins](../../../core-features/plugins.md)
+* **Core Feature Guide:** [Agent-Authored Plugins](../../../core-features/plugins/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
@@ -31,4 +31,4 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 ## See Also
 
 * [All plugin tools](README.md)
-* [Agent-Authored Plugins](../../../core-features/plugins.md)
+* [Agent-Authored Plugins](../../../core-features/plugins/README.md)

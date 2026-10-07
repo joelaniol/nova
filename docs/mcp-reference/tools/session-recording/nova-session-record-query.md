@@ -8,7 +8,7 @@ Queries the complete CDP network stream of a finalized recording with rich filte
 
 `nova.session_record_query` inspects the decrypted network timeline of a finalized recording. It reads the CDP Network domain stream captured for the recorded tab's root frame — every asset, API call, and redirect on that frame. Cross-origin iframes (OOPIFs) are a known capture gap: Nova attaches to the root target only, so requests from cross-origin subframes are not captured.
 
-* **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
+* **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording/README.md)
 
 ---
 

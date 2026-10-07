@@ -8,7 +8,7 @@ Retrieves full details of a task profile: guidance, mandatory checks, and comple
 
 `nova.task_profile_get` returns the complete specification for a task profile, including stable guidance hints, required verification assertions, and known error workarounds.
 
-* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
+* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/episodic-task-memory-etm/README.md)
 
 ---
 

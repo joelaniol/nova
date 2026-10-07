@@ -2,7 +2,7 @@
 
 > **Retrieves the global default permission modes for camera, microphone, speaker, and geolocation, plus the detected hardware devices.**
 
-* **Core Feature Guide:** [Media Intelligence](../../../core-features/media-intelligence.md)
+* **Core Feature Guide:** [Media Intelligence](../../../core-features/media-intelligence/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

@@ -10,7 +10,7 @@ Initiates encrypted background recording of CDP network, DOM mutations, console 
 
 All sensitive data (passwords, auth tokens, session cookies, DPAPI vault secrets) is automatically redacted at ingestion time prior to disk serialization. Recordings are protected with an ephemeral AES-GCM Data Encryption Key (DEK).
 
-* **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
+* **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording/README.md)
 
 ---
 

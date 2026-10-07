@@ -8,7 +8,7 @@ Triggers a fresh encrypted DOM snapshot on an active live recording bound to a t
 
 `nova.session_record_snapshot_dom` captures a complete DOM state snapshot while a recording is actively running. It serializes the live DOM hierarchy into an encrypted artifact inside the recording directory and indexes it with a unique `snapshotId`.
 
-* **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
+* **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording/README.md)
 
 ---
 

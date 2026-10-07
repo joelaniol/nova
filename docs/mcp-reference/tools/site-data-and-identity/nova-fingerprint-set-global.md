@@ -8,7 +8,7 @@ Sets the global browser fingerprint protection level across all sandboxes.
 
 `nova.fingerprint_set_global` configures baseline fingerprint protection (`off`, `standard`, `strict`) across all sandboxes and tabs that do not specify overrides. `standard` enables canvas and audio noise; `strict` adds font, WebGL, hardware, and screen protections on top.
 
-* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
+* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation/README.md)
 
 ---
 

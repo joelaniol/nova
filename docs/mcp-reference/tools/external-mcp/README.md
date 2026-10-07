@@ -2,7 +2,7 @@
 
 Registering, running, and dynamically calling secondary MCP servers through Nova's unified host.
 
-* **Core Architecture Guide:** [Core Features: plugins.md](../../../core-features/plugins.md)
+* **Core Architecture Guide:** [Core Features: plugins.md](../../../core-features/plugins/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

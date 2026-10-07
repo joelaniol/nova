@@ -8,7 +8,7 @@ Lists the personal IMAP folder tree with total and unread message counts.
 
 `nova.mail_folders` lists the configured account's personal IMAP folder tree with message and unread counts. It opens folders read-only and never changes messages or flags. Folder names and counts are remote-controlled metadata and are marked untrusted. An effective "always" read grant may restrict exact folders and sender addresses/domains; unrelated folders are omitted from the tree, navigation-only ancestors expose no counts, and a sender-restricted grant hides aggregate counts that would include other senders — `structuredContent.grantFilter` reports the applied boundary.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
+* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
 
 ---
 

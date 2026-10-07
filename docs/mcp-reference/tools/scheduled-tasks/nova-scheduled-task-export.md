@@ -10,7 +10,7 @@ Exports all scheduled task definitions as a structured array (excluding secrets 
 
 To re-import an export, the array must be serialized back to a JSON string for the `tasksJson` parameter of [`nova.scheduled_task_import`](nova-scheduled-task-import.md) — the two tools use different shapes (array vs. string) for the same data.
 
-* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
+* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks/README.md)
 
 ---
 

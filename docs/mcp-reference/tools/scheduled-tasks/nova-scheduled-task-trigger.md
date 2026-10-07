@@ -8,7 +8,7 @@ Manually triggers an immediate run of a scheduled task with optional dynamic inp
 
 `nova.scheduled_task_trigger` starts an out-of-schedule run of a task immediately. The task must be in an enabled state. Callers can supply an optional `inputs` JSON string, which is written to `shared/trigger-inputs.json` inside the task workspace for the executor to consume.
 
-* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
+* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks/README.md)
 
 ---
 

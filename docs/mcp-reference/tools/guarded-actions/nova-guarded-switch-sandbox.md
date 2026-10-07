@@ -2,7 +2,7 @@
 
 > **Clicks a workspace switcher entry in a web app and verifies that the workspace changed.**
 
-* **Core Feature Guide:** [Autonomous Agent Guard (AAG)](../../../core-features/aag.md)
+* **Core Feature Guide:** [Autonomous Agent Guard (AAG)](../../../core-features/agent-awareness-gates-aag/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

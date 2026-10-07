@@ -37,18 +37,13 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 
 [Overview](user-guide/README.md)
 
-| Page | What it covers |
+| Section | What it covers |
 |---|---|
-| [Workspace layout](user-guide/workspace-layout.md) | Tabs, address bar, panels and window chrome |
-| [Sandboxes and profiles](user-guide/sandboxes-and-profiles.md) | Separate logins side by side in one window |
-| [Settings and connection wizard](user-guide/settings-and-connection-wizard.md) | Settings panel and the setup for AI programs |
-| [Terminal dock](user-guide/terminal-dock.md) | The built-in terminal next to the browser |
-| [AI visualization and staying in control](user-guide/live-assist-and-spectator.md) | Seeing what the agent does, taking over a tab, emergency stop |
-| [Downloads](user-guide/downloads-manager.md) | Download list and safety checks |
-| [Permissions](user-guide/permissions.md) | Website access, agent autonomy and client approvals |
-| [Domain Notes](user-guide/domain-notes.md) | Website-specific instructions, MUST-read acknowledgement and visible confirmation |
-| [Native dialogs](user-guide/native-dialogs-ui.md) | File pickers, sign-in and permission prompts |
-| [Keyboard shortcuts](user-guide/keyboard-shortcuts.md) | All shortcuts in one table |
+| [Browser](user-guide/browser/README.md) | Tabs, favorites, history, downloads, private browsing and shortcuts |
+| [Identity & security](user-guide/identity-and-security/README.md) | Passwords, permissions, certificates, sandboxes and proxies |
+| [Agents](user-guide/agents/README.md) | Connection, watching work, taking over, Domain Notes and onboarding |
+| [Tools](user-guide/tools/README.md) | Terminal, transcription, scheduled tasks and recordings |
+| [Settings](user-guide/settings/README.md) | General, appearance, site permissions and AI & agents |
 
 ## Agent integration
 
@@ -115,57 +110,61 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 
 [Overview](core-features/README.md)
 
-[Agent-native affordances](core-features/agent-native-affordances.md) — Built with agents: familiar naming patterns, scoped aliases and client compatibility.
+[Agent-Native Affordances](core-features/agent-native-affordances/README.md) — Built with agents: familiar naming patterns, scoped aliases and client compatibility.
 
 **Seeing and acting on pages**
 
 | Page | What it covers |
 |---|---|
-| [Input dispatch](core-features/humanized-input-engine.md) | How clicks, keys and drags reach the page; open Shadow DOM |
-| [Visual evidence (EVM)](core-features/evm-and-visual-evidence.md) | Screenshots as proof of what the page shows |
-| [Native dialogs and prompts](core-features/native-dialogs-and-prompts.md) | Dialogs outside the web page |
-| [Sign-in detection](core-features/auth-surface-detection.md) | Recognising login pages and checking a sign-in worked |
-| [Crawler and discovery](core-features/crawler-and-discovery.md) | Exploring whole sites instead of single pages |
+| [Input Dispatch & Shadow DOM Traversal](core-features/humanized-input-engine/README.md) | How clicks, keys and drags reach the page; open Shadow DOM |
+| [Evidence Verification Mode (EVM)](core-features/evidence-verification-mode-evm/README.md) | Screenshots as proof of what the page shows |
+| [Native Dialogs & UI Prompts](core-features/native-dialogs-and-prompts/README.md) | Dialogs outside the web page |
+| [Auth Surface Detection (ASD)](core-features/auth-surface-detection-asd/README.md) | Recognising login pages and checking a sign-in worked |
+| [Autonomous Crawler & Surface Explorer](core-features/crawler-and-discovery/README.md) | Exploring whole sites instead of single pages |
 
 **Verification and safety**
 
 | Page | What it covers |
 |---|---|
-| [Closed-loop system](core-features/closed-loop-system.md) | Expected state, action, checked outcome |
-| [Agent awareness gates (AAG)](core-features/aag.md) | Checks that stop an agent from acting blind |
-| [Tool observation bus (TOB)](core-features/tob.md) | What the agent really did, recorded on Nova's side |
-| [Vault and secrets](core-features/vault-and-secrets.md) | Passwords filled in without the agent seeing them |
-| [Outrider boundary](core-features/outrider-boundary.md) | Risky Windows and hardware probes in a separate, killable process |
+| [Closed-Loop System (CLS)](core-features/closed-loop-system-cls/README.md) | Expected state, action, checked outcome |
+| [Ambient Auto-Apply](core-features/ambient-auto-apply/README.md) | Eligible automatic playbook application during agent work |
+| [Agent Awareness Gates (AAG)](core-features/agent-awareness-gates-aag/README.md) | Checks that stop an agent from acting blind |
+| [Tool Observation Bus (TOB)](core-features/tool-observation-bus-tob/README.md) | What the agent really did, recorded on Nova's side |
+| [Password Vault & Secret Injection](core-features/vault-and-secrets/README.md) | Passwords filled in without the agent seeing them |
+| [Nova Outrider — Native Process Boundary](core-features/outrider-boundary/README.md) | Risky Windows and hardware probes in a separate, killable process |
 
 **Memory and learning**
 
 | Page | What it covers |
 |---|---|
-| [PKS knowledge store](core-features/pks.md) | What Nova learns about how a site works |
-| [Operational knowledge](core-features/operational-knowledge.md) | Login state, plan and active model of a site, as signals agents report; domain notes |
-| [Task memory (ETM)](core-features/etm-and-task-memory.md) | Recurring tasks and their progress |
-| [Learning pipeline (ALP)](core-features/learning-pipeline-alp.md) | How a lesson is checked before it is kept |
-| [Browser memory and board](core-features/browser-memory-and-board.md) | Notes and preferences per site; an opt-in board for tool problems agents hit |
+| [Phenomenological Knowledge Store (PKS)](core-features/phenomenological-knowledge-store-pks/README.md) | What Nova learns about how a site works |
+| [Operational Knowledge (OK)](core-features/operational-knowledge-ok/README.md) | Login state, plan and active model of a site, as signals agents report; domain notes |
+| [Episodic Task Memory (ETM)](core-features/episodic-task-memory-etm/README.md) | Recurring tasks and their progress |
+| [Task URL Coverage (TUC)](core-features/task-url-coverage-tuc/README.md) | URL work units, scan evidence and coverage gates |
+| [Agent Learning Pipeline (ALP)](core-features/agent-learning-pipeline-alp/README.md) | How a lesson is checked before it is kept |
+| [Learning Candidate Journal (LCJ)](core-features/learning-candidate-journal-lcj/README.md) | Observations and candidate evidence used by the pipeline |
+| [Browser Memory](core-features/browser-memory/README.md) | Notes and preferences per site |
+| [Agent Knowledge Board](core-features/agent-knowledge-board/README.md) | Opt-in investigative records of Nova tool problems |
 
 **Sessions, network and identity**
 
 | Page | What it covers |
 |---|---|
-| [Sandbox isolation](core-features/sandbox-isolation.md) | Separate profiles with their own logins |
-| [Site data](core-features/site-data-management.md) | Cookies, storage and cache |
-| [Proxy and network](core-features/proxy-and-network.md) | Proxies per sandbox and network routing |
-| [Fingerprint and identity](core-features/fingerprint-and-identity.md) | Browser fingerprint protection |
-| [Session recording](core-features/session-recording.md) | Recording a run to see later what happened |
+| [Multi-Sandbox Session Isolation](core-features/sandbox-isolation/README.md) | Separate profiles with their own logins |
+| [Site Data & Privacy Management (Cookies, Storage, Cache)](core-features/site-data-management/README.md) | Cookies, storage and cache |
+| [Proxy Routing & Network Engine](core-features/proxy-and-network/README.md) | Proxies per sandbox and network routing |
+| [Fingerprint Protection & Browser Identity](core-features/fingerprint-and-identity/README.md) | Browser fingerprint protection |
+| [Session Recording & Time-Travel Debugging](core-features/session-recording/README.md) | Recording a run to see later what happened |
 
 **Beyond the browser**
 
 | Page | What it covers |
 |---|---|
-| [Terminal workspaces](core-features/terminal-workspaces.md) | Terminals the agent can use |
-| [Scheduled tasks](core-features/scheduled-tasks.md) | Work that runs on its own |
-| [Connectors and protocols](core-features/connectors-and-protocols.md) | Mail, FTP and SFTP |
-| [Media intelligence](core-features/media-intelligence.md) | Audio, video and transcription |
-| [Plugins](core-features/plugins.md) | Small scripts an agent writes for a site |
+| [Terminal Workspaces & ConPTY Integration](core-features/terminal-workspaces/README.md) | Terminals the agent can use |
+| [Scheduled Tasks & Background Automation Engine](core-features/scheduled-tasks/README.md) | Work that runs on its own |
+| [Connectors & External Protocol Gateways](core-features/connectors-and-protocols/README.md) | Mail, FTP and SFTP |
+| [Media Intelligence & Speech Transcription](core-features/media-intelligence/README.md) | Audio, video and transcription |
+| [Agent-Authored Plugins (AAP) & Jint JavaScript Runtime](core-features/plugins/README.md) | Small scripts an agent writes for a site |
 
 ## Troubleshooting
 

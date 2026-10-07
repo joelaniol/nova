@@ -2,7 +2,7 @@
 
 Task instance tracking, guidance logs, coverage scans, surface exploration, and operator domain notes.
 
-* **Core Architecture Guide:** [Core Features: etm-and-task-memory.md](../../../core-features/etm-and-task-memory.md)
+* **Core Architecture Guide:** [Core Features: etm-and-task-memory.md](../../../core-features/episodic-task-memory-etm/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

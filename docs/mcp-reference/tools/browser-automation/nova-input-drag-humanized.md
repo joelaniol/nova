@@ -2,7 +2,7 @@
 
 > **Performs a drag-and-drop gesture with an eased motion path, overshoot, correction moves, and jitter — aimed at drag-based bot checks that flag perfectly linear mouse vectors.**
 
-* **Core Feature Guide:** [Input Dispatch & Shadow DOM Traversal](../../../core-features/humanized-input-engine.md)
+* **Core Feature Guide:** [Input Dispatch & Shadow DOM Traversal](../../../core-features/humanized-input-engine/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

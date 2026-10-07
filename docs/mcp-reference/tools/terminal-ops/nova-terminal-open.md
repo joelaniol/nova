@@ -8,7 +8,7 @@ Opens a new agent-owned PowerShell session in an isolated working directory and 
 
 `nova.terminal_open` launches a headless Windows Pseudo Console (ConPTY) session hosted by the external `NovaBrowser.TerminalRunner` process. The session runs PowerShell in an isolated environment, kept in a separate registry from the user's interactive terminal dock so an agent can neither read nor write the user's own terminals.
 
-* **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces.md)
+* **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces/README.md)
 
 ---
 
@@ -83,6 +83,6 @@ Tool category: `high_impact` (highest risk class; Nova's agent permission settin
 * [`nova.terminal_run_command`](nova-terminal-run-command.md) - Run a command and wait for completion.
 * [`nova.terminal_read`](nova-terminal-read.md) - Read scrollback output.
 * [`nova.terminal_close`](nova-terminal-close.md) - Terminate session and process tree.
-* [`Core Architecture: Terminal Workspaces`](../../../core-features/terminal-workspaces.md) - ConPTY runner architecture.
+* [`Core Architecture: Terminal Workspaces`](../../../core-features/terminal-workspaces/README.md) - ConPTY runner architecture.
 * [Headless Terminal Workspaces Category](README.md)
 * [MCP Tool Catalog](../../tool-catalog.md)

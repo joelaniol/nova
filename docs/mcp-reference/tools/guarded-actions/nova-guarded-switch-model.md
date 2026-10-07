@@ -2,7 +2,7 @@
 
 > **Clicks a model entry in a web app's model menu and verifies that the selected model changed.**
 
-* **Core Feature Guide:** [Autonomous Agent Guard (AAG)](../../../core-features/aag.md)
+* **Core Feature Guide:** [Autonomous Agent Guard (AAG)](../../../core-features/agent-awareness-gates-aag/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

@@ -124,5 +124,5 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 * [`nova.navigate`](nova-navigate.md) — Navigate to a new URL.
 * [`nova.route`](nova-route.md) — Same-document client-side routing.
-* [Agent Awareness Gates (AAG)](../../../core-features/aag.md) — Session-preservation gates and auth surface detection.
-* [Auth Surface Detection (ASD)](../../../core-features/auth-surface-detection.md) — How Nova identifies active login sessions.
+* [Agent Awareness Gates (AAG)](../../../core-features/agent-awareness-gates-aag/README.md) — Session-preservation gates and auth surface detection.
+* [Auth Surface Detection (ASD)](../../../core-features/auth-surface-detection-asd/README.md) — How Nova identifies active login sessions.

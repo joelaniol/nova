@@ -8,7 +8,7 @@ Reads the chronological interaction timeline (clicks, typing, form submits) from
 
 `nova.session_record_interactions` reconstructs the sequence of physical and programmatic interactions executed during a session. It unifies both user-driven DOM inputs (`source: "user_dom"`) and agent MCP tool calls (`source: "mcp"`), providing an audit trail of actions leading up to any event.
 
-* **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
+* **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording/README.md)
 
 ---
 

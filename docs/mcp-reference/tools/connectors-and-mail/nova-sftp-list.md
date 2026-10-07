@@ -10,7 +10,7 @@ Lists remote directory entries or inspects file metadata through an SFTP connect
 
 Each entry also carries its POSIX permissions and owner from the directory read: `mode` as an octal string (e.g. `"755"`, or four digits like `"1777"` when a setuid/setgid/sticky bit is set), plus numeric `uid` and `gid`. This is the **see-then-set** path: read the current mode here, then pass it straight to [`nova.sftp_chmod`](nova-sftp-chmod.md) (which accepts the same octal string) or set the owner with [`nova.sftp_chown`](nova-sftp-chown.md). SFTP carries no user/group *names*, only numbers.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
+* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
 
 ---
 

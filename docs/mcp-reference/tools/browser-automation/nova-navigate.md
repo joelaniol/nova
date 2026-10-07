@@ -111,4 +111,4 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 * [`nova.route`](nova-route.md) — Client-side SPA navigation without document reload.
 * [`nova.tab_new`](nova-tab-new.md) — Create a new browser tab.
 * [`nova.scroll_smart`](nova-scroll-smart.md) — Scroll the most relevant container after landing, with lazy-load saturation detection.
-* [Core Feature: Agent Awareness Gates (AAG)](../../../core-features/aag.md)
+* [Core Feature: Agent Awareness Gates (AAG)](../../../core-features/agent-awareness-gates-aag/README.md)

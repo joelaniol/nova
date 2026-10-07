@@ -8,7 +8,7 @@ Lists past crawl jobs and high-level summaries from the persistent crawler datab
 
 `nova.crawl_history` queries the local SQLite `crawl.db` index for past crawl jobs. It returns lightweight summaries (status, URLs discovered, start/finish timestamps, error counts) without loading large page text blobs into memory.
 
-* **Core Architecture Guide:** [Autonomous Crawler & Surface Explorer](../../../core-features/crawler-and-discovery.md)
+* **Core Architecture Guide:** [Autonomous Crawler & Surface Explorer](../../../core-features/crawler-and-discovery/README.md)
 
 ---
 

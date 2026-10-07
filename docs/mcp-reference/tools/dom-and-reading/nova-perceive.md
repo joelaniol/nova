@@ -211,4 +211,4 @@ only — `ctaRef` and `score` are `cta_detection_v3`-only fields, not part of `s
 * [`nova.read_text_structured`](nova-read-text-structured.md) — Extract text grouped by semantic landmarks.
 * [`nova.click_selector`](../browser-automation/nova-click-selector.md) — Click CTAs discovered by `perceive`.
 * [`nova.capture_screenshot`](../visual-evidence/nova-capture-screenshot.md) — Standalone full-resolution or cropped screenshot captures.
-* [Automated Actions Guide (AAG)](../../../core-features/aag.md) — In-depth guide to perception and settlement cycles.
+* [Automated Actions Guide (AAG)](../../../core-features/agent-awareness-gates-aag/README.md) — In-depth guide to perception and settlement cycles.

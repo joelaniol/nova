@@ -8,7 +8,7 @@ Updates terminal appearance settings such as color theme, font size, and program
 
 `nova.terminal_settings_set` modifies terminal presentation properties. Changes to theme and font size update open sessions immediately, while `programColors` applies to sessions opened afterwards.
 
-* **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces.md)
+* **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces/README.md)
 
 ---
 

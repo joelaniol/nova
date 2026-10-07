@@ -8,7 +8,7 @@ Reads terminal appearance settings and reports why ANSI colour output is enabled
 
 `nova.terminal_settings_get` retrieves terminal UI styling (theme, font size, color preference) and diagnoses the exact reason behind color availability (`colorsReasonCode`).
 
-* **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces.md)
+* **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces/README.md)
 
 ---
 

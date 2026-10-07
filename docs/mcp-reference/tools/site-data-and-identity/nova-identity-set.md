@@ -8,7 +8,7 @@ Configures and persists a new browser identity profile (preset + version/custom 
 
 `nova.identity_set` persists a new browser persona into `settings.json`. It configures the browser to emulate specific User-Agent strings, platform navigator properties, and client hints across future WebView instantiations.
 
-* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
+* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation/README.md)
 
 ---
 

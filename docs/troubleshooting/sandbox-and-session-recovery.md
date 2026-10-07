@@ -1,6 +1,6 @@
 # Sandbox & Session Recovery
 
-Choose the problem below. To interrupt all agent work immediately, use **Menu → Emergency stop**; see [Staying in control](../user-guide/live-assist-and-spectator.md#3-staying-in-control) for its reach.
+Choose the problem below. To interrupt all agent work immediately, use **Menu → Emergency stop**; see [Staying in control](../user-guide/agents/taking-over-and-emergency-stop.md#3-staying-in-control) for its reach.
 
 ## 1. Cleaning Up Orphaned Agent Tabs
 

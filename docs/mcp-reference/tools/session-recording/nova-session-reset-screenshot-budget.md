@@ -8,7 +8,7 @@ Resets the session screenshot budget counter to allow fresh visual captures.
 
 `nova.session_reset_screenshot_budget` clears the in-memory cumulative inline-image-bytes counter Nova tracks per MCP session for visual-evidence tools. Nova warns once cumulative inline screenshot bytes for a session cross a soft threshold and refuses further inline images past a hard cap, to bound how much image data one session can push inline; this tool resets both counters back to zero so a long testing session can keep capturing.
 
-* **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
+* **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording/README.md)
 
 ---
 

@@ -8,7 +8,7 @@ Retries a failed download by re-navigating to its original URL.
 
 `nova.downloads_retry` initiates a fresh download request for a transfer marked `status: "failed"`. Cancelled, active, or completed downloads cannot be retried.
 
-* **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts.md)
+* **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts/README.md)
 
 ---
 

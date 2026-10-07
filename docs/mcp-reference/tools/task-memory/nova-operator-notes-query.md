@@ -8,7 +8,7 @@ Queries operator notes by keywords with tag-intersection and TF-IDF relevance sc
 
 `nova.operator_notes_query` performs scored text retrieval across operator notes, factoring in temporal decay and keyword relevance.
 
-* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
+* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/episodic-task-memory-etm/README.md)
 
 ---
 

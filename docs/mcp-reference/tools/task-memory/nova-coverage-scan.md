@@ -8,7 +8,7 @@ Runs a server-registered scan script on a tab and returns trust-checked coverage
 
 `nova.coverage_scan` runs one of a fixed set of server-registered scan scripts on the active tab and returns a structured evidence payload. The server checks the script's claimed text extraction against measured values and the page's current URL; when both checks pass, the result counts as trusted evidence that the matching Task URL Coverage (TUC) unit was covered. It does not discover new units itself — URL units come from `unitSource` on `nova.task_instance_create`.
 
-* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
+* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/episodic-task-memory-etm/README.md)
 
 ---
 

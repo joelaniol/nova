@@ -8,7 +8,7 @@ Lists recent downloads tracked by the browser with status, progress, speed, and 
 
 `nova.downloads_list` inspects download history and live in-progress transfers across all sandboxes. It reports detailed telemetry including byte counts, transfer rates, estimated remaining time, network/disk error categories, and live operation capabilities (`canPause`, `canResume`).
 
-* **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts.md)
+* **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts/README.md)
 
 ---
 

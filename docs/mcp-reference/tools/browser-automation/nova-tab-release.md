@@ -107,4 +107,4 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 * [`nova.tab_claim`](nova-tab-claim.md) — Claim an exclusive write lease.
 * [`nova.tabs`](nova-tabs.md) — Inspect active tab claims.
-* [Core Feature: Agent Awareness Gates (AAG)](../../../core-features/aag.md)
+* [Core Feature: Agent Awareness Gates (AAG)](../../../core-features/agent-awareness-gates-aag/README.md)

@@ -8,7 +8,7 @@ Permanently removes a sandbox profile and deletes its storage, cookies, and cach
 
 `nova.sandbox_delete` removes a sandbox profile's settings entry and its disk anchor, and schedules its browser data directory for cleanup; all tabs belonging to the sandbox are closed. At least one sandbox must always remain — the call is rejected if it would delete the last one.
 
-* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
+* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation/README.md)
 
 ---
 

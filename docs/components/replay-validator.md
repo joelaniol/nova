@@ -44,10 +44,10 @@ Replace the angle-bracket placeholders with actual values. `--list-fixtures` sup
 
 For example, a directory with a readable supported manifest can receive a passing analysis even when no JSONL files are present. The useful conclusion is that the manifest passed the implemented checks and the sidecars were inventoried. It is not evidence that a replay succeeded.
 
-The fixture command currently includes declared cases that return skipped checks with warnings. Report formats make those outcomes machine-readable; they do not extend the implemented validation coverage. Use [session recording](../core-features/session-recording.md) for capture behaviour and [visual evidence](../core-features/evm-and-visual-evidence.md) for outcome verification.
+The fixture command currently includes declared cases that return skipped checks with warnings. Report formats make those outcomes machine-readable; they do not extend the implemented validation coverage. Use [session recording](../core-features/session-recording/README.md) for capture behaviour and [visual evidence](../core-features/evidence-verification-mode-evm/README.md) for outcome verification.
 
 ## Learn More
 
-* [Session recording](../core-features/session-recording.md)
-* [Visual evidence](../core-features/evm-and-visual-evidence.md)
+* [Session recording](../core-features/session-recording/README.md)
+* [Visual evidence](../core-features/evidence-verification-mode-evm/README.md)
 * [All components](README.md)

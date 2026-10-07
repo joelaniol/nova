@@ -8,7 +8,7 @@ Lists bounded message metadata (headers, dates, senders) from an exact IMAP fold
 
 `nova.mail_list` lists bounded message metadata from one exact IMAP folder without changing server state. Results carry opaque Nova `messageId` handles rather than raw IMAP UIDs; all sender/subject/folder metadata is untrusted. The first page is newest-first; `olderCursor` pages further back, and `sinceCursor` (the previous `nextCursor`) returns only newer mail since that point. A mailbox UIDVALIDITY change is reported as `cursorReset: true` with a fresh cursor instead of silently dropping mail. The effective read grant's exact folder/sender filter applies before any message is returned; a folder outside the grant fails with `reasonCode: "folder_not_allowed"` rather than returning an empty list.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
+* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
 
 ---
 

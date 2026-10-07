@@ -8,7 +8,7 @@ Sets capability access modes (ask, always, blocked) for a connector.
 
 `nova.connector_grant_set` configures fine-grained capability gates for a connector. Grants control what operations an AI agent can execute autonomously without human prompts.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
+* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
 
 ---
 
@@ -18,7 +18,7 @@ Sets capability access modes (ask, always, blocked) for a connector.
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `profileId` | `string` | Yes | — | — | Connector id (from nova.connector_list). |
-| `capability` | `string` | Yes | — | — | Capability wire name: 'read'/'organize'/'send' (mail) or 'read'/'full' (sftp/ftp). |
+| `capability` | `string` | Yes | — | — | Capability wire name: 'read'/'organize'/'send' (mail), 'read'/'full' (sftp/ftp), 'process.exec' (sftp command execution; inherits 'full' when unset), or 'process.stdin' (interactive input into a running ssh_run_start session; opt-in only, never inherited). |
 | `mode` | `string` | Yes | — | `ask`, `always`, `blocked` | Access mode for this capability. |
 | `scope` | `string` | No | `"global"` | `global`, `workspace` | Where the grant applies. 'workspace' requires Nova's host-verified current terminal/task context; the caller never supplies an id. |
 | `allowedMailFolders` | `array` of `string` | No | — | ≤ 200 items | Mail read + always only: exact IMAP folder names this grant may read. Omit to preserve this axis; pass [] to allow all folders. No wildcard or regex syntax. |

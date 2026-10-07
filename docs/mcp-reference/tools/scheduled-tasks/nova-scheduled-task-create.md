@@ -10,7 +10,7 @@ Creates a new scheduled task running on cron expressions, intervals, or filesyst
 
 Supported executors include `ClaudeCode`, `CodexCli`, `Shell` (PowerShell 7), `CustomCommand`, and `HttpWebhook`. Each task binds to a dedicated terminal workspace (or an existing one, if `workspaceId` is given) with a shared `shared/` folder for files that persist between runs; task secrets are stored separately, encrypted with Windows DPAPI for the current user. Nova keeps task definitions and run history in one shared SQLite database, not an isolated database per task.
 
-* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
+* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks/README.md)
 
 ---
 

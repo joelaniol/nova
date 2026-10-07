@@ -8,7 +8,7 @@ Reads a UTF-8 text file from a task’s shared workspace folder.
 
 `nova.scheduled_task_workspace_read` reads text content from a file inside the task's `shared/` directory. It returns the complete file string, encoding information, and byte size.
 
-* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
+* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks/README.md)
 
 ---
 

@@ -8,7 +8,7 @@ Disarms network interception rules: by rule ID, by tab ID, or globally across th
 
 `nova.network_intercept_clear` removes active network interception rules. Called with no arguments, it acts as an emergency stop disarming every interception rule across all tabs.
 
-* **Core Architecture Guide:** [Proxy Routing & Network Engine](../../../core-features/proxy-and-network.md)
+* **Core Architecture Guide:** [Proxy Routing & Network Engine](../../../core-features/proxy-and-network/README.md)
 
 ---
 

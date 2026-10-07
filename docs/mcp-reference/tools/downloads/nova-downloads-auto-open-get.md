@@ -8,7 +8,7 @@ Retrieves the list of file extensions configured to open automatically upon down
 
 `nova.downloads_auto_open_get` inspects which file extensions are registered to trigger OS launch immediately after download, along with the hardcoded security blocklist of non-executable extensions.
 
-* **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts.md)
+* **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts/README.md)
 
 ---
 

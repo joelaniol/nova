@@ -2,7 +2,7 @@
 
 > **Returns a per-agent summary of this session's MCP tool calls: call counts, tab targets, and failure reason codes.**
 
-* **Core Feature Guide:** [Tool Observation Bus (TOB)](../../../core-features/tob.md)
+* **Core Feature Guide:** [Tool Observation Bus (TOB)](../../../core-features/tool-observation-bus-tob/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

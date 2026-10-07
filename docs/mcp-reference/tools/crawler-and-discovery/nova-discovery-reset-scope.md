@@ -8,7 +8,7 @@ Destructively clears all persisted crawl history, results, and URL indexes for a
 
 `nova.discovery_reset_scope` purges all stored crawler and surface-exploration artifacts for a domain or canonical origin from `crawl.db`. This includes crawl job histories, extracted page/block records, Site-URL-Index rows, and Surface Explorer state/trigger/transition/artifact rows. It is used when a website undergoes a complete redesign or during clean testing. The reset is refused (`status: "blocked"`) instead of applied while any crawl or exploration run for that scope is still active.
 
-* **Core Architecture Guide:** [Autonomous Crawler & Surface Explorer](../../../core-features/crawler-and-discovery.md)
+* **Core Architecture Guide:** [Autonomous Crawler & Surface Explorer](../../../core-features/crawler-and-discovery/README.md)
 
 ---
 

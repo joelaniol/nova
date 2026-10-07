@@ -8,7 +8,7 @@ Stops an in-flight transcription job and returns recognized text segments up to 
 
 `nova.media_transcribe_stop` cancels an active transcription job. It always returns with the recognized segments and text included (equivalent to `nova.media_transcribe_status` with `includeText: true`), keeping whatever was already recognized rather than discarding it.
 
-* **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
+* **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence/README.md)
 
 ---
 

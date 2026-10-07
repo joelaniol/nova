@@ -8,7 +8,7 @@ Retrieves the run execution history (status, duration, exit code, cost) of a sch
 
 `nova.scheduled_task_runs` queries the historical executions of a task, most recent first. It reports each run's trigger kind (`Scheduled`, `Manual`, `CatchUp`, `FileWatch`), status (`Completed`, `Failed`, `Timeout`, `MaxTurns`, `MaxBudget`, `Cancelled`, `Missed`, `SkippedOverlap`, and other terminal states), duration, exit code, cost in USD, turn count, and an output summary, plus whether a structured result is available.
 
-* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
+* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks/README.md)
 
 ---
 

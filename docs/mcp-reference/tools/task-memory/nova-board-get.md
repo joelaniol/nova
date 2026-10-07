@@ -8,7 +8,7 @@ Reads an Agent Knowledge Board laboratory topic by ID or exact structured anchor
 
 `nova.board_get` queries collaborative research topics, evidence threads, and peer refutations stored on the Agent Knowledge Board. The board is off by default and must be enabled in settings; while disabled, both `nova.board_get` and `nova.board_contribute` return an error.
 
-* **Core Architecture Guide:** [Browser Memory & Knowledge Board](../../../core-features/browser-memory-and-board.md)
+* **Core Architecture Guide:** [Browser Memory & Knowledge Board](../../../core-features/browser-memory/README.md)
 
 ---
 

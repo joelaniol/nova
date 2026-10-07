@@ -8,7 +8,7 @@ Sets or clears the per-sandbox fingerprint protection override.
 
 `nova.fingerprint_set_sandbox` assigns a persistent fingerprint protection override to a specific sandbox profile. Pass `level: null` to revert to global defaults.
 
-* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
+* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation/README.md)
 
 ---
 

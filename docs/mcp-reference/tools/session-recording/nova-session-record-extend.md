@@ -8,7 +8,7 @@ Extends an active recording’s time-to-live (TTL) to prevent premature expirati
 
 `nova.session_record_extend` adds additional time in milliseconds to a running session recording's expiry deadline. To prevent runaway disk consumption, extensions are strictly bounded by a 60-minute hard cap measured from the recording's original start timestamp.
 
-* **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
+* **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording/README.md)
 
 ---
 

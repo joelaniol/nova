@@ -8,7 +8,7 @@ Creates an E-Mail account (IMAP/SMTP) or remote server connection (SFTP/FTP).
 
 `nova.connector_create` provisions a new mail account or file-transfer connection. Credentials (passwords, SFTP key passphrases) are write-only: they are stored DPAPI-encrypted and are never returned by any tool, including this one. The connector itself is global, not workspace-scoped; only its capability grants (set separately with `nova.connector_grant_set`) can be scoped to a workspace. This whole tool surface is off by default and only appears once the user turns on connectors in Settings.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
+* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
 
 ---
 

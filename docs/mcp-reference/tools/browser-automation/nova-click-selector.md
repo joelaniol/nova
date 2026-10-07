@@ -123,4 +123,4 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 * [`nova.type_selector`](nova-type-selector.md) — Type text into inputs.
 * [`nova.scroll_smart`](nova-scroll-smart.md) — Bring off-screen elements into view.
 * [`nova.dismiss_blockers`](nova-dismiss-blockers.md) — Standalone modal and banner dismissal.
-* [Core Feature: Input Dispatch & Shadow DOM Traversal](../../../core-features/humanized-input-engine.md)
+* [Core Feature: Input Dispatch & Shadow DOM Traversal](../../../core-features/humanized-input-engine/README.md)

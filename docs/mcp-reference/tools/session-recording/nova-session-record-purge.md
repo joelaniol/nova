@@ -8,7 +8,7 @@ Destructively deletes finalized session recordings older than a specified day th
 
 `nova.session_record_purge` deletes expired recording folders from the `Recordings` folder of Nova's profile (`%LOCALAPPDATA%\nova-cognitive\Nova\Recordings`). It permanently frees disk space by removing historical chunk files, encrypted keys, and index artifacts older than the specified age in days.
 
-* **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
+* **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording/README.md)
 
 ---
 

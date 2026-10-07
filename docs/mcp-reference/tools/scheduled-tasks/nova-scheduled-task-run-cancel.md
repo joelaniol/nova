@@ -8,7 +8,7 @@ Requests cancellation of an in-flight background task run asynchronously.
 
 `nova.scheduled_task_run_cancel` sends a cancellation request for the given run. Cancellation is asynchronous and not guaranteed to be instantaneous — the response reports whether the request was delivered, not whether the run has actually stopped; poll [`nova.scheduled_task_runs`](nova-scheduled-task-runs.md) or [`nova.scheduled_task_active_runs`](nova-scheduled-task-active-runs.md) to confirm the run reaches a `Cancelled` state. Calling it on a run that already finished, or on an active run this engine instance cannot reach, returns `cancelled: false` with a `reason` explaining why instead of an error.
 
-* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
+* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks/README.md)
 
 ---
 

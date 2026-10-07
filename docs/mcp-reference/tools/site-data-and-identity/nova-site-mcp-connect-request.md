@@ -8,7 +8,7 @@ Requests an authenticated OAuth 2.1 connection to a website's discovered MCP ser
 
 `nova.site_mcp_connect_request` starts an OAuth 2.1 + PKCE authorization flow for a domain previously probed with `nova.site_discovery_probe`. It registers a dynamic OAuth client, builds the authorization URL, and starts a local callback listener, then returns the URL for the agent to open in a tab (`nova.tab_new`). The token exchange and vault storage happen in the background after the user completes consent; call `nova.site_discovery_get` afterward to confirm the connection succeeded. Requires an authorization server that supports Dynamic Client Registration and S256 PKCE — the call fails otherwise.
 
-* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
+* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation/README.md)
 
 ---
 

@@ -8,7 +8,7 @@ Resolves the best matching sandbox container for a given workflow intent.
 
 `nova.resolve_sandbox` scores every registered sandbox against a task intent key (e.g. `email.compose`), an optional `serviceHint`, and an optional `accountHint`, then returns the best match plus the full ranked candidate list and reasons for each score. It also reports four agent-guidance gates (low confidence, multiple close matches, account mismatch, target not ready) that can warn or block depending on settings.
 
-* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
+* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation/README.md)
 
 ---
 

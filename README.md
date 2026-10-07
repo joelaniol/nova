@@ -12,7 +12,7 @@
 [![Platform](https://img.shields.io/badge/Windows-10%20%7C%2011%20(x64)-0078D4?logo=windows&logoColor=white)](docs/getting-started/installation.md#1-system-requirements)
 [![Status: Alpha](https://img.shields.io/badge/status-alpha-orange)](ALPHA.md)
 [![Tools](https://img.shields.io/badge/MCP-Tool%20Catalog-success)](docs/mcp-reference/tool-catalog.md)
-[![Terminal](https://img.shields.io/badge/Terminal-ConPTY%20PowerShell-2D7D9A?logo=powershell&logoColor=white)](docs/user-guide/terminal-dock.md)
+[![Terminal](https://img.shields.io/badge/Terminal-ConPTY%20PowerShell-2D7D9A?logo=powershell&logoColor=white)](docs/user-guide/tools/terminal.md)
 [![Local-first](https://img.shields.io/badge/data-local--first-2ea44f)](PRIVACY.md)
 
 **[Download & install](docs/getting-started/installation.md#2-download-and-install) · [Connect your AI program](docs/getting-started/quickstart.md) · [Deutsch](#nova-ai-workspace-deutsch) · [Get help](docs/troubleshooting/README.md)**
@@ -76,23 +76,23 @@ Agents can inspect DOM trees, measure element layout, compare screenshots agains
 
 ### 🛡️ Multi-Sandbox Tab Strip (Zero Cookie Bleed)
 Run multiple enterprise identities, staging environments, and personal accounts in a single browser window. Each sandbox maintains a completely isolated cookie jar, local storage, and cache directory, visually distinguished by color-coded tab accents.
-* Read the [Sandboxes & Profile Isolation Guide](docs/user-guide/sandboxes-and-profiles.md).
+* Read the [Sandboxes & Profile Isolation Guide](docs/user-guide/identity-and-security/sandboxes-and-profiles.md).
 
 ### 💻 Integrated ConPTY Terminal Dock
 A Windows pseudo-console (ConPTY) dock inside the Nova window. It starts PowerShell 7 when it is installed and Windows PowerShell otherwise. Run commands, start dev servers or use git next to the page you are working on.
-* Read the [Terminal Dock Guide](docs/user-guide/terminal-dock.md).
+* Read the [Terminal Dock Guide](docs/user-guide/tools/terminal.md).
 
 ### 👁️ AI Visualization & Staying in Control
 See what an agent is doing: the optional "AI" cursor marks where it acts, and a tab under agent control is marked as such. If an agent reaches a payment checkout or a 2FA screen, you can take over the tab, solve it yourself and hand the work back. **Emergency stop** in the main menu interrupts all agents.
-* Read the [AI Visualization & Staying in Control guide](docs/user-guide/live-assist-and-spectator.md).
+* Read the [AI Visualization & Staying in Control guide](docs/user-guide/agents/watching-agent-work.md).
 
 ### 🔒 Password Vault & Secret References (`SecretRef`)
 Agents can sign in with stored passwords without the plaintext passing through the AI model. Nova keeps vault entries encrypted with Windows DPAPI for your user account and fills them into the login form or HTTP sign-in itself. API keys go into a secret store whose management tools do not return their values. Authorized terminal programs receive them as environment variables and can read or output them; the destination website also receives a filled password.
-* Read the [Vault & Secret Isolation Guide](docs/core-features/vault-and-secrets.md).
+* Read the [Password Vault & Secret Injection](docs/core-features/vault-and-secrets/README.md).
 
 ### 🎙️ Local Whisper Speech Transcription (Offline & Private)
 Transcribe audio and video locally with Whisper speech models. Recognition runs in the separate Outrider helper process; the models are downloaded once and then work offline.
-* Read the [Media Intelligence Guide](docs/core-features/media-intelligence.md).
+* Read the [Media Intelligence & Speech Transcription](docs/core-features/media-intelligence/README.md).
 
 ---
 
@@ -102,15 +102,15 @@ Traditional agent tools provide raw browser automation commands. Nova surrounds 
 
 | Cognitive Function | What Nova Contributes | Architecture Guide | Video Demo |
 | :--- | :--- | :--- | :---: |
-| **Agent-Native Interface** | Built with agents: familiar action names and scoped aliases connect learned expectations to Nova's canonical tools | [Agent-Native Affordances](docs/core-features/agent-native-affordances.md) | — |
-| **Perception** | Reads the live browser through DOM, accessibility, screenshots, network, and console | [Visual Evidence](docs/core-features/evm-and-visual-evidence.md) | — |
-| **Procedural Memory** | Remembers website interaction recipes, state, health, and visual drift | [PKS Store](docs/core-features/pks.md) | [Watch](https://www.youtube.com/watch?v=7NwRGC3l-r8) |
-| **Operational Awareness** | Login state, plan and active model of a site, plus per-domain notes for agents | [Operational Knowledge](docs/core-features/operational-knowledge.md) | [Watch](https://www.youtube.com/watch?v=LgShkPaSW7I) |
-| **Episodic Task Memory** | Preserves recurring tasks, work units, progress, and learned guidance | [ETM Memory](docs/core-features/etm-and-task-memory.md) | [Watch](https://www.youtube.com/watch?v=9qXrleOhPAw) |
-| **User Context** | Opt-in domain notes and preferences preserved across sessions | [Browser Memory](docs/core-features/browser-memory-and-board.md) | — |
-| **Executive Control** | Goal Register and safety/reflection gates keep intent and steps visible | [AAG Gates](docs/core-features/aag.md) | [Watch](https://www.youtube.com/watch?v=xhicSiFxPdY) |
-| **Closed-Loop Verification** | Expected state → action → verified outcome; evidence-based claims | [Closed-Loop System](docs/core-features/closed-loop-system.md) | [Watch](https://www.youtube.com/watch?v=aKNp_74B8DE) |
-| **Adaptive Learning** | Candidate promotion pipeline that validates and re-checks on site drift | [Learning Pipeline (ALP)](docs/core-features/learning-pipeline-alp.md) | [Watch](https://www.youtube.com/watch?v=6iM3TbOL9o0) |
+| **Agent-Native Interface** | Built with agents: familiar action names and scoped aliases connect learned expectations to Nova's canonical tools | [Agent-Native Affordances](docs/core-features/agent-native-affordances/README.md) | — |
+| **Perception** | Reads the live browser through DOM, accessibility, screenshots, network, and console | [Evidence Verification Mode (EVM) & Visual Evidence](docs/core-features/evidence-verification-mode-evm/README.md) | — |
+| **Procedural Memory** | Remembers website interaction recipes, state, health, and visual drift | [Phenomenological Knowledge Store (PKS)](docs/core-features/phenomenological-knowledge-store-pks/README.md) | [Watch](https://www.youtube.com/watch?v=7NwRGC3l-r8) |
+| **Operational Awareness** | Login state, plan and active model of a site, plus per-domain notes for agents | [Operational Knowledge (OK) & Real-Time Environment State](docs/core-features/operational-knowledge-ok/README.md) | [Watch](https://www.youtube.com/watch?v=LgShkPaSW7I) |
+| **Episodic Task Memory** | Preserves recurring tasks, work units, progress, and learned guidance | [Episodic Task Memory (ETM)](docs/core-features/episodic-task-memory-etm/README.md) | [Watch](https://www.youtube.com/watch?v=9qXrleOhPAw) |
+| **User Context** | Opt-in domain notes and preferences preserved across sessions | [Browser Memory](docs/core-features/browser-memory/README.md) | — |
+| **Executive Control** | Goal Register and safety/reflection gates keep intent and steps visible | [Agent Awareness Gates (AAG)](docs/core-features/agent-awareness-gates-aag/README.md) | [Watch](https://www.youtube.com/watch?v=xhicSiFxPdY) |
+| **Closed-Loop Verification** | Expected state → action → verified outcome; evidence-based claims | [Closed-Loop System (CLS)](docs/core-features/closed-loop-system-cls/README.md) | [Watch](https://www.youtube.com/watch?v=aKNp_74B8DE) |
+| **Adaptive Learning** | Candidate promotion pipeline that validates and re-checks on site drift | [Agent Learning Pipeline (ALP)](docs/core-features/agent-learning-pipeline-alp/README.md) | [Watch](https://www.youtube.com/watch?v=6iM3TbOL9o0) |
 
 ---
 
@@ -156,8 +156,8 @@ Explore the comprehensive documentation for operators, developers, and AI agents
 | Section | Focus Area | Key Documents |
 | :--- | :--- | :--- |
 | **[Getting Started](docs/getting-started/README.md)** | Installation & First Task | [Installation](docs/getting-started/installation.md) • [Your First Five Minutes](docs/getting-started/quickstart.md) • [What's Next?](docs/getting-started/whats-next.md) |
-| **[User Guide](docs/user-guide/README.md)** | Human Workspace & UI Controls | [Workspace Layout](docs/user-guide/workspace-layout.md) • [Sandboxes](docs/user-guide/sandboxes-and-profiles.md) • [Terminal Dock](docs/user-guide/terminal-dock.md) • [AI Visualization](docs/user-guide/live-assist-and-spectator.md) • [Shortcuts](docs/user-guide/keyboard-shortcuts.md) |
-| **[Core Features](docs/core-features/README.md)** | Deep Architecture & Systems | [AAG Gates](docs/core-features/aag.md) • [PKS Knowledge Store](docs/core-features/pks.md) • [Outrider Boundary](docs/core-features/outrider-boundary.md) • [Vault & Secrets](docs/core-features/vault-and-secrets.md) • [Session Recording](docs/core-features/session-recording.md) |
+| **[User Guide](docs/user-guide/README.md)** | Everyday browsing & workspace controls | [Browser](docs/user-guide/browser/README.md) • [Identity & Security](docs/user-guide/identity-and-security/README.md) • [Agents](docs/user-guide/agents/README.md) • [Tools](docs/user-guide/tools/README.md) • [Settings](docs/user-guide/settings/README.md) |
+| **[Core Features](docs/core-features/README.md)** | Deep Architecture & Systems | [Agent Awareness Gates (AAG)](docs/core-features/agent-awareness-gates-aag/README.md) • [Phenomenological Knowledge Store (PKS)](docs/core-features/phenomenological-knowledge-store-pks/README.md) • [Nova Outrider](docs/core-features/outrider-boundary/README.md) • [Password Vault & Secret Injection](docs/core-features/vault-and-secrets/README.md) • [Session Recording & Time-Travel Debugging](docs/core-features/session-recording/README.md) |
 | **[Components & Processes](docs/components/README.md)** | Identify Nova-related processes | [Main app](docs/components/nova-ai-workspace.md) • [Outrider](docs/components/outrider.md) • [MCP Proxy](docs/components/mcp-proxy.md) • [TerminalRunner](docs/components/terminal-runner.md) • [ReplayValidator](docs/components/replay-validator.md) • [WebView2](docs/components/webview2-and-child-processes.md) |
 | **[MCP Reference](docs/mcp-reference/README.md)** | Tools & Protocol | [Tool Catalog](docs/mcp-reference/tool-catalog.md) • [Protocol & Transport](docs/mcp-reference/protocol-and-transport.md) • [Dedicated Tool Guides](docs/mcp-reference/tools/README.md) |
 | **[Integration](docs/integration/README.md)** | AI Assistants & Clients | [Claude Code](docs/integration/claude-code.md) • [Codex](docs/integration/openai-codex.md) • [Antigravity](docs/integration/google-antigravity.md) • [Claude Desktop](docs/integration/claude-desktop.md) • [Custom Agents](docs/integration/custom-agents.md) |

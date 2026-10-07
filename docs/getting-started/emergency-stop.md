@@ -44,4 +44,4 @@ Releasing the stop enables work again; it does not restore terminated shells or 
 
 Moving your mouse or typing does not pause the agent. To take over a single claimed tab, use the activity details to release its claim, or choose **Release agent** on its sandbox pill; confirm **Take over control** if prompted. This releases that claim and is distinct from the global Emergency stop.
 
-See [AI visualization and staying in control](../user-guide/live-assist-and-spectator.md#3-staying-in-control) for activity markers and tab controls. Continue with [Your first five minutes](quickstart.md) or [What's next?](whats-next.md).
+See [AI visualization and staying in control](../user-guide/agents/taking-over-and-emergency-stop.md#3-staying-in-control) for activity markers and tab controls. Continue with [Your first five minutes](quickstart.md) or [What's next?](whats-next.md).

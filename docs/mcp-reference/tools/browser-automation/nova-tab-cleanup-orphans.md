@@ -96,4 +96,4 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 * [`nova.tabs`](nova-tabs.md) — Query open tabs and inspect `mcpOrigin.orphaned` status.
 * [`nova.tab_close`](nova-tab-close.md) — Explicitly close a single known tab.
 * [`nova.tab_release`](nova-tab-release.md) — Voluntarily release a claim before closing.
-* [Sandbox Isolation Architecture](../../../core-features/sandbox-isolation.md) — Multi-session boundary separation.
+* [Sandbox Isolation Architecture](../../../core-features/sandbox-isolation/README.md) — Multi-session boundary separation.

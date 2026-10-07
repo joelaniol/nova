@@ -85,4 +85,4 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 * [`nova.tab_release`](nova-tab-release.md) — Release an active lease.
 * [`nova.tabs`](nova-tabs.md) — Check claim owners and lease remaining time.
-* [Core Feature: Agent Awareness Gates (AAG)](../../../core-features/aag.md)
+* [Core Feature: Agent Awareness Gates (AAG)](../../../core-features/agent-awareness-gates-aag/README.md)

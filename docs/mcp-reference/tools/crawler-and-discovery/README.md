@@ -2,7 +2,7 @@
 
 Broad-surface website crawling, URL indexing, sitemap verification, and discovery probes.
 
-* **Core Architecture Guide:** [Core Features: crawler-and-discovery.md](../../../core-features/crawler-and-discovery.md)
+* **Core Architecture Guide:** [Core Features: crawler-and-discovery.md](../../../core-features/crawler-and-discovery/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

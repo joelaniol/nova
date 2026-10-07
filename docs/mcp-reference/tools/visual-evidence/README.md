@@ -2,7 +2,7 @@
 
 Lossless cropped screenshots, pixel-by-pixel diffing, persistent baselines, and print-to-PDF generation.
 
-* **Core Architecture Guide:** [Core Features: evm-and-visual-evidence.md](../../../core-features/evm-and-visual-evidence.md)
+* **Core Architecture Guide:** [Core Features: evm-and-visual-evidence.md](../../../core-features/evidence-verification-mode-evm/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

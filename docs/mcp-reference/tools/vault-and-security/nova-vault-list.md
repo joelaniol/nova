@@ -81,4 +81,4 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 * [`nova.vault_prepare_fill`](nova-vault-prepare-fill.md) — Request single-use fill token for a listed account.
 * [`nova.vault_get`](nova-vault-get.md) — Inspect metadata for a specific entry.
-* [Vault Architecture](../../../core-features/vault-and-secrets.md) — DPAPI encryption and security controls.
+* [Vault Architecture](../../../core-features/vault-and-secrets/README.md) — DPAPI encryption and security controls.

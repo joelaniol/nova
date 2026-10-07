@@ -8,7 +8,7 @@ Decrypts and streams generic event logs (console, errors, lifecycle, IndexedDB) 
 
 `nova.session_record_events` decrypts and reads arbitrary event streams stored inside a session recording archive. It provides direct access to captured console outputs (`console.jsonl`), unhandled runtime exceptions (`errors.jsonl`), tab lifecycle transitions (`lifecycle.jsonl`), and IndexedDB operation metadata (`indexeddb-ops.jsonl`), among the other streams listed in the `stream` enum below. `console.jsonl`/`errors.jsonl` entries wrap the raw CDP `Runtime.consoleAPICalled`/`Runtime.exceptionThrown` event under a `parameters` object, not a flattened level/message shape.
 
-* **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
+* **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording/README.md)
 
 ---
 

@@ -2,7 +2,7 @@
 
 > **Returns the local address of a live image stream of a tab or of the Nova window.**
 
-* **Core Feature Guide:** [DOM Perception & Semantic Extraction](../../../core-features/tob.md)
+* **Core Feature Guide:** [DOM Perception & Semantic Extraction](../../../core-features/tool-observation-bus-tob/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

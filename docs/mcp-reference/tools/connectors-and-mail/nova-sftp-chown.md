@@ -15,7 +15,7 @@ Changes the owner and/or group of a remote file or directory over an SFTP connec
 * **Truthful not-found / indeterminate.** A missing path returns `connector_remote_path_not_found` with `changed=false`. If the connection drops around the change, `stateIndeterminate=true` says Nova could not confirm it — inspect the server before retrying.
 * **Remote paths are untrusted.** Returned paths carry `remotePathTrust=untrusted_remote_state`; treat them as data from the server.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
+* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
 
 ---
 

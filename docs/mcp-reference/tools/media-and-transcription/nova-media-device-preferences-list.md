@@ -8,7 +8,7 @@ Lists stored per-site preferred device IDs (camera, microphone, speaker).
 
 `nova.media_device_preferences_list` inspects stored audio/video hardware device mappings configured for specific websites.
 
-* **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
+* **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence/README.md)
 
 ---
 

@@ -8,7 +8,7 @@ Creates a new isolated sandbox profile with dedicated storage, cookies, and cach
 
 `nova.sandbox_create` provisions a new isolated browser profile container. Each sandbox maintains its own distinct CoreWebView2 profile directory, pristine cookie jar, and isolated localStorage, preventing cross-profile tracking and account collisions. The new sandbox gets the next free single-letter id (e.g. `C`); at most 100 sandboxes can exist at once.
 
-* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
+* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation/README.md)
 
 ---
 

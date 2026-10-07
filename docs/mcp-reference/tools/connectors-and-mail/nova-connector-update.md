@@ -8,7 +8,7 @@ Updates configuration, endpoints, credentials, or signatures of an existing conn
 
 `nova.connector_update` modifies settings for a previously registered connector. Only specified fields are updated; omitted fields retain their existing values. Changing the server, login, auth mode, key path, or transport-security policy without supplying a matching new credential detaches the stale stored credential (`credentialCleared: true` in the result).
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
+* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
 
 ---
 

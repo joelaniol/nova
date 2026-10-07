@@ -8,7 +8,7 @@ Emulates browser locale, timezone, and geolocation coordinates for testing local
 
 `nova.emulation_set_locale` sets `navigator.language`/`navigator.languages`, the Accept-Language request header, the IANA timezone, and/or GPS coordinates for internationalization and geolocation testing. Each axis (locale, timezone, geolocation) is independent — pass only the ones you want to change. Timezone and geolocation fully change `Date` timezone behavior and the Geolocation API; `locale` does NOT change `Intl`/`Date`/`Number` formatting output, which is fixed at the browser process level and cannot be overridden per tab at runtime.
 
-* **Core Architecture Guide:** [Fingerprint & Identity Systems](../../../core-features/fingerprint-and-identity.md)
+* **Core Architecture Guide:** [Fingerprint & Identity Systems](../../../core-features/fingerprint-and-identity/README.md)
 
 ---
 

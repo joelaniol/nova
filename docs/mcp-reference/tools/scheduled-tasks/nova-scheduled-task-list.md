@@ -8,7 +8,7 @@ Lists all scheduled tasks with enabled state, next run time, last result, and cu
 
 `nova.scheduled_task_list` retrieves an inventory of all configured background tasks. Each entry reports whether the task is enabled, its next scheduled fire time, the last run's status, the consecutive-failure count against the circuit-breaker threshold (and whether it has tripped), total run count, cumulative cost, budget cap, and any chained follow-up task. There is no separate "Paused" state — a task is either `enabled: true` or `enabled: false`.
 
-* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
+* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks/README.md)
 
 ---
 

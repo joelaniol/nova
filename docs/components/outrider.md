@@ -44,6 +44,6 @@ This boundary contains a native crash or hang; it cannot repair a broken driver 
 
 ## Learn More
 
-* [Outrider boundary](../core-features/outrider-boundary.md) — Deadlines, transport and failure behaviour.
-* [Media intelligence](../core-features/media-intelligence.md)
+* [Outrider boundary](../core-features/outrider-boundary/README.md) — Deadlines, transport and failure behaviour.
+* [Media intelligence](../core-features/media-intelligence/README.md)
 * [All components](README.md)

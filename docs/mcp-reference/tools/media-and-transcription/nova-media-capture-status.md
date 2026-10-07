@@ -8,7 +8,7 @@ Reports progress, elapsed time, and bytes written for an active in-tab media cap
 
 `nova.media_capture_status` monitors an ongoing streaming capture started by [`nova.media_capture_start`](nova-media-capture-start.md), reporting elapsed time, total bytes written, how many tracks are open, and whether the byte cap was hit or the page's recorder was lost (e.g. after a navigation).
 
-* **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
+* **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence/README.md)
 
 ---
 

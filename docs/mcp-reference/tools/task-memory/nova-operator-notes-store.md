@@ -8,7 +8,7 @@ Stores or updates a persistent operator note with search tags and category.
 
 `nova.operator_notes_store` saves human-authored operating instructions that are automatically indexed and surfaced to agents working in matching domains or tasks.
 
-* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
+* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/episodic-task-memory-etm/README.md)
 
 ---
 

@@ -8,7 +8,7 @@ Applies a named device preset (viewport, DPR, touch capabilities, and user agent
 
 `nova.emulation_use_device` is the Playwright `devices["..."]` equivalent for Nova. It atomically configures screen metrics, touch emulation, device pixel ratio, and realistic user agent headers across 113 mobile, tablet, and desktop presets.
 
-* **Core Architecture Guide:** [Fingerprint & Identity Systems](../../../core-features/fingerprint-and-identity.md)
+* **Core Architecture Guide:** [Fingerprint & Identity Systems](../../../core-features/fingerprint-and-identity/README.md)
 
 ---
 

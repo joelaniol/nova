@@ -8,7 +8,7 @@ Reads the active browser identity profile, spoofed User-Agent, and client hints.
 
 `nova.identity_get` returns the current browser persona configuration: active preset (`default`, `chrome`, `firefox`, `safari`, or `custom`), version string, custom User-Agent (when set), and whether the spoofed identity's client hints (`Sec-CH-UA` etc.) are internally coherent. `identity_set` applies the chosen identity globally, not per tab or sandbox.
 
-* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
+* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation/README.md)
 
 ---
 

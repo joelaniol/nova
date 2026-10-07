@@ -8,7 +8,7 @@ Pauses execution of a scheduled task without modifying its configuration or hist
 
 `nova.scheduled_task_disable` pauses a scheduled task, cancelling future timer triggers and preventing scheduled runs from executing. Configuration, run history, secrets, and workspace files remain completely preserved.
 
-* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
+* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks/README.md)
 
 ---
 

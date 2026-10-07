@@ -65,4 +65,4 @@ Read [Emergency Stop](emergency-stop.md) for what it interrupts, what remains co
 
 **[What's next?](whats-next.md)** — explore browser features, set up optional project onboarding, or learn recurring website workflows.
 
-If something did not work, start at [Troubleshooting](../troubleshooting/README.md). For taking over one tab and other controls, see [Staying in control](../user-guide/live-assist-and-spectator.md).
+If something did not work, start at [Troubleshooting](../troubleshooting/README.md). For taking over one tab and other controls, see [Staying in control](../user-guide/agents/taking-over-and-emergency-stop.md).

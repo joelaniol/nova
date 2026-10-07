@@ -8,7 +8,7 @@ Saves a persistent browsing memory (user preference, workflow hint, domain conte
 
 `nova.memory_note` records a persistent note, preference or context entry bound to a domain (and optionally a URL path pattern) that survives across sessions. Relevance decays over time by memory type; a later `nova.memory_recall` is needed to retrieve it.
 
-* **Core Architecture Guide:** [Browser Memory & Knowledge Board](../../../core-features/browser-memory-and-board.md)
+* **Core Architecture Guide:** [Browser Memory & Knowledge Board](../../../core-features/browser-memory/README.md)
 
 ---
 

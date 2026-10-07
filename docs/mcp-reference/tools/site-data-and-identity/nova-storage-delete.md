@@ -8,7 +8,7 @@ Deletes a key from localStorage or sessionStorage for the target page.
 
 `nova.storage_delete` removes a single key from `localStorage` or `sessionStorage` for the active page origin.
 
-* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
+* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation/README.md)
 
 ---
 

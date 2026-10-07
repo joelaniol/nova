@@ -8,7 +8,7 @@ Deletes a connector profile, associated capability grants, and backing DPAPI sec
 
 `nova.connector_delete` removes a connector profile and its capability grants. A backing password/passphrase secret is removed only when no other connector still references it. The result always reports `found` explicitly — a missing connector id is never answered with a silent success.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
+* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
 
 ---
 

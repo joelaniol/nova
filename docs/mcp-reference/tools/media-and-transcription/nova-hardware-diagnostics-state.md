@@ -8,7 +8,7 @@ Returns current live hardware diagnostic metrics including microphone audio leve
 
 `nova.hardware_diagnostics_state` polls live measurements from an active diagnostic channel on a tab. It reports whether video/microphone/speaker channels are currently running and a real-time microphone level on a 0-100 scale (`micLevel`, with `micPeak` decaying slowly from the highest level seen).
 
-* **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
+* **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence/README.md)
 
 ---
 

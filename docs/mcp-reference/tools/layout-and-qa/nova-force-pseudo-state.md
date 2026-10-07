@@ -2,7 +2,7 @@
 
 > **Forces CSS pseudo-class states (:hover, :focus, :active, :visited) on an element.**
 
-* **Core Feature Guide:** [Visual Evidence & Layout QA](../../../core-features/evm-and-visual-evidence.md)
+* **Core Feature Guide:** [Visual Evidence & Layout QA](../../../core-features/evidence-verification-mode-evm/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

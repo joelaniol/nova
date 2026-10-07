@@ -8,7 +8,7 @@ Enables a paused or circuit-broken scheduled task and resets failure counters.
 
 `nova.scheduled_task_enable` resumes a task that was previously disabled or tripped by Nova's circuit breaker. Enabling a task always resets its consecutive-failure counter to 0, whether or not the circuit breaker was actually tripped; the response's `circuitBreakerReset` flag tells you whether it had been.
 
-* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
+* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks/README.md)
 
 ---
 

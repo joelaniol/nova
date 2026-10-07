@@ -8,7 +8,7 @@ Clears viewport device metrics overrides, restoring normal window-sized renderin
 
 `nova.emulation_clear_device_metrics` clears any active `Emulation.setDeviceMetricsOverride` on the target tab, returning the layout and CSS viewport to standard host window proportions.
 
-* **Core Architecture Guide:** [Fingerprint & Identity Systems](../../../core-features/fingerprint-and-identity.md)
+* **Core Architecture Guide:** [Fingerprint & Identity Systems](../../../core-features/fingerprint-and-identity/README.md)
 
 ---
 

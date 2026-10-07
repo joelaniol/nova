@@ -8,7 +8,7 @@ Deletes an installed speech model file to reclaim disk space or prepare for re-d
 
 `nova.media_transcribe_model_remove` removes a GGML model file from local storage. Useful for freeing disk space or removing corrupted model downloads.
 
-* **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
+* **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence/README.md)
 
 ---
 

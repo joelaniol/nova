@@ -18,7 +18,7 @@ Diagnoses a configured mail account or SFTP/FTP server: reachability, TLS, serve
 
 Guards against repeated logins: the same probe within 30 seconds answers from the last result (`cached: true`), at most one probe per connection runs at a time, and after a failed login a new login probe is refused for 60 seconds. A login-free probe of a server Nova never connected to successfully asks the user once.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
+* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
 
 ---
 

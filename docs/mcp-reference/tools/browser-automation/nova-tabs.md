@@ -110,4 +110,4 @@ The response also carries `totalCount`, `filteredCount`, `mine`/`mineAgentId`, a
 * [`nova.tab_claim`](nova-tab-claim.md) — Claim exclusive write access to a tab.
 * [`nova.tab_new`](nova-tab-new.md) — Open a new tab.
 * [`nova.tab_close`](nova-tab-close.md) — Close a tab.
-* [Core Feature: Multi-Sandbox Isolation](../../../core-features/sandbox-isolation.md)
+* [Core Feature: Multi-Sandbox Isolation](../../../core-features/sandbox-isolation/README.md)

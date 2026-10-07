@@ -128,4 +128,4 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 * [`nova.telemetry_report`](nova-telemetry-report.md) — Report interaction outcomes to graduate phenomena.
 * [`nova.pks_get`](nova-pks-get.md) — Retrieve existing domain phenomena.
 * [`nova.pks_match`](nova-pks-match.md) — Match current page signals against stored phenomena.
-* [Phenomenological Knowledge Store (PKS)](../../../core-features/pks.md) — Comprehensive guide to PKS levels and lifecycle.
+* [Phenomenological Knowledge Store (PKS)](../../../core-features/phenomenological-knowledge-store-pks/README.md) — Comprehensive guide to PKS levels and lifecycle.

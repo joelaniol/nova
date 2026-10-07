@@ -2,7 +2,7 @@
 
 IMAP/SMTP email client automation, EML exports, SFTP/FTP server operations, and credential access grants.
 
-* **Core Architecture Guide:** [Core Features: connectors-and-protocols.md](../../../core-features/connectors-and-protocols.md)
+* **Core Architecture Guide:** [Core Features: connectors-and-protocols.md](../../../core-features/connectors-and-protocols/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

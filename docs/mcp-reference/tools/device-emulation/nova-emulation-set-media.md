@@ -8,7 +8,7 @@ Emulates CSS media features like dark mode, reduced motion, high contrast, and p
 
 `nova.emulation_set_media` overrides CSS media queries via CDP `Emulation.setEmulatedMedia`. It allows testing dark themes (`colorScheme: "dark"`), accessibility features, and print stylesheets. Features accumulate across calls: setting `colorScheme` then later `reducedMotion` leaves both active, merged over the tab's previously applied features; call `nova.emulation_clear_media` to revert everything at once.
 
-* **Core Architecture Guide:** [Fingerprint & Identity Systems](../../../core-features/fingerprint-and-identity.md)
+* **Core Architecture Guide:** [Fingerprint & Identity Systems](../../../core-features/fingerprint-and-identity/README.md)
 
 ---
 

@@ -8,7 +8,7 @@ Opens a completed download using the operating system default application.
 
 `nova.downloads_open_file` launches the downloaded file via the Windows shell association (e.g. opening a `.docx` in Word or `.pdf` in Acrobat). It requires the download to be in status `completed` with a verified file on disk.
 
-* **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts.md)
+* **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts/README.md)
 
 ---
 

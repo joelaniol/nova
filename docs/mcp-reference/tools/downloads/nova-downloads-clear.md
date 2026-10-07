@@ -8,7 +8,7 @@ Clears terminal download history from the UI and persistent storage.
 
 `nova.downloads_clear` removes completed, cancelled, and failed download entries from the downloads manager history. Active transfers (queued, in progress, paused) are preserved and never cleared.
 
-* **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts.md)
+* **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts/README.md)
 
 ---
 

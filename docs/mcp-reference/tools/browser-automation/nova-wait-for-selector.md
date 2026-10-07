@@ -187,4 +187,4 @@ If `absent: true` was requested and the element disappeared, `result` is `null`:
 * [`nova.click_selector`](nova-click-selector.md) — Click the element immediately after locating it.
 * [`nova.type_selector`](nova-type-selector.md) — Enter text into inputs once visible.
 * [`nova.dismiss_blockers`](nova-dismiss-blockers.md) — Explicitly remove interfering consent dialogs.
-* [Automated Actions Guide (AAG)](../../../core-features/aag.md) — Deep overview of Nova's selector engine and settlement lifecycle.
+* [Automated Actions Guide (AAG)](../../../core-features/agent-awareness-gates-aag/README.md) — Deep overview of Nova's selector engine and settlement lifecycle.

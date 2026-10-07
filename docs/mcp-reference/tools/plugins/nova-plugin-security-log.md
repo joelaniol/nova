@@ -2,7 +2,7 @@
 
 > **Read recent security policy violations recorded by the bridge enforcement layer (permission_denied, quota_exceeded, url_blocked, script_blocked, redirect_blocked, oversize_attempt).**
 
-* **Core Feature Guide:** [Agent-Authored Plugins](../../../core-features/plugins.md)
+* **Core Feature Guide:** [Agent-Authored Plugins](../../../core-features/plugins/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
@@ -32,4 +32,4 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 ## See Also
 
 * [All plugin tools](README.md)
-* [Agent-Authored Plugins](../../../core-features/plugins.md)
+* [Agent-Authored Plugins](../../../core-features/plugins/README.md)

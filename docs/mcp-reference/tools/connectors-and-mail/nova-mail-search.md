@@ -8,7 +8,7 @@ Searches mail metadata across the IMAP server and local encrypted search archive
 
 `nova.mail_search` searches mail metadata through the IMAP server and, when the user has enabled it, Nova's encrypted local archive. It can target one exact folder or, when `folder` is omitted, up to 200 selectable personal folders. `query` is a structured filter object (`unseen`, `from`, `to`, `subject`, `text`, `sinceUtc`, `beforeUtc`, combined with AND) or, as a compatibility shorthand, a single full-text string — there is no raw IMAP search-command syntax. If the server is unavailable but the archive can still be searched, the call succeeds with `sources: ["archive"]`, `serverAvailable: false`, and a structured server warning instead of failing outright. The effective read grant's exact folder/sender filter applies to both server and archive results.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
+* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
 
 ---
 

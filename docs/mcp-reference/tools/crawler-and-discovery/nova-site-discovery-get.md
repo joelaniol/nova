@@ -8,7 +8,7 @@ Retrieves cached MCP and AI discovery probe results for a domain without network
 
 `nova.site_discovery_get` reads previously cached AI/MCP discovery probe findings for a domain's origin from local storage. It does not initiate any network requests; if no probe has been executed yet for that origin, it returns `{ "found": false, "hint": "..." }` rather than `null`. It shares its response shape with [`nova.site_discovery_probe`](nova-site-discovery-probe.md) — both tools return identical fields on a cache hit, since `site_discovery_get` just serves the cached result without probing.
 
-* **Core Architecture Guide:** [Autonomous Crawler & Surface Explorer](../../../core-features/crawler-and-discovery.md)
+* **Core Architecture Guide:** [Autonomous Crawler & Surface Explorer](../../../core-features/crawler-and-discovery/README.md)
 
 ---
 

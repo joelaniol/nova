@@ -8,7 +8,7 @@ Sends a named control key or key combination to the active terminal session.
 
 `nova.terminal_send_key` transmits special keyboard events to the ConPTY input pipe, allowing agents to interrupt running jobs, navigate interactive menus, or confirm prompts.
 
-* **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces.md)
+* **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces/README.md)
 
 ---
 

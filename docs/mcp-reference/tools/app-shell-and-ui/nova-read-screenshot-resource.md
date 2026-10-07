@@ -2,7 +2,7 @@
 
 > **Reads a screenshot resource URI (`nova://screenshot/...`) returned by a capture tool and returns its image bytes as base64.**
 
-* **Core Feature Guide:** [EVM & Visual Evidence](../../../core-features/evm-and-visual-evidence.md)
+* **Core Feature Guide:** [EVM & Visual Evidence](../../../core-features/evidence-verification-mode-evm/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

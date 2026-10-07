@@ -8,7 +8,7 @@ Lists known task profiles, optionally filtered by taskType, domain, or platform.
 
 `nova.task_profiles` returns an inventory of registered task profiles with summaries of goals and verification criteria.
 
-* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
+* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/episodic-task-memory-etm/README.md)
 
 ---
 

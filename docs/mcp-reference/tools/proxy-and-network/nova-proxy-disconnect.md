@@ -8,7 +8,7 @@ Manually disconnects the proxy for a target scope, blocking all HTTP(S) traffic 
 
 `nova.proxy_disconnect` acts as an emergency network kill switch. It severs the proxy route and blocks all outgoing HTTP(S) requests until `nova.proxy_reconnect` succeeds, preventing IP leaks.
 
-* **Core Architecture Guide:** [Proxy Routing & Network Engine](../../../core-features/proxy-and-network.md)
+* **Core Architecture Guide:** [Proxy Routing & Network Engine](../../../core-features/proxy-and-network/README.md)
 
 ---
 

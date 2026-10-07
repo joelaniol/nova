@@ -8,7 +8,7 @@ Writes raw characters to the session stdin without appending an implicit newline
 
 `nova.terminal_write` feeds raw bytes or strings directly into the ConPTY stdin stream. It does not wait for command completion or output generation.
 
-* **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces.md)
+* **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces/README.md)
 
 ---
 

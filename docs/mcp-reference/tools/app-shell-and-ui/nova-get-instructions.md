@@ -2,7 +2,7 @@
 
 > **Retrieves the complete Nova AI operational contract, conventions, and agent guidelines.**
 
-* **Core Feature Guide:** [Agent Awareness Gates (AAG)](../../../core-features/aag.md)
+* **Core Feature Guide:** [Agent Awareness Gates (AAG)](../../../core-features/agent-awareness-gates-aag/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

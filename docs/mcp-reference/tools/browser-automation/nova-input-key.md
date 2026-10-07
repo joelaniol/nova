@@ -75,4 +75,4 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 * [`nova.type_selector`](nova-type-selector.md) — For typing textual strings into inputs.
 * [`nova.click_selector`](nova-click-selector.md) — For clicking interactive elements.
-* [Agent Awareness Gates (AAG)](../../../core-features/aag.md) — Checks that warn or block `nova.input_key` and other input tools when the agent has not looked at the page since its last navigation.
+* [Agent Awareness Gates (AAG)](../../../core-features/agent-awareness-gates-aag/README.md) — Checks that warn or block `nova.input_key` and other input tools when the agent has not looked at the page since its last navigation.

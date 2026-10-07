@@ -8,7 +8,7 @@ Cancels an active in-progress or queued download by ID.
 
 `nova.downloads_cancel` aborts an ongoing transfer. It works across both native WebView2 downloads and background HttpClient fallbacks, returning status confirmation once the cancellation is registered.
 
-* **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts.md)
+* **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts/README.md)
 
 ---
 

@@ -8,7 +8,7 @@ Gracefully stops an in-flight mail backup job, committing all downloaded message
 
 `nova.mail_backup_stop` stops a running mail backup. The open ZIP part is finished and committed, so nothing already downloaded is lost; a later `nova.mail_backup_start` with `mode='auto'` continues after it. The call returns the job status with `state: "stopping"` until the worker has actually closed the part.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
+* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
 
 ---
 

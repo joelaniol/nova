@@ -8,7 +8,7 @@ Memory-safe tail reader for stdout and stderr log streams of a specific task run
 
 `nova.scheduled_task_run_output` reads log streams produced during task execution. For files over 1 MB it streams from the end of the file instead of loading it fully, to avoid out-of-memory errors on large outputs, and returns the requested tail along with line-range metadata (`startLine`, `endLine`, `hasEarlier`). If the run has no log file for the requested stream yet, it reports zero lines rather than an error. The response also includes `structuredResult` — the run's parsed structured-result JSON, if the executor wrote one — alongside the raw log lines.
 
-* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
+* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks/README.md)
 
 ---
 

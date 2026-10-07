@@ -8,7 +8,7 @@ Cancels every non-terminal download currently queued, in progress, or paused.
 
 `nova.downloads_cancel_all` bulk-dispatches abort signals to all pending and active download operations, clearing network queues during emergency stops or workflow resets.
 
-* **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts.md)
+* **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts/README.md)
 
 ---
 

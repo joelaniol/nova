@@ -2,7 +2,7 @@
 
 Token-efficient text extraction, structured landmark reading, typed DOM attributes, and multi-modal fusion perception.
 
-* **Core Architecture Guide:** [Core Features: tob.md](../../../core-features/tob.md)
+* **Core Architecture Guide:** [Core Features: tob.md](../../../core-features/tool-observation-bus-tob/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

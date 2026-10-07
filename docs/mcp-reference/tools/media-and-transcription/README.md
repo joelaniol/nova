@@ -2,7 +2,7 @@
 
 In-browser audio/video recording, local OpenAI Whisper transcription, model management, and camera/mic permissions.
 
-* **Core Architecture Guide:** [Core Features: media-intelligence.md](../../../core-features/media-intelligence.md)
+* **Core Architecture Guide:** [Core Features: media-intelligence.md](../../../core-features/media-intelligence/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

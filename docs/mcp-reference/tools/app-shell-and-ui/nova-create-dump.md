@@ -2,7 +2,7 @@
 
 > **Writes a diagnostic dump of a browser tab (screenshot, DOM, page info, and in full mode MHTML and resources) to a folder on disk.**
 
-* **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
+* **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

@@ -8,7 +8,7 @@ Transcribes local audio or video files into text entirely on-device using local 
 
 `nova.media_transcribe_start` converts spoken audio from local files into structured text. Transcription runs locally inside the sandboxed Outrider process via whisper.cpp with SIMD acceleration. No audio ever leaves the user's computer.
 
-* **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
+* **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence/README.md)
 
 ---
 

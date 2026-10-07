@@ -8,7 +8,7 @@ Compares two completed crawls of the same site to detect added, removed, or modi
 
 `nova.crawl_diff` computes the delta between two completed crawl runs of a website. By hashing content and comparing URL inventories, it identifies new pages, deleted or broken routes (404s), and content revisions between crawl runs.
 
-* **Core Architecture Guide:** [Autonomous Crawler & Surface Explorer](../../../core-features/crawler-and-discovery.md)
+* **Core Architecture Guide:** [Autonomous Crawler & Surface Explorer](../../../core-features/crawler-and-discovery/README.md)
 
 ---
 

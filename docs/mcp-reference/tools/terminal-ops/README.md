@@ -2,7 +2,7 @@
 
 Isolated pseudo-terminals (ConPTY), command execution streams, terminal dock control, and session persistence.
 
-* **Core Architecture Guide:** [Core Features: terminal-workspaces.md](../../../core-features/terminal-workspaces.md)
+* **Core Architecture Guide:** [Core Features: terminal-workspaces.md](../../../core-features/terminal-workspaces/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

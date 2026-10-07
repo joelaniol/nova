@@ -8,7 +8,7 @@ Deletes browsing memories matching domain, memoryType, or text query filters.
 
 `nova.memory_forget` permanently deletes browsing memories saved with `nova.memory_note`, matched by a single memory ID, by domain and/or memory type, or all of them at once. There is no recovery after deletion.
 
-* **Core Architecture Guide:** [Browser Memory & Knowledge Board](../../../core-features/browser-memory-and-board.md)
+* **Core Architecture Guide:** [Browser Memory & Knowledge Board](../../../core-features/browser-memory/README.md)
 
 ---
 

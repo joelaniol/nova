@@ -150,7 +150,7 @@ Test: if A, B and C all end up preferring the same kind of solution, the choice 
 
 **Real destabilization.** Baseline: "A browser is a passive tool; learning happens outside the browser." The assumption is inverted: the browser learns along. Value no longer comes only from operation but from persistently accumulated experience; the mechanics shift towards observation, evaluation and reuse. That is not "more browser" but a different product logic.
 
-**Another axis.** Baseline: "An action is successful once it has been executed." Destabilization: success counts only once it has been verified. Trust moves from dispatch to evidence; the mechanics need checking instead of blind continuation. Nova's [visual evidence approach (EVM)](../../core-features/evm-and-visual-evidence.md) was the first concept that came out of BREACH.
+**Another axis.** Baseline: "An action is successful once it has been executed." Destabilization: success counts only once it has been verified. Trust moves from dispatch to evidence; the mechanics need checking instead of blind continuation. Nova's [visual evidence approach (EVM)](../../core-features/evidence-verification-mode-evm/README.md) was the first concept that came out of BREACH.
 
 ## Procedure
 

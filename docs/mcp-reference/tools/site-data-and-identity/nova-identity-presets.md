@@ -8,7 +8,7 @@ Lists available browser identity presets and selectable browser engine versions.
 
 `nova.identity_presets` returns the catalog of browser identity presets (`default`, `chrome`, `firefox`, `safari`, `custom`), each with its display name, whether it supports selecting a specific version, the list of known versions, and the latest known version.
 
-* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
+* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation/README.md)
 
 ---
 

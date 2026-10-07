@@ -124,4 +124,4 @@ A call with `intent.mode: "AcceptAll"` does not return a tool result at all; it 
 
 * [`nova.dismiss_blockers`](../browser-automation/nova-dismiss-blockers.md) — Visual fallback for closing arbitrary overlay dialogs.
 * [`nova.tab_claim`](../browser-automation/nova-tab-claim.md) — Lease a tab before applying consent mutations.
-* [Closed-Loop Systems Architecture](../../../core-features/closed-loop-system.md) — Verification contracts and consent policy enforcement.
+* [Closed-Loop Systems Architecture](../../../core-features/closed-loop-system-cls/README.md) — Verification contracts and consent policy enforcement.

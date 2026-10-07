@@ -8,7 +8,7 @@ Moves up to 200 messages into the account's Trash folder (non-permanent delete).
 
 `nova.mail_delete` moves up to 200 messages from one mail account into its detected Trash folder. This is deliberately not permanent deletion: Nova never sets the IMAP Deleted flag and never expunges. Requires the account's `organize` capability and Nova's independent MutatingRemote confirmation policy. Trash resolution prefers the server's SPECIAL-USE Trash folder, then conservative exact localized leaf-name matches; if no selectable Trash folder can be identified, nothing is changed and the call fails with `reasonCode: "mail_trash_folder_not_found"`. Native IMAP MOVE is required, with no copy/delete/expunge fallback. Per-message results preserve `changed`/`already_done`/`not_found` truth; an uncertain dispatched move reports `changed: null, actionDispatched: true` and must not be auto-retried.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
+* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
 
 ---
 

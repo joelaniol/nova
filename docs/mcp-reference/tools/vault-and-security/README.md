@@ -2,7 +2,7 @@
 
 Password autofill via ephemeral origin-bound SecretRef tokens, credential discovery, and write-only encrypted environment variables.
 
-* **Core Architecture Guide:** [Core Features: vault-and-secrets.md](../../../core-features/vault-and-secrets.md)
+* **Core Architecture Guide:** [Core Features: vault-and-secrets.md](../../../core-features/vault-and-secrets/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

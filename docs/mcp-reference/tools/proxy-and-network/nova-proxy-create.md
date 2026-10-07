@@ -8,7 +8,7 @@ Creates a new proxy profile with host, port, protocol, and optional credentials.
 
 `nova.proxy_create` defines a new proxy configuration in Nova (up to 12 profiles). Supports HTTP, HTTPS, SOCKS4, and SOCKS5 protocols with custom bypass lists.
 
-* **Core Architecture Guide:** [Proxy Routing & Network Engine](../../../core-features/proxy-and-network.md)
+* **Core Architecture Guide:** [Proxy Routing & Network Engine](../../../core-features/proxy-and-network/README.md)
 
 ---
 

@@ -2,7 +2,7 @@
 
 Write, test, and ship agent-authored browser plugins that change how pages behave.
 
-* **Core Architecture Guide:** [Core Features: plugins.md](../../../core-features/plugins.md)
+* **Core Architecture Guide:** [Core Features: plugins.md](../../../core-features/plugins/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

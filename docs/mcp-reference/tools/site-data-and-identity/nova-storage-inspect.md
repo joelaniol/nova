@@ -8,7 +8,7 @@ Reads localStorage or sessionStorage key-value pairs for the target page.
 
 `nova.storage_inspect` reads HTML5 Web Storage (`localStorage` or `sessionStorage`) for the target tab's origin. By default, it returns keys only; use `includeValues: true` to inspect stored values.
 
-* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
+* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation/README.md)
 
 ---
 

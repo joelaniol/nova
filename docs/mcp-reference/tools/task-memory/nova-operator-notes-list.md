@@ -8,7 +8,7 @@ Lists all persistent operator notes with tags and sandbox scopes.
 
 `nova.operator_notes_list` returns a paginated list of human operator notes, including tags, categories, and sandbox assignments.
 
-* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
+* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/episodic-task-memory-etm/README.md)
 
 ---
 

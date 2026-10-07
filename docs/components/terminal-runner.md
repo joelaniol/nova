@@ -50,6 +50,6 @@ Nova uses one runner for a given profile, Windows logon session and integrity le
 
 ## Learn More
 
-* [Terminal workspaces](../core-features/terminal-workspaces.md)
-* [Scheduled tasks](../core-features/scheduled-tasks.md) — Uses workspaces, but has its own execution lifecycle.
+* [Terminal workspaces](../core-features/terminal-workspaces/README.md)
+* [Scheduled tasks](../core-features/scheduled-tasks/README.md) — Uses workspaces, but has its own execution lifecycle.
 * [All components](README.md)

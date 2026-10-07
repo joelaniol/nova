@@ -8,7 +8,7 @@ Lists configured E-Mail accounts and remote file transfer server connections.
 
 `nova.connector_list` reports every configured mail/SFTP/FTP connection, resolved for Nova's host-verified current workspace when one is bound, otherwise globally. Per connector it reports id, type, host, username, transport-security flags, the capabilities that are ready to use (`capabilities`) and the ones still missing with a reason (`capabilitiesMissing`, each `mode` is `ask` or `blocked`). Secrets are never returned.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
+* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
 
 ---
 

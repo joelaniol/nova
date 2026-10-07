@@ -8,7 +8,7 @@ Bulk-replaces the list of file extensions that auto-open with the OS default app
 
 `nova.downloads_auto_open_set` updates the allowed auto-open file extensions. Any executable extensions in the request are automatically rejected for security.
 
-* **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts.md)
+* **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts/README.md)
 
 ---
 

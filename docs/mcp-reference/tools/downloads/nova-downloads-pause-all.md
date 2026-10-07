@@ -8,7 +8,7 @@ Pauses all in-progress WebView2-native downloads that support pausing.
 
 `nova.downloads_pause_all` iterates through all currently active downloads and dispatches pause commands to those supporting suspension, providing bandwidth relief for critical foreground operations.
 
-* **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts.md)
+* **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts/README.md)
 
 ---
 

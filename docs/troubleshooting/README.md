@@ -31,7 +31,7 @@ For a connected agent that avoids Nova, reports missing tools, sees only summary
 
 ## Browser and sessions
 
-- To interrupt work or take over a tab, use [Staying in control](../user-guide/live-assist-and-spectator.md).
+- To interrupt work or take over a tab, use [Staying in control](../user-guide/agents/taking-over-and-emergency-stop.md).
 - For abandoned tabs, held claims, media streams or missing sandboxes, use [Sandbox and session recovery](sandbox-and-session-recovery.md).
 - For everyday tabs, profiles, downloads and prompts, use the [User guide](../user-guide/README.md).
 

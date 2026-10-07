@@ -8,7 +8,7 @@ Inspects the first `<video>` or `<audio>` element on a page: playback state, pos
 
 `nova.media_status` reads the first `<video>` or `<audio>` element found on the page (`document.querySelector('video') || document.querySelector('audio')`). It reports play/pause/ended/seeking state, current time and duration, volume, muted state, playback rate, the element's `readyState`/`networkState`, and any `error` the element carries. It also carries page-visibility/focus state and — when Nova's in-page diagnostics script is present — a classified pause reason and a short recent-events trail, which together explain things like "paused because the tab lost focus" rather than just reporting paused. It also has light YouTube-specific detection (`isAd`, `adSkippable`) when a `#movie_player` element is present. There is no distinction between "video" vs "audio" media type in the response, and no buffered time ranges.
 
-* **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
+* **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence/README.md)
 
 ---
 

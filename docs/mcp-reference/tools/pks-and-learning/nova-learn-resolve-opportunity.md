@@ -2,7 +2,7 @@
 
 > **Closes a semantic learning opportunity that Nova raised in a tool result (`pksSemanticLearning`).**
 
-* **Core Feature Guide:** [Phenomenological Knowledge Store (PKS)](../../../core-features/pks.md)
+* **Core Feature Guide:** [Phenomenological Knowledge Store (PKS)](../../../core-features/phenomenological-knowledge-store-pks/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

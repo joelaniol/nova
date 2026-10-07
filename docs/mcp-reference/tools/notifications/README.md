@@ -2,7 +2,7 @@
 
 Native OS notification dispatch, unread inbox management, and per-origin notification permissions.
 
-* **Core Architecture Guide:** [Core Features: closed-loop-system.md](../../../core-features/closed-loop-system.md)
+* **Core Architecture Guide:** [Core Features: closed-loop-system.md](../../../core-features/closed-loop-system-cls/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

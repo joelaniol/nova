@@ -8,7 +8,7 @@ Launches a background job to back up an entire mail account or specific folders.
 
 `nova.mail_backup_start` backs up a whole mail account, or chosen folders, as a background job and returns at once with a `jobId`. Pull-only: folders open read-only and nothing on the server changes. Output is ZIP part files (`mail-backup_<account>_<time>_partNN.zip`) that mirror the mailbox layout with one `.eml` per message, each part carrying a `manifest.json`. A part grows up to the user's configured size (default 100 GB, ZIP64) before the backup continues into the next part; there is no per-message size limit. `mode='auto'` (the default) continues after the last committed part of this account, including after a stop, crash, or Nova restart; `'full'` starts over; `'incremental'` fails with `backup_no_resume_point` when there is nothing to continue. Only one backup per account runs at a time — starting again while one is running returns the already-running job (`alreadyRunning: true`). Requires the account's `read` capability plus Nova's independent SensitiveRead and PersistentWrite policies.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
+* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
 
 ---
 

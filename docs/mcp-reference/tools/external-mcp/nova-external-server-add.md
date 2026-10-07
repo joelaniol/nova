@@ -8,7 +8,7 @@ Registers a new external MCP server with stdio, HTTP, or SSE transport.
 
 `nova.external_server_add` registers a new external MCP server. For `stdio`, provide `command` (and optionally `args`/`cwd`/`env`); for `http`/`sse`, provide `endpointUrl`. The server is not started automatically — call `nova.external_server_start` after adding. A `stdio` process defaults to a persistent Nova-owned per-server working directory outside the app install folder when `cwd` is omitted.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md) (section 7, "External MCP Servers")
+* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md) (section 7, "External MCP Servers")
 
 ---
 

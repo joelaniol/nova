@@ -8,7 +8,7 @@ Lists registered secret key names for a task without exposing plaintext secret v
 
 `nova.scheduled_task_secret_list` returns the names of all secrets currently configured for a task. The tool is write-only by design on the other side (`nova.scheduled_task_secret_set`): plaintext secret values are never disclosed in this or any other response.
 
-* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
+* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks/README.md)
 
 ---
 

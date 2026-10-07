@@ -8,7 +8,7 @@ Reveals the downloaded file in Windows Explorer with the item selected.
 
 `nova.downloads_open_folder` opens Windows File Explorer at the target directory and selects the downloaded file, allowing human operators to locate and manage files quickly.
 
-* **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts.md)
+* **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts/README.md)
 
 ---
 

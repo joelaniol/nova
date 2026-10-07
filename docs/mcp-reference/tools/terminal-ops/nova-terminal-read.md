@@ -8,7 +8,7 @@ Reads the recent raw output tail of a terminal session scrollback buffer.
 
 `nova.terminal_read` extracts the most recent output from a running or exited session. The output may contain ANSI escape codes, progress markers, and sensitive environment data.
 
-* **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces.md)
+* **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces/README.md)
 
 ---
 

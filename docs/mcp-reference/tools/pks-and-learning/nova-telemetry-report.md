@@ -114,4 +114,4 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 * [`nova.pks_upsert`](nova-pks-upsert.md) — Create or update phenomenon entries in PKS.
 * [`nova.explain`](nova-explain.md) — Inspect the detailed health score and promotion gate breakdown.
-* [Phenomenological Knowledge Store (PKS)](../../../core-features/pks.md) — Mathematical health scoring and gate definitions.
+* [Phenomenological Knowledge Store (PKS)](../../../core-features/phenomenological-knowledge-store-pks/README.md) — Mathematical health scoring and gate definitions.

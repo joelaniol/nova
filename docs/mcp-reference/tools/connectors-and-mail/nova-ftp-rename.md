@@ -8,7 +8,7 @@ Renames or moves a remote file or directory on an FTP/FTPS server.
 
 `nova.ftp_rename` renames or moves one remote FTP/FTPS file or directory. Requires the connector's transfer-full access and Nova's independent global MutatingRemote confirmation policy. A missing source or a protected existing destination returns a truthful reasonCode; `overwrite: true` is limited to regular files — directories and links are never overwritten. A plaintext profile additionally needs the user's debug/legacy option plus `allowInsecure: true`.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
+* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
 
 ---
 

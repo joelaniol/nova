@@ -8,7 +8,7 @@ Retrieves and decrypts a previously stored DOM snapshot HTML payload by snapshot
 
 `nova.session_record_dom_snapshot` retrieves the serialized HTML payload of a DOM snapshot stored during a session recording. It decrypts the chunk from disk and returns the clean HTML string or raw base64 bytes for time-travel DOM analysis.
 
-* **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
+* **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording/README.md)
 
 ---
 

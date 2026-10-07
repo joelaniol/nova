@@ -8,7 +8,7 @@ Creates or updates a task profile with semantic content revision tracking.
 
 `nova.task_profile_upsert` registers a reusable task template. Bumps `contentRev` on semantic changes, preserving proven operational guidance across runs.
 
-* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/etm-and-task-memory.md)
+* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/episodic-task-memory-etm/README.md)
 
 ---
 

@@ -8,7 +8,7 @@ Reads recent entries from the in-memory ring buffer of camera, microphone, speak
 
 `nova.media_permission_activity_list` retrieves historical prompt decisions, showing whether requests were allowed once, remembered, or denied.
 
-* **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence.md)
+* **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence/README.md)
 
 ---
 

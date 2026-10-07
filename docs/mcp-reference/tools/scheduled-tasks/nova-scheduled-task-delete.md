@@ -8,7 +8,7 @@ Permanently deletes a scheduled task, its configuration, and associated run hist
 
 `nova.scheduled_task_delete` removes a scheduled task and its metadata from the database and wakes the scheduler so no further runs fire. If the task currently has an active run (in the scheduler or still recorded as active in the database), the call is refused with a policy error instead of deleting the task — cancel the run first and wait for it to reach a terminal state.
 
-* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
+* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks/README.md)
 
 ---
 

@@ -8,7 +8,7 @@ Deletes a persistent state variable from a task.
 
 `nova.scheduled_task_var_delete` removes a key-value variable from a task's persistent state store (a small JSON file kept in the task's `shared/` workspace folder).
 
-* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
+* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks/README.md)
 
 ---
 

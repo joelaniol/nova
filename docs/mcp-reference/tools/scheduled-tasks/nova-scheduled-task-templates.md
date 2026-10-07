@@ -8,7 +8,7 @@ Lists pre-built task templates for common automation scenarios (monitoring, repo
 
 `nova.scheduled_task_templates` provides ready-to-use task definitions with tuned prompts, recommended executors, default cron schedules, and parameter placeholders.
 
-* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
+* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks/README.md)
 
 ---
 

@@ -131,4 +131,4 @@ These are reported as a failed action outcome (not an invalid-params error).
 * [`nova.click_selector`](../browser-automation/nova-click-selector.md) — Low-level single-element click execution.
 * [`nova.type_selector`](../browser-automation/nova-type-selector.md) — Low-level text input typing.
 * [`nova.guarded_submit_form`](nova-guarded-submit-form.md) — Guarded form submissions.
-* [Agent Awareness Gates (AAG)](../../../core-features/aag.md) — Pre-action and post-action verification contracts.
+* [Agent Awareness Gates (AAG)](../../../core-features/agent-awareness-gates-aag/README.md) — Pre-action and post-action verification contracts.

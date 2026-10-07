@@ -2,7 +2,7 @@
 
 > **Answers Nova's "Keep this file?" question for a download that Windows can run (for example .exe, .msi, .bat, .ps1).**
 
-* **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
+* **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

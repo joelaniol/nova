@@ -8,7 +8,7 @@ Stops an active session recording, flushes buffered events, and finalizes the en
 
 `nova.session_record_stop` cleanly terminates an ongoing session recording. It flushes in-memory streaming channels, finalizes encrypted chunk files on disk, computes SHA-256 checksums in `integrity.json`, and seals the recording for post-hoc forensic inspection.
 
-* **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording.md)
+* **Core Architecture Guide:** [Session Recording & Time-Travel Debugging](../../../core-features/session-recording/README.md)
 
 ---
 

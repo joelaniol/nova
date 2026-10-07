@@ -8,7 +8,7 @@ Lists all open agent-owned terminal sessions with status, shell type, and exit c
 
 `nova.terminal_list` queries the terminal session manager for active background sessions created by agents. It excludes the user's interactive dock terminals to maintain clear security and control boundaries.
 
-* **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces.md)
+* **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces/README.md)
 
 ---
 

@@ -8,7 +8,7 @@ Downloads a remote regular file over FTP/FTPS into Downloads or the workspace.
 
 `nova.ftp_get` downloads one remote regular file over FTP/FTPS into Downloads or Nova's host-verified current workspace. Requires the connector's transfer-read access plus Nova's persistent-write policy. The file is staged through an already-validated local handle and committed only after its exact byte count is received; an existing destination is preserved unless `overwrite: true`. Remote links and directory recursion are intentionally rejected — this tool transfers exactly one regular file. A plaintext profile additionally needs the user's debug/legacy option plus `allowInsecure: true`.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
+* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
 
 ---
 

@@ -2,7 +2,7 @@
 
 Proxy profile management, authentication, traffic redirection, and CDP network request/response interception.
 
-* **Core Architecture Guide:** [Core Features: proxy-and-network.md](../../../core-features/proxy-and-network.md)
+* **Core Architecture Guide:** [Core Features: proxy-and-network.md](../../../core-features/proxy-and-network/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

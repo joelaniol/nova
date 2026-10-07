@@ -8,7 +8,7 @@ Reports memory engine metrics, commit rates, verification health, and outbox que
 
 `nova.memory_stats` reads health and performance metrics for the Learning Candidate Journal (LCJ) and several heuristic subsystems: candidate verification and curation rates, the finalize/outbox commit pipeline, and attempt/success rates for scroll, click-navigation, dismiss-blockers and app-screenshot heuristics, including whether their rollout thresholds are currently met.
 
-* **Core Architecture Guide:** [Agent Learning Pipeline (ALP) & Learning Candidate Journal (LCJ)](../../../core-features/learning-pipeline-alp.md)
+* **Core Architecture Guide:** [Agent Learning Pipeline (ALP) & Learning Candidate Journal (LCJ)](../../../core-features/agent-learning-pipeline-alp/README.md)
 
 ---
 

@@ -121,4 +121,4 @@ The full payload also carries navigation, settlement, PKS and screenshot-sidecar
 * [`nova.tab_close`](nova-tab-close.md) — Close a tab.
 * [`nova.tab_claim`](nova-tab-claim.md) — Manage tab leases.
 * [`nova.navigate`](nova-navigate.md) — Navigate an existing tab.
-* [Core Feature: Multi-Sandbox Isolation](../../../core-features/sandbox-isolation.md)
+* [Core Feature: Multi-Sandbox Isolation](../../../core-features/sandbox-isolation/README.md)

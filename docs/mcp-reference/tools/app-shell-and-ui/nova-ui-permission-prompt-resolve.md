@@ -2,7 +2,7 @@
 
 > **Defers or answers the permission dialog that Nova is showing for a site (for example location, notifications, clipboard read or advanced device access).**
 
-* **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts.md)
+* **Core Feature Guide:** [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

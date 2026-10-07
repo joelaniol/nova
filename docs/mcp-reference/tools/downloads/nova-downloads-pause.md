@@ -8,7 +8,7 @@ Pauses an active WebView2-native download by ID.
 
 `nova.downloads_pause` pauses a live download transfer. The download must report `canPause: true` in `nova.downloads_list`. HttpClient fallback downloads and completed items cannot be paused.
 
-* **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts.md)
+* **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts/README.md)
 
 ---
 

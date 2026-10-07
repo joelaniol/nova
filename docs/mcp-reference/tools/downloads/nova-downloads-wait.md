@@ -8,7 +8,7 @@ Blocks until downloads reach a terminal state (completed, failed, or cancelled) 
 
 `nova.downloads_wait` is the missing synchronization join point for download automation. Instead of guessing polling intervals after a download click, agents call `nova.downloads_wait` to deterministically pause execution until the download completes or times out, returning exact disk destinations.
 
-* **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts.md)
+* **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts/README.md)
 
 ---
 

@@ -112,4 +112,4 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 * [`nova.click_selector`](../browser-automation/nova-click-selector.md) — Unwrapped single click action.
 * [`nova.guarded_send_message`](nova-guarded-send-message.md) — Guarded message dispatch for chat interfaces.
 * [`nova.guarded_login`](nova-guarded-login.md) — Guarded authentication submissions.
-* [Agent Awareness Gates (AAG)](../../../core-features/aag.md) — Deep dive into transition contracts and verification.
+* [Agent Awareness Gates (AAG)](../../../core-features/agent-awareness-gates-aag/README.md) — Deep dive into transition contracts and verification.

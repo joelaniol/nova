@@ -8,7 +8,7 @@ Atomically writes a UTF-8 text file into a task’s shared workspace folder (tem
 
 `nova.scheduled_task_workspace_write` writes UTF-8 text content into a file located in a task's `shared/` folder. To prevent partial or corrupt reads by concurrent runs, Nova writes to a temporary file first and performs an atomic rename.
 
-* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
+* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks/README.md)
 
 ---
 

@@ -8,7 +8,7 @@ Stops a running background SFTP transfer softly and keeps everything for a resum
 
 `nova.sftp_transfer_stop` asks a running job from `nova.sftp_get`/`nova.sftp_put` to stop. The job writes a checkpoint, keeps the open file as a resumable part and ends with `state: "stopped"`; finished files stay committed and nothing is deleted. It stays usable while a Nova dialog is open. A job that has already ended is reported as `status: "not_running"` with `ok: false`. Repeating the original transfer call later resumes the job.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
+* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
 
 ---
 

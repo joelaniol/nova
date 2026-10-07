@@ -8,7 +8,7 @@ Terminates an agent-owned terminal session and cleans up its process tree and te
 
 `nova.terminal_close` gracefully shuts down the PTY and forcefully terminates any remaining child processes in the session tree. Subsequent calls referencing the session ID return `terminal_not_found`.
 
-* **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces.md)
+* **Architecture Guide:** [Terminal Workspaces & ConPTY Integration](../../../core-features/terminal-workspaces/README.md)
 
 ---
 

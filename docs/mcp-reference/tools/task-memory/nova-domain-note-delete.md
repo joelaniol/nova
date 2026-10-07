@@ -8,7 +8,7 @@ Deletes a domain note by domain name and key.
 
 `nova.domain_note_delete` removes an obsolete note for a specific domain and scope.
 
-* **Core Architecture Guide:** [Operational Knowledge](../../../core-features/operational-knowledge.md)
+* **Core Architecture Guide:** [Operational Knowledge](../../../core-features/operational-knowledge-ok/README.md)
 
 ---
 

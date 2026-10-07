@@ -8,7 +8,7 @@ Clears cookies across the target profile, with optional domain filtering.
 
 `nova.cookie_clear` purges cookies from the target sandbox container. When `domain` is specified, only matching cookies are removed; omitting `domain` clears all cookies in the profile.
 
-* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
+* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation/README.md)
 
 ---
 

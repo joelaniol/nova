@@ -8,7 +8,7 @@ Reconnects a disconnected proxy and verifies connectivity before unblocking netw
 
 `nova.proxy_reconnect` runs an immediate health probe against the proxy; traffic is only unblocked if the probe succeeds, guaranteeing that no unencrypted or non-proxied data leaks.
 
-* **Core Architecture Guide:** [Proxy Routing & Network Engine](../../../core-features/proxy-and-network.md)
+* **Core Architecture Guide:** [Proxy Routing & Network Engine](../../../core-features/proxy-and-network/README.md)
 
 ---
 

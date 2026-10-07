@@ -8,7 +8,7 @@ Updates fields (prompt, schedule, budget, timeouts, chaining) of an existing sch
 
 `nova.scheduled_task_update` modifies the configuration of a scheduled task. Only provided fields are updated; omitted fields retain their existing values. Updating the schedule recalculates the next execution timestamp immediately.
 
-* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks.md)
+* **Core Architecture Guide:** [Scheduled Tasks & Background Automation Engine](../../../core-features/scheduled-tasks/README.md)
 
 ---
 

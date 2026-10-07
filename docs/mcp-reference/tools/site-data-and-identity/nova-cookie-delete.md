@@ -8,7 +8,7 @@ Deletes a specific cookie by cookieId or by name, domain, and path tuple.
 
 `nova.cookie_delete` removes a single cookie from the target sandbox profile. It can target cookies using the stable `cookieId` returned by `nova.cookie_list` or an explicit `{name, domain, path}` tuple.
 
-* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation.md)
+* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation/README.md)
 
 ---
 

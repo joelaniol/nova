@@ -30,7 +30,7 @@ Ask it to check the visible outcome and show the relevant verification evidence.
 
 ## The agent cannot act on a tab
 
-A held tab claim or the emergency stop may be blocking work. Check Nova's visible agent indicators and stop state. Use [Staying in control](../user-guide/live-assist-and-spectator.md) or [Session recovery](sandbox-and-session-recovery.md); do not impersonate another agent to bypass a claim.
+A held tab claim or the emergency stop may be blocking work. Check Nova's visible agent indicators and stop state. Use [Staying in control](../user-guide/agents/taking-over-and-emergency-stop.md) or [Session recovery](sandbox-and-session-recovery.md); do not impersonate another agent to bypass a claim.
 
 ## A page is stuck or asks for human verification
 

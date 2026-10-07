@@ -2,7 +2,7 @@
 
 > **Deletes a stored website login credential entry from the encrypted vault.**
 
-* **Core Feature Guide:** [Vault & Secret Keystore](../../../core-features/vault-and-secrets.md)
+* **Core Feature Guide:** [Vault & Secret Keystore](../../../core-features/vault-and-secrets/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

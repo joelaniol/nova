@@ -2,7 +2,7 @@
 
 Network HAR capture, user interaction timelines, DOM change snapshots, and replay verification.
 
-* **Core Architecture Guide:** [Core Features: session-recording.md](../../../core-features/session-recording.md)
+* **Core Architecture Guide:** [Core Features: session-recording.md](../../../core-features/session-recording/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

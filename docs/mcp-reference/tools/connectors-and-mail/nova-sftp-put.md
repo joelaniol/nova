@@ -10,7 +10,7 @@ Uploads a local file or directory tree of any size over SFTP, as a resumable bac
 
 The local tree is checked before the approval prompt (no links or junctions, only names a server can take safely). Each file is written to a remote part next to its target at an explicit offset - never in append mode - and renamed into place only after the server holds exactly its size; the local modification time is set on the remote file. A local file that is replaced or changed during the upload is not committed. A dropped connection is reconnected up to five times; repeating the identical call resumes after a prefix check of the remote part. Existing targets are preserved unless `overwrite: true` is set.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols.md)
+* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
 
 ---
 
