@@ -14,6 +14,7 @@ New here? Start with [Quickstart](../getting-started/quickstart.md). To connect 
 | Find or manage a downloaded file | [Downloads](downloads-manager.md) |
 | Change settings or reconnect an AI program | [Settings and connection wizard](settings-and-connection-wizard.md) |
 | Understand website rights and agent approvals | [Website and agent permissions](permissions.md) |
+| Give the agent website-specific instructions and require acknowledgement | [Domain Notes](domain-notes.md) |
 | Handle file pickers, sign-in and permission prompts | [Native dialogs and prompts](native-dialogs-ui.md) |
 | Use the built-in PowerShell terminal | [Terminal dock](terminal-dock.md) |
 | Look up a keyboard shortcut | [Keyboard shortcuts](keyboard-shortcuts.md) |

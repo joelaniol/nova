@@ -13,7 +13,15 @@ A normal task aims to finish the work you asked for now. Learn Mode aims to expl
 
 Learn Mode usually takes longer than a single task: the agent explores different pages and states and checks whether the steps actually work. The benefit is a foundation for later tasks, rather than having to rediscover every workflow.
 
-Nova can also collect learning evidence during normal agent work. Learn Mode adds an explicit exploration goal and a structured final playbook; it is not required for every task.
+## Does Nova learn without Learn Mode?
+
+**Yes. Your agent and Nova also build website knowledge during normal tasks.** Nova collects evidence from successful interactions, recognizes recurring situations and checks whether that experience is reliable enough to reuse.
+
+This learning happens gradually as you use the website. It usually takes more tasks or visits to build a useful understanding, because the agent focuses on your immediate goal and only encounters the parts of the site needed for that task.
+
+**Learn Mode makes learning the goal of the session.** The agent deliberately explores navigation, different states and workflows, verifies what works, and produces a structured playbook. That focused exploration can build a useful understanding sooner than waiting for the same experience to accumulate during everyday tasks. It still needs evidence; choosing Learn Mode does not make untested steps reliable.
+
+You can keep using Nova normally and let knowledge grow over time, or ask for Learn Mode when you want to prepare a recurring workflow more deliberately.
 
 ## When should I use it?
 

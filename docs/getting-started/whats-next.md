@@ -20,6 +20,8 @@ This helps later sessions find Nova's working instructions. Nova writes referenc
 
 ### Learn recurring website workflows
 
+For your own rules on a website, use [Domain Notes](../user-guide/domain-notes.md). The guide shows how to require acknowledgement and ask your agent to explain the instructions before acting.
+
 For tasks you repeat on the same website, ask your agent to use **Learn Mode**:
 
 Read [Use Learn Mode](learn-mode.md) for the difference from normal tasks, useful scenarios, prompt examples and what to expect back.
