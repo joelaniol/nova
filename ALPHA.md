@@ -2,7 +2,7 @@
 
 *Deutsche Fassung weiter unten ⬇️*
 
-Nova Cognitive Browser is in **public alpha**. This page collects the current status and the known
+Nova AI Workspace is in **public alpha**. This page collects the current status and the known
 issues, so you know what to expect before and during use.
 
 ## Status
@@ -20,7 +20,7 @@ issues, so you know what to expect before and during use.
   the terminal for now.
 - **Plugins are not ready — don't use them yet.** The agent-authored plugins feature is disabled
   during the alpha and cannot be turned on; it's still under development.
-- **MCP tool quirks.** Some of the 400+ MCP tools still have rough edges or occasionally return
+- **MCP tool quirks.** Some MCP tools still have rough edges or occasionally return
   imperfect results. Concrete failures and performance regressions can be reported with the
   agent reporting guide below; general work-session friction belongs in feedback.
 - **SmartScreen "unknown publisher".** The setup is self-signed, so Windows SmartScreen may warn on
@@ -42,16 +42,15 @@ issues, so you know what to expect before and during use.
   Review URLs, screenshots, and log excerpts for secrets and personal data before publication.
 - **Please do not report** the known cosmetic GUI issues above.
 
-## Coming soon
+## Guides and release notes
 
-Full documentation and video guides are on the way. Features and the agent tooling iterate quickly
-during the alpha.
+Start with [Quickstart](docs/getting-started/quickstart.md), use the [User guide](docs/user-guide/README.md) for everyday browsing, and see [release notes](docs/changelog/README.md) for version-specific changes. Feature pages describe capabilities; the alpha limitations above still apply. [Feature videos](README.md#-cognitive-architecture-beyond-generic-memory) and the [interactive demo](demos/README.md) give examples.
 
 ---
 
 # Nova — Alpha-Status & bekannte Probleme (Deutsch)
 
-Nova Cognitive Browser befindet sich in der **öffentlichen Alpha**. Diese Seite sammelt Status und
+Nova AI Workspace befindet sich in der **öffentlichen Alpha**. Diese Seite sammelt Status und
 bekannte Probleme, damit du weißt, was dich erwartet.
 
 ## Status
@@ -69,7 +68,7 @@ bekannte Probleme, damit du weißt, was dich erwartet.
   Terminal vorerst meiden.
 - **Plugins sind noch nicht fertig — bitte noch nicht nutzen.** Die Funktion für agenten-erstellte
   Plugins ist während der Alpha deaktiviert und lässt sich nicht einschalten; sie ist noch in Entwicklung.
-- **MCP-Tool-Eigenheiten.** Einige der über 400 MCP-Tools haben noch Ecken und Kanten oder liefern
+- **MCP-Tool-Eigenheiten.** Einige MCP-Tools haben noch Ecken und Kanten oder liefern
   gelegentlich unsaubere Ergebnisse. Konkrete Fehler und Performance-Regressionen koennen mit
   der Agent-Anleitung unten gemeldet werden; allgemeine Reibung gehoert ins Arbeitsfeedback.
 - **SmartScreen „unbekannter Herausgeber".** Das Setup ist selbst-signiert → SmartScreen warnt beim
@@ -91,7 +90,6 @@ bekannte Probleme, damit du weißt, was dich erwartet.
   URLs, Screenshots und Logauszüge vor Veröffentlichung auf Geheimnisse und persönliche Daten prüfen.
 - **Bitte keine** bekannten kosmetischen GUI-Probleme oben melden.
 
-## In Kürze
+## Anleitungen und Versionshinweise
 
-Ausführliche Dokumentation und Video-Anleitungen folgen. Features und Agent-Tools entwickeln sich in
-der Alpha schnell weiter.
+Beginne mit der [Installation auf Deutsch](docs/getting-started/installation.md#nova-ai-workspace-installieren) oder der [Demo auf Deutsch](demos/README.de.md). Der [Quickstart](docs/getting-started/quickstart.md), das [Benutzerhandbuch](docs/user-guide/README.md) und die [Versionshinweise](docs/changelog/README.md) sind auf Englisch. Die Feature-Seiten beschreiben Fähigkeiten; die Alpha-Einschränkungen oben gelten weiterhin.

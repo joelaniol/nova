@@ -26,9 +26,10 @@ Microsoft Visual C++ runtime if it is missing.
 
 ## 2. Download and Install
 
-1. Open the [latest release](https://github.com/joelaniol/nova/releases) and download the setup
+1. Open the [release list](https://github.com/joelaniol/nova/releases) and download the setup
    file ending in `-Setup-<version>.exe`, for example `NovaAIWorkspace-Setup-1.0.0-alpha.18.exe`.
    Older releases still carry the previous product name, `NovaBrowser-Setup-…`.
+   Choose the setup under **Assets**. The `.mcpb` file is an MCP bridge bundle for compatible clients, and `.sha256` contains a checksum; neither installs Nova.
 2. Run the setup. It asks for administrator rights because it installs for all users into
    `C:\Program Files\Nova AI Workspace`.
 3. Follow the wizard. It creates a Start menu entry and, if you tick the box, a desktop shortcut.
@@ -115,7 +116,9 @@ Continue with **[Quickstart](quickstart.md)** to connect your AI program and try
 
 1. Unter [Releases](https://github.com/joelaniol/nova/releases) die Datei herunterladen, die auf
    `-Setup-<version>.exe` endet, z. B. `NovaAIWorkspace-Setup-1.0.0-alpha.18.exe`. Ältere
-   Versionen heißen noch `NovaBrowser-Setup-…`.
+   Versionen heißen noch `NovaBrowser-Setup-…`. Wähle das Setup unter **Assets**:
+   `.mcpb` ist ein MCP-Verbindungspaket für kompatible Programme, `.sha256` eine Prüfsumme.
+   Beide ersetzen das Setup nicht.
 2. Setup starten. Es fragt nach Administratorrechten, weil es für alle Nutzer nach
    `C:\Program Files\Nova AI Workspace` installiert.
 3. Dem Assistenten folgen. Er legt einen Startmenü-Eintrag an und auf Wunsch eine

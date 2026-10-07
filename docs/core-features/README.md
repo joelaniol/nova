@@ -7,9 +7,11 @@
 
 ## Overview
 
-Nova AI Workspace is a Windows browser built on **.NET 8, WinUI 3 and Microsoft WebView2**. AI agents control it through the Model Context Protocol (MCP); Nova offers them over 400 tools ([current count](../mcp-reference/tools/README.md)). The pages below explain the parts of Nova that sit behind those tools: how it reads and acts on pages, how it checks that an action worked, what it remembers between sessions, how it keeps logins apart, and what it can do outside the browser.
+Nova AI Workspace is a Windows browser built on **.NET 8, WinUI 3 and Microsoft WebView2**. AI agents control it through the Model Context Protocol (MCP); Nova provides a [tool catalog](../mcp-reference/tools/README.md). The pages below explain the parts of Nova that sit behind those tools: how it reads and acts on pages, how it checks that an action worked, what it remembers between sessions, how it keeps logins apart, and what it can do outside the browser.
 
 ---
+
+The [alpha status page](../../ALPHA.md) lists current limitations, including plugins being unavailable and connectors not yet recommended for terminal use.
 
 ## Core features by topic
 
@@ -67,7 +69,7 @@ Nova AI Workspace is a Windows browser built on **.NET 8, WinUI 3 and Microsoft 
 | [Scheduled tasks](scheduled-tasks.md) | Work that runs on its own | `nova.scheduled_task_create`, `nova.scheduled_task_runs`, `nova.scheduled_task_workspace_*` |
 | [Connectors and protocols](connectors-and-protocols.md) | Mail, FTP and SFTP | `nova.connector_*`, `nova.mail_*`, `nova.sftp_*`, `nova.ftp_*` |
 | [Media intelligence](media-intelligence.md) | Audio, video and transcription | `nova.media_transcribe_start`, `nova.media_capture_start`, `nova.media_activity_*` |
-| [Plugins](plugins.md) | Small scripts an agent writes for a site | `nova.plugin_create`, `nova.plugin_test`, `nova.plugin_inspect` |
+| [Plugins](plugins.md) | Reference only: unavailable during the public alpha | `nova.plugin_create`, `nova.plugin_test`, `nova.plugin_inspect` |
 
 ---
 

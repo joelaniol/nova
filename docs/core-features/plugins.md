@@ -1,7 +1,10 @@
 # Agent-Authored Plugins (AAP) & Jint JavaScript Runtime
 
+> [!WARNING]
+> **Unavailable during the public alpha.** Plugins are turned off and cannot be enabled in the settings. This page describes the plugin system for reference, not a feature you can use in the current alpha. See [Alpha status and limitations](../../ALPHA.md).
+
 > [!NOTE]
-> Agent-Authored Plugins (AAP) let AI agents write, test and run their own browser plugins in JavaScript at runtime — without recompiling Nova AI Workspace or restarting it. Each plugin runs in its own Jint JavaScript engine and reaches the page only through permission-checked bridge APIs.
+> The Agent-Authored Plugins (AAP) system is designed to let AI agents write, test and run browser plugins in JavaScript at runtime — without recompiling Nova AI Workspace or restarting it. Each plugin runs in its own Jint JavaScript engine and reaches the page only through permission-checked bridge APIs.
 
 ---
 
