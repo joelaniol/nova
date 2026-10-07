@@ -74,7 +74,7 @@ bekannte Probleme, damit du weißt, was dich erwartet.
 - **SmartScreen „unbekannter Herausgeber".** Das Setup ist selbst-signiert → SmartScreen warnt beim
   ersten Start evtl. Klicke **Weitere Informationen → Trotzdem ausführen**.
 - **WebView2-Laufzeit beim ersten Start.** Der Installer richtet sie automatisch ein. Fehlt sie
-  (z. B. offline installiert), bietet Nova beim ersten Start eine Ein-Klick-Reparatur an.
+  (z. B. weil das Nachladen im Setup fehlgeschlagen ist), bietet Nova beim ersten Start eine Ein-Klick-Reparatur an.
 
 ## Was bitte melden
 

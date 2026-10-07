@@ -1,71 +1,49 @@
-# Your First Task with Nova
+# Your First Five Minutes with Nova
 
-Start Nova, connect your AI program, and ask for something you want. You do not need to learn tool names to begin.
+Connect your AI program, give it a short research task, and watch the work happen in Nova.
 
-## 1. Open Nova and connect
+## 1. Open Nova
 
-If you have not installed Nova yet, follow [Installation](installation.md). You also need a supported AI program, such as Claude Code, Claude Desktop, Codex or Antigravity, installed on this computer.
+[Install Nova](installation.md) if you have not done so, then open it from the Start menu. You also need an installed AI program such as Claude Code, Claude Desktop, Codex or Antigravity.
 
-On first start, follow Nova's connection wizard:
+During the public alpha, the activation window is prefilled with shared trial details. If it appears, choose **Sign in**. No Nova registration is needed. If you entered your own license during setup, use that instead.
+
+## 2. Connect your AI program
+
+In Nova's connection wizard:
 
 1. Choose **Easy setup (recommended)**. Nova shows the compatible programs it found.
-2. Continue to **How the connection is saved** and click **Connect** beside your program if offered. If Nova already lists its entry as managed, you can continue.
-3. Restart your AI program, or start a new CLI session, so it loads the connection. For Claude Desktop, quit it completely, including its tray icon, before reopening it.
+2. Continue to **How the connection is saved**.
+3. Click **Connect** beside your program if offered. An entry already listed as managed needs no new connection.
 
-If the wizard is not open, use **Settings → AI & agents → Connection & setup → Set up**. If your program is not detected, use **Search again** after installing it, or choose its [integration guide](../integration/README.md).
+If the wizard is not open, use **Settings → AI & agents → Connection & setup → Set up**. If your program is missing, install it and choose **Search again**.
 
-## 2. Recommended: ask your agent to onboard
+## 3. Restart your AI program
 
-Onboarding is optional: you can try Nova immediately. For ongoing work in a project or workspace folder, it helps later agent sessions find Nova's instructions again.
+Close and reopen your AI program, or start a new CLI session, so it loads the connection. For Claude Desktop, quit it completely, including its tray icon, before reopening it.
 
-Tell your agent:
+Once connected, supported AI programs can start Nova when needed and reconnect to it automatically.
 
-> Please set up Nova's onboarding in this project's folder. Tell me which folder you will use, then install Nova's reference files there.
-
-The agent uses `nova.install_onboarding` for the folder you choose. Nova writes its own reference files under `.nova/` and a marked section in the project's agent instruction files. This requires agent self-onboarding to be enabled in Nova's settings; it does not grant tool permissions or create a permission allowlist. Details: [Onboarding and bootstrap](advanced-onboarding.md).
-
-## 3. Ask for your first task
+## 4. Give it a task and watch
 
 In your AI program, ask:
 
-> Use Nova to find cat pictures. Open the results in Nova and give me three source links.
+> Use Nova to research the current Microsoft Edge WebView2 release notes on Microsoft's official website. Open the relevant pages in Nova, summarize three recent changes, and give me the source links and release dates. No login or downloads needed.
 
-Watch Nova's tabs as the agent browses. You should see a results page and receive links you can open yourself. If your AI program asks permission to use Nova's tools, review and approve the requests needed for your task.
+Watch Nova's tabs as your agent browses. Agent activity is marked on tabs; with **AI visualization** enabled, a cursor and captions show supported browser actions. When the task finishes, you should have a short summary and source links you can open yourself.
 
-The agent should handle Nova's working instructions and tool discovery. You do not need to paste a bootstrap sequence, install project files or manage tab claims for this first task.
+If your AI program asks permission to use Nova, review and approve the requests needed for this task.
 
-Prefer a local exercise? Try the [interactive demo](../../demos/README.md).
+## Stay in control
 
-## 4. See what is happening and stay in control
+**Menu → Emergency stop** interrupts agent work and remains active until you choose **Release emergency stop**. It also interrupts Nova's terminal sessions, including your own dock terminals. Moving your mouse or typing does not pause the agent.
 
-Agent activity is marked on tabs. With **AI visualization** enabled, an AI cursor and captions show supported browser actions.
+## What just happened?
 
-**Menu → Emergency stop** interrupts agent work and remains active until you choose **Release emergency stop**. Typing or moving your mouse does not pause the agent. See [Staying in control](../user-guide/live-assist-and-spectator.md) for taking over a single tab and the scope of the stop.
+- Your AI program provided the agent and kept your conversation.
+- Nova provided the browser workspace and tools for the task.
+- You could watch the work and interrupt it with Emergency stop.
 
-## 5. Use Learn Mode for recurring website tasks
+**[What's next?](whats-next.md)** — explore browser features, set up optional project onboarding, or learn recurring website workflows.
 
-If you repeatedly work on the same website — for example, research in a supplier portal or navigate the same account workflow — ask the agent to learn that workflow before later runs:
-
-> I will repeat this task on this website. Use Nova's Learn Mode to explore the relevant workflow, verify what works, and produce a reusable platform playbook. Ask me if the intended workflow is unclear.
-
-Learn Mode is optional. It focuses on evidence-backed exploration and reusable website knowledge; it is separate from installing project onboarding files. Explain your goal and the parts worth repeating. Learning a workflow does not authorize purchases, sending messages, or other account changes.
-
-The agent obtains Nova's Learn Mode instructions and handles its onboarding steps. You do not need to memorize tool names. See [Website memory (PKS)](../core-features/pks.md) and [learning tools](../mcp-reference/tools/pks-and-learning/README.md).
-
-## If the first task does not work
-
-Start at [Troubleshooting](../troubleshooting/README.md). Choose **Connection** if Nova is missing or disconnected; choose **Agent behavior** if it is connected but the agent does not use it or cannot read its results.
-
-## What Nova configured for you
-
-Nova adds or updates its own connection entry in supported AI programs, subject to your connection settings. The entry starts Nova's bridge, which finds the browser and supplies its access token. You do not need to copy the token into client configuration.
-
-Nova keeps its own entry current when automatic sync is enabled. Your AI program's tool approvals remain your decision; connecting Nova does not create a permission allowlist for it.
-
-Details: [Agent integration](../integration/README.md).
-
-## Advanced onboarding / bootstrap
-
-For explicit tool discovery, custom agents and coordination between several agents, see: [Advanced onboarding and bootstrap](advanced-onboarding.md).
-
-Next: [First-run orientation](first-run.md) or the [User guide](../user-guide/README.md).
+If something did not work, start at [Troubleshooting](../troubleshooting/README.md). For taking over one tab and other controls, see [Staying in control](../user-guide/live-assist-and-spectator.md).

@@ -1,18 +1,24 @@
 # Start Using Nova
 
-Install Nova, connect your AI program, and give it your first task.
+> [!IMPORTANT]
+> **Upgrading from alpha.17 or earlier?** Those versions cannot detect alpha.18 automatically because the product name and updater changed. Download and run the [current setup](https://github.com/joelaniol/nova/releases) once manually. It updates your existing installation; automatic updates work again from alpha.18 onward.
 
-**[Install](installation.md) → [Connect and try a task](quickstart.md) → [Find your way around](first-run.md)**
+Nova gives your AI program a browser workspace where you can watch it work.
 
-| You need … | Open |
-|---|---|
-| Nova on your Windows computer | [Installation](installation.md) |
-| Your first task, recommended onboarding, or Learn Mode for recurring work | [Quickstart](quickstart.md) |
-| Your AI program does not see Nova after the setup | [MCP setup](mcp-setup.md) |
-| A short tour: connect, watch, stop | [First run](first-run.md) |
-| The current public alpha activation details | [Alpha Trial License](trial-license.md) |
-| Optional project reference files or a custom bootstrap | [Advanced onboarding and bootstrap](advanced-onboarding.md) |
+**[Download and install Nova](installation.md) → [Your first five minutes](quickstart.md)**
 
-Already connected? Ask your AI program: **“Use Nova to find cat pictures and give me three source links.”**
+1. Download and run the Windows setup.
+2. Open Nova and connect your AI program with **Easy setup**.
+3. Restart your AI program, give it a task, and watch it work in Nova.
 
-For client-specific setup, use [Agent integration](../integration/README.md). For a problem, start at [Troubleshooting](../troubleshooting/README.md). Everyday browser features are in the [User guide](../user-guide/README.md).
+You need Windows 10/11 (x64) and an installed AI program such as Claude Code, Claude Desktop, Codex or Antigravity. That program may require its own account or subscription.
+
+## After your first task
+
+[What's next?](whats-next.md) — everyday browsing, regular agent work, and how Nova works.
+
+## Need something else?
+
+- Something failed? [Troubleshooting](../troubleshooting/README.md).
+- Looking for shared alpha activation details? [Alpha Trial License](trial-license.md).
+- Configuring a particular AI program manually? [Client-specific connection guides](../integration/README.md).

@@ -42,7 +42,7 @@ You need **Windows 10 / 11 (x64)** and an installed AI program such as Claude Co
 
 1. **[Download Setup from Releases](https://github.com/joelaniol/nova/releases)** — under **Assets**, choose the Windows x64 file ending in `-Setup-<version>.exe`. The other assets are an MCP bridge bundle (`.mcpb`) and a checksum (`.sha256`); neither installs Nova.
 2. **Activate.** No account required — the setup comes with the shared alpha license already filled in.
-3. **[Connect your AI program](docs/getting-started/quickstart.md).** Nova detects supported AI programs. Follow **Easy setup**, click **Connect** if offered, and restart your AI program. Then ask: **"Use Nova to find cat pictures and give me three source links."**
+3. **[Connect your AI program](docs/getting-started/quickstart.md).** Nova detects supported AI programs. Follow **Easy setup**, click **Connect** if offered, and restart your AI program. Then ask: **"Use Nova to research the current Microsoft Edge WebView2 release notes on Microsoft's official website. Open the relevant pages, summarize three recent changes, and give me source links and release dates."**
 
 Installation details: [requirements and setup](docs/getting-started/installation.md). Looking for the trial key? → **[Alpha Trial License](docs/getting-started/trial-license.md)**
 
@@ -155,7 +155,7 @@ Explore the comprehensive documentation for operators, developers, and AI agents
 
 | Section | Focus Area | Key Documents |
 | :--- | :--- | :--- |
-| **[Getting Started](docs/getting-started/README.md)** | Installation & First Task | [Installation](docs/getting-started/installation.md) • [First Run Tour](docs/getting-started/first-run.md) • [Quickstart](docs/getting-started/quickstart.md) |
+| **[Getting Started](docs/getting-started/README.md)** | Installation & First Task | [Installation](docs/getting-started/installation.md) • [Your First Five Minutes](docs/getting-started/quickstart.md) • [What's Next?](docs/getting-started/whats-next.md) |
 | **[User Guide](docs/user-guide/README.md)** | Human Workspace & UI Controls | [Workspace Layout](docs/user-guide/workspace-layout.md) • [Sandboxes](docs/user-guide/sandboxes-and-profiles.md) • [Terminal Dock](docs/user-guide/terminal-dock.md) • [AI Visualization](docs/user-guide/live-assist-and-spectator.md) • [Shortcuts](docs/user-guide/keyboard-shortcuts.md) |
 | **[Core Features](docs/core-features/README.md)** | Deep Architecture & Systems | [AAG Gates](docs/core-features/aag.md) • [PKS Knowledge Store](docs/core-features/pks.md) • [Outrider Boundary](docs/core-features/outrider-boundary.md) • [Vault & Secrets](docs/core-features/vault-and-secrets.md) • [Session Recording](docs/core-features/session-recording.md) |
 | **[Components & Processes](docs/components/README.md)** | Identify Nova-related processes | [Main app](docs/components/nova-ai-workspace.md) • [Outrider](docs/components/outrider.md) • [MCP Proxy](docs/components/mcp-proxy.md) • [TerminalRunner](docs/components/terminal-runner.md) • [ReplayValidator](docs/components/replay-validator.md) • [WebView2](docs/components/webview2-and-child-processes.md) |
@@ -184,11 +184,11 @@ Du brauchst **Windows 10 / 11 (x64)** und ein installiertes KI-Programm wie Clau
 
 1. **[Setup herunterladen](https://github.com/joelaniol/nova/releases)**: Unter **Assets** die Datei mit der Endung `-Setup-<version>.exe` wählen. Die anderen Dateien sind ein MCP-Verbindungspaket (`.mcpb`) und eine Prüfsumme (`.sha256`); beide installieren Nova nicht.
 2. **Aktivieren:** Kein Konto nötig, das Setup bringt den Alpha-Testzugang schon ausgefüllt mit.
-3. **[KI-Programm verbinden](docs/getting-started/quickstart.md):** Nova erkennt unterstützte KI-Programme. Folge der einfachen Einrichtung, klicke bei Bedarf **Verbinden** und starte dein KI-Programm neu. Sage dann: **„Such mir mit Nova Katzenbilder und gib mir drei Quellenlinks.“**
+3. **[KI-Programm verbinden](docs/getting-started/quickstart.md):** Nova erkennt unterstützte KI-Programme. Folge der einfachen Einrichtung, klicke bei Bedarf **Verbinden** und starte dein KI-Programm neu. Sage dann: **„Recherchiere mit Nova die aktuellen Microsoft-Edge-WebView2-Versionshinweise auf Microsofts offizieller Website. Öffne die relevanten Seiten, fasse drei aktuelle Änderungen zusammen und gib mir Quellenlinks und Veröffentlichungsdaten.“**
 
 Testschlüssel gesucht? → **[Alpha-Testlizenz](docs/getting-started/trial-license.md#alpha-testlizenz)**
 
-Weiter: **[Installation auf Deutsch](docs/getting-started/installation.md#nova-ai-workspace-installieren)** · [KI-Programm auswählen (Englisch)](docs/integration/README.md) · [Hilfe (Englisch)](docs/troubleshooting/README.md) · [Demo auf Deutsch](demos/README.de.md).
+Weiter: **[Installation auf Deutsch](docs/getting-started/installation.md#nova-ai-workspace-installieren)** · [Erste Aufgabe (Englisch)](docs/getting-started/quickstart.md) · [Hilfe (Englisch)](docs/troubleshooting/README.md) · [Demo auf Deutsch](demos/README.de.md).
 
 ---
 

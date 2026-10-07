@@ -22,7 +22,7 @@ If you have a license key of your own, overwrite the prefilled fields with it.
 * **During setup:** on the page **Activate Nova now (optional)**.
 * **In the app:** in the sign-in window that Nova shows when it is not activated.
 
-More about the first start: [First Run & UI Tour](first-run.md#1-activating-nova).
+Continue with [Your first five minutes with Nova](quickstart.md#1-open-nova).
 
 ---
 

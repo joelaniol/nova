@@ -1,15 +1,10 @@
-# Connect Your AI Program
+# Client-Specific Connection Guides
 
 Nova detects supported AI programs on your computer and helps them connect to its browser. Most users can use the connection wizard rather than edit configuration files.
 
-## The normal setup
+## First time using Nova?
 
-1. Open Nova's connection wizard: **Settings → AI & agents → Connection & setup → Set up**. It may already be open on first start.
-2. Choose **Easy setup (recommended)**. Review the programs Nova found, then continue to **How the connection is saved**.
-3. Click **Connect** beside your program if offered. Already managed entries need no new connection.
-4. Restart your AI program or start a new CLI session. Then ask: **“Use Nova to find cat pictures and give me three source links.”**
-
-For the complete first task, follow [Quickstart](../getting-started/quickstart.md).
+Follow **[Your first five minutes](../getting-started/quickstart.md)**. Nova's connection wizard handles the normal setup; the guides below are for manual configuration and client-specific details.
 
 ## Choose your client
 

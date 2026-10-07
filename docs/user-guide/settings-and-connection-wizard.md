@@ -8,7 +8,7 @@ Open **Menu → Settings** to change how Nova behaves. Use **Set up** in the set
 2. Choose **Easy setup (recommended)**.
 3. Review **Your AI programs**, where Nova lists the programs it found.
 4. Continue to **How the connection is saved**. Review the destinations and use **Connect** for the connection you want to add. A connection already managed by Nova does not need another Connect action.
-5. Restart the AI program, then ask it to do a small browser task, such as finding cat pictures.
+5. Restart the AI program, then try the research task in [Your first five minutes](../getting-started/quickstart.md#4-give-it-a-task-and-watch).
 
 If a program is missing, install or start it and search again. **Connect another program** provides setup text for other clients. The [integration hub](../integration/README.md) has a guide for each supported client and for custom agents.
 

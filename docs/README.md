@@ -2,11 +2,9 @@
 
 ## I want to use Nova
 
-**[Install](getting-started/installation.md) → [Connect your AI program](integration/README.md) → [Try your first task](getting-started/quickstart.md)**
+**[Install Nova](getting-started/installation.md) → [Your first five minutes](getting-started/quickstart.md)**
 
-Already connected? Ask your AI program: **“Use Nova to find cat pictures and give me three source links.”**
-
-[First-run orientation](getting-started/first-run.md) explains where you are, where to see the agent and how to stop it. The [User guide](user-guide/README.md) covers everyday browser features. For any problem, start at [Troubleshooting](troubleshooting/README.md).
+Connect your AI program and watch it complete a short research task. Then choose [What's next?](getting-started/whats-next.md): everyday browsing, regular agent work or how Nova works. For any problem, start at [Troubleshooting](troubleshooting/README.md).
 
 ## I want to understand Nova
 
@@ -28,8 +26,9 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 | Page | What it covers |
 |---|---|
 | [Installation](getting-started/installation.md) | System requirements and the setup on Windows |
-| [First run](getting-started/first-run.md) | A tour of the window after the first launch |
-| [Quickstart](getting-started/quickstart.md) | Connect, restart your AI program and ask for a first task |
+| [Your first five minutes](getting-started/quickstart.md) | Launch, connect, restart your AI program, complete a task and stay in control |
+| [What's next?](getting-started/whats-next.md) | Everyday browsing, optional onboarding, recurring workflows and architecture |
+| [How the connection works](getting-started/mcp-setup.md) | Restarting, automatic reconnect and connection concepts |
 | [Advanced onboarding](getting-started/advanced-onboarding.md) | Optional project references and explicit bootstrap |
 
 ## User guide
@@ -192,7 +191,7 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 
 | Version | Release date | Highlights |
 |---|---|---|
-| [1.0.0-alpha.18](changelog/v1.0.0-alpha.18.md) | upcoming | New product name & look, favorites panel, SQLite history, native permission dialogs, AI setup, expanded sandboxes, password vault, resumable transfers, local transcription |
+| [1.0.0-alpha.18](changelog/v1.0.0-alpha.18.md) | 2026-10-07 | New product name & look, favorites panel, SQLite history, native permission dialogs, AI setup, expanded sandboxes, password vault, resumable transfers, local transcription |
 | [1.0.0-alpha.17](changelog/v1.0.0-alpha.17.md) | 2026-09-10 | Targeted hotfix for blank context menu spellcheck rows, official slogan adoption ("Built for what's next."), UI blank label scanner |
 | [1.0.0-alpha.16](changelog/v1.0.0-alpha.16.md) | 2026-09-10 | Background agent mode with notification area icon, taskbar integration & autostart fix, console read for agent devtools |
 | [1.0.0-alpha.15](changelog/v1.0.0-alpha.15.md) | 2026-09-08 | Network request inspection & interception rules for agents, agent tab pinning & reordering, terminal settings & NO_COLOR chip, media file info, update & install repair |
