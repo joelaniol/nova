@@ -19,7 +19,7 @@
 [![Local-first](https://img.shields.io/badge/data-local--first-2ea44f)](#)
 [![Made in Germany](https://img.shields.io/badge/Made%20in-Germany-FFCC00?labelColor=DD0000)](#)
 
-[Quickstart](docs/getting-started/quickstart.md) • [User Guide](docs/user-guide/README.md) • [Core Features](docs/core-features/README.md) • [Tool Catalog](docs/mcp-reference/tool-catalog.md) • [Changelog](docs/changelog/README.md) • [Troubleshooting](docs/troubleshooting/README.md)
+[Download](https://github.com/joelaniol/nova/releases) • [Quickstart](docs/getting-started/quickstart.md) • [User Guide](docs/user-guide/README.md) • [Core Features](docs/core-features/README.md) • [Tool Catalog](docs/mcp-reference/tool-catalog.md) • [Changelog](docs/changelog/README.md) • [Troubleshooting](docs/troubleshooting/README.md)
 
 </div>
 
