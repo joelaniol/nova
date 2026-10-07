@@ -40,7 +40,7 @@ The **Dual-Operator Model** connects the person and the agent:
 
 You need **Windows 10 / 11 (x64)** and an installed AI program such as Claude Code, Claude Desktop, Codex or Antigravity. Your conversation stays in that program; Nova provides the browser workspace. Your AI program may require its own account or subscription.
 
-1. **[Download Setup from Releases](https://github.com/joelaniol/nova/releases)** — under **Assets**, choose the file ending in `-Setup-<version>.exe`. The other assets are an MCP bridge bundle (`.mcpb`) and a checksum (`.sha256`); neither installs Nova.
+1. **[Download Setup from Releases](https://github.com/joelaniol/nova/releases)** — under **Assets**, choose the Windows x64 file ending in `-Setup-<version>.exe`. The other assets are an MCP bridge bundle (`.mcpb`) and a checksum (`.sha256`); neither installs Nova.
 2. **Activate.** No account required — the setup comes with the shared alpha license already filled in.
 3. **[Connect your AI program](docs/getting-started/quickstart.md).** Nova detects supported AI programs. Follow **Easy setup**, click **Connect** if offered, and restart your AI program. Then ask: **"Use Nova to find cat pictures and give me three source links."**
 
@@ -158,7 +158,7 @@ Explore the comprehensive documentation for operators, developers, and AI agents
 | **[Getting Started](docs/getting-started/README.md)** | Installation & First Task | [Installation](docs/getting-started/installation.md) • [First Run Tour](docs/getting-started/first-run.md) • [Quickstart](docs/getting-started/quickstart.md) |
 | **[User Guide](docs/user-guide/README.md)** | Human Workspace & UI Controls | [Workspace Layout](docs/user-guide/workspace-layout.md) • [Sandboxes](docs/user-guide/sandboxes-and-profiles.md) • [Terminal Dock](docs/user-guide/terminal-dock.md) • [AI Visualization](docs/user-guide/live-assist-and-spectator.md) • [Shortcuts](docs/user-guide/keyboard-shortcuts.md) |
 | **[Core Features](docs/core-features/README.md)** | Deep Architecture & Systems | [AAG Gates](docs/core-features/aag.md) • [PKS Knowledge Store](docs/core-features/pks.md) • [Outrider Boundary](docs/core-features/outrider-boundary.md) • [Vault & Secrets](docs/core-features/vault-and-secrets.md) • [Session Recording](docs/core-features/session-recording.md) |
-| **[Components & Processes](docs/components/README.md)** | Identify Nova-related processes | Main app • Outrider • MCP Proxy • TerminalRunner • ReplayValidator • WebView2 |
+| **[Components & Processes](docs/components/README.md)** | Identify Nova-related processes | [Main app](docs/components/nova-ai-workspace.md) • [Outrider](docs/components/outrider.md) • [MCP Proxy](docs/components/mcp-proxy.md) • [TerminalRunner](docs/components/terminal-runner.md) • [ReplayValidator](docs/components/replay-validator.md) • [WebView2](docs/components/webview2-and-child-processes.md) |
 | **[MCP Reference](docs/mcp-reference/README.md)** | Tools & Protocol | [Tool Catalog](docs/mcp-reference/tool-catalog.md) • [Protocol & Transport](docs/mcp-reference/protocol-and-transport.md) • [Dedicated Tool Guides](docs/mcp-reference/tools/README.md) |
 | **[Integration](docs/integration/README.md)** | AI Assistants & Clients | [Claude Code](docs/integration/claude-code.md) • [Codex](docs/integration/openai-codex.md) • [Antigravity](docs/integration/google-antigravity.md) • [Claude Desktop](docs/integration/claude-desktop.md) • [Custom Agents](docs/integration/custom-agents.md) |
 | **[Troubleshooting](docs/troubleshooting/README.md)** | Help by Symptom | [Connection Issues](docs/troubleshooting/agent-connection-issues.md) • [Agent Behavior](docs/troubleshooting/agent-behavior.md) • [Diagnostics Logs](docs/troubleshooting/diagnostics.md) • [Session Recovery](docs/troubleshooting/sandbox-and-session-recovery.md) |
@@ -198,7 +198,7 @@ Weiter: **[Installation auf Deutsch](docs/getting-started/installation.md#nova-a
 * **License:** [License terms](LICENSE).
 * **Security vulnerabilities:** Follow the [private reporting route](SECURITY.md).
 * **Issues & Feedback:** Report issues and feature requests on [GitHub Issues](https://github.com/joelaniol/nova/issues).
-  Agents can use `nova.get_instructions(topic='bug_report')` for reporting rules and bug-ticket or work-session feedback templates. Review URLs and evidence for secrets and personal data; see the [alpha reporting policy](ALPHA.md#what-to-report).
+  Agents can use [Nova's bug-report guide](docs/mcp-reference/tools/app-shell-and-ui/nova-get-instructions.md) via `nova.get_instructions(topic='bug_report')` for reporting rules and bug-ticket or work-session feedback templates. Review URLs and evidence for secrets and personal data; see the [alpha reporting policy](ALPHA.md#what-to-report).
 * **Website:** [nova-cognitive.com](https://nova-cognitive.com)
-* **YouTube:** [@novainweb](https://www.youtube.com/@novainweb)
+* **YouTube:** [Nova Cognitive (@novacognitive)](https://www.youtube.com/@novacognitive)
 * **Contact:** Joel Aniol — [LinkedIn](https://www.linkedin.com/in/joelaniol/)

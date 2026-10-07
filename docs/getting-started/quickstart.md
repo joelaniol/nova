@@ -14,7 +14,17 @@ On first start, follow Nova's connection wizard:
 
 If the wizard is not open, use **Settings → AI & agents → Connection & setup → Set up**. If your program is not detected, use **Search again** after installing it, or choose its [integration guide](../integration/README.md).
 
-## 2. Ask for your first task
+## 2. Recommended: ask your agent to onboard
+
+Onboarding is optional: you can try Nova immediately. For ongoing work in a project or workspace folder, it helps later agent sessions find Nova's instructions again.
+
+Tell your agent:
+
+> Please set up Nova's onboarding in this project's folder. Tell me which folder you will use, then install Nova's reference files there.
+
+The agent uses `nova.install_onboarding` for the folder you choose. Nova writes its own reference files under `.nova/` and a marked section in the project's agent instruction files. This requires agent self-onboarding to be enabled in Nova's settings; it does not grant tool permissions or create a permission allowlist. Details: [Onboarding and bootstrap](advanced-onboarding.md).
+
+## 3. Ask for your first task
 
 In your AI program, ask:
 
@@ -26,11 +36,21 @@ The agent should handle Nova's working instructions and tool discovery. You do n
 
 Prefer a local exercise? Try the [interactive demo](../../demos/README.md).
 
-## 3. See what is happening and stay in control
+## 4. See what is happening and stay in control
 
 Agent activity is marked on tabs. With **AI visualization** enabled, an AI cursor and captions show supported browser actions.
 
 **Menu → Emergency stop** interrupts agent work and remains active until you choose **Release emergency stop**. Typing or moving your mouse does not pause the agent. See [Staying in control](../user-guide/live-assist-and-spectator.md) for taking over a single tab and the scope of the stop.
+
+## 5. Use Learn Mode for recurring website tasks
+
+If you repeatedly work on the same website — for example, research in a supplier portal or navigate the same account workflow — ask the agent to learn that workflow before later runs:
+
+> I will repeat this task on this website. Use Nova's Learn Mode to explore the relevant workflow, verify what works, and produce a reusable platform playbook. Ask me if the intended workflow is unclear.
+
+Learn Mode is optional. It focuses on evidence-backed exploration and reusable website knowledge; it is separate from installing project onboarding files. Explain your goal and the parts worth repeating. Learning a workflow does not authorize purchases, sending messages, or other account changes.
+
+The agent obtains Nova's Learn Mode instructions and handles its onboarding steps. You do not need to memorize tool names. See [Website memory (PKS)](../core-features/pks.md) and [learning tools](../mcp-reference/tools/pks-and-learning/README.md).
 
 ## If the first task does not work
 
@@ -46,6 +66,6 @@ Details: [Agent integration](../integration/README.md).
 
 ## Advanced onboarding / bootstrap
 
-Project reference files, explicit tool discovery and tab coordination are useful for development and custom agents. They are optional setup beyond this first task: [Advanced onboarding and bootstrap](advanced-onboarding.md).
+For explicit tool discovery, custom agents and coordination between several agents, see: [Advanced onboarding and bootstrap](advanced-onboarding.md).
 
 Next: [First-run orientation](first-run.md) or the [User guide](../user-guide/README.md).

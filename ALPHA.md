@@ -31,13 +31,13 @@ issues, so you know what to expect before and during use.
 ## What to report
 
 - **Crashes** (Nova closes unexpectedly) → [crash form](https://github.com/joelaniol/nova/issues/new?template=crash-report.yml) (include the version from Settings → About and, if possible, the log).
-- **Security vulnerabilities** → privately via **Security → "Report a vulnerability"**
+- **Security vulnerabilities** → via the [private security form](https://github.com/joelaniol/nova/security/advisories/new)
   (see [SECURITY.md](SECURITY.md)) — not a public issue.
 - **MCP defects and performance regressions** → [bug report form](https://github.com/joelaniol/nova/issues/new?template=bug-report.yml)
   with the goal, last relevant steps, expected and observed behavior, version, and sanitized evidence.
 - **Work-session feedback** → [feedback form](https://github.com/joelaniol/nova/issues/new?template=feedback.yml) for successful steps, friction, slow
   operations, and improvement suggestions, also when nothing is clearly broken.
-- Agents can call `nova.get_instructions(topic='bug_report')` for rules, Markdown templates and the
+- Agents can use [Nova's reporting guide](docs/mcp-reference/tools/app-shell-and-ui/nova-get-instructions.md) via `nova.get_instructions(topic='bug_report')` for rules, Markdown templates and the
   submission route: they show you the draft first and submit only with your approval.
   Review URLs, screenshots, and log excerpts for secrets and personal data before publication.
 - **Please do not report** the known cosmetic GUI issues above.
@@ -79,13 +79,13 @@ bekannte Probleme, damit du weißt, was dich erwartet.
 ## Was bitte melden
 
 - **Abstürze** (Nova schließt sich unerwartet) → [Absturz-Formular](https://github.com/joelaniol/nova/issues/new?template=crash-report.yml) (Version aus Einstellungen → Info und, wenn möglich, das Log).
-- **Sicherheitslücken** → privat über **Security → „Report a vulnerability"** (siehe
+- **Sicherheitslücken** → über das [private Sicherheitsformular](https://github.com/joelaniol/nova/security/advisories/new) (siehe
   [SECURITY.md](SECURITY.md)) — kein öffentliches Issue.
 - **MCP-Defekte und Performance-Regressionen** → [Fehler-Formular](https://github.com/joelaniol/nova/issues/new?template=bug-report.yml)
   mit Ziel, letzten relevanten Schritten, erwartetem und beobachtetem Verhalten, Version und bereinigten Belegen.
 - **Arbeitsfeedback** → [Feedback-Formular](https://github.com/joelaniol/nova/issues/new?template=feedback.yml) für erfolgreiche Schritte, Reibung, langsame
   Abläufe und Verbesserungsvorschläge, auch wenn nichts eindeutig kaputt ist.
-- Agenten erhalten mit `nova.get_instructions(topic='bug_report')` Regeln, Markdown-Vorlagen und den
+- Agenten erhalten über [Novas Meldeanleitung](docs/mcp-reference/tools/app-shell-and-ui/nova-get-instructions.md) mit `nova.get_instructions(topic='bug_report')` Regeln, Markdown-Vorlagen und den
   Weg zum Absenden: Sie zeigen dir zuerst den Entwurf und senden nur mit deiner Zustimmung.
   URLs, Screenshots und Logauszüge vor Veröffentlichung auf Geheimnisse und persönliche Daten prüfen.
 - **Bitte keine** bekannten kosmetischen GUI-Probleme oben melden.
