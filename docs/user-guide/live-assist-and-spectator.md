@@ -47,3 +47,5 @@ flowchart LR
 3. **Your own input:** you can keep using the browser while an agent works — it is the same browser with the same sessions. When you type or use browser shortcuts, the visualization steps aside. This does not pause the agent; to interrupt all agent work, use the emergency stop. To take over one claimed tab, release its claim from the activity details or choose **Release agent** on the sandbox pill; confirm **Take over control** if prompted. Releasing a claim is distinct from the global emergency stop.
 
 There is no keyboard shortcut for the emergency stop.
+
+For a step-by-step guide to stopping and continuing, including the effect on your own terminals and completed actions, see [Emergency Stop](../getting-started/emergency-stop.md).

@@ -29,6 +29,16 @@ Check the AI program's MCP connection list before the first task. In clients tha
 
 Once connected, supported AI programs can start Nova when needed and reconnect to it automatically.
 
+## Recommended before your first task: optional onboarding
+
+If you already have a project or working folder where you want to use Nova regularly, ask your agent:
+
+> Please do the Nova project onboarding for this working folder. First explain which files you will create or update, and ask me if the target folder is unclear. Keep my existing instructions and permissions.
+
+Tell the agent which folder you mean. Onboarding adds Nova's reference files under `.nova/` and a marked Nova section to the applicable project instruction file, such as `AGENTS.md` or `CLAUDE.md`. It does not change your agent client's permission settings.
+
+This is recommended for regular project work, but **optional**. You can skip it and try the research task below without project files. See [Project onboarding](advanced-onboarding.md) for examples and the files involved.
+
 ## 4. Give it a task and watch
 
 In your AI program, ask:
@@ -42,6 +52,8 @@ If your AI program asks permission to use Nova, review and approve the requests 
 ## Stay in control
 
 **Menu → Emergency stop** interrupts agent work and remains active until you choose **Release emergency stop**. It also interrupts Nova's terminal sessions, including your own dock terminals. Moving your mouse or typing does not pause the agent.
+
+Read [Emergency Stop](emergency-stop.md) for what it interrupts, what remains completed, and how to continue safely afterwards.
 
 ## What just happened?
 

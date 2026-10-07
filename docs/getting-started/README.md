@@ -19,6 +19,7 @@ You need Windows 10/11 (x64) and an installed AI program such as Claude Code, Cl
 
 ## Need something else?
 
+- Want to interrupt agent work? [Emergency Stop](emergency-stop.md).
 - Something failed? [Troubleshooting](../troubleshooting/README.md).
 - Looking for shared alpha activation details? [Alpha Trial License](trial-license.md).
 - Configuring a particular AI program manually? [Client-specific connection guides](../integration/README.md).

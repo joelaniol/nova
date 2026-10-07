@@ -1,6 +1,6 @@
 # Optional Project Onboarding
 
-Use this after your [first successful task](quickstart.md) if you plan to use Nova regularly in a project. Onboarding gives later agent sessions a local reference to Nova's working instructions.
+Once your agent is connected to Nova, project onboarding is recommended if you plan to use Nova regularly in a project. You can do it before your [first task](quickstart.md#recommended-before-your-first-task-optional-onboarding) or add it later. It is optional and gives later agent sessions a local reference to Nova's working instructions.
 
 ## Choose the project folder
 
