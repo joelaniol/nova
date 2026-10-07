@@ -1,6 +1,6 @@
-# Connect Antigravity or Gemini CLI
+# Connect Antigravity to Nova
 
-Antigravity and Gemini CLI are separate programs. Nova's automatic connection wizard has an **Antigravity** entry; that entry does not configure Gemini CLI.
+Connect Antigravity through Nova's wizard, restart it, and give it your first task. The wizard lists this connection as **Antigravity**.
 
 ## Antigravity
 
@@ -12,13 +12,11 @@ For manual setup, choose **Set up manually** in Nova's wizard. You can give Anti
 
 If tools are missing or the agent cannot read their data, use [Antigravity compatibility troubleshooting](../troubleshooting/antigravity.md).
 
-## Gemini CLI
+## Coming from Gemini CLI?
 
-Use the wizard's **Connect another program** route to obtain Nova's current connection details. Ask Gemini CLI to configure Nova for Gemini CLI using those details, or configure its MCP entry yourself following the [official Gemini CLI MCP guide](https://geminicli.com/docs/tools/mcp-server/).
+For individual accounts, Google's terminal offering is now Antigravity CLI. Gemini CLI stopped serving free individual accounts and Google AI Pro/Ultra on **June 18, 2026**. Enterprise and API-key access remain exceptions; see [Google's transition notice](https://github.com/google-gemini/gemini-cli/discussions/28017).
 
-Gemini CLI has its own configuration. Do not treat Antigravity's configuration file or compatibility entry as Gemini CLI's setup. For a local connection through Nova's bridge, use the runner command supplied by Nova.
-
-Restart Gemini CLI after changing its configuration, then try the [first research task](../getting-started/quickstart.md#4-give-it-a-task-and-watch). The agent handles tool discovery and results.
+For the normal Nova setup, use Antigravity and the connection steps above. For migration, follow [Google's Antigravity CLI guide](https://antigravity.google/blog/introducing-google-antigravity-cli).
 
 ## After connecting
 

@@ -23,8 +23,7 @@ Use Nova's generated text: it contains the current connection details for your i
 | Claude Code | [Connect Claude Code](claude-code.md) |
 | Claude Desktop | [Connect Claude Desktop](claude-desktop.md) |
 | OpenAI Codex CLI | [Connect Codex](openai-codex.md) |
-| Antigravity or Gemini CLI | [Antigravity and Gemini CLI](google-antigravity.md) — separate setup routes |
-| Your own agent or MCP client | [Custom integrations](custom-agents.md) — developer guidance |
+| Antigravity | [Connect Antigravity](google-antigravity.md) |
 
 If your program is missing, install it and choose **Search again**. For another MCP-compatible program, use **Connect another program** in the wizard.
 
@@ -35,3 +34,7 @@ Tell your agent what you want to accomplish and ask it to use Nova. The agent ha
 Nova keeps its own connection entry current when automatic sync is enabled. Tool approvals in the AI program remain your decision. Page data the agent reads may be sent to its AI provider; see the [privacy notice](../../PRIVACY.md).
 
 After your first task, see [What's next?](../getting-started/whats-next.md) for optional project onboarding and Learn Mode. If the connection fails, start at [Connection troubleshooting](../troubleshooting/agent-connection-issues.md).
+
+## For developers
+
+Building your own agent runner or MCP client? Use [Custom integrations](custom-agents.md) for developer guidance.

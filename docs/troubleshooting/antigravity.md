@@ -2,7 +2,7 @@
 
 Updated: 2026-10-07 · [Deutsch](#google-antigravity-deutsch)
 
-Use Nova's [Antigravity connection guide](../integration/google-antigravity.md#antigravity) for setup. Gemini CLI has a [separate setup route](../integration/google-antigravity.md#gemini-cli). This page covers the compatibility behavior of Nova's bridge for Antigravity.
+Use Nova's [Antigravity connection guide](../integration/google-antigravity.md#antigravity) for setup. For older Gemini CLI installations, see the [transition note](../integration/google-antigravity.md#coming-from-gemini-cli). This page covers the compatibility behavior of Nova's bridge for Antigravity.
 
 ## Setup
 

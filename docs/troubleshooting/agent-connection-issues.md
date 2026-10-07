@@ -1,6 +1,6 @@
 # Agent & MCP Connection Issues
 
-This guide resolves common connection, discovery, and handshake failures across **Anthropic Claude**, **Google Antigravity / Gemini**, **OpenAI Codex**, and custom MCP clients.
+This guide resolves common connection, discovery, and handshake failures across **Anthropic Claude**, **Antigravity**, **OpenAI Codex**, and custom MCP clients.
 
 ---
 
@@ -66,11 +66,11 @@ The simplest repair for steps 2–3 is the connection wizard in Nova's settings:
 
 ---
 
-## 3. Google Antigravity & Gemini CLI Issues
+## 3. Antigravity connection issues
 
-Antigravity has two quirks of its own: it rejects tool names with dots, and it passes only the text of a tool result to the model. Nova's entry for Antigravity therefore starts the bridge with `--antigravity-tool-names`, which handles both. Nova keeps that entry in `%USERPROFILE%\.gemini\config\mcp_config.json` up to date by itself.
+Antigravity has two quirks of its own: it rejects tool names with dots, and it passes only the text of a tool result to the model. Nova's entry for Antigravity therefore starts the bridge with `--antigravity-tool-names`, which handles both. Nova keeps that entry in `%USERPROFILE%\.gemini\config\mcp_config.json` current when automatic sync for Antigravity is enabled.
 
-Symptoms and Nova's compatibility settings are explained in [Antigravity compatibility](antigravity.md).
+Symptoms and Nova's compatibility settings are explained in [Antigravity compatibility](antigravity.md). For older Gemini CLI installations, see the [transition note](../integration/google-antigravity.md#coming-from-gemini-cli).
 
 ---
 

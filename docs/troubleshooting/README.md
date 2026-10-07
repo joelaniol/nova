@@ -46,5 +46,5 @@ For a connected agent that avoids Nova, reports missing tools, sees only summary
 | Claude Code | [Client guide](../integration/claude-code.md) |
 | Claude Desktop | [Client guide](../integration/claude-desktop.md) · [Connection issues](agent-connection-issues.md#2-claude-desktop-shows-no-nova-tools) |
 | OpenAI Codex CLI | [Client guide](../integration/openai-codex.md) |
-| Google Antigravity / Gemini CLI | [Client guide](../integration/google-antigravity.md) · [Compatibility help](antigravity.md) |
+| Antigravity | [Client guide](../integration/google-antigravity.md) · [Compatibility help](antigravity.md) |
 | Another MCP client | [Custom agents](../integration/custom-agents.md) · [Missing result data](agent-behavior.md#the-agent-sees-only-summaries) |
