@@ -14,9 +14,9 @@ For agent-authored plugins and terminal connectors, check the [current alpha lim
 
 If you plan to use Nova regularly in a project or workspace folder, tell your agent:
 
-> Please set up Nova's onboarding in this project's folder. Tell me which folder you will use, then install Nova's reference files there.
+> Please do Nova's onboarding for this project. Preserve my existing instructions and permissions, and show me which files you added or updated.
 
-This helps later sessions find Nova's working instructions. Nova writes reference files under `.nova/` and a marked section in the project's agent instruction files. It requires agent self-onboarding to be enabled in Nova's settings; it does not grant tool permissions. Onboarding is optional and is separate from learning a website. See [Project onboarding and custom workflows](advanced-onboarding.md).
+This helps later sessions find Nova's working instructions. By default, the agent installs the references in the current project's `.nova/` subfolder and adds a marked section to the project's agent instruction files. You can optionally specify a different working folder. It requires agent self-onboarding to be enabled in Nova's settings; it does not grant tool permissions. Onboarding is optional and is separate from learning a website. See [Project onboarding and custom workflows](advanced-onboarding.md).
 
 ### Learn recurring website workflows
 

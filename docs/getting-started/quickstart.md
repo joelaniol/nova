@@ -33,9 +33,9 @@ Once connected, supported AI programs can start Nova when needed and reconnect t
 
 If you already have a project or working folder where you want to use Nova regularly, ask your agent:
 
-> Please do the Nova project onboarding for this working folder. First explain which files you will create or update, and ask me if the target folder is unclear. Keep my existing instructions and permissions.
+> Please do Nova's onboarding for this project. Keep my existing project instructions and permissions, and show me which files you added or updated.
 
-Tell the agent which folder you mean. Onboarding adds Nova's reference files under `.nova/` and a marked Nova section to the applicable project instruction file, such as `AGENTS.md` or `CLAUDE.md`. It does not change your agent client's permission settings.
+By default, the agent installs Nova's reference files in the current project's `.nova/` subfolder and adds a marked Nova section to the applicable project instruction file, such as `AGENTS.md` or `CLAUDE.md`. You can optionally tell the agent to use a different working folder. Onboarding does not change your agent client's permission settings.
 
 This is recommended for regular project work, but **optional**. You can skip it and try the research task below without project files. See [Project onboarding](advanced-onboarding.md) for examples and the files involved.
 
