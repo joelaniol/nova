@@ -20,7 +20,12 @@ If the wizard is not open, use **Settings → AI & agents → Connection & setup
 
 ## 3. Restart your AI program
 
-Close and reopen your AI program, or start a new CLI session, so it loads the connection. For Claude Desktop, quit it completely, including its tray icon, before reopening it.
+Close and reopen your AI program. Restart agent sessions and shells that were already running when the connection was saved; those sessions can still have the old configuration. For Claude Desktop, quit it completely, including its tray icon, before reopening it.
+
+Check the AI program's MCP connection list before the first task. In clients that support it, enter **`/mcp`**; otherwise use their connection or tools view. **Nova should be listed as connected.** If it is missing or disconnected, return to Nova's connection wizard and check that program's entry.
+
+> [!IMPORTANT]
+> **Does the agent reach for `curl` to work with Nova?** In practice, this is an indicator that the MCP connection may be wrong or not loaded in the current session. Check the connection list and restart existing shells or agent sessions before continuing. For the first task, ask the agent to use Nova's registered MCP tools.
 
 Once connected, supported AI programs can start Nova when needed and reconnect to it automatically.
 

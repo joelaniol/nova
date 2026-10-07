@@ -28,7 +28,7 @@ Nova's MCP server speaks **Streamable HTTP**. Clients reach it either directly o
   * `--antigravity-tool-names`: advertises tool names with underscores (`nova_tabs`) for clients that reject dots, and maps calls back. Includes `--mirror-structured-content`.
   * `--mirror-structured-content`: copies `structuredContent` into `content[].text` for clients that pass only the text to the model.
   * `--version` or `--self-test`, each on its own: print the bridge version, or check that the bridge itself works, and exit.
-* **Environment variables:** see [Google Antigravity → Advanced Proxy Tuning](../integration/google-antigravity.md#4-advanced-proxy-tuning-environment-variables) (`NOVA_MCP_AUTOSTART`, `NOVA_MCP_COLD_START_MS`, …).
+* **Developer configuration:** `NOVA_MCP_AUTOSTART=0` disables bridge autostart. `NOVA_MCP_COLD_START_MS` sets its cold-start wait (default 90,000 ms, bounded to 5,000–300,000 ms). These are bridge environment variables for custom integrations, not result-format settings for users.
 
 ### B. Streamable HTTP (`http://127.0.0.1:27183/mcp`)
 * For services and scripts that cannot start a child process.
@@ -37,7 +37,7 @@ Nova's MCP server speaks **Streamable HTTP**. Clients reach it either directly o
   ```http
   Authorization: Bearer <token>
   ```
-  The token is in `mcp.json` (`auth.token`). It is stored encrypted for your Windows account and stays the same across Nova restarts.
+  The runtime file `mcp.json` contains the token in plaintext as `auth.token`; protect that file and keep its contents out of logs and shared documents. Nova's persistent identity is encrypted for your Windows account, and the token stays the same across restarts unless rotated.
 * **Session:** the response to `initialize` carries an `Mcp-Session-Id` header. Send it with `MCP-Protocol-Version` on every following request; requests without it are answered with `400 Missing Mcp-Session-Id`.
 * **Responses:** with `Accept: application/json, text/event-stream`, answers arrive as server-sent events (`event: message`).
 * **Health probe:** `GET /health` needs no token and returns `status` (`ready` once Nova accepts calls), the app version and the protocol version. It never contains the token.

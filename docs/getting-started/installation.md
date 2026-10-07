@@ -9,7 +9,7 @@ Deutsch: [weiter unten](#nova-ai-workspace-installieren).
 
 ---
 
-## 1. Requirements
+## 1. System Requirements
 
 - **Windows 10 (version 1809 / build 17763 or newer) or Windows 11, x64.**
 - An internet connection to download Nova, activate the license, and download WebView2 if it is missing.

@@ -56,7 +56,7 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 | [Claude Code](integration/claude-code.md) | Connecting the Claude Code CLI |
 | [Claude Desktop](integration/claude-desktop.md) | Connecting the Claude Desktop app |
 | [OpenAI Codex](integration/openai-codex.md) | Connecting the Codex CLI |
-| [Google Antigravity and Gemini CLI](integration/google-antigravity.md) | Connecting Antigravity and Gemini |
+| [Antigravity and Gemini CLI](integration/google-antigravity.md) | Separate setup routes for the two programs |
 | [Custom agents](integration/custom-agents.md) | Your own agent in Python, Node.js or raw JSON-RPC |
 
 ## MCP reference

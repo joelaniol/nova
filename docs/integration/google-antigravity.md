@@ -1,136 +1,25 @@
-# Integrating Google Antigravity & Gemini CLI
+# Connect Antigravity or Gemini CLI
 
-**Start here:** use Nova's connection wizard, click **Connect** if offered, and restart your AI program. Then follow the [first-task Quickstart](../getting-started/quickstart.md). The sections below cover manual configuration and advanced workflows.
+Antigravity and Gemini CLI are separate programs. Nova's automatic connection wizard has an **Antigravity** entry; that entry does not configure Gemini CLI.
 
-> [!NOTE]
-> This guide covers setting up **Google Antigravity (AGY)** and **Gemini CLI** to control **Nova AI Workspace**, detailing client-specific adapter flags (`--antigravity-tool-names`, `--mirror-structured-content`), lazy schema loading, and subagent swarm coordination.
+## Antigravity
 
----
+Follow [Your first five minutes](../getting-started/quickstart.md), choosing **Antigravity** in Nova's program list. Click **Connect** if offered, then restart Antigravity and try the first task.
 
-## 1. Overview & Architecture
+Nova supplies the Antigravity-specific connection entry, including the compatibility settings needed by its bridge. You do not need to tune output sizes or configure result processing.
 
-Google Antigravity is an agentic coding environment featuring multi-agent swarms, background subagents, and direct tool invocation. 
+For manual setup, choose **Set up manually** in Nova's wizard. You can give Antigravity the generated setup text, or use **Copy entry for Google Antigravity** if you manage the file yourself. Restart Antigravity afterwards.
 
-Because Antigravity and Gemini CLI enforce strict schema naming rules and handle tool response structures uniquely, Nova provides dedicated proxy flags to ensure seamless operation.
+If tools are missing or the agent cannot read their data, use [Antigravity compatibility troubleshooting](../troubleshooting/antigravity.md).
 
-```mermaid
-flowchart LR
-    AGY["Google Antigravity / Gemini CLI<br>(antigravity-cli)"] <-->|Stdio Bridge| Proxy["NovaBrowser.McpProxy.exe<br>• --antigravity-tool-names<br>• --mirror-structured-content"]
-    Proxy <-->|"HTTP + token (127.0.0.1)"| Nova["Nova AI Workspace Host<br>(400+ MCP Tools)"]
-```
+## Gemini CLI
 
----
+Use the wizard's **Connect another program** route to obtain Nova's current connection details. Ask Gemini CLI to configure Nova for Gemini CLI using those details, or configure its MCP entry yourself following the [official Gemini CLI MCP guide](https://geminicli.com/docs/tools/mcp-server/).
 
-## 2. Antigravity-Specific Proxy Flags (Mandatory)
+Gemini CLI has its own configuration. Do not treat Antigravity's configuration file or compatibility entry as Gemini CLI's setup. For a local connection through Nova's bridge, use the runner command supplied by Nova.
 
-The Antigravity client has two architectural characteristics that require specific adapter switches in `NovaBrowser.McpProxy.exe`:
+Restart Gemini CLI after changing its configuration, then try the [first research task](../getting-started/quickstart.md#4-give-it-a-task-and-watch). The agent handles tool discovery and results.
 
-### Flag 1: `--antigravity-tool-names` (Underscore Transformation)
-* **The Constraint:** Google Antigravity and Gemini CLI parser schemas strictly forbid dots in MCP tool identifiers (e.g. `nova.tabs` fails schema validation).
-* **The Adapter:** Passing `--antigravity-tool-names` instructs `NovaBrowser.McpProxy` to transform all tool names from dots to underscores:
-  * `nova.tabs` $\rightarrow$ `nova_tabs`
-  * `nova.dom_extract` $\rightarrow$ `nova_dom_extract`
-  * `nova.scroll_smart` $\rightarrow$ `nova_scroll_smart`
-* The proxy transparently translates requests back to canonical dotted names before forwarding them to Nova's internal server.
+## After connecting
 
-### Flag 2: `--mirror-structured-content` (Structured Data Injection)
-* **The Constraint:** In Antigravity CLI (issue `#953`), the client runtime passes only `content[].text` into the agent model's context window, dropping top-level `structuredContent` payloads.
-* **The Symptom:** Without this flag, listing tools (like `nova_tabs`, `nova_domain_notes_list`, or `nova_eval`) return short summary strings (e.g., *"Tab inventory resolved. Use structuredContent.tabs for details"*), leaving the agent blind to the actual tab list or data.
-* **The Adapter:** When `--mirror-structured-content` is active (which is also automatically implied by `--antigravity-tool-names`), the proxy intercepts tool responses, extracts the `structuredContent` JSON, formats it as Markdown, and injects it directly into `content[].text`.
-
----
-
-## 3. Configuration Setup
-
-### Option A: Automatic (recommended)
-When Nova starts and finds Antigravity installed, it adds a `nova` entry to Antigravity's global MCP config, `%USERPROFILE%\.gemini\config\mcp_config.json`, with `--antigravity-tool-names` already set. Restart Antigravity once afterwards. If the entry is missing, open the connection wizard in Nova's settings and choose Antigravity.
-
-### Option B: Manual
-Add the entry to `%USERPROFILE%\.gemini\config\mcp_config.json`, keeping any other servers that are already there, with your Windows user name in place of `<you>`:
-
-```json
-{
-  "mcpServers": {
-    "nova": {
-      "command": "C:\\Users\\<you>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe",
-      "args": ["--antigravity-tool-names"]
-    }
-  }
-}
-```
-
-`--antigravity-tool-names` already includes `--mirror-structured-content`; you do not need to list both. If the setup could not move the profile of an installation from before the product rename, it is still in `%LOCALAPPDATA%\NovaBrowser`; the bridge is then at `%LOCALAPPDATA%\NovaBrowser\bin\NovaBrowser.McpProxy.exe`.
-
-> [!WARNING]
-> Add `--antigravity-tool-names` only to Antigravity's entry. Claude Code, Claude Desktop and Codex expect the normal dotted names (`nova.tabs`).
-
----
-
-## 4. Advanced Proxy Tuning (Environment Variables)
-
-You can fine-tune proxy behavior via environment variables:
-
-| Variable | Default | Allowed Range | Description |
-| :--- | :---: | :---: | :--- |
-| **`NOVA_MCP_MIRROR_MAX_CHARS`** | `32,000` | 1,000 – 1,000,000 | Maximum character budget allocated for mirrored structured JSON blocks in `content.text`. |
-| **`NOVA_MCP_AUTOSTART`** | `1` | `0` or `1` | Set to `0` to prevent the proxy from automatically launching Nova if the browser is closed. |
-| **`NOVA_MCP_COLD_START_MS`** | `90,000` | 5,000 – 300,000 | Milliseconds the proxy waits for Nova to complete cold boot before timing out. |
-| **`NOVA_MCP_CALL_GRACE_MS`** | `1,500` | 0 – 5,000 | Grace period added to tool call timeouts during heavy page loads. |
-
----
-
-## 5. Lazy Schema Loading (`tools_bundle`)
-
-Nova provides over 400 MCP tools. Loading all of their schema descriptions upfront into Antigravity would consume significant token context.
-
-Antigravity leverages **Lazy Tool Loading**:
-1. Antigravity discovers Nova tools as lazy-loaded tools.
-2. The agent queries schemas on demand using `call_mcp_tool` or `nova_tools_bundle`:
-   ```json
-   nova_tools_bundle({ "toolName": "nova.dom_extract" })
-   ```
-3. This keeps the prompt context lean and focused on the active task.
-
----
-
-## 6. Subagent Swarms & Multi-Agent Coordination
-
-Antigravity frequently invokes concurrent subagents via `invoke_subagent`:
-
-### Exclusive Leases (`nova_tab_claim`)
-When multiple subagents explore or audit websites simultaneously:
-```json
-nova_tab_claim({
-  "targetId": "d2d64991",
-  "agentId": "subagent-1",
-  "ttlMs": 180000
-})
-```
-* Tab IDs come from `nova.tabs`; the lease lasts `ttlMs` (default 120 s, 5 s to 30 min).
-* If another agent calls a claimed tab, Nova refuses with error code `-32040` (`claim.owner_mismatch`) and names the owning `agentId`.
-* Call `nova_tab_release({ "targetId": "d2d64991", "agentId": "subagent-1" })` upon completion.
-
-### Cross-Subagent Knowledge Sharing (`nova_board_*`)
-The board is off by default (**Enable shared agent knowledge board** in the settings). It is not a
-store for research results: agents record problems they hit with Nova's tools, as an `observation`,
-a `refutation` (a path that did not help) or a `reproduction`, under a structured anchor. When a
-later tool call fails with a matching symptom, Nova adds a `boardHint` pointing to the topic.
-```json
-// Subagent A records a tool problem:
-nova_board_contribute({
-  "kind": "observation",
-  "openNew": true,
-  "text": "scroll_smart does not load more rows in the search results list",
-  "anchor": {
-    "component": "mcp",
-    "capability": "nova.scroll_smart",
-    "operation": "scroll",
-    "symptomClass": "no_effect",
-    "host": "example.com"
-  },
-  "idempotencyKey": "search-scroll-no-effect-1"
-})
-
-// Subagent B reads the topic named in a boardHint:
-nova_board_get({ "topicId": "<topicId from the boardHint>" })
-```
+Optional [project onboarding and Learn Mode](../getting-started/whats-next.md#use-nova-with-agents-regularly) are available after your first successful task. For connection failures, use [Connection troubleshooting](../troubleshooting/agent-connection-issues.md).

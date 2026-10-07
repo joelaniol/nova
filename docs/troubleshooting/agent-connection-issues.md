@@ -4,6 +4,16 @@ This guide resolves common connection, discovery, and handshake failures across 
 
 ---
 
+## Start with your AI program
+
+Check its MCP connection list. In clients that offer **`/mcp`**, use that command; otherwise open the client's connection or tools view. **Nova should be listed as connected.**
+
+After saving a connection in Nova, restart agent sessions and shells that were already open. They may still be using the previous configuration even when Nova's wizard shows a saved entry. Quit Claude Desktop completely, including its tray icon, before reopening it.
+
+**If the agent reaches for `curl` to work with Nova, check the MCP connection first.** From practical experience, this is an indicator that something may be wrong with the connection or that the current session has not loaded it. A manual request to Nova's endpoint is not a check that the agent's registered MCP tools are working. Reopen the connection wizard, check the program's entry, restart its existing sessions, then ask it to use Nova's MCP tools.
+
+If Nova is connected but the agent still chooses the wrong way to work, use [Agent behavior](agent-behavior.md). The technical checks below help when the connection itself fails.
+
 ## 1. The Agent Cannot Reach Nova
 
 ### Symptoms

@@ -1,33 +1,37 @@
-# Client-Specific Connection Guides
+# Connect Your AI Program
 
-Nova detects supported AI programs on your computer and helps them connect to its browser. Most users can use the connection wizard rather than edit configuration files.
+Your AI program runs the agent; Nova gives it a browser workspace. To get started, follow [Your first five minutes](../getting-started/quickstart.md).
 
-## First time using Nova?
+## Two ways to connect
 
-Follow **[Your first five minutes](../getting-started/quickstart.md)**. Nova's connection wizard handles the normal setup; the guides below are for manual configuration and client-specific details.
+### Let Nova set up the connection
 
-## Choose your client
+Open **Settings → AI & agents → Connection & setup → Set up**. Choose **Easy setup (recommended)**, continue to **How the connection is saved**, and click **Connect** beside your program if offered. Restart the AI program afterwards.
 
-Each supported client has one setup guide. Use it for manual configuration and client-specific details.
+The wizard shows the programs it found and the files it will update. Opening the wizard or reading its pages does not save a connection. Restart previously open shells and agent sessions, then check Nova in the client's MCP list (`/mcp` where supported).
 
-| Your AI program | Guide |
+### Ask your agent to set it up
+
+In the wizard, choose **Set up manually → Let an AI program do it → Copy text for an AI program**. Paste that text into the AI program you want to connect, such as Claude Code, and ask it to carry out the setup. Review any proposed configuration changes, then restart that program.
+
+Use Nova's generated text: it contains the current connection details for your installation. It can include the access key, so do not post it in a public issue or shared document.
+
+## Details for your program
+
+| Program | Guide |
 |---|---|
-| Claude Code | [Claude Code](claude-code.md) |
-| Claude Desktop | [Claude Desktop](claude-desktop.md) |
-| OpenAI Codex CLI | [Codex](openai-codex.md) |
-| Google Antigravity / Gemini CLI | [Antigravity and Gemini](google-antigravity.md) |
-| Your own Python, Node.js or other MCP client | [Custom agents](custom-agents.md) |
+| Claude Code | [Connect Claude Code](claude-code.md) |
+| Claude Desktop | [Connect Claude Desktop](claude-desktop.md) |
+| OpenAI Codex CLI | [Connect Codex](openai-codex.md) |
+| Antigravity or Gemini CLI | [Antigravity and Gemini CLI](google-antigravity.md) — separate setup routes |
+| Your own agent or MCP client | [Custom integrations](custom-agents.md) — developer guidance |
 
-If a program is missing, install it and choose **Search again**. For another compatible program, the wizard's **Connect another program** step offers setup text and manual connection details.
+If your program is missing, install it and choose **Search again**. For another MCP-compatible program, use **Connect another program** in the wizard.
 
-## What the connection does
+## Once connected
 
-Supported clients start Nova's bridge, `NovaBrowser.McpProxy.exe`. The bridge finds Nova's local MCP server and adds its access token. Nova keeps its own client entry current when automatic sync is enabled; other entries are preserved. The token is not written into those client config entries.
+Tell your agent what you want to accomplish and ask it to use Nova. The agent handles tool discovery, calls and task results. You do not need to select an output format or prescribe a tool sequence.
 
-Nova listens on this computer by default. Access from other devices requires a separate setting. Page data your agent reads may be sent to its AI provider under that provider's terms; see the [privacy notice](../../PRIVACY.md).
+Nova keeps its own connection entry current when automatic sync is enabled. Tool approvals in the AI program remain your decision. Page data the agent reads may be sent to its AI provider; see the [privacy notice](../../PRIVACY.md).
 
-## Beyond the first task
-
-- [Advanced onboarding and bootstrap](../getting-started/advanced-onboarding.md) — optional project references and agent discovery.
-- [Protocol and transport](../mcp-reference/protocol-and-transport.md) — custom integrations.
-- [Troubleshooting](../troubleshooting/README.md) — missing connections, agent behavior and client-specific quirks.
+After your first task, see [What's next?](../getting-started/whats-next.md) for optional project onboarding and Learn Mode. If the connection fails, start at [Connection troubleshooting](../troubleshooting/agent-connection-issues.md).

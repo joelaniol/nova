@@ -1,8 +1,8 @@
 # Google Antigravity Compatibility
 
-Updated: 2026-10-05 · [Deutsch](#google-antigravity-deutsch)
+Updated: 2026-10-07 · [Deutsch](#google-antigravity-deutsch)
 
-Use Nova's [Antigravity / Gemini integration guide](../integration/google-antigravity.md) for setup. This page covers the compatibility behavior of Nova's bridge when that mode is enabled.
+Use Nova's [Antigravity connection guide](../integration/google-antigravity.md#antigravity) for setup. Gemini CLI has a [separate setup route](../integration/google-antigravity.md#gemini-cli). This page covers the compatibility behavior of Nova's bridge for Antigravity.
 
 ## Setup
 
@@ -20,7 +20,7 @@ For other causes, use [Agent behavior](agent-behavior.md) or [Connection issues]
 
 # Google Antigravity (Deutsch)
 
-Stand: 2026-10-05
+Stand: 2026-10-07
 
 ## Einrichtung
 
