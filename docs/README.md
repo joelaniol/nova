@@ -28,6 +28,7 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 | [Installation](getting-started/installation.md) | System requirements and the setup on Windows |
 | [Your first five minutes](getting-started/quickstart.md) | Launch, connect, restart your AI program, complete a task and stay in control |
 | [Emergency Stop](getting-started/emergency-stop.md) | Interrupt work, understand the effects and release the stop |
+| [Use Learn Mode](getting-started/learn-mode.md) | Understand recurring website workflows and ask your agent to learn them |
 | [What's next?](getting-started/whats-next.md) | Everyday browsing, optional onboarding, recurring workflows and architecture |
 | [How the connection works](getting-started/mcp-setup.md) | Restarting, automatic reconnect and connection concepts |
 | [Advanced onboarding](getting-started/advanced-onboarding.md) | Optional project references and explicit bootstrap |

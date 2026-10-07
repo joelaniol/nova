@@ -15,6 +15,8 @@ You need Windows 10/11 (x64) and an installed AI program such as Claude Code, Cl
 
 ## After your first task
 
+[Use Learn Mode](learn-mode.md) — prepare for recurring website work: why, when and how to ask your agent.
+
 [What's next?](whats-next.md) — everyday browsing, regular agent work, and how Nova works.
 
 ## Need something else?

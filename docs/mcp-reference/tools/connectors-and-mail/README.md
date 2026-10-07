@@ -8,7 +8,7 @@ IMAP/SMTP email client automation, EML exports, SFTP/FTP server operations, and 
 ---
 
 <!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
-## Tool Inventory (41 Tools)
+## Tool Inventory (46 Tools)
 
 Capability bundles of these tools: `connector_ops`.
 
@@ -55,6 +55,11 @@ Capability bundles of these tools: `connector_ops`.
 | **[`nova.sftp_transfer_status`](nova-sftp-transfer-status.md)** | Reports progress and result of background SFTP transfers started by `nova.sftp_get` or `nova.sftp_put`. |
 | **[`nova.sftp_transfer_stop`](nova-sftp-transfer-stop.md)** | Stops a running background SFTP transfer softly and keeps everything for a resume. |
 | **[`nova.ssh_run`](nova-ssh-run.md)** | Runs shell commands on the server of an SSH/SFTP connection and reports exit status, output and timing honestly. |
+| **[`nova.ssh_run_list`](nova-ssh-run-list.md)** | Lists the background SSH sessions you own, so a lost `execId` never leaves a session running until its timeout. |
+| **[`nova.ssh_run_read`](nova-ssh-run-read.md)** | Reads a background SSH session's live output by independent byte offsets, non-consuming, with honest gap reporting. |
+| **[`nova.ssh_run_start`](nova-ssh-run-start.md)** | Starts a background command session on an SSH/SFTP server and returns an `execId` you poll, feed and stop over time. |
+| **[`nova.ssh_run_stop`](nova-ssh-run-stop.md)** | Requests termination of a background SSH session — honestly, never claiming the remote process died. |
+| **[`nova.ssh_run_write`](nova-ssh-run-write.md)** | Writes to a background SSH session's stdin with ordered, retry-safe sequencing and an honest half-close. |
 <!-- /generated:tool-list -->
 
 ---

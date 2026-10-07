@@ -22,6 +22,8 @@ This helps later sessions find Nova's working instructions. Nova writes referenc
 
 For tasks you repeat on the same website, ask your agent to use **Learn Mode**:
 
+Read [Use Learn Mode](learn-mode.md) for the difference from normal tasks, useful scenarios, prompt examples and what to expect back.
+
 > I will repeat this task on this website. Use Nova's Learn Mode to explore the relevant workflow, verify what works, and produce a reusable platform playbook. Ask me if the intended workflow is unclear.
 
 Explain your goal and what you expect to repeat. The agent handles Nova's learning instructions and onboarding steps. Learn Mode builds evidence-backed website knowledge; it does not authorize purchases, sending messages, or other account changes. See [Website memory (PKS)](../core-features/pks.md) and [learning tools](../mcp-reference/tools/pks-and-learning/README.md).
