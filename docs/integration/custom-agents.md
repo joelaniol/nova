@@ -13,6 +13,47 @@ Get the current connection details from Nova's **Settings → AI & agents → Co
 
 Nova must be installed. The standard bridge can start it when needed. Direct HTTP clients need Nova running and agent access enabled.
 
+## Client compatibility
+
+**Documentation checked: 2026-10-07.** These are observations of client behavior, not a guarantee for every version or runner. Structured-result observations below were made on **2026-10-04**; name compatibility reflects Nova's current client connection contracts. “Not checked” does not mean unsupported.
+
+| Client | `structuredContent` reaches the model | Nova names containing `.` | Bridge option |
+|---|---|---|---|
+| Antigravity | No; the model receives text blocks | Needs underscore names, such as `nova_tabs` | `--antigravity-tool-names` enables name translation **and** structured-result mirroring |
+| Claude Code | Yes; when present, the model receives the structured result | Supported by the standard Nova connection | No compatibility switch needed |
+| Codex CLI | Yes; the model receives structured results and text | Supported by the standard Nova connection | No compatibility switch needed |
+| Claude Desktop / Cowork | Not checked in these observations | Not checked in these observations | Use the wizard's standard entry; diagnose actual client behavior |
+| Cursor and other/custom runners | Not checked in these observations | Not checked in these observations | Test both features before choosing a switch |
+
+Some clients accept a structured MCP result but do not pass its `structuredContent` to the model. If your agent sees only a summary such as “Use structuredContent.tabs” without the actual tab data, add **`--mirror-structured-content`** to the Nova bridge arguments and restart the client. Do not work around missing results by querying Nova with `curl` or reading its profile files.
+
+For a JSON-based client that supports dotted names but needs the data copied into text, the connection can look like this:
+
+```json
+{
+  "mcpServers": {
+    "nova": {
+      "command": "C:\\Users\\YourName\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe",
+      "args": ["--mirror-structured-content"]
+    }
+  }
+}
+```
+
+`YourName` is an example username. Use the actual command path supplied by Nova's wizard. Older installations may use `AppData\Local\NovaBrowser\bin`. In JSON, `\\` represents one Windows path backslash. Keep other settings and server entries; this is only the Nova connection. The bridge handles Nova's local authentication, so no access token appears in this entry.
+
+If you launch the bridge directly from your runner, the equivalent command is:
+
+```powershell
+& "C:\Users\YourName\AppData\Local\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe" --mirror-structured-content
+```
+
+This starts a **stdio MCP server**: your runner must communicate through its standard input and output. It is not an interactive task command. Use the actual path from Nova's wizard.
+
+If your client also requires names without dots, use `--antigravity-tool-names` instead. That mode also mirrors structured data. For example, discovery exposes `nova_tabs` where Nova's reference says `nova.tabs`; use the discovered name rather than rewriting names yourself. See the [complete Antigravity entry](google-antigravity.md#which-file-changes-and-what-should-it-look-like).
+
+Verify that the model can see actual result fields and call the discovered tool names. A server listed as connected is not sufficient to establish either capability. These options repair the client connection; tool-specific result projections remain the agent's responsibility.
+
 ## Build against the actual contracts
 
 1. Use a maintained MCP client implementation and follow the documentation for the version you install: the official [Python SDK](https://github.com/modelcontextprotocol/python-sdk) or [TypeScript SDK](https://github.com/modelcontextprotocol/typescript-sdk), for example.
