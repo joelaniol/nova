@@ -1,63 +1,39 @@
 # Sandbox & Session Recovery
 
-This guide covers what to do when agent tabs are left behind, a tab stays claimed by another agent, a page keeps the camera or microphone running, or a sandbox is missing after a restart.
-
----
+Choose the problem below. To interrupt all agent work immediately, use **Menu → Emergency stop**; see [Staying in control](../user-guide/live-assist-and-spectator.md#3-staying-in-control) for its reach.
 
 ## 1. Cleaning Up Orphaned Agent Tabs
 
-### The Problem
-An agent opened tabs with `nova.tab_new` and crashed or lost its context before closing them. The tabs stay open and use memory.
+If an agent stopped and left tabs behind, you can close the tabs you recognize as no longer needed. To have your connected agent investigate first, ask:
 
-### Resolution
-Preview first, then clean up:
+> Check for abandoned agent-created tabs in Nova. Show me a cleanup preview before closing anything. Keep my own tabs and the tab I am viewing.
 
-```json
-nova.tab_cleanup_orphans({ "dryRun": true })
-nova.tab_cleanup_orphans({})
-```
-
-* **What counts as orphaned:** only tabs an agent created over MCP that have no live claim, are not the tab you are currently looking at, and have been idle longer than `graceMinutes` (default 15, range 1–720).
-* **What stays:** tabs you opened yourself are never closed. Nova re-checks the active tab right before closing, so a tab you switch to in the meantime is kept.
-* Nova never runs this cleanup on a timer; it happens only when the tool is called.
-
----
+Nova's cleanup tool considers only agent-created tabs without a live claim that have been idle beyond its grace period. Cleanup runs when requested, not on a timer. Ask the agent to report which tabs were closed; a preview alone does not close them.
 
 ## 2. Resolving Tab Claims Held by Another Agent
 
-### The Problem
-An agent claimed a tab with `nova.tab_claim` and stopped before calling `nova.tab_release`. Other agents that try to act on the tab get error `-32040` with `reasonCode: "claim.owner_mismatch"` and a message such as:
-```
-Tab claimed by 'subagent-1' (lease 87s remaining). Your agentId is 'default'. …
-```
+A reservation can prevent another agent from changing a tab. If work is still running, let it finish or ask that agent to release the tab.
 
-### Resolution
-1. **Wait for the lease to run out:** Every claim has a lease. `nova.tab_claim` uses 120 seconds unless `ttlMs` says otherwise (5 seconds to 30 minutes). When it runs out, the tab is free again.
-2. **Resume as the owner:** If you are continuing that agent's work, retry with the owner's `agentId` from the message, or release the tab with it:
-   ```json
-   nova.tab_release({ "targetId": "<targetId>", "agentId": "subagent-1" })
-   ```
-3. **Take the tab over:** `nova.tab_claim` with a `reclaimReason` force-releases the existing claim; the previous owner is told the reason. Do this only when the user agrees.
-   ```json
-   nova.tab_claim({ "targetId": "<targetId>", "agentId": "coordinator", "reclaimReason": "previous agent crashed" })
-   ```
+To take over yourself:
 
----
+1. Open Nova's agent activity details and select the affected target. You can also right-click a claimed sandbox pill.
+2. Choose **Release agent** for that target.
+3. Review **Take over control** if Nova asks for confirmation.
+4. Return to the tab and check its agent marker. Tell your agent whether to continue or leave that tab alone.
+
+This releases a reservation; it is distinct from Emergency stop. Claims also expire, but an active agent can renew its reservation. Do not copy another agent's identity into a tool call to bypass ownership.
+
+Developers implementing recovery can use the [claim](../mcp-reference/tools/browser-automation/nova-tab-claim.md) and [release](../mcp-reference/tools/browser-automation/nova-tab-release.md) contracts. Session ownership and Nova's reclaim setting apply.
 
 ## 3. Stopping Camera, Microphone and Screen Sharing (`nova.media_stop_all`)
 
-### The Problem
-A page or an automated session left a camera, microphone or screen-sharing stream running.
+First stop sharing or recording using the website's own control, or close the affected tab. To stop streams across Nova with help from your connected agent, ask:
 
-### Resolution
-```json
-nova.media_stop_all({})
-```
+> Stop the active camera, microphone and screen-sharing streams in Nova. Tell me which streams were stopped and whether any remain.
 
-* Stops every live camera, microphone and screen-sharing track in every tab and sandbox. With `"scope": "origin"` and an `origin`, only that site's tracks are stopped.
-* It does **not** change saved permissions and does **not** forget temporary session grants, so the page may start the device again. To forget the session grants and stop their streams in one step, call `nova.media_permissions_clear_session_grants`.
+Stopping a stream does not revoke a saved permission; the site may request access again. Open **Settings → Site permissions** to review the site's stored decision. **Stop all temporary grants** also clears temporary media grants and stops their affected streams; it does not erase saved site choices.
 
----
+For the technical interfaces, see [media stop](../mcp-reference/tools/media-and-transcription/nova-media-stop-all.md).
 
 ## 4. Sandbox Profile Recovery
 
@@ -84,9 +60,11 @@ For each profile you can choose:
 
 **Restore all**, **Delete all permanently** and **Close (leave for now)** apply one choice to every entry. If no sandbox slot is free, delete a sandbox you no longer need before restoring one.
 
-### Best Practice Rules
-* **Close Nova before editing or restoring `settings.json`.** Nova writes this file itself while it runs.
-* **Do not delete sandbox folders by hand.** Delete a sandbox in **Settings → Sandboxes**, or have an agent call `nova.sandbox_delete` (with `"confirm": true`). Nova then closes the sandbox's browser view and removes its data. At least one sandbox always remains.
+### If the sandbox is still missing
+
+Check **Settings → Sandboxes → Hidden sandboxes** first: a hidden sandbox retains its data and can be shown again. If it is missing there too, keep its profile folder and ask your agent to investigate using [Diagnostics](diagnostics.md). Describe the sandbox name and when it disappeared. Do not recreate it or edit `settings.json` as the first repair.
+
+To intentionally remove a sandbox, use **Settings → Sandboxes → Delete...** and review the confirmation. This deletes its browser data permanently. At least one sandbox remains.
 
 ---
 

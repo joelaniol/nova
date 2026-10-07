@@ -5,11 +5,24 @@
 
 ---
 
-## 1. A Concrete Example: A Daily API Health Check
+## 1. Create and Check Your First Scheduled Task
 
-You define a daily task in a workspace, choose an executor and specify the expected output. While Nova is open, its scheduler starts the run, preserves output and status, and stores any reported result. Later you can inspect that run instead of relying on a remembered agent conversation.
+To create a first scheduled research task:
 
-If Nova was closed at the scheduled time, eligible catch-up can launch one run after it starts again. This is an in-app scheduler, not a Windows service that continues dispatching while Nova is closed.
+1. Open **Menu → Scheduled tasks**, then choose **New task**. If tasks are disabled, enable **Scheduled tasks (run automatically in background)** under **Settings → AI & agents → Tasks & terminal**.
+2. Enter a **Name**, such as `Daily WebView2 release check`.
+3. Under **Executor**, choose an installed, configured **Claude Code** or **Codex**. This starts a new CLI run; it does not reuse your current conversation.
+4. In **Prompt / instruction**, describe the result you want, for example:
+
+   > Use Nova to check Microsoft's official WebView2 release notes. Summarize the latest release, include its date and source link, and report any access problem. No login or downloads needed.
+
+5. Enable **MCP access (Nova tools)** because this example needs Nova. Under **Fixed schedule (optional)** enter `daily 08:00`, and set **Time zone (for cron)** to your time zone, for example `Europe/Berlin`. Leaving the time zone empty uses UTC. For a repeating interval instead, set **Interval** and its unit and leave the fixed schedule empty.
+6. Choose **Save**. Open the saved task and select **Run now** for a first check.
+7. Inspect **Logs** and the run's status. Verify the source link and date in the output. If the run fails, read its error before waiting for the next scheduled attempt.
+
+The executor must already be able to run on your machine. An unattended run cannot wait for you to approve every request; permission requirements can cause it to fail. Review the relevant authorization rather than granting unrestricted access just to make a test pass.
+
+Keep Nova open for scheduled dispatch. If it was closed at the scheduled time, eligible catch-up can launch one run after it starts again. Nova's scheduler does not keep dispatching while the app is closed.
 
 ## 2. Execution Success and Task Success
 

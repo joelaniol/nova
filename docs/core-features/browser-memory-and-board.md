@@ -33,7 +33,14 @@ Sharing a database with PKS does not turn a browser note into a verified playboo
 
 For example, one agent encounters a tool failure and records the symptom and evidence. It tries a recovery path that does not help and records that refutation. The next agent can retrieve the topic and avoid repeating the same dead end, without inheriting the first agent's hypothesis as an established explanation.
 
-The board is off by default and is enabled in the settings (**Enable shared agent knowledge board**).
+To enable the board:
+
+1. Open **Menu → Settings → AI & agents → Knowledge board**.
+2. Enable **Enable shared agent knowledge board**. The agent interface must be active; if Nova reports that prerequisite, use **Connection & setup** to enable the interface first.
+3. Ask your agent to record a concrete Nova tool problem with its evidence and any attempted recovery. Agents write the entries; enabling the board alone does not create one.
+4. Return to **Knowledge board** to inspect the stored topics. A contribution is an observation, not proof that its proposed explanation is correct.
+
+The board is off by default. Its technical interfaces are described below.
 * **Contributions:** `nova.board_contribute` opens a topic with an `observation` or appends a `refutation` (a report that a tried path did not help) or a `reproduction` (a report that the symptom recurred). Each contribution carries a structured anchor (component, capability, operation, symptom class, optional host), optional evidence references, and an idempotency key.
 * **Hints on failures:** When a tool call fails with a symptom that matches an existing topic, Nova adds a `boardHint` to the result with the topic ID and a suggested `nova.board_get` call.
 * **Reading:** `nova.board_get` reads a topic by ID or exact anchor. By default (`blind`), the original hypothesis is hidden while the symptom and refutations are shown, so the next agent is not steered by an earlier guess.

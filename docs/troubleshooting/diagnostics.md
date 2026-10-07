@@ -1,8 +1,22 @@
 # Diagnostics & Log Analysis
 
-This guide shows where **Nova AI Workspace** keeps its logs, crash dumps and data files, and how to read them.
+Use this when Nova fails to start, a connection keeps failing, or you need evidence for a report.
 
----
+## Start with the visible problem
+
+Note what you were doing, the time, the visible error and the AI program involved. If Nova is open:
+
+1. Open **Menu → Settings → Developer options → Logs**.
+2. Choose **Open log folder** to open the logs in Explorer.
+3. Find the recent application or bridge log using the table below. Keep the original file; copy the relevant excerpt for review.
+
+If Nova cannot open, press **Win + R**, enter `%LOCALAPPDATA%\nova-cognitive\Nova` and press Enter. If that folder does not exist, try `%LOCALAPPDATA%\NovaBrowser`. Check `bootstrap.log` and the `Logs` folder.
+
+You can ask a connected agent:
+
+> Investigate the Nova failure I just saw: [describe what happened and when]. Read the relevant logs, separate observed errors from possible causes, and explain the next step. Do not change my settings or delete profile data while investigating.
+
+For reporting, ask the agent for Nova's bug-report instructions. Review excerpts and screenshots for personal data and secrets before sharing; see the [reporting policy](../../ALPHA.md#what-to-report) and the separate [security reporting route](../../SECURITY.md).
 
 ## 1. Local Filesystem Locations
 
@@ -42,74 +56,34 @@ Many of these files and folders appear only after the feature was first used.
 
 ## 2. Inspecting Logs
 
-### A. Application log (`Logs\app-*.log`)
-Nova starts a new file on every run; the newest file belongs to the current run. It records startup, warnings, errors and host diagnostics.
-* Follow the current log in PowerShell (use `NovaBrowser` instead of `nova-cognitive\Nova` on older installations):
-  ```powershell
-  Get-ChildItem "$env:LOCALAPPDATA\nova-cognitive\Nova\Logs\app-*.log" |
-    Sort-Object LastWriteTime | Select-Object -Last 1 |
-    Get-Content -Wait -Tail 50
-  ```
-* Each line carries its level in brackets. Search for `[ERR]` (errors) and `[WRN]` (warnings) first.
+| Symptom | Look at |
+|---|---|
+| Nova does not open | `bootstrap.log`, then recent `Logs/app-*.log` and `Logs/crash-*.log` |
+| AI program cannot connect | `Logs/novabrowser-mcp-stdio-proxy.log`; follow [Connection troubleshooting](agent-connection-issues.md) |
+| A connected agent's call fails | Agent transport logs under `Logs/mcp/` and action records under `Logs/actions/` |
+| Installation or update fails | `Logs/Setup/` |
 
-### B. Agent transport log (`Logs\mcp\mcp-*.log`)
-Records the MCP requests and responses between agents and Nova. Nova writes it while **Enable agent debug log** is on (the default) in the settings.
-* Agents can read it over MCP without touching the filesystem:
-  ```json
-  nova.mcp_transport_log({ "run": "current", "maxLines": 100 })
-  ```
-  `contains` searches for a substring; `run` selects the log of the current, the latest or the previous run.
+The application starts a new log on each run. Select the file for the time of the failure; the newest file may belong to a later restart. `[ERR]` and `[WRN]` identify errors and warnings, but a nearby message is not automatically the cause.
 
-### C. Bridge log (`Logs\novabrowser-mcp-stdio-proxy.log`)
-Written by `NovaBrowser.McpProxy.exe`, the bridge your AI program starts. If an agent cannot reach Nova, this log shows each connection attempt and why it failed. See [Agent Connection Issues](agent-connection-issues.md).
+Agent transport logging depends on **Enable agent debug log** in Nova's settings. A missing log can mean that channel was disabled or not used.
 
----
+Do not share `mcp.json`: it contains the current access token. Crash dumps and logs can contain sensitive data too; only share them through the intended reporting route after review.
 
 ## 3. Reading MCP Errors
 
-Nova reports a failed tool call as a tool result with `isError: true`. The details sit in `structuredContent` (`ok: false`, `errorCode`, `message`, usually a `reasonCode` and repair hints), and the same data is repeated as a text block starting with `structuredContent:` for clients that show only text. Releases up to 1.0.0-alpha.17 return these fields as a JSON-RPC error instead (`error.code`, `error.data`).
+Copy the complete visible error to your agent and ask it to diagnose it. Invalid parameters usually require the agent to refresh the tool schema; a claimed tab requires an ownership or takeover decision. You should not have to construct tool calls or change agent IDs yourself.
 
-| Code | Typical `reasonCode` | Cause | Resolution |
-| :--- | :--- | :--- | :--- |
-| **`-32602`** | `target.unknown` and others | Invalid parameters: a missing or unknown argument, a wrong type or enum value, an unknown `targetId`, or an unknown tool name (the message then suggests similar names). | Check the tool's schema with `nova.tools_bundle({ "toolName": "nova.xyz" })`; get fresh tab IDs with `nova.tabs({ "outputDetail": "minimal" })`. |
-| **`-32040`** | `claim.owner_mismatch` | The tab is claimed by another agent. The message names the owner and the remaining lease time. | See [Resolving tab claims](sandbox-and-session-recovery.md#2-resolving-tab-claims-held-by-another-agent). |
-
-### Example error result (shortened)
-```json
-{
-  "content": [
-    { "type": "text", "text": "Invalid params: unknown target 'tab-9'. …" },
-    { "type": "text", "text": "structuredContent:\n{\"reasonCode\":\"target.unknown\", …}" }
-  ],
-  "structuredContent": {
-    "reasonCode": "target.unknown",
-    "requestedTargetId": "tab-9",
-    "ok": false,
-    "errorCode": -32602,
-    "message": "Invalid params: unknown target 'tab-9'. …"
-  },
-  "isError": true
-}
-```
-
----
+For a reservation problem, follow [Resolving tab claims](sandbox-and-session-recovery.md#2-resolving-tab-claims-held-by-another-agent). Developers can use [Protocol errors](../mcp-reference/protocol-and-transport.md) for the result format and error codes.
 
 ## 4. In-Page Browser Diagnostics
 
-When debugging web pages, SPAs, or JavaScript errors inside a tab:
+For a page that fails while Nova is otherwise working, ask:
 
-* **Read page console messages:**
-  ```json
-  nova.console_read({ "targetId": "active", "maxEntries": 50 })
-  ```
-* **Read network requests and status codes** (for example only failed requests):
-  ```json
-  nova.network_read({ "targetId": "active", "onlyFailed": true, "maxEntries": 50 })
-  ```
+> Inspect this page's visible state, console errors and failed network requests using Nova. Explain the evidence before retrying or changing anything.
 
----
+Tell the agent which tab or sandbox is affected. If the page shows a CAPTCHA or a human verification step, handle it yourself and then ask the agent to continue. See [Agent behavior](agent-behavior.md).
 
 ## Next Steps
 
-* Review [Agent Connection Issues](agent-connection-issues.md) for connection problems between your AI program and Nova.
-* Learn how to recover tabs and sandboxes in [Sandbox & Session Recovery](sandbox-and-session-recovery.md).
+- [Agent connection issues](agent-connection-issues.md)
+- [Sandbox and session recovery](sandbox-and-session-recovery.md)

@@ -20,13 +20,13 @@ Sandbox login isolation is separate from permission policy. Do not assume that c
 
 ## Agent access in Nova
 
-Under **Settings → AI & agents**, browser access determines whether agents may control Nova. **Access permissions** and the autonomy level determine how much supervision Nova requests:
+Open **Settings → AI & agents → Access & rules** to review **Access permissions** and **Autonomy level**. Browser access determines whether agents may control Nova.
 
-| Mode | What to expect |
-|---|---|
-| **Fully automatic** | Independent work within the task and applicable permissions |
-| **Semi-automatic** | Approval requests for clicks and input |
-| **Supervised** | Approval for each action |
+- **Fully automatic** is intended for independent work within the task and applicable permissions.
+- **Semi-automatic** is intended to ask for clicks and input.
+- **Supervised** adds approval requests for actions without their own confirmation policy.
+
+The autonomy level does not override every permission decision. Tools with their own confirmation policy use that policy; standing and session grants can also affect prompts. Review those policies under **AI & agents → Confirmations & audit** when available. Do not interpret Supervised as a guarantee of a separate prompt for every tool call. Your AI program may additionally ask for its own approvals.
 
 Site-data access and active site-data grants are also available under **Site permissions**. They concern agent access to website data, separately from a website using your camera or microphone.
 
