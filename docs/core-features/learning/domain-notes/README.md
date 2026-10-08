@@ -1,56 +1,180 @@
-# Domain Notes
+# Domain Notes (Site Notes)
 
-Domain Notes preserve instructions and context for a website across agent sessions. Nova's interface calls them **Site notes**. They belong to Learning as persistent guidance: a saved instruction is not automatically a learned or verified playbook.
+> [!NOTE]
+> **Domain Notes** (presented in the UI as **Site notes**) preserve persistent website instructions, operational runbooks, and behavioral constraints across autonomous agent sessions in Nova AI Workspace. By combining dual-scope isolation (global vs sandbox), three enforcement levels (**Hint only**, **Warn the agent**, and **MUST read**), and explicit human authorship protection, Domain Notes provide operators with direct control over agent behavior on specific websites.
 
-To create and manage notes, follow the [Domain Notes user guide](../../../user-guide/agents/domain-notes.md). Start from **Site information → Notes for [domain]**, or manage existing notes under **Settings → AI & agents → Access & rules → Site notes**.
+---
 
-## Start with a website instruction
+## 1. Executive Summary: Intentional Guidance vs. Heuristic Memory
 
-For example, save “Search existing records first; ask me before creating or deleting a record” for a work portal. Later agent sessions can retrieve the instruction for that website and the intended sandbox. Choose how strongly Nova should deliver it, then check the saved host, scope and level.
+In autonomous browser automation, agents frequently interact with complex, high-stakes web interfaces (such as billing portals, production dashboards, and corporate CRMs). Without persistent, host-bound directives:
 
-## Delivery and acknowledgement
+* **Repetitive Mistakes:** An agent in session A learns that a particular table requires a specific search filter to prevent page crashes, but an agent in session B must painfully rediscover that constraint from scratch.
+* **Uncontrolled Actions:** Agents may execute destructive actions (e.g. creating test records, deleting live accounts, or clicking express checkout buttons) that the human user specifically wanted to forbid.
+* **Prompt Clutter:** Manually injecting instructions for dozens of websites into an agent's system prompt exhausts token budgets and degrades reasoning quality.
 
-| Level in Nova | Behavior |
-| :--- | :--- |
-| **Hint only** | Makes the note available as inspection context. |
-| **Warn the agent** | Adds a warning to applicable tool results. |
-| **MUST read** | Blocks applicable calls until the agent acknowledges the note. |
+Domain Notes bridge this gap by binding rules directly to the website's normalized domain. When an agent visits the site, Nova evaluates the relevant notes and delivers them at the required enforcement intensity.
 
-Warn and MUST-read enforcement require **Site notes → Global override → On — per-note level wins (recommended)**. When the global switch is off, those notes remain inspection hints. Enforcement uses [Agent Awareness Gates (AAG)](../../agent-awareness-gates-aag/README.md#53-user-directives--domain-notes-usersite_note); it does not require putting every other awareness gate into Block mode.
+---
 
-Acknowledgement is tracked per tab. A new tab, an edited note or a configured time or tool-call interval can require another acknowledgement. An individual note can override the repeat defaults; `0` disables that repeat trigger, while closing the tab still re-arms acknowledgement.
+## 2. Knowledge Taxonomy in Nova
 
-Technical acknowledgement does not assess the model's understanding, prove task completion or grant permission for an action. For important instructions, ask the agent to explain the rules in its own words and review its answer. The user guide provides an example prompt.
+Domain Notes form an essential component of Nova's multi-tiered knowledge architecture:
 
-## Host, sandbox and authorship
+| Knowledge System | Scope | Core Question Answered | Primary MCP Tools |
+| :--- | :--- | :--- | :--- |
+| **Domain Notes (Site Notes)** | Web Host / Domain | *What human rules, warnings, or operational tips govern this specific website?* | `nova.domain_note`, `nova.domain_notes_list`, `nova.domain_note_ack`, `nova.domain_note_delete` |
+| **[Operator Notes](../operator-notes/README.md)** | Workspace / Sandbox | *What global preferences, secrets, or environment guidelines apply regardless of website?* | `nova.operator_notes_store`, `nova.operator_notes_query` |
+| **[Operational Knowledge (OK)](../operational-knowledge-ok/README.md)** | Live Tab / Target | *What is the active operational state of this target (login state, plan tier, model)?* | `nova.ok_observe`, `nova.ok_signal_schema` |
+| **[PKS (Procedural Memory)](../phenomenological-knowledge-store-pks/README.md)** | Site / Platform | *How does this website function, what selectors work, and how are dialogs dismissed?* | `nova.pks_get`, `nova.pks_upsert`, `nova.phenomenon_apply` |
+| **[Browser Memory](../browser-memory/README.md)** | Web Domain | *What unstructured user notes and preferences should be recalled for this domain?* | `nova.memory_note`, `nova.memory_recall`, `nova.memory_forget` |
+| **[Episodic Task Memory (ETM)](../episodic-task-memory-etm/README.md)** | Task & Run | *What multi-step task is currently underway, and what work units remain?* | `nova.task_match`, `nova.task_instance_create`, `nova.task_instance_progress` |
 
-Notes can apply across sandboxes or only within a selected sandbox. Use sandbox-specific notes when different accounts need different instructions.
+---
 
-MUST-read enforcement matches the actual host, treating a leading `www.` as equivalent. A note for `example.com` does not automatically block actions on `portal.example.com`. Parent-domain hints may appear during inspection; create a note for the actual host when acknowledgement must be required there.
+## 3. The 3-Tier Delivery Architecture
 
-Notes created through Nova's interface are marked as authored by the user. Agent-written notes retain agent authorship. Agent changes to user-authored notes are subject to Nova's separate user-note override permission policy; an agent cannot label its own notes as written by the user.
+Nova provides three distinct delivery intensities:
 
-## How Domain Notes differ from other Learning topics
+```mermaid
+flowchart TD
+    ToolCall["Agent Calls Tool on Domain (e.g. click_selector)"]
+    GateCheck{"Agent Awareness Gate (AAG)<br/>Site Note Check"}
+    
+    Level{"Max Enforcement Level<br/>on Matched Domain"}
+    Hint["Level 0: Hint Only"]
+    Warn["Level 1: Warn Agent"]
+    Block["Level 2: MUST Read (Block)"]
 
-| What you want to preserve | Topic |
-| :--- | :--- |
-| Website instructions, optionally with warnings or required acknowledgement | **Domain Notes** |
-| Searchable working guidance without a required website domain | [Operator Notes](../operator-notes/README.md) |
-| Reported login, plan or active-model state for a target | [Operational Knowledge (OK)](../operational-knowledge-ok/README.md) |
-| Recallable site preferences and context | [Browser Memory](../browser-memory/README.md) |
-| Recognition, actions and verification for recurring website situations | [Phenomenological Knowledge Store (PKS)](../phenomenological-knowledge-store-pks/README.md) |
+    ToolCall --> GateCheck --> Level
+    Level -->|None| Hint --> ExecPass["Execute Tool<br/>(Inject into perceive structuredContent)"]
+    Level -->|Warn| Warn --> ExecWarn["Execute Tool<br/>(Prepend Warning Header to Output)"]
+    Level -->|Block| Block --> AckCheck{"Acknowledged for Tab?"}
+    
+    AckCheck -- Yes --> ExecPass
+    AckCheck -- No --> HaltBlock["HALT Execution<br/>(Emit acknowledge_required Error)"]
+```
 
-“Read the export instructions before downloading” is a Domain Note. “This tab is currently logged out” is an OK observation. A verified export workflow can become a PKS playbook. These records serve different purposes and do not replace one another.
+| Level | Numerical Value | Execution Impact | Behavior |
+| :--- | :---: | :--- | :--- |
+| **Hint only** | `None (0)` | **Non-blocking** | Injected as inspection context during [`nova.perceive`](../../../mcp-reference/tools/dom-and-reading/nova-perceive.md) calls. |
+| **Warn the agent** | `Warn (1)` | **Non-blocking** | Tool executes normally, but a prominent `[DOMAIN NOTE WARNING]` header is prepended to the tool output. |
+| **MUST read** | `Block (2)` | **Blocking** | Halts tool execution immediately with an `acknowledge_required` error until acknowledged by the agent. |
 
-## MCP tools
+---
 
-| Tool | Purpose |
-| :--- | :--- |
-| [`nova.domain_note`](../../../mcp-reference/tools/task-memory/nova-domain-note.md) | Creates or updates a note, including its scope, enforcement and repeat settings. |
-| [`nova.domain_notes_list`](../../../mcp-reference/tools/task-memory/nova-domain-notes-list.md) | Retrieves stored notes for a domain and scope. |
-| [`nova.domain_note_ack`](../../../mcp-reference/tools/task-memory/nova-domain-note-ack.md) | Acknowledges a MUST-read note for the applicable tab. |
-| [`nova.domain_note_delete`](../../../mcp-reference/tools/task-memory/nova-domain-note-delete.md) | Deletes a note within the selected scope. |
+## 4. End-to-End Acknowledgment Flow
 
-Navigation can announce available notes; inspection or explicit retrieval supplies their content. Read the current notes for the correct sandbox before acknowledging them. Full parameters and examples remain in the linked tool references.
+```mermaid
+sequenceDiagram
+    autonumber
+    actor User as Human Operator
+    actor Agent as Autonomous Agent
+    participant Nova as Nova Browser & AAG Gate
+    participant Web as Web Target DOM
 
-[Domain Notes user guide](../../../user-guide/agents/domain-notes.md) · [Learning overview](../README.md) · [All core features](../../README.md)
+    User->>Nova: Create Note for checkout.com: "Assert total < $500" (Level: MUST read)
+    Agent->>Nova: nova.navigate("https://checkout.com")
+    Nova-->>Agent: Navigation complete (announces note presence)
+    
+    Agent->>Nova: nova.click_selector("#submit-payment")
+    Note over Nova: AAG intercepts call: Note is unacknowledged on this tab
+    Nova-->>Agent: Error -32603: acknowledge_required (Delivers full text of note)
+    
+    alt Path A: Zero-Friction Retry (Standard)
+        Agent->>Nova: Retry nova.click_selector("#submit-payment")
+        Note over Nova: AAG recognizes retry as implicit acknowledgment
+        Nova->>Web: Dispatches click to DOM
+        Web-->>Nova: Click processed
+        Nova-->>Agent: Tool Success Result
+    else Path B: Explicit Tool Call
+        Agent->>Nova: nova.domain_note_ack(domain="checkout.com", key="total_check")
+        Nova-->>Agent: Ack Confirmed
+        Agent->>Nova: nova.click_selector("#submit-payment")
+        Nova->>Web: Dispatches click to DOM
+        Nova-->>Agent: Tool Success Result
+    end
+```
+
+---
+
+## 5. Complete MCP Tool Reference Suite
+
+Domain Notes are managed via four dedicated tools registered in Nova's `system_tools` bundle:
+
+### 1. `nova.domain_note`
+Creates or updates a note scoped to a specific domain and optional sandbox.
+
+| Parameter | Type | Required | Default | Description |
+| :--- | :--- | :---: | :--- | :--- |
+| `domain` | `string` | **Yes** | — | Web domain or hostname (e.g. `github.com`). |
+| `key` | `string` | **Yes** | — | Unique title/identifier for the note (max 50 chars). |
+| `value` | `string` | **Yes** | — | Note content or instruction (max 100,000 chars). |
+| `enforcement` | `string` | No | `"none"` | Enforcement level: `'none'`, `'warn'`, or `'block'`. |
+| `sandboxId` | `string` | No | `null` | Ephemeral letter identifier (e.g. `"A"`). If set, requires `sandboxRef`. |
+| `sandboxRef` | `string` | No | `null` | Immutable Persistent UID of the target sandbox. |
+| `repeatMinutes` | `integer` | No | `null` | Re-acknowledgment time interval in minutes (`0` = never repeat). |
+| `repeatToolCalls`| `integer` | No | `null` | Re-acknowledgment interaction interval in tool calls (`0` = never repeat). |
+
+---
+
+### 2. `nova.domain_notes_list`
+Retrieves stored notes for a target domain and sandbox scope.
+
+| Parameter | Type | Required | Default | Description |
+| :--- | :--- | :---: | :--- | :--- |
+| `domain` | `string` | **Yes** | — | Target domain or hostname. |
+| `scope` | `string` | No | `"current_sandbox"` | Retrieval scope: `'current_sandbox'`, `'global'`, `'all'`, or `'orphaned'`. |
+| `sandboxId` | `string` | No | `null` | Optional explicit sandbox letter identifier. |
+| `sandboxRef` | `string` | No | `null` | Optional explicit sandbox Persistent UID. |
+
+---
+
+### 3. `nova.domain_note_ack`
+Explicitly acknowledges a `Block`-level note for the active tab context.
+
+```json
+{
+  "domain": "portal.example.com",
+  "key": "mandatory_export_rules",
+  "targetId": "active"
+}
+```
+
+---
+
+### 4. `nova.domain_note_delete`
+Deletes a domain note within a specified sandbox or global scope.
+
+```json
+{
+  "domain": "portal.example.com",
+  "key": "temporary_layout_fix",
+  "scope": "current_sandbox"
+}
+```
+
+---
+
+## 6. Operational Invariants & Security Boundaries
+
+1. **Subdomain Isolation Invariant:** Parent domain notes appear as inspection hints on subdomains, but **never enforce MUST-read blocks** on subdomains. A note on `acme.com` will not halt execution on `portal.acme.com`.
+2. **Multi-Tenant Protection:** Multi-tenant root domains (e.g. `github.io`, `vercel.app`) never inherit parent domain fallback notes across distinct tenant subdomains.
+3. **User-Note Override Protection:** Notes authored by the human user (`Source = User`) cannot be overwritten or deleted by an agent without interactive confirmation via the `agent.user_note_override` permission gate.
+4. **Source Spoofing Prohibition:** All notes written through the MCP pipeline are enforced as `Source = Agent`. An agent cannot mark its own notes as written by the user.
+5. **Bulk-Acknowledgment Semantic:** When multiple `Block` notes exist on a domain, a single retry or single `nova.domain_note_ack` clears the **entire set** of pending notes for that tab, eliminating sequential block cycles.
+6. **Deadlock Prevention:** The four domain note administrative tools (`nova.domain_note`, `nova.domain_note_ack`, `nova.domain_notes_list`, `nova.domain_note_delete`) are **exempt from the site-note gate**, preventing circular execution deadlocks.
+
+---
+
+## 7. Deep-Dive Guides
+
+For detailed specifications, schemas, and implementation mechanics, explore the sub-guides:
+
+* **[Delivery Levels, Dual-Mode Acknowledgment & AAG Enforcement](delivery-levels-and-aag-enforcement.md)** — The three delivery levels, AAG gate evaluation, retry vs tool ack, bulk-acknowledgment, and tool exemptions.
+* **[Scoping, Host Normalization & Re-Acknowledgment Policies](scoping-normalization-and-repeat-policies.md)** — Host normalization, eTLD+1 fallback, sandbox scoping, heuristic scope advisor, and repeat policies.
+* **[Authorship, Override Permissions & Storage Architecture](authorship-permissions-and-storage.md)** — User vs agent authorship, override permission overlays, atomic JSON persistence, and sandbox deletion cleanup.
+
+---
+
+[Domain Notes User Guide](../../../user-guide/agents/domain-notes.md) · [Learning Overview](../README.md) · [All Core Features](../../README.md)
