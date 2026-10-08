@@ -2,7 +2,7 @@
 
 > **Executes a physical mouse drag-and-drop gesture from source coordinates to destination.**
 
-* **Core Feature Guide:** [Input Dispatch & Shadow DOM Traversal](../../../core-features/humanized-input-engine/README.md)
+* **Core Feature Guide:** [Drag & Drop](../../../core-features/browser-interaction/drag-and-drop/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

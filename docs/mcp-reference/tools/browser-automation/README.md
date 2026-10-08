@@ -2,7 +2,7 @@
 
 Page navigation, tab strip lifecycle management, physical clicks, humanized typing, scroll mechanics, and file uploads.
 
-* **Core Architecture Guide:** [Core Features: humanized-input-engine.md](../../../core-features/humanized-input-engine/README.md)
+* **Core Architecture Guide:** [Browser Interaction](../../../core-features/browser-interaction/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

@@ -123,4 +123,4 @@ There is no `deltaYActual`, top-level `scrollTop`, or `newDomNodesDetected` fiel
 
 * [`nova.perceive`](../dom-and-reading/nova-perceive.md) — Inspect page completeness (`belowFoldPx`, `aboveFoldPx`).
 * [`nova.click_selector`](nova-click-selector.md) — Click loaded elements.
-* [Core Feature: Input Dispatch & Shadow DOM Traversal](../../../core-features/humanized-input-engine/README.md)
+* [Core Feature: Browser Interaction](../../../core-features/browser-interaction/input-dispatch/README.md)

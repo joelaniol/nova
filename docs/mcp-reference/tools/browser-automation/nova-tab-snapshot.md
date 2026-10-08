@@ -2,7 +2,7 @@
 
 > **Reads URL, title, load state and optional text from up to 8 tabs in one call.**
 
-* **Core Feature Guide:** [Input Dispatch & Shadow DOM Traversal](../../../core-features/humanized-input-engine/README.md)
+* **Related Tool Group:** [Browser Navigation & Automation](README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

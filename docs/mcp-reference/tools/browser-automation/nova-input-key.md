@@ -2,6 +2,8 @@
 
 Dispatches a physical keyboard keypress (`keydown` followed by `keyup`) to the currently focused DOM element or active viewport.
 
+* **Interaction Guide:** [Input Dispatch](../../../core-features/browser-interaction/input-dispatch/README.md)
+
 ---
 
 ## 1. Overview

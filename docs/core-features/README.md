@@ -19,15 +19,10 @@ The [alpha status page](../../ALPHA.md) lists current limitations, including plu
 
 | Page | What it covers | Main MCP tools |
 | :--- | :--- | :--- |
-| [Input Dispatch & Shadow DOM Traversal](humanized-input-engine/README.md) | How clicks, keys and drags reach the page; open Shadow DOM | `nova.input_click`, `nova.input_drag_humanized`, `nova.click_selector`, `nova.input_text` |
+| [Browser Interaction](browser-interaction/README.md) | How clicks, keys and drags reach the page; open Shadow DOM | `nova.input_click`, `nova.input_drag_humanized`, `nova.click_selector`, `nova.input_text` |
 | [Native Dialogs & UI Prompts](native-dialogs-and-prompts/README.md) | Dialogs outside the web page | `nova.ui_inspect_native_dialog`, `nova.ui_confirm_native_dialog`, `nova.ui_*_prompt_resolve` |
 | [Auth Surface Detection (ASD)](auth-surface-detection-asd/README.md) | Recognising login pages and checking a sign-in worked | `nova.guarded_login`, `nova.ok_observe` |
 | [Crawler & Discovery](crawler-and-discovery/README.md) | Exploring whole sites instead of single pages | `nova.crawl_start`, `nova.site_urls`, `nova.explore_surface` |
-
-### Research
-
-| Page | What it covers | Main MCP tools |
-| :--- | :--- | :--- |
 
 ### Verification and safety
 

@@ -91,6 +91,6 @@ flowchart TD
 
 * **[Tool Observation Bus (TOB)](../../core-features/tool-observation-bus-tob/README.md)** — Server-side evidence ledger and visit windows.
 * **[Agent Awareness Gates (AAG)](../../core-features/agent-awareness-gates-aag/README.md)** — Pre-execution safety and multi-agent lease locking.
-* **[Input Dispatch & Shadow DOM Traversal](../../core-features/humanized-input-engine/README.md)** — How Nova delivers mouse and keyboard input.
+* **[Browser Interaction](../../core-features/browser-interaction/README.md)** — How Nova delivers mouse and keyboard input.
 
 [Research overview](../README.md) · [All core features](../../core-features/README.md)

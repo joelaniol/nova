@@ -2,6 +2,8 @@
 
 Focuses an input field or contenteditable element, optionally clears existing text, and enters text through CDP-level text insertion or an editor's own model API.
 
+* **Interaction Guide:** [Selectors & Shadow DOM](../../../core-features/browser-interaction/selectors-and-shadow-dom/README.md)
+
 ---
 
 ## 1. Overview

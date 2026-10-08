@@ -581,7 +581,7 @@ All awareness gates are configurable in Nova's application settings (`settings.j
 * **[Domain Notes Architecture](../learning/domain-notes/README.md)** — User-authored domain directives and acknowledgment storage.
 * **[Domain Notes User Guide](../../user-guide/agents/domain-notes.md)** — Operational instructions for setting up MUST-read agent notes.
 * **[Proxy Routing & Traffic Isolation](../network/proxy/README.md)** — Network tunneling and proxy credential isolation.
-* **[Humanized Input Engine](../humanized-input-engine/README.md)** — Dispatch mechanics, shadow DOM traversal, and coordinate clicking.
+* **[Browser Interaction](../browser-interaction/README.md)** — Dispatch mechanics, shadow DOM traversal, and coordinate clicking.
 * **[MCP Reference Index](../../mcp-reference/README.md)** — Exhaustive specification of all native tools.
 
 [All core features](../README.md)

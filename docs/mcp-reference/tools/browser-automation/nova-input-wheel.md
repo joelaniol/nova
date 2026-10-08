@@ -2,7 +2,7 @@
 
 > **Dispatches a physical mouse wheel scroll event at specific coordinates with deltaX and deltaY.**
 
-* **Core Feature Guide:** [Input Dispatch & Shadow DOM Traversal](../../../core-features/humanized-input-engine/README.md)
+* **Core Feature Guide:** [Input Dispatch](../../../core-features/browser-interaction/input-dispatch/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

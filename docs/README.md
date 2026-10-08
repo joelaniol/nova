@@ -116,7 +116,7 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 
 | Page | What it covers |
 |---|---|
-| [Input Dispatch & Shadow DOM Traversal](core-features/humanized-input-engine/README.md) | How clicks, keys and drags reach the page; open Shadow DOM |
+| [Browser Interaction](core-features/browser-interaction/README.md) | How clicks, keys and drags reach the page; open Shadow DOM |
 | [Native Dialogs & UI Prompts](core-features/native-dialogs-and-prompts/README.md) | Dialogs outside the web page |
 | [Auth Surface Detection (ASD)](core-features/auth-surface-detection-asd/README.md) | Recognising login pages and checking a sign-in worked |
 | [Crawler & Discovery](core-features/crawler-and-discovery/README.md) | Exploring whole sites instead of single pages |

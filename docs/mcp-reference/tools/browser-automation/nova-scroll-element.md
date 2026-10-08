@@ -2,7 +2,7 @@
 
 > **Shifts a specific DOM element's internal scroll offset (scrollTop) by a pixel delta.**
 
-* **Core Feature Guide:** [Input Dispatch & Shadow DOM Traversal](../../../core-features/humanized-input-engine/README.md)
+* **Core Feature Guide:** [Input Dispatch](../../../core-features/browser-interaction/input-dispatch/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

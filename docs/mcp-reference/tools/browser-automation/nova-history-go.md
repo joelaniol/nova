@@ -2,7 +2,7 @@
 
 > **Navigates forward or backward in tab history by a relative delta offset.**
 
-* **Core Feature Guide:** [Input Dispatch & Shadow DOM Traversal](../../../core-features/humanized-input-engine/README.md)
+* **Related Tool Group:** [Browser Navigation & Automation](README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

@@ -2,7 +2,7 @@
 
 > **Waits until a modal dialog or overlay appears in the document and returns it.**
 
-* **Core Feature Guide:** [Input Dispatch & Shadow DOM Traversal](../../../core-features/humanized-input-engine/README.md)
+* **Core Feature Guide:** [Surface Explorer](../../../core-features/crawler-and-discovery/surface-explorer/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

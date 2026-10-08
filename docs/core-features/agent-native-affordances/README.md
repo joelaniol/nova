@@ -467,7 +467,7 @@ This tells the calling agent exactly how long to pause, preventing frantic polli
 Modern web components encapsulate inputs inside nested Shadow DOM trees where standard `document.querySelector` fails. Nova's `nova.get_element_rect` and `nova.get_active_element_deep` automatically pierce shadow root boundaries:
 * Returns exact viewport-relative bounding boxes (`x`, `y`, `width`, `height`).
 * Identifies deep active elements regardless of shadow tree nesting depth.
-* Facilitates smooth fallback to coordinate-level clicking ([Humanized Input Engine](../humanized-input-engine/README.md)) when DOM dispatch is obstructed.
+* Facilitates smooth fallback to coordinate-level clicking ([Browser Interaction](../browser-interaction/README.md)) when DOM dispatch is obstructed.
 
 ### 8.2 Adaptive Selector Healing (`pksAdvice`)
 When an element's selector changes or breaks due to website redesigns, Nova's Phenomenological Knowledge Store (PKS) intercepts the failure and evaluates learned selector patterns:
@@ -527,7 +527,7 @@ flowchart TD
 
 1. **Level 3: Autonomous Guarded Macros:** High-level compound operations (`nova.guarded_login`, `nova.guarded_submit_form`, `nova.run_sequence`) that handle waits, input verification, and form submission in a single roundtrip.
 2. **Level 2: Semantic Element Primitives:** Standard DOM selector tools (`nova.click_selector`, `nova.type_selector`, `nova.select_option`). Handles scrolling into view, element readiness checks, and humanized typing.
-3. **Level 1: Coordinate & Humanized Inputs:** Hardware-level simulation (`nova.input_click`, `nova.input_text`, `nova.input_key`, `nova.input_drag`). Interacts with arbitrary pixel coordinates, canvas games, complex SVGs, or custom web components. See [Humanized Input Engine](../humanized-input-engine/README.md).
+3. **Level 1: Coordinate & Browser Inputs:** Browser input dispatch (`nova.input_click`, `nova.input_text`, `nova.input_key`, `nova.input_drag`). Interacts with arbitrary pixel coordinates, canvas games, complex SVGs, or custom web components. See [Browser Interaction](../browser-interaction/README.md).
 4. **Level 0: Direct Protocol & Diagnostics:** Raw browser control via Chrome DevTools Protocol (`nova.cdp`), arbitrary JavaScript evaluation (`nova.eval`), and real-time request mocking ([Network Interception](../network/network-interception/README.md)).
 
 ### Contract Parity Across Levels
@@ -585,7 +585,7 @@ The following matrix summarizes how Nova bridges common automation frameworks:
 * **[Agent Awareness Gates (AAG)](../agent-awareness-gates-aag/README.md)** — Preemptive situational execution checks and recovery contracts.
 * **[Closed-Loop System (CLS)](../closed-loop-system-cls/README.md)** — Post-action visual transition verification.
 * **[Tool Observation Bus (TOB)](../tool-observation-bus-tob/README.md)** — Forensic event tracking and audit trails.
-* **[Humanized Input Engine](../humanized-input-engine/README.md)** — Coordinate mouse physics, bezier trajectories, and typing delays.
+* **[Browser Interaction](../browser-interaction/README.md)** — Coordinate mouse physics, bezier trajectories, and typing delays.
 * **[Phenomenological Knowledge Store (PKS)](../learning/phenomenological-knowledge-store-pks/README.md)** — Self-healing selector learning and SPA navigation phenomenons.
 * **[Network Interception & Replay](../network/network-interception/README.md)** — Tab-scoped mock rules and request replay engine.
 * **[MCP Reference Index](../../mcp-reference/README.md)** — Complete catalog of all canonical native tools.

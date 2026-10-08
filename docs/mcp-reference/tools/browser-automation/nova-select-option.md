@@ -2,7 +2,7 @@
 
 > **Selects an option in a standard HTML <select> dropdown by its value attribute or visible text.**
 
-* **Core Feature Guide:** [Input Dispatch & Shadow DOM Traversal](../../../core-features/humanized-input-engine/README.md)
+* **Core Feature Guide:** [Selectors & Shadow DOM](../../../core-features/browser-interaction/selectors-and-shadow-dom/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

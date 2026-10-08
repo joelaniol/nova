@@ -2,6 +2,8 @@
 
 Executes a verified click on a DOM element matching a CSS selector or CTA handle, featuring deep Shadow-DOM piercing, backdrop dismissal, and postcondition verification.
 
+* **Interaction Guide:** [Selectors & Shadow DOM](../../../core-features/browser-interaction/selectors-and-shadow-dom/README.md)
+
 ---
 
 ## 1. Overview
@@ -123,4 +125,4 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 * [`nova.type_selector`](nova-type-selector.md) — Type text into inputs.
 * [`nova.scroll_smart`](nova-scroll-smart.md) — Bring off-screen elements into view.
 * [`nova.dismiss_blockers`](nova-dismiss-blockers.md) — Standalone modal and banner dismissal.
-* [Core Feature: Input Dispatch & Shadow DOM Traversal](../../../core-features/humanized-input-engine/README.md)
+* [Core Feature: Browser Interaction](../../../core-features/browser-interaction/README.md)
