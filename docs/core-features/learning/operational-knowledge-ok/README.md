@@ -24,6 +24,7 @@ An observation can be recorded without replacing the current fact. Supersedence 
 | System | What it helps answer |
 | :--- | :--- |
 | **OK** | What login, plan or model state is currently reported for this target? |
+| [Domain Notes](../domain-notes/README.md) | Which instructions apply to this website and sandbox? |
 | [Browser Memory](../browser-memory/README.md) | What site notes, preferences and context should be recalled? |
 | [PKS](../phenomenological-knowledge-store-pks/README.md) | How has a recurring web situation been handled and verified? |
 | [ETM](../episodic-task-memory-etm/README.md) | What task is running, and what work remains? |
@@ -40,27 +41,19 @@ Derived capabilities summarize the available facts. They do not confer permissio
    * Facts are versioned. An accepted update supersedes the prior version of the same scoped fact rather than overwriting it silently. Not every incoming observation qualifies to replace it; observations remain append-only.
 3. **Hints in `nova.perceive`:**
    * `nova.perceive` returns `okHints` that tell the agent which signal keys are missing or stale for the current page, so it knows what to report via `nova.ok_observe`.
-4. **Integration with Domain Notes:**
-   * Next to the tab state, Nova keeps persistent domain notes (`nova.domain_note`) that document site-specific instructions for agent sessions. A note can be passive, show a warning on calls on that domain, or require acknowledgement before further calls (MUST-read).
 
 ### Domain notes are guidance, not state observations
 
-For example, “read the site's export instructions before downloading” belongs in a domain note; “this tab is currently logged out” belongs in OK's observations. Browser Memory holds recallable context, while domain notes additionally support call-time enforcement. Acknowledging a MUST-read note satisfies its acknowledgement requirement; it does not prove the underlying action was completed.
-
-Domain notes can be scoped to a sandbox or shared globally. Their scope matters when different sandboxes hold different accounts or instructions; an agent should use the intended note scope rather than assume that all notes apply to every target.
+“This tab is currently logged out” belongs in OK's observations. “Read the site's export instructions before downloading” belongs in the separate [Domain Notes](../domain-notes/README.md) feature. Its own article covers scope, delivery and acknowledgement; those instructions are not OK state signals.
 
 ---
 
-## 3. MCP Tooling for OK & Domain Notes
+## 3. MCP Tooling for OK
 
 | Tool | Purpose |
 | :--- | :--- |
 | `nova.ok_observe` | Pushes structured observations about the current page state of a tab. |
 | `nova.ok_signal_schema` | Lists the canonical signal keys accepted by `nova.ok_observe`. |
-| `nova.domain_note` | Stores or updates a domain note, with optional enforcement (`none`, `warn`, `block`/`must_read`). |
-| `nova.domain_notes_list` | Lists the notes stored for a domain. |
-| `nova.domain_note_ack` | Acknowledges a MUST-read note so tool calls on that domain can continue. |
-| `nova.domain_note_delete` | Deletes a domain note. |
 
 ---
 
@@ -94,12 +87,13 @@ flowchart LR
 
 ## 5. Implementation notes
 
-`McpOkObserveHandler` validates canonical signals and records the agent source. `OkWriter` decides whether an incoming observation inserts, reinforces or supersedes a fact, or remains observation-only. `OkRepository` persists observations, versioned facts and derived capabilities. `DomainNotesStore` keeps the separate instruction notes and their scopes.
+`McpOkObserveHandler` validates canonical signals and records the agent source. `OkWriter` decides whether an incoming observation inserts, reinforces or supersedes a fact, or remains observation-only. `OkRepository` persists observations, versioned facts and derived capabilities.
 
 ---
 
 ## Related Documentation
 
+* **[Domain Notes](../domain-notes/README.md)** — Persistent website instructions, warnings and required acknowledgement.
 * **[Phenomenological Knowledge Store (PKS)](../phenomenological-knowledge-store-pks/README.md)** — Long-term procedural UI memory and playbooks.
 * **[Tool Observation Bus (TOB)](../../tool-observation-bus-tob/README.md)** — Server-side record of executed tool calls.
 * **[Agent Awareness Gates (AAG)](../../agent-awareness-gates-aag/README.md)** — Precondition gates and tab leases.

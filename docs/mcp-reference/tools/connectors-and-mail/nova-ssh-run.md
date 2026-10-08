@@ -67,7 +67,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
     "executionId": "7c1f...",
     "target": { "host": "files.example.com", "port": 22, "username": "deploy", "ptyAllocated": false },
     "batch": { "requested": 2, "started": 2, "completed": 2, "skipped": 0, "stopOnError": true },
-    "sideEffects": { "tcpConnections": 1, "authAttempts": 1, "execRequests": 2, "signalsSent": 0 },
+    "sideEffects": { "tcpConnections": 1, "authAttempts": 1, "execRequests": 2, "signalsRequested": 0 },
     "results": [
       {
         "index": 0,

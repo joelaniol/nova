@@ -18,6 +18,7 @@ Browser Memory holds domain-bound notes, preferences and context with a half-lif
 | What needs remembering? | Appropriate system |
 | :--- | :--- |
 | A site preference, note or short-lived context | **Browser Memory** |
+| Website instructions with optional warnings or required acknowledgement | [Domain Notes](../domain-notes/README.md) |
 | A recurring problem with a Nova tool, including attempted fixes and reproductions | [Agent Knowledge Board](../agent-knowledge-board/README.md) |
 | The currently reported login, plan or model state | [Operational Knowledge](../operational-knowledge-ok/README.md) |
 | The remaining work and checks of an audit | [Task Memory (ETM)](../episodic-task-memory-etm/README.md) |

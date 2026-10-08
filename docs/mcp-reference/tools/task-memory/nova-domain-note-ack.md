@@ -8,7 +8,7 @@ Explicitly acknowledges a MUST-read domain note block to unblock subsequent tool
 
 `nova.domain_note_ack` acknowledges a MUST-read domain note, satisfying the server-side gate that otherwise blocks further tool calls on that domain's tab.
 
-* **Core Architecture Guide:** [Operational Knowledge](../../../core-features/learning/operational-knowledge-ok/README.md)
+* **Core Architecture Guide:** [Domain Notes](../../../core-features/learning/domain-notes/README.md)
 
 ---
 

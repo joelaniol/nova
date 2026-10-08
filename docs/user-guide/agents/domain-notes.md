@@ -70,4 +70,6 @@ If the agent seems to have lost the instructions, ask it to read the current not
 
 A note is guidance, not permission to perform a transaction. Nova's action permissions still apply. To interrupt running work, use [Emergency Stop](../../getting-started/emergency-stop.md).
 
+For the feature overview and technical reference, see [Domain Notes in Learning](../../core-features/learning/domain-notes/README.md).
+
 [Back to this section](README.md) · [All user guides](../README.md)

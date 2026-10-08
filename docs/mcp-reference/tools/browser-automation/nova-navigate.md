@@ -102,7 +102,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 ## 5. Best Practices & Common Traps
 
 * **Creating and Navigating at Once:** If you need a brand-new tab, do not call `nova.tab_new` followed by `nova.navigate`. `nova.tab_new` accepts a `url` parameter directly to create and load the tab in a single call.
-* **Domain Notes in Response:** `nova.navigate` checks Nova's Operational Knowledge base. If operator notes exist for the target domain, the response returns `domainNotesAvailable { count, keys }`. Always inspect these notes to learn about site quirks before clicking.
+* **Domain Notes in Response:** `nova.navigate` checks the stored [Domain Notes](../../../core-features/learning/domain-notes/README.md). If operator notes exist for the target domain, the response returns `domainNotesAvailable { count, keys }`. Always inspect these notes to learn about site quirks before clicking.
 
 ---
 

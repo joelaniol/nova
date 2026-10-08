@@ -20,7 +20,7 @@ Nova's Phenomenological Knowledge Store (PKS) uses empirical quality gates to go
 
 Candidate (L0) → Shadow (L1) → Active (L2). Each transition requires appropriate supporting evidence. Failures and drift can lower trust or deprecate knowledge; revival requires fresh evidence and does not immediately restore active status.
 
-The tool explains the decision for the requested phenomenon. Active status is separate from runtime permission and ambient-application eligibility. See [PKS learning levels](../../../core-features/learning/phenomenological-knowledge-store-pks/README.md#5-why-knowledge-needs-trust-levels).
+The tool explains the decision for the requested phenomenon. Active status is separate from runtime permission and ambient-application eligibility. See [PKS learning levels](../../../core-features/learning/phenomenological-knowledge-store-pks/README.md#learning-trust-levels).
 
 ---
 

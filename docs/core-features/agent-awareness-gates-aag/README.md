@@ -70,7 +70,7 @@ These modes govern awareness gates; they do not release an emergency stop or gra
 
 With the Site notes global override on, individual notes can be delivered as hints, warnings or MUST-read instructions. A MUST-read note blocks applicable calls on the matching host and sandbox until acknowledged; note-reading and acknowledgement tools remain available. Edited notes and configured repeat intervals can require acknowledgement again.
 
-This establishes technical acknowledgement, rather than evaluating the agent's interpretation. For UI steps, example notes and a prompt that asks the agent to explain its understanding visibly, see [Domain Notes](../../user-guide/agents/domain-notes.md).
+This establishes technical acknowledgement, rather than evaluating the agent's interpretation. See [Domain Notes](../learning/domain-notes/README.md) for the feature overview. For UI steps, example notes and a prompt that asks the agent to explain its understanding visibly, see the [Domain Notes user guide](../../user-guide/agents/domain-notes.md).
 
 ### Multi-Agent Lease Locking (Tab Claims)
 

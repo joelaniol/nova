@@ -6,7 +6,7 @@ The Learning Candidate Journal holds observations and candidate evidence. [Agent
 
 The LCJ lives in its own database (`memory.db` in the `Memory` folder of Nova's profile), separate from `pks.db`.
 
-The journal holds observations and candidate evidence. `nova.learn_generate` can already store a new phenomenon in PKS at L0, linked to that evidence by its candidate key. `nova.learn_promote` evaluates existing PKS entries against LCJ evidence; L0 therefore does not mean that an entry exists only in the journal. See [PKS learning levels](../phenomenological-knowledge-store-pks/README.md#5-why-knowledge-needs-trust-levels).
+The journal holds observations and candidate evidence. `nova.learn_generate` can already store a new phenomenon in PKS at L0, linked to that evidence by its candidate key. `nova.learn_promote` evaluates existing PKS entries against LCJ evidence; L0 therefore does not mean that an entry exists only in the journal. See [PKS learning levels](../phenomenological-knowledge-store-pks/README.md#learning-trust-levels).
 
 
 ## Journal tools

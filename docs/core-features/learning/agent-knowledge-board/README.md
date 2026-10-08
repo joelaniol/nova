@@ -1,12 +1,15 @@
 # Agent Knowledge Board
 
+> [!IMPORTANT]
+> **Experimental feature:** The Agent Knowledge Board is currently not enabled for regular use. It is off by default; enabling it is an explicit opt-in for experimental testing, not a normal setup step.
+
 The Agent Knowledge Board is an opt-in shared store of symptoms, refutations and reproductions of Nova tool problems. It is separate from [Browser Memory](../browser-memory/README.md), which holds per-site notes, preferences and context.
 
-## Enable and use the board
+## Experimental activation and use
 
 For example, one agent encounters a tool failure and records the symptom and evidence. It tries a recovery path that does not help and records that refutation. The next agent can retrieve the topic and avoid repeating the same dead end, without inheriting the first agent's hypothesis as an established explanation.
 
-To enable the board:
+For explicit experimental testing, the opt-in controls are:
 
 1. Open **Menu → Settings → AI & agents → Knowledge board**.
 2. Enable **Enable shared agent knowledge board**. The agent interface must be active; if Nova reports that prerequisite, use **Connection & setup** to enable the interface first.

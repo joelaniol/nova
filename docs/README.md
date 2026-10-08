@@ -138,13 +138,14 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 | Page | What it covers |
 |---|---|
 | [Phenomenological Knowledge Store (PKS)](core-features/learning/phenomenological-knowledge-store-pks/README.md) | What Nova learns about how a site works |
-| [Operational Knowledge (OK)](core-features/learning/operational-knowledge-ok/README.md) | Login state, plan and active model of a site, as signals agents report; domain notes |
+| [Operational Knowledge (OK)](core-features/learning/operational-knowledge-ok/README.md) | Login state, plan and active model of a site, as signals agents report |
+| [Domain Notes](core-features/learning/domain-notes/README.md) | Persistent website instructions, scope, warnings and required acknowledgement |
 | [Episodic Task Memory (ETM)](core-features/learning/episodic-task-memory-etm/README.md) | Recurring tasks and their progress |
 | [Task URL Coverage (TUC)](core-features/learning/task-url-coverage-tuc/README.md) | URL work units, scan evidence and coverage gates |
 | [Agent Learning Pipeline (ALP)](core-features/learning/agent-learning-pipeline-alp/README.md) | How a lesson is checked before it is kept |
 | [Learning Candidate Journal (LCJ)](core-features/learning/learning-candidate-journal-lcj/README.md) | Observations and candidate evidence used by the pipeline |
 | [Browser Memory](core-features/learning/browser-memory/README.md) | Notes and preferences per site |
-| [Agent Knowledge Board](core-features/learning/agent-knowledge-board/README.md) | Opt-in investigative records of Nova tool problems |
+| [Agent Knowledge Board](core-features/learning/agent-knowledge-board/README.md) | Experimental; currently not enabled for regular use. Investigative records of Nova tool problems |
 
 **Sessions, network and identity**
 

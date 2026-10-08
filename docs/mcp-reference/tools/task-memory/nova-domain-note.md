@@ -8,7 +8,7 @@ Stores or updates a domain-scoped operational note automatically surfaced during
 
 `nova.domain_note` registers persistent, site-specific instructions for a domain. Depending on the enforcement level, a note is either passive (surfaced on perceive only), shown as a warning on each tool call on that domain, or required to be acknowledged (`nova.domain_note_ack`) before further tool calls on that domain proceed.
 
-* **Core Architecture Guide:** [Operational Knowledge](../../../core-features/learning/operational-knowledge-ok/README.md)
+* **Core Architecture Guide:** [Domain Notes](../../../core-features/learning/domain-notes/README.md)
 
 ---
 

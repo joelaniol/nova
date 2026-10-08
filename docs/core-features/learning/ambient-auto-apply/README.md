@@ -12,7 +12,7 @@ Beyond explicit agent commands, Nova can apply known PKS playbooks on its own:
 
 For example, a learned cookie-rejection playbook can clear a familiar blocker during an agent's navigation, but only if it meets the ambient eligibility, consent-policy and confirmation rules. A login wall may also be recognized by PKS; that does not make signing in an ambient action.
 
-**Trusted knowledge and permission to apply it automatically are separate decisions.** The ambient watch/quarantine lifecycle also complements PKS promotion and demotion; its thresholds serve a different decision and should not be read as replacements for the [PKS trust gates](../phenomenological-knowledge-store-pks/README.md#5-why-knowledge-needs-trust-levels).
+**Trusted knowledge and permission to apply it automatically are separate decisions.** The ambient watch/quarantine lifecycle also complements PKS promotion and demotion; its thresholds serve a different decision and should not be read as replacements for the [PKS trust gates](../phenomenological-knowledge-store-pks/README.md#learning-trust-levels).
 
 ---
 
