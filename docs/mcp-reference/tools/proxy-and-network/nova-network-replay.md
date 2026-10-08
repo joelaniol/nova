@@ -98,7 +98,7 @@ Both `content[0].text` and `structuredContent` carry the same serialized result 
 ## 4. Operational Best Practices
 
 * **Two-Phase Execution:** Always call `prepare` first to freeze the request payload, verify headers, then dispatch with `send`.
-* **Isolated Cookie Jar:** `nova.network_replay` operates outside the browser tab's cookie jar. Only cookies explicitly passed in `headers` are transmitted.
+* **Explicit Session:** `nova.network_replay` operates outside the browser tab's cookie jar. Send cookies explicitly in `headers`, or request permission-gated adoption during `prepare` with `adoptSessionFrom`. Without either choice, browser cookies are not attached automatically.
 * **Idempotent Retries:** Re-sending an already executed `replayId` returns the cached outcome rather than sending duplicate requests.
 
 ---
