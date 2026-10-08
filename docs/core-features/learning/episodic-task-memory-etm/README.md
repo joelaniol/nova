@@ -1,147 +1,177 @@
 # Episodic Task Memory (ETM)
 
 > [!NOTE]
-> **Episodic Task Memory (ETM)** stores task profiles, running task instances, work units and progress durably. [Task URL Coverage (TUC)](../task-url-coverage-tuc/README.md) adds URL-specific coverage evidence. They help agents resume recurring tasks and keep them from declaring a large task done before the work is actually covered.
+> **Episodic Task Memory (ETM)** provides persistent, structured task memory for autonomous agents in Nova AI Workspace. By decoupling reusable task definitions (**Profiles**) from concrete execution runs (**Instances**), tracking granular work units, enforcing deterministic completion gates, and auditing server-side execution evidence via the Tool Observation Bus (TOB), ETM eliminates session-bound amnesia and ensures large-scale tasks are completely executed before being declared finished.
 
 ---
 
-## 1. Start with a task that spans sessions
+## 1. Executive Summary: The Problem of Session-Bound Amnesia
 
-An agent is asked to audit 120 pages for broken links. After checking 17, the session ends. The next agent needs more than a summary saying “the audit is in progress”: it needs the remaining pages, blocked work, findings and checks required before completion.
+Traditional LLM agent workflows suffer from critical structural weaknesses when handling long-running or multi-session tasks:
 
-ETM keeps that structure durably. The agent can retrieve the existing instance and continue its open work units. For a new audit a week later, it can reuse the task profile's guidance and completion rules while starting a new instance for the new run.
+* **Session Amnesia:** An agent assigned to audit 120 web pages checks 17 before its token limit or session ends. The next agent started in a new session has no structured recollection of which pages were already checked, what defects were identified, or what work remains open.
+* **Premature Completion Hallucinations:** When confronted with repetitive tasks, models frequently declare victory prematurely, generating an eloquent concluding narrative while skipping large portions of the actual work.
+* **Lack of Progress Serialization:** Without an explicit state machine for work units and discovery frontiers, multi-agent collaboration or interrupted runs inevitably result in duplicate effort or missed items.
 
-**A profile describes the recurring task; an instance records one run of it.** Resuming an instance preserves progress. Reusing a profile does not prove that last week's checked pages are still correct today.
-
-**The ETM Guiding Principle:**
+### The Guiding Invariant
 > *"The final report is the byproduct, not the goal."*
 
-Completion is evaluated by Nova against the instance's completion condition (discovery state, work units, mandatory checks), not against the agent's narrative.
-
-### The task objects in plain language
-
-| Object | Question it answers |
-| :--- | :--- |
-| Task profile | What does this recurring task require, and what guidance should be reused? |
-| Task instance | Which particular run are we working on? |
-| Work unit | What individual item remains, was checked, or is blocked? |
-| Completion condition | What must be satisfied before this run counts as complete? |
-| [Task URL Coverage (TUC)](../task-url-coverage-tuc/README.md) | Which URL units have acceptable coverage evidence? |
-
-ETM preserves task state; it does not perform the unfinished work merely because that state exists. The agent must retrieve it, continue the work and request completion.
+In Nova, task completion is never evaluated against the agent's prose. It is evaluated deterministically by Nova against the instance's **completion condition**, the verified state of its **work units**, its **mandatory checks**, and **server-side tool evidence**.
 
 ---
 
-## 2. Knowledge Taxonomy in Nova
+## 2. Nova Knowledge Taxonomy
 
-Each memory system answers a different question:
+Episodic Task Memory is a core pillar of Nova's multi-layered cognitive architecture. Each memory system addresses a distinct operational dimension:
 
-| System | Main question |
-| :--- | :--- |
-| [Browser Memory](../browser-memory/README.md) | What notes, preferences or context should be remembered for this site? |
-| [Operational Knowledge](../operational-knowledge-ok/README.md) | What state is currently reported for this target? |
-| [PKS](../phenomenological-knowledge-store-pks/README.md) | How can a recurring web situation be recognized, handled and verified? |
-| **ETM** | What task is this, and how far has this run progressed? |
+| Subsystem | Scope | Core Question Answered | Primary MCP Tools |
+| :--- | :--- | :--- | :--- |
+| **[ETM (Episodic Task Memory)](README.md)** | Task & Run | *What is this task, what remains to be done, and has this run satisfied its completion conditions?* | `nova.task_match`, `nova.task_instance_create`, `nova.task_instance_progress`, `nova.task_instance_complete` |
+| **[TUC (Task URL Coverage)](../task-url-coverage-tuc/README.md)** | URL Units | *Which specific URLs within the task instance have verified inspection evidence?* | `nova.coverage_scan`, `nova.task_instance_reconcile_coverage` |
+| **[PKS (Procedural Memory)](../phenomenological-knowledge-store-pks/README.md)** | Site / Platform | *How does this website function, what selectors are reliable, and what playbooks handle common dialogs?* | `nova.pks_get`, `nova.pks_upsert`, `nova.phenomenon_apply` |
+| **[OK (Operational Knowledge)](../operational-knowledge-ok/README.md)** | Sandbox / Target | *What is the live operational state of this target (login status, active AI model, account tier)?* | `nova.ok_observe`, `nova.ok_signal_schema` |
+| **[Operator Notes](../operator-notes/README.md)** | Operator Guidance | *What human rules, preferences, or secrets govern agent behavior in this workspace?* | `nova.operator_notes_store`, `nova.operator_notes_query` |
+| **[Domain Notes](../domain-notes/README.md)** | Web Domain | *What site-specific guidelines, credentials, or warnings apply to this specific host?* | `nova.domain_note`, `nova.domain_notes_list` |
+| **[TOB (Tool Observation Bus)](../../tool-observation-bus-tob/README.md)** | Server Audit | *What tools did the agent actually call, and do visit windows back up the agent's claims?* | Internal Evidence Ledger, `WaitForOkFlushAsync` |
 
-ETM uses [TOB](../../tool-observation-bus-tob/README.md) evidence when evaluating configured evidence policies. A checked status reported by an agent remains distinguishable from coverage supported by server-observed calls.
+---
+
+## 3. Core Architecture: Profiles, Instances & Units
+
+ETM organizes task knowledge into three distinct layers:
 
 ```mermaid
 flowchart TD
-    subgraph CognitiveMemory["Memory systems in Nova"]
-        PKS["Procedural memory: PKS<br/>how do sites work"]
-        OK["Operational Knowledge: OK<br/>what is the current state"]
-        ETM["Episodic Task Memory: ETM<br/>what is the task, how far along"]
-        TUC["Task URL Coverage: TUC<br/>which URLs are covered"]
+    subgraph BlueprintLayer ["1. Blueprint Layer (Persistent Knowledge)"]
+        Profile["Task Profile (task_profile)<br/>Goal, Guidance, Mandatory Checks, Completion Condition"]
+        GuidanceLog["Guidance Logs (task_guidance_log)<br/>Emergent observations, recurrence counting"]
     end
 
-    ETM -->|extended per instance by| TUC
-    ETM -->|checks evidence via| TOB["Tool Observation Bus: TOB"]
+    subgraph ExecutionLayer ["2. Execution Layer (Stateful Runs)"]
+        Instance["Task Instance (task_instance)<br/>Bound to Sandbox Profile, Tracks Progress & Revision"]
+        Events["Instance Events (task_instance_event)<br/>Event-sourced mutations, idempotency dedupe"]
+    end
+
+    subgraph ItemLayer ["3. Work Unit Layer (Granular Checklist)"]
+        Units["Work Units (task_work_unit)<br/>Discovered, Checked, Blocked, Failed, Excluded"]
+        TUC["Task URL Coverage (TUC)<br/>In-page scan evidence & DOM metrics"]
+    end
+
+    subgraph VerificationLayer ["4. Verification & Auditing Layer"]
+        Evaluator["Completion Evaluator<br/>Exhaustive, Threshold, Exploratory Gates"]
+        TOB["Tool Observation Bus (TOB)<br/>Evidence Ledger & visit windows"]
+    end
+
+    Profile -->|Instantiate| Instance
+    GuidanceLog -.->|Promote via nova.task_promote_guidance| Profile
+    Instance -->|Manage Checklist| Units
+    Units -->|URL Evidence| TUC
+    Instance -->|Append State Deltas| Events
+    Instance -->|Evaluate Completion| Evaluator
+    Evaluator -->|Cross-Reference Evidence| TOB
 ```
+
+1. **Task Profile:** The reusable specification. Defines the task type, goal, curated operational rules (`stableGuidance`), mandatory checkpoints, and completion rules.
+2. **Task Instance:** A stateful execution run. Tracks unit counts, findings, current discovery status, and resume data.
+3. **Work Units:** Discrete checklist items that transition through a rigorous state machine (`discovered` $\rightarrow$ `checked`, `excluded`, `blocked`, `failed`).
+4. **Events & Idempotency:** Changes to an instance are event-sourced through `task_instance_event` with client UUID deduplication.
 
 ---
 
-## 3. The ETM Lifecycle
+## 4. End-to-End Execution Sequence
 
 ```mermaid
 sequenceDiagram
     autonumber
-    actor Agent as AI agent
-    participant ETM as Nova task memory
-    participant TUC as Task URL Coverage
+    actor Agent as Autonomous Agent
+    participant Hub as Nova ETM Engine
+    participant Browser as Web Page & DOM
+    participant TOB as Tool Observation Bus
 
-    Agent->>ETM: nova.task_match with taskDescription
-    ETM-->>Agent: matching profiles with score breakdown and guidance
-    Agent->>ETM: nova.task_instance_create with profileId and unitSource kind site_urls
-    ETM->>TUC: creates one URL unit per indexed URL
-    loop Work loop
-        Agent->>TUC: nova.coverage_scan on the open page
-        TUC->>TUC: trusted scan result marks the unit checked
-        Agent->>ETM: nova.task_instance_progress with unit updates and findings
+    Note over Agent,Hub: Phase 1: Matching & Instantiation
+    Agent->>Hub: nova.task_match(taskDescription="Audit broken links", domain="example.com")
+    Hub-->>Agent: Matching profiles with score breakdown and guidance
+    Agent->>Hub: nova.task_instance_create(profileId="audit-broken-links", unitSource={kind: "site_urls"})
+    Hub-->>Agent: Returns instanceId, seeded with discovered URL units
+
+    Note over Agent,Browser: Phase 2: Execution & Progress Loop
+    loop Work Unit Processing
+        Agent->>Browser: Navigate to URL & inspect DOM / links
+        Browser-->>Agent: Observation results
+        TOB->>TOB: Record server-side visit window & tool dispatch
+        Agent->>Hub: nova.task_instance_progress(unitUpdates=[{unitKey: "url:/about", status: "checked"}], findings=[...])
+        Hub-->>Agent: Returns updated progress stats & remaining count
     end
-    Agent->>ETM: nova.task_instance_complete
-    alt Completion condition not met
-        ETM-->>Agent: completed false with the reason
-    else Completion condition met
-        ETM-->>Agent: completed true
+
+    Note over Agent,Hub: Phase 3: Freezing & Verification
+    Agent->>Hub: nova.task_instance_progress(discoveryState="frozen")
+    Hub-->>Agent: Discovery frontier frozen
+    Agent->>Hub: nova.task_instance_verify(instanceId)
+    Hub-->>Agent: Verification contract assertions evaluated (Fast Gates)
+
+    Note over Agent,TOB: Phase 4: Completion & Confidence Tuning
+    Agent->>Hub: nova.task_instance_complete(instanceId)
+    Hub->>TOB: Correlate work units with server-side evidence ledger
+    alt Evidence Gap Exceeded or Open Units Remain
+        Hub-->>Agent: Completed = false (reason: "units_remaining" or "evidence_gap")
+    else All Criteria Satisfied
+        Hub->>Hub: Mark instance completed & tune profile confidence
+        Hub-->>Agent: Completed = true
     end
 ```
 
-After a completed instance, Nova recalculates the confidence of the task profile from its usage signals.
+---
+
+## 5. Complete MCP Tool Reference Suite
+
+Episodic Task Memory exposes 15 specialized tools in Nova's `system_tools` bundle, grouped into four functional categories:
+
+### 1. Profiles & Discovery
+* **`nova.task_search`:** Free-text search over stored task profiles.
+* **`nova.task_match`:** Multi-factor scoring engine evaluating task descriptions against profiles with detailed score breakdowns.
+* **`nova.task_profiles`:** Lists available profiles, filtered by `taskType`, `domain`, `platform`, or archival status.
+* **`nova.task_profile_get`:** Fetches the complete JSON definition, usage metrics, and guidance of a specific profile.
+* **`nova.task_profile_upsert`:** Creates or updates a task profile specification.
+
+### 2. Instance Lifecycle
+* **`nova.task_instance_create`:** Initializes an execution run from a profile or ad-hoc goal, with optional automated unit ingestion (`unitSource`).
+* **`nova.task_instance_get`:** Reconstructs the complete instance state, open units, findings, and mandatory check status for resuming.
+* **`nova.task_instance_abort`:** Terminates an instance when external blockers prevent satisfying completion criteria.
+
+### 3. Progress Tracking & Verification
+* **`nova.task_instance_progress`:** Reports incremental progress, unit state transitions, findings, mandatory check updates, and frontier freezing.
+* **`nova.task_instance_verify`:** Runs programmatic verification contract assertions (Fast Gates) prior to completion.
+* **`nova.task_instance_complete`:** Intercepts completion requests and evaluates deterministic completion conditions and TOB evidence.
+
+### 4. Guidance & Continuous Learning
+* **`nova.task_guidance_log_add`:** Logs emergent operational tips during an active run without mutating the profile.
+* **`nova.task_guidance_logs`:** Queries logged operational observations.
+* **`nova.task_promotion_candidates`:** Identifies recurring guidance entries eligible for promotion.
+* **`nova.task_promote_guidance`:** Atomically merges accepted guidance into a task profile, incrementing its revision.
 
 ---
 
-## 4. Completion Modes
+## 6. Operational Invariants & Safety Guarantees
 
-A task's completion condition uses one of three coverage modes:
-
-| Mode | Completion allowed when… |
-| :--- | :--- |
-| `exhaustive` | discovery is `frozen`, at least one work unit exists, no work units remain open, none are blocked or failed, and all mandatory checks are satisfied. |
-| `threshold` | the stop metric reaches its value and all mandatory checks are satisfied. |
-| `exploratory` | the minimum number of checked units is reached and all mandatory checks are satisfied. |
-
-If the completion policy is not met, `nova.task_instance_complete` returns `completed: false` with a reason. Ordinary unmet completion conditions are reported as readiness results; the separate blocking URL-coverage gate can return an error. A profile can additionally define an evidence policy: Nova then compares the units the agent marked as checked with the tool calls TOB actually observed and rejects completion with `evidence_gap` if too many lack evidence.
-
-These checks apply to the declared task scope, discovered units and configured policy. Freezing discovery is an explicit assertion that the work set has been found; ETM cannot establish that every relevant page on an unknown site has been discovered merely because all stored units are checked. Excluded units and threshold or exploratory completion should therefore be visible in the report rather than described as exhaustive coverage.
+1. **Irreversible Frontier Freezing:** Once an instance transitions its `discoveryState` to `'frozen'`, it **cannot** transition back to `'partial'` or `'unknown'`. Agents cannot circumvent exhaustive checks by reopening discovery when difficult units are encountered.
+2. **Terminal Unit States:** Work units marked `checked` or `excluded` enter terminal states that cannot be reverted to `discovered` or `blocked`.
+3. **Empty Frontier Protection:** In `exhaustive` mode, an instance with zero discovered units (`counts.Total == 0`) is strictly rejected with `no_units_discovered`. An agent cannot freeze an empty list and claim completion.
+4. **Zero Blocked/Failed Completion:** Exhaustive completion requires zero units in `blocked` or `failed` states (`units_blocked_or_failed`). Blocked units must either be resolved or explicitly waived as `excluded` with recorded rationale.
+5. **Tool Observation Bus (TOB) Evidence Gap Blocking:** When `evidencePolicy.mode = "block"`, Nova cross-references claimed checked units against server-side tool calls and visit windows. If ungrounded claims exceed `maxGapPercent`, completion is rejected with `evidence_gap`.
+6. **Task URL Coverage (TUC) Gate:** If URL units remain open in an instance, `nova.task_instance_complete` rejects completion with `url_units_remaining`.
+7. **Dynamic Confidence Tuning:** Successful completions and terminal failures automatically trigger `TaskConfidenceTuner`, adjusting profile confidence via a deterministic formula combining completion rate, match acceptance rate, and usage volume.
 
 ---
 
-## 5. MCP Tooling for ETM
+## 7. Deep-Dive Guides
 
-* **Task Profiles & Discovery:**
-  * `nova.task_search`: Free-text search over existing task profiles.
-  * `nova.task_match`: Matches a task description against existing profiles with a score breakdown.
-  * `nova.task_profiles`: Lists profiles, filtered by task type, domain or platform.
-  * `nova.task_profile_get` / `nova.task_profile_upsert`: Read or create/update a profile (goal, guidance, mandatory checks, completion condition, known exceptions).
-* **Instance Lifecycle & Progress Tracking:**
-  * `nova.task_instance_create`: Starts an instance from a profile or ad hoc, optionally with a `unitSource` for URL units.
-  * `nova.task_instance_progress`: Reports discovered units, unit status updates, findings, mandatory-check updates and the discovery state.
-  * `nova.task_instance_get`: Returns the stored snapshot, progress and open units for resuming.
-  * `nova.task_instance_verify`: Checks completion readiness and returns the verification steps of the profile.
-  * `nova.task_instance_complete`: Requests completion; Nova evaluates the completion condition.
-  * `nova.task_instance_abort`: Ends an instance whose completion condition cannot be met.
-* **Guidance Promotion:**
-  * `nova.task_guidance_log_add`: Logs a guidance observation without changing the profile directly.
-  * `nova.task_guidance_logs`: Lists guidance logs and learning statistics.
-  * `nova.task_promotion_candidates`: Lists guidance that is ready for promotion.
-  * `nova.task_promote_guidance`: Promotes guidance into the task profile.
+For exhaustive architectural breakdowns, schemas, and implementation details, explore the dedicated guides:
+
+* **[Task Profiles, Matching Engine & Confidence Tuning](task-profiles-and-matching.md)** — Profile blueprints, multi-factor scoring algorithms, dynamic thresholds, and confidence tuning formulas.
+* **[Task Instances, Work Units & Progress Tracking](instances-work-units-and-progress.md)** — Execution runs, work unit and discovery state machines, automated unit ingestion, event sourcing, and multi-session resuming.
+* **[Completion Evaluator, TOB Evidence & Verification Contracts](completion-evaluator-and-evidence-verification.md)** — Exhaustive/threshold/exploratory modes, mandatory check cross-referencing, verification contracts, and TOB evidence ledgers.
+* **[Guidance Lifecycle, Promotion & Scheduled Tasks](guidance-lifecycle-and-scheduled-execution.md)** — Staged guidance lifecycle, recurrence deduplication, promotion pipelines, scheduled cron tasks, and reflection gates.
 
 ---
 
-## 6. Implementation notes
-
-| Component | Responsibility |
-| :--- | :--- |
-| **`McpTaskMemoryHandler`** | Handles the task profile, instance, progress, guidance and promotion tools. |
-| **`TaskCompletionEvaluator`** | Evaluates the completion condition of an instance. |
-| **`EvidenceLedger`** | Correlates TOB observations and visit windows with work units at completion. |
-
----
-
-## Related Documentation
-
-* **[Tool Observation Bus (TOB)](../../tool-observation-bus-tob/README.md)** — Server-side evidence ledger and visit windows.
-* **[Agent Awareness Gates (AAG)](../../agent-awareness-gates-aag/README.md)** — Precondition gates and tab leases.
-* **[Phenomenological Knowledge Store (PKS)](../phenomenological-knowledge-store-pks/README.md)** — Procedural UI memory and learning levels.
-
-[Learning overview](../README.md) · [All core features](../../README.md)
+[Learning Overview](../README.md) · [All Core Features](../../README.md)
