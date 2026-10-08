@@ -15,7 +15,7 @@ Nova has separate controls for browser fingerprints, stored credentials, network
 | :--- | :--- | :--- |
 | [Proxy Routing](../network/proxy/README.md) | Proxy profiles, authentication, shared browser routing and optional leak protection. | Network |
 | [Multi-Sandbox Session Isolation](../sandbox-isolation/README.md) | Separate cookies and persistent website storage for different sessions. | Session isolation |
-| [Site Data & Privacy Management](../site-data-management/README.md) | Inspecting or clearing cookies, storage and cache with an explicit scope. | Site data |
+| [Site Data Management](../site-data-management/README.md) | Inspecting or clearing cookies, storage and cache with an explicit scope. | Site data |
 | [Private Browsing](../../user-guide/browser/private-browsing.md) | Using a private session and understanding what remains after it ends. | User Guide |
 
 The proxy guide belongs to Network and is linked here because routing also matters for privacy. Both overviews lead to the same article; changing it updates the guidance reached from either topic.

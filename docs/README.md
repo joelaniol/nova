@@ -155,7 +155,7 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 | Page | What it covers |
 |---|---|
 | [Multi-Sandbox Session Isolation](core-features/sandbox-isolation/README.md) | Separate profiles with their own logins |
-| [Site Data & Privacy Management (Cookies, Storage, Cache)](core-features/site-data-management/README.md) | Cookies, storage and cache |
+| [Site Data Management](core-features/site-data-management/README.md) | Cookies, Web Storage, cache cleanup, Cookie Inspector and agent permissions |
 | [Network](core-features/network/README.md) | Proxy routing, interception, request replay and SSL/TLS diagnostics |
 | [Privacy](core-features/privacy/README.md) | Fingerprint protection, browser identity, vault and secret delivery |
 | [Session Recording & Time-Travel Debugging](core-features/session-recording/README.md) | Recording a run to see later what happened |

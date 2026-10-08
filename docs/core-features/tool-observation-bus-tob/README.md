@@ -206,6 +206,45 @@ To prevent agents from bypassing AAG's `safety.perceive_first` gate with cheap n
 * Invocations of `nova.search_text` **do not qualify** as surface exposure, even though they expose text.
 * Only substantive observation tools (`nova.perceive`, `nova.read_text`, `nova.read_dom`, `nova.dom_extract`) set `_surfaceExposedByTarget = true`.
 
+### 4.3 The Multi-Channel Click Effect Observation Engine
+
+A persistent flaw in web automation is the "silent dead click": dispatching a synthetic click event onto an unmounted element, an element without an attached event listener, or an element whose handler has not yet bound will return `ok: true`. The language model interprets `ok: true` as proof that the action succeeded, even though the page state never changed.
+
+To solve this, TOB runs a multi-channel effect observer for `nova.click_selector` that monitors **nine distinct observation channels**:
+
+```mermaid
+flowchart TD
+    Click["nova.click_selector Dispatched"] --> Channels{"Did anything actually happen?"}
+    
+    subgraph ProbeChannels ["In-Page Probe Channels (DOM / Network)"]
+        Channels --> C1["1. dom_mutation: DOM tree or attribute changed"]
+        Channels --> C2["2. request_started: Network request initiated"]
+        Channels --> C3["3. focus_moved: Focus shifted (ignoring clicked element)"]
+        Channels --> C4["4. control_state: IDL state flipped (.checked, select index)"]
+    end
+
+    subgraph HostChannels ["Host-Side Channels (Nova Engine)"]
+        Channels --> C5["5. url_changed: URL modified"]
+        Channels --> C6["6. navigation: Navigation committed"]
+        Channels --> C7["7. new_tab: New tab spawned"]
+        Channels --> C8["8. popup: Popup opened"]
+        Channels --> C9["9. download: File download started"]
+    end
+
+    ProbeChannels --> Eval{"Evaluate Outcome"}
+    HostChannels --> Eval
+
+    Eval -->|Any Channel Fired| ObservedTrue["observation.Observed = true<br/>Signals enumerated"]
+    Eval -->|Probe Armed + All 9 Silent| ObservedFalse["observation.Observed = false<br/>Emit dead-element warning"]
+    Eval -->|Probe Failed to Arm + No Host Signal| ObservedNull["observation.Observed = null<br/>Absence of evidence != Evidence of absence"]
+```
+
+#### Core Invariants of the Effect Engine:
+1. **Host Evidence Trumps Probe Failure:** If host-level events fire (navigation, new tab, popup, download, URL change), the click is confirmed effective (`observation.Observed = true`) even if the in-page JavaScript probe failed to arm.
+2. **Absence of Evidence is Not Evidence of Absence:** If the in-page probe fails to inject and no host events fire, Nova records `observation.Observed = null`. It **never** reports `false`, preventing false-positive dead element warnings caused by instrumentation failures.
+3. **The Control State Invariant (QM-4150):** Toggling native HTML inputs (e.g. checkbox `.checked` or `<select>` options) modifies DOM IDL properties without necessarily generating MutationObserver attribute mutations or network requests. The probe explicitly checks control state diffs to avoid incorrectly calling working form inputs "dead".
+4. **Actionable Dead Element Warnings:** When all 9 channels remain silent and the probe was fully functional, Nova includes an explicit warning enumerating every checked channel (`no DOM mutation, no started request, no focus move, no control state change`). Crucially, the warning suggests verifiable remedies (`verify` or check for asynchronous processing delays) without making unproven assumptions (such as asserting "handler is not wired up").
+
 ---
 
 ## 5. Scope Lifecycle State Machine & The 8 Core Invariants
@@ -219,7 +258,7 @@ stateDiagram-v2
     Active --> Closing: BeginClosing(epilogueGraceMs=750)
     Closing --> Flushing: MarkFlushing(barrierSeq)
     Flushing --> Closed: MarkClosed(ingestionComplete)
-    Flushing --> Active: ReactivateScope() (on gate reject)
+    Flushing --> Active: ReactivateScope() (on evidence rejection)
     Open --> Faulted: Fault(reason)
     Active --> Faulted: Fault(reason)
     Closing --> Faulted: Fault(reason)
@@ -242,16 +281,30 @@ stateDiagram-v2
 When an agent performs setup calls (navigating to a starting URL, dismissing an initial popup) *before* explicitly creating an ETM task instance, those dispatches are unscoped.
 * Unscoped dispatches are held in an in-memory ring buffer (`PreludeBuffer`: max 512 per target, max 4,096 globally, 60s TTL).
 * When `OpenScope` is invoked, TOB drains the last 30 seconds (`PreludeWindowMs = 30_000`) of matching dispatches and backfills them into `tob_tool_observation` with `binding_mode = 'prelude_backfill'`.
+* **Per-Target Overflow Isolation:** The ring buffer tracks buffer overflows strictly per target (`_overflowByTarget[targetKey]`). An overflow on an unrelated tab does not mark another tab's prelude drain as incomplete, preventing artificial degradation to `unknown`.
 
 ### 5.2 Epilogue Grace Window
 When a task requests completion, the agent may have issued a final verification call that is still in transit.
 * `BeginClosing` initiates an `epilogue_grace_ms` period (default **750 ms**).
 * Any calls completing within this grace window bind with `binding_mode = 'epilogue_grace'` before the sequence barrier is locked.
 
-### 5.3 Crash Recovery Invariant
+### 5.3 Scope Reactivation on Evidence Rejection
+When an agent attempts task completion, Nova flushes the sequence barrier and evaluates the Evidence Ledger. If the evidence gate rejects the completion (e.g. required strong evidence but observed weak or none), the scope is **not closed or aborted**:
+1. `TobFlushCoordinator.ReactivateScopeAfterRejection` closes existing visit windows to prevent dwell times from bleeding across the rejection boundary.
+2. The scope coordinator transitions the scope from `Flushing` back to `Active`.
+3. The barrier is cleared (`BarrierDispatchSeq = null`), allowing new tool dispatches to bind to the **same** workflow scope.
+4. The agent receives the specific rejection diagnostic and can perform additional verification actions before attempting completion again.
+5. Only upon passing the evidence gate does `CloseScopeAfterGate` mark the scope as `Closed`.
+
+### 5.4 Crash Recovery Invariant (`RecoverFromDb`)
 If Nova AI Workspace terminates unexpectedly while scopes are active, `EvidenceScopeCoordinator.RecoverFromDb()` runs on startup:
 * Recovers all scopes in states `open`, `active`, `closing`, or `flushing` from `tob_scope_runtime`.
-* Restores them to `Active` in memory, rebuilding reverse target indexes so target tabs are not deadlocked against new scopes.
+* Restores them to `Active` in memory, rebuilding reverse target indexes (`ActiveBindings`) so target tabs are not deadlocked against new scopes.
+
+### 5.5 Process-Wide Static Isolation in Tests (`ResetTobStaticsForSelfTest`)
+In production, `McpServer` is a single process singleton. However, in test suites, multiple `McpServer` instances are constructed within a single process.
+* To prevent cross-test contamination where a newly instantiated test server inadvertently hijacks the static scope coordinator of a previous test (QM-3836), Nova provides `ResetTobStaticsForSelfTest()` and `InstallTobScopeCoordinatorForSelfTest()`.
+* Every isolated unit test starts with a completely clean static slate.
 
 ---
 
@@ -286,11 +339,16 @@ sequenceDiagram
     Coord-->>Consumer: Return FlushResult (ingestionComplete, projectionComplete)
 ```
 
-### The In-Memory Visit Window Flush Invariant
+### 6.1 The In-Memory Visit Window Flush Invariant
 > [!IMPORTANT]
 > The visit window of the page the agent is currently sitting on resides *purely in memory* (`VisitWindowBuilder._openWindows`) until a page change occurs or the scope closes.
 > 
 > If the flush protocol did not explicitly close the window, the current page would never count as a materialized visit window in SQLite! `TobFlushCoordinator` calls `_visitWindowBuilder.CloseAllWindows(scopeId)` before returning, ensuring the open window is inserted into `tob_visit_window` ahead of the correlation query.
+
+### 6.2 The Barrier Non-Stall Guarantee
+In `ToolObservationProjector`, database writes execute asynchronously on a background worker thread.
+* If an insertion fails due to an unexpected SQLite exception or disk constraint, the sequence counter advancement (`AdvanceCommittedSeq`) and projected count increment still execute inside a guaranteed `finally` block.
+* This ensures that `WaitForFlushAsync` will **never hang indefinitely or stall the barrier**. The missing observation may result in an `unknown` grade, but the execution pipeline remains fully operational.
 
 ---
 
@@ -349,6 +407,17 @@ erDiagram
 | **`task_instance_unit_locator`** | Typed locator definitions for ETM work units. | Task Instance Lifetime |
 | **`tob_lcj_durable_outbox`** | Reserved durability bridge for future LCJ integration. | Scope End + 7d / 30d |
 
+### 7.2 The Outbox Durability Bridge Semantics (`tob_lcj_durable_outbox`)
+The `tob_lcj_durable_outbox` table records selector interactions alongside dispatch call IDs and outcomes.
+* **Current Status:** This table is currently write-only (with severity recorded as a literal `0` placeholder). It is an architectural reservation designed as a durable persistence bridge for future out-of-process LCJ consumers.
+* Today, LCJ consumes observations in-memory via `McpServer.ExecutionLcjObservation`. The outbox table is reaped by `TobRetentionPolicy` and must not be treated by external clients as an active bidirectional queue.
+
+### 7.3 Single-Worker DB Channel & Deadlock Prevention
+`PksStore.GetDb()` operates over a single-worker asynchronous queue.
+* To prevent deadlocks, lightweight status queries (`task_instance_get`, `get_instructions`) invoke `EvidenceLedger.CorrelateSummary()` instead of the full `Correlate()` method.
+* For completed instances, `CorrelateSummary()` reads the pre-compiled `evidence_snapshot_json` via fast JSON parsing without touching SQLite queries.
+* For active instances, it queries unit counts on the already-open connection directly without invoking nested `ExecuteAsync` calls on the worker channel.
+
 ---
 
 ## 8. Evidence Ledger & Task Verification (`EvidenceLedger`)
@@ -376,19 +445,51 @@ flowchart TD
 
 | Evidence Grade | Required Criteria | Practical Meaning |
 | :---: | :--- | :--- |
-| **`strong`** | Matching visit window in `tob_visit_window` with `read_count > 0`, `dwell_time_ms >= 1000` (1 second), and exact URL or route locator match. | Strong proof that the target page was loaded, displayed, and content was returned to the agent for at least 1 second. |
+| **`strong`** | Matching visit window in `tob_visit_window` with `read_count > 0`, `dwell_ms >= 1000` (1 second), and exact URL or route locator match. | Strong proof that the target page was loaded, displayed, and content was returned to the agent for at least 1 second. |
 | **`weak`** | Matching observation exists in `tob_tool_observation`, but lacks a substantive read signal, lacks a visit window, or is located *only* by selector hash or URL prefix. | The agent touched or interacted with the target, but content exposure or dwell time was not established. |
 | **`none`** | Deterministic locators exist, data ingestion and projection are 100% complete, and zero matching observations exist. | **Proven fabrication / omission:** The agent claimed completion, but Nova observed zero corresponding actions. |
 | **`unknown`** | No deterministic locators exist, or a measurement gap occurred (`unknown_due_to_source_gap`, `projection_incomplete`, `scope_binding_missing`). | Indeterminate: Nova cannot prove or disprove the claim due to missing instrumentation. |
 
-### 8.2 Locator Types & Source Classes
-* **`url_exact`:** Full canonical URL (`SiteUrlCanonicalizer`). Can reach grade `strong`.
-* **`route_key`:** Normalized pathname without domain (e.g. `settings/security`). Can reach grade `strong`.
-* **`selector` / `selector_hash`:** CSS selector or SHA-256 hash. Reaches at most grade `weak` (visit windows do not index selectors).
-* **`document_page`:** Multi-page document or PDF page reference.
-* **Locator Sources:** `declared` (explicitly supplied in task profile) or `derived` (inferred from unit ref).
+### 8.2 The "Strong" Grade Ceiling Invariant
+> [!IMPORTANT]
+> Grade `strong` is **strictly achievable only for locator types `url_exact` and `route_key`**.
+> 
+> In `EvidenceLedger.CountStrongVisitWindows`, visit windows are evaluated via:
+> ```sql
+> SELECT COUNT(*) FROM tob_visit_window
+> WHERE workflow_scope_id = @scope AND read_count > 0 AND dwell_ms >= 1000 AND (page_url_norm = @val OR route_key_norm = @val)
+> ```
+> Because `tob_visit_window` coalesces page-level interactions and does not maintain a selector index, work units whose sole deterministic locator is a DOM selector (`selector_hash`) or a URL prefix (`url_prefix`) can at most achieve grade `weak`. Individual element interactions prove execution, but only visit windows prove sustained page dwell time.
 
-### 8.3 The Evidence Snapshot Schema (`evidence_snapshot_json`)
+### 8.3 Unit Locator Inference & Normalization Engine (`TobUnitLocatorWriter`)
+
+Work units defined in ETM are automatically analyzed to infer typed locators:
+
+| Unit Kind / Input Pattern | Inferred Locator Type | Normalization Algorithm | Match Key | Achievable Grade Ceiling |
+| :--- | :--- | :--- | :--- | :---: |
+| `unit_kind: "selector"` | `selector` | `SelectorNormalizer.NormalizeSelector` | SHA-256 Hex Hash | `weak` |
+| `unit_kind: "document"` or `"pdf"` | `document_page` | Trimmed string | Trimmed string | `weak` |
+| Starts with `http://` or `https://` | `url_exact` | `SiteUrlCanonicalizer.Canonicalize` | Route URL without query/hash | `strong` |
+| Starts with `#`, `.`, `[`, or contains `>`, `+`, `~` | `selector` | `SelectorNormalizer.NormalizeSelector` | SHA-256 Hex Hash | `weak` |
+| Starts with `/` or path-like string | `route_key` | Trimmed lowercase without slashes | `null` | `strong` |
+| Domain-like string (contains `.`) | `url_exact` | Canonical route URL | Scheme + Host + Path | `strong` |
+
+### 8.4 The Complete Exception Reason Code Catalog (`perUnitExceptions`)
+
+When a checked work unit does not achieve `strong`, the ledger records precise diagnostic reason codes:
+
+| Reason Code | Grade | Cause & Trigger Condition |
+| :--- | :---: | :--- |
+| **`visit_window_missing`** | `weak` | Read observations were recorded, but no visit window on that URL met the dwell threshold (`dwell_ms >= 1000`). |
+| **`no_read_like_observation`** | `weak` | Tool interactions occurred on the locator (e.g. clicks or input), but no content-reading tool was executed. |
+| **`scope_binding_missing`** | `unknown` | The task instance lacked an active workflow scope ID. |
+| **`no_locator`** | `unknown` | The work unit definition contained zero locators. |
+| **`no_deterministic_locator`** | `unknown` | Locators exist, but none belong to the `declared` or `derived` deterministic classes. |
+| **`unknown_due_to_source_gap`** | `unknown` | Upstream ingestion (OK or LCJ) timed out or encountered an uncommitted buffer gap. |
+| **`projection_incomplete`** | `unknown` | Tool observation projection did not reach the sequence barrier within the flush timeout. |
+| **`no_matching_observation`** | `none` | Deterministic locators exist and data pipelines were 100% complete, but zero matching tool calls occurred. |
+
+### 8.5 The Evidence Snapshot Schema (`evidence_snapshot_json`)
 Upon task completion, the ledger compiles an immutable JSON summary saved to `task_instance.evidence_snapshot_json`:
 
 ```json
@@ -414,13 +515,13 @@ Upon task completion, the ledger compiles an immutable JSON summary saved to `ta
     "items": [
       {
         "unitKey": "doc-terms-page",
-        "grade": "weak",
-        "reasons": ["no_read_like_observation"]
+        "evidenceGrade": "weak",
+        "reasonCodes": ["no_read_like_observation"]
       },
       {
         "unitKey": "doc-refund-policy",
-        "grade": "none",
-        "reasons": ["no_matching_observation"]
+        "evidenceGrade": "none",
+        "reasonCodes": ["no_matching_observation"]
       }
     ]
   }
@@ -447,6 +548,7 @@ flowchart LR
 * **Zero Agent Overhead:** Operates entirely in the background. If a scoped call touches a selector whose SHA-256 hash matches a known phenomenon on that domain, TOB reports `tob_verified`.
 * **60-Second Throttle:** Emits at most one proof per `(scope, phenomenon)` pair per 60 seconds (`ThrottleIntervalMs = 60_000`), preventing rapid loops from skewing health statistics.
 * **Thread-Safe Telemetry:** Held under `_pksWriteLock` to prevent concurrent `pks_upsert` calls from overwriting health counters.
+* **Alternative Selector Splitting:** When phenomena contain OR-alternatives (`#btn-submit OR .action-btn`), `TobSelectorProofIndex` normalizes and indexes each sub-selector individually, matching single agent dispatches cleanly.
 
 ---
 
@@ -509,6 +611,7 @@ To diagnose whether a poor task verification score was caused by agent incompete
 | :--- | :--- | :--- | :--- |
 | **Dispatch Envelope** | Atomic before/after capture. | Captures post-state in guaranteed `finally`; unique UUIDv4 call ID. | Prevents unrecorded dispatches on unhandled tool crashes. |
 | **Foreign Target Resolver** | Multi-tab identity binding. | Traced background target never borrows active foreground tab URL. | Prevents attributing background clicks to the foreground URL. |
+| **Effect Observer** | Multi-channel click impact evaluation. | Checks 9 distinct channels; probe failure yields `null` (never false). | Prevents treating dead/unbound click handlers as successful effects. |
 | **Prelude Buffer** | Unscoped call preservation. | Holds up to 512 dispatches per target in RAM; drains upon scope activation. | Captures setup navigations executed prior to formal task creation. |
 | **Epilogue Grace Window** | In-flight completion grace. | Delays barrier freezing by 750 ms for late verification calls. | Prevents dropping final verification clicks from task evidence. |
 | **Flush Coordinator** | Multi-subsystem synchronization. | Waits for OK, LCJ, and Projector up to frozen `barrier_seq`. | Eliminates race conditions between async DB writes and task evaluation. |

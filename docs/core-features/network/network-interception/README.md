@@ -119,7 +119,7 @@ Replay accepts exact UTF-8 text through `body` or binary data through `bodyBase6
 
 `adoptSessionFrom` can fill a draft with cookies applicable to its URL and explicitly mapped values from a tab's local/session storage. This helps investigate why an independent API request receives different data from a logged-in page.
 
-Adoption uses the existing cookie/storage-value permission gate and site-data audit log. The destination must pass Nova's same-site check; unrelated hosts are refused. Adopted values are sent but withheld from the preview, which records header names and provenance. Caller-supplied headers are not silently overwritten; missing storage keys are errors. Storage-to-header mapping is explicit and does not invent a token's header name or authentication prefix.
+Adoption uses the existing [cookie/storage-value permission gate and site-data audit log](../../site-data-management/permissions-and-audit/README.md). The destination must pass Nova's same-site check; unrelated hosts are refused. Adopted values are sent but withheld from the preview, which records header names and provenance. Caller-supplied headers are not silently overwritten; missing storage keys are errors. Storage-to-header mapping is explicit and does not invent a token's header name or authentication prefix.
 
 Example preparation with a test tab's applicable cookies:
 

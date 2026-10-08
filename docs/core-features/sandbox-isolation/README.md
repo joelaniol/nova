@@ -97,7 +97,7 @@ Deletion markers prevent intentional deletions from being restored by accident. 
 
 ## Related Documentation
 
-* **[Site Data & Privacy Management](../site-data-management/README.md)** — Cookies, storage and cache clearing.
+* **[Site Data Management](../site-data-management/README.md)** — Cookies, storage and cache clearing.
 * **[Proxy Routing](../network/proxy/README.md)** — Proxy profiles and WebRTC leak protection.
 * **[Fingerprint Protection & Browser Identity](../privacy/fingerprint-and-identity/README.md)** — Fingerprint protection levels and browser identity presets.
 

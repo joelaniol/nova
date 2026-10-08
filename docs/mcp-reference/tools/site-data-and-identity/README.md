@@ -2,7 +2,7 @@
 
 Cookie jars, localStorage/sessionStorage, cache purging, browser fingerprint spoofing, and sandbox isolation.
 
-* **Core Architecture Guide:** [Core Features: sandbox-isolation.md](../../../core-features/sandbox-isolation/README.md)
+* **Core Feature Guides:** [Site Data Management](../../../core-features/site-data-management/README.md) · [Sandbox Isolation](../../../core-features/sandbox-isolation/README.md) · [Fingerprint & Identity](../../../core-features/privacy/fingerprint-and-identity/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

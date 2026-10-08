@@ -8,7 +8,7 @@ Sets a key-value pair in localStorage or sessionStorage for the target page.
 
 `nova.storage_set` writes data into `localStorage` or `sessionStorage` on the target page's origin.
 
-* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation/README.md)
+* **Core Feature Guide:** [Web Storage](../../../core-features/site-data-management/web-storage/README.md)
 
 ---
 

@@ -8,7 +8,7 @@ Lists cookies for the target tab's profile with metadata (domain, path, flags, e
 
 `nova.cookie_list` inspects the cookie jar belonging to the target tab's sandbox profile. By default, it returns metadata only (names, domains, paths, expiration timestamps, Secure/HttpOnly/SameSite flags) with plaintext values redacted to prevent token leakage.
 
-* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation/README.md)
+* **Core Feature Guide:** [Cookies](../../../core-features/site-data-management/cookies/README.md)
 
 ---
 

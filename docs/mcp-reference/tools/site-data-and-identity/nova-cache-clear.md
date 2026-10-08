@@ -8,7 +8,7 @@ Clears selected browsing data (cache, cookies, storage, service workers, or hist
 
 `nova.cache_clear` performs a comprehensive purge of browser data for the target sandbox profile. As a high-impact destructive tool, it requires explicit confirmation or user intent.
 
-* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation/README.md)
+* **Core Feature Guide:** [Cache & Cleanup](../../../core-features/site-data-management/cache-and-cleanup/README.md)
 
 ---
 

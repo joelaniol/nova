@@ -8,7 +8,7 @@ Sets or updates a cookie in the target sandbox profile's cookie jar.
 
 `nova.cookie_set` writes or updates a cookie for the target tab's sandbox container. Cookies are identified by the unique tuple `{name, domain, path}`.
 
-* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation/README.md)
+* **Core Feature Guide:** [Cookies](../../../core-features/site-data-management/cookies/README.md)
 
 ---
 

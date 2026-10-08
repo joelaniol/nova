@@ -49,7 +49,7 @@ The [alpha status page](../../ALPHA.md) lists current limitations, including plu
 | Page | What it covers | Main MCP tools |
 | :--- | :--- | :--- |
 | [Multi-Sandbox Session Isolation](sandbox-isolation/README.md) | Separate profiles with their own logins | `nova.sandbox_context`, `nova.resolve_sandbox`, `nova.sandbox_create` |
-| [Site Data & Privacy Management (Cookies, Storage, Cache)](site-data-management/README.md) | Cookies, storage and cache | `nova.cookie_list`, `nova.cookie_set`, `nova.storage_inspect`, `nova.cache_clear` |
+| [Site Data Management](site-data-management/README.md) | Cookies, Web Storage, cache cleanup, Cookie Inspector and agent permissions | `nova.cookie_list`, `nova.cookie_set`, `nova.storage_inspect`, `nova.cache_clear` |
 | [Network](network/README.md) | Shared proxy, tab-scoped interception, replay and SSL/TLS diagnostics | `nova.proxy_switch`, `nova.proxy_status`, `nova.network_intercept_*`, `nova.tls_inspect` |
 | [Privacy](privacy/README.md) | Fingerprint protection, browser identity, vault and secret delivery | `nova.fingerprint_*`, `nova.identity_*`, `nova.emulation_*`, `nova.vault_*`, `nova.secret_*`, `nova.type_selector_secret` |
 | [Session Recording & Time-Travel Debugging](session-recording/README.md) | Recording a run to see later what happened | `nova.session_record_start`, `nova.session_record_query`, `nova.session_record_export` |
