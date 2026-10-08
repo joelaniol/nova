@@ -1,17 +1,17 @@
 # Scoping, Host Normalization & Re-Acknowledgment Policies
 
 > [!NOTE]
-> This guide details the scoping and lifecycle mechanics of Domain Notes: canonical host normalization, eTLD+1 fallback vs subdomain isolation, sandbox binding via Persistent UIDs, the heuristic scope advisor, and re-acknowledgment intervals.
+> This guide details the scoping, resolution, and lifecycle mechanics of Domain Notes in Nova AI Workspace: canonical host normalization, eTLD+1 fallback resolution, the curated Multi-Tenant Suffix Lexicon, sandbox binding with the Stale-Letter Defense Protocol, the heuristic Scope Advisor Engine, and dual-trigger re-acknowledgment policies.
 
 ---
 
 ## 1. Canonical Host Normalization
 
-Websites present varying URL notations depending on DNS configuration, localization, and port bindings. To prevent duplicate records and ensure reliable matching, Nova applies deterministic normalization:
+Web applications and agents present host addresses in diverse notations: fully-qualified URLs, protocol-relative hosts, uppercase hostnames, development ports, and internationalized scripts. To ensure that an instruction created for `vxlive.net` reliably intercepts an agent browsing `https://www.vxlive.net:8443/app`, Nova processes all domain keys through a canonical normalization pipeline:
 
 ```mermaid
 flowchart LR
-    RawInput["Raw Domain Input<br/>(e.g. 'https://www.München.de:8443/portal')"]
+    RawInput["Raw Domain Input<br/>('https://www.München.de:8443/portal')"]
     StripProtocol["Strip Scheme & Path<br/>'www.München.de:8443'"]
     StripPort["Drop :port Suffix<br/>'www.München.de'"]
     LowerTrim["Lowercase & Trim<br/>'www.münchen.de'"]
@@ -21,112 +21,313 @@ flowchart LR
     RawInput --> StripProtocol --> StripPort --> LowerTrim --> StripWww --> Punycode
 ```
 
-### Normalization Rules
-1. **Leading `www.` Stripping:** Domains are stripped of a leading `www.` prefix (`www.github.com` $\rightarrow$ `github.com`). A note created for `github.com` matches `www.github.com` identically.
-2. **Port Number Removal:** Suffixes like `:8080` or `:3000` are stripped. WebView2 URL events never report ports in `Uri.Host`, so stripping ports guarantees local development hosts (e.g. `localhost:3000`) match their notes.
-3. **Punycode / ASCII Translation:** Internationalized domain names (IDNs) containing Unicode glyphs (e.g. German umlauts or accented characters) are converted to canonical ASCII wire form (`xn--...`), ensuring lookups from the browser engine match agent inputs.
-4. **Bracketed IPv6 Preservation:** Literal IPv6 addresses with ports (`[::1]:8080`) drop the port while preserving brackets (`[::1]`).
+### Normalization Pipeline Rules
+
+1. **Case-Insensitive Trimming:** Leading and trailing whitespace is stripped, and the string is cast to lowercase invariant.
+2. **Leading `www.` Stripping:** If the hostname begins with `www.` and exceeds 4 characters, the prefix is removed (`www.vxlive.net` $\rightarrow$ `vxlive.net`). This aligns agent mental models with real browser routing, where hosts frequently redirect between `www.` and root apexes.
+3. **Port Suffix Stripping:** Suffixes matching `:port` (e.g. `:8080`, `:3000`) are removed. WebView2 page events report `Uri.Host`, which never contains ports. Stripping ports ensures that development servers (`localhost:8791`) match their notes without requiring separate entries per port.
+4. **Bracketed IPv6 Preservation:** Literal IPv6 addresses with port bindings (`[::1]:8080`) drop the port while preserving the bracketed host notation (`[::1]`). Bare IPv6 addresses (`::1`) containing multiple colons remain untouched.
+5. **Punycode / ASCII Wire Form Translation:** Hostnames containing internationalized Unicode glyphs (such as German umlauts or non-Latin alphabets) are translated to canonical Punycode (`xn--...`). Because WebView2 internally reports IDNs in ASCII wire form, converting agent inputs to Punycode guarantees exact-match parity across the persistence store and live browser tabs.
 
 ---
 
-## 2. Subdomain Isolation vs. Parent Domain Fallback
+## 2. Subdomain Fallback & The Multi-Tenant Lexicon
 
-Modern web services frequently distribute workflows across subdomains (e.g. `admin.shopify.com`, `checkout.shopify.com`, `help.shopify.com`).
+Modern web architectures split services across complex subdomain trees (e.g. `assets.vxlive.net`, `api.checkout.service.co.uk`). Nova balances broad operational guidance with surgical enforcement through a two-level resolution model.
 
 ```mermaid
 flowchart TD
-    Visit["Agent Navigates to app.internal.acme.com"]
-    ExactLookup["Check Exact Host Notes<br/>(app.internal.acme.com)"]
-    HasExact{"Exact Notes Found?"}
+    Visit["Agent Dispatches Tool Call on Host<br/>(e.g. 'app.staging.example.co.uk')"]
+    ExactLookup{"Exact Normalized Host Match?"}
     
-    ApplyExact["Apply Exact Notes<br/>(Can enforce MUST-read Block)"]
-    FallbackLookup["Compute eTLD+1 Registrable Domain<br/>(acme.com)"]
-    MultiTenant{"Is Suffix Multi-Tenant?<br/>(e.g. github.io)"}
-    BlockMulti["Do Not Fall Back<br/>(Isolate independent sites)"]
-    ApplyParentHints["Surface Parent Notes as<br/>Inspection HINTS ONLY"]
-
-    Visit --> ExactLookup --> HasExact
-    HasExact -- Yes --> ApplyExact
-    HasExact -- No --> FallbackLookup --> MultiTenant
-    MultiTenant -- Yes --> BlockMulti
-    MultiTenant -- No --> ApplyParentHints
+    ExactEnforce["Apply Exact Host Note<br/>(Can enforce Hint, Warn, or MUST-read Block)"]
+    FallbackLookup["Compute Registrable Domain eTLD+1<br/>('example.co.uk')"]
+    LexiconCheck{"Is Registrable Domain in<br/>Multi-Tenant Lexicon?"}
+    
+    BlockFallback["Disable Parent Fallback<br/>(Isolate Independent Tenants)"]
+    AllowHint["Surface Parent Notes as<br/>Inspection HINTS ONLY (Level 0)"]
+    
+    Visit --> ExactLookup
+    ExactLookup -- Yes --> ExactEnforce
+    ExactLookup -- No --> FallbackLookup --> LexiconCheck
+    LexiconCheck -- Yes (e.g. github.io) --> BlockFallback
+    LexiconCheck -- No --> AllowHint
 ```
 
 ### The Subdomain Isolation Invariant
+
 > [!IMPORTANT]
-> **Parent domain notes NEVER block child subdomains.**
-> A note created for `acme.com` with `Block` enforcement will **not** halt tool calls on `portal.acme.com`. MUST-read enforcement requires an exact host match.
-
-Parent domain notes are provided solely as **inspection hints** during `nova.perceive` or `nova.domain_notes_list`. If a specific operational directive must be strictly enforced on a subdomain, an explicit note must be authored for that exact subdomain.
-
-### Multi-Tenant Suffix Protection
-To safeguard shared cloud platforms, Nova maintains a strict blocklist of multi-tenant root domains (such as `github.io`, `vercel.app`, `webflow.io`). On these domains, parent fallback is completely disabled, preventing `user1.github.io` from inheriting instructions authored for `user2.github.io`.
+> **Parent domain notes NEVER enforce MUST-read blocks on subdomains.**
+> A note created for `acme.com` with `Block` enforcement will **never halt execution** on `portal.acme.com`. 
+> 
+> Parent domain notes are surfaced **exclusively as non-blocking inspection hints** during page perception (`nova.perceive`). If an operational constraint must block tool execution on a specific subdomain, an explicit note must be registered directly for that exact subdomain.
 
 ---
 
-## 3. Sandbox Scoping & Identity Isolation
+### Registrable Domain (eTLD+1) Resolution
 
-Nova allows users to isolate browser sessions into distinct profiles called **Sandboxes** (e.g. Sandbox A for Personal, Sandbox B for Work). Domain Notes reflect this architecture through dual-scoping:
+To determine the parent domain fallback, Nova calculates the effective top-level domain plus one label (eTLD+1). Standard two-label calculations fail on country-code TLDs: for example, naive splitting of `shop.example.co.uk` would yield `co.uk`, which is a public registry suffix rather than a registrable domain.
 
-| Scope | `sandboxUid` | Description |
-| :--- | :--- | :--- |
-| **Global** | `null` | Applies across all sandboxes on this machine. Ideal for site-wide UI notes, bug workarounds, and structural tips. |
-| **Sandbox-Bound** | `persistentUid` | Bound to a specific sandbox profile via its immutable UUID (not its ephemeral letter handle). Visible only within that sandbox. |
+Nova integrates a curated catalog of two-part country-code TLDs:
 
-### The Coexistence Invariant
-A global note and a sandbox-specific note can share the same `(domain, key)` pair without colliding. When querying notes on an active tab, Nova combines global notes with the notes of the active sandbox, while notes belonging to other sandboxes remain strictly hidden.
-
-### The Domain Note Scope Advisor
-Because global notes are the default when agents call `nova.domain_note`, models frequently save account-specific data globally. Nova integrates a passive heuristic analyzer:
-
-* **Trigger Signals:** Scans note content for account/session indicators:
-  * Plan tiers: `"pro account"`, `"free tier"`, `"enterprise"`, `"subscription"`
-  * Session states: `"logged in as"`, `"signed in"`, `"my account"`
-  * Quotas & limits: `"rate limit"`, `"workspace"`, `"quota"`
-  * Identity tokens: Email addresses (`user@domain.com`)
-* **Advisory Diagnostic:** If an agent saves a global note tripping these signals, Nova returns a non-blocking advisory notice:
-  ```json
-  {
-    "code": "identity_signal_global_note",
-    "message": "This note reads as account-/identity-bound but was saved globally. If the information is specific to one login, re-write it with sandboxId + sandboxRef."
-  }
-  ```
+| Geographic Region | Curated Two-Part TLD Examples | Host Example | Calculated Registrable Domain (eTLD+1) |
+| :--- | :--- | :--- | :--- |
+| **United Kingdom** | `co.uk`, `org.uk`, `ac.uk`, `gov.uk`, `ltd.uk` | `portal.service.co.uk` | `service.co.uk` |
+| **Australia & New Zealand** | `com.au`, `net.au`, `edu.au`, `co.nz`, `org.nz` | `cdn.store.com.au` | `store.com.au` |
+| **Latin America** | `com.br`, `net.br`, `com.co`, `com.pe`, `com.mx` | `api.pagos.com.br` | `pagos.com.br` |
+| **Asia & Middle East** | `co.jp`, `or.jp`, `co.kr`, `co.in`, `com.sg`, `co.ae` | `auth.console.co.jp` | `console.co.jp` |
+| **Europe & Africa** | `com.tr`, `com.pl`, `co.za`, `com.ng`, `com.ua` | `dev.app.co.za` | `app.co.za` |
 
 ---
 
-## 4. Re-Acknowledgment (Repeat) Policies
+### Multi-Tenant Suffix Defense
 
-In extended autonomous sessions, models experience context drift: early prompt tokens are pushed out of immediate attention, increasing the probability of violating initial site directives.
+Public cloud platforms and software-as-a-service providers host millions of mutually untrusted customer workspaces under shared parent domains. If an agent navigating `customerA.github.io` fell back to notes stored on `github.io`, operational instructions or credentials belonging to customer B could be improperly leaked or applied.
 
-To maintain active awareness, Nova provides configurable **Re-Acknowledgment Intervals** for `Block` notes:
+To eliminate cross-tenant contamination, Nova's Multi-Tenant Suffix Lexicon completely disables parent fallback across four major service categories:
 
 ```mermaid
-flowchart LR
-    Ack["Agent Acknowledges Note on Tab"]
-    Timer["Track Minutes Elapsed<br/>(RepeatAcknowledgeMinutes)"]
-    Counter["Track Tool Calls Dispatched<br/>(RepeatAcknowledgeToolCalls)"]
-    
-    Check{"Whichever threshold fires first"}
-    ReArm["Re-Arm Acknowledge Gate<br/>(Next call raises Acknowledge-Block)"]
-
-    Ack --> Timer & Counter --> Check --> ReArm
+mindmap
+  root((Multi-Tenant<br/>Suffix Lexicon))
+    Code & Static Hosting
+      github.io
+      gitlab.io
+      pages.dev
+      sourcehut.io
+      codeberg.page
+    Cloud & Serverless
+      vercel.app
+      netlify.app
+      azurewebsites.net
+      cloudfront.net
+      supabase.co
+      fly.dev
+      workers.dev
+    SaaS & Workspace Tenancy
+      slack.com
+      atlassian.net
+      notion.site
+      zendesk.com
+      monday.com
+      ngrok.io
+    CMS & Site Builders
+      myshopify.com
+      webflow.io
+      squarespace.com
+      wixsite.com
+      wordpress.com
+      ghost.io
 ```
 
+| Category | High-Value Suffixes | Isolation Rationale |
+| :--- | :--- | :--- |
+| **Code & Static Hosting** | `github.io`, `github.app`, `pages.dev`, `gitlab.io`, `codeberg.page` | Each subdomain represents an independent developer repository or documentation site. |
+| **Cloud & Serverless** | `vercel.app`, `netlify.app`, `fly.dev`, `workers.dev`, `supabase.co`, `azurewebsites.net`, `appspot.com`, `firebaseapp.com` | Microservices and web apps deployed by disparate organizations share the cloud platform suffix. |
+| **CMS & Publishing** | `wordpress.com`, `blogspot.com`, `ghost.io`, `substack.com`, `gitbook.io`, `readthedocs.io` | Independent publications, editorial teams, and authors. |
+| **SaaS & Tenant Workspaces** | `slack.com`, `atlassian.net`, `notion.site`, `zendesk.com`, `monday.com`, `ngrok.io` | Corporate tenant workspaces containing sensitive enterprise knowledge and permissions. |
+| **E-Commerce & Site Builders** | `myshopify.com`, `webflow.io`, `squarespace.com`, `square.site`, `wixsite.com`, `framer.app` | Competing merchant storefronts with distinct billing, checkout, and inventory rules. |
+
+---
+
+## 3. Sandbox Scoping & The Stale-Letter Defense Protocol
+
+Nova isolates browser environments into independent profiles called **Sandboxes** (e.g. Sandbox A for Personal, Sandbox B for Staging). Domain Notes reflect this architecture by supporting both global and sandbox-specific bindings:
+
+| Scope | `sandboxUid` | Behavioral Semantics |
+| :--- | :--- | :--- |
+| **Global** | `null` | Applies across all sandboxes on this machine. Ideal for site layout quirks, iframe navigation tips, and public documentation notes. |
+| **Sandbox-Bound** | `32-char hex UUID` | Bound to a specific sandbox profile via its immutable Persistent UID. Visible only to tabs running within that sandbox. |
+
+---
+
+### The Note Coexistence Invariant
+
+A global note and a sandbox-scoped note can share the identical `(domain, key)` pair simultaneously.
+* **Tuple Identity:** Unique note identity is defined by the 3-tuple `(domain, key, sandboxUid)`.
+* **Non-Interference:** Updating or deleting a sandbox-specific note will not overwrite, alter, or remove the global note of the same name.
+* **Context Resolution:** When resolving notes for a tab, Nova retrieves all global notes plus any notes bound to that tab's active sandbox. Notes bound to other sandboxes remain strictly invisible.
+
+---
+
+### The Stale-Letter Defense Protocol (`sandboxId` + `sandboxRef`)
+
+When agents interact with sandboxes via MCP tools, sandboxes are identified by friendly, ephemeral letter handles (e.g. `"A"`, `"B"`). However, users can delete Sandbox A and create a brand-new Sandbox A during a long-running agent session.
+
+If an agent cached letter `"A"` and subsequently attempted to store sensitive domain notes, those notes would attach to the new sandbox, causing identity confusion. To prevent this race condition, Nova enforces the **Stale-Letter Defense Protocol**:
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Agent as Autonomous Agent
+    participant Handler as McpDomainNotesHandler
+    participant Settings as AppSettings Sandbox Registry
+
+    Note over Agent: Discovers Sandbox "A" with Persistent UID "9f8a...12"
+    Agent->>Handler: nova.domain_note(domain="api.com", key="token", value="xyz", sandboxId="A", sandboxRef="9f8a...12")
+    
+    Handler->>Settings: Resolve current Persistent UID for letter "A"
+    
+    alt Happy Path: UID Matches
+        Settings-->>Handler: Returns "9f8a...12"
+        Handler->>Handler: Persist note with SandboxUid = "9f8a...12"
+        Handler-->>Agent: Success Result (echoes sandboxRef)
+    else Failure Mode 1: sandboxRef Missing
+        Handler-->>Agent: Error -32602: sandbox_ref_required
+    else Failure Mode 2: Unknown Sandbox
+        Settings-->>Handler: Letter "A" not found
+        Handler-->>Agent: Error -32602: unknown_sandbox
+    else Failure Mode 3: Stale Letter Reference
+        Settings-->>Handler: Returns "3c1b...88" (Sandbox was replaced!)
+        Handler-->>Agent: Error -32602: stale_sandbox_reference (Re-fetch required)
+    end
+```
+
+### The Three Validation Invariants (-32602)
+
+1. **`sandbox_ref_required`:** If `sandboxId` is provided, `sandboxRef` is mandatory. Agents cannot write sandbox-scoped notes using bare letter handles.
+2. **`unknown_sandbox`:** The supplied `sandboxId` does not correspond to any active sandbox profile.
+3. **`stale_sandbox_reference`:** The Persistent UID resolved for `sandboxId` does not match the supplied `sandboxRef`. The user has replaced or recreated the sandbox since the agent last queried `nova.tabs`. The write is rejected, requiring the agent to rediscover active tabs.
+
+---
+
+### Retrieval Scopes (`nova.domain_notes_list`)
+
+When inspecting domain notes, agents can select from four retrieval scopes:
+
+| Scope | Wire Parameter | Filter Behavior |
+| :--- | :--- | :--- |
+| **`current_sandbox` (Default)** | `"current_sandbox"` | Returns global notes (`sandboxUid == null`) plus notes bound to the active tab's sandbox. Fails closed to global notes if no active tab context exists. |
+| **`global`** | `"global"` | Returns strictly global notes, filtering out all sandbox-specific entries. |
+| **`all`** | `"all"` | Administrative overview returning all notes for the domain across all sandboxes. |
+| **`orphaned`** | `"orphaned"` | Maintenance view returning notes whose `sandboxUid` references a sandbox that was previously deleted. |
+
+---
+
+## 4. The Heuristic Scope Advisor Engine
+
+Because `sandboxId` is optional, autonomous agents tend to save all domain notes globally by default. If an agent records *„Logged in as test-admin on the Pro tier“* as a global note, other sandboxes operating on free or read-only tiers inherit that incorrect assumption.
+
+Nova integrates a passive, zero-overhead heuristic analyzer that inspects note keys and bodies during upsert operations:
+
+```mermaid
+flowchart TD
+    WriteCall["nova.domain_note(key, value) Dispatched"]
+    IsGlobal{"Is Note Global?<br/>(sandboxId is null)"}
+    
+    SkipAdvisor["Skip Advisor Check<br/>(Already Sandbox-Bound)"]
+    InspectText["Scan (key + '\n' + value) for<br/>Identity & Session Signals"]
+    
+    SignalFound{"Identity Signals<br/>Detected?"}
+    CleanWrite["Complete Write Silently"]
+    AttachAdvisory["Complete Write & Attach<br/>Structured scopeAdvisory"]
+
+    WriteCall --> IsGlobal
+    IsGlobal -- No --> SkipAdvisor
+    IsGlobal -- Yes --> InspectText --> SignalFound
+    SignalFound -- No --> CleanWrite
+    SignalFound -- Yes --> AttachAdvisory
+```
+
+### Curated Signal Lexicon
+
+The Scope Advisor matches high-signal terms across English and German while avoiding generic vocabulary (such as "role" or "login") that frequently collide with standard ARIA and DOM attributes:
+
+* **Account & Plan Tiers:** `"pro account"`, `"pro-account"`, `"pro plan"`, `"pro tier"`, `"premium"`, `"plus account"`, `"free tier"`, `"free plan"`, `"kostenlose version"`, `"kostenloser tarif"`, `"paid plan"`, `"subscription"`, `"abonnement"`.
+* **Login & Session State:** `"eingeloggt"`, `"angemeldet"`, `"logged in"`, `"signed in"`, `"my account"`, `"mein account"`, `"mein konto"`.
+* **Tenancy & Quotas:** `"workspace"`, `"arbeitsbereich"`, `"organization"`, `"organisation"`, `"tenant"`, `"mandant"`, `"entitlement"`, `"quota"`, `"kontingent"`, `"rate limit"`, `"rate-limit"`, `"ratenlimit"`.
+* **Credentials & Persona:** `"credentials"`, `"zugangsdaten"`, `"anmeldedaten"`, `"persona"`.
+* **Email Address Detection:** Validates email-like patterns using a dedicated regex with a strict 100 ms timeout to protect against regular expression denial-of-service (ReDoS).
+
+### Advisory Structured Response
+
+The Scope Advisor is purely advisory—it **never rejects or blocks** a write. If identity signals are detected in a global note, the tool response returns a structured advisory:
+
+```json
+{
+  "content": [{ "type": "text", "text": "Domain note created: portal.acme.com/auth_state" }],
+  "structuredContent": {
+    "action": "created",
+    "domain": "portal.acme.com",
+    "key": "auth_state",
+    "sandboxRef": null,
+    "scopeAdvisory": {
+      "reasonCode": "identity_signal_global_note",
+      "message": "This note reads as account-/identity-bound but was saved globally, so every sandbox on this domain will inherit it. If the information is specific to one account/login/plan, re-write it with sandboxId + sandboxRef (from nova.tabs / nova.sandbox_context) so other sandboxes do not see it. If it is genuinely site-wide, ignore this hint.",
+      "signals": ["logged in", "pro plan", "email-address"]
+    }
+  }
+}
+```
+
+---
+
+## 5. Re-Acknowledgment (Repeat) Policies
+
+In long-running autonomous workflows, models experience context drift: early instructions are pushed far up the context window or compressed during context summarization.
+
+To guarantee that safety-critical instructions remain active in the model's immediate reasoning window, Nova equips `Block`-level notes with dual-trigger **Re-Acknowledgment Policies**:
+
+```mermaid
+stateDiagram-v2
+    [*] --> Unacknowledged: Note Loaded
+    Unacknowledged --> Acknowledged: Initial Acknowledge (Retry or nova.domain_note_ack)
+    
+    state Acknowledged {
+        [*] --> Tracking
+        Tracking --> Expired: Minutes Elapsed >= repeatMinutes
+        Tracking --> Expired: Tool Calls Dispatched > repeatToolCalls
+        Tracking --> Expired: Note Edited (UpdatedUtc Bumped)
+    }
+
+    Expired --> ReArmed: Cache Entry Purged
+    ReArmed --> Unacknowledged: Next Tool Call Halts with acknowledge_required
+```
+
+### Dual Independent Triggers
+
+Re-acknowledgment intervals are defined along two orthogonal axes:
+1. **Wall-Clock Time (`repeatMinutes`):** Re-arms the gate once the specified number of minutes has elapsed since acknowledgment.
+2. **Interaction Volume (`repeatToolCalls`):** Re-arms the gate once the specified number of tool calls has been executed against the tab since acknowledgment.
+
+> [!NOTE]
+> **Whichever Threshold Fires First Wins:** If a note specifies `repeatMinutes = 30` and `repeatToolCalls = 20`, the gate re-arms as soon as either 30 minutes pass OR 20 tool calls occur.
+
+---
+
 ### Configuration Hierarchy
-1. **Global Defaults:** Managed under **Settings → AI & agents → Access & rules → Site notes**:
-   * `SiteNoteRepeatAcknowledgeMinutesDefault` (e.g. 60 minutes)
-   * `SiteNoteRepeatAcknowledgeToolCallsDefault` (e.g. 50 tool calls)
-2. **Per-Note Overrides:** Authors can configure custom thresholds on individual notes (`repeatMinutes`, `repeatToolCalls`):
-   * Setting a value to `0` explicitly disables repeat delivery for that metric (one-shot per tab).
-   * Setting positive integers defines custom intervals.
-3. **Tab Lifecycle Boundary:** Closing a browser tab always purges its in-memory acknowledgment cache. Opening a new tab to the same domain immediately re-arms the acknowledge gate.
-4. **Note Edit Invalidation:** If a user or agent updates a note's content or enforcement level, its acknowledgment state is instantly invalidated across all open tabs.
+
+```mermaid
+flowchart TD
+    GlobalSettings["Global AppSettings Defaults<br/>(SiteNoteRepeatAcknowledgeMinutesDefault)<br/>(SiteNoteRepeatAcknowledgeToolCallsDefault)"]
+    PerNoteSettings["Per-Note Properties<br/>(repeatMinutes, repeatToolCalls)"]
+    
+    Eval{"Per-Note Value Specified?"}
+    NullVal["null (Omitted)"]
+    ZeroVal["0 (Explicit Zero)"]
+    PosVal["> 0 (Positive Integer)"]
+
+    GlobalSettings --> Eval
+    PerNoteSettings --> Eval
+    Eval --> NullVal --> Inherit["Inherit Global Default"]
+    Eval --> ZeroVal --> OneShot["One-Shot per Tab (Never Repeat)"]
+    Eval --> PosVal --> Custom["Apply Custom Re-Ack Interval"]
+```
+
+* **`null` (Omitted):** Inherits the global system default configured under **Settings → AI & agents → Access & rules → Site notes**.
+* **`0` (Explicit Zero):** Disables repeat re-acknowledgment entirely for that metric (remains acknowledged for the entire lifetime of the browser tab).
+* **Positive Integer ($> 0$):** Enforces the exact metric threshold.
+
+### Automatic Invalidation Hooks
+
+In addition to timer and call-count expirations, acknowledgment state is invalidated by two automatic lifecycle events:
+1. **Note Edit Invalidation:** If a user or agent updates a note's text, enforcement level, or scope, its `UpdatedUtc` timestamp is updated. On the next tool call, the gate compares `UpdatedUtc` against `NoteUpdatedUtcAtAcknowledge`, immediately invalidating the cache and presenting the updated instruction to the agent.
+2. **Tab Lifecycle Boundary:** The acknowledgment cache is held strictly in memory per browser target (`targetId`). Closing a tab destroys its cache; navigating to the site in a newly opened tab requires a fresh acknowledgment.
 
 ---
 
 ## Related Documentation
 
-* **[Domain Notes Overview](README.md)** — Architectural hub, taxonomy, and system integrations.
-* **[Delivery Levels & AAG Enforcement](delivery-levels-and-aag-enforcement.md)** — Three delivery levels, dual-path ack, and bulk-acknowledgment.
-* **[Authorship, Permissions & Storage](authorship-permissions-and-storage.md)** — User vs agent authorship, override permission overlays, and disk persistence.
-* **[Sandboxes & Profiles Guide](../../../user-guide/identity-and-security/sandboxes-and-profiles.md)** — Profile boundaries, persistent UIDs, and disk separation.
+* **[Domain Notes Overview](README.md)** — Architectural hub, knowledge taxonomy, and tool suite.
+* **[Delivery Levels & AAG Enforcement](delivery-levels-and-aag-enforcement.md)** — Three delivery tiers, dual-mode ack protocol, and bulk-acknowledgment.
+* **[Authorship, Permissions & Storage](authorship-permissions-and-storage.md)** — User vs agent authorship, override permission overlays, and atomic persistence.
+* **[Sandboxes & Profiles Guide](../../../user-guide/identity-and-security/sandboxes-and-profiles.md)** — Sandbox boundaries, persistent UIDs, and filesystem separation.
