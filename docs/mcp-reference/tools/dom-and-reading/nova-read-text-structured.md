@@ -34,6 +34,23 @@ When auditing a specific component (e.g. a product card or conversation feed):
 ### C. Character Limits per Region (`maxCharsPerRegion`)
 Enforces predictable payload bounds (default `10,000` characters per region). Long regions are safely truncated with truncation indicators, preventing unexpected token exhaustion in the LLM context.
 
+### D. Conversation Snapshot (`mode="conversation"`)
+Read a chat, message log or comment surface as messages in DOM order. When the page does not
+declare usable message boundaries, provide `messageSelector` and optional relative text,
+author and timestamp selectors. Unknown roles/authors remain unknown. This reads the rendered
+window only: `coverage.historyComplete` is `null`, and the result does not establish send
+delivery or reply completion. It never scrolls or sends. Overlapping/nested message boundaries
+return an explicit ambiguous outcome; use non-overlapping message elements instead.
+
+`maxMessages` and `maxChars` limit output; `maxCharsPerRegion` also limits each message text.
+Existing landmark calls keep their default behavior. In conversation mode, `selector` must
+identify exactly one scope; failed selection never falls back to unrelated page text.
+
+Text uses the browser's `innerText` layout projection, rather than pixel visibility: transparent
+descendants can still contribute text. `maxChars` bounds variable text and metadata values;
+JSON structure adds overhead. If lists within a message create overlapping boundaries, supply
+a more precise `messageSelector`.
+
 ---
 
 ## 3. Parameter Reference
@@ -57,6 +74,19 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 ```json
 {
   "maxCharsPerRegion": 5000
+}
+```
+
+### Read a Conversation with Explicit Message Boundaries
+```json
+{
+  "mode": "conversation",
+  "selector": "#conversation",
+  "messageSelector": ".message",
+  "textSelector": ".message-body",
+  "authorSelector": ".author",
+  "maxMessages": 50,
+  "maxChars": 50000
 }
 ```
 

@@ -114,6 +114,12 @@ Nova does not send your AI conversations to nova-cognitive.com or any other Nova
 
 Nova's local MCP server runs on localhost only by default. When enabled, it allows MCP-compatible tools on your machine to interact with Nova. This is a local communication channel — no data is sent to external servers through the MCP server unless you explicitly configure remote access.
 
+On an agent's request, `read_text_structured` can return rendered page text as structured
+messages, including declared roles, author labels and timestamps where available. The result
+goes to the connected agent. If that agent uses a cloud service, it can transmit these contents
+to its provider even when the MCP connection itself is local. This reading mode does not create
+a separate conversation archive or load older messages automatically.
+
 ### Recorded Network Traffic
 
 Nova can record the requests a page makes, including headers and bodies, and an agent can replay or
@@ -275,6 +281,12 @@ Nova sendet deine KI-Konversationen nicht an nova-cognitive.com oder andere Nova
 ### MCP-Server
 
 Novas lokaler MCP-Server läuft standardmäßig nur auf localhost. Wenn aktiviert, ermöglicht er MCP-kompatiblen Werkzeugen auf deinem Rechner die Interaktion mit Nova. Dies ist ein lokaler Kommunikationskanal — es werden keine Daten über den MCP-Server an externe Server gesendet, es sei denn, du konfigurierst ausdrücklich den Remote-Zugriff.
+
+Auf Anforderung eines Agenten kann `read_text_structured` gerenderten Seitentext als strukturierte
+Nachrichten zurückgeben, einschließlich deklarierter Rollen, Autorenbezeichnungen und vorhandener
+Zeitstempel. Das Ergebnis geht an den verbundenen Agenten. Nutzt dieser einen Cloud-Dienst, kann
+er diese Inhalte an seinen Anbieter übertragen, auch wenn die MCP-Verbindung selbst lokal ist.
+Dieser Lesemodus legt kein eigenes Gesprächsarchiv an und lädt ältere Nachrichten nicht automatisch.
 
 ### Aufgezeichneter Netzwerkverkehr
 
