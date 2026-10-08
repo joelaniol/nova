@@ -115,320 +115,190 @@ Deploying autonomous agents into production with strict blocking can risk workfl
 
 ---
 
-## 4. Comprehensive Gate Catalog
+## 4. Reaction Taxonomy: Hard-Stop vs. Block vs. Annotation
 
-Nova AI Workspace implements an extensive array of awareness gates across multiple functional clusters:
+AAG employs a nuanced spectrum of reactions depending on whether a violation poses an immediate operational hazard, represents a recoverable missing step, requires user input, or serves as continuous contextual guidance:
 
 ```mermaid
-mindmap
-  root((AAG Gate Catalog))
-    Global Stop Gates
-      safety.emergency_stop
-      safety.disk_space_low
-    Discovery & Setup
-      setup.bootstrap_required
-      learn.onboarding_required
-      learn.onboarding_reminder
-    Observation & Freshness
-      safety.perceive_first
-      safety.tab_awareness
-      safety.renderer_stalled
-      safety.native_dialog
-    Identity & Context
-      safety.sandbox_ambiguity
-      claim.reclaim_notification
-      proxy.credentials_awareness
-    Domain & User Directives
-      user.site_note
-      user.interrupted
-    Single Page App Safety
-      pks.spa_navigation_block
-      safety.session_destruction
-    Knowledge & Learning
-      pks.learning_violation
-      pks.semantic_learning
-      aag.reflection_reminder
-      goal.pks_checkpoint
-    Interaction & Surface Safety
-      safety.overlay_detected
-      safety.guarded_commit_preview
-      aag.screenshot_budget
-      safety.backup_integrity
-    Task & Coverage Guidance
-      etm.task_discovery_recommended
-      etm.coverage_scan_recommended
-      etm.active_instance_context
+flowchart TD
+    Violation["AAG Evaluates Call"] --> Classify{"Severity & Hazard Class"}
+
+    Classify -- "1. Critical Host Hazard" --> HardStop["Unconditional Hard Stop\n(safety.emergency_stop, safety.disk_space_low)\nReturns isError:true. No tool bypass."]
+    Classify -- "2. Recoverable Missing Step" --> PrecondBlock["Precondition Block\n(bootstrap_required, perceive_first, site_note)\nReturns isError:true + resolution hint."]
+    Classify -- "3. High-Impact Action" --> ConfirmBlock["Confirmation / Force Bypass\n(spa_navigation_block, session_destruction)\nRequires force=true or confirmSessionDestruction=true."]
+    Classify -- "4. Persistent Alarm" --> PermAnnot["Permanent Response Annotation\n(safety.backup_integrity)\nRides on EVERY response until acknowledged."]
+    Classify -- "5. Situational Context" --> TransientAnnot["Contextual Nudge & Advisory\n(tab_awareness, sequential_tool_calls, pksAdvice)\nInjected into structuredContent._aagGates."]
+    Classify -- "6. Out-of-DOM Modal" --> DialogBlock["Host Native Dialog Block\n(openNativeDialog)\nBlocks browser tools; lists nextActions resolvers."]
 ```
 
-### 4.1 Global Stop Gates
+### 4.1 Comprehensive Reaction Matrix
 
-#### `safety.emergency_stop`
-* **Trigger:** Engaged instantly when the user clicks **Emergency Stop** in Nova's main menu, or when a linked cancellation barrier triggers.
-* **Scope:** All non-handshake MCP methods (`tools/list`, `tools/call`, `resources/read`). Pure handshake calls (`initialize`, `ping`) pass through to keep transports alive.
-* **Behavior:** Fails closed unconditionally. Aborts running operations via linked `CancellationToken` and rejects any new tool calls.
-* **Resolution:** The user must manually select **Release Emergency Stop** in Nova's main menu. No agent tool call can release this barrier.
-
-#### `safety.disk_space_low`
-* **Trigger:** Evaluated via `DriveInfo` across storage candidate paths: `StoragePaths.BaseDir`, `AppContext.BaseDirectory`, `McpScreenshotsDir`, `SharedDir`, `TaskWorkspaceDir`, and configured `DownloadDirectoryPath`. Fires if available free space is $\le 500\text{ MB}$ (`DiskSafetyMinimumFreeBytes`).
-* **Behavior:** Blocks all mutating calls before disk writes corrupt SQLite WAL files, telemetry stores, or agent workspace files.
-* **Resolution:** Host operator must free disk space. Zero force bypass.
-
----
-
-### 4.2 Discovery & Setup Gates
-
-#### `setup.bootstrap_required`
-* **Trigger:** An agent invokes functional tools without first loading a primary tool bundle via `nova.tools_bundle`.
-* **Exempt Tools:** Pure discovery and setup tools:
-  ```text
-  nova.tools_bundle, nova.mcp_transport_log, nova.get_instructions,
-  nova.tabs, nova.explain, nova.app_info, nova.tab_claim, nova.tab_release,
-  nova.sandbox_context, nova.resolve_sandbox, nova.install_onboarding,
-  nova.get_onboarding, nova.reference_docs_list, nova.reference_doc_read
-  ```
-* **Warn-Only Tools:** Pure database readers (`nova.traces_list`, `nova.agent_activity_summary`, `nova.scheduled_task_list`, `nova.scheduled_task_get`, `nova.scheduled_task_runs`, etc.) emit warnings but are never hard-blocked.
-* **Clearing Action:** Load a bootstrap-capable bundle: `nova.tools_bundle(bundle='browser_automation')` or `nova.tools_bundle(bundle='plugin_management')`. Supplemental bundles (`task_memory`, `pks_learning`) do **not** clear this gate.
-* **Anti-Nagging & Token Optimization:** See [Section 6](#6-token-efficiency-deduplication--anti-nagging) for details on hash caching and the 25-call compaction safety net.
-
-#### `learn.onboarding_required`
-* **Trigger:** Session called `nova.get_instructions(mode='learn')` on a domain with pending onboarding materials, but has not yet confirmed domain instructions.
-* **Behavior:** In `Block` mode, halts execution on learn-eligible tool calls until the agent calls `nova.learn_onboarding_confirm` with a substantive paraphrase of the domain's operational guidelines.
+| Gate Identifier | Primary Reaction Class | Wire Manifestation | Resolution / Acknowledgment Mechanism | Bypass Availability |
+| :--- | :--- | :--- | :--- | :--- |
+| `safety.emergency_stop` | **Unconditional Hard Stop** | `isError: true`, `_meta["io.nova/aag"]`, human text `"NOTSTOP"` | User clicks **Release Emergency Stop** in Nova main menu | None (Host only) |
+| `safety.disk_space_low` | **Unconditional Hard Stop** | `isError: true`, `reasonCode: "storage.low_free_space"` | Operator frees disk space on host filesystem ($> 500\text{ MB}$) | None (Hard barrier) |
+| `aag.screenshot_budget` (Absolute Safety) | **Unconditional Hard Stop** | `isError: true`, `ScreenshotAagBlockException` | Downscale viewport dimensions or capture smaller subregions | None ($>50\text{ MB}$ cap) |
+| `private_target_write` | **Privacy Hard Stop** | Refusal of 22+ persistent database write tools | Switch to non-private tab for durable knowledge storage | None (Privacy invariant) |
+| `user.interrupted` | **One-Shot Stop** | `isError: true`, `gateId: "user.interrupted"` | Agent consults user regarding why analysis was stopped | None (Do not restart blindly) |
+| `setup.bootstrap_required` | **Precondition Block** | `isError: true` with `resolution.tool = "nova.tools_bundle"` | Call `nova.tools_bundle(bundle='browser_automation')` | Bypassed once bundle loads |
+| `safety.perceive_first` | **Precondition Block** | `isError: true` with `resolution.tool = "nova.perceive"` | Call `nova.perceive(mode='summary')` or read DOM/text | Cleared by read/eval tools |
+| `user.site_note` (Block) | **Dual-Mode Block** | `isError: true`, full note text in message | **(A)** Retry exact call immediately OR **(B)** `nova.domain_note_ack` | Cleared by prompt ingestion |
+| `proxy.credentials_awareness` | **Precondition Block** | `isError: true`, `reasonCode: "proxy.credentials.bundle_required"` | Load `nova.tools_bundle(bundle='proxy_management')` | Cleared once bundle loaded |
+| `learn.onboarding_required` | **Precondition Block** | `isError: true`, delivers template payload | Call `nova.learn_onboarding_confirm` with substantive summary | Cleared upon confirmation |
+| `pks.learning_violation` | **Precondition Block** | `isError: true` after 2 unfulfilled calls | Call `nova.telemetry_report` or `nova.pks_patch` | Cleared by fulfillment tool |
+| `pks.semantic_learning` (Strict) | **Precondition Block** | `isError: true` on unresolved opportunity | Resolve opportunity via `nova.learn_resolve_opportunity` | Cleared upon resolution |
+| `aag.reflection_reminder` | **Breakpoint Block** | `isError: true` at `tab_release` / completion | Call `nova.pks_upsert` or `nova.operator_notes_store` | Cleared upon persistence |
+| `safety.overlay_detected` | **Modal Block** | `-32002 JsonRpcError` (`blocking_overlay_active`) | Call `nova.cmp_apply`, `nova.dismiss_blockers`, or note bypass | Session note bypass available |
+| `safety.native_dialog` | **Host Dialog Block** | Injected `openNativeDialog` blocking payload | Invoke dialog resolver from `nextActions` (e.g. `restore_tabs`) | Dialog resolution required |
+| `pks.spa_navigation_block` | **Guard with Force** | `isError: true` or `-32001 JsonRpcError` | Use DOM routing, `nova.tab_new()`, or retry with `force: true` | `force: true` |
+| `safety.session_destruction` | **Confirmation Block**| `isError: true`, warning of session destruction | Retry with `force: true` AND `confirmSessionDestruction: true` | Explicit confirmation |
+| `aag.screenshot_budget` (Hard Cap)| **Auto-Downgrade / Force** | Downgrades to file reference or blocks | Pass `force: true` or inspect disk reference file | `force: true` ($1\text{ MB}-50\text{ MB}$) |
+| `safety.backup_integrity` | **Permanent Alarm** | Injected `backupIntegrityWarning` on EVERY response | Call `nova.mail_backup_status(profileId='...', acknowledge=true)` | Permanent until user told |
+| `safety.tab_awareness` | **Context Annotation**| Injected `tabAwarenessWarning` | Call `nova.tabs()` or specify explicit `targetId` | Advisory only |
+| `safety.sandbox_ambiguity` | **Identity Annotation**| Injected `sandboxAmbiguityWarning` (1x per session)| Review sandbox IDs before dispatching account-specific work | Advisory only |
+| `efficiency.sequential_tool_calls`| **Efficiency Nudge** | Injected `sequentialToolCallNudge` after 3+ calls | Batch predictable mutations via `nova.run_sequence` | Advisory only |
+| `pksAdvice` / `pksAdviceItems` | **Selector Annotation** | Inline element advice in `structuredContent` | Apply recommended selector patch or fallback locator | Suppressible by settings |
 
 ---
 
-### 4.3 Observation & Freshness Gates
+## 5. In-Flight Stop, Cancellation & Atomic Sequences
 
-#### `safety.perceive_first`
-* **Trigger:** Invoking a mutating interaction tool on a target tab that has not undergone visual or structural observation since the last navigation event.
-* **Monitored Mutating Tools:**
-  ```text
-  nova.type_selector, nova.type_selector_secret, nova.click_selector,
-  nova.guarded_login, nova.guarded_submit_form, nova.guarded_switch_model,
-  nova.guarded_switch_sandbox, nova.guarded_send_message, nova.file_upload,
-  nova.input_click, nova.input_text, nova.input_key, nova.input_shortcut
-  ```
-* **Clearing Tools:**
-  ```text
-  nova.perceive (mode != 'state'), nova.eval, nova.read_text,
-  nova.read_text_structured, nova.read_dom, nova.wait_for_selector, nova.wait_for_eval
-  ```
-* **The Settlement Readiness Bypass:** When `nova.navigate` is executed with `settlementReadiness` criteria (e.g. waiting for a specific DOM selector) and returns `structuredContent.settlement.readiness.satisfied = true`, `safety.perceive_first` does **not** re-arm. The readiness verification itself constitutes proof of observation.
-* **Epoch Fencing (`PerceiveFirstExecutionFence`):** Captures `StateGeneration`, `TabVersionAtStart`, and `TargetEpochAtStart`. If a concurrent navigation occurs while an observation tool is running, the gate refuses to clear, preventing race conditions.
+Awareness gates protect not only single discrete tool calls, but also atomic sequences executed through `nova.run_sequence` and long-running background tasks.
 
-#### `safety.tab_awareness`
-* **Trigger:** An agent addresses the implicit `"active"` tab (`rawTargetId` omitted or `"active"`) when tab state has drifted (a tab was opened, closed, switched, or navigated) or when the awareness TTL (`TabAwarenessTtlMs`) has expired.
-* **Behavior:** Emits `TAB_AWARENESS: active=<id> (<kind>, url=<url>, title=<title>)`. Explains once per session, and thereafter injects concise tab identity facts to prevent context noise.
-* **Resolution:** Call `nova.tabs()` to refresh awareness or supply explicit `targetId` parameters.
+### 5.1 Process-Wide Cancellation Barrier (`EmergencyStopState`)
+The emergency stop mechanism provides an unbypassable, instant halt across the entire Nova process:
 
-#### `safety.renderer_stalled`
-* **Trigger:** CDP Renderer Stall Breaker opens due to an unresponsive WebView2 rendering process (frozen JavaScript loop, renderer deadlock, OOM crash).
-* **Behavior:** Injects non-suppressible warning alerting the agent that the page is unresponsive, preventing false assumptions of an empty page.
+```mermaid
+sequenceDiagram
+    actor User as User / Operator
+    participant UI as WinUI 3 Shell
+    participant Barrier as EmergencyStopState
+    participant CTS as Linked CancellationTokenSource
+    participant Worker as Running In-Flight Task / WebRequest
 
----
-
-### 4.4 Identity, Claim & Context Gates
-
-#### `safety.sandbox_ambiguity`
-* **Trigger:** Invoked via `nova.tabs`, `nova.sandbox_context`, `nova.resolve_sandbox`, `nova.set_active_tab`, or `nova.guarded_switch_sandbox`. Detects when multiple isolated sandbox profiles share the same domain service (e.g. personal vs work Google Workspace, or multiple WhatsApp Web accounts).
-* **Behavior:** Emits a once-per-session ambiguity warning listing the candidate sandboxes with their UIDs and account hints.
-* **Impact:** Prevents agents from silently dispatching messages or reading private emails from the wrong account.
-
-#### `claim.reclaim_notification`
-* **Trigger:** Fires as a one-shot block when a second agent has used `forceReclaim=true` on `nova.tab_claim` to displace the current agent's tab lease lock.
-* **Payload:** Delivers the displacing agent's ID, the displacement reason, and options to either negotiate work or reclaim the tab back via `nova.tab_claim(targetId=..., reclaimReason=...)`.
-
-#### `proxy.credentials_awareness`
-* **Trigger:** Invoking `nova.proxy_set_password` without having loaded the `proxy_management` bundle.
-* **Behavior:** Blocks password modification. Informs the agent that proxy passwords are encrypted via Windows DPAPI and never returned over MCP, ensuring the agent understands credential immutability before writing.
-
----
-
-### 4.5 Domain & User Directive Gates
-
-#### `user.site_note` (Domain Notes MUST-Read Gate)
-* **Trigger:** User authors a domain note in Nova with `Enforcement: Block` for a specific domain or sandbox. When an agent touches that domain, the gate halts all non-note tool calls.
-* **Exempt Tools:** `nova.domain_note`, `nova.domain_note_ack`, `nova.domain_notes_list`, `nova.domain_note_delete`.
-* **Dual-Mode Acknowledgment:**
-  1. **Option A (Retry Pattern):** Simply retrying the exact original tool call acknowledges the note. Because the note text was delivered in the block message, the retry proves the instruction has entered the LLM's active prompt context!
-  2. **Option B (Explicit Tool Call):** Calling `nova.domain_note_ack(domain=..., key=...)` for agent frameworks whose strict safety policies forbid retrying failed calls.
-* **Bulk Acknowledgment:** Multiple notes on the same domain are delivered together (newest first, older notes in "Also pending") and acknowledged simultaneously in a single retry or ACK call.
-* **Auto-Rearm & Invalidation:**
-  * **Edit Invalidation:** If a user edits a note (`UpdatedUtc` increases), the cached acknowledgment is immediately invalidated. The agent MUST read the updated instructions!
-  * **Time Threshold:** `RepeatAcknowledgeMinutes` re-arms the gate after a specified duration.
-  * **Call Threshold:** `RepeatAcknowledgeToolCalls` re-arms the gate after a specified number of tool calls.
-
-#### `user.interrupted`
-* **Trigger:** The user manually clicks **Cancel** in the Discovery flyout UI while an autonomous crawl or surface exploration is running.
-* **Behavior:** One-shot block on `nova.crawl_start`, `nova.crawl_update`, and `nova.explore_surface`. Informs the agent: *"The user cancelled the running Discovery analysis for this website. Ask the user why they stopped before restarting. Do not restart automatically."*
-
----
-
-### 4.6 Single Page Application (SPA) Safety Gates
-
-#### `pks.spa_navigation_block`
-* **Trigger:** Calling hard navigation tools (`nova.navigate`, `nova.reload`) on a rich Single Page Application where PKS has classified navigation as state-destructive.
-* **Resolution:** Recommends in-page DOM interaction (`nova.click_selector`, internal routing) or opening a fresh tab (`nova.tab_new`). Can be bypassed with `force: true`.
-
-#### `safety.session_destruction`
-* **Trigger:** Calling `nova.navigate` with `force: true` on an authenticated SPA tab whose credentials or session would be destroyed by navigation.
-* **Behavior:** Hard block requiring explicit confirmation: `confirmSessionDestruction: true`.
-* **Recovery Guidance:** Informs the agent: *"To proceed, add confirmSessionDestruction=true. Recovery: use vault_list + guarded_login to re-authenticate after navigation."*
-
----
-
-### 4.7 Knowledge & Learning Gates
-
-#### `pks.learning_violation`
-* **Trigger:** An agent performs actions that generate actionable selector advice (`pksAdvice`), but fails to report outcomes or submit healing patches within 2 consecutive relevant tool calls (`CallThreshold = 2`).
-* **Fulfillment Tools:** `nova.telemetry_report` or `nova.pks_patch`.
-* **Tracker Mechanics:** Governed by `LearningGateTracker` and persistent SQLite queue (`learning_repair_queue`). Auto-repairs safe selector patches automatically in the background.
-
-#### `pks.semantic_learning` (Strict Mode)
-* **Trigger:** When `PksSemanticLearningGateMode` is set to `"strict"`, mutating interactions are blocked on domains with unaddressed semantic opportunities until the agent resolves or dismisses the opportunity via `nova.learn_resolve_opportunity`.
-
-#### `aag.reflection_reminder` (Knowledge Reflection Breakpoint)
-* **Trigger:** Reaching natural workflow completion boundaries:
-  ```text
-  nova.tab_release, nova.tab_close, nova.task_instance_complete
-  ```
-* **Evaluation:** `ReflectionGateTracker` monitors interaction depth ($\ge 3$), observed authentication flows, failed-then-succeeded selector patterns, and long wait times.
-* **Guidance:** Reminds the agent to persist acquired knowledge via `nova.pks_upsert` or `nova.operator_notes_store` before the session context is lost.
-
----
-
-### 4.8 Interaction & Surface Safety Gates
-
-#### `safety.overlay_detected` & `OverlayBlockGate`
-* **Trigger:** Mutating click or typing tools (`click_selector`, `input_click`, `type_selector`, etc.) targeting elements covered by aggressive full-screen modals, cookie banners, or backdrop overlays.
-* **Behavior:** In `Block` mode, halts execution with `-32002 JsonRpcError` (`blocking_overlay_active`).
-* **Resolution:** Directs agent to `nova.cmp_apply` (for recognized CMP vendors) or `nova.dismiss_blockers`. Can be acknowledged per session via `nova.domain_note(domain=host, key='overlay.acknowledged_block', value='true')`.
-
-#### `aag.screenshot_budget`
-* **Trigger:** Evaluates screenshot captures against a multi-tier memory and token budget:
-  * **Soft Warn ($> 200\text{ KB}$):** Delivers image normally; logs warning for auditing.
-  * **Forceable Hard ($> 1\text{ MB}$ OR $> 16\text{ MP}$ OR dimension $\ge 10,000\text{ px}$):** Automatically downgrades capture to thumbnail + reference file on disk unless `force: true` is supplied.
-  * **Absolute Safety ($> 50\text{ MB}$ OR $> 50\text{ MP}$):** Hard-rejects capture with `ScreenshotAagBlockException` to protect host memory and vision model token limits. Zero force bypass.
-
-#### `safety.backup_integrity`
-* **Trigger:** Background mail backups encountering failed, interrupted, or incomplete message streams.
-* **Behavior:** Injects non-suppressible `backupIntegrityWarning` into every tool response until acknowledged via `nova.mail_backup_status(profileId='<profileId>', acknowledge=true)`. Prevents agents from mistakenly reporting to the user that a backup finished successfully when messages were dropped.
-
----
-
-### 4.9 Task & Coverage Guidance Gates
-
-#### `etm.task_discovery_recommended`
-* **Trigger:** First non-discovery tool call of a session when non-archived task profiles exist in the ETM database.
-* **Behavior:** One-shot advisory recommending `nova.task_search` or `nova.task_profiles` to retrieve existing workflows, checks, and learned guidance before starting from scratch.
-
-#### `etm.coverage_scan_recommended`
-* **Trigger:** Operating on an exhaustive task instance (`Exhaustive = true`, `CoverageSchemaVersion >= 2`) using standard perception tools (`nova.perceive`).
-* **Behavior:** Informs the agent that agent-asserted perception is never block-eligible for verified task completion; directs the agent to use server-trusted `nova.coverage_scan`.
-
----
-
-## 5. The Structured Wire Protocol & MCP Envelopes
-
-AAG communicates with agents through two standardized JSON envelope structures:
-
-### 5.1 Hard Block Envelope (`AagBlockResult`)
-When an awareness gate trips in `Block` mode, Nova returns a valid MCP `CallToolResult` with `isError: true`. Structured metadata is attached under `_meta["io.nova/aag"]` (MCP reverse-DNS convention):
-
-```json
-{
-  "content": [
-    {
-      "type": "text",
-      "text": "AAG blocked by safety.perceive_first. Call nova.perceive with {\"mode\":\"summary\"} on the target and retry nova.click_selector."
-    }
-  ],
-  "isError": true,
-  "_meta": {
-    "io.nova/aag": {
-      "kind": "aag_block",
-      "gateId": "safety.perceive_first",
-      "gateMode": "block",
-      "retryable": true,
-      "traceId": "trc_9a8b7c6d",
-      "durationMs": 3,
-      "resolution": {
-        "tool": "nova.perceive",
-        "args": {
-          "mode": "summary"
-        }
-      },
-      "settingOverride": {
-        "setting": "PerceiveFirstGateMode",
-        "alternatives": ["warn", "shadowblock", "off"]
-      },
-      "reasonCode": "safety.perceive_first"
-    }
-  }
-}
+    User->>UI: Clicks "Emergency Stop"
+    UI->>Barrier: EmergencyStopState.Activate(triggeredBy, reason)
+    Note over Barrier: Generation bumped (Gen N+1),<br/>IsActive = true, Timestamp recorded
+    Barrier->>CTS: _workCancellation.Cancel()
+    CTS-->>Worker: OperationCanceledException thrown
+    Worker->>Worker: Immediate cleanup & rollback
+    Note over Worker: All ongoing HTTP, CDP, and SQLite writes abort
 ```
 
-#### Wire Field Specification (`AagBlockMeta`)
+* **Linked Cancellation:** All background jobs, crawler tasks, and MCP tool handlers obtain their cancellation tokens via `EmergencyStopState.CreateLinkedCancellationTokenSource(callerCt)`. When the emergency stop fires, all running work cancels immediately.
+* **Handshake Preservation:** Even during active emergency stops, JSON-RPC protocol handshakes (`initialize`, `ping`, `notifications/cancelled`) remain operational so connected MCP clients do not disconnect or crash. Only tool executions and resource reads are refused.
 
-| Field | Type | Description |
-| :--- | :--- | :--- |
-| `kind` | `string` | Constant `"aag_block"`. |
-| `gateId` | `string` | Canonical gate identifier (e.g. `"safety.perceive_first"`, `"setup.bootstrap_required"`). |
-| `gateMode` | `string` | Effective mode: `"block"`. |
-| `retryable` | `bool` | `true` if satisfying the resolution permits retrying the original tool. |
-| `traceId` | `string?` | Dispatch request trace ID linking to TOB audit logs. |
-| `durationMs` | `long?` | Preflight evaluation elapsed time in milliseconds. |
-| `resolution` | `object?` | Exact MCP tool call (`tool` name and `args`) that satisfies the precondition. |
-| `settingOverride`| `object?`| Settings key and allowable values if the operator wishes to reconfigure the gate. |
-| `reasonCode` | `string?` | Machine-readable error code for programmatic client branching. |
-| `alternative` | `object?` | Optional alternative recovery path (e.g. `force: true` or `nova.tab_new`). |
-| `details` | `object?` | Context-specific diagnostic payloads (e.g. low disk thresholds, drive roots). |
+### 5.2 Atomic Sequence Pre-Validation (`nova.run_sequence`)
+When an agent submits a multi-step macro via `nova.run_sequence`, AAG prevents partial execution failures by inspecting the entire batch **before the first step executes**:
+
+1. **Batch Perceive-First Inspection:** The gate scans all steps in `steps[]`. If any step contains a mutating action (`click_selector`, `type_selector`, `guarded_*`, etc.) and the target tab has not been perceived, `run_sequence` is blocked immediately at step 0 (`safety.perceive_first`).
+2. **Credential Safety Inspection:** If any step contains `nova.proxy_set_password` and the `proxy_management` bundle has not been loaded, the entire sequence is halted up-front.
+3. **Mid-Sequence In-Flight Interruption:** Each individual step executed by the sequence loop (`HandleSequenceStepCallAsync`) is tied to the linked emergency stop cancellation token. If the user engages the emergency stop during step 4 of an 8-step sequence, step 4 aborts instantly and steps 5–8 never execute.
+4. **Non-Idempotent Retry Safety:** If a step fails with a transient error, `run_sequence` evaluates `SeqTryReadActionDispatched(stepResult)`. If `actionDispatched: true` was recorded (meaning the click or keystroke actually reached Chromium), automatic retries are blocked to prevent duplicate payments, duplicate chat messages, or multiple form submissions.
 
 ---
 
-### 5.2 Success & Warning Enrichment (`structuredContent._aagGates`)
-When tools execute successfully (or under `Warn` / `ShadowBlock` modes), AAG projects gate statuses into `structuredContent._aagGates`:
+## 6. The Annotation Engine (Result Enrichment & Suppressions)
+
+When awareness gates do not block execution (either because they operate in `Warn` or `ShadowBlock` mode, or because they are informational annotations), they enrich successful tool results via `ApplyAagHandlerWarningGates`.
+
+### 6.1 Priority Suppression Hierarchy
+Multiple annotations can fire simultaneously on a single tool call. To prevent context window bloat, AAG implements a strict suppression hierarchy:
+
+```mermaid
+flowchart TD
+    Eval["Response Ready for Enrichment"] --> SemCheck{"Is pksSemanticLearning\nactive (prompted/warned)?"}
+
+    SemCheck -- Yes --> SuppressAdvice["Project pksSemanticLearning into _aagGates\nMark pksAdvice as 'suppressed_by_semantic_learning'\nStrip pksAdvice & pksAdviceItems from payload"]
+    SemCheck -- No --> CheckSettings{"Check Settings Toggles\n(IsAagGateSuppressed)"}
+
+    CheckSettings -- "Suppressed" --> SuppressField["Set status: 'suppressed'\nStrip field from structuredContent"]
+    CheckSettings -- "Active" --> PassField["Set status: 'passed' | 'warned'\nKeep field in structuredContent"]
+
+    SuppressAdvice --> FinalGates["Assemble structuredContent._aagGates"]
+    SuppressField --> FinalGates
+    PassField --> FinalGates
+```
+
+* **Semantic Priority:** When Nova generates an interactive semantic prompt (`pksSemanticLearning`), lower-level selector advice (`pksAdvice`) is automatically stripped from the response payload. The agent's focus must remain on the high-level semantic question rather than micro-selector hints.
+* **Non-Suppressible Close-Loop Signals:** Resolution confirmations (`pksSemanticLearningResolution`) and user-authored site notes are **never suppressible**, guaranteeing that close-loop signals are never hidden by global settings.
+
+### 6.2 The Compact Stub Pattern for User Site Notes
+In `Warn` mode, delivering a full 1,000-character site note on every subsequent tool call would consume thousands of tokens. AAG solves this with the Compact Stub Pattern:
+
+1. **First Encounter:** The full note text is delivered in `structuredContent.siteNoteWarning`.
+2. **Subsequent Calls:** AAG detects that the client has received the current hash and transitions to a lightweight stub:
+   ```json
+   {
+     "gateId": "user.site_note",
+     "domain": "example.com",
+     "key": "compliance_rule",
+     "enforcement": "warn",
+     "reReadCall": "nova.domain_notes_list(domain='example.com')"
+   }
+   ```
+3. **Tab Close Cleanup:** If a tool call closes the target tab (`nova.tab_close`), site note enrichment is skipped entirely—a note delivered to a closed tab has no addressee and represents wasted context.
+
+### 6.3 The Permanent Mail Backup Alarm (`safety.backup_integrity`)
+Unlike transient warnings, `safety.backup_integrity` represents a persistent data integrity alarm:
+* If a background mailbox backup encounters dropped messages, network timeouts, or partial folder reads, an alarm is entered into `MailBackupService.OpenAlarms`.
+* As long as an open alarm exists, `backupIntegrityWarning` is injected into **every single tool response** across the entire session.
+* It cannot be silenced via settings toggles. It clears only when the agent explicitly invokes `nova.mail_backup_status(profileId='<profileId>', acknowledge=true)` after having notified the user of missing messages.
+
+---
+
+## 7. Host Modals, Bot Gates & Privacy Stop Gates
+
+AAG monitors boundary conditions that exist outside standard webpage DOM trees:
+
+### 7.1 Out-of-DOM Host Dialogs (`openNativeDialog`)
+Web pages can trigger native browser dialogs (HTTP Basic Auth, untrusted SSL certificates, WebRTC device permissions, downloads, or tab restoration prompts) that freeze the DOM and cannot be observed via `read_dom` or `capture_screenshot`:
 
 ```json
 {
   "structuredContent": {
-    "ok": true,
-    "status": "success",
-    "_aagGates": {
-      "perceiveFirstWarning": {
-        "gateId": "safety.perceive_first",
-        "status": "warned"
-      },
-      "siteNoteWarning": {
-        "gateId": "user.site_note",
-        "status": "passed"
-      },
-      "pksAdvice": {
-        "gateId": "pks.selector_advice",
-        "status": "suppressed"
-      },
-      "pksSemanticLearning": {
-        "gateId": "pks.semantic_learning",
-        "status": "prompted"
-      }
+    "openNativeDialog": {
+      "isOpen": true,
+      "kind": "restore_tabs",
+      "title": "Restore previous tabs?",
+      "blocksBrowserTools": true,
+      "message": "A host-owned dialog is open. It is rendered by the browser shell, not by the page, and blocks browser interactions until resolved.",
+      "nextActions": [
+        {
+          "priority": 100,
+          "tool": "nova.ui_restore_tabs_prompt_resolve",
+          "reason": "Resolve startup tab restore prompt",
+          "args": { "decision": "restore" }
+        }
+      ]
     }
   }
 }
 ```
 
-#### Status Vocabulary
-* `"passed"`: Preconditions checked and fully satisfied.
-* `"warned"`: Preconditions missing; advisory warning delivered inline.
-* `"shadow_blocked"`: Evaluated under `ShadowBlock` mode; would have blocked under `Block`.
-* `"prompted"`: Interactive guidance or reflection prompt delivered.
-* `"suppressed"`: Gate silenced by user settings (e.g. `McpPksAdviceEnabled = false`).
-* `"suppressed_by_semantic_learning"`: Lower-priority selector advice silenced because a higher-priority semantic learning prompt is active on the same response.
+* When an in-app modal is open, browser interaction tools are refused.
+* The response includes priority-ranked `nextActions` pointing to the exact resolution tool (`nova.ui_restore_tabs_prompt_resolve`, `nova.ui_certificate_prompt_resolve`, `nova.ui_auth_prompt_resolve`, etc.), enabling zero-guesswork recovery.
 
-> [!TIP]
-> **Minimal Output Detail Allowlist:** When tools are invoked with `outputDetail: 'minimal'`, Nova strips non-essential telemetry from `structuredContent`. However, `_aagGates` and non-suppressible safety gates are explicitly preserved on the `ActionMinimalCoreKeepFields` allowlist, ensuring agents never lose safety visibility in lean envelopes.
+### 7.2 Bot Challenges & HTTP Block Classification (`StallPageGate`)
+When an automated agent is blocked by Cloudflare, Turnstile, or CAPTCHA challenges, the site's anti-bot scripts frequently deadlock the WebView2 JavaScript thread. Subsequent tool calls time out with generic `cdp.renderer_stalled` errors, tempting agents into infinite refresh loops.
+
+Nova's `StallPageGate` breaks this loop:
+* When a stall occurs, Nova inspects the tab URL, window title, and navigation HTTP status code host-side (within a strict 750ms budget) using `PageGateClassifier`.
+* If a challenge or HTTP block (403, 429, 503) is detected, Nova suppresses renderer retries and alerts the agent:
+  ```text
+  "AAG StallPageGate: bot_challenge detected on this tab. Stop automated retries and request human verification."
+  ```
+
+### 7.3 InPrivate Target Write Gate (`PrivateTargetWriteGate`)
+Private browsing guarantees that no traces remain on the local machine. However, Nova's persistent knowledge systems (PKS, Domain Notes, Browsing Memory, Crawler Stores, Session Forensics) survive tab closures by design.
+
+To maintain privacy invariants, `PrivateTargetWriteGate` enforces an architectural write barrier:
+* Any mutating call from an InPrivate tab to persistent storage (`nova.pks_upsert`, `nova.domain_note`, `nova.memory_note`, `nova.crawl_start`, etc.) is **hard-refused**.
+* Read operations (`nova.pks_get`, `nova.domain_notes_list`, `nova.memory_recall`) remain fully functional, allowing agents to benefit from existing knowledge without leaking private session activities back into disk databases.
 
 ---
 
-## 6. Token Efficiency, Deduplication & Anti-Nagging
+## 8. Token Efficiency, Deduplication & Anti-Nagging
 
 Autonomous agents spend hundreds of tool calls solving complex web tasks. Naively repeating full advisory payloads on every single tool call creates a severe **Token Starvation Trap**:
 
@@ -438,24 +308,24 @@ Autonomous agents spend hundreds of tool calls solving complex web tasks. Naivel
 
 Nova implements dedicated token optimization and deduplication mechanics:
 
-### 6.1 Stable Text Hashing vs One-Time Additions
+### 8.1 Stable Text Hashing vs One-Time Additions
 Advisories often combine stable guidance (e.g. bundle catalogs) with transient hints (e.g. one-time self-onboarding invitations). Hashing the combined string causes hash oscillation when the one-time hint expires, tricking deduplicators into re-delivering the full catalog.
 
 AAG calculates SHA256 hashes exclusively over the **stable guidance text** (`ComputeBootstrapWarningHash`). Transient additions are delivered via `BootstrapWarningDelivery.MessageOnly` without re-emitting the 25-item bundle list.
 
-### 6.2 The 25-Call Compaction Safety Net
+### 8.2 The 25-Call Compaction Safety Net
 If an advisory is delivered once per session and then silenced completely, an agent whose context window undergoes LLM context compaction will lose the instructions permanently.
 
 To solve this, AAG tracks suppressed deliveries (`SuppressedSinceFull`). After **25 consecutive suppressed calls** (`BootstrapWarningResendAfterSuppressed`), the gate automatically refreshes the full advisory once, re-seeding the agent's compacted memory without continuous per-call spam.
 
-### 6.3 Stable Client-Keyed Identity Tracking
+### 8.3 Stable Client-Keyed Identity Tracking
 Transport session IDs rotate on HTTP reconnection, proxy restarts, or transient network timeouts. If deduplication keys off the transport session, reconnection causes immediate re-nagging.
 
 AAG keys bootstrap and guidance deduplication against the **stable MCP client identity** (`McpClientInfo.Name` $\rightarrow$ `client:<normalized_name>`), preserving deduplication state across transport reconnects.
 
 ---
 
-## 7. Autonomous Agent Integration & Recovery Playbook
+## 9. Autonomous Agent Integration & Recovery Playbook
 
 Autonomous agents should implement a standardized recovery decision loop when interacting with Nova's MCP server:
 
@@ -480,7 +350,7 @@ flowchart TD
     GateBranch -- "aag.screenshot_budget" --> BudgetHandle["Inspect retryOptions:\nDownsize viewport or switch to reference mode"]
 ```
 
-### 7.1 Python Agent Implementation Example
+### 9.1 Python Agent Implementation Example
 
 ```python
 async def execute_nova_tool(client, tool_name: str, args: dict):
@@ -520,7 +390,7 @@ async def execute_nova_tool(client, tool_name: str, args: dict):
 
 ---
 
-## 8. Configuration Reference (`settings.json`)
+## 10. Configuration Reference (`settings.json`)
 
 All awareness gates are configurable in Nova's application settings (`settings.json`). The settings file supports human-readable enum values (`"off"`, `"warn"`, `"shadowblock"`, `"block"`) via `AagGateModeJsonConverter`:
 
