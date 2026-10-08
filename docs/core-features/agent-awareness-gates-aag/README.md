@@ -1,6 +1,6 @@
 # Agent Awareness Gates (AAG)
 
-> „Manchmal brauchen sie nur einen kleinen Bump in die richtige Richtung.“
+> "Sometimes they just need a little nudge in the right direction."
 >
 > — Joel, 2025
 
