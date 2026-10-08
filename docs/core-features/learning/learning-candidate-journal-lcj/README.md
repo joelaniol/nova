@@ -36,8 +36,8 @@ flowchart TD
     H --> J["CandidateGenerator\nHeuristics & Fingerprint Similarity"]
     H --> K{"PromotionService\nMathematical Promotion Gates"}
     
-    K -->|L0 → L1 (Shadow)| P1[("pks.db\nShadow Knowledge")]
-    K -->|L1 → L2 (Active)| P2[("pks.db\nActive Knowledge")]
+    K -->|"L0 → L1 (Shadow)"| P1[("pks.db\nShadow Knowledge")]
+    K -->|"L1 → L2 (Active)"| P2[("pks.db\nActive Knowledge")]
     K -->|HardDrift / Consecutive Failures| L["Demotion / Deprecation"]
 ```
 
@@ -194,10 +194,16 @@ Instead, Nova performs **server-side phenomenon attribution**:
 Agents or scripts frequently retry actions rapidly (e.g. clicking a submit button 5 times in 2 seconds). Recording each attempt as an independent observation would artificially inflate support counts and bypass promotion gates.
 
 LCJ calculates a deterministic **throttle key**:
-$$\text{ThrottleKey} = \text{kind} \mathbin{\Vert} \text{context\_host} \mathbin{\Vert} \text{tab\_id} \mathbin{\Vert} \text{discriminator}$$
+
+```math
+\text{ThrottleKey} = \text{kind} \mathbin{\Vert} \text{context\_host} \mathbin{\Vert} \text{tab\_id} \mathbin{\Vert} \text{discriminator}
+```
 
 Where `discriminator` selects the first non-empty value in order of specificity:
-$$\text{target\_stable\_id} \longrightarrow \text{candidate\_key} \longrightarrow \text{selector\_norm} \longrightarrow \text{fingerprint\_hash} \longrightarrow \text{tool\_name} \longrightarrow \text{"generic"}$$
+
+```math
+\text{target\_stable\_id} \longrightarrow \text{candidate\_key} \longrightarrow \text{selector\_norm} \longrightarrow \text{fingerprint\_hash} \longrightarrow \text{tool\_name} \longrightarrow \text{"generic"}
+```
 
 - **30-Second Window:** Within any 30-second window (`minIntervalMs = 30000`), only the first observation for a given `ThrottleKey` is written to `lcj_observation`.
 - **Bounded LRU Cache:** The in-memory throttle cache is capped at 5,000 entries. When reached, the oldest 25% are evicted in a single pass to ensure stable memory consumption.
@@ -275,14 +281,24 @@ ORDER BY support_count DESC, last_seen_at DESC;
 ### 4.2 Scoring Formula
 
 Each cluster receives a composite priority score:
-$$\text{Score} = \text{SupportScore} + \text{SessionBonus} + \text{SuccessRateFactor}$$
+
+```math
+\text{Score} = \text{SupportScore} + \text{SessionBonus} + \text{SuccessRateFactor}
+```
 
 Where:
 - **Support Score (Logarithmic):** Dampens high-volume repetitive actions so they do not dominate the priority queue:
-  $$\text{SupportScore} = \text{round}\left(\log_2(\max(1, \text{SupportCount})), 2\right)$$
+
+  ```math
+  \text{SupportScore} = \text{round}\left(\log_2(\max(1, \text{SupportCount})), 2\right)
+  ```
+
 - **Multi-Session Bonus:** Grants $+2.0$ points when observations span $\ge 2$ distinct activity sessions.
 - **Success Rate Factor:** Proportional to empirical reliability:
-  $$\text{SuccessRateFactor} = \text{round}\left(\frac{\text{SuccessCount}}{\text{SuccessCount} + \text{FailureCount}} \times 2.0, 2\right)$$
+
+  ```math
+  \text{SuccessRateFactor} = \text{round}\left(\frac{\text{SuccessCount}}{\text{SuccessCount} + \text{FailureCount}} \times 2.0, 2\right)
+  ```
 
 ### 4.3 Dual-Gate Drift Detection
 
@@ -321,7 +337,9 @@ flowchart TD
 
 Before creating a new phenomenon proposal, `CandidateGenerator` compares the proposed fingerprint against existing domain phenomena using Jaccard signal matching and SimHash tokenization:
 
-$$\text{Similarity}(P_{\text{new}}, P_{\text{existing}}) \in [0.0, 1.0]$$
+```math
+\text{Similarity}(P_{\text{new}}, P_{\text{existing}}) \in [0.0, 1.0]
+```
 
 - **$\text{Similarity} \ge 0.92$ (ThresholdDedup):** The proposal is dropped as duplicate. The existing phenomenon already covers this behavior.
 - **$\text{Similarity} \ge 0.88$ (ThresholdPreferPatch):** Instead of creating a new phenomenon, the proposal is automatically converted into a `PatchPhenomenon` targeting the existing stable ID. This updates selectors or playbooks in place and prevents phenomenon proliferation.
@@ -359,15 +377,34 @@ Evaluates whether an unverified candidate hypothesis should be promoted to PKS a
 #### Mathematical Gates
 1. **Candidate Status:** Must not be `disproven`.
 2. **Confidence Threshold:**
-   $$\text{Confidence} \ge 0.70$$
+
+   ```math
+   \text{Confidence} \ge 0.70
+   ```
+
 3. **Minimum Support:**
-   $$\text{SupportCount} \ge 2$$
+
+   ```math
+   \text{SupportCount} \ge 2
+   ```
+
 4. **Minimum Success Support:**
-   $$\text{SuccessSupportCount} \ge 1$$
+
+   ```math
+   \text{SuccessSupportCount} \ge 1
+   ```
+
 5. **Evidence Score Gate:**
-   $$\text{EvidenceScore} = \text{SupportSignal} \times 0.40 + \text{SuccessRatio} \times 0.30 + \text{Confidence} \times 0.30 \ge 0.55$$
+
+   ```math
+   \text{EvidenceScore} = \text{SupportSignal} \times 0.40 + \text{SuccessRatio} \times 0.30 + \text{Confidence} \times 0.30 \ge 0.55
+   ```
+
    Where:
-   $$\text{SupportSignal} = \min\left(1.0, \frac{\text{SupportCount}}{5.0}\right), \quad \text{SuccessRatio} = \frac{\text{SuccessSupportCount}}{\text{SupportCount}}$$
+
+   ```math
+   \text{SupportSignal} = \min\left(1.0, \frac{\text{SupportCount}}{5.0}\right), \quad \text{SuccessRatio} = \frac{\text{SuccessSupportCount}}{\text{SupportCount}}
+   ```
 
 ### 6.2 L1 Shadow $\rightarrow$ L2 Active (`EvaluateL1ToL2`)
 
@@ -377,7 +414,10 @@ Evaluates whether a Shadow phenomenon has proven reliable enough to be actively 
 - **Lookback Window:** 30 days (drift window: last 7 days).
 - **Key:** `(context_host, target_stable_id)`.
 - **Anti-Double-Counting Formula:** To prevent an agent from counting both an action success and an explicit telemetry report for the same execution attempt, success count is calculated as:
-  $$\text{SuccessCount} = \max\left(\sum(\text{action\_success} + \text{blocker\_dismissed}), \sum(\text{telemetry\_confirmed})\right)$$
+
+  ```math
+  \text{SuccessCount} = \max\left(\sum(\text{action\_success} + \text{blocker\_dismissed}), \sum(\text{telemetry\_confirmed})\right)
+  ```
 
 #### Standard Gates vs. Consent CMP Gates
 

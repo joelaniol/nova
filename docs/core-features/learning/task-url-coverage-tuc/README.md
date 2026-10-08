@@ -39,45 +39,55 @@ TUC organizes URL verification into three independent, decoupled architectural l
 flowchart TD
     subgraph Layer1["Layer 1: Scope & Seeding"]
         SourceChoice["unitSource Configuration"]
-        SiteUrls["site_urls (Nova URL Index)"]
+        SiteUrls["site_urls (Crawler Index, Capped at 1,000)"]
         CrawlerSource["crawler (Discovery Crawl)"]
         ExplicitList["explicit (Agent URL Array)"]
+        Normalizer["TaskUrlNormalizer (Version 1, 16-Hex Hash)"]
+        FreezeRule["freezeAfterPopulate Logic"]
         UnitSeed["Seed task_instance_unit records (Status: discovered)"]
     end
 
     subgraph Layer2["Layer 2: Observation & Classification"]
         TOB["Tool Observation Bus (TOB)"]
         PassiveLog["task_instance_unit_observation (Immutable Log)"]
-        EvidenceClass["Evidence Classification (8 Classes)"]
+        Disambiguation["Multi-Instance Disambiguation"]
         ActiveScan["nova.coverage_scan (Server-Trusted Scripts)"]
+        EvidenceClass["Evidence Classification (8 Classes, Scores 0.0 - 7.0)"]
     end
 
     subgraph Layer3["Layer 3: Evaluation & Satisfaction"]
-        Reconcile["Coverage Reconciliation Engine"]
+        Reconcile["Coverage Reconciliation Engine (Rate-Limited, Idempotent)"]
         CASUpdate["Atomic Compare-And-Swap (discovered -> checked)"]
-        SamplingEngine["Pattern Grouping & Sampling Engine"]
-        CompletionGate{"Task Completion Gate"}
+        PatternEngine["3-Tier Pattern Grouping (Candidate, Auto-Group, Sampling)"]
+        SkeletonGate["DOM Skeleton Similarity Gate (S >= 0.85)"]
+        VerifySelfDiag["nova.task_instance_verify (Non-blocking self-check)"]
+        CompletionGate{"Task Completion Gate (etm.task_url_coverage)"}
     end
 
     SourceChoice --> SiteUrls
     SourceChoice --> CrawlerSource
     SourceChoice --> ExplicitList
 
-    SiteUrls --> UnitSeed
-    CrawlerSource --> UnitSeed
-    ExplicitList --> UnitSeed
+    SiteUrls --> Normalizer
+    CrawlerSource --> Normalizer
+    ExplicitList --> Normalizer
+    Normalizer --> FreezeRule
+    FreezeRule --> UnitSeed
 
     UnitSeed --> Layer2
 
     TOB --> PassiveLog
-    PassiveLog --> EvidenceClass
+    PassiveLog --> Disambiguation
+    Disambiguation --> EvidenceClass
     ActiveScan --> EvidenceClass
 
     EvidenceClass --> Layer3
     Layer3 --> Reconcile
     Reconcile --> CASUpdate
-    CASUpdate --> SamplingEngine
-    SamplingEngine --> CompletionGate
+    CASUpdate --> PatternEngine
+    PatternEngine --> SkeletonGate
+    SkeletonGate --> VerifySelfDiag
+    VerifySelfDiag --> CompletionGate
 
     CompletionGate -->|Warn Mode| Allowed["Complete Allowed (with warnings)"]
     CompletionGate -->|Block Mode| Enforced{"All required units checked?"}
@@ -86,22 +96,21 @@ flowchart TD
 ```
 
 ### Layer 1: Scope & Seeding
-Defines the boundary of what must be verified. When a task instance is created, URL units are automatically seeded into SQLite from:
-* `site_urls`: Nova's durable URL index for the target domain.
-* `crawler`: Routes discovered during a preceding exploratory crawl.
-* `explicit`: A list of target URLs provided directly in the task creation payload.
+Defines the boundary of what must be verified. When a task instance is created:
+* `site_urls` / `crawler`: Populated from Nova's durable crawler index for the target domain (capped at a maximum of 1,000 URLs to prevent pathological sub-domain dumps from flooding the database).
+* `explicit`: An array of target URLs supplied in `unitSource.explicitUrls`.
+* `freezeAfterPopulate`: If `true`, locks `discoveryState` to `"frozen"` immediately upon writing units. If zero URLs are discovered, leaves state as `"unknown"` without trapping the run.
+* URLs are defensively normalized via `TaskUrlNormalizer`, stripping tracking tags and deriving a privacy-safe 16-hex SHA-256 prefix hash.
 
 ### Layer 2: Observation & Classification
-Tracks every interaction with the browser engine. As tools run, events flow through the [Tool Observation Bus (TOB)](../../tool-observation-bus-tob/README.md) into the immutable observation ledger. Each observation is assigned an evidence class (0–7) based on whether it represents a mere visit, an untrusted agent assertion, or a server-verified script execution.
+Tracks every interaction with the browser engine. As tools run, events flow through the [Tool Observation Bus (TOB)](../../tool-observation-bus-tob/README.md) into `task_instance_unit_observation`. Multi-instance disambiguation prevents misattribution across parallel agent runs. Active runs via `nova.coverage_scan` execute immutable server-registered scripts and enforce anti-tampering rules (`claimedFitsMeasured`).
 
 ### Layer 3: Evaluation & Satisfaction
-Resolves observations against open units. Only evidence meeting server-trusted criteria can advance a unit from `discovered` to `checked`. Pattern grouping collapses repetitive parameterized routes when structural similarity permits. At task completion, the gate enforces that zero required units remain open.
+Resolves observations against open units. Only evidence meeting server-trusted criteria can advance a unit from `discovered` to `checked`. Pattern grouping collapses repetitive parameterized routes when structural similarity permits ($S_{\text{composite}} \ge 0.85$). Agents can self-diagnose readiness via `nova.task_instance_verify` before requesting completion. At task completion, the gate enforces that zero required units remain open.
 
 ---
 
 ## 3. End-to-End Workflow Lifecycle
-
-The following sequence illustrates a complete coverage lifecycle from seeding to completion verification:
 
 ```mermaid
 sequenceDiagram
@@ -112,31 +121,27 @@ sequenceDiagram
     participant Scan as Scan Registry & Runtime
     participant Gate as Completion Evaluator
 
-    Agent->>ETM: nova.task_instance_create(profileId, unitSource={kind: 'site_urls', scopeDomain: 'example.com'})
-    ETM->>TUC: Seed URL units from domain index
-    TUC-->>Agent: instanceId created with 24 URL units (status: discovered)
+    Agent->>ETM: nova.task_instance_create(profileId, unitSource={kind: 'site_urls', scopeDomain: 'example.com', freezeAfterPopulate: true})
+    ETM->>TUC: Seed URL units from domain index (capped at 1,000)
+    TUC-->>Agent: instanceId created with 24 URL units (coverageSchemaVersion: 2, discoveryState: 'frozen')
 
     Note over Agent, TUC: Agent starts auditing routes
 
     Agent->>Scan: Calls nova.read_text on URL #1
     Scan-->>Agent: Page text returned
-    Note over Scan, TUC: Bootstrap Hint Mini-Gate alerts agent that read_text is untrusted
+    Note over Scan, TUC: Bootstrap Hint Mini-Gate alerts agent that read_text produces untrusted evidence
 
-    Agent->>Scan: Calls nova.coverage_scan(scanId: 'nova_full_page_text_v1', tabId: 'tab_1')
-    Scan->>Scan: Executes registered server script, validates extraction thresholds
-    Scan->>TUC: Atomic CAS update: Unit #1 -> checked (evidenceTrusted: true)
+    Agent->>Scan: Calls nova.coverage_scan(scanId: 'nova_full_page_text_v1', targetId: 'active')
+    Scan->>Scan: Executes registered server script, validates anti-tampering & thresholds
+    Scan->>TUC: Atomic CAS update: Unit #1 -> checked (evidence_trusted: 1)
     Scan-->>Agent: scanCompleted: true
 
-    Note over Agent, TUC: Agent attempts early exit after auditing only 12 URLs
+    Note over Agent, TUC: Agent verifies progress non-destructively
 
-    Agent->>Gate: nova.task_instance_complete(instanceId)
-    Gate->>TUC: Inspect remaining URL units
-    alt Block Mode Active
-        TUC-->>Gate: 12 units remain in 'discovered' status
-        Gate-->>Agent: REJECT: { isError: true, reason: 'url_units_remaining', remainingRoutes: [...] }
-    end
+    Agent->>ETM: nova.task_instance_verify(instanceId)
+    ETM-->>Agent: completionVerification: { completionAllowed: false, currentState: { total: 24, checked: 12, remaining: 12 } }
 
-    Note over Agent, TUC: Agent resumes and covers remaining 12 URLs
+    Note over Agent, TUC: Agent completes remaining 12 routes
 
     loop Finish Remaining Routes
         Agent->>Scan: nova.coverage_scan(...)
@@ -151,9 +156,35 @@ sequenceDiagram
 
 ---
 
-## 4. MCP Tool Catalog
+## 4. Ephemeral Task Awareness Integration
 
-TUC exposes specialized tools for auditing pages and reconciling recorded observations:
+Task URL Coverage continuously feeds progress awareness into agent observation turns without writing bloated progress snapshots to disk:
+* When an agent calls `nova.task_match`, `nova.task_instance_get`, or `nova.get_instructions`, Nova computes **ephemeral task awareness**:
+
+```json
+{
+  "source": "instance",
+  "instanceId": "inst_88429",
+  "status": "in_progress",
+  "discoveryState": "frozen",
+  "progress": {
+    "totalUnits": 24,
+    "checkedUnits": 18,
+    "remainingUnits": 6,
+    "percentComplete": 75.0
+  },
+  "completionAllowed": false,
+  "guidanceSummary": "Auditing internationalized route catalog."
+}
+```
+
+This ensures that any agent resuming a task immediately observes how many routes remain unverified, preventing repetitive restarts.
+
+---
+
+## 5. MCP Tool Catalog
+
+TUC exposes specialized tools with strict parameter validation:
 
 ### 1. `nova.coverage_scan`
 Executes an immutable, server-registered scan script inside the active browser tab to produce server-trusted coverage evidence.
@@ -161,131 +192,182 @@ Executes an immutable, server-registered scan script inside the active browser t
 ```json
 {
   "scanId": "nova_full_page_text_v1",
-  "tabId": "tab_102",
-  "taskInstanceId": "inst_88429",
-  "scopeDomain": "example.com",
-  "timeoutMs": 15000
+  "targetId": "active",
+  "scopeOptions": {
+    "waitForHydration": true,
+    "hydrationTimeoutMs": 5000
+  }
 }
 ```
 
 * **Parameters:**
   * `scanId` (*string, required*): Registered script ID (`nova_full_page_text_v1`, `nova_structured_dom_v1`, `nova_i18n_spellcheck_v1`).
-  * `tabId` (*string, optional*): Browser tab identifier. Defaults to active tab.
-  * `taskInstanceId` (*string, optional*): Associated task instance ID.
-  * `scopeDomain` (*string, optional*): Restricts match to target domain.
-  * `timeoutMs` (*integer, optional*): Maximum execution duration (default `15000`).
+  * `targetId` (*string, optional*): Browser tab identifier or `"active"`. Defaults to `"active"`.
+  * `scopeOptions` (*object, optional*): Overrides for shadow DOM, iframes, and hydration timeouts.
+  * `_meta` (*object, optional*): Standard MCP metadata.
 * **Returns:** Structured extraction payload, measured DOM metrics, verified effective URL, and updated unit status.
+* **Argument Safety:** Strictly rejects any unknown arguments with error code `-32602`.
 
 ### 2. `nova.task_instance_reconcile_coverage`
-Replays historical observations from the observation ledger against open units to advance units without re-scanning.
+Replays historical observations from `task_instance_unit_observation` against open units to advance units without re-scanning.
 
 ```json
 {
   "instanceId": "inst_88429",
-  "dryRun": false,
-  "minConfidence": 0.85
+  "dryRun": true,
+  "observationCutoff": "2026-10-08T16:00:00Z"
 }
 ```
 
 * **Parameters:**
   * `instanceId` (*string, required*): Target task instance ID.
-  * `dryRun` (*boolean, optional*): If `true` (default), previews proposed transitions without committing changes. If `false`, applies upgrades.
-  * `minConfidence` (*number, optional*): Minimum confidence threshold for transition (default `0.80`).
-  * `scanScriptId` (*string, optional*): Restricts reconciliation to observations from a specific script.
-* **Returns:** Counts of evaluated, upgraded, and remaining open units, plus proposed transition diffs.
+  * `dryRun` (*boolean, optional*): If `true` (default), previews proposed transitions. If `false`, applies upgrades (developer-gated via `TaskUrlCoverageAllowAgentReconcileApply`).
+  * `observationCutoff` (*string, optional*): ISO-8601 timestamp cutoff.
+  * `_meta` (*object, optional*): Standard MCP metadata.
+* **Rate Limits:** `dryRun` max 3/hour/instance; `apply` max 1/hour/instance.
+* **Idempotency:** Reconcile tracks `last_reconciled_observation_id` and returns `no_new_evidence` if no fresh observations exist.
 
 ---
 
-## 5. Database Schema & Data Models
+## 6. Database Schema & Data Models (Schema v22)
 
-TUC persists all units, observations, and pattern groups in SQLite:
+TUC persists all units, observations, groups, and reconciliation runs in SQLite:
 
 ```mermaid
 erDiagram
     task_instance ||--o{ task_instance_unit : "owns"
     task_instance ||--o{ task_instance_unit_observation : "records"
-    task_instance ||--o{ task_url_pattern_group : "groups"
-    task_url_pattern_group ||--o{ task_instance_unit : "aggregates"
+    task_instance ||--o{ task_instance_unit_group : "groups"
+    task_instance ||--o{ coverage_reconcile_run : "reconciles"
+    coverage_reconcile_run ||--o{ coverage_reconcile_delta : "records"
+    goal_current ||--o| task_instance : "links"
+
+    task_instance {
+        string instance_id PK
+        int coverage_schema_version "1 (legacy) or 2 (active)"
+    }
+
+    goal_current {
+        string goal_id PK
+        string linked_task_instance_id FK
+    }
 
     task_instance_unit {
-        string id PK
-        string task_instance_id FK
-        string url
-        string pattern_group_id FK
+        string unit_key PK
+        string instance_id FK
+        string coverage_kind "url | state | modal | role | generic"
+        string url_normalized
+        string url_hash "16-hex SHA-256 prefix"
+        string group_id FK
+        string scope_class "snapshot_required"
+        string source_kind "explicit | site_urls | crawler"
         string status "discovered | checked | excluded"
-        int evidence_class "0 to 7"
-        int evidence_trusted "0 or 1"
+        string checked_by_observation_id FK
+        string excluded_at
         string exclusion_reason
+        string exclusion_source
         datetime updated_at
     }
 
     task_instance_unit_observation {
-        string id PK
-        string task_instance_id FK
-        string url
+        string observation_id PK
+        string instance_id FK
+        string unit_key FK
         string tool_name
-        int evidence_class
-        string arguments_hash
-        string payload_summary
+        string normalized_url
+        string normalized_url_hash
+        string evidence_kind
+        float evidence_score "0.0 - 7.0"
+        int evidence_trusted "0 or 1"
+        int eligible_for_coverage "0 or 1"
+        string eligibility_reason
+        float text_coverage_ratio
+        int normalizer_version "1"
         datetime created_at
     }
 
-    task_url_pattern_group {
-        string id PK
-        string task_instance_id FK
-        string pattern_template "/products/{id}"
+    task_instance_unit_group {
+        string group_id PK
+        string instance_id FK
+        string pattern "/products/{id}"
+        string policy "all"
+        string policy_reason
         string wildcard_class "StrongId | WeakId | Slug | Ambiguous"
-        int total_count
-        int checked_count
+        float wildcard_confidence
+        float dom_skeleton_similarity
+        int candidate_member_count
+        int auto_group_eligible "0 or 1"
         int sampling_eligible "0 or 1"
-        float skeleton_similarity
+        datetime created_at
+    }
+
+    coverage_reconcile_run {
+        string run_id PK
+        string instance_id FK
+        int dry_run "0 or 1"
+        int observations_considered
+        int units_upgraded
+        string history_completeness "complete | partial"
+        string last_reconciled_observation_id
+    }
+
+    coverage_reconcile_delta {
+        int delta_id PK
+        string run_id FK
+        string unit_key
+        string old_status
+        string new_status
+        string reason "dry_run | applied | cas_no_op"
     }
 ```
 
-### Table Details
+---
 
-1. **`task_instance_unit`**: Represents a single tracked URL route. Tracks current verification state, highest evidence class achieved, and CAS update timestamp.
-2. **`task_instance_unit_observation`**: Immutable append-only event log capturing every relevant tool execution on a URL.
-3. **`task_url_pattern_group`**: High-cardinality route groupings aggregating parameterized paths with structural similarity metrics.
+## 7. Application Settings & Developer UI Toggles
+
+TUC behavior is configured in application settings and exposed in Nova's Settings View under the **Task URL Coverage** panel:
+
+| Setting Key | Type | Default | UI Toggle Label | Description |
+| :--- | :---: | :---: | :--- | :--- |
+| `TaskUrlCoverageGateMode` | `enum` | `"Warn"` | *Gate Mode Dropdown* | Completion gate mode: `"Off"`, `"Warn"`, `"ShadowBlock"`, or `"Block"`. Under `"Block"`, incomplete URL units strictly reject `task_instance_complete`. |
+| `TaskUrlCoverageScanRecommendedGateMode` | `enum` | `"Warn"` | *Hint Gate Dropdown* | Controls the Bootstrap Hint Mini-Gate advising agents to use `nova.coverage_scan`. |
+| `TaskUrlCoverageTrackingEnabled` | `boolean` | `true` | `URL Coverage tracking` | Master switch for recording passive observations on every relevant tool call. |
+| `TaskUrlCoverageAutoGrouping` | `boolean` | `true` | `Auto-group similar URLs` | Enables automatic route grouping of high-cardinality parameterized paths (`/channels/{id}`). |
+| `TaskUrlCoverageAutoGroupingThreshold` | `integer` | `3` | *(Advanced JSON)* | Minimum matching URLs required to form a candidate pattern group. |
+| `TaskUrlCoverageAutoSampling` | `boolean` | `false` | `Allow auto-sampling` | Allows representative sampling of URL groups in Block mode. |
+| `TaskUrlCoverageAutoSamplingThreshold` | `integer` | `5` | *(Advanced JSON)* | Minimum matching URLs required to qualify for auto-group promotion. |
+| `TaskUrlCoverageScreenshotCounts` | `boolean` | `false` | `Count screenshots as visit` | Count screenshots as proof that a page was visited (`VisitedOnly`, Score 1.0). |
+| `TaskUrlCoverageDomSkeletonRequiredForBlockSampling` | `boolean` | `true` | `Require DOM-skeleton verification` | Enforces that DOM skeleton structural similarity ($S \ge 0.85$) is mandatory before sampling is allowed in Block mode. |
+| `TaskUrlCoverageAllowAgentReconcileApply` | `boolean` | `false` | `Allow agents to call reconcile dryRun=false` | Developer gate for `nova.task_instance_reconcile_coverage(dryRun=false)`. When `false`, agents cannot trigger state mutations via reconcile. |
+| `AuditKeepRawUrls` | `boolean` | `false` | `Persist raw URLs in audit log` | Persist raw unredacted URLs in the audit log (default: redacted to prevent query token leaks). |
 
 ---
 
-## 6. Configuration Settings
+## 8. Sub-Guides & Deep Dives
 
-TUC behavior is configured in application settings:
-
-| Setting Key | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `CoverageTrackingEnabled` | `boolean` | `true` | Master switch for passive observation recording and URL unit tracking. |
-| `CoverageCompletionGateMode` | `string` | `"Warn"` | Completion enforcement mode: `"Warn"` permits completion with uninspected units; `"Block"` strictly rejects completion with `url_units_remaining`. |
-| `CoverageScanDefaultTimeoutMs` | `integer` | `15000` | Default execution timeout for `nova.coverage_scan` scripts. |
-| `CoverageAutoGroupThreshold` | `integer` | `5` | Minimum count of matching parameterized URLs required to form an auto-pattern group. |
-| `CoverageSamplingMinSimilarity`| `number` | `0.85` | Minimum DOM skeleton structural similarity required for sampling eligibility. |
-| `CoverageBootstrapHintEnabled` | `boolean` | `true` | Enables the one-shot guidance mini-gate advising agents to use trusted scans. |
-
----
-
-## 7. Sub-Guides & Deep Dives
-
-For detailed implementation mechanics, refer to the specialized sub-guides:
+For exhaustive implementation mechanics, refer to the specialized sub-guides:
 
 * **[Evidence Classification & Server-Trusted Scans](evidence-and-scans.md)**
   * The server-trust invariant vs agent claims.
-  * The 8 evidence classes and mathematical extraction thresholds.
+  * The 8 evidence classes, scores, and server-side anti-tampering formulas (`claimedFitsMeasured`).
+  * Tool extraction hooks: budget-aware `read_text` parsing and search hit counters.
   * Registered scripts: `nova_full_page_text_v1`, `nova_structured_dom_v1`, and `nova_i18n_spellcheck_v1`.
-  * The Bootstrap Hint Mini-Gate.
+  * Proactive contract injection via `nova.get_instructions`.
+  * The Bootstrap Hint Mini-Gate (`etm.coverage_scan_recommended`) and calling-agent scoping rules.
 
 * **[URL Pattern Grouping & Sampling Policies](pattern-grouping-and-sampling.md)**
-  * Path segment wildcard classification (`StrongId`, `WeakId`, `Ambiguous`, `Slug`).
-  * The 3-tier grouping architecture (Candidate, Auto-Group, Sampling Eligible).
-  * DOM skeleton fingerprinting and structural similarity calculations.
-  * Task kind resolution and the "Stricter Wins" lattice.
+  * Defensive URL normalization, tracking parameter stripping, and the 16-hex privacy hash.
+  * Path segment wildcard classification (`StrongId`, `WeakId`, `Ambiguous`, `Slug`) and rank lattice.
+  * The 3-tier grouping architecture (Candidate, Auto-Group, Sampling Eligible) and the 11 protected content prefixes.
+  * DOM skeleton fingerprinting and the 4-component composite similarity formula ($S_{\text{composite}} \ge 0.85$).
+  * Task kind resolution, bilingual keyword lexicons, and the "Stricter Wins" lattice.
 
 * **[Reconciliation Engine & Completion Gates](reconciliation-and-completion-gates.md)**
-  * Passive observation logging via TOB.
-  * `nova.task_instance_reconcile_coverage` dryRun vs apply semantics.
-  * Monotonic upgrade-only state transitions.
-  * Hard completion blocking and linked goal-close enforcement.
+  * Multi-instance disambiguation and passive observation logging via TOB.
+  * `nova.task_instance_reconcile_coverage` dryRun vs apply semantics, rate limits, and idempotency cursors.
+  * Pre-completion self-diagnosis via `nova.task_instance_verify`.
+  * The `etm.task_url_coverage` completion gate payload and explicit exclusion workflows.
+  * Audit ledger redaction and linked goal-close enforcement (`goal_current.linked_task_instance_id`).
 
 ---
 

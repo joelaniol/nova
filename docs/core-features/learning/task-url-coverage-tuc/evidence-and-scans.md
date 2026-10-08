@@ -1,7 +1,7 @@
 # Evidence Classification & Server-Trusted Scans
 
 > [!NOTE]
-> This guide details the evidence hierarchy, execution pipeline, mathematical extraction thresholds, pre-registered scan scripts, and the Bootstrap Hint Mini-Gate in Task URL Coverage (TUC).
+> This guide details the evidence hierarchy, execution pipeline, mathematical extraction thresholds, pre-registered scan scripts, server-side anti-tampering checks, browser tool metric extraction, proactive contract injection, and the Bootstrap Hint Mini-Gate in Task URL Coverage (TUC).
 
 ---
 
@@ -16,7 +16,7 @@ In autonomous agent operations, an agent may suffer from confirmation bias or ha
 }
 ```
 
-If accepted blindly, audits can declare full coverage while critical routes remain unverified or failed to render.
+If accepted blindly, audits can declare full coverage while critical routes remain unverified, failed to render, or encountered unhandled runtime exceptions.
 
 To eliminate this vulnerability, Nova enforces a strict architectural invariant:
 
@@ -35,13 +35,13 @@ flowchart TD
     subgraph TrustBoundary["Nova Engine Security & Evidence Boundary"]
         EvidenceGate{"Is Scan Server-Registered?"}
         TabLease{"Tab Lease & Navigation Verified?"}
-        PayloadMetric{"Threshold & DOM Metric Satisfied?"}
+        PayloadMetric{"Server Anti-Tampering & Thresholds Met?"}
     end
 
     subgraph TrustedZone["Authoritative Ledger (Server-Trusted)"]
         ScanRegistry["CoverageScanRegistry (Immutable)"]
-        TrustedUnit["task_instance_unit (status: checked, trusted: 1)"]
-        UntrustedUnit["task_instance_unit (status: discovered / agent_claim)"]
+        TrustedUnit["task_instance_unit (status: checked, evidence_trusted: 1)"]
+        UntrustedUnit["task_instance_unit (status: discovered, evidence_trusted: 0)"]
     end
 
     Agent -->|Declares completion| PromptClaim
@@ -54,93 +54,127 @@ flowchart TD
     Agent -->|Calls nova.coverage_scan| TabLease
     TabLease -->|Verified Tab Context| ScanRegistry
     ScanRegistry -->|Executes Native Injected Script| PayloadMetric
-    PayloadMetric -->|Passed Math Thresholds| TrustedUnit
-    PayloadMetric -->|Failed / Incomplete Payload| UntrustedUnit
+    PayloadMetric -->|Passed Math Thresholds & Anti-Tampering| TrustedUnit
+    PayloadMetric -->|Failed Thresholds or Effective URL Mismatch| UntrustedUnit
 ```
 
 In `Block` mode, only evidence meeting the server-trusted criteria satisfies the coverage completion gate. Agent claims without server verification remain cataloged as unverified observations.
 
 ---
 
-## 2. The 8 Evidence Classes
+## 2. The 8 Evidence Classes & Scoring
 
-Nova categorizes all coverage observations into an 8-level evidence classification hierarchy, ranging from passive navigation to cryptographic native probes:
+Nova categorizes all coverage observations into an 8-level evidence classification hierarchy, ranging from passive navigation to cryptographic native probes. Each kind carries a numeric evidence score:
 
-| Class | Level Identifier | Description | Trusted in Block Mode? | Typical Trigger Tool |
-| :--- | :--- | :--- | :--- | :--- |
-| **0** | `none` | Untracked route or unobserved state. | No | Default initial state |
-| **1** | `visited` | URL loaded in a tab viewport, but no DOM or content payload extracted. | No | `nova.navigate`, `nova.route` |
-| **2** | `agent_eval_claim` | Agent executed arbitrary script or asserted satisfaction without server template validation. | No | `nova.eval` with custom payload |
-| **3** | `partial_read` | Partial or viewport-bounded text/DOM extraction. Incomplete page coverage. | No | `nova.read_text`, `nova.search_text` |
-| **4** | `viewport_snapshot` | Visual screenshot or perceive accessibility snapshot captured. | Conditional (Visual only) | `nova.perceive`, `nova.capture_screenshot` |
-| **5** | `server_verified_scan` | Pre-registered, immutable scan script executed with server-validated thresholds. | **Yes** | `nova.coverage_scan` |
-| **6** | `full_dom_snapshot` | Deep full-page structural DOM extraction with layout tree and skeleton hash. | **Yes** | `nova.coverage_scan` (`nova_structured_dom_v1`) |
-| **7** | `external_probe` | Out-of-process protocol probe verifying HTTP status, TLS handshake, headers, or DNS. | **Yes** | Native Outrider probes |
+| Class | Level Identifier | Description | Score | Trusted in Block Mode? | Typical Trigger Tool |
+| :---: | :--- | :--- | :---: | :---: | :--- |
+| **0** | `none` | Untracked route or unobserved state. | `0.0` | No | Default initial state |
+| **1** | `visited` | URL loaded in a tab viewport, but no DOM or content payload extracted. | `1.0` | No | `nova.navigate`, `nova.route` |
+| **2** | `visual_snapshot` | Visual screenshot or perceive accessibility snapshot captured. | `2.0` | Conditional (Visual only) | `nova.capture_screenshot` |
+| **3** | `text_extract_light` | Partial text extraction or search text hit. Incomplete page coverage. | `3.0` | No | `nova.read_text`, `nova.search_text` |
+| **4** | `manual_or_agent_asserted` | Agent asserted satisfaction without server template validation. | `4.0` | No | `nova.eval` with custom payload |
+| **5** | `text_extract_full` | Deep text extract meeting full-page mathematical thresholds, but unverified. | `5.0` | No | `nova.read_text` (unverified runner) |
+| **6** | `structured_dom_extract` | Deep full-page structural DOM extraction with layout tree and skeleton. | `6.0` | No (if agent-invoked) | `nova.perceive` (form/CTA modes) |
+| **7** | `registered_scan` | Pre-registered, immutable scan script executed with server-validated thresholds. | `7.0` | **Yes** | `nova.coverage_scan` |
 
-### Classification Rules
+### Classification Invariants
 
-1. **Monotonic Evidence Quality:** An existing unit evidence record cannot be degraded by a lower-quality observation. If a URL unit has reached Class 5 (`server_verified_scan`), subsequent Class 1 (`visited`) observations update navigation timestamps without lowering evidence class.
-2. **Effective URL Attribution:** Observations are credited to the *effective final URL* resolved by the browser engine after HTTP redirects, canonical rewrites, or Single-Page Application (SPA) router pushes, rather than the requested URL.
+1. **Monotonic Evidence Quality:** An existing unit evidence record cannot be degraded by a lower-quality observation. If a URL unit has reached Score `7.0` (`registered_scan`), subsequent Class 1 (`visited`) observations update navigation timestamps without lowering evidence class.
+2. **Effective URL Attribution:** Observations are credited to the *effective final URL* (`location.href`) resolved by the browser engine after HTTP redirects, canonical rewrites, or Single-Page Application (SPA) router pushes, rather than the requested URL.
 3. **Lease Validation:** Evidence is only accepted if the executing agent holds a valid active tab lease for the target tab at the exact time of execution.
 
 ---
 
-## 3. `nova.coverage_scan` Execution Pipeline
+## 3. Tool Extraction Hooks Across the Engine
 
-The primary mechanism for generating server-trusted evidence is the `nova.coverage_scan` tool. When an agent invokes this tool, Nova executes a deterministic, multi-stage pipeline:
+When an agent executes standard browser tools, Nova's tracking hook intercepts the structured results and extracts physical metrics:
 
-```mermaid
-sequenceDiagram
-    autonumber
-    actor Agent as Autonomous Agent
-    participant MCP as Nova MCP Router
-    participant Lease as Tab Lease Guard
-    participant Registry as Scan Registry
-    participant Engine as WebView2 / CDP Session
-    participant Validator as Evidence Classifier
-    participant Ledger as SQLite Task Ledger
+### 1. `nova.read_text` & Output Budget Accounting
+Standard text reading tools enforce character budgets to prevent prompt flooding. If an agent reads a 10,000-character article, the returned snippet might be truncated to 1,500 characters.
 
-    Agent->>MCP: nova.coverage_scan(scanId, tabId, taskInstanceId)
-    MCP->>Lease: Verify Tab Ownership & Lease State
-    Lease-->>MCP: Lease Active & Focused
-    MCP->>Registry: Lookup registered script for scanId
-    Registry-->>MCP: Returns immutable JavaScript payload
-    MCP->>Engine: Injected via Privileged Runtime Execution (Runtime.evaluate)
-    Engine-->>MCP: Raw payload (text, character counts, metrics, errors)
-    MCP->>Validator: Verify mathematical extraction thresholds & DOM integrity
-    alt Thresholds Met
-        Validator->>Ledger: Atomic CAS update (status: checked, evidenceTrusted: 1)
-        Ledger-->>MCP: Unit upgraded
-        MCP-->>Agent: scanCompleted: true, evidenceClass: server_verified_scan
-    else Thresholds Failed (e.g. truncated text or empty DOM)
-        Validator->>Ledger: Log observation failure (status remains discovered)
-        Ledger-->>MCP: Unit not advanced
-        MCP-->>Agent: scanCompleted: false, error: threshold_violation
-    end
-```
+Nova's extraction hook inspects the low-level `outputBudget` container:
+* `sourceChars`: Total characters measured in the rendered DOM.
+* `returnedChars`: Characters actually returned in the payload.
+* `truncated`: Boolean indicator.
 
-### Tool Parameters
+When `outputBudget.sourceChars` exceeds the full-page threshold, Nova credits the observation with `TextExtractFull` (Score `5.0`), ensuring the agent is not penalized for engine-enforced budget truncation.
 
-| Parameter | Type | Required | Default | Description |
-| :--- | :--- | :--- | :--- | :--- |
-| `scanId` | `string` | **Yes** | - | Registered identifier of the scan script (e.g., `nova_full_page_text_v1`). |
-| `tabId` | `string` | No | Active Tab | Identifier of the browser tab to audit. |
-| `taskInstanceId` | `string` | No | Active Instance | Associated task instance ID. If omitted, infers from active session context. |
-| `scopeDomain` | `string` | No | Domain of tab | Restricts URL match to the specified host scope. |
-| `customScript` | `string` | No | `null` | Ad-hoc JavaScript payload. *Note: produces `agent_eval_claim` (untrusted).* |
-| `timeoutMs` | `integer` | No | `15000` | Execution timeout in milliseconds (max `60000`). |
+### 2. `nova.search_text` & Hit Verification
+Search results are classified based on empirical match counts:
+* **Hit (`count > 0`):** Classified as `TextExtractLight` (Score `3.0`) on the target URL.
+* **Miss (`count == 0`):** Classified as `VisitedOnly` (Score `1.0`) with `reason = "search_miss_proves_nothing"`. A negative search result proves presence, but does not verify page content.
+
+### 3. `nova.capture_screenshot` & The Visit Evidence Toggle
+By default, capturing a screenshot produces `VisualSnapshot` (Score `2.0`). However, when `AppSettings.TaskUrlCoverageScreenshotCounts == true`, Nova treats screenshots as verified proof of presence, mapping them to `VisitedOnly` (Score `1.0`) with `reason = "screenshot_counts_as_visit_only"`.
+
+### 4. `nova.perceive` & Specialized Modes
+* **`form_analysis` / `cta_detection_v3`:** Produces `StructuredDomExtract` (Score `6.0`).
+* **`full` mode:** If hydration is stable, produces `TextExtractFull` (Score `5.0`); if hydration is unstable or page state is an error, downgrades to `VisitedOnly` (Score `1.0`).
+* **Standard summary mode:** Produces `TextExtractLight` (Score `3.0`).
+
+### 5. `nova.eval` & Agent Telemetry
+If an agent passes custom claims (e.g. `coverageEvidence: { checked: true }`) inside `nova.eval`, Nova logs the claim for telemetry, but strictly categorizes it as `TextExtractLight` (Score `3.0`) with `reason = "agent_eval_coverage_evidence_not_trusted"`.
 
 ---
 
-## 4. Hybrid Mathematical Threshold Formulas
+## 4. Server-Side Anti-Tampering & Trust Verification
+
+When `nova.coverage_scan` executes, the result payload returned from the browser runtime is subject to three strict server-side checks before `evidenceTrusted` is granted:
+
+```mermaid
+flowchart TD
+    ScanPayload["Scan Script Return Payload (JSON)"]
+
+    Check1{"Is Returned Payload Valid JSON?"}
+    Check2{"Does effectiveUrl Match Tab's Current Source URL?"}
+    Check3{"Does claimed textChars Fit measured visibleText?"}
+
+    ScanPayload --> Check1
+    Check1 -->|No| FailNull["trusted: false<br/>reason: 'scan_result_not_json'"]
+    Check1 -->|Yes| Check2
+
+    Check2 -->|No| FailUrl["trusted: false<br/>reason: 'effective_url_mismatch'"]
+    Check2 -->|Yes| Check3
+
+    Check3 -->|No: textChars > measured + 4| FailTamper["trusted: false<br/>reason: 'claimed_text_exceeds_measured'"]
+    Check3 -->|Yes| PassTrust["trusted: true<br/>reason: 'server_registered_scan'"]
+```
+
+### The Anti-Tampering Formula
+
+To prevent modified or spoofed scripts from reporting fabricated text content, Nova measures both $C_{\text{visible}}$ (`visibleTextCharsMeasured`) and $C_{\text{coverage}}$ (`coverageTextCharsMeasured`):
+
+$$\text{claimedFitsMeasured} \iff C_{\text{claimed}} \le \max(C_{\text{coverage}}, 1) + 4$$
+
+* A tolerance margin of $+4$ characters accommodates whitespace boundary normalization.
+* If an agent manipulates the payload to report more extracted text than physically measured by the DOM walker, the server immediately marks `trusted = false` with `reason = "claimed_text_exceeds_measured"`.
+
+---
+
+## 5. `nova.coverage_scan` Tool Contract
+
+The `nova.coverage_scan` tool executes an immutable, server-registered scan script inside the active browser tab.
+
+### Parameter Reference
+
+| Parameter | Type | Required | Default | Allowed Values / Constraints |
+| :--- | :--- | :--- | :--- | :--- |
+| `scanId` | `string` | **Yes** | - | Must match a registered ID in `CoverageScanRegistry` (e.g., `nova_full_page_text_v1`, `nova_structured_dom_v1`, `nova_i18n_spellcheck_v1`). Unknown IDs return error code `-32602` with `knownScanIds`. |
+| `targetId` | `string` | No | `"active"` | Target tab identifier or `"active"` for the currently focused tab. |
+| `scopeOptions` | `object` | No | Default options | Execution overrides: `includeShadowDom` (bool), `includeIframes` (bool), `waitForHydration` (bool), `hydrationTimeoutMs` (int). |
+| `_meta` | `object` | No | - | Standard MCP metadata container. |
+
+*Note: Any arguments outside `AllowedArgs` (`scanId`, `targetId`, `scopeOptions`, `_meta`) cause an immediate JSON-RPC `-32602` validation rejection.*
+
+---
+
+## 6. Mathematical Extraction Thresholds & Phase 3 Eligibility
 
 A major vulnerability in automated web extraction is partial rendering: an agent reads text before lazy loading finishes, dynamic hydration completes, or shadow DOM trees render, capturing only a fraction of the actual page content.
 
-Nova solves this by calculating **hybrid mathematical thresholds** comparing measured physical DOM character counts against extracted payload text.
+### Hybrid Mathematical Thresholds
 
-### Threshold Rules
-
-Let $C_{\text{measured}}$ be the total text character count measured in visible DOM text nodes by the internal engine walker, and $C_{\text{extracted}}$ be the clean text extracted in the return payload:
+Let $C_{\text{measured}}$ be the total text character count measured in visible DOM text nodes, and $C_{\text{extracted}}$ be the clean text extracted in the return payload:
 
 #### 1. Small Pages ($C_{\text{measured}} \le 300$ characters)
 For compact utility pages, error states, or login gates:
@@ -152,111 +186,123 @@ For typical content, articles, dashboards, and catalog pages:
 
 $$C_{\text{extracted}} \ge \max\left(300,\; 0.85 \times C_{\text{measured}}\right)$$
 
-If $C_{\text{extracted}}$ falls below this threshold, the scan fails with `threshold_violation: payload_underflow`, preventing incomplete reads from being recorded as verified coverage.
+### Phase 3 Eligibility Criteria
 
-### Compliance and Accessibility Requirements
+For a scan to qualify as eligible coverage in Block mode (`IsPhase3Eligible`), the following conditions must hold simultaneously:
 
-For accessibility (`nova_structured_dom_v1`) and internationalization (`nova_i18n_spellcheck_v1`) scans, additional validation criteria apply:
-
-* **Text Element Coverage:** $\text{extractedTextNodes} \ge 0.90 \times \text{totalVisibleTextNodes}$
-* **ARIA Label Inclusion:** All interactive elements (`<button>`, `<a>`, `<input>`, `[role="button"]`) must have their accessible names captured.
-* **Input Placeholder & Label Capture:** Form inputs must include linked `<label>` text and placeholder values.
-* **Alt Text Extraction:** Informational `<img>` elements must have `alt` attributes recorded.
+1. **Server Trusted:** `ServerTrusted == true`.
+2. **Hydration Stability:** `HydrationStable == true` (no pending DOM mutations, document ready state is complete, page state is not `"error"`).
+3. **Iframe Accounting:** If `IframeCount > 0`, the scan must have explicitly included iframes (`IncludedIframes == true`), otherwise fails with `iframes_present_but_not_included`.
+4. **Text Coverage Ratio:** $\text{TextCoverageRatio} = \frac{C_{\text{extracted}}}{C_{\text{measured}}} \ge 0.85$.
+5. **Compliance Audits:** For tasks typed as `content_audit`, `compliance`, `legal`, `security_review`, or `accessibility`:
+   * All four extraction flags must be present: `IncludedVisibleText`, `IncludedAriaLabels`, `IncludedInputs`, `IncludedAltText`.
+   * DOM skeleton similarity must satisfy: $\text{DomSkeletonSimilarity} \ge 0.85$.
 
 ---
 
-## 5. Pre-Registered Scan Scripts
+## 7. Pre-Registered Scan Scripts
 
-Nova ships with immutable, server-registered scan scripts maintained in the scan registry. Custom or dynamic scripts cannot masquerade under these identifiers.
-
-```mermaid
-classDiagram
-    class CoverageScanRegistry {
-        +GetScript(string scanId) RegisteredScanScript
-        +ListAvailableScans() List~ScanDescriptor~
-    }
-    class RegisteredScanScript {
-        +string ScanId
-        +string Description
-        +EvidenceClass TargetClass
-        +bool RequiresScrollUnfolding
-        +string MinExecutionTarget
-    }
-    CoverageScanRegistry --> RegisteredScanScript
-```
+Nova maintains immutable, embedded JavaScript scan scripts in `CoverageScanRegistry`. Scripts are hashed with SHA-256 (`ComputeScanHash`) at registration time.
 
 ### 1. `nova_full_page_text_v1`
-* **Target Evidence Class:** `server_verified_scan`
-* **Purpose:** Exhaustive text content audits, documentation reviews, and general proofreading.
+* **Target Evidence Kind:** `TextExtractFull` (`registered_scan`, Score `7.0`)
+* **Purpose:** Complete text content audits, documentation reviews, legal agreements, and general proofreading.
 * **Mechanism:**
-  * Traverses light DOM and open Shadow DOM boundaries.
-  * Handles infinite-scroll and lazy-loaded containers via controlled virtual viewport scrolling.
-  * Deduplicates repetitive sticky headers, navigation menus, and footers across page transitions.
-  * Filters invisible styling elements (`<script>`, `<style>`, `<noscript>`, `<template>`).
+  * Extracts visible body text (`body.innerText`).
+  * Aggregates interactive ARIA labels (`[aria-label]`).
+  * Extracts input placeholders (`input[placeholder]`).
+  * Gathers image alternative text (`img[alt]`).
+  * Counts total DOM nodes, interactive controls, iframes, and shadow roots.
+* **Extraction Payload:** Sets `includedVisibleText = true`, `includedAriaLabels = true`, `includedInputs = true`, `includedAltText = true`.
 
 ### 2. `nova_structured_dom_v1`
-* **Target Evidence Class:** `full_dom_snapshot`
-* **Purpose:** Deep structure audits, accessibility tree inspections, and layout validation.
+* **Target Evidence Kind:** `StructuredDomExtract` (`registered_scan`, Score `7.0`)
+* **Purpose:** Deep layout audits, accessibility tree inspections, and template similarity verification.
 * **Mechanism:**
-  * Extracts hierarchical tag trees with normalized element coordinates.
-  * Captures ARIA attributes (`role`, `aria-label`, `aria-expanded`, `aria-hidden`, `aria-describedby`).
-  * Computes the structural DOM skeleton fingerprint hash for pattern grouping and similarity detection.
+  * Extracts the ordered structural tag sequence across landmark elements: `header`, `nav`, `main`, `aside`, `section`, `article`, `footer`.
+  * Computes landmark sets and ARIA role sets (`[role]`).
+  * Computes exact counts for: `buttonCount`, `inputCount`, `linkCount`, `formCount`, `headingCount` (h1–h6), `modalLikeCount` (`[role=dialog]`, `[aria-modal=true]`), and `iframeCount`.
+  * Outputs the data consumed directly by the DOM Skeleton Comparer.
 
 ### 3. `nova_i18n_spellcheck_v1`
-* **Target Evidence Class:** `server_verified_scan`
-* **Purpose:** Multilingual website verification, translation gap analysis, and localized copy auditing.
+* **Target Evidence Kind:** `TextExtractFull` (`registered_scan`, Score `7.0`)
+* **Purpose:** Multilingual verification, translation completeness audits, and orthography inspection.
 * **Mechanism:**
-  * Extracts translatable text nodes along with their nearest `lang` attribute or inherited document language.
-  * Preserves inline formatting tags (`<strong>`, `<em>`, `<span>`) within word boundaries to prevent false spelling errors on split terms.
-  * Isolates button captions, validation error messages, and placeholder strings into structured translation dictionaries.
+  * Extracts visible-only text optimized for human-readable string scanning without injecting noise from technical attribute strings.
+  * Measures visible body text against total body text content to detect hidden or collapsed language containers.
 
 ---
 
-## 6. The Bootstrap Hint Mini-Gate
+## 8. Proactive Contract Injection via `nova.get_instructions`
 
-Agents often fall back on familiar generic tools (such as `nova.read_text`, `nova.search_text`, or `nova.perceive`) out of habit, unaware that the task instance requires server-trusted evidence for completion.
+Rather than waiting for an agent to make a mistake, Nova educates the agent proactively. When an active exhaustive task instance exists for the calling agent, `nova.get_instructions` dynamically appends a **Coverage Scan Contract** block:
 
-To prevent agents from wasting context and tokens on tools that will not satisfy the completion gate, Nova includes the **Bootstrap Hint Mini-Gate**.
+```markdown
+## Coverage Scan Contract (active exhaustive instance detected)
+Instance `inst_88429` (coverage_schema_version=2) is set up for URL Coverage. For Block-eligible evidence, prefer `nova.coverage_scan` over `nova.perceive` / `nova.read_text` — agent-claimed `coverageEvidence` is never trusted in Block-Mode.
 
-### Interception Logic
+### Registered Coverage Scans
+- `nova_full_page_text_v1` — visible text + ARIA + input placeholders + img alt. Use for accessibility and broad text audits.
+- `nova_structured_dom_v1` — tag sequence + landmarks + roles + control counts. Use for route inventory and structural diffs.
+- `nova_i18n_spellcheck_v1` — visible text only, optimized for human-readable strings. Use for content audits and spellcheck.
+
+### Calling Convention
+nova.coverage_scan({
+  scanId: 'nova_i18n_spellcheck_v1',
+  targetId: 'active'
+})
+```
+
+---
+
+## 9. The Bootstrap Hint Mini-Gate (`etm.coverage_scan_recommended`)
+
+If an agent still invokes generic reading tools (`nova.perceive`, `nova.read_text`, `nova.eval`, `nova.search_text`, `nova.capture_screenshot`), Nova intercepts the turn with the **Bootstrap Hint Mini-Gate**.
+
+### Trigger & Scoping Conditions
 
 ```mermaid
 flowchart TD
-    ToolCall["Agent calls read_text / perceive / search_text"]
-    ActiveInstanceCheck{"Is there an active Task Instance with open URL units?"}
-    GateModeCheck{"Is Coverage Gate in 'Block' mode?"}
-    HintSentCheck{"Has Bootstrap Hint already fired for this instance?"}
+    ToolCall["Agent calls reading tool: perceive / read_text / eval / search_text"]
+    ToolCheck{"Is tool in ReadingTools set?"}
+    CallingAgent{"Resolve calling agent ID"}
+    CandidateCheck{"Find most recently active unfinished instance for THIS agent"}
+    ExhaustiveCheck{"Is candidate instance Exhaustive?"}
+    SchemaCheck{"Is coverage_schema_version >= 2?"}
+    AlreadyWarned{"Has hint already fired for this instance?"}
+    RecentScanCheck{"Has coverage_scan run recently on this tab?"}
 
-    ToolCall --> ActiveInstanceCheck
-    ActiveInstanceCheck -->|No| NormalExecution["Execute tool normally without hint"]
-    ActiveInstanceCheck -->|Yes| GateModeCheck
-    GateModeCheck -->|No| NormalExecution
-    GateModeCheck -->|Yes| HintSentCheck
-    HintSentCheck -->|Yes: Already notified| NormalExecution
-    HintSentCheck -->|No: First occurrence| InjectHint["Execute tool AND inject high-priority guidance hint"]
+    ToolCall --> ToolCheck
+    ToolCheck -->|No| AllowSilent["Execute normally (silent)"]
+    ToolCheck -->|Yes| CallingAgent
 
-    InjectHint --> AgentFeedback["Agent receives output + guidance recommending nova.coverage_scan"]
+    CallingAgent --> CandidateCheck
+    CandidateCheck -->|No instance| AllowSilent
+    CandidateCheck -->|Found instance| ExhaustiveCheck
+
+    ExhaustiveCheck -->|No| AllowSilent
+    ExhaustiveCheck -->|Yes| SchemaCheck
+
+    SchemaCheck -->|No (< 2)| AllowSilent
+    SchemaCheck -->|Yes| AlreadyWarned
+
+    AlreadyWarned -->|Yes: Already warned| AllowSilent
+    AlreadyWarned -->|No| RecentScanCheck
+
+    RecentScanCheck -->|Yes: Recent scan active| AllowSilent
+    RecentScanCheck -->|No| EmitGate["Inject _aagGates.coverageScanRecommended payload"]
 ```
 
-### Hint Payload Example
+### Critical Scoping Rules
 
-When triggered, the tool output includes an actionable guidance block:
-
-```json
-{
-  "content": "...",
-  "_guidance_hint": {
-    "type": "tuc_bootstrap_recommendation",
-    "message": "Notice: Task instance 'inst_88429' has 24 open URL units under Block coverage policy. Calling 'read_text' produces Class 3 (partial_read) untrusted evidence. To satisfy the completion gate, execute 'nova.coverage_scan' with scanId='nova_full_page_text_v1'.",
-    "suggestedTool": "nova.coverage_scan",
-    "suggestedScanId": "nova_full_page_text_v1",
-    "remainingUnits": 24
-  }
-}
-```
-
-* **One-Shot Guarantee:** The mini-gate triggers at most once per task instance per session to avoid token bloat.
-* **Non-Blocking Execution:** The underlying tool execution (`read_text`, `perceive`) still succeeds; the guidance is appended alongside normal results.
+1. **Strict Calling-Agent Isolation:** The gate evaluates only the calling agent's candidate instances (`ResolveCoverageGateAgentId`). It never borrows an unfinished instance from another agent, preventing cross-agent guidance pollution.
+2. **One-Shot Guarantee:** Tracked per instance ID in memory (`_coverageScanWarnedInstances`). The hint fires at most once per task instance and is re-armed only when the instance completes.
+3. **Recency Suppression:** If `nova.coverage_scan` was called recently on the tab, the hint is suppressed—the agent is already using the correct tool.
+4. **Task-Specific Scan Recommendation:**
+   * `content_audit`, `compliance`, `legal` $\rightarrow$ recommends `scanId: "nova_i18n_spellcheck_v1"`.
+   * `accessibility`, `security_review` $\rightarrow$ recommends `scanId: "nova_full_page_text_v1"`.
+   * `route_inventory` $\rightarrow$ recommends `scanId: "nova_structured_dom_v1"`.
+   * fallback $\rightarrow$ recommends `scanId: "nova_full_page_text_v1"`.
 
 ---
 

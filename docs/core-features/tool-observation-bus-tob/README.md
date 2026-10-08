@@ -570,9 +570,9 @@ To maintain high SQLite query performance and prevent database file bloat, TOB i
 ```mermaid
 flowchart TD
     Job["Retention Job (Fire-and-Forget)"] --> Classify{"Scope Status & Class"}
-    Classify -->|Clean Normal Scope (closed)| R1["Delete if closed_at_ms > 7 Days"]
-    Classify -->|Problematic Scope (none, unknown, incomplete, faulted)| R2["Delete if closed_at_ms > 30 Days"]
-    Classify -->|Unscoped Blocked Calls (blocked_preflight)| R3["Delete if projected_at_ms > 30 Days"]
+    Classify -->|"Clean Normal Scope (closed)"| R1["Delete if closed_at_ms > 7 Days"]
+    Classify -->|"Problematic Scope (none, unknown, incomplete, faulted)"| R2["Delete if closed_at_ms > 30 Days"]
+    Classify -->|"Unscoped Blocked Calls (blocked_preflight)"| R3["Delete if projected_at_ms > 30 Days"]
 
     R1 --> Prune["Delete from tob_scope_runtime & Cascade to Children"]
     R2 --> Prune
