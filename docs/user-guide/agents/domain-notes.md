@@ -24,7 +24,7 @@ To manage notes across websites, use **Settings → AI & agents → Access & rul
 
 For Warn and MUST read, check **Site notes → Global override → On — per-note level wins (recommended)**. With the global switch off, even a MUST-read note becomes an inspection hint and does not block calls. The note editor also warns when this switch is off.
 
-Site-note enforcement is part of Nova's **Agent Awareness Gates (AAG)**. You do not need to put every other awareness gate into Block mode to use a MUST-read note. See [AAG](../../core-features/agent-awareness-gates-aag/README.md#site-notes-and-required-acknowledgement) for the technical context.
+Site-note enforcement is part of Nova's **Agent Awareness Gates (AAG)**. You do not need to put every other awareness gate into Block mode to use a MUST-read note. See [AAG](../../core-features/agent-awareness-gates-aag/README.md#53-user-directives--domain-notes-usersite_note) for the technical context.
 
 ## Ask for a visible confirmation of understanding
 

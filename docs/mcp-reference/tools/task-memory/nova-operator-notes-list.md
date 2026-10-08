@@ -6,9 +6,9 @@ Lists all persistent operator notes with tags and sandbox scopes.
 
 ## 1. Overview
 
-`nova.operator_notes_list` returns a paginated list of human operator notes, including tags, categories, and sandbox assignments.
+`nova.operator_notes_list` returns a paginated list of operator notes, including tags, categories, and sandbox assignments. Notes can originate from user guidance or agent observations.
 
-* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/learning/episodic-task-memory-etm/README.md)
+* **Core Architecture Guide:** [Operator Notes](../../../core-features/learning/operator-notes/README.md)
 
 ---
 

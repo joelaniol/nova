@@ -8,7 +8,7 @@ Deletes an operator note by unique ID.
 
 `nova.operator_notes_delete` removes an operator note from the persistent database.
 
-* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/learning/episodic-task-memory-etm/README.md)
+* **Core Architecture Guide:** [Operator Notes](../../../core-features/learning/operator-notes/README.md)
 
 ---
 

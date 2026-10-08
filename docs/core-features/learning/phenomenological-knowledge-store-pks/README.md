@@ -26,7 +26,7 @@ Nova maintains distinct memory layers tailored to specific operational requireme
 | :--- | :--- | :--- | :--- |
 | **PKS** | Reusable domain-specific UI patterns, interaction playbooks, verification checks, and structural domain capabilities. | Cookie banner dismissal, modal closing, pagination triggers, ad container rules. | [`nova.pks_get`](../../../mcp-reference/tools/pks-and-learning/nova-pks-get.md), [`nova.pks_upsert`](../../../mcp-reference/tools/pks-and-learning/nova-pks-upsert.md), [`nova.phenomenon_apply`](../../../mcp-reference/tools/pks-and-learning/nova-phenomenon-apply.md) |
 | [Browser Memory](../browser-memory/README.md) | Domain notes, user preferences, and free-form site facts. | User's preferred dark theme, site language preferences, general notes. | `nova.memory_note`, `nova.memory_recall` |
-| Operator Notes | Human-directed instructions, operator guidance, and workflow boundaries. | "Never place orders above $100 without confirmation", "Prefer CSV exports". | `nova.operator_notes_store`, `nova.operator_notes_query` |
+| [Operator Notes](../operator-notes/README.md) | Human-directed instructions, operator guidance, and workflow boundaries. | "Never place orders above $100 without confirmation", "Prefer CSV exports". | `nova.operator_notes_store`, `nova.operator_notes_query` |
 | [Task Memory (ETM)](../episodic-task-memory-etm/README.md) | Recurring task profiles, completion criteria, and milestone progress. | Research workflow recipes, progress tracking across multi-step jobs. | `nova.task_profile_upsert`, `nova.task_instance_create` |
 | [Operational Knowledge (OK)](../operational-knowledge-ok/README.md) | Real-time tab state, account capabilities, and live operational signals. | Current logged-in user email, active account tier, tab ownership. | `nova.ok_observe`, `nova.ok_signal_schema` |
 | [Domain Notes](../domain-notes/README.md) | Persistent website instructions, scope and optional acknowledgement requirements. | Search existing records first; ask before creating or deleting records. | `nova.domain_note`, `nova.domain_notes_list`, `nova.domain_note_ack` |
@@ -569,6 +569,8 @@ PKS is built for robust local execution within Nova's client runtime:
 
 ## Related Documentation
 
+* [Learn Mode user guide](../../../getting-started/learn-mode.md) — Deliberate website exploration, a reusable platform playbook, and how this differs from everyday task learning.
+* [Operator Notes](../operator-notes/README.md) — Searchable working guidance and environment context across sessions.
 * [Agent Learning Pipeline (ALP)](../agent-learning-pipeline-alp/README.md) — Candidate generation, evidence evaluation, and promotion gates.
 * [Closed-Loop System (CLS)](../../closed-loop-system-cls/README.md) — Verified state transitions and ambient auto-apply execution.
 * [Tool Observation Bus (TOB)](../../tool-observation-bus-tob/README.md) — Server-side evidence ledger and selector proof.

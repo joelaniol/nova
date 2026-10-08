@@ -16,7 +16,7 @@ For example, save “Search existing records first; ask me before creating or de
 | **Warn the agent** | Adds a warning to applicable tool results. |
 | **MUST read** | Blocks applicable calls until the agent acknowledges the note. |
 
-Warn and MUST-read enforcement require **Site notes → Global override → On — per-note level wins (recommended)**. When the global switch is off, those notes remain inspection hints. Enforcement uses [Agent Awareness Gates (AAG)](../../agent-awareness-gates-aag/README.md#site-notes-and-required-acknowledgement); it does not require putting every other awareness gate into Block mode.
+Warn and MUST-read enforcement require **Site notes → Global override → On — per-note level wins (recommended)**. When the global switch is off, those notes remain inspection hints. Enforcement uses [Agent Awareness Gates (AAG)](../../agent-awareness-gates-aag/README.md#53-user-directives--domain-notes-usersite_note); it does not require putting every other awareness gate into Block mode.
 
 Acknowledgement is tracked per tab. A new tab, an edited note or a configured time or tool-call interval can require another acknowledgement. An individual note can override the repeat defaults; `0` disables that repeat trigger, while closing the tab still re-arms acknowledgement.
 
@@ -35,6 +35,7 @@ Notes created through Nova's interface are marked as authored by the user. Agent
 | What you want to preserve | Topic |
 | :--- | :--- |
 | Website instructions, optionally with warnings or required acknowledgement | **Domain Notes** |
+| Searchable working guidance without a required website domain | [Operator Notes](../operator-notes/README.md) |
 | Reported login, plan or active-model state for a target | [Operational Knowledge (OK)](../operational-knowledge-ok/README.md) |
 | Recallable site preferences and context | [Browser Memory](../browser-memory/README.md) |
 | Recognition, actions and verification for recurring website situations | [Phenomenological Knowledge Store (PKS)](../phenomenological-knowledge-store-pks/README.md) |

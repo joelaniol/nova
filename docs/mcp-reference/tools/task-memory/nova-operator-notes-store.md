@@ -6,9 +6,9 @@ Stores or updates a persistent operator note with search tags and category.
 
 ## 1. Overview
 
-`nova.operator_notes_store` saves human-authored operating instructions that are automatically indexed and surfaced to agents working in matching domains or tasks.
+`nova.operator_notes_store` stores working guidance, preferences or environment context with tags and optional sandbox binding. Notes can record agent observations or user-supplied guidance, and matching task keywords can surface them in later sessions.
 
-* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/learning/episodic-task-memory-etm/README.md)
+* **Core Architecture Guide:** [Operator Notes](../../../core-features/learning/operator-notes/README.md)
 
 ---
 

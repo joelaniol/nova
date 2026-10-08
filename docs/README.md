@@ -145,6 +145,7 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 | [Phenomenological Knowledge Store (PKS)](core-features/learning/phenomenological-knowledge-store-pks/README.md) | What Nova learns about how a site works |
 | [Operational Knowledge (OK)](core-features/learning/operational-knowledge-ok/README.md) | Login state, plan and active model of a site, as signals agents report |
 | [Domain Notes](core-features/learning/domain-notes/README.md) | Persistent website instructions, scope, warnings and required acknowledgement |
+| [Operator Notes](core-features/learning/operator-notes/README.md) | Searchable working guidance, preferences and environment context with sandbox scope |
 | [Episodic Task Memory (ETM)](core-features/learning/episodic-task-memory-etm/README.md) | Recurring tasks and their progress |
 | [Task URL Coverage (TUC)](core-features/learning/task-url-coverage-tuc/README.md) | URL work units, scan evidence and coverage gates |
 | [Agent Learning Pipeline (ALP)](core-features/learning/agent-learning-pipeline-alp/README.md) | How a lesson is checked before it is kept |
