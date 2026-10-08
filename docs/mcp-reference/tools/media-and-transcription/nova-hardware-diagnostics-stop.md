@@ -8,7 +8,7 @@ Stops in-page hardware diagnostics and releases active camera, microphone, or sp
 
 `nova.hardware_diagnostics_stop` halts ongoing hardware diagnostic loops and disposes of in-page media streams and WebAudio analyzers.
 
-* **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence/README.md)
+* **Core Architecture Guide:** [Media Devices & Permissions](../../../core-features/media-intelligence/devices-and-permissions/README.md)
 
 ---
 

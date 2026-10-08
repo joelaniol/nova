@@ -2,7 +2,7 @@
 
 > **Reads what is currently sitting in a chat composer: its text, its attachments, and whether the send control looks ready.**
 
-* **Core Feature Guide:** [Visual Evidence & Layout QA](../../../core-features/evidence-verification-mode-evm/README.md)
+* **Core Feature Guide:** [Visual Evidence & Layout QA](../../../core-features/research/evidence-verification-mode-evm/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

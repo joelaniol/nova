@@ -8,7 +8,7 @@ Reports progress, elapsed percentage, and recognized text segments of an active 
 
 `nova.media_transcribe_status` inspects a running or completed transcription job. It reports the job's stage (`converting`/`loading_model`/`recognizing`), seconds of audio covered so far, a progress ratio once the audio length is known, and — with `includeText: true` — the recognized segments and full text with timestamps.
 
-* **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence/README.md)
+* **Core Architecture Guide:** [Speech Transcription](../../../core-features/media-intelligence/transcription/README.md)
 
 ---
 

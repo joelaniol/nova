@@ -8,7 +8,7 @@ Identifies a local media file's container and duration from its header, without 
 
 `nova.media_file_info` identifies a file's container from its leading bytes (not its file name) and reads its stated duration where the container provides one, without spawning external tools such as ffprobe. It does not extract bitrate, sample rate, channel count, or video dimensions. It also reports whether the container is one [`nova.media_transcribe_start`](nova-media-transcribe-start.md) accepts.
 
-* **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence/README.md)
+* **Core Architecture Guide:** [Speech Transcription](../../../core-features/media-intelligence/transcription/README.md)
 
 ---
 

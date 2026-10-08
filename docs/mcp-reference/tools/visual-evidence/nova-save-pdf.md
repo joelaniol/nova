@@ -4,6 +4,8 @@ Renders the active web page to a vector PDF document on disk via Chrome DevTools
 
 ---
 
+* **Core Feature Guide:** [PDF Reading & Export](../../../core-features/media-intelligence/pdf/README.md)
+
 ## 1. Overview
 
 Exporting contracts, receipts, articles, or multi-page documentation as visual screenshots is cumbersome and lossy. `nova.save_pdf` renders pages directly into searchable, vector PDF files. Because the generated PDF is written directly to disk, large multi-page reports consume **zero response tokens** in the agent conversation context.

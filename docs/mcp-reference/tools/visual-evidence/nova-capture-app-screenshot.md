@@ -2,7 +2,7 @@
 
 > **Captures the Nova app window (tabs, topbar, WebView content) — or, if another agent holds the active tab's claim, a read-only redacted shell view with page content masked out.**
 
-* **Core Feature Guide:** [Visual Evidence & Auditing](../../../core-features/evidence-verification-mode-evm/README.md)
+* **Core Feature Guide:** [Visual Evidence & Auditing](../../../core-features/research/evidence-verification-mode-evm/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

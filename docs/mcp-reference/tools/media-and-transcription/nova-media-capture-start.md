@@ -8,7 +8,7 @@ Starts streaming capture of live audio/video playing in a tab (Media Source Exte
 
 `nova.media_capture_start` intercepts and records audio or video playing inside a tab that cannot be downloaded via standard URL fetching: adaptive HLS/DASH players that push segments into a `MediaSource` (`source: "mse"`), and WebAudio graphs built from `decodeAudioData`, such as voice messages (`source: "webaudio"`). DRM-protected (Widevine/EME) media is out of scope — the recorder only ever sees ciphertext for it, so the resulting file is unplayable.
 
-* **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence/README.md)
+* **Core Architecture Guide:** [Media Capture](../../../core-features/media-intelligence/media-capture/README.md)
 
 ---
 

@@ -117,10 +117,15 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 | Page | What it covers |
 |---|---|
 | [Input Dispatch & Shadow DOM Traversal](core-features/humanized-input-engine/README.md) | How clicks, keys and drags reach the page; open Shadow DOM |
-| [Evidence Verification Mode (EVM)](core-features/evidence-verification-mode-evm/README.md) | Screenshots as proof of what the page shows |
 | [Native Dialogs & UI Prompts](core-features/native-dialogs-and-prompts/README.md) | Dialogs outside the web page |
 | [Auth Surface Detection (ASD)](core-features/auth-surface-detection-asd/README.md) | Recognising login pages and checking a sign-in worked |
 | [Autonomous Crawler & Surface Explorer](core-features/crawler-and-discovery/README.md) | Exploring whole sites instead of single pages |
+
+**Research**
+
+| Page | What it covers |
+|---|---|
+| [Research](core-features/research/README.md) | Evidence Verification Mode (EVM), factual claims, sources and visual evidence |
 
 **Verification and safety**
 
@@ -153,7 +158,7 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 |---|---|
 | [Multi-Sandbox Session Isolation](core-features/sandbox-isolation/README.md) | Separate profiles with their own logins |
 | [Site Data & Privacy Management (Cookies, Storage, Cache)](core-features/site-data-management/README.md) | Cookies, storage and cache |
-| [Network](core-features/network/README.md) | Proxy routing, tab-scoped interception and request replay |
+| [Network](core-features/network/README.md) | Proxy routing, interception, request replay and SSL/TLS diagnostics |
 | [Fingerprint Protection & Browser Identity](core-features/fingerprint-and-identity/README.md) | Browser fingerprint protection |
 | [Session Recording & Time-Travel Debugging](core-features/session-recording/README.md) | Recording a run to see later what happened |
 
@@ -164,7 +169,7 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 | [Terminal Workspaces & ConPTY Integration](core-features/terminal-workspaces/README.md) | Terminals the agent can use |
 | [Scheduled Tasks & Background Automation Engine](core-features/scheduled-tasks/README.md) | Work that runs on its own |
 | [Connectors](core-features/connectors/README.md) | Mail, SSH, SFTP, FTP/FTPS and external MCP servers |
-| [Media Intelligence & Speech Transcription](core-features/media-intelligence/README.md) | Audio, video and transcription |
+| [Media Intelligence](core-features/media-intelligence/README.md) | Speech transcription, image viewing, PDFs, playback, capture and media devices |
 | [Agent-Authored Plugins (AAP) & Jint JavaScript Runtime](core-features/plugins/README.md) | Small scripts an agent writes for a site |
 
 ## Troubleshooting

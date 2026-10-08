@@ -8,7 +8,7 @@ Performs an incremental read of the in-memory media permission activity ring buf
 
 `nova.media_activity_delta` reads new permission events that occurred since a given sequence watermark. Designed for real-time monitoring of agent or user permission prompts.
 
-* **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence/README.md)
+* **Core Architecture Guide:** [Media Devices & Permissions](../../../core-features/media-intelligence/devices-and-permissions/README.md)
 
 ---
 

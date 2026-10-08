@@ -8,7 +8,7 @@ Retrieves an audit trail of stored media permissions joined with recent decision
 
 `nova.media_activity_audit` compiles stored per-site media permissions joined with timestamped decisions from Nova's in-memory permission activity log.
 
-* **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence/README.md)
+* **Core Architecture Guide:** [Media Devices & Permissions](../../../core-features/media-intelligence/devices-and-permissions/README.md)
 
 ---
 

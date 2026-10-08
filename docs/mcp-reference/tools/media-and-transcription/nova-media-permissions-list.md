@@ -8,7 +8,7 @@ Lists all stored per-origin permission overrides along with global default polic
 
 `nova.media_permissions_list` retrieves all configured domain permissions across camera, microphone, speaker, and screenCapture axes, including global defaults.
 
-* **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence/README.md)
+* **Core Architecture Guide:** [Media Devices & Permissions](../../../core-features/media-intelligence/devices-and-permissions/README.md)
 
 ---
 

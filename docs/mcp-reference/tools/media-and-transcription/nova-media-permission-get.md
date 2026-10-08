@@ -8,7 +8,7 @@ Reads the effective and stored media permissions for a specific web origin.
 
 `nova.media_permission_get` evaluates the active permission state for an origin, factoring in stored overrides, iframe requesting origins, and global browser defaults.
 
-* **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence/README.md)
+* **Core Architecture Guide:** [Media Devices & Permissions](../../../core-features/media-intelligence/devices-and-permissions/README.md)
 
 ---
 

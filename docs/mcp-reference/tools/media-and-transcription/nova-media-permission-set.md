@@ -8,7 +8,7 @@ Sets or clears persistent or session-based camera, mic, speaker, and geolocation
 
 `nova.media_permission_set` configures origin-specific overrides for camera, microphone, speaker, screen-share, and geolocation permissions. Writes are either persistent (survive restart) or session-scoped grants that are cleared on app exit, after a time cap, or once the last tab closes.
 
-* **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence/README.md)
+* **Core Architecture Guide:** [Media Devices & Permissions](../../../core-features/media-intelligence/devices-and-permissions/README.md)
 
 ---
 

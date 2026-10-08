@@ -8,7 +8,7 @@ Emergency kill switch terminating all active camera, microphone, and screen-shar
 
 `nova.media_stop_all` acts as an emergency cutoff for active hardware media streams. It stops live camera, microphone, and screen-sharing tracks across all tabs (or within one origin, with `scope: "origin"`). It does not clear stored or session permission grants — a stopped site can start a new stream again without a fresh prompt if it already holds Allow. Use [`nova.media_permissions_clear_session_grants`](nova-media-permissions-clear-session-grants.md) to also drop in-memory "Allow once" grants.
 
-* **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence/README.md)
+* **Core Architecture Guide:** [Media Devices & Permissions](../../../core-features/media-intelligence/devices-and-permissions/README.md)
 
 ---
 

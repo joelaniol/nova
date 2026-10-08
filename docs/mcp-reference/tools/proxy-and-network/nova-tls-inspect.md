@@ -17,7 +17,7 @@ Inspects the TLS certificate and server configuration of one host in depth: full
 * **`findings[]`** grades what was measured (`critical`, `high`, `medium`, `info`). There is deliberately no overall score.
 * **Network route:** every connection takes the same proxy route as the browser and never falls back to a direct connection when the proxy fails.
 
-* **Core Architecture Guide:** [Network](../../../core-features/network/README.md)
+* **Core Architecture Guide:** [SSL/TLS Inspection & Debugging](../../../core-features/network/tls-inspection/README.md)
 
 ---
 

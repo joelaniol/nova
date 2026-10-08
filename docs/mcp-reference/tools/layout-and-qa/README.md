@@ -2,7 +2,7 @@
 
 Bounding box measurements, container width constraints, text clipping, WCAG accessibility audits, and Core Web Vitals.
 
-* **Core Architecture Guide:** [Core Features: evm-and-visual-evidence.md](../../../core-features/evidence-verification-mode-evm/README.md)
+* **Core Architecture Guide:** [Evidence Verification Mode (EVM) & Visual Evidence](../../../core-features/research/evidence-verification-mode-evm/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

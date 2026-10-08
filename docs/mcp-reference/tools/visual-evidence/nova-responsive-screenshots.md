@@ -2,7 +2,7 @@
 
 > **Sweeps multiple viewport widths one at a time, capturing a screenshot at each and restoring the tab's original viewport afterwards.**
 
-* **Core Feature Guide:** [Visual Evidence & Auditing](../../../core-features/evidence-verification-mode-evm/README.md)
+* **Core Feature Guide:** [Visual Evidence & Auditing](../../../core-features/research/evidence-verification-mode-evm/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

@@ -8,7 +8,7 @@ Returns an O(1) instant snapshot of currently active camera, microphone, and scr
 
 `nova.media_activity_status` performs a zero-overhead check of active media streams across all browser tabs. It returns the number of origins with at least one live track, the total live track count, and the list of those origins — as an aggregate, not broken down by camera/microphone/screen-share.
 
-* **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence/README.md)
+* **Core Architecture Guide:** [Media Devices & Permissions](../../../core-features/media-intelligence/devices-and-permissions/README.md)
 
 ---
 

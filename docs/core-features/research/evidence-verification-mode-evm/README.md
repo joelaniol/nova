@@ -18,8 +18,8 @@ For a visual task, an agent might need to check whether a Save confirmation is r
 | Research sources | A factual claim, subject to relevance, currency and source independence. |
 | Screenshot | What the captured surface visibly showed at capture time. |
 | Screenshot diff | Which pixels changed within the comparison and its masks. |
-| [CLS verification](../closed-loop-system-cls/README.md) | Whether specified state conditions held around an action. |
-| [TOB observation](../tool-observation-bus-tob/README.md) | What Nova recorded about tool execution. |
+| [CLS verification](../../closed-loop-system-cls/README.md) | Whether specified state conditions held around an action. |
+| [TOB observation](../../tool-observation-bus-tob/README.md) | What Nova recorded about tool execution. |
 
 A changed image is not automatically an improvement, and a successful screenshot capture is not a passing UI check. Choose the evidence that can answer the actual question.
 
@@ -89,8 +89,8 @@ flowchart TD
 
 ## Related Documentation
 
-* **[Tool Observation Bus (TOB)](../tool-observation-bus-tob/README.md)** — Server-side evidence ledger and visit windows.
-* **[Agent Awareness Gates (AAG)](../agent-awareness-gates-aag/README.md)** — Pre-execution safety and multi-agent lease locking.
-* **[Input Dispatch & Shadow DOM Traversal](../humanized-input-engine/README.md)** — How Nova delivers mouse and keyboard input.
+* **[Tool Observation Bus (TOB)](../../tool-observation-bus-tob/README.md)** — Server-side evidence ledger and visit windows.
+* **[Agent Awareness Gates (AAG)](../../agent-awareness-gates-aag/README.md)** — Pre-execution safety and multi-agent lease locking.
+* **[Input Dispatch & Shadow DOM Traversal](../../humanized-input-engine/README.md)** — How Nova delivers mouse and keyboard input.
 
-[All core features](../README.md)
+[Research overview](../README.md) · [All core features](../../README.md)

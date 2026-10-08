@@ -6,12 +6,13 @@ Nova's network controls cover browser routing and tab-scoped request debugging. 
 | :--- | :--- |
 | [Proxy Routing](proxy/README.md) | Proxy profiles, authentication, the shared browser route and optional leak protection. |
 | [Network Interception & Request Replay](network-interception/README.md) | Temporary request/response rules in a tab and a separate HTTP request repeater. |
+| [SSL/TLS Inspection & Debugging](tls-inspection/README.md) | Certificate chains, host coverage, protocols, ciphers, HSTS and Certificate Transparency. |
 
 ## How the Controls Relate
 
 Proxy routing selects the shared browser's route to the network, subject to configured bypasses. Network interception temporarily changes matching requests or responses in one tab. Interception does not require a proxy profile.
 
-Request replay sends a separate HTTP request outside the page, optionally adopting session material. It does not run through the page's tab-scoped interception rules.
+Request replay sends a separate HTTP request outside the page, optionally adopting session material. It does not run through the page's tab-scoped interception rules. TLS inspection examines certificate and connection evidence; it does not approve a certificate warning or change interception rules.
 
 Session isolation, proxy routing and browser identity are separate controls. Two sandboxes can have different logins while still using the same proxy and outward-facing IP.
 

@@ -162,6 +162,6 @@ All four tools are in `page_read_debug`. Four names expose multiple actions and 
 
 * [Proxy Routing](../proxy/README.md) — Browser routing, profiles and leak protection.
 * [Session Recording](../../session-recording/README.md) — Recorded request data for investigation.
-* [TLS Inspection](../../../mcp-reference/tools/proxy-and-network/nova-tls-inspect.md) — Separate certificate and server-configuration diagnostics.
+* [SSL/TLS Inspection & Debugging](../tls-inspection/README.md) — Separate certificate and server-configuration diagnostics.
 
 [Network overview](../README.md) · [All core features](../../README.md)

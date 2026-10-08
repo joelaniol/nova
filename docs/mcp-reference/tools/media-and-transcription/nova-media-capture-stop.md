@@ -8,7 +8,7 @@ Stops in-tab media capture, flushes pending segments, closes the per-track files
 
 `nova.media_capture_stop` cleanly terminates an active streaming capture started by [`nova.media_capture_start`](nova-media-capture-start.md). It flushes and closes one file per SourceBuffer track (video and audio are not muxed together) and returns each track's file path and byte count. A stream with separate audio/video tracks needs a tool like ffmpeg afterwards to combine them.
 
-* **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence/README.md)
+* **Core Architecture Guide:** [Media Capture](../../../core-features/media-intelligence/media-capture/README.md)
 
 ---
 

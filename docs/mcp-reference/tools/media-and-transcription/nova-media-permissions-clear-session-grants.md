@@ -8,7 +8,7 @@ Drops all temporary session permissions and halts any live media tracks relying 
 
 `nova.media_permissions_clear_session_grants` purges all in-memory "Allow once" decisions across all browser tabs and forcibly terminates any live audio/video tracks running under temporary grants.
 
-* **Core Architecture Guide:** [Media Intelligence & Speech Transcription](../../../core-features/media-intelligence/README.md)
+* **Core Architecture Guide:** [Media Devices & Permissions](../../../core-features/media-intelligence/devices-and-permissions/README.md)
 
 ---
 

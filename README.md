@@ -92,7 +92,7 @@ Agents can sign in with stored passwords without the plaintext passing through t
 
 ### 🎙️ Local Whisper Speech Transcription (Offline & Private)
 Transcribe audio and video locally with Whisper speech models. Recognition runs in the separate Outrider helper process; the models are downloaded once and then work offline.
-* Read the [Media Intelligence & Speech Transcription](docs/core-features/media-intelligence/README.md).
+* Read the [Speech Transcription guide](docs/core-features/media-intelligence/transcription/README.md).
 
 ---
 
@@ -103,9 +103,9 @@ Traditional agent tools provide raw browser automation commands. Nova surrounds 
 | Cognitive Function | What Nova Contributes | Architecture Guide | Video Demo |
 | :--- | :--- | :--- | :---: |
 | **Agent-Native Interface** | Built with agents: familiar action names and scoped aliases connect learned expectations to Nova's canonical tools | [Agent-Native Affordances](docs/core-features/agent-native-affordances/README.md) | — |
-| **Perception** | Reads the live browser through DOM, accessibility, screenshots, network, and console | [Evidence Verification Mode (EVM) & Visual Evidence](docs/core-features/evidence-verification-mode-evm/README.md) | — |
+| **Evidence-Based Research** | Supplies claim tests, source requirements and tools to capture and compare visible evidence | [Evidence Verification Mode (EVM) & Visual Evidence](docs/core-features/research/evidence-verification-mode-evm/README.md) | — |
 | **Procedural Memory** | Remembers website interaction recipes, state, health, and visual drift | [Phenomenological Knowledge Store (PKS)](docs/core-features/learning/phenomenological-knowledge-store-pks/README.md) | [Watch](https://www.youtube.com/watch?v=7NwRGC3l-r8) |
-| **Operational Awareness** | Login state, plan and active model of a site, plus per-domain notes for agents | [Operational Knowledge (OK) & Real-Time Environment State](docs/core-features/learning/operational-knowledge-ok/README.md) | [Watch](https://www.youtube.com/watch?v=LgShkPaSW7I) |
+| **Operational Awareness** | Login state, plan and active model of a site, preserved as reported observations | [Operational Knowledge (OK) & Real-Time Environment State](docs/core-features/learning/operational-knowledge-ok/README.md) | [Watch](https://www.youtube.com/watch?v=LgShkPaSW7I) |
 | **Episodic Task Memory** | Preserves recurring tasks, work units, progress, and learned guidance | [Episodic Task Memory (ETM)](docs/core-features/learning/episodic-task-memory-etm/README.md) | [Watch](https://www.youtube.com/watch?v=9qXrleOhPAw) |
 | **User Context** | Opt-in domain notes and preferences preserved across sessions | [Browser Memory](docs/core-features/learning/browser-memory/README.md) | — |
 | **Executive Control** | Goal Register and safety/reflection gates keep intent and steps visible | [Agent Awareness Gates (AAG)](docs/core-features/agent-awareness-gates-aag/README.md) | [Watch](https://www.youtube.com/watch?v=xhicSiFxPdY) |
