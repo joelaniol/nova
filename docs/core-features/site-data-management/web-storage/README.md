@@ -23,6 +23,12 @@ These tools inspect and edit Web Storage only. They do not expose an IndexedDB r
 
 For those broader categories, use [Cache & Cleanup](../cache-and-cleanup/README.md). For manual storage previews, see [Cookie Inspector](../cookie-inspector/README.md).
 
+## Observe IndexedDB activity through Session Recording
+
+[Session Recording](../../session-recording/README.md) offers a separate diagnostic path: a recording can capture IndexedDB operation metadata, including database/store names, operation types and hashed keys, in `indexeddb-ops.jsonl`. This describes captured activity; it is not an inventory or editor of every record already stored in a database.
+
+Stored values are a separate opt-in stream requiring the secret-bearing `indexeddb_values` permission class. The default recording classes do not include those values. Captured streams, limits and any dropped events determine what evidence is available; an empty or missing stream does not prove that the database is empty. See the [recorded-events reference](../../../mcp-reference/tools/session-recording/nova-session-record-events.md).
+
 ## Map stored values into a replay request
 
 [Request replay session adoption](../../network/network-interception/README.md#adopt-a-browser-session-with-a-redacted-preview) can read explicitly named local/session storage keys and map them to request headers. The mapping does not invent a header name or authentication prefix. Missing keys are errors, and adopted values are withheld from the preview. This integration uses the [site-data permission gate](../permissions-and-audit/README.md).

@@ -1,103 +1,163 @@
 # Terminal Workspaces & ConPTY Integration
 
 > [!NOTE]
-> Nova AI Workspace has a built-in terminal based on the Windows Pseudo Console (ConPTY). Console processes run in the separate helper `NovaBrowser.TerminalRunner.exe`, allowing running shells, dev servers and build jobs to outlive the browser process. Nova can reconnect its dock terminals after a restart; agent sessions use a separate registry.
+> **Nova AI Workspace** features an enterprise-grade terminal execution environment built on the native Windows Pseudo Console (**ConPTY**) and modern virtual terminal emulation via **xterm.js**. Console processes run inside an external helper process—**`NovaBrowser.TerminalRunner.exe`**—which operates independently of the main browser UI process (`NovaAIWorkspace.exe`). This architecture ensures that development servers, compilations, test suites, and shell processes survive browser crashes, window reloads, and software updates without interruption.
 
 ---
 
-## 1. A Concrete Example: Run a Build and Inspect Its Result
+## 1. Executive Summary & Core Architectural Axiom
 
-An agent opens its own PowerShell session, starts a build and reads the output. Nova's external terminal runner hosts the shell, while the terminal tools expose its state and output. The user's dock terminals remain in a separate registry.
+Traditional agentic web browsers execute CLI commands via flat, non-interactive subprocess calls (such as `Process.Start` or `child_process.exec`). In real-world development workflows, flat subprocess execution breaks down:
+* **Interactive Prompts Fail:** Tools like package managers (`npm init`), Git prompts, and authentication CLIs hang indefinitely waiting for stdin that flat subprocesses cannot provide.
+* **Terminal Formatting Corrupts Output:** ANSI/VT100 escape sequences, cursor rewrites, progress bars, and box-drawing characters turn into unreadable escape noise.
+* **Browser Restarts Kill Work:** If the browser reloads, updates, or crashes, every child process running in its tree is forcefully terminated.
+* **No Isolation Between Human and Agent:** In flat systems, agents and users share or cross-pollute the same shell session and command history.
 
-If `terminal_run_command` times out, its wait ended; the session stays open and the command may still be running. Inspect output and state before retrying. Sending the same command again could duplicate work or write into a program that is still waiting for input.
-
-## 2. Session, Command and Workspace Are Different
-
-| Concept | Meaning |
-| :--- | :--- |
-| Workspace | A saved project entry with a working directory and program configuration. |
-| Session | A live shell and pseudo console hosted by the terminal runner. |
-| Command result | Output and a completion/exit-code observation for a submitted command. |
-
-`terminal_run_command` detects completion through a marker written after the command, or through shell exit. Session state describes the shell, not necessarily the last command. Exit code 0 is process-level evidence; check the expected files, tests or other outcome before declaring the task complete.
-
-The allowed starting-directory check keeps sessions in predictable locations. It does not confine the shell's filesystem access: commands run with the user's Windows permissions and can change directory.
-
-## 3. Why Use a Persistent Pseudo Terminal?
-
-Autonomous AI agents frequently need to run command-line tools: Git commands, unit test suites, local development servers, and package managers.
-
-* **Limitations of flat subprocess spawns (`Process.Start`):**
-  * No real terminal: interactive prompts, cursor movement and progress bars break the output.
-  * Without explicit lifecycle management, reconnecting to processes after a parent restart is difficult.
-  * No separation between the user's shells and the agent's shells.
-
-Nova runs every terminal in a real pseudo console and keeps the user's terminals and the agent's terminals apart.
-
----
-
-## 4. Architecture & ConPTY Host Wiring
+**The Nova Terminal Invariant:**
+> *"Nova runs every terminal session inside a native Windows Pseudo Console (ConPTY), hosts sessions in a persistent external runner, and enforces a strict, physical separation between interactive human dock sessions and headless agent automation."*
 
 ```mermaid
 flowchart TD
-    subgraph BrowserProcess["Nova AI Workspace, NovaAIWorkspace.exe"]
-        Dock["Terminal dock or pop-out window, rendered with xterm.js"]
-        AgentSessions["Agent sessions, nova.terminal_* tools, no UI"]
+    subgraph BrowserProcess ["Nova AI Workspace Main Process (NovaAIWorkspace.exe)"]
+        UI["WinUI 3 Window & Chrome"]
+        Dock["Interactive Terminal Dock (xterm.js + WebView2)"]
+        MCP["MCP Terminal Facade (nova.terminal_* tools)"]
+        Mgr["TerminalMcpSessionManager (Headless Agent Registry)"]
+        Client["NovaTerminalRunnerClient (Named Pipe Client)"]
+
+        UI --- Dock
+        MCP --> Mgr
+        Dock --> Client
+        Mgr --> Client
     end
 
-    subgraph IPC["Local named pipe, one per Nova profile"]
-        Pipe["Framed control and terminal data"]
+    subgraph IPC ["Duplex Named Pipe (novabrowser-terminal-runner-{profileId})"]
+        Pipe["9-Byte Binary Framing (Control, PtyOutput, PtyInput)"]
     end
 
-    subgraph ExternalRunner["NovaBrowser.TerminalRunner.exe"]
-        ConPTY["Windows Pseudo Console, ConPTY"]
-        Shell["PowerShell or the workspace's program"]
-        ConPTY <--> Shell
+    subgraph RunnerProcess ["Persistent Console Host (NovaBrowser.TerminalRunner.exe)"]
+        Server["RunnerPipeServer (Loopback Auth Handshake)"]
+        SessionMgr["RunnerSessionManager"]
+        ConPTY["Windows Pseudo Console (ConPTY)"]
+        Job["Windows Job Object (Kill-on-Close)"]
+        Shell["Child Shell (PowerShell / CLI / Custom)"]
+
+        Server --> SessionMgr
+        SessionMgr --> ConPTY
+        ConPTY --> Shell
+        Job -.-> Shell
     end
 
-    Dock <--> Pipe
-    AgentSessions <--> Pipe
-    Pipe <--> ConPTY
+    Client <==> Pipe <==> Server
 ```
 
 ---
 
-## 5. Core Capabilities of Terminal Workspaces
+## 2. The 5 Pillars of Terminal Workspaces
 
-1. **Real terminal emulation (ConPTY + xterm.js):**
-   * Interactive console programs, cursor movement, colours and control keys such as `Ctrl+C` work as in a normal Windows terminal. Input and output are UTF-8.
-2. **Survives Nova restarts:**
-   * `NovaBrowser.TerminalRunner.exe` is not tied to the Nova process. As long as it has running sessions it stays alive, and Nova can reconnect dock sessions after restart. Process survival is separate from recovery of an agent's session ID and buffered output. If no Nova attaches for a whole day, the runner ends its sessions; with no sessions and no Nova attached it exits after a short grace period.
-3. **Workspaces:**
-   * A workspace is a named project entry in the terminal's recent-projects list. It starts a program in a working directory: PowerShell by default, or a command-line tool on the PATH such as `claude` or `codex`, or a custom command line. Without a working directory, the workspace uses its own folder in the Nova profile.
-   * [Scheduled tasks](../scheduled-tasks/README.md) are bound to a workspace too, so their run files can be opened in the terminal dock.
-4. **User and agent sessions are separate:**
-   * Sessions opened with `nova.terminal_open` belong to the agent and have no interactive dock view. They are kept in a separate registry from the user's dock terminals, so the agent's terminal-session tools do not read or write the user's terminals. The dock picker can list agent sessions for visibility.
-   * Agent sessions are always PowerShell and start in an isolated temporary folder unless `cwd` points into an allowed location (a terminal workspace, the runtime temp folder or the install folder).
+Nova's terminal architecture is divided into five specialized sub-systems, each thoroughly specified in its dedicated documentation guide:
+
+```mermaid
+flowchart LR
+    A["1. ConPTY & Runner<br/>Architecture"] --- B["2. IPC Named Pipe<br/>Wire Protocol"]
+    B --- C["3. Agent Sessions &<br/>Security Boundaries"]
+    C --- D["4. Command Execution<br/>& Sentinel Protocol"]
+    D --- E["5. Workspaces, UI Dock<br/>& Appearance Settings"]
+```
+
+| Sub-System | Scope & Responsibilities | Deep Dive Specification |
+| :--- | :--- | :--- |
+| **ConPTY & Runner Architecture** | Native ConPTY setup, `NovaBrowser.TerminalRunner.exe` process model, Windows Job Object tree enforcement, deterministic profile identity, 10s idle vs. 24h orphan lifecycle. | [ConPTY & Runner Architecture](conpty-and-runner-architecture.md) |
+| **IPC Named Pipe Wire Protocol** | Duplex named pipe protocol, 9-byte binary header framing, atomic pre-composed writes, JSON control frames, PTY raw byte streaming, and `PtyOutputRing` circular buffer. | [IPC Wire Protocol](ipc-wire-protocol.md) |
+| **Agent Sessions & Security** | Physical separation between human dock sessions and headless agent sessions, PowerShell sanitization (`Remove-Module PSReadLine`), CWD allowed-root policy, and concurrency cap of 8. | [Agent Sessions & Security](agent-sessions-and-security.md) |
+| **Command Execution & Markers** | `terminal_run_command` mechanics, unique nonce sentinels (`NOVAEXIT_{nonce}`), `$?` vs `$LASTEXITCODE` exit code resolution, `RunGate` semaphore, and non-destructive timeouts. | [Command Execution & Markers](command-execution-and-markers.md) |
+| **Workspaces, UI Dock & Settings** | `TerminalWorkspace` persistent entity model, `.nova/` onboarding injection, scheduled task workspaces, WinUI 3 dock chrome, permission gating, and `NO_COLOR` environment toggles. | [Workspaces, UI Dock & Settings](workspaces-and-ui-dock.md) |
 
 ---
 
-## 6. MCP Tooling for Terminal Workspaces
+## 3. Session, Command, and Workspace: Conceptual Hierarchy
 
-Session tools are in the `terminal_ops` bundle; the dock and settings tools are in `app_shell_recovery`.
+To prevent ambiguity, Nova defines distinct boundaries for terminal concepts:
 
-| Tool | Purpose |
-| :--- | :--- |
-| `nova.terminal_open` | Opens an agent-owned PowerShell session (default 120 × 30 characters). |
-| `nova.terminal_run_command` | Submits a command and waits for completion (default 30 seconds, up to 3,600); timeout leaves the session open. |
-| `nova.terminal_read` | Reads the most recent raw output (default 16 KB, up to about 200 KB). |
-| `nova.terminal_write` | Writes raw input, for example to answer an interactive prompt. |
-| `nova.terminal_send_key` | Sends a named key such as `Enter`, `Ctrl+C` or `ArrowUp`. |
-| `nova.terminal_get_state`, `nova.terminal_list` | Status, working directory and exit code of one or all agent sessions. |
-| `nova.terminal_close` | Ends the session and its process tree and cleans up its temporary folder. |
-| `nova.terminal_dock_get_state`, `nova.terminal_dock_set_state` | Reads or sets the visible dock: `expanded`, `collapsed` or `hidden` (running sessions keep running). |
-| `nova.terminal_settings_get`, `nova.terminal_settings_set` | Terminal theme, font size and whether programs may print colours (`programColors='off'` sets `NO_COLOR`). |
+| Entity | Lifecycle & Storage | Ownership & Visibility |
+| :--- | :--- | :--- |
+| **Terminal Workspace** | Stored in `%LOCALAPPDATA%\NovaBrowser\terminal-workspaces.json`. Identifies a directory, optional startup CLI (`claude`, `codex`, `powershell`), onboarding configuration, and favorites status. | Shared project entity. Visible in UI dock picker and accessible to scheduled task automation. |
+| **Runner Session** | Persistent ConPTY instance hosted in `NovaBrowser.TerminalRunner.exe`. Assigned an integer ID. Tracks cumulative output offsets and child process state. | External helper level. Survives browser restarts; cleaned up when explicitly terminated or when the 24-hour orphan timer expires. |
+| **Agent Session** | Headless wrapper tracked by `TerminalMcpSessionManager` in memory. Identified by an opaque public ID (`term_{hex}`). | Exclusively automation-owned. **Completely hidden from and isolated from human dock terminals.** |
+| **Command Execution** | Discrete execution lifecycle within a session. Managed via `nova.terminal_run_command`. | Bounded by a timeout. **A command timeout never closes or kills the session.** |
+
+---
+
+## 4. Complete Terminal MCP Tool Catalog
+
+Terminal capabilities are exposed through 12 dedicated tools across the `terminal_ops` and `app_shell_recovery` tool bundles:
+
+### 4.1 Headless Agent Session Tools (`terminal_ops`)
+
+| MCP Tool Name | Primary Parameters | Key Behavioral Guarantees |
+| :--- | :--- | :--- |
+| **`nova.terminal_open`** | `shell?`, `cwd?`, `cols?`, `rows?` | Opens an agent-owned headless session. Defaults to `120x30`. Enforces CWD allowed-roots policy. Rejects when session cap (8) is reached. |
+| **`nova.terminal_run_command`** | `sessionId`, `command`, `timeoutSeconds?` | Submits a command and awaits completion via a unique sentinel nonce. Returns output and exit code. On timeout, session remains open for diagnosis. |
+| **`nova.terminal_read`** | `sessionId`, `maxBytes?` | Reads up to 200 KB (default 16 KB) from the session's raw output ring. Reports cumulative byte count and whether scrollback truncation occurred. |
+| **`nova.terminal_write`** | `sessionId`, `data` | Injects raw UTF-8 text into the PTY stream. Ideal for answering interactive prompts (`y/N`) or feeding multi-line scripts. |
+| **`nova.terminal_send_key`** | `sessionId`, `key` | Translates named keys (`Enter`, `Tab`, `Escape`, `Ctrl+C`, `Ctrl+D`, `ArrowUp`, etc.) into VT escape sequences or control bytes. |
+| **`nova.terminal_close`** | `sessionId` | Terminates the child shell and its entire process tree via Windows Job Objects. Cleans up ephemeral working directories. |
+| **`nova.terminal_get_state`** | `sessionId` | Returns running state (`running` vs `exited`), exit code, working directory, and start timestamp. |
+| **`nova.terminal_list`** | *(none)* | Returns an overview of all active and recently exited agent-owned terminal sessions. |
+
+### 4.2 Interactive Dock UI Tools (`app_shell_recovery`)
+
+| MCP Tool Name | Primary Parameters | Key Behavioral Guarantees |
+| :--- | :--- | :--- |
+| **`nova.terminal_dock_get_state`** | *(none)* | Inspects the current visual state of the terminal dock (`expanded`, `collapsed`, `hidden`) and active tab count. |
+| **`nova.terminal_dock_set_state`** | `state` (`expanded` \| `collapsed` \| `hidden`) | Modifies the terminal dock state. **Strictly blocked** unless the user has explicitly enabled `TerminalAgentCanControlDock` in settings. |
+
+### 4.3 Terminal Appearance & Environment Settings
+
+| MCP Tool Name | Primary Parameters | Key Behavioral Guarantees |
+| :--- | :--- | :--- |
+| **`nova.terminal_settings_get`** | *(none)* | Reads current terminal theme, font size, and program color rules. Evaluates why colors are enabled or suppressed. |
+| **`nova.terminal_settings_set`** | `theme?`, `fontSize?`, `programColors?` | Modifies appearance. Setting `programColors='off'` injects `NO_COLOR=1` into all newly spawned terminal shells. |
+
+---
+
+## 5. Security & Isolation Architecture
+
+```mermaid
+flowchart TD
+    subgraph SecurityBoundaries ["Security & Isolation Invariants"]
+        A["1. CurrentUserOnly Named Pipe ACL<br/>(Cross-user access denied at OS level)"]
+        B["2. 256-Bit Loopback Capability Token<br/>(Stored plaintext in %LOCALAPPDATA% with per-user ACL)"]
+        C["3. Deterministic Identity Hashing<br/>(BaseDir + Logon SID + Integrity Level)"]
+        D["4. Headless Registry Segregation<br/>(Agent tools cannot inspect or write user dock shells)"]
+        E["5. Working Directory Hygiene<br/>(Rejects UNC paths; restricts initial CWD to allowed roots)"]
+        F["6. Kill-on-Close Windows Job Objects<br/>(Prevents orphaned background processes upon termination)"]
+    end
+```
+
+1. **Local Loopback Trust Model:** The named pipe connecting Nova to `TerminalRunner` uses `PipeOptions.CurrentUserOnly`. Only processes running within the same Windows logon session and integrity level can open the pipe.
+2. **Hygiene vs. Jail:** The CWD check ensures agents launch shells in predictable locations (workspace directories or ephemeral temp folders). It is an operational hygiene boundary, not an OS sandbox: the shell executes with the user's standard Windows permissions.
+3. **No Sidecar Command Interpretation:** In alignment with Nova's zero-sidecar rule, `TerminalRunner` never parses, modifies, or inspects shell payloads. It operates strictly as a byte transport layer, passing input and output transparently between the pseudo console and the caller.
+
+---
+
+## Detailed Topic Guides
+
+For complete implementation specifications, protocol frame layouts, and edge-case behaviors, consult the subcategory documentation:
+
+1. **[ConPTY & Runner Architecture](conpty-and-runner-architecture.md)** — Process lifecycles, Job Objects, ConPTY P/Invoke, and lifetime management.
+2. **[IPC Named Pipe Wire Protocol](ipc-wire-protocol.md)** — Binary framing, JSON control frames, ring buffers, and reattachment semantics.
+3. **[Agent Sessions & Security](agent-sessions-and-security.md)** — Headless registry separation, PSReadLine unloading, and CWD validation.
+4. **[Command Execution & Markers](command-execution-and-markers.md)** — Nonce sentinels, exit code resolution, `RunGate`, and timeouts.
+5. **[Workspaces, UI Dock & Settings](workspaces-and-ui-dock.md)** — Persistent workspaces, onboarding injection, WinUI dock, and `NO_COLOR`.
 
 ---
 
 ## Related Documentation
 
-* **[Scheduled Tasks & Automation](../scheduled-tasks/README.md)** — Scheduled runs bound to terminal workspaces.
-* **[Outrider Process Boundary](../../components/outrider/README.md)** — Nova's other helper process, for native OS and hardware probes.
+* **[Scheduled Tasks & Automation Engine](../scheduled-tasks/README.md)** — Automated task runs bound to terminal workspaces.
+* **[TerminalRunner Component Reference](../../components/terminal-runner.md)** — Standalone component specification for `NovaBrowser.TerminalRunner.exe`.
+* **[Outrider Process Boundary](../../components/outrider/README.md)** — Nova's disposable native OS and hardware diagnostic process.
+* **[MCP Reference & Capability Bundles](../../mcp-reference/README.md)** — Complete catalog of all MCP tools and discovery bundles.
 
 [All core features](../README.md)

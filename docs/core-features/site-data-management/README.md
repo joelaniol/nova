@@ -19,6 +19,7 @@ For a manual inspection, enable **Settings → Tools → Cookie inspector → Sh
 | [Cache & Cleanup](cache-and-cleanup/README.md) | Disk cache, Cache Storage, service workers, IndexedDB and profile-wide browsing-data clearing. |
 | [Cookie Inspector](cookie-inspector/README.md) | The address-bar panel, cookie editing, storage previews and the profile cleanup dialog. |
 | [Permissions & Audit](permissions-and-audit/README.md) | Agent access decisions, session grants, sensitive values and audit records. |
+| [Troubleshooting](troubleshooting/README.md) | Login loops, recreated data, stale content and targeted repair before broad cleanup. |
 
 ## Choose the scope first
 

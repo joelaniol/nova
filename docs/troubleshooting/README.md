@@ -31,6 +31,8 @@ For a connected agent that avoids Nova, reports missing tools, sees only summary
 
 ## Browser and sessions
 
+For login loops, stale site data or cookies/storage that return after deletion, use [Site Data Troubleshooting](../core-features/site-data-management/troubleshooting/README.md).
+
 - To interrupt work or take over a tab, use [Staying in control](../user-guide/agents/taking-over-and-emergency-stop.md).
 - For abandoned tabs, held claims, media streams or missing sandboxes, use [Sandbox and session recovery](sandbox-and-session-recovery.md).
 - For everyday tabs, profiles, downloads and prompts, use the [User guide](../user-guide/README.md).
