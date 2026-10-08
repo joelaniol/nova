@@ -142,6 +142,44 @@ To protect system stability from runaway agent loops that could spawn hundreds o
 
 ---
 
+## 5. Ephemeral Directory Reclamation & Read Budgeting
+
+To ensure automated workflows leave no residual artifacts or unmonitored storage growth on the user's workstation:
+
+### 5.1 Automatic Ephemeral Workspace Reclamation
+When an agent creates a session without specifying a `cwd`, Nova marks the generated scratch directory (`%LOCALAPPDATA%\NovaBrowser\Runtime\mcp-terminal\{hex}`) as `IsEphemeral = true`.
+* **Cleanup on Close:** When the agent invokes `nova.terminal_close(sessionId)`, Nova terminates the underlying Job Object and immediately invokes `DirectoryCleanupGuards.TryDeleteDirectoryTreeUnderRoot`.
+* **Scope Guarantee:** Only directories residing strictly beneath `Runtime\mcp-terminal\` are deleted. Workspaces explicitly pointed at user project directories are never deleted upon closing a session.
+
+### 5.2 Read Buffer Clamping (`nova.terminal_read`)
+Reading terminal scrollback from AI models requires strict byte limits to avoid context window exhaustion:
+* **Default Read Size (`DefaultReadBytes = 16 KB`):** Returns the trailing 16,384 bytes if no limit is specified.
+* **Maximum Read Size (`MaxReadBytes = 200 KB`):** Requests exceeding 200 KB are clamped down to 204,800 bytes.
+* **Truncation Reporting:** The returned JSON reports `truncated: true` and `bytesAvailable` whenever the available session output exceeds the requested byte budget, enabling agents to issue pagination reads.
+
+---
+
+## 6. MCP Security Policy Categorization
+
+Each terminal tool is registered within Nova's capability security matrix to ensure safe execution:
+
+| Tool Name | Security Policy Tier | Execution Guarantees & Safeguards |
+| :--- | :---: | :--- |
+| **`nova.terminal_list`** | `Safe` | Read-only inspection of active agent sessions. |
+| **`nova.terminal_get_state`** | `Safe` | Read-only process lifecycle check (`running`, exit code, uptime). |
+| **`nova.terminal_read`** | `Safe` | Non-destructive read from the session's in-memory ring buffer. |
+| **`nova.terminal_open`** | `Normal` | Spawns a ConPTY host process. Enforces CWD allowed roots and session cap. |
+| **`nova.terminal_run_command`** | `Normal` | Submits commands to shell. Subject to `RunGate` semaphore and timeout bounds. |
+| **`nova.terminal_write`** | `Normal` | Injects raw UTF-8 bytes into shell PTY stream. |
+| **`nova.terminal_send_key`** | `Normal` | Injects VT control sequences. Subject to session lifecycle check. |
+| **`nova.terminal_close`** | `Normal` | Kills process tree via Job Object; cleans ephemeral scratch directories. |
+| **`nova.terminal_dock_get_state`**| `Safe` | Read-only inspection of visual dock state. |
+| **`nova.terminal_dock_set_state`**| `Normal` | Alters browser UI dock. **Strictly gated** by `TerminalAgentCanControlDock`. |
+| **`nova.terminal_settings_get`** | `Safe` | Reads appearance settings and `NO_COLOR` decision resolution. |
+| **`nova.terminal_settings_set`** | `Normal` | Updates terminal theme and font size; sets `NO_COLOR` for new shells. |
+
+---
+
 ## Related Documentation
 
 * **[Terminal Workspaces Hub](README.md)** — Architectural overview and tool reference.

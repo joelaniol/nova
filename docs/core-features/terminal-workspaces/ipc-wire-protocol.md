@@ -157,6 +157,88 @@ If Nova's UI thread or renderer cannot consume terminal output as fast as a chil
 
 ---
 
+## 6. The Dual-Channel Single-Writer Architecture (`RunnerConnection`)
+
+To prevent multiple sessions from interleaving frames and corrupting the named pipe, each connection in `NovaBrowser.TerminalRunner.exe` employs a single dedicated writer loop fed by two specialized channels:
+
+```mermaid
+flowchart TD
+    subgraph Producers ["Asynchronous Event Producers"]
+        CtrlReplies["Control Replies (helloAck, sessionCreated, pong)"]
+        ExitEvents["Process Exit Events (sessionExited)"]
+        PTYStreams["Active Session PTY Output Streams"]
+    end
+
+    subgraph DualChannels ["RunnerConnection Channel Multiplexing"]
+        ControlChan["Priority Control Channel<br/>(Unbounded Channel, SingleReader)"]
+        OutputChan["Bounded Output Channel<br/>(Capacity = 32 Frames, DropWrite)"]
+    end
+
+    subgraph SingleWriter ["Sole Pipe Writer Task (WriterLoopAsync)"]
+        DrainCtrl{"1. Drain All Pending Control Frames"}
+        DrainOut["2. Drain One Output Frame"]
+        WritePipe["WriteFrameAsync (Atomic 9-Byte Envelope)"]
+    end
+
+    CtrlReplies --> ControlChan
+    ExitEvents --> ControlChan
+    PTYStreams --> OutputChan
+
+    ControlChan --> DrainCtrl
+    DrainCtrl -- Available --> WritePipe
+    DrainCtrl -- Empty --> DrainOut --> WritePipe
+    WritePipe --> PipeStream["Duplex Named Pipe Stream"]
+```
+
+### 6.1 Priority Drainage & Starvation Prevention
+* **Control Replies Never Starve:** The writer loop always drains every available control frame before processing a single output frame. This guarantees that control transactions—such as `pong` liveness checks, session creation confirmations, or emergency stop directives—are transmitted with minimal latency, even during intense compilation logging.
+* **Bounded Output & `DropWrite` Mode:** The output channel is strictly bounded to 32 frames. If Nova's UI thread is blocked or experiencing lag, `TryWrite` returns `false`. The runner detaches the lagging view immediately rather than stalling the shared writer task or blocking the ConPTY child shell.
+
+---
+
+## 7. The Synchronous Sink Registration Invariant (`CreateSessionAsync`)
+
+In high-speed local IPC, asynchronous event registration is prone to severe race conditions during session creation:
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant ClientAPI as Nova Terminal Client API
+    participant ReaderPump as Client Reader Pump Task
+    participant Pipe as Named Pipe Stream
+    participant Runner as TerminalRunner Process
+
+    ClientAPI->>Pipe: Send createSessionEnv (RequestId = 42)
+    Runner->>Runner: Spawn ConPTY Shell
+    Note over Runner: Shell immediately prints startup prompt ("PS C:\>")
+    Runner->>Pipe: Write sessionCreated (RequestId = 42, SessionId = 5)
+    Runner->>Pipe: Write PtyOutput (SessionId = 5, "PS C:\Projects>")
+
+    Note over ReaderPump: Critical Invariant Window
+    Pipe->>ReaderPump: Read sessionCreated Frame
+    ReaderPump->>ReaderPump: Synchronously bind sessionSink into _sessions map!
+    Note over ReaderPump: Sink MUST be registered BEFORE reading next frame
+    Pipe->>ReaderPump: Read PtyOutput Frame
+    ReaderPump->>ClientAPI: Dispatch prompt bytes to sessionSink
+```
+
+> [!IMPORTANT]
+> **The Prompt-Loss Race Condition:** In Windows ConPTY, a child shell begins emitting bytes (such as the default PowerShell banner or prompt) milliseconds after process startup. The runner transmits the `sessionCreated` control frame, immediately followed by the shell's initial `PtyOutput` frames.
+> 
+> If Nova registered the session's byte sink *after* awaiting `SendRequestAsync` in the caller thread, the background reader pump would process the subsequent `PtyOutput` frame before the sink registration completed, permanently dropping the shell's initial prompt.
+> 
+> **The Invariant:** `NovaTerminalRunnerClient` enforces that `OnSessionReply` executes **synchronously inside the reader pump** the moment `sessionCreated` matches `RequestId`, prior to reading the next frame from the pipe. Zero startup bytes are ever lost.
+
+---
+
+## 8. Scrollback Replay Chunking (`ReplayChunkSize = 16 KB`)
+
+When an interactive dock or pop-out window attaches to an existing running session, the runner replays the session's retained output ring from `resumeOffset`:
+* **Chunked Emission:** Rather than transmitting a multi-megabyte ring buffer in a single monolithic frame, the runner slices replay streams into 16 KB chunks (`ReplayChunkSize = 16 * 1024`).
+* **Control Interleaving:** Between each chunk, the writer loop yields to inspect the priority control channel. This ensures that while a 500 KB scrollback history is streaming, an operator clicking the terminal settings button or sending an interrupt command (`Ctrl+C`) experiences zero UI freeze.
+
+---
+
 ## Related Documentation
 
 * **[Terminal Workspaces Hub](README.md)** — Architectural overview and tool reference.

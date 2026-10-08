@@ -5,6 +5,14 @@
 
 ---
 
+## Reading Tool and Field References
+
+Tool names link to their individual MCP reference pages. Linked parameters lead to the corresponding parameter table; linked data-model names lead to the tool that accepts that nested payload. JSON examples and diagrams remain copyable, with their reference links in the surrounding text.
+
+Response fields such as [`structuredContent.pks`](../../../mcp-reference/tools/dom-and-reading/nova-perceive.md#6-return-value-structure-summary-mode) are returned data, not additional tools or user settings. Internal model and storage names describe how PKS organizes knowledge; they are not automatically valid tool arguments. Use the current [PKS & Learning tool directory](../../../mcp-reference/tools/pks-and-learning/README.md) for callable tools and their schemas.
+
+---
+
 ## 1. Procedural Memory: Why Agents Need PKS
 
 When an autonomous AI agent interacts with the modern web, it encounters recurring situations: cookie consent overlays, login barriers, paywalls, dynamic navigation drawers, and ephemeral popups. 
@@ -25,11 +33,11 @@ Nova maintains distinct memory layers tailored to specific operational requireme
 | Store / Memory Layer | Primary Responsibility | Example Data | Key MCP Tools |
 | :--- | :--- | :--- | :--- |
 | **PKS** | Reusable domain-specific UI patterns, interaction playbooks, verification checks, and structural domain capabilities. | Cookie banner dismissal, modal closing, pagination triggers, ad container rules. | [`nova.pks_get`](../../../mcp-reference/tools/pks-and-learning/nova-pks-get.md), [`nova.pks_upsert`](../../../mcp-reference/tools/pks-and-learning/nova-pks-upsert.md), [`nova.phenomenon_apply`](../../../mcp-reference/tools/pks-and-learning/nova-phenomenon-apply.md) |
-| [Browser Memory](../browser-memory/README.md) | Domain notes, user preferences, and free-form site facts. | User's preferred dark theme, site language preferences, general notes. | `nova.memory_note`, `nova.memory_recall` |
-| [Operator Notes](../operator-notes/README.md) | Human-directed instructions, operator guidance, and workflow boundaries. | "Never place orders above $100 without confirmation", "Prefer CSV exports". | `nova.operator_notes_store`, `nova.operator_notes_query` |
-| [Task Memory (ETM)](../episodic-task-memory-etm/README.md) | Recurring task profiles, completion criteria, and milestone progress. | Research workflow recipes, progress tracking across multi-step jobs. | `nova.task_profile_upsert`, `nova.task_instance_create` |
-| [Operational Knowledge (OK)](../operational-knowledge-ok/README.md) | Real-time tab state, account capabilities, and live operational signals. | Current logged-in user email, active account tier, tab ownership. | `nova.ok_observe`, `nova.ok_signal_schema` |
-| [Domain Notes](../domain-notes/README.md) | Persistent website instructions, scope and optional acknowledgement requirements. | Search existing records first; ask before creating or deleting records. | `nova.domain_note`, `nova.domain_notes_list`, `nova.domain_note_ack` |
+| [Browser Memory](../browser-memory/README.md) | Domain notes, user preferences, and free-form site facts. | User's preferred dark theme, site language preferences, general notes. | [`nova.memory_note`](../../../mcp-reference/tools/task-memory/nova-memory-note.md), [`nova.memory_recall`](../../../mcp-reference/tools/task-memory/nova-memory-recall.md) |
+| [Operator Notes](../operator-notes/README.md) | Human-directed instructions, operator guidance, and workflow boundaries. | "Never place orders above $100 without confirmation", "Prefer CSV exports". | [`nova.operator_notes_store`](../../../mcp-reference/tools/task-memory/nova-operator-notes-store.md), [`nova.operator_notes_query`](../../../mcp-reference/tools/task-memory/nova-operator-notes-query.md) |
+| [Task Memory (ETM)](../episodic-task-memory-etm/README.md) | Recurring task profiles, completion criteria, and milestone progress. | Research workflow recipes, progress tracking across multi-step jobs. | [`nova.task_profile_upsert`](../../../mcp-reference/tools/task-memory/nova-task-profile-upsert.md), [`nova.task_instance_create`](../../../mcp-reference/tools/task-memory/nova-task-instance-create.md) |
+| [Operational Knowledge (OK)](../operational-knowledge-ok/README.md) | Real-time tab state, account capabilities, and live operational signals. | Current logged-in user email, active account tier, tab ownership. | [`nova.ok_observe`](../../../mcp-reference/tools/app-shell-and-ui/nova-ok-observe.md), [`nova.ok_signal_schema`](../../../mcp-reference/tools/app-shell-and-ui/nova-ok-signal-schema.md) |
+| [Domain Notes](../domain-notes/README.md) | Persistent website instructions, scope and optional acknowledgement requirements. | Search existing records first; ask before creating or deleting records. | [`nova.domain_note`](../../../mcp-reference/tools/task-memory/nova-domain-note.md), [`nova.domain_notes_list`](../../../mcp-reference/tools/task-memory/nova-domain-notes-list.md), [`nova.domain_note_ack`](../../../mcp-reference/tools/task-memory/nova-domain-note-ack.md) |
 | Extracted Page Content | Transient task outputs and search results. | Article bodies, video titles, tabular data. | *Transient task output — not persisted to long-term memory.* |
 
 ---
@@ -53,16 +61,16 @@ flowchart TD
     Action --> Learn["Immediate PKS Curation<br/>(pks_upsert / pks_patch)"]
 ```
 
-### Inline Delivery via `structuredContent.pks`
+### Inline Delivery via [`structuredContent.pks`](../../../mcp-reference/tools/dom-and-reading/nova-perceive.md#6-return-value-structure-summary-mode)
 
-Whenever an agent calls [`nova.perceive()`](../../../mcp-reference/tools/dom-and-reading/nova-perceive.md) (or when navigation completes via [`nova.navigate`](../../../mcp-reference/tools/browser-automation/nova-navigate.md) and `nova.tab_new`), Nova's host automatically resolves matching PKS phenomena for the active domain and path route:
+Whenever an agent calls [`nova.perceive()`](../../../mcp-reference/tools/dom-and-reading/nova-perceive.md) (or when navigation completes via [`nova.navigate`](../../../mcp-reference/tools/browser-automation/nova-navigate.md) and [`nova.tab_new`](../../../mcp-reference/tools/browser-automation/nova-tab-new.md)), Nova's host automatically resolves matching PKS phenomena for the active domain and path route:
 
-* **Zero Roundtrip Overhead:** Active, proven phenomena for the current site are delivered immediately in the response payload under `structuredContent.pks`.
+* **Zero Roundtrip Overhead:** Active, proven phenomena for the current site are delivered immediately in the response payload under [`structuredContent.pks`](../../../mcp-reference/tools/dom-and-reading/nova-perceive.md#6-return-value-structure-summary-mode).
 * **Advisory Memory, Not Ground Truth:** Current perception is always fresher than stored memory. If the live DOM differs from stored PKS signals, the agent must trust current perception, avoid repetitive retry loops on failing selectors, and update PKS accordingly.
 
 ### Payload Modes: `off`, `summary`, and `full`
 
-To balance situational awareness against token consumption, PKS provides configurable payload levels via the `pksInclude` parameter:
+To balance situational awareness against token consumption, PKS provides configurable payload levels via the [`pksInclude`](../../../mcp-reference/tools/dom-and-reading/nova-perceive.md#4-parameter-reference) parameter:
 
 | Mode | Phenomena Returned | Content Detail | Token Footprint | Best Used For |
 | :---: | :---: | :--- | :---: | :--- |
@@ -72,26 +80,26 @@ To balance situational awareness against token consumption, PKS provides configu
 
 ### Smart Route- and Caller-Aware Deduplication (`pksDedup`)
 
-To eliminate wasteful token duplication when an agent repeatedly perceives the same view without DOM revision changes, Nova applies an automated deduplication contract:
+Deduplication is automatic response behavior, not a `pksDedup` input parameter. Its metadata is delivered in the inline PKS response; see the [perception return structure](../../../mcp-reference/tools/dom-and-reading/nova-perceive.md#6-return-value-structure-summary-mode). To avoid repeating unchanged knowledge when an agent perceives the same view, Nova applies the following contract:
 
-* **Revision Tracking (`content_rev`):** Each domain in PKS carries a monotonic content revision. If an agent calls `perceive()` multiple times on the same page and no PKS data has changed, Nova suppresses redundant payloads (`auto_unchanged`, `summary_unchanged`).
+* **Revision Tracking (`content_rev`):** Each domain in PKS carries a monotonic content revision. If an agent calls [`perceive()`](../../../mcp-reference/tools/dom-and-reading/nova-perceive.md) multiple times on the same page and no PKS data has changed, Nova suppresses redundant payloads (`auto_unchanged`, `summary_unchanged`).
 * **Periodic Refresh:** After a configured interval or call count, Nova automatically delivers a fresh summary (`auto_refresh`) to keep the agent oriented.
 * **Caller Isolation:** Deduplication state is tracked per calling agent session. One agent consuming the seed payload never starves a concurrent second agent working in another tab or session.
 
-### Contextual PKS Advice (`structuredContent.pksAdvice`)
+### Contextual PKS Advice ([`structuredContent.pksAdvice`](../../../mcp-reference/tools/dom-and-reading/nova-perceive.md#6-return-value-structure-summary-mode))
 
-Alongside raw records, Nova evaluates the current page and provides dynamic, situational recommendations under `structuredContent.pksAdvice`:
+Alongside raw records, Nova evaluates the current page and provides dynamic, situational recommendations under [`structuredContent.pksAdvice`](../../../mcp-reference/tools/dom-and-reading/nova-perceive.md#6-return-value-structure-summary-mode):
 
-* **`pks_gap`:** Indicates that a reusable UI interaction (e.g., closing an overlay) succeeded and passed postcondition verification, but is not yet recorded in PKS. The agent is advised to store it via `nova.pks_upsert`.
+* **`pks_gap`:** Indicates that a reusable UI interaction (e.g., closing an overlay) succeeded and passed postcondition verification, but is not yet recorded in PKS. The agent is advised to store it via [`nova.pks_upsert`](../../../mcp-reference/tools/pks-and-learning/nova-pks-upsert.md).
 * **`existing_pks_reuse`:** Identifies that an active, proven phenomenon already covers this element, advising playbook application and subsequent telemetry reporting.
 * **`fragile_selectors`:** Warns when stored or encountered selectors rely on ephemeral or hashed CSS classes.
-* **`native_dialog_warning`:** Specifically flags known native file upload triggers (e.g., `<input type="file">` masquerading as a normal button), directing the agent away from `click_selector` to [`nova.file_upload`](../../../mcp-reference/tools/browser-automation/nova-file-upload.md).
+* **`native_dialog_warning`:** Specifically flags known native file upload triggers (e.g., `<input type="file">` masquerading as a normal button), directing the agent away from [`click_selector`](../../../mcp-reference/tools/browser-automation/nova-click-selector.md) to [`nova.file_upload`](../../../mcp-reference/tools/browser-automation/nova-file-upload.md).
 
-### First-Contact Domain Onboarding (`pksOnboarding`)
+### First-Contact Domain Onboarding ([`pksOnboarding`](../../../mcp-reference/tools/dom-and-reading/nova-perceive.md#6-return-value-structure-summary-mode))
 
-The first time an agent arrives at a domain in a session (via [`nova.navigate`](../../../mcp-reference/tools/browser-automation/nova-navigate.md) or `nova.tab_new`), Nova injects a lightweight orientation block under `pksOnboarding`:
+The first time an agent arrives at a domain in a session (via [`nova.navigate`](../../../mcp-reference/tools/browser-automation/nova-navigate.md) or [`nova.tab_new`](../../../mcp-reference/tools/browser-automation/nova-tab-new.md)), Nova injects a lightweight orientation block under [`pksOnboarding`](../../../mcp-reference/tools/dom-and-reading/nova-perceive.md#6-return-value-structure-summary-mode):
 * **Known Scope Inventory:** Shows total stored active entries and their distinct types (`knownEntries`, `entryTypes`).
-* **Explicit Responsibility Clarification:** Informs the agent whether the site is virgin territory or already mapped, and clarifies what only the agent can contribute (reporting execution success/failure via `nova.telemetry_report`, patching broken entries via `nova.pks_patch`, and solving novel blockers).
+* **Explicit Responsibility Clarification:** Informs the agent whether the site is virgin territory or already mapped, and clarifies what only the agent can contribute (reporting execution success/failure via [`nova.telemetry_report`](../../../mcp-reference/tools/pks-and-learning/nova-telemetry-report.md), patching broken entries via [`nova.pks_patch`](../../../mcp-reference/tools/pks-and-learning/nova-pks-patch.md), and solving novel blockers).
 * **Once-Per-Domain Session Budget:** Emitted exactly once per (caller, scope) pair, avoiding repetitive advisory fatigue.
 
 ---
@@ -117,7 +125,7 @@ pks_domain (scope, trust, context_json, content_rev)
 
 ### Canonical Scope Normalization & Homoglyph Protection
 
-Domain scopes (`scope`) in PKS undergo strict canonical normalization (`NormalizeScope`):
+Domain scopes ([`scope`](../../../mcp-reference/tools/pks-and-learning/nova-pks-upsert.md#3-parameter-reference)) in PKS undergo strict canonical normalization (`NormalizeScope`):
 * **Path/Query Stripping:** Full URLs passed as scope strings are stripped to their bare hostname.
 * **Port Preservation:** Non-default port numbers (e.g., `localhost:8080` vs `localhost:3000`) are explicitly preserved to prevent development environment collisions.
 * **Punycode / IDN Normalization:** Hostnames are converted to ASCII Punycode via `IdnMapping`. This thwarts homoglyph scope squatting (e.g., an adversarial domain using Cyrillic characters to mimic a legitimate domain).
@@ -139,7 +147,7 @@ Nova categorizes phenomena into specialized types to govern execution safety, au
 | `popover_open` | Collapsed menus or dropdown drawers that must be opened to access core features. | "More filters", navigation hamburger toggles, accordion sections. |
 | `custom` | Domain-specific interactive workflows unique to a platform. | Custom multi-step wizard dismissals, site tour walkthroughs. |
 
-### Multi-Signal Fingerprinting (`PksFingerprint`)
+### Multi-Signal Fingerprinting ([`PksFingerprint`](../../../mcp-reference/tools/pks-and-learning/nova-pks-upsert.md#3-parameter-reference))
 
 Single CSS selectors break easily. PKS uses a composite fingerprint containing diverse signals:
 
@@ -163,7 +171,7 @@ Single CSS selectors break easily. PKS uses a composite fingerprint containing d
 
 ### Playbook Structure, Actions, and Policies
 
-A playbook (`PksPlaybook`) dictates what policy to follow and what actions to execute:
+A playbook ([`PksPlaybook`](../../../mcp-reference/tools/pks-and-learning/nova-pks-upsert.md#3-parameter-reference)) dictates what policy to follow and what actions to execute:
 
 ```json
 {
@@ -198,16 +206,16 @@ A playbook (`PksPlaybook`) dictates what policy to follow and what actions to ex
 * `warn`: Advisory warning policy (typical for hydration drift or risky selectors).
 * `custom`: Complex multi-step interaction sequences.
 
-#### Ordered Fallback Selectors (`fallbackSelectors`)
-For mutating `click` and `type` actions, Nova supports up to 5 ordered `fallbackSelectors`. If a site undergoes a minor redesign (e.g., automated build systems remove a `data-testid` attribute, but the `aria-label` or semantic class remains intact), the playbook seamlessly tries the fallbacks before aborting.
+#### Ordered Fallback Selectors ([`fallbackSelectors`](../../../mcp-reference/tools/pks-and-learning/nova-pks-upsert.md#4-example-call-registering-a-verified-reject-playbook))
+For mutating `click` and `type` actions, Nova supports up to 5 ordered [`fallbackSelectors`](../../../mcp-reference/tools/pks-and-learning/nova-pks-upsert.md#4-example-call-registering-a-verified-reject-playbook). If a site undergoes a minor redesign (e.g., automated build systems remove a `data-testid` attribute, but the `aria-label` or semantic class remains intact), the playbook seamlessly tries the fallbacks before aborting.
 
-#### Dynamic Value Indirection (`valueSource`)
-For input steps, PKS supports semantic indirection via `valueSource` instead of embedding raw secrets:
+#### Dynamic Value Indirection ([`valueSource`](../../../mcp-reference/tools/pks-and-learning/nova-pks-upsert.md#3-parameter-reference))
+For input steps, PKS supports semantic indirection via [`valueSource`](../../../mcp-reference/tools/pks-and-learning/nova-pks-upsert.md#3-parameter-reference) instead of embedding raw secrets:
 * `"from_vault"`: The agent retrieves the credential securely from Nova's encrypted vault ([`nova.vault_get`](../../../mcp-reference/tools/vault-and-security/nova-vault-get.md)).
 * `"agent_supplied"`: The value is supplied dynamically from the agent's task context.
 * `"user_prompt"`: The agent explicitly asks the operator before inputting the value.
 
-#### Strict Post-Execution Verification (`verify`)
+#### Strict Post-Execution Verification ([`verify`](../../../mcp-reference/tools/pks-and-learning/nova-pks-upsert.md#3-parameter-reference))
 Every playbook specifies mandatory postconditions that must hold true after actions execute:
 * `obstruction_cleared`: Confirms that the modal or overlay covering the viewport is gone (within a specified area threshold).
 * `scroll_unlocked`: Proves that `overflow: hidden` or DOM lock-classes have been removed from `<body>` and `<html>`.
@@ -218,11 +226,11 @@ Every playbook specifies mandatory postconditions that must hold true after acti
 > [!IMPORTANT]
 > **Verification steps never use fallback selectors.** While an action can try alternative elements to achieve an effect, verification must remain rigorous. A verification check that "falls back" to checking a different element proves nothing.
 
-### Route-Aware Phenomenon Scoping (`context.routes`)
+### Route-Aware Phenomenon Scoping ([`context.routes`](../../../mcp-reference/tools/pks-and-learning/nova-pks-upsert.md#3-parameter-reference))
 
 Modern web applications (e.g., SPAs like LinkedIn, GitHub, or Jira) behave differently across different URL paths. A modal or filter control relevant to `/jobs/` might conflict with `/feed/`.
 
-PKS supports optional route scoping via `phenomenon.context.routes`:
+PKS supports optional route scoping via [`phenomenon.context.routes`](../../../mcp-reference/tools/pks-and-learning/nova-pks-upsert.md#3-parameter-reference):
 * `["feed"]`: Matches only when the first path segment is `/feed`.
 * `["in/*"]`: Wildcard match for all sub-paths starting with `/in/`.
 * `["_root"]`: Matches only the root landing page (`/`).
@@ -280,24 +288,24 @@ flowchart TD
     Val -- "Passed all guardrails" --> DB["Persist to pks.db"]
 ```
 
-### 1. Declared Polarity (`declaredPolarity`)
+### 1. Declared Polarity ([`declaredPolarity`](../../../mcp-reference/tools/pks-and-learning/nova-pks-upsert.md#2-hard-consent-cmp-polarity-invariants))
 For `consent_cmp` phenomena, any mutating action (`click`, `type`, `press_key`) must declare its explicit intent:
 * Allowed values: `"reject"`, `"accept"`, `"manage"`, `"navigate"`, `"noop"`.
-* **Text Cross-Check:** The validator checks the target element's visible text and `aria-label` using a polarity analyzer. An upsert claiming `declaredPolarity="reject"` whose visible label says `"Accept all cookies"` is rejected immediately. This prevents accidental inversion of user privacy choices.
+* **Text Cross-Check:** The validator checks the target element's visible text and `aria-label` using a polarity analyzer. An upsert claiming [`declaredPolarity="reject"`](../../../mcp-reference/tools/pks-and-learning/nova-pks-upsert.md#2-hard-consent-cmp-polarity-invariants) whose visible label says `"Accept all cookies"` is rejected immediately. This prevents accidental inversion of user privacy choices.
 
-### 2. Maximum DOM Scope (`maxScope`)
+### 2. Maximum DOM Scope ([`maxScope`](../../../mcp-reference/tools/pks-and-learning/nova-pks-upsert.md#2-hard-consent-cmp-polarity-invariants))
 Prevents clickjacking and bait-and-switch injection:
 * `"scoped_to_cmp_surface"`: Default for consent banners. The targeted selector must resolve strictly within the matched banner subtree. If an overlay tricks the agent into clicking an element in the main page `<body>` (e.g., an ad or subscription link), the upsert is blocked.
 * `"scoped_to_frame"`: Restricted to the capturing frame.
 * `"scoped_to_top_frame"`: Restricted to the top window, blocking unauthorized iframe manipulation.
 
-### 3. Allowed Side Effects (`allowedEffect`)
+### 3. Allowed Side Effects ([`allowedEffect`](../../../mcp-reference/tools/pks-and-learning/nova-pks-upsert.md#3-parameter-reference))
 Declares the permitted consequences of the action:
 * `"consent_state_only"`: The action must only alter consent storage/cookies without navigating away or modifying unrelated DOM trees.
 * `"navigation_only"`: Dedicated navigation triggers.
 * `"read_only"`: Pure observation.
 
-### 4. Vendor API Allowlist (`vendorApiCall`)
+### 4. Vendor API Allowlist ([`vendorApiCall`](../../../mcp-reference/tools/pks-and-learning/nova-pks-upsert.md#2-hard-consent-cmp-polarity-invariants))
 If a playbook utilizes programmatic consent vendor APIs instead of raw DOM clicks, it must use Nova's strict closed allowlist (e.g., `__tcfapi.postRejectAll`, `OneTrust.RejectAll`, `Cookiebot.submitCustomConsent.reject`). Arbitrary string evals or unverified partner calls are strictly forbidden.
 
 ### 5. Wildcard Rejection
@@ -325,7 +333,7 @@ flowchart LR
 When a phenomenon is first created, Nova captures a frozen snapshot of its fingerprint signals into `OriginalBaseline`. This baseline is never modified by subsequent observations, serving as an immutable ground truth.
 
 ### Drift Scorer & EMA Blending
-When an agent executes [`nova.phenomenon_apply`](../../../mcp-reference/tools/pks-and-learning/nova-phenomenon-apply.md), it can provide a fresh `observation` snapshot captured from its recent perceive call:
+When an agent executes [`nova.phenomenon_apply`](../../../mcp-reference/tools/pks-and-learning/nova-phenomenon-apply.md), it can provide a fresh [`observation`](../../../mcp-reference/tools/pks-and-learning/nova-phenomenon-apply.md#2-parameter-reference) snapshot captured from its recent perceive call:
 1. **Jaccard Distance:** PKS computes the symmetric distance between the baseline signals and current observation signals across `(Kind, Match, Locale)` tuples.
 2. **Exponential Moving Average (EMA, $\alpha = 0.3$):** A single anomalous observation does not spike drift debt; sustained changes across multiple sessions gradually increase `DriftDebt` in the range `[0.0, 1.0]`.
 3. **Current Observation Cluster:** Dampened aggregate cluster of recently seen states (capped at 256 signals to prevent unbounded growth).
@@ -358,7 +366,7 @@ flowchart TD
 ### Candidate Discovery & 2-Stage Verification
 1. **Candidate Search (`FindSiblingCandidateScopes`):** Discovers related subdomains sharing the registered base domain.
 2. **Stage 1 (Heuristic Scoring):** Evaluates URL similarity, shared brand segments, and page state.
-3. **Stage 2 (Inline Verification):** During `nova.perceive()`, Nova checks live DOM markers (custom element tags, `data-testid` sets, and fingerprint anchors) against the candidate source. This is budget-limited to 1 check per domain per session to keep execution lean.
+3. **Stage 2 (Inline Verification):** During [`nova.perceive()`](../../../mcp-reference/tools/dom-and-reading/nova-perceive.md), Nova checks live DOM markers (custom element tags, `data-testid` sets, and fingerprint anchors) against the candidate source. This is budget-limited to 1 check per domain per session to keep execution lean.
 
 ### Target-Local Health Isolation & Revision Rebasing
 Inherited knowledge must never risk corrupting the source:
@@ -369,7 +377,7 @@ Inherited knowledge must never risk corrupting the source:
 * **Inherited Scope Write Protection:** Direct PKS writes to an active inherited scope are guarded against to prevent breaking provenance tracking.
 
 ### Sibling Policies
-Controlled via the `siblingPolicy` parameter in queries:
+These are internal sibling-resolution policies. The current public parameter references for [`nova.perceive`](../../../mcp-reference/tools/dom-and-reading/nova-perceive.md#4-parameter-reference), [`nova.pks_get`](../../../mcp-reference/tools/pks-and-learning/nova-pks-get.md#3-parameter-reference) and [`nova.pks_match`](../../../mcp-reference/tools/pks-and-learning/nova-pks-match.md#3-parameter-reference) do not expose a `siblingPolicy` argument; do not add it to a call based on the policy names below:
 * `"auto"` *(default)*: Utilizes verified siblings and allows low-risk declarative hints from pending candidates.
 * `"strict"`: Only permits siblings that have passed full Stage-2 verification.
 * `"off"`: Disables sibling inheritance entirely.
@@ -412,7 +420,7 @@ When an agent lands on a previously unvisited domain and Nova detects known plat
 
 PKS does not merely store transient popup banners; it acts as an extensive **structural domain intelligence profile** (`pks_domain.context_json`).
 
-### Domain Capabilities Inventory (`PksDomainCapabilities`)
+### Domain Capabilities Inventory ([`PksDomainCapabilities`](../../../mcp-reference/tools/pks-and-learning/nova-pks-upsert.md#3-parameter-reference))
 Discovered during Learn Mode exploration and discovery probes:
 * **Authentication Surface:** `hasLoginSurface`, `hasSignupSurface`, `loginRequiredForCoreContent`.
 * **Feature Inventories:** Segregated lists of features available in `anonymousFeatures`, `loggedInFeatures`, or `bothFeatures`.
@@ -423,11 +431,11 @@ Discovered during Learn Mode exploration and discovery probes:
 
 ### Sandbox Profile Integration & Routing Plane
 PKS domain classifications directly enrich Nova's sandbox tabs exposed via [`nova.tabs`](../../../mcp-reference/tools/browser-automation/nova-tabs.md):
-* **Routing Plane vs. Execution Plane:** PKS classification tags (`PksDomainClassification`) provide instant semantic context about which service or account runs inside each sandbox profile (e.g., distinguishing a personal Google sandbox from a corporate Google sandbox).
+* **Routing Plane vs. Execution Plane:** PKS classification tags ([`PksDomainClassification`](../../../mcp-reference/tools/pks-and-learning/nova-pks-upsert.md#3-parameter-reference)) provide instant semantic context about which service or account runs inside each sandbox profile (e.g., distinguishing a personal Google sandbox from a corporate Google sandbox).
 * Agents understand sandbox tab identity without needing to navigate or burn perception turns.
 
-### Trusted State Detectors (`PksTrustedStateDetector`)
-Configuration rules for detecting high-level application states during `perceive`:
+### Trusted State Detectors ([`PksTrustedStateDetector`](../../../mcp-reference/tools/pks-and-learning/nova-pks-upsert.md#3-parameter-reference))
+Configuration rules for detecting high-level application states during [`perceive`](../../../mcp-reference/tools/dom-and-reading/nova-perceive.md):
 * Evaluates weighted positive signals (e.g., presence of user avatar or logout button for `logged_in`), negative signals, and exclusion selectors.
 * Provides deterministic state awareness (e.g., `logged_in`, `sidebar_open`, `input_ready`).
 
@@ -444,9 +452,9 @@ Unlike interactive phenomena that execute playbooks, **Domain Hints** are passiv
 
 | Hint Kind | Mode | Effect / Action | Purpose |
 | :--- | :---: | :--- | :--- |
-| `content_filter.ad_container` | `ancestor` | Applies negative scoring penalty (`scoreDelta = -0.50`) and attaches `"sponsored"` tag. | Identifies display ads, sponsored modules, and banner promotions so agents do not mistake them for article text. |
-| `noise_region` | `ancestor` | Penalizes ancestor scoring (`scoreDelta = -0.35`) and flags navigation-like clusters. | Suppresses global headers, footers, breadcrumb navs, and sidebar clutter during text extraction. |
-| `content_container.result_item` | `item_root` | Enumerates repeating children, extracting primary links, labels, and hrefs. | Automatically extracts structured item lists from search results, product catalogs, and directory views. |
+| [`content_filter.ad_container`](../../../mcp-reference/tools/pks-and-learning/nova-pks-upsert-hint.md#2-parameter-reference) | `ancestor` | Applies negative scoring penalty (`scoreDelta = -0.50`) and attaches `"sponsored"` tag. | Identifies display ads, sponsored modules, and banner promotions so agents do not mistake them for article text. |
+| [`noise_region`](../../../mcp-reference/tools/pks-and-learning/nova-pks-upsert-hint.md#2-parameter-reference) | `ancestor` | Penalizes ancestor scoring (`scoreDelta = -0.35`) and flags navigation-like clusters. | Suppresses global headers, footers, breadcrumb navs, and sidebar clutter during text extraction. |
+| [`content_container.result_item`](../../../mcp-reference/tools/pks-and-learning/nova-pks-upsert-hint.md#2-parameter-reference) | `item_root` | Enumerates repeating children, extracting primary links, labels, and hrefs. | Automatically extracts structured item lists from search results, product catalogs, and directory views. |
 
 ---
 
@@ -468,9 +476,9 @@ stateDiagram-v2
 
 ### Learning Trust Levels
 
-* **L0 — Candidate:** Hypothesis stage. Collected from observation clusters, seeded platform templates, or intercepted native triggers. Excluded from `nova.pks_match` and auto-apply.
-* **L1 — Shadow:** Persisted and vetted for syntax/anti-poisoning, but still undergoing reliability verification. Excluded from `nova.pks_match`. Manual upserts start here.
-* **L2 — Active:** Fully proven and trusted. Eligible for `nova.pks_match` and eligible for [Ambient Auto-Apply](../ambient-auto-apply/README.md).
+* **L0 — Candidate:** Hypothesis stage. Collected from observation clusters, seeded platform templates, or intercepted native triggers. Excluded from [`nova.pks_match`](../../../mcp-reference/tools/pks-and-learning/nova-pks-match.md) and auto-apply.
+* **L1 — Shadow:** Persisted and vetted for syntax/anti-poisoning, but still undergoing reliability verification. Excluded from [`nova.pks_match`](../../../mcp-reference/tools/pks-and-learning/nova-pks-match.md). Manual upserts start here.
+* **L2 — Active:** Fully proven and trusted. Eligible for [`nova.pks_match`](../../../mcp-reference/tools/pks-and-learning/nova-pks-match.md) and eligible for [Ambient Auto-Apply](../ambient-auto-apply/README.md).
 
 ### PKS Learning Debt Tracking (`PksLearningDebtTracker`)
 Nova tracks verified interaction successes against unlearned selectors:
@@ -492,7 +500,7 @@ When an agent performs clicks, Nova maintains a pre-click DOM probe cache (3-sec
 * **Rate Limits & Escalation:** Enforces cooldowns and escalates unhandled prompts (`Prompted` $\rightarrow$ `Warned` $\rightarrow$ `Strict`) to keep agents disciplined.
 
 ### Native Dialog Auto-Interception (`auto:native_dialog:*`)
-When an agent clicks an element triggering a native file upload dialog (which would block the UI thread), Nova intercepts the trigger and automatically generates an `L0 Candidate` of type `native_dialog` (`auto_native_dialog_{hash}`). In all subsequent turns, `pksAdvice` warns the agent against direct clicking and directs it to [`nova.file_upload`](../../../mcp-reference/tools/browser-automation/nova-file-upload.md).
+When an agent clicks an element triggering a native file upload dialog (which would block the UI thread), Nova intercepts the trigger and automatically generates an `L0 Candidate` of type `native_dialog` (`auto_native_dialog_{hash}`). In all subsequent turns, [`pksAdvice`](../../../mcp-reference/tools/dom-and-reading/nova-perceive.md#6-return-value-structure-summary-mode) warns the agent against direct clicking and directs it to [`nova.file_upload`](../../../mcp-reference/tools/browser-automation/nova-file-upload.md).
 
 ### Tab Release Learning Gate (`-32041`)
 When an agent claims a tab for a task, Nova enforces learning obligations at release time:
@@ -520,8 +528,8 @@ PKS provides a comprehensive suite of MCP tools supporting every phase of proced
 
 | Tool | Category | Operational Purpose |
 | :--- | :---: | :--- |
-| [`nova.pks_get`](../../../mcp-reference/tools/pks-and-learning/nova-pks-get.md) | Query | Retrieves stored phenomena, hints, and context for a domain. Supports `outputDetail='summary'` or `'full'`. |
-| [`nova.pks_list`](../../../mcp-reference/tools/pks-and-learning/nova-pks-list.md) | Query | Lists all domains in PKS, with optional filtering by `serviceCategory`. |
+| [`nova.pks_get`](../../../mcp-reference/tools/pks-and-learning/nova-pks-get.md) | Query | Retrieves stored phenomena, hints, and context for a domain. Supports [`outputDetail='summary'`](../../../mcp-reference/tools/pks-and-learning/nova-pks-get.md#3-parameter-reference) or `'full'`. |
+| [`nova.pks_list`](../../../mcp-reference/tools/pks-and-learning/nova-pks-list.md) | Query | Lists all domains in PKS, with optional filtering by [`serviceCategory`](../../../mcp-reference/tools/pks-and-learning/nova-pks-list.md#2-parameter-reference). |
 | [`nova.pks_match`](../../../mcp-reference/tools/pks-and-learning/nova-pks-match.md) | Matching | Evaluates current page signals against active (L2) phenomena, returning weighted similarity rankings. |
 | [`nova.pks_upsert`](../../../mcp-reference/tools/pks-and-learning/nova-pks-upsert.md) | Curation | Creates or updates a phenomenon with full fingerprint, playbook, fallbacks, and anti-poisoning claims. |
 | [`nova.pks_patch`](../../../mcp-reference/tools/pks-and-learning/nova-pks-patch.md) | Curation | Surgically patches individual fields of an existing phenomenon (playbook, fallbacks, routes) without overwriting historical health records. |
@@ -540,18 +548,18 @@ PKS provides a comprehensive suite of MCP tools supporting every phase of proced
 
 When interacting with web UI situations, agents follow Nova's standard operational cycle:
 
-1. **Perceive First:** Call [`nova.perceive()`](../../../mcp-reference/tools/dom-and-reading/nova-perceive.md) and inspect inline `structuredContent.pks` and `structuredContent.pksAdvice`.
+1. **Perceive First:** Call [`nova.perceive()`](../../../mcp-reference/tools/dom-and-reading/nova-perceive.md) and inspect inline [`structuredContent.pks`](../../../mcp-reference/tools/dom-and-reading/nova-perceive.md#6-return-value-structure-summary-mode) and [`structuredContent.pksAdvice`](../../../mcp-reference/tools/dom-and-reading/nova-perceive.md#6-return-value-structure-summary-mode).
 2. **Select Action:**
    * If a trusted phenomenon exists $\rightarrow$ execute via [`nova.phenomenon_apply`](../../../mcp-reference/tools/pks-and-learning/nova-phenomenon-apply.md).
    * Otherwise $\rightarrow$ interact manually using robust semantic selectors.
 3. **Strict Outcome Verification:** Confirm that the intended result occurred (e.g., overlay is gone, content is scrollable) via DOM or visual inspection.
 4. **Immediate Telemetry / Curation:**
-   * Reused phenomenon succeeded $\rightarrow$ call `nova.telemetry_report(outcome='success')`.
-   * Reused phenomenon failed $\rightarrow$ call `nova.telemetry_report(outcome='failure')`, re-perceive, and adapt.
-   * New reusable pattern discovered and verified $\rightarrow$ persist immediately via `nova.pks_upsert`.
-   * Stored pattern needs selector update $\rightarrow$ patch surgically via `nova.pks_patch`.
+   * Reused phenomenon succeeded $\rightarrow$ call [`nova.telemetry_report(outcome='success')`](../../../mcp-reference/tools/pks-and-learning/nova-telemetry-report.md).
+   * Reused phenomenon failed $\rightarrow$ call [`nova.telemetry_report(outcome='failure')`](../../../mcp-reference/tools/pks-and-learning/nova-telemetry-report.md), re-perceive, and adapt.
+   * New reusable pattern discovered and verified $\rightarrow$ persist immediately via [`nova.pks_upsert`](../../../mcp-reference/tools/pks-and-learning/nova-pks-upsert.md).
+   * Stored pattern needs selector update $\rightarrow$ patch surgically via [`nova.pks_patch`](../../../mcp-reference/tools/pks-and-learning/nova-pks-patch.md).
 5. **Never Retry in Blind Loops:** If a stored playbook fails, report failure once, re-perceive from live DOM, and proceed.
-6. **Satisfy Tab Release Gates:** Ensure all verified reusable interactions have their corresponding PKS records before calling `nova.tab_release`.
+6. **Satisfy Tab Release Gates:** Ensure all verified reusable interactions have their corresponding PKS records before calling [`nova.tab_release`](../../../mcp-reference/tools/browser-automation/nova-tab-release.md).
 
 ---
 

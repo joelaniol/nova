@@ -94,6 +94,19 @@ To prevent race conditions where a child spawns grandchild processes before job 
 * Only after successful job assignment does `ResumeThread` awaken the main thread.
 * **The Graceful Degradation Fallback:** If a restrictive host security product or enterprise endpoint agent blocks `AssignProcessToJobObject`, the failure is logged and recorded (`JobAssignmentFailed = true`), but the terminal is permitted to start. Refusing to launch would trade a rare orphaned process for a guaranteed terminal outage.
 
+### 2.2 Win32 Creation Flags & Environment Marshalling
+Spawning a ConPTY child process requires precise low-level Win32 flag orchestration in `TerminalConPtyHost`:
+
+| Win32 Constant | Value | Purpose in Nova Terminal Host |
+| :--- | :---: | :--- |
+| `EXTENDED_STARTUPINFO_PRESENT` | `0x00080000` | Instructs `CreateProcess` to interpret the startup parameter as `STARTUPINFOEX` containing the ConPTY thread attribute list. |
+| `CREATE_SUSPENDED` | `0x00000004` | Freezes the primary thread at entry point, guaranteeing that `AssignProcessToJobObject` completes before any code executes. |
+| `CREATE_UNICODE_ENVIRONMENT` | `0x00000400` | Informs the kernel that the environment block pointer references 16-bit Unicode characters (`wchar_t`) rather than legacy ANSI. |
+| `PROC_THREAD_ATTRIBUTE_PSEUDOCONSOLE` | `0x00020016` | Binds the `HPCON` pseudo console handle directly to the child process's standard input, output, and error streams. |
+
+* **Zero Handle Leakage (`bInheritHandles = false`):** Because ConPTY transfers stdio handles through the attribute list, handle inheritance is explicitly disabled. Child processes never inherit Nova's or the runner's internal pipe, file, or socket handles.
+* **Native Environment Marshalling:** Environment blocks are compiled as contiguous, null-delimited (`\0`), double-null-terminated (`\0\0`) UTF-16 blocks allocated in unmanaged memory via `Marshal.AllocHGlobal`. The unmanaged pointer is freed immediately after `CreateProcess` returns, preventing memory leaks.
+
 ---
 
 ## 3. The Persistent Helper Process (`NovaBrowser.TerminalRunner.exe`)
@@ -169,6 +182,109 @@ var profileId = Convert.ToHexString(hash.AsSpan(0, 8)); // 16 hex chars
 ### 5.2 Named Pipe Security & Capability Handshake
 1. **OS-Level Pipe ACL:** The pipe is opened with `PipeOptions.CurrentUserOnly`. Windows kernel security blocks access from any other user account on the machine.
 2. **Capability Token Verification:** Nova generates a 256-bit cryptographic token stored in `%LOCALAPPDATA%\NovaBrowser\terminal-runner.token`. Upon connecting, Nova transmits this token in the `hello` control frame. The runner verifies the token against disk before accepting session commands.
+
+---
+
+## 6. The Connect-or-Spawn State Machine & TTY Console-Handle Invariant
+
+`NovaTerminalRunnerClient.ConnectAsync` handles establishing, spawning, and reconnecting the IPC channel to `NovaBrowser.TerminalRunner.exe`.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Client as NovaTerminalRunnerClient
+    participant Pipe as Named Pipe Stream
+    participant Runner as NovaBrowser.TerminalRunner.exe
+
+    Client->>Pipe: Probe Existing Pipe (300ms Timeout)
+    alt Pipe Available
+        Pipe-->>Client: Connected
+    else Pipe Missing (FileNotFoundException / Timeout)
+        Client->>Runner: Process.Start(NovaBrowser.TerminalRunner.exe)<br/>[Without Stdout Redirection!]
+        loop Up to 40 Retries (250ms interval, ~10s total)
+            Client->>Pipe: Attempt NamedPipeClientStream.Connect(250)
+            alt Connected
+                Pipe-->>Client: Connected
+            else Retry
+                Note over Client: Await 250ms Backoff
+            end
+        end
+    end
+    Client->>Runner: Send hello frame with 256-bit Token
+    Runner-->>Client: Send helloAck frame
+```
+
+### 6.1 The TTY Console-Handle Invariant
+When spawning `NovaBrowser.TerminalRunner.exe`, `ProcessStartInfo` is configured with:
+* `UseShellExecute = false`
+* `CreateNoWindow = true`
+* **`RedirectStandardOutput = false` and `RedirectStandardError = false`**
+
+> [!IMPORTANT]
+> **The Console-Handle Invariant:** Standard output and standard error must **never** be redirected when launching `TerminalRunner`.
+> 
+> Under Windows, redirecting stdout/stderr causes the OS loader to replace the process's standard console handles (`STD_OUTPUT_HANDLE`) with anonymous pipe handles. When the runner subsequently attempts to initialize ConPTY (`CreatePseudoConsole`) for child shells, the Windows console subsystem fails or creates corrupted pseudo consoles because the calling process lacks a true Win32 console handle. Launching the runner without redirected I/O guarantees that it can allocate, bind, and duplicate pseudo consoles cleanly.
+
+---
+
+## 7. The Dual-Stage Acceptance Gate & Health Probe (`TerminalRunnerHealthProbe`)
+
+In Nova's About settings and system diagnostics, validating the terminal subsystem requires more than a simple IPC ping.
+
+```mermaid
+flowchart TD
+    Start["Probe Triggered"] --> Stage1["Stage 1: Out-of-Process Acceptance Gate<br/>(TerminalRunner.exe --self-test)"]
+    Stage1 --> CheckExit{"Exit Code == 0 within 60s?"}
+    CheckExit -- No --> FailGate["Return Stage: SelfTestFailed / SelfTestTimedOut"]
+    CheckExit -- Yes --> Stage2["Stage 2: Live IPC Pipe Probe<br/>(ProbePipeAsync: Connect + Ping/Pong)"]
+    Stage2 --> CheckPing{"Pipe ping answered within 20s?"}
+    CheckPing -- No --> FailPipe["Return Stage: PipeUnreachable"]
+    CheckPing -- Yes --> Healthy["Return Stage: Healthy (PingLatencyMs recorded)"]
+```
+
+### 7.1 Why Pipe Ping Alone is Insufficient
+A runner whose window station, desktop heap, or console allocation has degraded can still accept TCP/pipe connections and reply to JSON ping frames. If a health probe merely tests the pipe, it reports "Ready" even when the runner is completely incapable of launching shells.
+
+`TerminalRunnerHealthProbe` executes in two sequential stages:
+1. **Stage 1: The Standalone Acceptance Gate (`--self-test`):**
+   * Spawns `NovaBrowser.TerminalRunner.exe --self-test` as an isolated one-shot process.
+   * Tests whether `CreatePseudoConsole` succeeds on the host.
+   * Launches a temporary child shell and verifies that it detects a valid TTY.
+   * Verifies that the child process is contained inside a Job Object and terminates cleanly when closed.
+   * Verifies that the runner itself is not trapped in an unwanted parent Job Object.
+   * Expects exit code `0` (`SelfTestPassExitCode`) within a 60-second budget.
+2. **Stage 2: Live Pipe Latency Probe:**
+   * Only after Stage 1 passes does Nova connect to the active runner pipe, transmit a `ping` frame, and record round-trip latency (`PingLatencyMs`).
+
+---
+
+## 8. Mutex Ownership & Crash Recovery (`RunnerSingleton`)
+
+To ensure only one runner process serves a profile at any given time, `NovaBrowser.TerminalRunner.exe` employs a named system mutex: `Local\NovaBrowser.TerminalRunner.{profileId}`.
+
+### 8.1 Seamless Crash Takeover (`AbandonedMutexException`)
+If a runner process terminates abnormally (system power failure, OS task kill, or hardware crash), the Windows kernel marks the owned mutex as *abandoned*.
+
+When a newly spawned runner attempts to acquire the mutex:
+```csharp
+try
+{
+    _owned = _mutex.WaitOne(TimeSpan.Zero);
+}
+catch (AbandonedMutexException)
+{
+    // The previous runner process crashed without releasing the mutex.
+    // The OS grants ownership to this new instance.
+    _owned = true;
+}
+```
+Handling `AbandonedMutexException` allows the new runner to immediately take over without hanging or failing to start due to stale lock files.
+
+### 8.2 Clean Shutdown for Installer Updates (`shutdown`)
+When Nova is preparing to install an update or close completely:
+* Nova transmits the `shutdown` control frame over the named pipe.
+* The runner terminates all active session Job Objects, unregisters its named pipe server, releases its singleton mutex, and exits cleanly.
+* This releases all file locks on `dist\NovaBrowser.TerminalRunner.exe`, ensuring installer updates and builds complete without file-in-use errors.
 
 ---
 

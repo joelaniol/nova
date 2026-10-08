@@ -67,11 +67,11 @@ flowchart LR
 
 | Sub-System | Scope & Responsibilities | Deep Dive Specification |
 | :--- | :--- | :--- |
-| **ConPTY & Runner Architecture** | Native ConPTY setup, `NovaBrowser.TerminalRunner.exe` process model, Windows Job Object tree enforcement, deterministic profile identity, 10s idle vs. 24h orphan lifecycle. | [ConPTY & Runner Architecture](conpty-and-runner-architecture.md) |
-| **IPC Named Pipe Wire Protocol** | Duplex named pipe protocol, 9-byte binary header framing, atomic pre-composed writes, JSON control frames, PTY raw byte streaming, and `PtyOutputRing` circular buffer. | [IPC Wire Protocol](ipc-wire-protocol.md) |
-| **Agent Sessions & Security** | Physical separation between human dock sessions and headless agent sessions, PowerShell sanitization (`Remove-Module PSReadLine`), CWD allowed-root policy, and concurrency cap of 8. | [Agent Sessions & Security](agent-sessions-and-security.md) |
-| **Command Execution & Markers** | `terminal_run_command` mechanics, unique nonce sentinels (`NOVAEXIT_{nonce}`), `$?` vs `$LASTEXITCODE` exit code resolution, `RunGate` semaphore, and non-destructive timeouts. | [Command Execution & Markers](command-execution-and-markers.md) |
-| **Workspaces, UI Dock & Settings** | `TerminalWorkspace` persistent entity model, `.nova/` onboarding injection, scheduled task workspaces, WinUI 3 dock chrome, permission gating, and `NO_COLOR` environment toggles. | [Workspaces, UI Dock & Settings](workspaces-and-ui-dock.md) |
+| **ConPTY & Runner Architecture** | Native ConPTY setup, Win32 flags & handle lifecycle, TTY console-handle invariant, Job Object tree enforcement, deterministic profile identity, 10s idle vs. 24h orphan lifecycle, and dual-stage acceptance gate (`--self-test`). | [ConPTY & Runner Architecture](conpty-and-runner-architecture.md) |
+| **IPC Named Pipe Wire Protocol** | Duplex named pipe protocol, 9-byte binary header framing, atomic pre-composed writes, dual-channel single-writer architecture, synchronous sink registration invariant, JSON control frames, and `PtyOutputRing` circular buffer. | [IPC Wire Protocol](ipc-wire-protocol.md) |
+| **Agent Sessions & Security** | Physical separation between human dock sessions and headless agent sessions, PowerShell sanitization (`Remove-Module PSReadLine`), CWD allowed-root policy, concurrency cap of 8 with automatic exited eviction, and ephemeral directory reclamation. | [Agent Sessions & Security](agent-sessions-and-security.md) |
+| **Command Execution & Markers** | `terminal_run_command` mechanics, unique nonce sentinels (`NOVAEXIT_{nonce}`), high-efficiency tail scanning (256-byte overlap margin), `$?` vs `$LASTEXITCODE` exit code resolution, `RunGate` semaphore, and non-destructive timeouts. | [Command Execution & Markers](command-execution-and-markers.md) |
+| **Workspaces, UI Dock & Settings** | `TerminalWorkspace` persistent entity model, `.nova/` onboarding injection, scheduled task workspaces, PowerShell discovery engine, real-time activity monitoring (2s/6s pulsing dot), mount failure recovery, WinUI 3 dock chrome, permission gating, and `NO_COLOR` environment toggles. | [Workspaces, UI Dock & Settings](workspaces-and-ui-dock.md) |
 
 ---
 
@@ -145,11 +145,11 @@ flowchart TD
 
 For complete implementation specifications, protocol frame layouts, and edge-case behaviors, consult the subcategory documentation:
 
-1. **[ConPTY & Runner Architecture](conpty-and-runner-architecture.md)** — Process lifecycles, Job Objects, ConPTY P/Invoke, and lifetime management.
-2. **[IPC Named Pipe Wire Protocol](ipc-wire-protocol.md)** — Binary framing, JSON control frames, ring buffers, and reattachment semantics.
-3. **[Agent Sessions & Security](agent-sessions-and-security.md)** — Headless registry separation, PSReadLine unloading, and CWD validation.
-4. **[Command Execution & Markers](command-execution-and-markers.md)** — Nonce sentinels, exit code resolution, `RunGate`, and timeouts.
-5. **[Workspaces, UI Dock & Settings](workspaces-and-ui-dock.md)** — Persistent workspaces, onboarding injection, WinUI dock, and `NO_COLOR`.
+1. **[ConPTY & Runner Architecture](conpty-and-runner-architecture.md)** — Process lifecycles, Win32 flags, Job Objects, TTY handle invariant, acceptance gates (`--self-test`), and lifetime management.
+2. **[IPC Named Pipe Wire Protocol](ipc-wire-protocol.md)** — Binary framing, atomic pre-composed writes, dual-channel single-writer architecture, synchronous sink registration, and ring buffers.
+3. **[Agent Sessions & Security](agent-sessions-and-security.md)** — Headless registry separation, PSReadLine unloading, CWD validation, concurrency caps, and ephemeral scratch reclamation.
+4. **[Command Execution & Markers](command-execution-and-markers.md)** — Nonce sentinels, high-efficiency tail scanning, exit code resolution, `RunGate`, and timeouts.
+5. **[Workspaces, UI Dock & Settings](workspaces-and-ui-dock.md)** — Persistent workspaces, onboarding injection, PowerShell discovery, real-time activity monitoring, WinUI dock, and `NO_COLOR`.
 
 ---
 

@@ -275,6 +275,63 @@ sequenceDiagram
 > [!IMPORTANT]
 > **Single-Attachment Invariant:** `NovaBrowser.TerminalRunner.exe` strictly enforces that each running session connects to at most one client sink. A pop-out is a **transfer**, not a mirror. When undocked, the session's active sink shifts entirely to the pop-out window, and the main browser dock resets to the workspace launcher. Closing the pop-out window pauses the session without terminating the shell.
 
+### 5.3 PowerShell Inventory Discovery Engine (`PowerShellInstallationDiscovery`)
+
+When configuring a new terminal workspace, Nova automatically inventories all available PowerShell installations on the host system:
+* **Detection Scope:** Discovers both modern PowerShell Core / 7+ (`pwsh.exe`) and legacy Windows PowerShell 5.1 (`powershell.exe`).
+* **Path & Registry Scanning:** Inspects `PATH`, standard `%ProgramFiles%\PowerShell` installations, and `%SystemRoot%\System32\WindowsPowerShell\v1.0`.
+* **Version Disambiguation:** When multiple builds of the same version exist (e.g. standard install vs. Microsoft Store package), the UI automatically appends the binary's folder path to the dropdown label.
+* **Pre-Seeded CLI Options:** In addition to discovered PowerShell runtimes, the dropdown offers instant presets for AI developer CLIs (`claude`, `codex`).
+
+### 5.4 Real-Time Terminal Activity Monitoring Engine
+
+When multiple agent sessions execute in background tabs or while the dock is minimized, operators need immediate visual feedback indicating which shells are producing output.
+
+```mermaid
+flowchart TD
+    subgraph Detection ["Activity Detection (Every 2s: TerminalActivityPollInterval)"]
+        Attached["Attached Session: RecordOutputActivity<br/>(Raw bytes stamped minus user echo & resize)"]
+        Detached["Detached Session: Runner sessionStats Probe<br/>(Detects RingEnd growth in circular buffer)"]
+    end
+
+    subgraph Verdict ["Freshness Window (6s: TerminalActivityFreshWindow)"]
+        Evaluate{"Produced output within last 6 seconds?"}
+    end
+
+    subgraph Presentation ["Visual Feedback"]
+        TabPulse["Run-Strip Tab: Pulsing Green Dot Animation"]
+        ToolbarPulse["Browser Toolbar: Pulsing Terminal Button Dot"]
+    end
+
+    Attached --> Evaluate
+    Detached --> Evaluate
+    Evaluate -- Yes --> TabPulse
+    Evaluate -- Yes --> ToolbarPulse
+```
+
+* **Poll Cadence vs. Freshness Window:** Nova polls activity every **2 seconds** (`TerminalActivityPollInterval = 2s`), checking against a **6-second freshness window** (`TerminalActivityFreshWindow = 6s`). A 6-second window spans three poll intervals, ensuring that batch-oriented compilation outputs create a smooth, steady pulsing animation without flickering between chunks.
+* **Dual-Source Measurement (`IsTerminalSessionWorking`):**
+  * *Attached Sessions:* Byte chunks passing through the active sink update `session.LastOutputActivityTicks`. Echo from user keystrokes and window resizes are explicitly excluded so that user typing does not trigger false agent-activity alerts.
+  * *Detached Sessions:* Because detached shells stream no bytes to Nova, the poll queries the runner's `sessionStats` op to inspect the circular buffer's monotonic `RingEnd` offset. If `RingEnd` has advanced, output activity is confirmed.
+* **Toolbar Notification:** The activity verdict drives a pulsing dot on the main browser window's terminal toggle button, alerting the operator that an agent is actively working even when the terminal dock is completely hidden or collapsed.
+
+### 5.5 Terminal Mount Failure Recovery Overlay
+
+Terminal initialization can occasionally fail due to environment anomalies (such as developer cleaning of `dist\Assets\Terminal` while the app is running, or GPU composition driver stalls).
+
+* **Preventing Dead Black Stencils:** Historically, a failed WebView2 mount left an empty, opaque black rectangle, indistinguishable from a slow-starting shell.
+* **The Structured Recovery Card:** When `CreateTerminalViewAsync` fails, the dock host intercepts the error and displays a centered, high-contrast WinUI 3 recovery card over the dock canvas:
+  * Informs the operator: *"This terminal could not be opened. Try again, and restart Nova if it keeps failing."*
+  * Provides a direct **"Try again"** button that safely retries `ShowExistingTerminalSessionAsync`.
+  * Logs the underlying exception technical details to Serilog without cluttering the UI.
+
+### 5.6 Ephemeral Quick-Workspace Scratch Cleaner (`TerminalQuickWorkspaceCleaner`)
+
+For ad-hoc tasks, Nova provides an ephemeral "Quick Terminal" operating inside `%LOCALAPPDATA%\NovaBrowser\RuntimeTemp\quick-workspace`.
+
+* **Safe Deletion Guard:** When resetting or clearing the quick workspace, `TerminalQuickWorkspaceCleaner.Clear()` uses `DirectoryCleanupGuards.TryDeleteDirectoryTreeUnderRoot`.
+* **Root Confinement:** The cleaner strictly verifies that the target directory resides inside `StoragePaths.RuntimeTempDir`. Any path resolution error or symlink evasion attempt aborts the delete operation, safeguarding user files outside the temporary directory.
+
 ---
 
 ## 6. Dock State Management & Permission Gating

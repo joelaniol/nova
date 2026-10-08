@@ -75,6 +75,33 @@ Regex.Match(output, Regex.Escape(marker) + @"_(-?\d+)_END", RegexOptions.Culture
 ```
 Matching the optional negative sign (`-?`) ensures that crash codes are parsed immediately, preventing aborted processes from waiting out the full command timeout.
 
+### 2.4 High-Efficiency Tail Scanning & Overlap Margin
+Scanning the output ring on a 50ms polling loop (`RunCommandPollMs = 50`) presents performance challenges during verbose compilation jobs (e.g. `npm build` emitting thousands of log lines per second).
+
+```mermaid
+flowchart LR
+    subgraph Stream ["PtyOutputRing Buffer Stream"]
+        StartOffset["startOffset (Command Injected)"]
+        ScannedTo["scannedTo (Previous Poll End)"]
+        Overlap["256-Byte Overlap Window"]
+        Tail["New Tail Bytes"]
+    end
+
+    StartOffset --> ScannedTo
+    ScannedTo -. Overlap .-> Tail
+```
+
+1. **Incremental Tail Decoding:** Re-decoding the entire output ring since `startOffset` every 50ms would cost up to two allocations of the whole buffer (512 KB bytes + 1 MB string) twenty times a second. Instead, Nova only decodes bytes emitted since the last poll tick (`scannedTo`).
+2. **The 256-Byte Overlap Margin (`SentinelScanOverlapBytes = 256`):** If a 50-byte sentinel line straddles the boundary between two 50ms polls, reading strictly from `scannedTo` would cut the sentinel in half, causing regex failure. Nova always re-reads `scannedTo - SentinelScanOverlapBytes`, ensuring that boundary-straddling sentinels and prompt redraw sequences are captured intact.
+3. **Input Echo vs. Executed Sentinel Distinction:**
+   * When ConPTY echoes the submitted command, the console stream reflects the literal string:
+     `Write-Output "NOVAEXIT_1a2b3c4d_$(if($?){0}...)..."`
+   * Because `$(if...)` is literal in the input echo, it contains no digits.
+   * Only when PowerShell actually executes the statement does the expression expand to:
+     `NOVAEXIT_1a2b3c4d_0_END`
+   * The regex `NOVAEXIT_{nonce}_(-?\d+)_END` matches exclusively the executed line, completely ignoring the input echo.
+4. **Atomic Capture Slicing:** Once a hit is detected in the tail, Nova performs a single clamped read (`CaptureSince(session.Ring, startOffset)`) and slices the exact substring before `hit.MarkerIndex`. Performing match and cut on a single capture prevents ring eviction races from misaligning the slice index.
+
 ---
 
 ## 3. Concurrency Protection: The Single-Flight `RunGate`
