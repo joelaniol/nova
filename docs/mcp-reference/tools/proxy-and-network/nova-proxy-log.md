@@ -8,7 +8,7 @@ Reads recent redacted proxy routing and diagnostic log entries from disk.
 
 `nova.proxy_log` returns diagnostic log lines from `Logs/proxy`. Credentials embedded in a logged URL (`user:pass@host`) are redacted to `***@host` before the line is ever written to disk.
 
-* **Core Architecture Guide:** [Proxy Routing & Network Engine](../../../core-features/proxy-and-network/README.md)
+* **Core Architecture Guide:** [Proxy Routing](../../../core-features/network/proxy/README.md)
 
 ---
 

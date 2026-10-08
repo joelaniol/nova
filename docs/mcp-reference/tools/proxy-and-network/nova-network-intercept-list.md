@@ -8,7 +8,7 @@ Lists currently armed network interception rules with remaining hit budgets and 
 
 `nova.network_intercept_list` inspects which interception rules are currently active. Rules that have expired via TTL or hit budgets are automatically omitted.
 
-* **Core Architecture Guide:** [Proxy Routing & Network Engine](../../../core-features/proxy-and-network/README.md)
+* **Core Architecture Guide:** [Network Interception & Request Replay](../../../core-features/network/network-interception/README.md)
 
 ---
 

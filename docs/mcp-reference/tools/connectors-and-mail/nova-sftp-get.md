@@ -10,7 +10,7 @@ Downloads a remote file or directory tree of any size over SFTP into Downloads o
 
 Before any byte is written, the whole remote tree is listed and checked: a symbolic link, a special file, or a name Windows cannot store stops the job with nothing written. Each file is written to a part file next to its target and committed only after its size matches and the remote file is unchanged; the remote modification time is kept. A dropped connection is reconnected up to five times and continues at the part's offset. Repeating the identical call attaches to a running job or resumes an unfinished one - a part is only continued after Nova has proven that it is a prefix of the current remote file. The local destination is checked against Nova's path policy before any approval prompt or connection. Nova verifies the human-confirmed SSH host key on every connection; agents can neither see nor approve fingerprints.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
+* **Core Architecture Guide:** [SSH File Transfer Protocol (SFTP)](../../../core-features/connectors/sftp/README.md)
 
 ---
 

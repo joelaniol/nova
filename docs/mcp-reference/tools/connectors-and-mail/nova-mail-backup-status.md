@@ -8,7 +8,7 @@ Reports progress, downloaded message counts, and active phase of a mail backup j
 
 `nova.mail_backup_status` reports the progress of mail backups. With `jobId`: state (`planning`/`running`/`stopping`/`completed`/`stopped`/`failed`), folders/messages done, an ETA for full runs only, the ZIP parts written so far (path/bytes/sha256/messages), messages skipped by the grant filter, and on failure a reasonCode with a concrete next action. Without `jobId`: the jobs of this Nova session (optionally for one `profileId`) plus that account's last run from the saved resume point, which survives restarts. `acknowledge: true` with `profileId` clears that account's backup alarm after the user has been told what is missing.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
+* **Core Architecture Guide:** [Mail: IMAP & SMTP](../../../core-features/connectors/mail/README.md)
 
 ---
 

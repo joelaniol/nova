@@ -8,7 +8,7 @@ Updates seen and/or flagged status flags for up to 200 messages.
 
 `nova.mail_mark` sets the seen and/or flagged state for up to 200 messages from one mail account. Requires the account's `organize` capability and Nova's independent MutatingRemote confirmation policy. At least one of `seen`/`flagged` is required; the other is left unchanged. Already-correct flags return `already_done`/`changed: false` rather than reporting a change that did not happen, and an unknown handle returns `not_found` instead of a false success. If an IMAP flag command was dispatched but its final state is uncertain, that item reports `changed: null, actionDispatched: true, reasonCode: "connector_remote_state_indeterminate"` — do not auto-retry, read the message first.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
+* **Core Architecture Guide:** [Mail: IMAP & SMTP](../../../core-features/connectors/mail/README.md)
 
 ---
 

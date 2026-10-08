@@ -8,7 +8,7 @@ Saves an email draft to the server's Drafts folder without sending.
 
 `nova.mail_draft_create` saves one draft in the configured account's server-side Drafts folder without sending it. Requires the account's `organize` capability and Nova's independent MutatingRemote confirmation policy — it does not require the `send` capability or recipient allow-list, because no SMTP submission occurs. Nova prefers the server's SPECIAL-USE Drafts folder and otherwise accepts only conservative exact localized folder names; if none is identifiable, nothing is appended and the call fails with `reasonCode: "mail_draft_folder_not_found"`. A confirmed append returns `changed: true, sent: false`; `messageId` is a stable Nova handle only when the server returned a UID and Nova's local index committed it, otherwise `created_untracked` means the draft exists but should be found by listing Drafts.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
+* **Core Architecture Guide:** [Mail: IMAP & SMTP](../../../core-features/connectors/mail/README.md)
 
 ---
 

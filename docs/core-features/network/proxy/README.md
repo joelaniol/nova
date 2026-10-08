@@ -1,7 +1,7 @@
-# Proxy Routing & Network Engine
+# Proxy Routing
 
 > [!NOTE]
-> Nova AI Workspace routes browser traffic through HTTP, HTTPS, SOCKS4 or SOCKS5 proxy profiles, can block WebRTC from leaking the real IP address past the proxy, and gives agents tab-scoped network interception and a request repeater for API debugging.
+> Nova AI Workspace routes browser traffic through HTTP, HTTPS, SOCKS4 or SOCKS5 proxy profiles and can block WebRTC from leaking the real IP address past the proxy.
 
 ---
 
@@ -11,17 +11,7 @@ You select a proxy profile for a browsing task. Nova can probe that endpoint and
 
 These checks answer different questions. A proxy probe uses a separate HTTP client; a healthy endpoint does not prove that an already-open WebView is using it. Browser routing comes from the shared browser process's launch configuration, which applies to normal tabs and sandboxes together.
 
-## 2. Three Different Network Controls
-
-| Control | What it does |
-| :--- | :--- |
-| Proxy routing | Selects the shared browser's route to the network, subject to configured bypasses. |
-| Network interception | Temporarily changes matching requests or responses in one tab. |
-| Request repeater | Sends a separate HTTP request outside the page, optionally adopting session material. |
-
-Session isolation, proxy routing and browser identity are separate controls. Two sandboxes can have different logins while still using the same proxy and outward-facing IP.
-
-## 3. Why Route and Leak Checks Matter
+## 2. Why Route and Leak Checks Matter
 
 Autonomous agents browsing the web encounter standard network hurdles:
 
@@ -33,13 +23,12 @@ Nova manages proxies as profiles with separately stored passwords and offers Web
 
 ---
 
-## 4. Architecture & Routing Model
+## 3. Architecture & Routing Model
 
 ```mermaid
 flowchart TD
     subgraph Control["Settings and MCP"]
         Switch["Proxies and network settings, nova.proxy_switch"]
-        Intercept["nova.network_intercept_*: rules per tab"]
     end
 
     subgraph ProxyCore["Proxy layer"]
@@ -56,12 +45,11 @@ flowchart TD
     Profiles -->|global proxy| LeakGuard
     LeakGuard --> Tabs
     LeakGuard --> Sandboxes
-    Intercept --> Tabs
 ```
 
 ---
 
-## 5. Core Features in Detail
+## 4. Core Features in Detail
 
 1. **One global proxy for all surfaces:**
    * The profile marked "Use as global proxy for normal tabs" carries the traffic. Browser tabs and all sandboxes run in one shared browser process, so this global proxy applies to every tab and every sandbox.
@@ -77,16 +65,12 @@ flowchart TD
    * When the global proxy changes, Nova recreates the open tab WebViews. Because the proxy and WebRTC switches belong to the shared browser process, Nova shows "Restart recommended" — after a restart the setting applies to all tabs.
 6. **Scoped traffic disconnect:**
    * `nova.proxy_disconnect` blocks HTTP(S) traffic for a scope; `nova.proxy_reconnect` checks the proxy and unblocks it.
-7. **Network interception:**
-   * `nova.network_intercept_add` arms a rule for one tab: let matching requests fail, answer them without reaching the network, change the request or the server's response, or delay them. A rule needs a URL pattern with at least 4 literal characters, lives at most 15 minutes (`ttlMs`, default 2 minutes) and removes itself after `maxHits` requests (default 20). Nova shows an indicator while rules are active. The tools are available whenever agent control is enabled; listing them does not arm anything.
-8. **Request repeater:**
-   * `nova.network_replay` prepares, sends and compares a single HTTP request outside the page, optionally with the cookies or storage-held token of an open tab (`adoptSessionFrom`).
 
 ---
 
-## 6. MCP Tooling for Proxy & Network
+## 5. MCP Tools
 
-Proxy tools are in the `proxy_management` bundle; interception and replay are in `page_read_debug`.
+Proxy tools are in the `proxy_management` bundle.
 
 | Tool | Purpose |
 | :--- | :--- |
@@ -98,15 +82,12 @@ Proxy tools are in the `proxy_management` bundle; interception and replay are in
 | `nova.proxy_test` | Tests a proxy against a probe URL (default `https://api.ipify.org/?format=json`). |
 | `nova.proxy_disconnect`, `nova.proxy_reconnect` | Blocks traffic for a scope; checks the proxy and unblocks it. |
 | `nova.proxy_log` | Reads recent, redacted proxy log lines. |
-| `nova.network_intercept_add` | Adds a tab-scoped interception rule. |
-| `nova.network_intercept_list`, `nova.network_intercept_clear` | Lists rules; removes them by rule, by tab or everywhere. |
-| `nova.network_replay` | Prepares, sends and compares a single HTTP request. |
-
----
 
 ## Related Documentation
 
-* **[Multi-Sandbox Session Isolation](../sandbox-isolation/README.md)** — Separate browser profiles per sandbox.
-* **[Fingerprint Protection & Browser Identity](../fingerprint-and-identity/README.md)** — Fingerprint protection and client hints.
+* [Network Interception & Request Replay](../network-interception/README.md) — Tab-scoped rules and a separate HTTP request repeater.
+* [Proxy Tool Reference](../../../mcp-reference/tools/proxy-and-network/README.md) — Parameters and examples.
+* [Multi-Sandbox Session Isolation](../../sandbox-isolation/README.md) — Separate browser profiles per sandbox.
+* [Fingerprint Protection & Browser Identity](../../fingerprint-and-identity/README.md) — Fingerprint protection and client hints.
 
-[All core features](../README.md)
+[Network overview](../README.md) · [All core features](../../README.md)

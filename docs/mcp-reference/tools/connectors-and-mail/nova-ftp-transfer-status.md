@@ -10,7 +10,7 @@ Reports progress and result of background FTP transfers started by `nova.ftp_get
 
 `state` is one of `preparing`, `scanning`, `transferring`, `verifying`, `committing`, `stop_requested` (running) or `completed`, `stopped`, `interrupted`, `failed`, `access_revoked` (terminal). `error.code` names the cause, for example `network_retries_exhausted`, ``source_changed`, `destination_changed`, `target_full`, `remote_storage_limit`, `access_revoked` or `reauthorization_required`. An unfinished job is resumed by repeating its original `nova.ftp_get`/`nova.ftp_put` call; `nextAction` says which step comes next.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
+* **Core Architecture Guide:** [FTP & FTPS](../../../core-features/connectors/ftp-and-ftps/README.md)
 
 ---
 

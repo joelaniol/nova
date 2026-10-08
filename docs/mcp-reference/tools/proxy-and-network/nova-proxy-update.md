@@ -8,7 +8,7 @@ Updates host, port, protocol, or bypass list of an existing proxy profile.
 
 `nova.proxy_update` performs partial updates on an existing proxy profile without altering omitted fields or resetting stored credentials.
 
-* **Core Architecture Guide:** [Proxy Routing & Network Engine](../../../core-features/proxy-and-network/README.md)
+* **Core Architecture Guide:** [Proxy Routing](../../../core-features/network/proxy/README.md)
 
 ---
 

@@ -8,7 +8,7 @@ Reads recent stderr log lines captured from an external MCP server process.
 
 `nova.external_server_logs` retrieves stderr diagnostic lines captured in Nova's circular buffer (up to 500 lines per server), enabling quick troubleshooting of crashes, missing dependencies, or bad arguments.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md) (section 7, "External MCP Servers")
+* **Core Architecture Guide:** [External MCP Servers](../../../core-features/connectors/external-mcp/README.md)
 
 ---
 

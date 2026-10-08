@@ -8,7 +8,7 @@ Imports MCP server definitions from Claude Desktop, VS Code, Claude Code, or JSO
 
 `nova.external_server_import` scans external agent configurations (e.g. `claude_desktop_config.json`, VS Code MCP configs) and imports registered servers into Nova, skipping existing entries.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md) (section 7, "External MCP Servers")
+* **Core Architecture Guide:** [External MCP Servers](../../../core-features/connectors/external-mcp/README.md)
 
 ---
 

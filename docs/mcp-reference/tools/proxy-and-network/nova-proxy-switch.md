@@ -8,7 +8,7 @@ Dynamically switches the active proxy for global tabs or a specific sandbox with
 
 `nova.proxy_switch` changes the global default proxy, or stores a sandbox's own proxy choice (`global`, `none`, or a specific profile). For a global switch, Nova recreates the open tab WebViews so the new proxy applies right away. A sandbox-scoped switch restarts that sandbox's WebView, but WebView2 does not currently give one profile its own outbound proxy — every surface still carries the single global proxy regardless of a sandbox's stored choice.
 
-* **Core Architecture Guide:** [Proxy Routing & Network Engine](../../../core-features/proxy-and-network/README.md)
+* **Core Architecture Guide:** [Proxy Routing](../../../core-features/network/proxy/README.md)
 
 ---
 
@@ -58,7 +58,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
   }
 }
 ```
-A request without `sandboxId` switches the global default instead and returns `{"success": true, "scope": "global", "profileId": ...}`. Because WebView2 currently gives no profile its own outbound proxy, the sandbox's `mode`/`profileId` choice is stored but every surface still carries the one global proxy — see the [proxy routing guide](../../../core-features/proxy-and-network/README.md) for the current limitation.
+A request without `sandboxId` switches the global default instead and returns `{"success": true, "scope": "global", "profileId": ...}`. Because WebView2 currently gives no profile its own outbound proxy, the sandbox's `mode`/`profileId` choice is stored but every surface still carries the one global proxy — see the [proxy routing guide](../../../core-features/network/proxy/README.md) for the current limitation.
 
 ---
 

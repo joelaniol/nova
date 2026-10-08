@@ -61,7 +61,7 @@ flowchart TD
 
 **Shared by all sandboxes:**
 
-* **One browser process and one proxy.** All sandboxes and browser tabs run in the same WebView2 browser process, which takes its proxy from the global setting. A separate proxy per sandbox is currently not possible; sandboxes that were set to their own proxy are switched to follow the global one. See [Proxy Routing & Network](../proxy-and-network/README.md).
+* **One browser process and one proxy.** All sandboxes and browser tabs run in the same WebView2 browser process, which takes its proxy from the global setting. A separate proxy per sandbox is currently not possible; sandboxes that were set to their own proxy are switched to follow the global one. See [Proxy Routing](../network/proxy/README.md).
 * **WebRTC and DNS protection.** "Protect WebRTC local IP leaks" (off by default) applies to the whole browser. With a SOCKS5 proxy it also routes DNS lookups through the proxy; if several SOCKS5 proxies are configured, this DNS protection covers only one of them.
 * **Browser identity.** The user-agent preset set with `nova.identity_set` applies to all tabs.
 
@@ -98,7 +98,7 @@ Deletion markers prevent intentional deletions from being restored by accident. 
 ## Related Documentation
 
 * **[Site Data & Privacy Management](../site-data-management/README.md)** — Cookies, storage and cache clearing.
-* **[Proxy Routing & Network](../proxy-and-network/README.md)** — Proxy profiles and WebRTC leak protection.
+* **[Proxy Routing](../network/proxy/README.md)** — Proxy profiles and WebRTC leak protection.
 * **[Fingerprint Protection & Browser Identity](../fingerprint-and-identity/README.md)** — Fingerprint protection levels and browser identity presets.
 
 [All core features](../README.md)

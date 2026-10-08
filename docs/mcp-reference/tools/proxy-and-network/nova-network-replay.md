@@ -8,7 +8,7 @@ Targeted HTTP request repeater for replaying, editing, and comparing network pay
 
 `nova.network_replay` provides an out-of-band HTTP repeater (similar to Burp Repeater) executed via an independent .NET HTTP client. Agents can freeze a captured request (`prepare`), mutate headers or body parameters, dispatch it once (`send`), and compare the outcome against a baseline (`compareTo`).
 
-* **Core Architecture Guide:** [Proxy Routing & Network Engine](../../../core-features/proxy-and-network/README.md)
+* **Core Architecture Guide:** [Network Interception & Request Replay](../../../core-features/network/network-interception/README.md)
 
 ---
 

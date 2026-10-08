@@ -8,7 +8,7 @@ Updates configuration, environment variables, or transport settings of an existi
 
 `nova.external_server_update` updates configuration for a registered server identified by `serverKey`. Running servers must be restarted for updated environment variables or arguments to take effect.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md) (section 7, "External MCP Servers")
+* **Core Architecture Guide:** [External MCP Servers](../../../core-features/connectors/external-mcp/README.md)
 
 ---
 

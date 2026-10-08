@@ -110,6 +110,6 @@ All tools are in the `site_data_management` bundle and require a `targetId` (tab
 ## Related Documentation
 
 * **[Multi-Sandbox Session Isolation](../sandbox-isolation/README.md)** — Separate browser profiles per sandbox.
-* **[Proxy Routing & Network](../proxy-and-network/README.md)** — Shared browser routing and tab-scoped request interception.
+* **[Network](../network/README.md)** — Shared browser routing and tab-scoped request interception.
 
 [All core features](../README.md)

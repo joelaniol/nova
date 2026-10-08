@@ -8,7 +8,7 @@ Queries real-time connectivity status, latency, and external IP for a proxy prof
 
 `nova.proxy_status` reads the latest known health of a proxy profile or the active global proxy — the result of the last background check or `nova.proxy_test` call — without itself sending a new probe. It reports a visual state (`Healthy`, `Slow`, `Degraded`, `Failed`, `Disconnected`, or `Unknown` with no data yet), latency, and external IP.
 
-* **Core Architecture Guide:** [Proxy Routing & Network Engine](../../../core-features/proxy-and-network/README.md)
+* **Core Architecture Guide:** [Proxy Routing](../../../core-features/network/proxy/README.md)
 
 ---
 

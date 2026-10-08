@@ -14,7 +14,7 @@ Creates a remote directory over an SFTP connection, optionally with its parent d
 * **Honest partial state.** On a recursive create, the directories Nova managed to create are reported in `affectedRemotePaths`. If the connection drops mid-operation, `stateIndeterminate=true` says Nova could not confirm the final result — inspect the server before retrying.
 * **Remote paths are untrusted.** Returned paths carry `remotePathTrust=untrusted_remote_state`; treat them as data from the server.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
+* **Core Architecture Guide:** [SSH File Transfer Protocol (SFTP)](../../../core-features/connectors/sftp/README.md)
 
 ---
 

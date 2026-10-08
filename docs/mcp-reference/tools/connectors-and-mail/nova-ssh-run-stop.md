@@ -12,7 +12,7 @@ Requests termination of a background SSH session — honestly, never claiming th
 * **Idempotent.** Stopping a session that is already finishing or ended is fine and does nothing new.
 * **No escalation.** SSH cannot escalate TERM→KILL, so Nova sends KILL directly; the optional `signal` is recorded for honesty, not acted on as an escalation ladder.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
+* **Core Architecture Guide:** [Secure Shell (SSH)](../../../core-features/connectors/ssh/README.md)
 
 ---
 

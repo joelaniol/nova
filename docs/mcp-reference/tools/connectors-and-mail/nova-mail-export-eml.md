@@ -8,7 +8,7 @@ Exports raw RFC 822 EML files preserving complete MIME headers and original part
 
 `nova.mail_export_eml` exports original messages — every header, every MIME part, exactly as the server stores them — from handles returned by `nova.mail_list`/`nova.mail_search`. One message becomes a `.eml` file; several (or `format: 'zip'`) become one ZIP with one `.eml` per message plus a `manifest.json` (messageId, folder, internetMessageId, subject, from, receivedUtc, and the SHA-256 of each `.eml`). Pull-only: folders open read-only and nothing on the server changes. Requires the account's `read` capability plus Nova's SensitiveRead and PersistentWrite policies. Each handle reports its own status (`exported`/`not_found`/`unknown_handle`/`filtered`/`transfer_limit_exceeded`). An existing file is never overwritten: `onExists='rename'` (default) saves under a numbered name, `onExists='fail'` stops instead.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
+* **Core Architecture Guide:** [Mail: IMAP & SMTP](../../../core-features/connectors/mail/README.md)
 
 ---
 

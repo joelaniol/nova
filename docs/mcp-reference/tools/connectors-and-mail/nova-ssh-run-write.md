@@ -13,7 +13,7 @@ Writes to a background SSH session's stdin with ordered, retry-safe sequencing a
 * **Not an escalation.** stdin had to be enabled at start; a write cannot turn it on. Writing to a session started without `allowStdin` is rejected.
 * **Bounded.** `data` is UTF-8 text up to 256 KiB per call; upload larger input over SFTP and read it in the command instead.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
+* **Core Architecture Guide:** [Secure Shell (SSH)](../../../core-features/connectors/ssh/README.md)
 
 ---
 

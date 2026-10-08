@@ -8,7 +8,7 @@ Reads the sanitized body and attachment inventory of a specific email.
 
 `nova.mail_read` fetches the message for an opaque `messageId` previously returned by `mail_list`/`mail_search`. It returns sanitized text content (never raw HTML), sender/subject metadata, extracted links, and attachment metadata, bounded by `bodyMode`.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
+* **Core Architecture Guide:** [Mail: IMAP & SMTP](../../../core-features/connectors/mail/README.md)
 
 ---
 

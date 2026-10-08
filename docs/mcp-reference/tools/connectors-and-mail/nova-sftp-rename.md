@@ -8,7 +8,7 @@ Renames or moves a remote file or directory over SFTP.
 
 `nova.sftp_rename` renames or moves one remote path. Requires the connector's full capability and Nova's independent global MutatingRemote confirmation policy. An existing destination is preserved unless `overwrite: true`; overwriting a regular file goes through a bounded sibling-recovery stage, and an interrupted stage reports `stateIndeterminate: true` with the paths to inspect rather than claiming success. A missing source or a protected existing destination returns a truthful reasonCode and `changed: false`. SSH host-key trust remains human-only in Settings.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
+* **Core Architecture Guide:** [SSH File Transfer Protocol (SFTP)](../../../core-features/connectors/sftp/README.md)
 
 ---
 

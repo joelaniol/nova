@@ -1,7 +1,7 @@
 # Nova AI Workspace — Core Features
 
 > [!NOTE]
-> This hub lists the 30 core-feature topics of **Nova AI Workspace** (`NovaAIWorkspace.exe`): what each one covers and which MCP tools belong to it. The tools are listed in full in the [tool catalog](../mcp-reference/tool-catalog.md).
+> This hub lists the core-feature topics of **Nova AI Workspace** (`NovaAIWorkspace.exe`): what each one covers and which MCP tools belong to it. The tools are listed in full in the [tool catalog](../mcp-reference/tool-catalog.md).
 
 ---
 
@@ -61,7 +61,7 @@ The [alpha status page](../../ALPHA.md) lists current limitations, including plu
 | :--- | :--- | :--- |
 | [Multi-Sandbox Session Isolation](sandbox-isolation/README.md) | Separate profiles with their own logins | `nova.sandbox_context`, `nova.resolve_sandbox`, `nova.sandbox_create` |
 | [Site Data & Privacy Management (Cookies, Storage, Cache)](site-data-management/README.md) | Cookies, storage and cache | `nova.cookie_list`, `nova.cookie_set`, `nova.storage_inspect`, `nova.cache_clear` |
-| [Proxy Routing & Network Engine](proxy-and-network/README.md) | Shared browser proxy, tab-scoped interception and request replay | `nova.proxy_switch`, `nova.proxy_status`, `nova.network_intercept_*` |
+| [Network](network/README.md) | Shared browser proxy, tab-scoped interception and request replay | `nova.proxy_switch`, `nova.proxy_status`, `nova.network_intercept_*` |
 | [Fingerprint Protection & Browser Identity](fingerprint-and-identity/README.md) | Browser fingerprint protection | `nova.fingerprint_*`, `nova.identity_*`, `nova.emulation_*` |
 | [Session Recording & Time-Travel Debugging](session-recording/README.md) | Recording a run to see later what happened | `nova.session_record_start`, `nova.session_record_query`, `nova.session_record_export` |
 
@@ -71,7 +71,7 @@ The [alpha status page](../../ALPHA.md) lists current limitations, including plu
 | :--- | :--- | :--- |
 | [Terminal Workspaces & ConPTY Integration](terminal-workspaces/README.md) | Terminals the agent can use | `nova.terminal_open`, `nova.terminal_run_command`, `nova.terminal_read` |
 | [Scheduled Tasks & Background Automation Engine](scheduled-tasks/README.md) | Work that runs on its own | `nova.scheduled_task_create`, `nova.scheduled_task_runs`, `nova.scheduled_task_workspace_*` |
-| [Connectors & External Protocol Gateways](connectors-and-protocols/README.md) | Mail, FTP and SFTP | `nova.connector_*`, `nova.mail_*`, `nova.sftp_*`, `nova.ftp_*` |
+| [Connectors](connectors/README.md) | Mail, SSH, SFTP, FTP/FTPS and external MCP servers | `nova.connector_*`, `nova.mail_*`, `nova.ssh_run*`, `nova.sftp_*`, `nova.ftp_*`, `nova.external_*` |
 | [Media Intelligence & Speech Transcription](media-intelligence/README.md) | Audio, video and transcription | `nova.media_transcribe_start`, `nova.media_capture_start`, `nova.media_activity_*` |
 | [Agent-Authored Plugins (AAP) & Jint JavaScript Runtime](plugins/README.md) | Reference only: unavailable during the public alpha | `nova.plugin_create`, `nova.plugin_test`, `nova.plugin_inspect` |
 

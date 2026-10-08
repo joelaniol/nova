@@ -8,7 +8,7 @@ Executes an active network diagnostic probe through a proxy profile to verify co
 
 `nova.proxy_test` sends a single HTTP GET request through the specified proxy to a probe URL (an external IP-echo service by default) and reports whether it succeeded, the total elapsed time, and the external IP seen by that probe. Invalid or unsupported credentials surface indirectly, as a failed probe with the connection error.
 
-* **Core Architecture Guide:** [Proxy Routing & Network Engine](../../../core-features/proxy-and-network/README.md)
+* **Core Architecture Guide:** [Proxy Routing](../../../core-features/network/proxy/README.md)
 
 ---
 

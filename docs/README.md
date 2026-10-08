@@ -88,7 +88,7 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 | [Session recording](mcp-reference/tools/session-recording/) | Recording and replaying a session |
 | [Media and transcription](mcp-reference/tools/media-and-transcription/) | Camera, microphone, capture, speech to text |
 | [Notifications](mcp-reference/tools/notifications/) | Site notifications and their permissions |
-| [Connectors and mail](mcp-reference/tools/connectors-and-mail/) | Mail, FTP and SFTP |
+| [Connectors and mail](mcp-reference/tools/connectors-and-mail/) | Mail, SSH, SFTP and FTP/FTPS |
 | [Terminal](mcp-reference/tools/terminal-ops/) | Opening and driving terminals |
 | [External MCP servers](mcp-reference/tools/external-mcp/) | Other MCP servers run through Nova |
 | [Plugins](mcp-reference/tools/plugins/) | Plugins an agent writes, tests and installs for a site |
@@ -152,7 +152,7 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 |---|---|
 | [Multi-Sandbox Session Isolation](core-features/sandbox-isolation/README.md) | Separate profiles with their own logins |
 | [Site Data & Privacy Management (Cookies, Storage, Cache)](core-features/site-data-management/README.md) | Cookies, storage and cache |
-| [Proxy Routing & Network Engine](core-features/proxy-and-network/README.md) | Proxies per sandbox and network routing |
+| [Network](core-features/network/README.md) | Proxy routing, tab-scoped interception and request replay |
 | [Fingerprint Protection & Browser Identity](core-features/fingerprint-and-identity/README.md) | Browser fingerprint protection |
 | [Session Recording & Time-Travel Debugging](core-features/session-recording/README.md) | Recording a run to see later what happened |
 
@@ -162,7 +162,7 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 |---|---|
 | [Terminal Workspaces & ConPTY Integration](core-features/terminal-workspaces/README.md) | Terminals the agent can use |
 | [Scheduled Tasks & Background Automation Engine](core-features/scheduled-tasks/README.md) | Work that runs on its own |
-| [Connectors & External Protocol Gateways](core-features/connectors-and-protocols/README.md) | Mail, FTP and SFTP |
+| [Connectors](core-features/connectors/README.md) | Mail, SSH, SFTP, FTP/FTPS and external MCP servers |
 | [Media Intelligence & Speech Transcription](core-features/media-intelligence/README.md) | Audio, video and transcription |
 | [Agent-Authored Plugins (AAP) & Jint JavaScript Runtime](core-features/plugins/README.md) | Small scripts an agent writes for a site |
 

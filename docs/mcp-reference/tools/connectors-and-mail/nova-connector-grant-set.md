@@ -8,7 +8,7 @@ Sets capability access modes (ask, always, blocked) for a connector.
 
 `nova.connector_grant_set` configures fine-grained capability gates for a connector. Grants control what operations an AI agent can execute autonomously without human prompts.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
+* **Core Architecture Guide:** [Connectors](../../../core-features/connectors/README.md)
 
 ---
 

@@ -8,7 +8,7 @@ Saves a specific email attachment to Downloads or the workspace directory.
 
 `nova.mail_attachment_save` saves exactly one attachment identified by `attachmentIndex` from a message returned by `nova.mail_read`. Requires the account's `read` capability plus Nova's independent SensitiveRead and PersistentWrite policies, since a visible local file is created. Nova fetches only the selected IMAP body part, opens the folder read-only, never overwrites an existing file (it appends " (2)" and further suffixes instead), and never opens or executes the result. An executable-like filename follows the user's host-only setting: isolate (default, appends `.isolated`), discard, or keep the original extension with a warning. Remote filenames are normalized against bidi/invisible/control and suspicious Unicode dot/slash characters before use.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
+* **Core Architecture Guide:** [Mail: IMAP & SMTP](../../../core-features/connectors/mail/README.md)
 
 ---
 

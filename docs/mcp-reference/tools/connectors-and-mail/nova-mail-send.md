@@ -8,7 +8,7 @@ Sends an email with optional HTML body, CC/BCC, priority, and attachments via SM
 
 `nova.mail_send` sends an e-mail from a configured mail account. Three independent gates apply: Nova's global MutatingRemote confirmation policy, the account's `send` capability, and the account allow-list (or an interactive approval) for every recipient, including cc/bcc. Off-list recipients in unattended runs fail with `reasonCode: "recipient_not_allowed"` — replies to incoming mail are not auto-allowed. A per-account, process-local hourly send cap guards against a runaway loop (`reasonCode: "connector_rate_limited"`, not retryable). If SMTP submission began but its final acknowledgement was lost, the call fails with `connector_delivery_unknown`, still returning the stable `messageId` with `actionDispatched: true` — do not auto-retry; check Sent mail or the recipient first.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
+* **Core Architecture Guide:** [Mail: IMAP & SMTP](../../../core-features/connectors/mail/README.md)
 
 ---
 

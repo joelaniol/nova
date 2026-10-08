@@ -12,7 +12,7 @@ Lists the background SSH sessions you own, so a lost `execId` never leaves a ses
 * **What each row gives.** `execId`, `profileId`, `state` (`starting` / `active` / `finishing` / `ended`), `startedAtUtc`, `allowStdin` and `stdinState`.
 * **Recovery.** A session whose `execId` you lost keeps running until its idle cap; list it, then read or stop it.
 
-* **Core Architecture Guide:** [Connectors & External Protocol Gateways](../../../core-features/connectors-and-protocols/README.md)
+* **Core Architecture Guide:** [Secure Shell (SSH)](../../../core-features/connectors/ssh/README.md)
 
 ---
 

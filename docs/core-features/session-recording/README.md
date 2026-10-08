@@ -137,6 +137,6 @@ Revocation controls subsequent tool access and export. It does not retract plain
 * **[Closed-Loop System (CLS)](../closed-loop-system-cls/README.md)** — Checking the outcome of an action.
 * **[Tool Observation Bus (TOB)](../tool-observation-bus-tob/README.md)** — Evidence of tool execution.
 * **[Vault and Secrets](../vault-and-secrets/README.md)** — Saved-credential delivery and recording redaction boundaries.
-* **[Proxy Routing & Network](../proxy-and-network/README.md)** — Live interception and separate request replay.
+* **[Network Interception & Request Replay](../network/network-interception/README.md)** — Live interception and separate request replay.
 
 [All core features](../README.md)
