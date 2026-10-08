@@ -83,7 +83,7 @@ HTTP sign-in, certificate warnings, client-certificate selection, permission req
 
 ## Related Documentation
 
-* **[Outrider Process Boundary](../outrider-boundary/README.md)** — Native helper process for risky Windows calls.
+* **[Outrider Process Boundary](../../components/outrider/README.md)** — Native helper process for risky Windows calls.
 * **[Agent Awareness Gates (AAG)](../agent-awareness-gates-aag/README.md)** — Pre-execution safety and verification rules.
 * **[Password Vault & Secret Injection](../vault-and-secrets/README.md)** — Stored credentials used by `use_vault`.
 

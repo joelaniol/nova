@@ -8,7 +8,7 @@ Overrides the viewport dimensions, device scale factor (DPR), and mobile layout 
 
 `nova.emulation_set_device_metrics` invokes Chrome DevTools Protocol `Emulation.setDeviceMetricsOverride` to resize the browser rendering viewport independently of host window bounds.
 
-* **Core Architecture Guide:** [Fingerprint & Identity Systems](../../../core-features/fingerprint-and-identity/README.md)
+* **Core Architecture Guide:** [Fingerprint & Identity Systems](../../../core-features/privacy/fingerprint-and-identity/README.md)
 
 ---
 

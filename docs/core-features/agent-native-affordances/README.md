@@ -7,6 +7,10 @@
 
 ## 1. The Affordance Paradigm & Core Philosophy
 
+> "I didn't teach AI agents to think like my API. I taught my API to understand how AI agents already think."
+>
+> — Joel, 2025
+
 An AI agent arrives at an automation task equipped with extensive training on Playwright, Puppeteer, Selenium, and computer-use APIs. When attempting to navigate or interact with a webpage, it instinctively generates calls such as `nova.goto(url="https://...")`, uses parameter names like `value` instead of `text`, or provides Anthropic-style scroll objects like `{ direction: "down", amount: 500 }`.
 
 In conventional tool servers, these intuitive calls crash with strict protocol errors:

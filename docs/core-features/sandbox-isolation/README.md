@@ -9,7 +9,7 @@
 
 Open your work account in sandbox A and your personal account on the same website in sandbox B. Each website session uses a different browser profile, so signing out in A does not sign out B. Tabs within A share A's profile and can use the same login.
 
-The separation concerns browser sessions. A Nova sandbox is not an operating-system virtual machine or a security boundary for running untrusted native programs. [Outrider](../outrider-boundary/README.md) provides a separate boundary for native process failures; [AAG](../agent-awareness-gates-aag/README.md) checks agent-action prerequisites.
+The separation concerns browser sessions. A Nova sandbox is not an operating-system virtual machine or a security boundary for running untrusted native programs. [Outrider](../../components/outrider/README.md) provides a separate boundary for native process failures; [AAG](../agent-awareness-gates-aag/README.md) checks agent-action prerequisites.
 
 ## 2. Why Separate Sessions?
 
@@ -57,7 +57,7 @@ flowchart TD
 
 * Cookies, `localStorage`, `sessionStorage`, IndexedDB, cache and other profile data.
 * Signing in in sandbox A has no effect on sandbox B.
-* Fingerprint protection can be overridden per sandbox (see [Fingerprint Protection & Browser Identity](../fingerprint-and-identity/README.md)).
+* Fingerprint protection can be overridden per sandbox (see [Fingerprint Protection & Browser Identity](../privacy/fingerprint-and-identity/README.md)).
 
 **Shared by all sandboxes:**
 
@@ -99,6 +99,6 @@ Deletion markers prevent intentional deletions from being restored by accident. 
 
 * **[Site Data & Privacy Management](../site-data-management/README.md)** — Cookies, storage and cache clearing.
 * **[Proxy Routing](../network/proxy/README.md)** — Proxy profiles and WebRTC leak protection.
-* **[Fingerprint Protection & Browser Identity](../fingerprint-and-identity/README.md)** — Fingerprint protection levels and browser identity presets.
+* **[Fingerprint Protection & Browser Identity](../privacy/fingerprint-and-identity/README.md)** — Fingerprint protection levels and browser identity presets.
 
 [All core features](../README.md)

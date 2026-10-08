@@ -1,5 +1,9 @@
 # Agent Awareness Gates (AAG)
 
+> „Manchmal brauchen sie nur einen kleinen Bump in die richtige Richtung.“
+>
+> — Joel, 2025
+
 > [!NOTE]
 > Agent Awareness Gates (AAG) form Nova AI Workspace's preemptive policy and situational awareness subsystem within the Model Context Protocol (MCP) tool execution pipeline. Acting prior to tool dispatch, AAG evaluates selected operational preconditions—such as tool bundle initialization, live DOM observation freshness, multi-agent tab leases, sandbox identity boundaries, user-defined site policies, Single Page Application (SPA) session persistence, host storage headroom, and process-wide emergency stops. Depending on configured enforcement modes (`Off`, `Warn`, `ShadowBlock`, `Block`), Nova can warn the agent, simulate a block for operational diagnostics, or reject the action with structured, actionable recovery instructions.
 

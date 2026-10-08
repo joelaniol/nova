@@ -100,7 +100,7 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 | Component | Learn more |
 |---|---|
 | Main app | [Nova AI Workspace](components/nova-ai-workspace.md) |
-| Native work | [Outrider](components/outrider.md) |
+| Native work | [Outrider](components/outrider/README.md) |
 | Agent connection | [MCP Proxy](components/mcp-proxy.md) |
 | Console host | [TerminalRunner](components/terminal-runner.md) |
 | Recording diagnostics | [ReplayValidator](components/replay-validator.md) |
@@ -136,7 +136,6 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 | [Agent Awareness Gates (AAG)](core-features/agent-awareness-gates-aag/README.md) | Checks that stop an agent from acting blind |
 | [Tool Observation Bus (TOB)](core-features/tool-observation-bus-tob/README.md) | What the agent really did, recorded on Nova's side |
 | [Password Vault & Secret Injection](core-features/vault-and-secrets/README.md) | Passwords filled in without the agent seeing them |
-| [Nova Outrider — Native Process Boundary](core-features/outrider-boundary/README.md) | Risky Windows and hardware probes in a separate, killable process |
 
 **[Learning overview](core-features/learning/README.md)**
 
@@ -160,7 +159,7 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 | [Multi-Sandbox Session Isolation](core-features/sandbox-isolation/README.md) | Separate profiles with their own logins |
 | [Site Data & Privacy Management (Cookies, Storage, Cache)](core-features/site-data-management/README.md) | Cookies, storage and cache |
 | [Network](core-features/network/README.md) | Proxy routing, interception, request replay and SSL/TLS diagnostics |
-| [Fingerprint Protection & Browser Identity](core-features/fingerprint-and-identity/README.md) | Browser fingerprint protection |
+| [Privacy](core-features/privacy/README.md) | Fingerprint protection, browser identity and related privacy controls |
 | [Session Recording & Time-Travel Debugging](core-features/session-recording/README.md) | Recording a run to see later what happened |
 
 **Beyond the browser**

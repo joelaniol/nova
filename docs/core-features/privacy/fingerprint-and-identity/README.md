@@ -20,8 +20,8 @@ These controls alter selected signals. They do not establish anonymity or guaran
 | Fingerprint protection | Which supported device and rendering readouts should be modified? |
 | Browser identity | Which user-agent and Client Hints should the browser announce? |
 | Tab emulation | Which viewport, locale, touch or temporary user-agent should a test use? |
-| [Sandbox isolation](../sandbox-isolation/README.md) | Which cookies and persistent site data belong to this session? |
-| [Proxy routing](../network/proxy/README.md) | Which network route does the shared browser use? |
+| [Sandbox isolation](../../sandbox-isolation/README.md) | Which cookies and persistent site data belong to this session? |
+| [Proxy routing](../../network/proxy/README.md) | Which network route does the shared browser use? |
 
 ## 3. Why Consistency Matters
 
@@ -107,7 +107,7 @@ These act on one tab or sandbox (`targetId`) and are meant for testing, not as a
 
 ## Related Documentation
 
-* **[Multi-Sandbox Session Isolation](../sandbox-isolation/README.md)** — Separate storage profiles per sandbox.
-* **[Proxy Routing](../network/proxy/README.md)** — Shared browser routing and optional leak protection.
+* **[Multi-Sandbox Session Isolation](../../sandbox-isolation/README.md)** — Separate storage profiles per sandbox.
+* **[Proxy Routing](../../network/proxy/README.md)** — Shared browser routing and optional leak protection.
 
-[All core features](../README.md)
+[Privacy overview](../README.md) · [All core features](../../README.md)

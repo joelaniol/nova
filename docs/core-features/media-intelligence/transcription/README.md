@@ -6,7 +6,7 @@ To transcribe a file yourself, open **Transcribe audio or video** from Nova's to
 
 Speech recognition runs on this computer; the audio is never uploaded. Only downloading a model needs the network.
 
-* **Outrider process isolation:** whisper.cpp is native code, and a crash there must not take the browser down. Decoding and recognition run inside `NovaBrowser.Outrider.exe` ([Outrider Process Boundary](../../outrider-boundary/README.md)); Nova kills the helper on cancel, or when it stops reporting progress.
+* **Outrider process isolation:** whisper.cpp is native code, and a crash there must not take the browser down. Decoding and recognition run inside `NovaBrowser.Outrider.exe` ([Outrider Process Boundary](../../../components/outrider/README.md)); Nova kills the helper on cancel, or when it stops reporting progress.
 * **Processor requirement:** Recognition needs a CPU with AVX, AVX2 and FMA. Nova checks this before loading the native library; `nova.media_transcribe_models` reports the result. Recognition runs on the processor.
 * **Input formats:** WAV, Ogg/Opus and WebM/MKV with Opus audio (what browsers record) are decoded directly. Everything else Windows itself can play — MP3, AAC/M4A, MP4/MOV video, WMA, FLAC and, with the Web Media Extensions installed, other WebM/MKV — is decoded through Windows Media Foundation. No ffmpeg is involved.
 * **Completeness:** a transcript counts as complete when the whole file was decoded and the text reaches the last moment where something can be heard — silence at the end or in the middle is not missing text. Stretches with sound but no recognized text are listed in `uncoveredAudible` as a hint (music and noise produce them too).

@@ -18,8 +18,10 @@ Session isolation, proxy routing and browser identity are separate controls. Two
 
 ## Related Documentation
 
+* [Privacy](../privacy/README.md) — Fingerprint protection and related privacy controls.
+
 * [Multi-Sandbox Session Isolation](../sandbox-isolation/README.md) — Separate browser profiles per sandbox.
-* [Fingerprint Protection & Browser Identity](../fingerprint-and-identity/README.md) — Fingerprint protection and client hints.
+* [Fingerprint Protection & Browser Identity](../privacy/fingerprint-and-identity/README.md) — Fingerprint protection and client hints.
 * [Network Tool Reference](../../mcp-reference/tools/proxy-and-network/README.md) — Proxy, interception, replay and TLS inspection tools.
 
 [All core features](../README.md)

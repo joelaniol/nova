@@ -8,7 +8,7 @@ Overrides the HTTP User-Agent header, navigator.userAgent, and client hints for 
 
 `nova.emulation_set_user_agent` overrides browser identity for a specific tab via CDP. For Chromium user agents, it automatically populates `navigator.userAgentData` and `Sec-CH-UA` headers to pass sophisticated bot detection checks.
 
-* **Core Architecture Guide:** [Fingerprint & Identity Systems](../../../core-features/fingerprint-and-identity/README.md)
+* **Core Architecture Guide:** [Fingerprint & Identity Systems](../../../core-features/privacy/fingerprint-and-identity/README.md)
 
 ---
 

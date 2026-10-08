@@ -15,7 +15,7 @@ Nova can transcribe local speech, display website images, read and export PDFs, 
 
 A captured audio file can become transcription input. A downloaded PDF can be read as text. An image viewer supports human inspection, while screenshot tools provide visual evidence to agents. Each operation has its own input and permissions; access to one does not authorize every other operation.
 
-Transcription runs locally in [Nova Outrider](../outrider-boundary/README.md). Model downloads need a network connection. Camera, microphone and screen-sharing use is governed by website permissions and remains visible in Nova.
+Transcription runs locally in [Nova Outrider](../../components/outrider/README.md). Model downloads need a network connection. Camera, microphone and screen-sharing use is governed by website permissions and remains visible in Nova.
 
 [Session Recording](../session-recording/README.md) records browser, network and interaction events for diagnostics. It is separate from recording media playback or using a microphone. [Research](../research/README.md) explains how factual and visual evidence can support conclusions.
 

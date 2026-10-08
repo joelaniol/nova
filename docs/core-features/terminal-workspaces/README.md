@@ -98,6 +98,6 @@ Session tools are in the `terminal_ops` bundle; the dock and settings tools are 
 ## Related Documentation
 
 * **[Scheduled Tasks & Automation](../scheduled-tasks/README.md)** — Scheduled runs bound to terminal workspaces.
-* **[Outrider Process Boundary](../outrider-boundary/README.md)** — Nova's other helper process, for native OS and hardware probes.
+* **[Outrider Process Boundary](../../components/outrider/README.md)** — Nova's other helper process, for native OS and hardware probes.
 
 [All core features](../README.md)

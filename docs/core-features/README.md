@@ -38,7 +38,6 @@ The [alpha status page](../../ALPHA.md) lists current limitations, including plu
 | [Agent Awareness Gates (AAG)](agent-awareness-gates-aag/README.md) | Checks that stop an agent from acting blind | `nova.guarded_*`, `nova.tab_claim`, `nova.task_instance_verify` |
 | [Tool Observation Bus (TOB)](tool-observation-bus-tob/README.md) | What the agent really did, recorded on Nova's side | `nova.task_instance_verify`, `nova.task_instance_progress`, `nova.task_instance_get` |
 | [Password Vault & Secret Injection](vault-and-secrets/README.md) | Saved-password delivery through references; scoped terminal secrets | `nova.vault_*`, `nova.type_selector_secret`, `nova.secret_*` |
-| [Nova Outrider — Native Process Boundary](outrider-boundary/README.md) | Risky Windows and hardware probes in a separate, killable process | `nova.permission_center_get`, `nova.media_transcribe_start` |
 
 ### Agent interface
 
@@ -59,7 +58,7 @@ The [alpha status page](../../ALPHA.md) lists current limitations, including plu
 | [Multi-Sandbox Session Isolation](sandbox-isolation/README.md) | Separate profiles with their own logins | `nova.sandbox_context`, `nova.resolve_sandbox`, `nova.sandbox_create` |
 | [Site Data & Privacy Management (Cookies, Storage, Cache)](site-data-management/README.md) | Cookies, storage and cache | `nova.cookie_list`, `nova.cookie_set`, `nova.storage_inspect`, `nova.cache_clear` |
 | [Network](network/README.md) | Shared proxy, tab-scoped interception, replay and SSL/TLS diagnostics | `nova.proxy_switch`, `nova.proxy_status`, `nova.network_intercept_*`, `nova.tls_inspect` |
-| [Fingerprint Protection & Browser Identity](fingerprint-and-identity/README.md) | Browser fingerprint protection | `nova.fingerprint_*`, `nova.identity_*`, `nova.emulation_*` |
+| [Privacy](privacy/README.md) | Fingerprint protection, browser identity and related privacy controls | `nova.fingerprint_*`, `nova.identity_*`, `nova.emulation_*` |
 | [Session Recording & Time-Travel Debugging](session-recording/README.md) | Recording a run to see later what happened | `nova.session_record_start`, `nova.session_record_query`, `nova.session_record_export` |
 
 ### Beyond the browser
@@ -75,6 +74,8 @@ The [alpha status page](../../ALPHA.md) lists current limitations, including plu
 ---
 
 ## Related Documentation
+
+* **[Components & Processes](../components/README.md)** — Nova executables and process boundaries, including Outrider.
 
 * **[Getting Started](../getting-started/README.md)** — Installation, system requirements and the first start.
 * **[Agent Integration](../integration/README.md)** — Connecting Claude Code, Claude Desktop, Codex, Antigravity and your own agents.

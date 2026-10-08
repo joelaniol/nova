@@ -100,7 +100,7 @@ Nova injects a drag polyfill into pages that turns a held mouse gesture over a s
 
 ## Related Documentation
 
-* **[Fingerprint Protection & Browser Identity](../fingerprint-and-identity/README.md)** — What websites learn about the browser.
+* **[Fingerprint Protection & Browser Identity](../privacy/fingerprint-and-identity/README.md)** — What websites learn about the browser.
 * **[Agent Awareness Gates (AAG)](../agent-awareness-gates-aag/README.md)** — Pre-execution safety and lease locking.
 * **[Native Dialogs & UI Prompts](../native-dialogs-and-prompts/README.md)** — Dialogs outside the page and file dialogs.
 

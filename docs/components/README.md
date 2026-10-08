@@ -5,7 +5,7 @@ Nova uses several processes with different lifetimes. Seeing more than one Nova-
 | Process | Purpose | When to expect it |
 | :--- | :--- | :--- |
 | [`NovaAIWorkspace.exe`](nova-ai-workspace.md) | The main app, tabs, settings and agent tool server. | While Nova is running, including notification-area background mode. |
-| [`NovaBrowser.Outrider.exe`](outrider.md) | Supervised native hardware probes and local speech work. | When a feature needs native work; helper sessions or one-shot jobs. |
+| [`NovaBrowser.Outrider.exe`](outrider/README.md) | Supervised native hardware probes and local speech work. | When a feature needs native work; helper sessions or one-shot jobs. |
 | [`NovaBrowser.McpProxy.exe`](mcp-proxy.md) | Connects an agent's standard-input/output MCP transport to Nova. | While a configured agent client is connected through the proxy. |
 | [`NovaBrowser.TerminalRunner.exe`](terminal-runner.md) | Hosts pseudo consoles separately from the browser. | While terminal sessions need it; it can outlive the Nova window. |
 | [`NovaBrowser.ReplayValidator.exe`](replay-validator.md) | Checks recording manifests and inventories artifacts; current replay coverage is limited. | When explicitly invoked for recording diagnostics or validation. |
@@ -42,7 +42,7 @@ The diagram shows responsibility, rather than a promise that every box is always
 | Question | Start here |
 | :--- | :--- |
 | What keeps working when I hide or quit Nova? | [Main process](nova-ai-workspace.md) and [TerminalRunner](terminal-runner.md). |
-| What protects the browser from a hanging device driver? | [Outrider](outrider.md). |
+| What protects the browser from a hanging device driver? | [Outrider](outrider/README.md). |
 | Why does an agent launch another Nova executable? | [McpProxy](mcp-proxy.md). |
 | Why did a command keep running after its tool call timed out? | [TerminalRunner](terminal-runner.md). |
 | What does a recording validation pass actually establish? | [ReplayValidator](replay-validator.md). |

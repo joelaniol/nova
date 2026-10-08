@@ -8,7 +8,7 @@ The product name is Nova AI Workspace, or Nova. Helper executable names retain t
 
 ## Why the Helpers Exist
 
-Nova delegates particular workloads instead of putting every operation in the interactive app: native probes go to [Outrider](outrider.md), consoles to [TerminalRunner](terminal-runner.md), and agent transport adaptation to [McpProxy](mcp-proxy.md). Each boundary has its own purpose and lifetime.
+Nova delegates particular workloads instead of putting every operation in the interactive app: native probes go to [Outrider](outrider/README.md), consoles to [TerminalRunner](terminal-runner.md), and agent transport adaptation to [McpProxy](mcp-proxy.md). Each boundary has its own purpose and lifetime.
 
 Quitting Nova stops its in-app scheduler and interactive tool server. Keeping Nova running in the background leaves the application alive. Hosted terminal processes can remain in TerminalRunner; that does not mean scheduled tasks continue being dispatched after the main process exits.
 

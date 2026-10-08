@@ -350,9 +350,11 @@ Proxy management tools belong to the `proxy_management` bundle. Load them via:
 
 ## 9. Related Documentation
 
+- [Privacy](../../privacy/README.md) — How routing relates to browser identity and session data.
+
 - [Network Interception & Request Replay](../network-interception/README.md) — Traffic rules and separate HTTP request repeater.
 - [TLS Certificate Inspection](../tls-inspection/README.md) — Host certificate chains and fingerprint verification.
 - [Multi-Sandbox Session Isolation](../../sandbox-isolation/README.md) — Isolated browser environments and profile storage.
-- [Fingerprint Protection & Browser Identity](../../fingerprint-and-identity/README.md) — Client hints, canvas noise, and WebGL emulation.
+- [Fingerprint Protection & Browser Identity](../../privacy/fingerprint-and-identity/README.md) — Client hints, canvas noise, and WebGL emulation.
 
 [Network overview](../README.md) · [All core features](../../README.md)

@@ -8,7 +8,7 @@ Clears all locale, timezone, and geolocation overrides, reverting to host system
 
 `nova.emulation_clear_locale` removes active locale, timezone, and geolocation overrides set by `nova.emulation_set_locale`, restoring `navigator.language`/`navigator.languages`, the Accept-Language request header, the timezone, and geolocation to their real values.
 
-* **Core Architecture Guide:** [Fingerprint & Identity Systems](../../../core-features/fingerprint-and-identity/README.md)
+* **Core Architecture Guide:** [Fingerprint & Identity Systems](../../../core-features/privacy/fingerprint-and-identity/README.md)
 
 ---
 

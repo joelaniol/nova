@@ -8,7 +8,7 @@ Clears all emulated CSS media features, reverting to host system theme and displ
 
 `nova.emulation_clear_media` resets all emulated media features (`colorScheme`, `reducedMotion`, `forcedColors`, `contrast`, `media`), returning the tab to real OS defaults.
 
-* **Core Architecture Guide:** [Fingerprint & Identity Systems](../../../core-features/fingerprint-and-identity/README.md)
+* **Core Architecture Guide:** [Fingerprint & Identity Systems](../../../core-features/privacy/fingerprint-and-identity/README.md)
 
 ---
 
