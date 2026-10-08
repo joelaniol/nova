@@ -30,17 +30,23 @@ issues, so you know what to expect before and during use.
 
 ## What to report
 
-- **Crashes** (Nova closes unexpectedly) → [crash form](https://github.com/joelaniol/nova/issues/new?template=crash-report.yml) (include the version from Settings → About and, if possible, the log).
-- **Security vulnerabilities** → via the [private security form](https://github.com/joelaniol/nova/security/advisories/new)
-  (see [SECURITY.md](SECURITY.md)) — not a public issue.
-- **MCP defects and performance regressions** → [bug report form](https://github.com/joelaniol/nova/issues/new?template=bug-report.yml)
-  with the goal, last relevant steps, expected and observed behavior, version, and sanitized evidence.
-- **Work-session feedback** → [feedback form](https://github.com/joelaniol/nova/issues/new?template=feedback.yml) for successful steps, friction, slow
-  operations, and improvement suggestions, also when nothing is clearly broken.
-- Agents can use [Nova's reporting guide](docs/mcp-reference/tools/app-shell-and-ui/nova-get-instructions.md) via `nova.get_instructions(topic='bug_report')` for rules, Markdown templates and the
-  submission route: they show you the draft first and submit only with your approval.
-  Review URLs, screenshots, and log excerpts for secrets and personal data before publication.
-- **Please do not report** the known cosmetic GUI issues above.
+Report **crashes, concrete MCP defects and performance regressions**, or give **work-session feedback** about successful steps, friction, slow operations and improvement suggestions. Known cosmetic GUI/settings issues do not need a report during alpha.
+
+### Report through your connected agent
+
+**Your agent can handle the report using Nova's reporting instructions. You do not need to fill in a GitHub form yourself when the agent has GitHub submission access.** Give it this request:
+
+> Please report this problem using Nova's bug-report instructions. Describe my goal, the last relevant steps, what I expected and what happened. Include the Nova version and only relevant, sanitized evidence. Show me the finished draft first. After I approve it, submit the report and give me its issue URL.
+
+The agent retrieves the [reporting guide with `nova.get_instructions(topic='bug_report')`](docs/mcp-reference/tools/app-shell-and-ui/nova-get-instructions.md#reporting-bugs-and-work-session-feedback), chooses a bug or feedback template, and shows you the draft. Review URLs, screenshots and log excerpts for secrets and personal data before approving publication.
+
+Nova provides the instructions and templates; the guide itself does not collect logs or submit an issue. After approval, the agent can submit through the GitHub CLI when available and authenticated. Otherwise it gives you the prepared text and the matching form. A crash that interrupts the Nova connection can be described after reconnecting or through the manual route below.
+
+### Without a connected agent or submission access
+
+Use the [crash form](https://github.com/joelaniol/nova/issues/new?template=crash-report.yml), [bug report form](https://github.com/joelaniol/nova/issues/new?template=bug-report.yml), or [feedback form](https://github.com/joelaniol/nova/issues/new?template=feedback.yml). Include the version from **Settings → About**, the goal, relevant steps, expected and observed behavior, and reviewed evidence.
+
+**Security vulnerabilities always use the [private security form](https://github.com/joelaniol/nova/security/advisories/new)** (see [SECURITY.md](SECURITY.md)). Do not publish vulnerabilities or secrets in an ordinary issue.
 
 ## Guides and release notes
 
@@ -78,17 +84,23 @@ bekannte Probleme, damit du weißt, was dich erwartet.
 
 ## Was bitte melden
 
-- **Abstürze** (Nova schließt sich unerwartet) → [Absturz-Formular](https://github.com/joelaniol/nova/issues/new?template=crash-report.yml) (Version aus Einstellungen → Info und, wenn möglich, das Log).
-- **Sicherheitslücken** → über das [private Sicherheitsformular](https://github.com/joelaniol/nova/security/advisories/new) (siehe
-  [SECURITY.md](SECURITY.md)) — kein öffentliches Issue.
-- **MCP-Defekte und Performance-Regressionen** → [Fehler-Formular](https://github.com/joelaniol/nova/issues/new?template=bug-report.yml)
-  mit Ziel, letzten relevanten Schritten, erwartetem und beobachtetem Verhalten, Version und bereinigten Belegen.
-- **Arbeitsfeedback** → [Feedback-Formular](https://github.com/joelaniol/nova/issues/new?template=feedback.yml) für erfolgreiche Schritte, Reibung, langsame
-  Abläufe und Verbesserungsvorschläge, auch wenn nichts eindeutig kaputt ist.
-- Agenten erhalten über [Novas Meldeanleitung](docs/mcp-reference/tools/app-shell-and-ui/nova-get-instructions.md) mit `nova.get_instructions(topic='bug_report')` Regeln, Markdown-Vorlagen und den
-  Weg zum Absenden: Sie zeigen dir zuerst den Entwurf und senden nur mit deiner Zustimmung.
-  URLs, Screenshots und Logauszüge vor Veröffentlichung auf Geheimnisse und persönliche Daten prüfen.
-- **Bitte keine** bekannten kosmetischen GUI-Probleme oben melden.
+Melde **Abstürze, konkrete MCP-Defekte und Performance-Regressionen**. **Arbeitsfeedback** zu erfolgreichen Schritten, Reibung, langsamen Abläufen und Verbesserungsvorschlägen ist ebenfalls willkommen. Bekannte kosmetische GUI-/Einstellungsprobleme brauchen während der Alpha keine Meldung.
+
+### Über deinen verbundenen Agenten melden
+
+**Dein Agent kann die Meldung anhand von Novas Meldeanleitung übernehmen. Du musst das GitHub-Formular nicht selbst ausfüllen, wenn der Agent Zugriff zum Absenden hat.** Gib ihm diesen Auftrag:
+
+> Bitte melde dieses Problem anhand von Novas Bug-Report-Anleitung. Beschreibe mein Ziel, die letzten relevanten Schritte, das erwartete und das beobachtete Verhalten. Ergänze die Nova-Version und nur relevante, bereinigte Belege. Zeige mir zuerst den fertigen Entwurf. Sende die Meldung nach meiner Freigabe ab und gib mir den Link zum Issue.
+
+Der Agent ruft die [Meldeanleitung mit `nova.get_instructions(topic='bug_report')`](docs/mcp-reference/tools/app-shell-and-ui/nova-get-instructions.md#reporting-bugs-and-work-session-feedback) ab, wählt eine Fehler- oder Feedback-Vorlage und zeigt dir den Entwurf. Prüfe URLs, Screenshots und Logauszüge auf Geheimnisse und persönliche Daten, bevor du die Veröffentlichung freigibst.
+
+Nova liefert Anleitung und Vorlagen; die Anleitung selbst sammelt keine Logs und sendet kein Issue. Nach deiner Freigabe kann der Agent über die GitHub CLI absenden, sofern sie verfügbar und angemeldet ist. Andernfalls gibt er dir den vorbereiteten Text und das passende Formular. Unterbricht ein Absturz die Nova-Verbindung, kann die Meldung nach dem erneuten Verbinden oder über den manuellen Weg unten erstellt werden.
+
+### Ohne verbundenen Agenten oder Zugriff zum Absenden
+
+Nutze das [Absturz-Formular](https://github.com/joelaniol/nova/issues/new?template=crash-report.yml), [Fehler-Formular](https://github.com/joelaniol/nova/issues/new?template=bug-report.yml) oder [Feedback-Formular](https://github.com/joelaniol/nova/issues/new?template=feedback.yml). Ergänze die Version aus **Einstellungen → Info**, Ziel, relevante Schritte, erwartetes und beobachtetes Verhalten sowie geprüfte Belege.
+
+**Sicherheitslücken gehören immer ins [private Sicherheitsformular](https://github.com/joelaniol/nova/security/advisories/new)** (siehe [SECURITY.md](SECURITY.md)). Veröffentliche Sicherheitslücken oder Geheimnisse nicht als normales Issue.
 
 ## Anleitungen und Versionshinweise
 

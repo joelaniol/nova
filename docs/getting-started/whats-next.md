@@ -41,4 +41,4 @@ For a guided local exercise, try the [interactive demo](../../demos/README.md).
 
 ## Problems or feedback?
 
-Start at [Troubleshooting](../troubleshooting/README.md). For an observed defect or work-session feedback, ask your agent for [Nova's reporting guide](../mcp-reference/tools/app-shell-and-ui/nova-get-instructions.md). Security vulnerabilities use the [private reporting route](../../SECURITY.md).
+Start at [Troubleshooting](../troubleshooting/README.md). For an observed defect or work-session feedback, ask your agent for [Nova's reporting guide](../mcp-reference/tools/app-shell-and-ui/nova-get-instructions.md#reporting-bugs-and-work-session-feedback). Security vulnerabilities use the [private reporting route](../../SECURITY.md).

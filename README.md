@@ -198,7 +198,7 @@ Weiter: **[Installation auf Deutsch](docs/getting-started/installation.md#nova-a
 * **License:** [License terms](LICENSE).
 * **Security vulnerabilities:** Follow the [private reporting route](SECURITY.md).
 * **Issues & Feedback:** Report issues and feature requests on [GitHub Issues](https://github.com/joelaniol/nova/issues).
-  Agents can use [Nova's bug-report guide](docs/mcp-reference/tools/app-shell-and-ui/nova-get-instructions.md) via `nova.get_instructions(topic='bug_report')` for reporting rules and bug-ticket or work-session feedback templates. Review URLs and evidence for secrets and personal data; see the [alpha reporting policy](ALPHA.md#what-to-report).
+  Agents can use [Nova's bug-report guide](docs/mcp-reference/tools/app-shell-and-ui/nova-get-instructions.md#reporting-bugs-and-work-session-feedback) via `nova.get_instructions(topic='bug_report')` for reporting rules and bug-ticket or work-session feedback templates. Review URLs and evidence for secrets and personal data; see the [alpha reporting policy](ALPHA.md#what-to-report).
 * **Website:** [nova-cognitive.com](https://nova-cognitive.com)
 * **YouTube:** [Nova Cognitive (@novacognitive)](https://www.youtube.com/@novacognitive)
 * **Contact:** Joel Aniol — [LinkedIn](https://www.linkedin.com/in/joelaniol/)

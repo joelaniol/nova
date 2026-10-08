@@ -13,7 +13,7 @@ and the potential impact. During the alpha there is no fixed response-time commi
 ### Bugs, crashes, and work-session feedback
 
 For ordinary defects and feedback, ask your agent to call
-`nova.get_instructions(topic='bug_report')`. [Nova's reporting guide](docs/mcp-reference/tools/app-shell-and-ui/nova-get-instructions.md)
+`nova.get_instructions(topic='bug_report')`. [Nova's reporting guide](docs/mcp-reference/tools/app-shell-and-ui/nova-get-instructions.md#reporting-bugs-and-work-session-feedback)
 provides rules and draft templates. It does not collect logs or submit a report automatically:
 the agent shows you the draft and submits it only with your approval.
 
@@ -37,7 +37,7 @@ Während der Alpha gibt es keine feste Reaktionszeit-Zusage.
 ### Bugs, Abstürze und Arbeitsfeedback
 
 Bitte deinen Agenten, `nova.get_instructions(topic='bug_report')` aufzurufen.
-[Novas Meldeanleitung](docs/mcp-reference/tools/app-shell-and-ui/nova-get-instructions.md) liefert Regeln und Entwurfsvorlagen.
+[Novas Meldeanleitung](docs/mcp-reference/tools/app-shell-and-ui/nova-get-instructions.md#reporting-bugs-and-work-session-feedback) liefert Regeln und Entwurfsvorlagen.
 Sie sammelt keine Logs und sendet keine Meldung automatisch: Der Agent zeigt dir den Entwurf
 und sendet ihn nur mit deiner Zustimmung.
 
