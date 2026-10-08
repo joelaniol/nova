@@ -91,7 +91,7 @@ Vault retrieval and secret-fill results do not contain the password. It exists i
 
 ## 8. Redaction in Session Recordings
 
-When a session recording is running, Nova keeps HMAC-SHA-256 fingerprints of the vault passwords (in six encodings: raw, URL-encoded upper and lower case, JSON-escaped, Base64, Base64url) under a random key that exists only in memory. With capture-time redaction enabled, supported matches in recorded HTTP bodies and WebSocket payloads are replaced with a `[redacted:vault-fingerprint:...]` marker and flagged `vaultFingerprintMatched`. The redaction setting is off by default; granting a payload capture class does not automatically turn it on. This mechanism does not filter console output or what a page itself does with a field's value. See [Session Recording](../session-recording/README.md).
+When a session recording is running, Nova keeps HMAC-SHA-256 fingerprints of the vault passwords (in six encodings: raw, URL-encoded upper and lower case, JSON-escaped, Base64, Base64url) under a random key that exists only in memory. With capture-time redaction enabled, supported matches in recorded HTTP bodies and WebSocket payloads are replaced with a `[redacted:vault-fingerprint:...]` marker and flagged `vaultFingerprintMatched`. The redaction setting is off by default; granting a payload capture class does not automatically turn it on. This mechanism does not filter console output or what a page itself does with a field's value. See [Session Recording](../../session-recording/README.md).
 
 ---
 
@@ -105,7 +105,7 @@ The secret-management tools do not return stored values. A program receiving an 
 
 ## Related Documentation
 
-* **[Auth Surface Detection (ASD)](../auth-surface-detection-asd/README.md)** — Detection of login walls and session state.
-* **[Agent Awareness Gates (AAG)](../agent-awareness-gates-aag/README.md)** — Pre-execution safety and lease locking.
+* **[Auth Surface Detection (ASD)](../../auth-surface-detection-asd/README.md)** — Detection of login walls and session state.
+* **[Agent Awareness Gates (AAG)](../../agent-awareness-gates-aag/README.md)** — Pre-execution safety and lease locking.
 
-[All core features](../README.md)
+[Privacy overview](../README.md) · [All core features](../../README.md)

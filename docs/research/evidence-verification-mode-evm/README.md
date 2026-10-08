@@ -18,8 +18,8 @@ For a visual task, an agent might need to check whether a Save confirmation is r
 | Research sources | A factual claim, subject to relevance, currency and source independence. |
 | Screenshot | What the captured surface visibly showed at capture time. |
 | Screenshot diff | Which pixels changed within the comparison and its masks. |
-| [CLS verification](../../closed-loop-system-cls/README.md) | Whether specified state conditions held around an action. |
-| [TOB observation](../../tool-observation-bus-tob/README.md) | What Nova recorded about tool execution. |
+| [CLS verification](../../core-features/closed-loop-system-cls/README.md) | Whether specified state conditions held around an action. |
+| [TOB observation](../../core-features/tool-observation-bus-tob/README.md) | What Nova recorded about tool execution. |
 
 A changed image is not automatically an improvement, and a successful screenshot capture is not a passing UI check. Choose the evidence that can answer the actual question.
 
@@ -55,7 +55,7 @@ flowchart TD
 
 **Critical domains** (`structuredContent.evm.criticalDomains`): security, medical, legal, financial, political, pricing, deadlines and current-state claims ("latest", "today").
 
-**Keeping results:** Claim results tied to a claimed tab can be stored with `nova.memory_add_candidate` (`component='evm'`, `status` `verified`, `unverified` or `disproven`); reusable research notes go to [Operator Notes](../../learning/operator-notes/README.md) through `nova.operator_notes_store` with the tag `evm`. `nova.memory_stats(componentFilter='evm')` shows the counts.
+**Keeping results:** Claim results tied to a claimed tab can be stored with `nova.memory_add_candidate` (`component='evm'`, `status` `verified`, `unverified` or `disproven`); reusable research notes go to [Operator Notes](../../core-features/learning/operator-notes/README.md) through `nova.operator_notes_store` with the tag `evm`. `nova.memory_stats(componentFilter='evm')` shows the counts.
 
 ---
 
@@ -89,8 +89,8 @@ flowchart TD
 
 ## Related Documentation
 
-* **[Tool Observation Bus (TOB)](../../tool-observation-bus-tob/README.md)** — Server-side evidence ledger and visit windows.
-* **[Agent Awareness Gates (AAG)](../../agent-awareness-gates-aag/README.md)** — Pre-execution safety and multi-agent lease locking.
-* **[Input Dispatch & Shadow DOM Traversal](../../humanized-input-engine/README.md)** — How Nova delivers mouse and keyboard input.
+* **[Tool Observation Bus (TOB)](../../core-features/tool-observation-bus-tob/README.md)** — Server-side evidence ledger and visit windows.
+* **[Agent Awareness Gates (AAG)](../../core-features/agent-awareness-gates-aag/README.md)** — Pre-execution safety and multi-agent lease locking.
+* **[Input Dispatch & Shadow DOM Traversal](../../core-features/humanized-input-engine/README.md)** — How Nova delivers mouse and keyboard input.
 
-[Research overview](../README.md) · [All core features](../../README.md)
+[Research overview](../README.md) · [All core features](../../core-features/README.md)

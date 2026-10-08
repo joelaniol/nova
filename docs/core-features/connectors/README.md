@@ -24,7 +24,7 @@ External MCP servers are a separate integration mechanism with their own `extern
 ## Credentials Stay in Nova
 
 * **Write-only secrets:** A password or key passphrase is passed once (in Settings or with `nova.connector_create` / `nova.connector_update`) and stored encrypted with Windows DPAPI. The connection profile only holds a reference to it. No tool returns it — `nova.connector_list` shows the profile without the secret.
-* **Copy from the Vault:** Instead of a password, `passwordFromVault` takes the id of a saved login from the [Vault](../vault-and-secrets/README.md). Nova copies the password internally after the user confirms it in a dialog; the agent never sees it.
+* **Copy from the Vault:** Instead of a password, `passwordFromVault` takes the id of a saved login from the [Vault](../privacy/vault-and-secrets/README.md). Nova copies the password internally after the user confirms it in a dialog; the agent never sees it.
 * **SSH keys:** For SSH/SFTP connections with `authMode='private_key'`, Nova stores the path to an existing private key file and an optional passphrase; both are write-only.
 * **SSH host keys:** Nova connects to an SSH/SFTP server only when its host key is trusted. Trust is given by a person in Settings ("Confirm this SSH host"), after comparing the shown fingerprint; agents cannot add or replace host keys. A changed key is reported as "SSH host key changed".
 

@@ -9,7 +9,7 @@
 
 An agent sees a Save button inside a custom dialog, but an ordinary CSS query cannot find it. If the components expose open shadow roots, a selector such as `my-custom-dialog >>> user-avatar >>> button.save-btn` follows those boundaries. Nova resolves the element and dispatches a browser-input click.
 
-The click result establishes that input was dispatched. It does not establish that the application saved the record. A [CLS transition contract](../closed-loop-system-cls/README.md) can check the expected confirmation or state change; a [visual capture](../research/evidence-verification-mode-evm/README.md) can show what the user sees afterward.
+The click result establishes that input was dispatched. It does not establish that the application saved the record. A [CLS transition contract](../closed-loop-system-cls/README.md) can check the expected confirmation or state change; a [visual capture](../../research/evidence-verification-mode-evm/README.md) can show what the user sees afterward.
 
 ## 2. Choose the Interaction Path
 

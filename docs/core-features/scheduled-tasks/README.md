@@ -128,6 +128,6 @@ All tools are in the `scheduled_tasks` bundle.
 
 * **[Terminal Workspaces](../terminal-workspaces/README.md)** — Saved projects and live console sessions.
 * **[Task Memory (ETM)](../learning/episodic-task-memory-etm/README.md)** — Task scope and evidence of coverage.
-* **[Vault and Secrets](../vault-and-secrets/README.md)** — Secret scopes and delivery boundaries.
+* **[Vault and Secrets](../privacy/vault-and-secrets/README.md)** — Secret scopes and delivery boundaries.
 
 [All core features](../README.md)

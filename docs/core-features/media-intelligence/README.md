@@ -17,7 +17,7 @@ A captured audio file can become transcription input. A downloaded PDF can be re
 
 Transcription runs locally in [Nova Outrider](../../components/outrider/README.md). Model downloads need a network connection. Camera, microphone and screen-sharing use is governed by website permissions and remains visible in Nova.
 
-[Session Recording](../session-recording/README.md) records browser, network and interaction events for diagnostics. It is separate from recording media playback or using a microphone. [Research](../research/README.md) explains how factual and visual evidence can support conclusions.
+[Session Recording](../session-recording/README.md) records browser, network and interaction events for diagnostics. It is separate from recording media playback or using a microphone. [Research](../../research/README.md) explains how factual and visual evidence can support conclusions.
 
 ## Related documentation
 

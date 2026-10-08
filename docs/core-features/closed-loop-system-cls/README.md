@@ -1,7 +1,7 @@
 # Closed-Loop System (CLS)
 
 > [!NOTE]
-> The **Closed-Loop System (CLS)** of Nova AI Workspace transforms browser automation from blind, "fire-and-forget" command execution into a deterministic control loop governed by **transition contracts**. Every guarded action follows the immutable cycle: **Expectation $\rightarrow$ Precondition Gate $\rightarrow$ Action Dispatch $\rightarrow$ Stability Verification $\rightarrow$ Outcome Reaction**. Operating in deep synergy with the Tool Observation Bus (TOB) and the Phenomenological Knowledge Store (PKS), CLS guarantees that non-idempotent commits are never blindly retried, transient UI flickers are not mistaken for permanent state, and failed postconditions are detected immediately.
+> The **Closed-Loop System (CLS)** of Nova AI Workspace transforms browser automation from blind, "fire-and-forget" command execution into a deterministic control loop governed by **transition contracts**. Every guarded action follows the immutable cycle: **Expectation $\rightarrow$ Precondition Gate $\rightarrow$ Coordinator Reservation $\rightarrow$ Action Dispatch $\rightarrow$ Stability Verification $\rightarrow$ Outcome Reaction**. Operating in deep synergy with the Tool Observation Bus (TOB), the Phenomenological Knowledge Store (PKS), and the Goal Register, CLS guarantees that non-idempotent commits are never blindly retried, transient UI flickers are not mistaken for permanent state, and failed postconditions are detected immediately.
 
 ---
 
@@ -18,7 +18,7 @@ In modern dynamic web applications, open-loop execution is fragile and error-pro
 * **Transient UI Flickers:** An element temporarily toggles a CSS class during a hover animation, tricking naive pollers into reporting success before the interface settles into an error state.
 * **Silent Navigation Failures:** A login button is clicked, but due to invalid credentials, an in-page error message appears without a URL change. A script expecting navigation hangs until global execution timeouts expire.
 
-**CLS closes the loop.** An action is defined not merely by what input is sent, but by **what observable state must hold beforehand** and **what state transition must be verified afterwards**.
+**CLS closes the loop.** An action is defined not merely by what input is sent, but by **what observable state must hold beforehand**, **how concurrency is serialized during execution**, and **what state transition must be verified afterwards**.
 
 ```mermaid
 flowchart TD
@@ -28,10 +28,11 @@ flowchart TD
 
     subgraph ClosedLoop ["Closed-Loop System (Deterministic)"]
         C1["Expectation (Contract)"] --> C2["Precondition Gate"]
-        C2 -->|Verified| C3["Serialized Dispatch"]
+        C2 -->|Verified| C3["Coordinator Mutex Reservation"]
         C2 -->|Violated| C6["Halt: BlockedPrecondition"]
-        C3 --> C4["Stability Polling Window"]
-        C4 -->|Settled| C5["Verified Outcome & Telemetry"]
+        C3 --> C4["Action Dispatch & Baseline Capture"]
+        C4 --> C5["Stability Polling Window"]
+        C5 -->|Settled| C7["Verified Outcome & Telemetry"]
     end
 ```
 
@@ -160,7 +161,7 @@ When a fact provider encounters an element that cannot be queried or a probe tha
 
 ---
 
-## 4. The Fact Key Vocabulary
+## 4. Fact Key Vocabulary & Scoped Semantic Selectors
 
 To prevent subtle authoring bugs where an agent guesses a fact key (e.g. typing `dom.text` instead of `composer.hasText`) and runs into an uninformative timeout, Nova enforces a strict fact key vocabulary. Known prefixes with unrecognized names are rejected up front with JSON-RPC error `-32602`.
 
@@ -195,9 +196,63 @@ flowchart LR
 | **`sandbox.*`** | `sandbox.selected`<br>`sandbox.selected.changed`<br>`sandbox.target.exists` | Multi-sandbox profile switching and target binding verification. |
 | **`runtime.*`** | `runtime.domEpoch`<br>`runtime.frameId`<br>`runtime.rendererHealthy` | DOM revision tracking; subframe identification; renderer liveness. |
 
+### 4.1 Scoped Semantic Fact Keys (`@css=...`)
+While global semantic fact keys (like `composer.hasText` or `composer.sendButton.clickable`) automatically locate the active composer using smart heuristic surface detection, complex web applications often feature multiple concurrent entry areas (e.g. a main prompt box, an inline comment input, and a sidebar search).
+
+Nova solves this via **Scoped Semantic Fact Keys**:
+```text
+composer.hasText@css=%23custom-chat-input
+composer.sendButton.clickable@css=.sidebar-submit-btn
+```
+
+* **URL-Encoded Selectors:** The selector following `@css=` is URL-encoded.
+* **Target Scoping:** Nova evaluates the semantic fact specifically against the target element identified by the selector.
+* **Shadow DOM Piercing:** If the selector targets a component inside an open Shadow DOM root (e.g. `x-chat::shadow #input`), Nova's selector engine automatically resolves the shadow boundary.
+
 ---
 
-## 5. Contract Authoring & Stability Profiles
+## 5. Commit Point Classification & Pre-Commit Preview
+
+Not all browser actions carry the same risk. Clicking an informational tab is low risk; clicking **"Send Message"**, **"Submit Order"**, or switching active models is a **Commit Point**.
+
+### 5.1 Commit Point Classification Rules
+Nova automatically classifies an action as a commit point if any of the following criteria are met:
+1. **Send Buttons:** Selectors matching `send-button`, `send_button`, or `data-testid="send"`.
+2. **Submit Forms:** Buttons or inputs matching `[type="submit"]` or `type="submit"`.
+3. **Typed Enter:** Calls to `nova.type_selector` with `pressEnter: true`.
+4. **Model Switches:** Selectors matching `model-selector`, `model-switch`, or `data-testid="model"`.
+5. **Sandbox Switches:** Selectors matching `sandbox-switch`, `workspace-switch`, or `sandbox-selector`.
+6. **Authentication Actions:** Selectors matching `login`, `sign-in`, or `signin` combined with `button`, `submit`, or `[role="button"]`.
+
+### 5.2 Pre-Commit Preview in `nova.perceive` (`safety.guarded_commit_preview`)
+Traditional automation systems wait until an action is dispatched to reject an unguarded commit, wasting full tool round-trips. Nova avoids this:
+* During `nova.perceive`, Nova scans all interactive CTAs and projects their classification into `structuredContent.commitPointCtas`.
+* The returned CTA handles list the exact ref IDs of buttons that require a `transitionContract`.
+* Agents know *in advance* that clicking CTA ref #4 will require postconditions, allowing them to construct contracts before attempting the click.
+
+### 5.3 Missing-Contract Gate & Starter Hint
+If an agent attempts to execute a commit-point action via `nova.click_selector` or `nova.type_selector` without providing a `transitionContract`, Nova halts execution immediately:
+* **Response Status:** `status: "blocked"`, `stage: "guarded_commit_check"`.
+* **Action Dispatched:** `actionDispatched: false` (Zero side effects on the page).
+* **Copyable Starter Contract:** To prevent agents from guessing syntax or falling back to dangerous unverified `nova.eval` workarounds, Nova includes a complete, copyable starter contract in the error message:
+
+```json
+{
+  "actionKind": "submit_form",
+  "postconditions": {
+    "success": {
+      "any": [
+        { "factKey": "page.urlChanged", "operator": "eq", "expected": true },
+        { "factKey": "form.successIndicator.visible", "operator": "eq", "expected": true }
+      ]
+    }
+  }
+}
+```
+
+---
+
+## 6. Contract Authoring & Stability Profiles
 
 Agents specify transition contracts using the `transitionContract` parameter. Nova configures timing defaults based on the declared `actionKind`.
 
@@ -246,11 +301,11 @@ Agents specify transition contracts using the `transitionContract` parameter. No
 
 ---
 
-## 6. Verification Verdicts, Indeterminate Reasons & Retry Advice
+## 7. Verification Verdicts, Indeterminate Reasons & Retry Advice
 
 CLS strictly separates the questions: *"Did the action dispatch?"*, *"Was the intended outcome verified?"*, and *"Is it safe to retry?"*
 
-### 6.1 Verification Statuses
+### 7.1 Verification Statuses
 
 | Verification Status | Definition & Operational Meaning |
 | :--- | :--- |
@@ -259,7 +314,7 @@ CLS strictly separates the questions: *"Did the action dispatch?"*, *"Was the in
 | **`indeterminate`** | The outcome could not be definitively confirmed within the observation window. **Never treated as success.** |
 | **`skipped`** | Verification was not performed (preconditions blocked execution or no postconditions were specified). |
 
-### 6.2 Dissecting Indeterminate Reasons (`ClIndeterminateReason`)
+### 7.2 Dissecting Indeterminate Reasons (`ClIndeterminateReason`)
 When an outcome is indeterminate, CLS provides exact diagnostic attribution:
 
 * **`postcondition_mismatch` (Contract Mismatch vs. Timeout):**
@@ -273,7 +328,7 @@ When an outcome is indeterminate, CLS provides exact diagnostic attribution:
 * **`frame_destroyed`:** An iframe containing the target element was detached during execution.
 * **`eval_error`:** Renderer exception during fact evaluation.
 
-### 6.3 Retry Policies & Derived Advice
+### 7.3 Retry Policies & Derived Advice
 
 | Configured `retryPolicy` | Observed Outcome | Generated `retryAdvice` | `retryable` | Actionable Agent Guidance |
 | :--- | :--- | :--- | :--- | :--- |
@@ -284,7 +339,7 @@ When an outcome is indeterminate, CLS provides exact diagnostic attribution:
 
 ---
 
-## 7. Action Coordinator & Tab Concurrency Protection
+## 8. Action Coordinator & Tab Concurrency Protection
 
 Autonomous browser environments frequently host competing actors:
 1. Interactive agent tool calls (clicking, typing).
@@ -311,60 +366,184 @@ flowchart TD
     end
 ```
 
-### Frozen Coordination Invariants
+### 8.1 Frozen Coordination Invariants
 1. **Non-Preemptive In-Flight Guarantee:** Once a guarded action begins execution, it **cannot be preempted** by any other process—even a higher priority agent request—until verification completes or the timeout expires.
 2. **Priority Ordering:** `Agent (0) > AutoApply (1) > Telemetry (2)`. If an agent issues a command, Ambient Auto-Apply immediately steps aside.
 3. **PKS Execution Within Mutex:** Ambient Auto-Apply acquires its coordinator reservation *before* inspecting playbooks, ensuring no state changes occur between matching and execution.
-4. **Deadman TTL Expiration:** Every reservation carries an explicit timeout (up to 15,000 ms). If an action process crashes, the coordinator automatically purges the expired reservation, preventing permanent tab deadlocks.
+4. **Deadman TTL Expiration:** Every reservation generates a unique ID (`res-<counter:X8>`) and carries an explicit timeout (up to 15,000 ms). If an action process crashes, `PurgeExpired()` automatically clears dead reservations, preventing permanent tab deadlocks.
 
 ---
 
-## 8. Ambient Auto-Apply Runtime
+## 9. Hierarchical Kill Switches & Signal-Only Controls
 
-Building on CLS, Nova features **Ambient Auto-Apply**: an autonomous background remediation engine that cleans up common web obstacles (such as cookie consent banners, notification popups, and newsletter overlays) without interrupting the agent's primary task.
+In enterprise and production environments, operators must be able to instantly disable automated commits or auto-apply playbooks without restarting the application or modifying code.
+
+CLS provides a multi-tier hierarchy of **Kill Switches** backed by the PKS Key-Value store:
 
 ```mermaid
-flowchart LR
-    Nav["Page Navigation / Route Change"] --> Detect["Fingerprint Detection (SilentVerify)"]
-    Detect -->|Match Found| Policy{"Confirm Mode Policy?"}
-    Policy -->|NeverAsk| Run["Execute Guarded Playbook under ActionCoordinator"]
-    Policy -->|OncePerSession| CheckGrant{"Session Grant Active?"}
-    CheckGrant -->|Yes| Run
-    CheckGrant -->|No| Prompt["Request User Confirmation"]
-    Policy -->|AlwaysAsk| Prompt
-    Prompt -->|Approved| Run
-    Run --> Outcome["Update PKS Health & Telemetry"]
+flowchart TD
+    Check{"Action Type"} -->|Guarded Commit| CommitK["Check Commit Kill Switches"]
+    Check -->|Ambient Auto-Apply| AutoK["Check Auto-Apply Kill Switches"]
+
+    CommitK --> G1{"closed_loop.commit.kill.global"}
+    G1 -->|True| B1["Reject: guarded_commit.kill_switch_global"]
+    G1 -->|False| D1{"closed_loop.commit.kill.domain.<scope>"}
+    D1 -->|True| B2["Reject: guarded_commit.kill_switch_domain"]
+    D1 -->|False| AllowCommit["Proceed with Commit"]
+
+    AutoK --> GA1{"closed_loop.auto_apply.kill.global"}
+    GA1 -->|True| S1["Signal-Only Mode: auto_apply.signal_only.global"]
+    GA1 -->|False| DA1{"closed_loop.auto_apply.kill.domain.<scope>"}
+    DA1 -->|True| S2["Signal-Only Mode: auto_apply.signal_only.domain"]
+    DA1 -->|False| RA1{"closed_loop.auto_apply.kill.risk.<class>"}
+    RA1 -->|True| S3["Signal-Only Mode: auto_apply.signal_only.risk"]
+    RA1 -->|False| PA1{"closed_loop.auto_apply.kill.playbook.<scope>.<id>.r<rev>"}
+    PA1 -->|True| S4["Signal-Only Mode: auto_apply.signal_only.playbook_revision"]
+    PA1 -->|False| AllowAuto["Execute Auto-Apply Playbook"]
 ```
 
-### 8.1 Execution Mechanics
-* **Trigger Points:** Evaluated automatically upon navigation (`nova.navigate`, `nova.back`, `nova.forward`), client-side route changes (`nova.route`), or DOM mutations settling.
-* **Guarded Execution:** Auto-Apply does not use unverified scripts. It compiles a guarded `nova.phenomenon_apply` call backed by a verified `transitionContract` (verifying that the overlay actually disappears).
-* **Confirmation Policies:**
-  * `NeverAsk`: Fully autonomous background resolution for trusted, verified low-risk blockers.
-  * `OncePerSession`: Prompts operator once per domain/session; reuses session grant for subsequent occurrences.
-  * `AlwaysAsk`: Demands operator approval before dispatching remediation.
-* **Tab-Claim Session Binding:** Ambient session grants are cryptographically bound to the active tab-claim owner session, preventing cross-session privilege escalation.
+### Kill Switch Reference Catalog
 
----
-
-## 9. The Family of Guarded Compound Tools
-
-While agents can manually attach a `transitionContract` to any interactive tool (`nova.click_selector`, `nova.type_selector`, `nova.input_click`), Nova provides native **guarded compound tools** that automatically synthesize domain-specific contracts:
-
-| Guarded Tool | Action Kind | Automated Precondition | Automated Verification Postconditions |
+| Switch Category | Key Pattern | Behavioral Effect When Active | Reason Code |
 | :--- | :--- | :--- | :--- |
-| **`nova.guarded_send_message`** | `send_message` | `composer.hasText == true`<br>`composer.sendButton.clickable == true` | **Success:** `composer.textEmpty == true`<br>AND (`chat.streamActive.started == true` OR `chat.assistantTurnCreated == true` OR `chat.outboundMessageAppeared == true`). |
-| **`nova.guarded_submit_form`** | `submit_form` | `form.fields.valid == true` | **Success:** `page.url` changed OR `form.successIndicator.visible == true`. |
-| **`nova.guarded_login`** | `submit_form` | `auth.loginWallVisible == true` | **Success:** `auth.loggedIn == true`.<br>**Forbidden:** `auth.authError == true`.<br>**Ambiguous:** `auth.mfaChallenge == true` OR `auth.stage == "identity_step"`. |
-| **`nova.guarded_switch_model`** | `select_option` | Target dropdown exists | **Success:** `model.selected` matches target model name. |
-| **`nova.guarded_switch_sandbox`** | `select_option` | Sandbox profile exists | **Success:** `sandbox.selected` changed AND `page.route` updated. |
+| **Global Commit Kill** | `closed_loop.commit.kill.global` | Completely blocks all guarded commit point tools across all tabs. | `guarded_commit.kill_switch_global` |
+| **Domain Commit Kill** | `closed_loop.commit.kill.domain.<scope>` | Blocks commit point tools exclusively on the specified domain. | `guarded_commit.kill_switch_domain` |
+| **Global Auto-Apply Kill** | `closed_loop.auto_apply.kill.global` | Switches all auto-apply remediation to observation-only (no clicks). | `auto_apply.signal_only.global` |
+| **Domain Auto-Apply Kill** | `closed_loop.auto_apply.kill.domain.<scope>` | Disables remediation clicks on a specific domain. | `auto_apply.signal_only.domain` |
+| **Risk-Class Kill** | `closed_loop.auto_apply.kill.risk.<class>` | Disables auto-apply for specific risk levels (`readonly`, `dismissive`, `auth`, `transactional`). | `auto_apply.signal_only.risk` |
+| **Playbook Revision Kill** | `closed_loop.auto_apply.kill.playbook.<scope>.<id>.r<rev>` | Disables a specific revision of a single PKS playbook. | `auto_apply.signal_only.playbook_revision` |
 
-### Subframe Scoping (`frameId`)
-All guarded tools accept an optional `frameId` parameter. If a form or chat composer lives inside an embedded same-origin `<iframe>`, Nova scopes both selector resolution and fact assertions directly to that frame context.
+* **Flexible Truthy Parsing:** A switch is active if its KV string equals `1`, `true`, `yes`, `on`, `enabled`, `block`, or `signal_only`.
 
 ---
 
-## 10. Wire Response & Diagnostics Specification
+## 10. Learned Default Contracts (`OutcomeCandidateStore`)
+
+Requiring explicit transition contracts on every simple click would place excessive cognitive overhead on agents. To bridge the gap between open-loop fragility and full contract authoring, Nova introduces **Learned Default Contracts**.
+
+```mermaid
+flowchart TD
+    Action["Agent calls nova.click_selector WITHOUT transitionContract"] --> CheckCommit{"Is Selector a Commit Point?"}
+    CheckCommit -->|Yes| Block["Block: Requires explicit contract"]
+    CheckCommit -->|No| CheckStore{"Promoted candidates in OutcomeCandidateStore?"}
+    CheckStore -->|None| Unguarded["Execute plain interaction (unguarded)"]
+    CheckStore -->|Promoted (10+ evals @ 90%+ agreement)| Synthesize["Synthesize learned:<id> contract"]
+
+    Synthesize --> Dispatch["Dispatch Action"]
+    Dispatch --> Verify["Run Postcondition Polling Loop"]
+    Verify --> Telemetry["Feed Hit/Miss outcome back to Candidate Store"]
+```
+
+### Safety Invariants of Learned Contracts
+1. **Local-Only Learning:** Operates purely on the local machine within `OutcomeCandidateStore`. No external network backchannel exists.
+2. **Promotion Threshold:** Assertions must be shadow-evaluated at least **10 times** with an agreement rate $\ge 90\%$ before being promoted.
+3. **No False Failures:** A learned contract populates *only* `ExpectedOutcome.Success.All`. It has **no preconditions**, **no forbidden bucket**, and **no ambiguous bucket**. Consequently, the verifier can return only `VerifiedSuccess` or `Indeterminate`—a learned assertion that stops matching will *never* falsely fail an action!
+4. **Commit Point Exclusion:** Learned contracts are strictly prohibited on commit points. Critical operations require explicit agent or compound tool contracts.
+
+---
+
+## 11. Goal Register Integration
+
+When an agent manages multi-step execution graphs via **`nova.goal_register`**, Closed-Loop transitions hook directly into the active goal's lifecycle state machine:
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Agent
+    participant CLS as CLS Controller
+    participant Goal as Goal Register
+    participant Verifier as Transition Verifier
+
+    Agent->>CLS: Dispatch Guarded Action
+    alt Precondition Blocked
+        CLS->>Goal: AdvanceStep(Blocked, transitionId=null)
+        CLS-->>Agent: Return BlockedPrecondition
+    else Precondition Passed
+        CLS->>Goal: PrepareDispatch(goalId, stepIndex, transitionId)
+        Goal-->>CLS: Return Lease (leaseToken, stepVersion)
+        Note over CLS,Goal: Prevents duplicate dispatches
+        CLS->>Goal: AdvanceStep(Verifying, leaseToken)
+        CLS->>Verifier: Run Action & Polling Loop
+        Verifier-->>CLS: Return ClTransitionResult
+        CLS->>Goal: AdvanceStep(Done / Failed / Ambiguous, leaseToken)
+        CLS-->>Agent: Return Final Result
+    end
+```
+
+* **Duplicate Dispatch Prevention:** `GoalRegister.PrepareDispatch` assigns an atomic lease token to the active step. If another process attempts to dispatch against the same step, execution is rejected, incrementing `closed_loop.duplicate_dispatch_prevented.total`.
+* **Step Status Synchronization:**
+  * `VerifiedSuccess` $\rightarrow$ Step advances to `GrStepStatus.Done`.
+  * `VerifiedFail` $\rightarrow$ Step advances to `GrStepStatus.Failed`.
+  * `Indeterminate` $\rightarrow$ Step advances to `GrStepStatus.Ambiguous`.
+
+---
+
+## 12. Fact Provider Architecture & Single-Eval Script Mechanics
+
+Querying DOM elements and page properties repeatedly over an asynchronous polling loop can create severe IPC and CPU overhead if implemented naively. Nova's `FactProviderComposite` uses batched, single-evaluation architecture.
+
+### 12.1 Per-Frame Batched Script Execution
+Instead of issuing dozens of individual CDP or JavaScript calls, Nova analyzes the contract's request plan and compiles all required assertions into a **single JavaScript IIFE per frame**:
+
+```javascript
+(function(){
+  // Embedded semantic helpers & shadow DOM root collector
+  var r = {};
+  r["composer.hasText"] = (function(){ var info=novaFindSendSurface(); return info && info.hasEntry ? info.entryHasText : null; })();
+  r["dom.#submit-btn"] = !!document.querySelector("#submit-btn");
+  r["page.urlChanged"] = (function(){ /* checks against __novaFactState */ })();
+  return JSON.stringify(r);
+})()
+```
+
+### 12.2 Shadow DOM Traversal (`novaCollectRoots`)
+Modern web chat applications (ChatGPT, Claude, Slack, Teams) heavily encapsulate their composers inside nested Web Components. Nova's embedded script collector traverses up to **80 open shadow roots** concurrently, ensuring elements inside shadow DOM boundaries are discovered without manual selector gymnastics.
+
+### 12.3 Smart Send Surface Detection (`novaFindSendSurface`)
+Nova does not rely on fragile static CSS selectors to find chat and messenger inputs. The embedded collector features a heuristic scoring engine:
+* **Positive Intent Scoring:** Evaluates element tag, role, `aria-label`, `title`, and inner text for intent tokens (`send`, `senden`, `submit`, `post`, `reply`).
+* **Non-Send Filter:** Strictly penalizes and discards non-send action buttons (`attach`, `upload`, `paperclip`, `voice`, `mic`, `tools`, `settings`).
+* **Proximity Matching:** Locates the nearest text entry surface (`<textarea>`, `<input>`, or `contenteditable`) within 6 parent DOM levels.
+
+### 12.4 Messenger Delta Counters
+For non-AI chat applications (e.g. LinkedIn, Slack) where AI stream signals (`chat.streamActive`) do not exist, Nova uses specialized delta counters (`chat.outboundMessageAppeared`, `chat.assistantTurnCreated`):
+* Tracks the count of rendered message rows across polling ticks.
+* If zero message rows exist, the fact evaluates to `null` (Unknown) rather than `false`, ensuring that unsupported selectors do not cause false postcondition mismatches.
+
+### 12.5 DOM Epoch & Freshness Management
+* **`runtime.domEpoch`:** An atomic counter incremented whenever a top-level navigation, renderer reload, or iframe destruction occurs (`InvalidateDomEpoch()`).
+* **Stale Fact Quarantine:** Facts gathered prior to an epoch increment are flagged as `ClFactFreshness.Stale`, automatically triggering the 200 ms settle-and-retry path in `CheckPreconditionsAsync`.
+
+---
+
+## 13. Outcome Learning & Phenomenon Health State Machine
+
+Every completed transition contract feeds back into Nova's Phenomenological Knowledge Store (PKS), updating the health state machine of matching UI phenomena:
+
+```mermaid
+stateDiagram-v2
+    [*] --> Healthy: New Verified Phenomenon
+    Healthy --> Watch: Success rate drops below 95%
+    Watch --> Healthy: Successes recover >= 95%
+    Watch --> Quarantined: 3 consecutive failures OR success rate < 80%
+    Healthy --> Quarantined: Severe Misfire (VerifiedFail with DoNotRetry)
+    Quarantined --> Healthy: Manual operator recovery
+    Quarantined --> Deprecated: 14 days without recovery
+    Deprecated --> [*]
+```
+
+### 13.1 Health Classification Metrics
+* **Healthy:** Success rate $\ge 95\%$ over 30 days and 0 unrecovered severe misfires.
+* **Watch:** Success rate between $80\%$ and $95\%$.
+* **Quarantined:** Success rate $< 80\%$, $\ge 3$ consecutive failures, or a **Severe Misfire** (`VerifiedFail` where retry advice is `DoNotRetry`).
+* **Deprecated:** Quarantined phenomenon unrecovered after 14 days.
+
+### 13.2 Selector Ambiguity Protection (`telemetry_ambiguous_selector`)
+When attributing a transition outcome to a stored phenomenon, Nova requires exact route and selector matching. If multiple phenomena claim the same selector on the same route segment, Nova skips health updates with reason code `telemetry_ambiguous_selector`, preventing corrupted health records.
+
+---
+
+## 14. Comprehensive Wire Response & Diagnostics Specification
 
 When an agent executes an action with a transition contract, Nova returns detailed verification telemetry in the response payload:
 
@@ -388,27 +567,62 @@ When an agent executes an action with a transition contract, Nova returns detail
     "assertionError": null,
     "elapsedMs": 5012,
     "outcomeVerdict": "failed"
+  },
+  "structuredContent": {
+    "guardedCommit": {
+      "transitionId": "tx-8f2a1b9c0d3e",
+      "dispatchStatus": "dispatched",
+      "verificationStatus": "verified_fail",
+      "indeterminateReason": null,
+      "retryAdvice": "do_not_retry",
+      "preconditionVerdict": "satisfied",
+      "outcomeVerdict": "satisfied",
+      "failedAssertions": [
+        {
+          "factKey": "auth.authError",
+          "op": "eq",
+          "expected": true,
+          "observed": true,
+          "passed": true,
+          "error": null
+        }
+      ],
+      "startedAt": 1728392100120,
+      "completedAt": 1728392102340,
+      "durationMs": 2220
+    }
   }
 }
 ```
 
-### Diagnostic Field Reference
-* **`applied` (`bool`):** Indicates whether the action mutation was actually dispatched to the target page.
-* **`verificationStatus` (`string`):** One of `verified_success`, `verified_fail`, `indeterminate`, `skipped`.
-* **`reasonCode` (`string`):** Specific failure identifier (e.g. `guarded_commit.postcondition_mismatch`, `guarded_commit.postcondition_failed`, `guarded_commit.timeout`, `guarded_commit.ambiguous_signal`).
-* **`retryable` (`bool | null`):** Explicit Boolean indicating whether an automated retry is safe.
-* **`retryAdvice` (`string`):** `safe_to_retry`, `do_not_retry`, or `check_postcondition_first`.
-* **`postconditionDiagnostics` (`object`):**
-  * `factKey`: The exact assertion fact key that failed or mismatched.
-  * `op`: The comparison operator used.
-  * `expectedState`: The expected value asserted in the contract.
-  * `observedState`: The actual value observed on the page.
-  * `elapsedMs`: Total observation duration before settling or timing out.
-  * `outcomeVerdict`: Final tri-state verdict of the evaluated assertion set.
+### Polarity Inversion in `failedAssertions`
+> [!NOTE]
+> In `failedAssertions`, Nova inverts reporting polarity depending on the failure mode:
+> * **Unmet Precondition or Success:** Reports assertions where `passed == false` or `null` (the required condition was missing).
+> * **Forbidden Violation:** Reports assertions where `passed == true` (the forbidden condition was present and triggered the trip).
+
+### 14.1 OK Store Telemetry Metrics Catalog
+
+Every closed-loop transition writes atomic metrics into the local Operational Knowledge (OK) store:
+
+| Metric Key | Value Type | Description & Operational Purpose |
+| :--- | :--- | :--- |
+| `closed_loop.dispatch.total` | Counter (`1`) | Total number of mutating actions dispatched through CLS. |
+| `closed_loop.verified_success.total` | Counter (`1`) | Total transitions meeting all success assertions and stability holds. |
+| `closed_loop.indeterminate.total` | Counter (`1`) | Total transitions that timed out or returned indeterminate signals. |
+| `closed_loop.blocked_precondition.total` | Counter (`1`) | Total actions halted before dispatch due to failing preconditions. |
+| `closed_loop.duplicate_dispatch_prevented.total` | Counter (`1`) | Total redundant dispatches blocked by Goal Register step leases. |
+| `closed_loop.verification_latency_ms` | Gauge (`ms`) | Duration of the verification loop from dispatch to final verdict. |
+| `closed_loop.actions_upgraded.total` | Counter (`1`) | Actions executed with closed-loop contracts instead of open-loop clicks. |
+| `closed_loop.quarantine_entries.total` | Counter (`1`) | Playbook phenomena moved to quarantine due to severe misfires or failures. |
+| `closed_loop.auto_apply.attempt.total` | Counter (`1`) | Total background auto-apply playbooks initiated. |
+| `closed_loop.auto_apply.success.total` | Counter (`1`) | Total background auto-apply playbooks verified clean. |
+| `closed_loop.transition.result` | Structured JSON | Full transition summary (action kind, statuses, duration, retry policy). |
+| `closed_loop.auto_apply.result` | Structured JSON | Auto-apply execution outcome and affected phenomenon IDs. |
 
 ---
 
-## 11. Summary: The CLS Architectural Matrix
+## 15. Summary: The CLS Architectural Matrix
 
 | Architectural Layer | Core Responsibility | Invariant / Guarantee | Primary Failure Mode Addressed |
 | :--- | :--- | :--- | :--- |
@@ -418,6 +632,11 @@ When an agent executes an action with a transition contract, Nova returns detail
 | **Baseline Suppression** | Filters pre-existing failure states. | Forbidden states present before dispatch cannot fail the transition. | Eliminates false failures during transitional page navigations. |
 | **Stability Hold** | Debounces transient UI states. | Success conditions must remain true continuously for `stabilityMs`. | Prevents false positives caused by temporary animation flickers. |
 | **Diagnostic Attribution** | Differentiates timeout from mismatch. | Distinguishes `postcondition_mismatch` from network infrastructure `timeout`. | Prevents duplicate non-idempotent commits (e.g. sending mail twice). |
+| **Commit Point Guard** | Prevents blind high-risk operations. | Actions on commit points require contracts; pre-commit preview in perceive. | Blocks unintended form submissions and prompt fires. |
+| **Learned Default Contracts** | Autonomous postcondition fallback. | Synthesizes store-backed verification without risking false failures. | Provides verification for unguarded clicks without agent effort. |
+| **Goal Register Link** | Step lifecycle synchronization. | Leases prevent duplicate dispatch; steps reflect verified outcome. | Prevents duplicate actions in multi-step agent plans. |
+| **Hierarchical Kill Switches** | Instant operational override. | Granular PKS-backed kill switches for global, domain, and risk classes. | Enables instant operator intervention without downtime. |
+| **Fact Provider Composite** | High-efficiency batched querying. | Single-eval script per frame; smart send surface and shadow DOM traversal. | Eliminates IPC latency and polling performance degradation. |
 | **Ambient Auto-Apply** | Background blocker mitigation. | Executes PKS playbooks under coordinator reservation with verified contracts. | Clears cookie banners without agent distraction. |
 
 ---

@@ -119,13 +119,12 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 | [Input Dispatch & Shadow DOM Traversal](core-features/humanized-input-engine/README.md) | How clicks, keys and drags reach the page; open Shadow DOM |
 | [Native Dialogs & UI Prompts](core-features/native-dialogs-and-prompts/README.md) | Dialogs outside the web page |
 | [Auth Surface Detection (ASD)](core-features/auth-surface-detection-asd/README.md) | Recognising login pages and checking a sign-in worked |
-| [Autonomous Crawler & Surface Explorer](core-features/crawler-and-discovery/README.md) | Exploring whole sites instead of single pages |
+| [Crawler & Discovery](core-features/crawler-and-discovery/README.md) | Exploring whole sites instead of single pages |
 
 **Research**
 
 | Page | What it covers |
 |---|---|
-| [Research](core-features/research/README.md) | Evidence Verification Mode (EVM), factual claims, sources and visual evidence |
 
 **Verification and safety**
 
@@ -135,7 +134,6 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 | [Ambient Auto-Apply](core-features/learning/ambient-auto-apply/README.md) | Eligible automatic playbook application during agent work |
 | [Agent Awareness Gates (AAG)](core-features/agent-awareness-gates-aag/README.md) | Checks that stop an agent from acting blind |
 | [Tool Observation Bus (TOB)](core-features/tool-observation-bus-tob/README.md) | What the agent really did, recorded on Nova's side |
-| [Password Vault & Secret Injection](core-features/vault-and-secrets/README.md) | Passwords filled in without the agent seeing them |
 
 **[Learning overview](core-features/learning/README.md)**
 
@@ -159,7 +157,7 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 | [Multi-Sandbox Session Isolation](core-features/sandbox-isolation/README.md) | Separate profiles with their own logins |
 | [Site Data & Privacy Management (Cookies, Storage, Cache)](core-features/site-data-management/README.md) | Cookies, storage and cache |
 | [Network](core-features/network/README.md) | Proxy routing, interception, request replay and SSL/TLS diagnostics |
-| [Privacy](core-features/privacy/README.md) | Fingerprint protection, browser identity and related privacy controls |
+| [Privacy](core-features/privacy/README.md) | Fingerprint protection, browser identity, vault and secret delivery |
 | [Session Recording & Time-Travel Debugging](core-features/session-recording/README.md) | Recording a run to see later what happened |
 
 **Beyond the browser**
@@ -190,6 +188,8 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 
 | Page | What it covers |
 |---|---|
+| [Evidence Verification Mode (EVM) & Visual Evidence](research/evidence-verification-mode-evm/README.md) | Claim tests, source requirements and visual evidence |
+| [Gemini research](research/gemini/README.md) | Project-specific empirical studies |
 | [BREACH](research/breach/README.md) | A method for structurally new concepts by breaking load-bearing assumptions |
 | [The BREACH prompt](research/breach/prompt.md) | The meta-prompt that runs the method with a language model |
 

@@ -25,7 +25,7 @@ This operation renders the webpage; it does not extract an existing PDF's text o
 
 ## Related topics
 
-* [Evidence Verification Mode (EVM) & Visual Evidence](../../research/evidence-verification-mode-evm/README.md) — Evidence for factual claims and visible results.
+* [Evidence Verification Mode (EVM) & Visual Evidence](../../../research/evidence-verification-mode-evm/README.md) — Evidence for factual claims and visible results.
 * [Image Viewer](../image-viewer/README.md) — Viewing website images, distinct from PDF extraction.
 * [Downloads user guide](../../../user-guide/browser/downloads.md) — Finding downloaded files.
 

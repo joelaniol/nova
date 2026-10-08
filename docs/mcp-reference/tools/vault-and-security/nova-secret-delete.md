@@ -2,7 +2,7 @@
 
 > **Deletes an encrypted environment variable or API key secret from the DPAPI store.**
 
-* **Core Feature Guide:** [Vault & Secret Keystore](../../../core-features/vault-and-secrets/README.md)
+* **Core Feature Guide:** [Vault & Secret Keystore](../../../core-features/privacy/vault-and-secrets/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

@@ -114,4 +114,4 @@ The token is single-use and bound to `boundOrigin`; both facts are enforced by `
 * [`nova.type_selector_secret`](nova-type-selector-secret.md) — Redeem the `SecretRef` to type the password.
 * [`nova.vault_list`](nova-vault-list.md) — List available credential sites and usernames.
 * [`nova.vault_get`](nova-vault-get.md) — Inspect site credential metadata without passwords.
-* [Vault & Secret Management](../../../core-features/vault-and-secrets/README.md) — Architectural overview of DPAPI-encrypted credential management.
+* [Vault & Secret Management](../../../core-features/privacy/vault-and-secrets/README.md) — Architectural overview of DPAPI-encrypted credential management.

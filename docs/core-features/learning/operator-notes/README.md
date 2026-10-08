@@ -49,7 +49,7 @@ Notes are snapshots from earlier sessions. Recheck environment facts and instruc
 | Recurring tasks, work units and progress | [Episodic Task Memory (ETM)](../episodic-task-memory-etm/README.md) |
 | Verified recognition and action recipes for recurring website situations | [Phenomenological Knowledge Store (PKS)](../phenomenological-knowledge-store-pks/README.md) |
 
-Operator Notes do not establish a Domain Notes MUST-read gate, verify task completion or automatically become PKS playbooks. For research, [EVM](../../research/evidence-verification-mode-evm/README.md) uses Operator Notes for reusable research context; the underlying claims still need appropriate evidence.
+Operator Notes do not establish a Domain Notes MUST-read gate, verify task completion or automatically become PKS playbooks. For research, [EVM](../../../research/evidence-verification-mode-evm/README.md) uses Operator Notes for reusable research context; the underlying claims still need appropriate evidence.
 
 ## MCP tools
 

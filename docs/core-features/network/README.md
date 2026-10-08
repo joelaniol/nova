@@ -14,9 +14,13 @@ Proxy routing selects the shared browser's route to the network, subject to conf
 
 Request replay sends a separate HTTP request outside the page, optionally adopting session material. It does not run through the page's tab-scoped interception rules. TLS inspection examines certificate and connection evidence; it does not approve a certificate warning or change interception rules.
 
+Session recording preserves granted event streams for later investigation; it does not change the route, install interception rules or restore an earlier page state.
+
 Session isolation, proxy routing and browser identity are separate controls. Two sandboxes can have different logins while still using the same proxy and outward-facing IP.
 
 ## Related Documentation
+
+* [Session Recording & Time-Travel Debugging](../session-recording/README.md) — Captured network events together with console, page and interaction evidence.
 
 * [Privacy](../privacy/README.md) — Fingerprint protection and related privacy controls.
 

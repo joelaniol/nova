@@ -521,7 +521,7 @@ Nova enforces the **Sensitive Action Re-Authentication Gate**:
 * **[Agent Awareness Gates (AAG)](../agent-awareness-gates-aag/README.md)** — Situational awareness gates and pre-execution safety rules.
 * **[Agent-Native Affordances](../agent-native-affordances/README.md)** — Atomic compound primitives and closed-loop interaction mechanics.
 * **[Closed-Loop System (CLS)](../closed-loop-system-cls/README.md)** — Post-action verification and assertion contracts.
-* **[Password Vault & Secret Injection](../vault-and-secrets/README.md)** — Secure credential storage and hardware-gated injection.
+* **[Password Vault & Secret Injection](../privacy/vault-and-secrets/README.md)** — Secure credential storage and hardware-gated injection.
 * **[Web Crawler & Discovery](../crawler-and-discovery/README.md)** — Autonomous indexing, target session parity, and surface discovery.
 * **[Operational Knowledge (OK)](../learning/operational-knowledge-ok/README.md)** — Real-time tab state, session observation, and capability tracking.
 * **[Native Dialogs & UI Prompts](../native-dialogs-and-prompts/README.md)** — Handling dialogs and prompts outside the page.

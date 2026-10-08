@@ -18,6 +18,6 @@ The viewer is for the selected image. It does not perform OCR, describe image co
 
 ## Images as evidence
 
-Opening an image for human inspection differs from capturing evidence for an agent. For screenshot crops, highlights, comparisons and screenshot references, use [Evidence Verification Mode (EVM) & Visual Evidence](../../research/evidence-verification-mode-evm/README.md). For text extraction from a document, see [PDF Reading & Export](../pdf/README.md).
+Opening an image for human inspection differs from capturing evidence for an agent. For screenshot crops, highlights, comparisons and screenshot references, use [Evidence Verification Mode (EVM) & Visual Evidence](../../../research/evidence-verification-mode-evm/README.md). For text extraction from a document, see [PDF Reading & Export](../pdf/README.md).
 
 [Media Intelligence overview](../README.md) · [All core features](../../README.md)

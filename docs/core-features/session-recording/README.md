@@ -127,7 +127,7 @@ Agents control and inspect session recordings through the `session_recording` bu
 
 1. **Encryption at rest:** Each recording gets its own random 256-bit key. Every stream line is encrypted with AES-GCM; the key itself is stored only in wrapped form, protected with Windows DPAPI for the current user. A copy of the files on another account or machine cannot be decrypted. DPAPI does not protect against other programs running as the same Windows user — the automatic deletion after 7 days limits how long data stays on disk.
 2. **Plain-text manifest:** `manifest.json` stays readable without the key so recordings can be listed; it contains no URLs, host names, tab titles or counts.
-3. **Redaction is off by default:** A recording stores raw debug data; the protection boundary is the permission classes you grant per recording. When capture-time redaction is switched on (`sessionRecordingRedactionEnabled` in the settings file; there is no switch on the Settings page), sensitive header values such as `Authorization` and `Cookie`, sensitive query parameters, sensitive JSON fields and values that match a secret stored in the [Vault](../vault-and-secrets/README.md) are replaced with `[redacted:...]` markers before they are written.
+3. **Redaction is off by default:** A recording stores raw debug data; the protection boundary is the permission classes you grant per recording. When capture-time redaction is switched on (`sessionRecordingRedactionEnabled` in the settings file; there is no switch on the Settings page), sensitive header values such as `Authorization` and `Cookie`, sensitive query parameters, sensitive JSON fields and values that match a secret stored in the [Vault](../privacy/vault-and-secrets/README.md) are replaced with `[redacted:...]` markers before they are written.
 4. **Revoked classes stay closed:** If a permission class is revoked after capture, its streams are no longer returned by the read tools and are skipped by the export.
 
 Revocation controls subsequent tool access and export. It does not retract plaintext files already exported or information already returned to a client.
@@ -136,7 +136,7 @@ Revocation controls subsequent tool access and export. It does not retract plain
 
 * **[Closed-Loop System (CLS)](../closed-loop-system-cls/README.md)** — Checking the outcome of an action.
 * **[Tool Observation Bus (TOB)](../tool-observation-bus-tob/README.md)** — Evidence of tool execution.
-* **[Vault and Secrets](../vault-and-secrets/README.md)** — Saved-credential delivery and recording redaction boundaries.
+* **[Vault and Secrets](../privacy/vault-and-secrets/README.md)** — Saved-credential delivery and recording redaction boundaries.
 * **[Network Interception & Request Replay](../network/network-interception/README.md)** — Live interception and separate request replay.
 
 [All core features](../README.md)

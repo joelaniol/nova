@@ -98,4 +98,4 @@ Task-scoped listings (`scope: "task"`) return a lighter shape per entry: `{ "nam
 
 * [`nova.secret_set`](nova-secret-set.md) — Store a new DPAPI-encrypted secret.
 * [`nova.vault_list`](nova-vault-list.md) — List web browser login credentials.
-* [Vault & Secret Architecture](../../../core-features/vault-and-secrets/README.md) — Architectural overview of Nova secret isolation.
+* [Vault & Secret Architecture](../../../core-features/privacy/vault-and-secrets/README.md) — Architectural overview of Nova secret isolation.

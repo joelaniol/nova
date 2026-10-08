@@ -14,7 +14,7 @@ An unavailable inventory does not establish that the computer has no cameras. It
 
 Windows device APIs, driver calls and native speech-recognition libraries can fail in ways a managed exception handler cannot catch. A faulty virtual camera driver, an unsupported CPU instruction or a corrupt model file should not close every tab and stop every running agent workflow.
 
-Outrider provides fault isolation in the current user's Windows context. It is not an operating-system security sandbox and does not grant permissions or authorize agent actions. [Sandboxes](../../core-features/sandbox-isolation/README.md) separate website sessions; [Agent Awareness Gates (AAG)](../../core-features/agent-awareness-gates-aag/README.md) check action prerequisites; the [vault](../../core-features/vault-and-secrets/README.md) controls saved-credential delivery.
+Outrider provides fault isolation in the current user's Windows context. It is not an operating-system security sandbox and does not grant permissions or authorize agent actions. [Sandboxes](../../core-features/sandbox-isolation/README.md) separate website sessions; [Agent Awareness Gates (AAG)](../../core-features/agent-awareness-gates-aag/README.md) check action prerequisites; the [vault](../../core-features/privacy/vault-and-secrets/README.md) controls saved-credential delivery.
 
 ## Capabilities
 

@@ -10,7 +10,7 @@ Starts a background breadth-first search (BFS) crawl from a root URL using isola
 
 The crawler automatically detects DOM settlement (waiting for MutationObserver quiescence and network idle), extracts structured page metadata, follows in-scope hyperlinks, respects rate limits, and persists results into the local SQLite `crawl.db` index.
 
-* **Core Architecture Guide:** [Autonomous Crawler & Surface Explorer](../../../core-features/crawler-and-discovery/README.md)
+* **Core Architecture Guide:** [Autonomous Crawler & URL Discovery](../../../core-features/crawler-and-discovery/crawler/README.md)
 
 ---
 

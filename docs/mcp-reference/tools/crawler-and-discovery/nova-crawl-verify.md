@@ -8,7 +8,7 @@ Performs targeted, non-traversal verification and DOM extraction against a speci
 
 `nova.crawl_verify` queues a background job (depth 0, no link following) that visits an explicit list of up to 50 URLs in isolated hidden WebViews. Like `nova.crawl_start`, it runs asynchronously: the call itself only returns a `crawlId` and `status: "running"` once the URLs are queued — per-URL results (HTTP status, assertions, extracted content) must be fetched afterward with [`nova.crawl_results`](nova-crawl-results.md) or watched with [`nova.crawl_status`](nova-crawl-status.md), not read from this call's own response.
 
-* **Core Architecture Guide:** [Autonomous Crawler & Surface Explorer](../../../core-features/crawler-and-discovery/README.md)
+* **Core Architecture Guide:** [Autonomous Crawler & URL Discovery](../../../core-features/crawler-and-discovery/crawler/README.md)
 
 ---
 

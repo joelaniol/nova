@@ -8,7 +8,7 @@ Retrieves paginated page details, extracted text, metadata, and screenshots from
 
 `nova.crawl_results` reads discovered pages and extracted content from the persistent SQLite `crawl.db` index. It supports server-side pagination, URL filtering, incremental cursors via `sinceSequence`, and aggregated statistical summaries.
 
-* **Core Architecture Guide:** [Autonomous Crawler & Surface Explorer](../../../core-features/crawler-and-discovery/README.md)
+* **Core Architecture Guide:** [Autonomous Crawler & URL Discovery](../../../core-features/crawler-and-discovery/crawler/README.md)
 
 ---
 
