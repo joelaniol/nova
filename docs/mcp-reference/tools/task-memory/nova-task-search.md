@@ -8,7 +8,7 @@ Searches for matching task profiles by free-text query with keyword ranking.
 
 `nova.task_search` performs text search across profile goals, display names, and guidance hints, returning ranked candidates.
 
-* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/episodic-task-memory-etm/README.md)
+* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/learning/episodic-task-memory-etm/README.md)
 
 ---
 

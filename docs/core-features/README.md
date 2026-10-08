@@ -30,7 +30,6 @@ The [alpha status page](../../ALPHA.md) lists current limitations, including plu
 | Page | What it covers | Main MCP tools |
 | :--- | :--- | :--- |
 | [Closed-Loop System (CLS)](closed-loop-system-cls/README.md) | Expected state, action, checked outcome | `nova.goal_register`, `nova.run_sequence`, `nova.phenomenon_apply` |
-| [Ambient Auto-Apply](ambient-auto-apply/README.md) | Eligible automatic playbook application during agent work | `nova.perceive`, `nova.phenomenon_apply` |
 | [Agent Awareness Gates (AAG)](agent-awareness-gates-aag/README.md) | Checks that stop an agent from acting blind | `nova.guarded_*`, `nova.tab_claim`, `nova.task_instance_verify` |
 | [Tool Observation Bus (TOB)](tool-observation-bus-tob/README.md) | What the agent really did, recorded on Nova's side | `nova.task_instance_verify`, `nova.task_instance_progress`, `nova.task_instance_get` |
 | [Password Vault & Secret Injection](vault-and-secrets/README.md) | Saved-password delivery through references; scoped terminal secrets | `nova.vault_*`, `nova.type_selector_secret`, `nova.secret_*` |
@@ -42,18 +41,11 @@ The [alpha status page](../../ALPHA.md) lists current limitations, including plu
 | :--- | :--- | :--- |
 | [Agent-Native Affordances](agent-native-affordances/README.md) | Learned agent expectations, aliases and client naming compatibility | `nova.get_instructions`, `nova.tools_bundle` |
 
-### Memory and learning
+### Learning
 
 | Page | What it covers | Main MCP tools |
 | :--- | :--- | :--- |
-| [Phenomenological Knowledge Store (PKS)](phenomenological-knowledge-store-pks/README.md) | What Nova learns about how a site works | `nova.pks_get`, `nova.pks_match`, `nova.pks_upsert`, `nova.learn_promote` |
-| [Operational Knowledge (OK)](operational-knowledge-ok/README.md) | Login state, plan and active model of a site, as signals agents report; domain notes | `nova.ok_observe`, `nova.ok_signal_schema`, `nova.domain_note` |
-| [Episodic Task Memory (ETM)](episodic-task-memory-etm/README.md) | Recurring tasks and their progress | `nova.task_match`, `nova.task_instance_create`, `nova.task_instance_complete` |
-| [Task URL Coverage (TUC)](task-url-coverage-tuc/README.md) | URL work units, trusted scan evidence and coverage gates | `nova.coverage_scan`, `nova.task_instance_reconcile_coverage` |
-| [Agent Learning Pipeline (ALP)](agent-learning-pipeline-alp/README.md) | How a lesson is checked before it is kept | `nova.learn_suggest`, `nova.learn_generate`, `nova.learn_promote` |
-| [Learning Candidate Journal (LCJ)](learning-candidate-journal-lcj/README.md) | Observations and candidate evidence used by the learning pipeline | `nova.memory_stats`, `nova.memory_add_candidate` |
-| [Browser Memory](browser-memory/README.md) | Notes and preferences per site | `nova.memory_note`, `nova.memory_recall`, `nova.memory_forget` |
-| [Agent Knowledge Board](agent-knowledge-board/README.md) | Opt-in investigative records of Nova tool problems | `nova.board_get`, `nova.board_contribute` |
+| [Learning](learning/README.md) | Learning candidates, trusted playbooks, task memory, site knowledge and learned application | `nova.learn_*`, `nova.pks_*`, `nova.task_*`, `nova.memory_*`, `nova.ok_observe`, `nova.board_*` |
 
 ### Sessions, network and identity
 

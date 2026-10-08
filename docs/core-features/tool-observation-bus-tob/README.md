@@ -21,8 +21,8 @@ TOB keeps agent statements and server-side observations apart. It records eviden
 ### How this connects to learning and verification
 
 * **TOB** supplies execution observations and selector proof.
-* **[ALP](../agent-learning-pipeline-alp/README.md)** evaluates journal evidence for candidate generation and trust decisions.
-* **[PKS](../phenomenological-knowledge-store-pks/README.md)** preserves recognition, playbooks, verification steps and health.
+* **[ALP](../learning/agent-learning-pipeline-alp/README.md)** evaluates journal evidence for candidate generation and trust decisions.
+* **[PKS](../learning/phenomenological-knowledge-store-pks/README.md)** preserves recognition, playbooks, verification steps and health.
 * **[CLS](../closed-loop-system-cls/README.md)** checks the expected effect of an action and returns outcomes that can inform subsequent learning.
 
 TOB answers “what evidence did Nova observe?”; CLS answers “did the specified outcome occur?” The distinction keeps a successful tool call from being treated as proof of every larger claim.
@@ -153,8 +153,8 @@ Observations are only projected while a scope is active, for example a running t
 ## Related Documentation
 
 * **[Agent Awareness Gates (AAG)](../agent-awareness-gates-aag/README.md)** — Precondition gates in the tool pipeline.
-* **[Phenomenological Knowledge Store (PKS)](../phenomenological-knowledge-store-pks/README.md)** — Procedural UI memory and learned playbooks.
+* **[Phenomenological Knowledge Store (PKS)](../learning/phenomenological-knowledge-store-pks/README.md)** — Procedural UI memory and learned playbooks.
 * **[Closed-Loop System (CLS)](../closed-loop-system-cls/README.md)** — Verified state transitions.
-* **[Episodic Task Memory (ETM)](../episodic-task-memory-etm/README.md)** — Work unit tracking and task URL coverage.
+* **[Episodic Task Memory (ETM)](../learning/episodic-task-memory-etm/README.md)** — Work unit tracking and task URL coverage.
 
 [All core features](../README.md)

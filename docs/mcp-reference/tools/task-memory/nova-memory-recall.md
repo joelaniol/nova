@@ -8,7 +8,7 @@ Recalls browsing memories and stored preferences for a domain or across all site
 
 `nova.memory_recall` retrieves stored browsing memories (notes, preferences and context entries saved with `nova.memory_note`), optionally filtered by domain, free-text query, or memory type. Each hit resets the memory's access time and increases its access count, which slows its relevance decay.
 
-* **Core Architecture Guide:** [Browser Memory & Knowledge Board](../../../core-features/browser-memory/README.md)
+* **Core Architecture Guide:** [Browser Memory & Knowledge Board](../../../core-features/learning/browser-memory/README.md)
 
 ---
 

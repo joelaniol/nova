@@ -8,7 +8,7 @@ Ends a task instance without meeting completion conditions (site offline, unsolv
 
 `nova.task_instance_abort` terminates an episodic task instance when the stated goal cannot be achieved. It records the failure classification and final state.
 
-* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/episodic-task-memory-etm/README.md)
+* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/learning/episodic-task-memory-etm/README.md)
 
 ---
 

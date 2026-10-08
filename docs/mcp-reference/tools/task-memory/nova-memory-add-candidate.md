@@ -8,7 +8,7 @@ Proposes a lightweight candidate memory claim for the currently claimed task and
 
 `nova.memory_add_candidate` records a one-line candidate claim for the currently claimed tab in the Learning Candidate Journal (LCJ). The target tab must already be claimed (`nova.tab_claim`) before a candidate can be added.
 
-* **Core Architecture Guide:** [Agent Learning Pipeline (ALP) & Learning Candidate Journal (LCJ)](../../../core-features/agent-learning-pipeline-alp/README.md)
+* **Core Architecture Guide:** [Agent Learning Pipeline (ALP) & Learning Candidate Journal (LCJ)](../../../core-features/learning/agent-learning-pipeline-alp/README.md)
 
 ---
 

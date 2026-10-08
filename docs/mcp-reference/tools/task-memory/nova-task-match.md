@@ -8,7 +8,7 @@ Finds the best matching task profiles for a task description with score breakdow
 
 `nova.task_match` evaluates a user prompt or task description against existing task profiles, returning the top candidates with confidence scores and guidance previews.
 
-* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/episodic-task-memory-etm/README.md)
+* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/learning/episodic-task-memory-etm/README.md)
 
 ---
 

@@ -2,7 +2,7 @@
 
 > **Creates or updates a domain hint: CSS selectors that mark ad containers, noise regions or result items on a site.**
 
-* **Core Feature Guide:** [Phenomenological Knowledge Store (PKS)](../../../core-features/phenomenological-knowledge-store-pks/README.md)
+* **Core Feature Guide:** [Phenomenological Knowledge Store (PKS)](../../../core-features/learning/phenomenological-knowledge-store-pks/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

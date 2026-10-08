@@ -8,7 +8,7 @@ Manages closed-loop task goals, verifying step advancement and milestone criteri
 
 `nova.goal_register` creates, reads, annotates and closes multi-step goals. `op: "create"` opens a goal with a `summary`, an execution `mode` and an optional ordered step plan (up to 50 steps). Goal-level `preconditions` are checked against the target when the goal is opened; if one does not hold, the goal is not created and the result names the failed precondition. A goal holds a lease (`leaseMs`, default 120 000 ms); a goal without progress inside that window is aborted automatically.
 
-* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/episodic-task-memory-etm/README.md)
+* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/learning/episodic-task-memory-etm/README.md)
 
 ---
 

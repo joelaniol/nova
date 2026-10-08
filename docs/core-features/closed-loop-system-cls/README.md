@@ -1,7 +1,7 @@
 # Closed-Loop System (CLS)
 
 > [!NOTE]
-> The Closed-Loop System (CLS) of Nova AI Workspace treats an agent action as a state transition that is checked afterwards, instead of an open-loop "click dispatched, hope it worked". [Ambient Auto-Apply](../ambient-auto-apply/README.md) builds on it: Nova can handle known, low-risk blockers such as cookie banners with verified PKS playbooks while an agent navigates.
+> The Closed-Loop System (CLS) of Nova AI Workspace treats an agent action as a state transition that is checked afterwards, instead of an open-loop "click dispatched, hope it worked". [Ambient Auto-Apply](../learning/ambient-auto-apply/README.md) builds on it: Nova can handle known, low-risk blockers such as cookie banners with verified PKS playbooks while an agent navigates.
 
 ---
 
@@ -17,7 +17,7 @@ The distinction is between **an action being dispatched** and **its intended eff
 
 ### Four systems, different responsibilities
 
-**[TOB](../tool-observation-bus-tob/README.md)** records execution evidence. **[ALP](../agent-learning-pipeline-alp/README.md)** evaluates learning evidence and trust. **[PKS](../phenomenological-knowledge-store-pks/README.md)** stores procedural knowledge. **CLS** uses checked state transitions when applying actions and learned playbooks. New outcomes feed back into that learning loop.
+**[TOB](../tool-observation-bus-tob/README.md)** records execution evidence. **[ALP](../learning/agent-learning-pipeline-alp/README.md)** evaluates learning evidence and trust. **[PKS](../learning/phenomenological-knowledge-store-pks/README.md)** stores procedural knowledge. **CLS** uses checked state transitions when applying actions and learned playbooks. New outcomes feed back into that learning loop.
 
 A PKS match supplies a possible way to act; it does not establish that the action worked on today's page. CLS provides the outcome check. Authorization and awareness gates still govern whether the action may run.
 
@@ -106,7 +106,7 @@ Agents use CLS capabilities through these MCP tools:
 ## Related Documentation
 
 * **[Agent Awareness Gates (AAG)](../agent-awareness-gates-aag/README.md)** — Precondition gates and tab leases.
-* **[Phenomenological Knowledge Store (PKS)](../phenomenological-knowledge-store-pks/README.md)** — Procedural UI memory and learning levels.
+* **[Phenomenological Knowledge Store (PKS)](../learning/phenomenological-knowledge-store-pks/README.md)** — Procedural UI memory and learning levels.
 * **[Tool Observation Bus (TOB)](../tool-observation-bus-tob/README.md)** — Server-side record of executed tool calls.
 
 [All core features](../README.md)

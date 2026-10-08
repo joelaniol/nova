@@ -8,7 +8,7 @@ Requests server evaluation and completion for an episodic task instance.
 
 `nova.task_instance_complete` evaluates the task instance against its completion condition and mandatory checks. If checks fail or coverage is incomplete, Nova rejects completion (`completed: false`) with specific remediation reasons.
 
-* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/episodic-task-memory-etm/README.md)
+* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/learning/episodic-task-memory-etm/README.md)
 
 ---
 

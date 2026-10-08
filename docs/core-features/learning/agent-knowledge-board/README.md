@@ -36,4 +36,4 @@ Board topics, contributions and hint deliveries are stored in `agent-knowledge-b
 
 [Browser Memory](../browser-memory/README.md) · [Operational Knowledge (OK)](../operational-knowledge-ok/README.md)
 
-[All core features](../README.md)
+[Learning overview](../README.md) · [All core features](../../README.md)

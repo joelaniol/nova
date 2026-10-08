@@ -1,6 +1,6 @@
 # Ambient Auto-Apply
 
-Ambient Auto-Apply uses learned PKS playbooks to handle eligible blockers during agent work. It builds on the outcome checks of the [Closed-Loop System (CLS)](../closed-loop-system-cls/README.md).
+Ambient Auto-Apply uses learned PKS playbooks to handle eligible blockers during agent work. It builds on the outcome checks of the [Closed-Loop System (CLS)](../../closed-loop-system-cls/README.md).
 
 ## Eligibility, confirmation and recovery
 
@@ -20,7 +20,7 @@ For example, a learned cookie-rejection playbook can clear a familiar blocker du
 
 Ambient eligibility, risk class and playbook health are evaluated by **`AutoApplyController`**.
 
-- [Closed-Loop System (CLS)](../closed-loop-system-cls/README.md)
+- [Closed-Loop System (CLS)](../../closed-loop-system-cls/README.md)
 - [Phenomenological Knowledge Store (PKS)](../phenomenological-knowledge-store-pks/README.md)
 
-[All core features](../README.md)
+[Learning overview](../README.md) · [All core features](../../README.md)

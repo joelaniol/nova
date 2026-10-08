@@ -130,4 +130,4 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 * [`nova.pks_upsert`](nova-pks-upsert.md) — Store or update verified phenomena in PKS.
 * [`nova.pks_match`](nova-pks-match.md) — Match live DOM observations against known fingerprints.
 * [`nova.telemetry_report`](nova-telemetry-report.md) — Report execution outcome for health scoring.
-* [Phenomenological Knowledge Store (PKS)](../../../core-features/phenomenological-knowledge-store-pks/README.md) — Architecture, lifecycle levels, and invariant rules.
+* [Phenomenological Knowledge Store (PKS)](../../../core-features/learning/phenomenological-knowledge-store-pks/README.md) — Architecture, lifecycle levels, and invariant rules.

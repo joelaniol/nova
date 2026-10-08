@@ -2,7 +2,7 @@
 
 > **Applies partial updates or selector refinements to an existing PKS phenomenon playbook.**
 
-* **Core Feature Guide:** [Phenomenological Knowledge Store (PKS)](../../../core-features/phenomenological-knowledge-store-pks/README.md)
+* **Core Feature Guide:** [Phenomenological Knowledge Store (PKS)](../../../core-features/learning/phenomenological-knowledge-store-pks/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

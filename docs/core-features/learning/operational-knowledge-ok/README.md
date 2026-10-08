@@ -101,7 +101,7 @@ flowchart LR
 ## Related Documentation
 
 * **[Phenomenological Knowledge Store (PKS)](../phenomenological-knowledge-store-pks/README.md)** — Long-term procedural UI memory and playbooks.
-* **[Tool Observation Bus (TOB)](../tool-observation-bus-tob/README.md)** — Server-side record of executed tool calls.
-* **[Agent Awareness Gates (AAG)](../agent-awareness-gates-aag/README.md)** — Precondition gates and tab leases.
+* **[Tool Observation Bus (TOB)](../../tool-observation-bus-tob/README.md)** — Server-side record of executed tool calls.
+* **[Agent Awareness Gates (AAG)](../../agent-awareness-gates-aag/README.md)** — Precondition gates and tab leases.
 
-[All core features](../README.md)
+[Learning overview](../README.md) · [All core features](../../README.md)

@@ -27,7 +27,7 @@ LCJ (record evidence) ──→ ALP (rank, generate, evaluate trust) ──→ P
 
 ### Where ALP fits
 
-**[TOB](../tool-observation-bus-tob/README.md)** supplies server-side execution evidence and selector proof; **LCJ** holds observations and promotion evidence. **ALP** ranks opportunities, generates candidates and evaluates trust. **[PKS](../phenomenological-knowledge-store-pks/README.md)** stores the procedural entries, and **[CLS](../closed-loop-system-cls/README.md)** applies actions with outcome checks that can inform further learning.
+**[TOB](../../tool-observation-bus-tob/README.md)** supplies server-side execution evidence and selector proof; **LCJ** holds observations and promotion evidence. **ALP** ranks opportunities, generates candidates and evaluates trust. **[PKS](../phenomenological-knowledge-store-pks/README.md)** stores the procedural entries, and **[CLS](../../closed-loop-system-cls/README.md)** applies actions with outcome checks that can inform further learning.
 
 The process combines supported heuristic generation, explicit agent tools and background lifecycle checks. It does not guarantee that every observed interaction can be turned into a safe reusable playbook.
 
@@ -124,7 +124,7 @@ The module table above separates pure ranking and gate decisions from persistenc
 ## Related Documentation
 
 * **[Phenomenological Knowledge Store (PKS)](../phenomenological-knowledge-store-pks/README.md)** — Long-term procedural UI memory and playbooks.
-* **[Tool Observation Bus (TOB)](../tool-observation-bus-tob/README.md)** — Server-side evidence ledger and selector proofs.
-* **[Closed-Loop System (CLS)](../closed-loop-system-cls/README.md)** — Verified state transitions.
+* **[Tool Observation Bus (TOB)](../../tool-observation-bus-tob/README.md)** — Server-side evidence ledger and selector proofs.
+* **[Closed-Loop System (CLS)](../../closed-loop-system-cls/README.md)** — Verified state transitions.
 
-[All core features](../README.md)
+[Learning overview](../README.md) · [All core features](../../README.md)

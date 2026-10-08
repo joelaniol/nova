@@ -8,7 +8,7 @@ Lists guidance log entries and override patterns that are candidates for profile
 
 `nova.task_promotion_candidates` surfaces frequently observed workarounds and high-confidence guidance entries that are ready for permanent promotion.
 
-* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/episodic-task-memory-etm/README.md)
+* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/learning/episodic-task-memory-etm/README.md)
 
 ---
 

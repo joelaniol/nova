@@ -20,7 +20,7 @@ On the next run, the index provides a starting map. It records known URLs and pr
 | Site URL index | URLs Nova already knows from crawls and reported navigation observations. |
 | Surface Explorer | Interactive triggers on the current page, such as menus and dialogs. |
 
-A crawl that finishes has finished its configured traversal. Pages behind pagination, unvisited interactions, login barriers or excluded paths can remain undiscovered. JavaScript settlement is a readiness heuristic, not proof that all content has loaded. For an exhaustive task, define and verify the required units with [ETM](../episodic-task-memory-etm/README.md).
+A crawl that finishes has finished its configured traversal. Pages behind pagination, unvisited interactions, login barriers or excluded paths can remain undiscovered. JavaScript settlement is a readiness heuristic, not proof that all content has loaded. For an exhaustive task, define and verify the required units with [ETM](../learning/episodic-task-memory-etm/README.md).
 
 ## 3. Why Keep a Reusable Map?
 
@@ -111,8 +111,8 @@ Crawler tools are in the `crawler_ops` bundle; the discovery probe tools are in 
 
 ## Related Documentation
 
-* **[Task Memory (ETM)](../episodic-task-memory-etm/README.md)** — Defined work units and evidence of task coverage.
+* **[Task Memory (ETM)](../learning/episodic-task-memory-etm/README.md)** — Defined work units and evidence of task coverage.
 * **[Auth Surface Detection](../auth-surface-detection-asd/README.md)** — Login barriers and session-state assessment.
-* **[PKS](../phenomenological-knowledge-store-pks/README.md)** — Reusable procedural knowledge about recurring situations.
+* **[PKS](../learning/phenomenological-knowledge-store-pks/README.md)** — Reusable procedural knowledge about recurring situations.
 
 [All core features](../README.md)

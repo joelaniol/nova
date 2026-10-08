@@ -77,7 +77,7 @@ An ambiguous name, a different unit or a different safety meaning requires an ex
 
 ## How this fits the cognitive runtime
 
-Agent-native affordances help an agent reach a capability. [AAG](../agent-awareness-gates-aag/README.md) checks whether it is ready to act, and the [closed-loop system](../closed-loop-system-cls/README.md) checks the outcome. [PKS](../phenomenological-knowledge-store-pks/README.md), [task memory](../episodic-task-memory-etm/README.md) and the [learning pipeline](../agent-learning-pipeline-alp/README.md) support knowledge acquired through use.
+Agent-native affordances help an agent reach a capability. [AAG](../agent-awareness-gates-aag/README.md) checks whether it is ready to act, and the [closed-loop system](../closed-loop-system-cls/README.md) checks the outcome. [PKS](../learning/phenomenological-knowledge-store-pks/README.md), [task memory](../learning/episodic-task-memory-etm/README.md) and the [learning pipeline](../learning/agent-learning-pipeline-alp/README.md) support knowledge acquired through use.
 
 The development feedback loop complements those runtime mechanisms: observed agent behavior helps shape Nova's interface itself. The intended benefit is less naming friction and unnecessary relearning; this page makes no quantified claim about speed or task success.
 

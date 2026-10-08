@@ -28,6 +28,6 @@ For tasks that must cover a list of URLs (audits, accessibility or link checks),
 ## Related documentation
 
 - [Episodic Task Memory (ETM)](../episodic-task-memory-etm/README.md)
-- [Tool Observation Bus (TOB)](../tool-observation-bus-tob/README.md)
+- [Tool Observation Bus (TOB)](../../tool-observation-bus-tob/README.md)
 
-[All core features](../README.md)
+[Learning overview](../README.md) · [All core features](../../README.md)

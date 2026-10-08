@@ -76,4 +76,4 @@ Browser notes are recalled through relevance scoring. Recalling a note does not 
 * **[Operational Knowledge (OK)](../operational-knowledge-ok/README.md)** — Live tab state and account capabilities.
 * **[Phenomenological Knowledge Store (PKS)](../phenomenological-knowledge-store-pks/README.md)** — Procedural UI memory and learned playbooks.
 
-[All core features](../README.md)
+[Learning overview](../README.md) · [All core features](../../README.md)

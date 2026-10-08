@@ -127,24 +127,24 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 | Page | What it covers |
 |---|---|
 | [Closed-Loop System (CLS)](core-features/closed-loop-system-cls/README.md) | Expected state, action, checked outcome |
-| [Ambient Auto-Apply](core-features/ambient-auto-apply/README.md) | Eligible automatic playbook application during agent work |
+| [Ambient Auto-Apply](core-features/learning/ambient-auto-apply/README.md) | Eligible automatic playbook application during agent work |
 | [Agent Awareness Gates (AAG)](core-features/agent-awareness-gates-aag/README.md) | Checks that stop an agent from acting blind |
 | [Tool Observation Bus (TOB)](core-features/tool-observation-bus-tob/README.md) | What the agent really did, recorded on Nova's side |
 | [Password Vault & Secret Injection](core-features/vault-and-secrets/README.md) | Passwords filled in without the agent seeing them |
 | [Nova Outrider — Native Process Boundary](core-features/outrider-boundary/README.md) | Risky Windows and hardware probes in a separate, killable process |
 
-**Memory and learning**
+**[Learning overview](core-features/learning/README.md)**
 
 | Page | What it covers |
 |---|---|
-| [Phenomenological Knowledge Store (PKS)](core-features/phenomenological-knowledge-store-pks/README.md) | What Nova learns about how a site works |
-| [Operational Knowledge (OK)](core-features/operational-knowledge-ok/README.md) | Login state, plan and active model of a site, as signals agents report; domain notes |
-| [Episodic Task Memory (ETM)](core-features/episodic-task-memory-etm/README.md) | Recurring tasks and their progress |
-| [Task URL Coverage (TUC)](core-features/task-url-coverage-tuc/README.md) | URL work units, scan evidence and coverage gates |
-| [Agent Learning Pipeline (ALP)](core-features/agent-learning-pipeline-alp/README.md) | How a lesson is checked before it is kept |
-| [Learning Candidate Journal (LCJ)](core-features/learning-candidate-journal-lcj/README.md) | Observations and candidate evidence used by the pipeline |
-| [Browser Memory](core-features/browser-memory/README.md) | Notes and preferences per site |
-| [Agent Knowledge Board](core-features/agent-knowledge-board/README.md) | Opt-in investigative records of Nova tool problems |
+| [Phenomenological Knowledge Store (PKS)](core-features/learning/phenomenological-knowledge-store-pks/README.md) | What Nova learns about how a site works |
+| [Operational Knowledge (OK)](core-features/learning/operational-knowledge-ok/README.md) | Login state, plan and active model of a site, as signals agents report; domain notes |
+| [Episodic Task Memory (ETM)](core-features/learning/episodic-task-memory-etm/README.md) | Recurring tasks and their progress |
+| [Task URL Coverage (TUC)](core-features/learning/task-url-coverage-tuc/README.md) | URL work units, scan evidence and coverage gates |
+| [Agent Learning Pipeline (ALP)](core-features/learning/agent-learning-pipeline-alp/README.md) | How a lesson is checked before it is kept |
+| [Learning Candidate Journal (LCJ)](core-features/learning/learning-candidate-journal-lcj/README.md) | Observations and candidate evidence used by the pipeline |
+| [Browser Memory](core-features/learning/browser-memory/README.md) | Notes and preferences per site |
+| [Agent Knowledge Board](core-features/learning/agent-knowledge-board/README.md) | Opt-in investigative records of Nova tool problems |
 
 **Sessions, network and identity**
 

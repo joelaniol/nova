@@ -8,7 +8,7 @@ Creates a new episodic task instance from a profile or ad-hoc context with snaps
 
 `nova.task_instance_create` starts one run of a task. It takes either a stored task profile (`profileId`) or an `adHocContext` for a first run without a profile, applies `currentScope` and `overrides`, and stores the result as the instance's effective context (snapshotted, with a hash). The instance starts with status `pending`. Nova also starts evidence tracking for the active tab; if that is not possible, `evidenceScope` explains why (for example `evidence_scope_target_busy` when another open instance already tracks the tab). With `unitSource`, the instance's URL units for Task URL Coverage are filled from an explicit URL list or from the site URL index.
 
-* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/episodic-task-memory-etm/README.md)
+* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/learning/episodic-task-memory-etm/README.md)
 
 ---
 

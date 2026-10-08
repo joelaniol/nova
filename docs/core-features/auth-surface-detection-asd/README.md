@@ -15,7 +15,7 @@ ASD can recognise the code challenge and the guarded workflow reports an ambiguo
 
 ASD combines visible fields, account controls and session-related signals. It is a heuristic assessment of the observed page, not a server-side authentication check. A logged-in verdict does not establish which account is active, which tenant it belongs to, or whether it may perform a particular action.
 
-The [vault](../vault-and-secrets/README.md) delivers saved credentials, [CLS](../closed-loop-system-cls/README.md) checks the guarded transition, and [Operational Knowledge](../operational-knowledge-ok/README.md) retains reported session observations. Before account-sensitive work, verify the intended identity and the capability needed for the task.
+The [vault](../vault-and-secrets/README.md) delivers saved credentials, [CLS](../closed-loop-system-cls/README.md) checks the guarded transition, and [Operational Knowledge](../learning/operational-knowledge-ok/README.md) retains reported session observations. Before account-sensitive work, verify the intended identity and the capability needed for the task.
 
 ## 3. Why Unknown Must Stay Distinct
 
@@ -75,6 +75,6 @@ Unknown is reported as `null`. In addition, `auth.stage` names the page type (`l
 
 * **[Agent Awareness Gates (AAG)](../agent-awareness-gates-aag/README.md)** — Pre-execution safety and verification rules.
 * **[Password Vault & Secret Injection](../vault-and-secrets/README.md)** — Filling passwords without exposing them to the agent.
-* **[Operational Knowledge (OK)](../operational-knowledge-ok/README.md)** — Real-time tab state and capability tracking.
+* **[Operational Knowledge (OK)](../learning/operational-knowledge-ok/README.md)** — Real-time tab state and capability tracking.
 
 [All core features](../README.md)

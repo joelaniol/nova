@@ -33,7 +33,7 @@ Keep Nova open for scheduled dispatch. If it was closed at the scheduled time, e
 | CLI run output or structured result | What the executor or agent reported, subject to that executor's result handling. |
 | Expected artifact or verified state | Evidence that the requested work actually produced its intended outcome. |
 
-A successful run status does not by itself prove that a report is correct or a backup is restorable. Include meaningful checks in the task, and inspect their evidence. [ETM](../episodic-task-memory-etm/README.md) provides a separate task-coverage model; a scheduled run's lifecycle status is not equivalent to verified completion of every work unit.
+A successful run status does not by itself prove that a report is correct or a backup is restorable. Include meaningful checks in the task, and inspect their evidence. [ETM](../learning/episodic-task-memory-etm/README.md) provides a separate task-coverage model; a scheduled run's lifecycle status is not equivalent to verified completion of every work unit.
 
 ## 3. Why Schedule Work with a Run History?
 
@@ -127,7 +127,7 @@ All tools are in the `scheduled_tasks` bundle.
 ## Related Documentation
 
 * **[Terminal Workspaces](../terminal-workspaces/README.md)** — Saved projects and live console sessions.
-* **[Task Memory (ETM)](../episodic-task-memory-etm/README.md)** — Task scope and evidence of coverage.
+* **[Task Memory (ETM)](../learning/episodic-task-memory-etm/README.md)** — Task scope and evidence of coverage.
 * **[Vault and Secrets](../vault-and-secrets/README.md)** — Secret scopes and delivery boundaries.
 
 [All core features](../README.md)

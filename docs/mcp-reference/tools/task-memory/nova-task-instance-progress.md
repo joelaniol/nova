@@ -8,7 +8,7 @@ Commits progress deltas, completed work units, and observations to a task instan
 
 `nova.task_instance_progress` records one progress event for a task instance: newly discovered work units (`discoveredUnits`), status changes of known units (`unitUpdates`: `checked`, `excluded`, `blocked`, `failed`), findings, mandatory-check updates, a resume-state delta and an optional discovery-state transition. Writes use compare-and-set on `expectedInstanceRev`: on a mismatch nothing is written and the result is `applied: false, reason: "rev_conflict"` with the current revision. `clientEventId` makes the call idempotent; a repeated event returns `duplicate: true`. Instances in a terminal status (`completed`, `aborted`, `failed`) are not changed (`reason: "terminal_status"`).
 
-* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/episodic-task-memory-etm/README.md)
+* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/learning/episodic-task-memory-etm/README.md)
 
 ---
 

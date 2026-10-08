@@ -8,7 +8,7 @@ Retrieves the completion-gate state and, if the task profile defines one, the ve
 
 `nova.task_instance_verify` returns the instance's current completion-gate state (`completionVerification`: whether completion is currently allowed, pending mandatory checks, remaining units) and, when the task profile defines a tool-based verification contract (`hasContract: true`), the contract's steps so the agent can execute them and submit evidence via `task_instance_complete`. Most task profiles have no such contract; in that case the response reports `hasContract: false` and still returns `completionVerification`.
 
-* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/episodic-task-memory-etm/README.md)
+* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/learning/episodic-task-memory-etm/README.md)
 
 ---
 

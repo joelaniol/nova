@@ -43,7 +43,7 @@ Each memory system answers a different question:
 | [PKS](../phenomenological-knowledge-store-pks/README.md) | How can a recurring web situation be recognized, handled and verified? |
 | **ETM** | What task is this, and how far has this run progressed? |
 
-ETM uses [TOB](../tool-observation-bus-tob/README.md) evidence when evaluating configured evidence policies. A checked status reported by an agent remains distinguishable from coverage supported by server-observed calls.
+ETM uses [TOB](../../tool-observation-bus-tob/README.md) evidence when evaluating configured evidence policies. A checked status reported by an agent remains distinguishable from coverage supported by server-observed calls.
 
 ```mermaid
 flowchart TD
@@ -140,8 +140,8 @@ These checks apply to the declared task scope, discovered units and configured p
 
 ## Related Documentation
 
-* **[Tool Observation Bus (TOB)](../tool-observation-bus-tob/README.md)** — Server-side evidence ledger and visit windows.
-* **[Agent Awareness Gates (AAG)](../agent-awareness-gates-aag/README.md)** — Precondition gates and tab leases.
+* **[Tool Observation Bus (TOB)](../../tool-observation-bus-tob/README.md)** — Server-side evidence ledger and visit windows.
+* **[Agent Awareness Gates (AAG)](../../agent-awareness-gates-aag/README.md)** — Precondition gates and tab leases.
 * **[Phenomenological Knowledge Store (PKS)](../phenomenological-knowledge-store-pks/README.md)** — Procedural UI memory and learning levels.
 
-[All core features](../README.md)
+[Learning overview](../README.md) · [All core features](../../README.md)

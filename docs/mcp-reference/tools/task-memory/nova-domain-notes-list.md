@@ -8,7 +8,7 @@ Lists all stored procedural notes and operator instructions for a specific domai
 
 `nova.domain_notes_list` returns all notes registered for a target web domain, indicating keys, values, source, enforcement level, and sandbox scope.
 
-* **Core Architecture Guide:** [Operational Knowledge](../../../core-features/operational-knowledge-ok/README.md)
+* **Core Architecture Guide:** [Operational Knowledge](../../../core-features/learning/operational-knowledge-ok/README.md)
 
 ---
 

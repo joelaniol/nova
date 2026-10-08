@@ -2,7 +2,7 @@
 
 > **Lists the canonical Operational Knowledge signal keys accepted by nova.ok_observe.**
 
-* **Core Feature Guide:** [Operational Knowledge](../../../core-features/operational-knowledge-ok/README.md)
+* **Core Feature Guide:** [Operational Knowledge](../../../core-features/learning/operational-knowledge-ok/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

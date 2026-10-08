@@ -8,7 +8,7 @@ Opens a new Agent Knowledge Board topic or appends an evidence-bound research co
 
 `nova.board_contribute` posts an observation, refutation, or reproduction to the shared Agent Knowledge Board. Each contribution is anchored to a component/capability/operation/symptom-class tuple (optionally plus a host) for deterministic matching, and an `idempotencyKey` makes retried writes safe to repeat.
 
-* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/episodic-task-memory-etm/README.md)
+* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/learning/episodic-task-memory-etm/README.md)
 
 ---
 

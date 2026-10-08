@@ -2,7 +2,7 @@
 
 > **Ranks the learning opportunities Nova has observed: patterns worth storing in the PKS and stored phenomena that are drifting.**
 
-* **Core Feature Guide:** [Phenomenological Knowledge Store (PKS)](../../../core-features/phenomenological-knowledge-store-pks/README.md)
+* **Core Feature Guide:** [Phenomenological Knowledge Store (PKS)](../../../core-features/learning/phenomenological-knowledge-store-pks/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

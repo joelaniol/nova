@@ -8,7 +8,7 @@ Loads a task instance snapshot for session-crossing resume and progress inspecti
 
 `nova.task_instance_get` retrieves the full state of a task instance: current revision, unit progress counts, mandatory-check state, and (opt-in via `includeRecentEvents`) recent event-log entries.
 
-* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/episodic-task-memory-etm/README.md)
+* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/learning/episodic-task-memory-etm/README.md)
 
 ---
 

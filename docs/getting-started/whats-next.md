@@ -28,7 +28,7 @@ Read [Use Learn Mode](learn-mode.md) for the difference from normal tasks, usefu
 
 > I will repeat this task on this website. Use Nova's Learn Mode to explore the relevant workflow, verify what works, and produce a reusable platform playbook. Ask me if the intended workflow is unclear.
 
-Explain your goal and what you expect to repeat. The agent handles Nova's learning instructions and onboarding steps. Learn Mode builds evidence-backed website knowledge; it does not authorize purchases, sending messages, or other account changes. See [Website memory (PKS)](../core-features/phenomenological-knowledge-store-pks/README.md) and [learning tools](../mcp-reference/tools/pks-and-learning/README.md).
+Explain your goal and what you expect to repeat. The agent handles Nova's learning instructions and onboarding steps. Learn Mode builds evidence-backed website knowledge; it does not authorize purchases, sending messages, or other account changes. See [Website memory (PKS)](../core-features/learning/phenomenological-knowledge-store-pks/README.md) and [learning tools](../mcp-reference/tools/pks-and-learning/README.md).
 
 For a guided local exercise, try the [interactive demo](../../demos/README.md).
 

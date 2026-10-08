@@ -11,12 +11,12 @@ The journal holds observations and candidate evidence. `nova.learn_generate` can
 
 ## Journal tools
 
-`nova.memory_stats` and `nova.memory_add_candidate` belong to the journal, rather than to Browser Memory. See the [technical tool reference](../../mcp-reference/tools/pks-and-learning/README.md) for their contracts.
+`nova.memory_stats` and `nova.memory_add_candidate` belong to the journal, rather than to Browser Memory. See the [technical tool reference](../../../mcp-reference/tools/pks-and-learning/README.md) for their contracts.
 
 ## Related documentation
 
 - [Agent Learning Pipeline (ALP)](../agent-learning-pipeline-alp/README.md)
 - [Phenomenological Knowledge Store (PKS)](../phenomenological-knowledge-store-pks/README.md)
-- [Tool Observation Bus (TOB)](../tool-observation-bus-tob/README.md)
+- [Tool Observation Bus (TOB)](../../tool-observation-bus-tob/README.md)
 
-[All core features](../README.md)
+[Learning overview](../README.md) · [All core features](../../README.md)

@@ -56,10 +56,10 @@ The roles form a feedback loop:
 
 | System | Role |
 | :--- | :--- |
-| [TOB — Tool Observation Bus](../tool-observation-bus-tob/README.md) | Provides server-side evidence of what was actually executed and observed. |
+| [TOB — Tool Observation Bus](../../tool-observation-bus-tob/README.md) | Provides server-side evidence of what was actually executed and observed. |
 | [ALP — Agent Learning Pipeline](../agent-learning-pipeline-alp/README.md) | Uses journal evidence to propose knowledge and evaluate whether it has earned trust. |
 | **PKS** | Stores the resulting procedural knowledge, including candidates, trusted playbooks and their health. |
-| [CLS — Closed-Loop System](../closed-loop-system-cls/README.md) | Applies playbooks through checked state transitions and feeds outcomes back into learning. |
+| [CLS — Closed-Loop System](../../closed-loop-system-cls/README.md) | Applies playbooks through checked state transitions and feeds outcomes back into learning. |
 
 ```mermaid
 flowchart LR
@@ -94,7 +94,7 @@ L0 is a learning level, not a synonym for a particular database. LCJ stores the 
 * **L0 → L1:** A disproven candidate is rejected. Other candidates need sufficient confidence and supporting evidence, including observed success.
 * **L1 → L2:** Repeated successful applications across sessions must establish reliability, with failures and recent drift taken into account. Cookie-consent knowledge has stricter requirements. Ambient eligibility is evaluated separately: active knowledge can remain available only for explicit use.
 
-`nova.explain` shows which gate passes or fails for a phenomenon and why. See [CLS](../closed-loop-system-cls/README.md) for the separate eligibility and confirmation rules governing ambient auto-apply.
+`nova.explain` shows which gate passes or fails for a phenomenon and why. See [CLS](../../closed-loop-system-cls/README.md) for the separate eligibility and confirmation rules governing ambient auto-apply.
 
 ## 6. Knowledge must continue to earn trust
 
@@ -143,7 +143,7 @@ Each phenomenon carries its own health record, including success rate over 30 da
 | `nova.learn_generate` | Proposes and stores candidates from journal observation clusters. |
 | `nova.learn_promote` | Evaluates existing entries against LCJ evidence for promotion, demotion, deprecation and revival. |
 
-Full schemas and examples are in the [MCP reference](../../mcp-reference/README.md).
+Full schemas and examples are in the [MCP reference](../../../mcp-reference/README.md).
 
 ## 9. Implementation notes
 
@@ -152,9 +152,9 @@ Full schemas and examples are in the [MCP reference](../../mcp-reference/README.
 ## Related documentation
 
 * [Learning Pipeline (ALP)](../agent-learning-pipeline-alp/README.md) — Candidate generation, evidence gates and revalidation.
-* [Tool Observation Bus (TOB)](../tool-observation-bus-tob/README.md) — Server-side observations and selector proof.
-* [Closed-Loop System (CLS)](../closed-loop-system-cls/README.md) — Checked actions and ambient auto-apply.
+* [Tool Observation Bus (TOB)](../../tool-observation-bus-tob/README.md) — Server-side observations and selector proof.
+* [Closed-Loop System (CLS)](../../closed-loop-system-cls/README.md) — Checked actions and ambient auto-apply.
 * [Operational Knowledge (OK)](../operational-knowledge-ok/README.md) — Live tab state and account capabilities.
-* [Agent-native affordances](../agent-native-affordances/README.md) — How Nova accommodates learned interaction expectations.
+* [Agent-native affordances](../../agent-native-affordances/README.md) — How Nova accommodates learned interaction expectations.
 
-[All core features](../README.md)
+[Learning overview](../README.md) · [All core features](../../README.md)

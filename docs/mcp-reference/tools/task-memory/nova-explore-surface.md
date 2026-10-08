@@ -8,7 +8,7 @@ Discovers interactive UI triggers (buttons, tabs, accordions) and activates them
 
 `nova.explore_surface` performs automated single-page surface exploration across four modes: `discover` scans the page for interactive triggers, `activate` clicks or focuses one of them under strict safety guards, `hover` does a read-only hover peek for tooltip/hover content, and `close` ends an exploration run.
 
-* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/episodic-task-memory-etm/README.md)
+* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/learning/episodic-task-memory-etm/README.md)
 
 ---
 

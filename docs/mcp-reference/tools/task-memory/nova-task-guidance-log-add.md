@@ -8,7 +8,7 @@ Logs a guidance observation or proposal without directly mutating task profiles.
 
 `nova.task_guidance_log_add` records one piece of guidance (style, terminology, scope rule, workflow, quality, match telemetry or custom) in the guidance log. With `profileId` the entry is stored as `logged` for that task profile; without it, it is stored as a `proposed` entry. Identical entries (same profile, kind and payload) are not duplicated: the existing entry's `occurrenceCount` goes up instead. Entries that recur often enough show up in `nova.task_promotion_candidates` and can be promoted into the profile with `nova.task_promote_guidance`.
 
-* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/episodic-task-memory-etm/README.md)
+* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/learning/episodic-task-memory-etm/README.md)
 
 ---
 

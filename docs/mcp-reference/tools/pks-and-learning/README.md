@@ -2,7 +2,7 @@
 
 Cross-session procedural UI memory, learned interaction playbooks, fingerprint matching, and health telemetry.
 
-* **Core Architecture Guide:** [Core Features: pks.md](../../../core-features/phenomenological-knowledge-store-pks/README.md)
+* **Core Architecture Guide:** [Core Features: pks.md](../../../core-features/learning/phenomenological-knowledge-store-pks/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

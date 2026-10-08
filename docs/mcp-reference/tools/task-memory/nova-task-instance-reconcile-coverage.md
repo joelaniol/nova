@@ -8,7 +8,7 @@ Replays an instance’s observation log against the unit table to propose discov
 
 `nova.task_instance_reconcile_coverage` replays recorded observations against the Task URL Coverage table and proposes discovered-to-checked upgrades. By default (`dryRun=true`) it only proposes; applying the upgrades (`dryRun=false`) is gated behind a developer setting. Reconcile runs are rate-limited: at most 3 dry runs and 1 apply run per instance per hour.
 
-* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/episodic-task-memory-etm/README.md)
+* **Core Architecture Guide:** [Episodic Task Memory & Task URL Coverage](../../../core-features/learning/episodic-task-memory-etm/README.md)
 
 ---
 
