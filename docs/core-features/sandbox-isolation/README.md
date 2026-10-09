@@ -1,104 +1,93 @@
 # Multi-Sandbox Session Isolation
 
-> [!NOTE]
-> Sandboxes let you stay signed in to the same website with different accounts at the same time. Each sandbox has its own browser profile with its own cookies, storage and cache, so a login in one sandbox does not affect another.
-
----
-
-## 1. A Concrete Example: Two Accounts, Side by Side
-
-Open your work account in sandbox A and your personal account on the same website in sandbox B. Each website session uses a different browser profile, so signing out in A does not sign out B. Tabs within A share A's profile and can use the same login.
-
-The separation concerns browser sessions. A Nova sandbox is not an operating-system virtual machine or a security boundary for running untrusted native programs. [Outrider](../../components/outrider/README.md) provides a separate boundary for native process failures; [AAG](../agent-awareness-gates-aag/README.md) checks agent-action prerequisites.
-
-## 2. Why Separate Sessions?
-
-Many workflows need several identities side by side:
-
-* **Personal vs. work:** two accounts of the same web app, open at the same time.
-* **Testing roles:** checking a web app as administrator and as customer in parallel.
-
-Tabs using the same browser profile share cookies and persistent site storage. On sites that support only one account per session, signing in to another account changes the session for those tabs.
-
----
-
-## 3. How Sandboxes Are Stored
-
-Each sandbox is a separate WebView2 browser profile. All profiles live under one shared WebView2 data folder inside the Nova profile folder:
-
-```
-%LOCALAPPDATA%\nova-cognitive\Nova\
-  ├── settings.json                        # Sandbox list (name, color, start URL, ...)
-  └── UserData\Shared\EBWebView\
-        ├── WV2Profile_<sandbox-uid>\      # One profile per sandbox
-        └── WV2Profile_<sandbox-uid>\
-```
-
-Installations upgraded from older versions may still use `%LOCALAPPDATA%\NovaBrowser\` as the profile folder.
-
-Sandboxes are addressed by a short ID (`A`, `B`, `C`, ...) and also carry a persistent internal ID that names their profile folder. Up to 100 sandboxes can exist; at least one always remains.
-
-For agents, resolving the intended account is a routing decision: a service or intent hint helps choose a sandbox, but does not prove that it is currently signed in to the desired account. Inspect the selected target's actual session before acting.
+Multi-Sandbox Session Isolation enables Nova AI Workspace to run multiple independent web identities and account logins side-by-side within a single, lightweight browser instance. Each sandbox maintains its own dedicated browser profile with separate cookies, web storage, and cache, allowing operators and autonomous agents to maintain separate work, personal, and administrative sessions simultaneously without authentication clashing.
 
 ```mermaid
 flowchart TD
-    Nova["Nova AI Workspace - one browser process"]
-    Nova --> A["Sandbox A - own profile"]
-    Nova --> B["Sandbox B - own profile"]
-    A --> SA["Cookies, localStorage, IndexedDB, cache"]
-    B --> SB["Cookies, localStorage, IndexedDB, cache"]
+    subgraph BrowserProcess["Nova AI Workspace (Single Process Architecture)"]
+        UI["WinUI 3 Desktop Shell & Title Bar Pills"]
+        Engine["Edge WebView2 Runtime Engine"]
+        UI --> Engine
+    end
+
+    subgraph Profiles["Isolated WebView2 Browser Profiles"]
+        Engine --> PA["Profile A (WV2Profile_3a8f...)\nCookies · Storage · Cache"]
+        Engine --> PB["Profile B (WV2Profile_b91c...)\nCookies · Storage · Cache"]
+        Engine --> PC["Profile C (WV2Profile_e45d...)\nCookies · Storage · Cache"]
+    end
+
+    subgraph Anchors["Indestructible Disk Anchors"]
+        PA --> DA[".sandbox-meta.json (Anchor A)"]
+        PB --> DB[".sandbox-meta.json (Anchor B)"]
+        PC --> DC[".sandbox-meta.json (Anchor C)"]
+    end
+
+    subgraph Agents["Agent & Operator Governance"]
+        MCP["MCP Server & Tools\n(sandbox_create, resolve_sandbox, context)"]
+        AAG["Agent Awareness Gates\n(Ambiguity & Account Mismatch Checks)"]
+        MCP --> AAG
+        AAG --> Engine
+    end
 ```
 
 ---
 
-## 4. What Is Separated — and What Is Not
+## 1. Architectural Principles & Isolation Boundaries
 
-**Separated per sandbox:**
-
-* Cookies, `localStorage`, `sessionStorage`, IndexedDB, cache and other profile data.
-* Signing in in sandbox A has no effect on sandbox B.
-* Fingerprint protection can be overridden per sandbox (see [Fingerprint Protection & Browser Identity](../privacy/fingerprint-and-identity/README.md)).
-
-**Shared by all sandboxes:**
-
-* **One browser process and one proxy.** All sandboxes and browser tabs run in the same WebView2 browser process, which takes its proxy from the global setting. A separate proxy per sandbox is currently not possible; sandboxes that were set to their own proxy are switched to follow the global one. See [Proxy Routing](../network/proxy/README.md).
-* **WebRTC and DNS protection.** "Protect WebRTC local IP leaks" (off by default) applies to the whole browser. With a SOCKS5 proxy it also routes DNS lookups through the proxy; if several SOCKS5 proxies are configured, this DNS protection covers only one of them.
-* **Browser identity.** The user-agent preset set with `nova.identity_set` applies to all tabs.
-
-> [!IMPORTANT]
-> Sandboxes separate sessions; they do not give each sandbox its own network identity. Sites can still see the same IP address and the same browser engine across sandboxes.
+1. **Lightweight Profile Separation vs. OS Virtual Machines:**
+   Nova sandboxes are not operating-system virtual machines or hypervisors. They run inside the same native process architecture, eliminating the multi-gigabyte memory overhead and boot latency of container VMs while maintaining complete web session isolation.
+2. **Crash Resilience ([Outrider](../../components/outrider/README.md)):**
+   Native OS probes, hardware queries, and untrusted terminal runners execute in Outrider helper processes to safeguard the browser.
+3. **Session Partitioning vs. Network Identity:**
+   Sandboxes partition browser state (cookies, tokens, storage). They share the underlying browser process, GPU pipeline, user-agent engine, and proxy network stack. To external servers, requests from Sandbox A and Sandbox B originate from the same IP address unless routed through proxy profiles.
 
 ---
 
-## 5. Persistence & Recovery
+## 2. The Four Pillars of Sandbox Isolation
 
-Each sandbox profile folder contains a small metadata file. At startup Nova reconciles these profile identities with the sandbox list in `settings.json`:
-
-* If the configured list is empty, surviving profiles can restore the list.
-* An individually missing sandbox can also be reattached when its profile survives, it was not deleted, its short ID is free and the sandbox limit permits it.
-* Conflicting identities or a full sandbox list require the recovery dialog rather than automatic attachment.
-
-Deletion markers prevent intentional deletions from being restored by accident. This recovery uses surviving local profile data; it is not a backup and cannot undo deletion of that data.
-
----
-
-## 6. MCP Tooling for Sandbox Management
-
-| Tool | Purpose |
-| :--- | :--- |
-| `nova.sandbox_context` | Metadata and context of a sandbox. |
-| `nova.resolve_sandbox` | Picks the best matching sandbox for an intent key (e.g. `email.compose`), with optional service and account hints. |
-| `nova.sandbox_create` / `nova.sandbox_update` | Creates or changes a sandbox (name, color, start URL, purpose, account label, aliases, preferred intents; `update` can also pause it). |
-| `nova.sandbox_delete` | Removes a sandbox and its profile data (`confirm: true` required). |
-| `nova.cookie_list` / `nova.cookie_set` / `nova.cookie_delete` | Cookies of the target tab's or sandbox's profile. |
-| `nova.storage_inspect` | `localStorage` or `sessionStorage` of the target page. |
+| Pillar | Subsystem | Core Responsibilities |
+|---|---|---|
+| **1. Storage & State Partitioning** | WebView2 Profile Engine | Enforces strict, zero-leakage separation of cookies, `localStorage`, `sessionStorage`, `IndexedDB`, and HTTP caches across sandbox directories. |
+| **2. Indestructible Disk Anchors** | Profile Storage & Rehydration | Guarantees that profiles survive settings corruption via atomic `.sandbox-meta.json` disk anchors and boot-time identity reconciliation. |
+| **3. WinUI 3 User Management** | Desktop Shell & Chrome Controls | Provides interactive title bar pills, quick-switch flyouts, scoped data-clear dialogs, color palettes, and per-sandbox security overrides. |
+| **4. Semantic Intent Routing** | Agent Matching & AAG Gates | Maps high-level agent intents (e.g., `email.compose`, `crm.sales`) to target sandboxes with multi-signal scoring and account ambiguity gates. |
 
 ---
 
-## Related Documentation
+## 3. Storage Layout & System Limits
 
-* **[Site Data Management](../site-data-management/README.md)** — Cookies, storage and cache clearing.
-* **[Proxy Routing](../network/proxy/README.md)** — Proxy profiles and WebRTC leak protection.
-* **[Fingerprint Protection & Browser Identity](../privacy/fingerprint-and-identity/README.md)** — Fingerprint protection levels and browser identity presets.
+All sandbox profile directories live in the user's local application data folder:
+
+```
+%LOCALAPPDATA%\nova-cognitive\Nova\UserData\Shared\EBWebView\WV2Profile_<persistentUid>\
+```
+
+### System Limits & ID Contracts
+
+- **Capacity Bounds:** Nova supports between **1** and **100** concurrent sandboxes (`AppSettings.MaxSandboxes = 100`). At least one sandbox must always exist.
+- **Short Letter IDs:** Assigned sequentially (`A` through `Z`, then `S1` through `S100`). Short IDs can be recycled when a sandbox is deleted.
+- **Persistent UIDs:** 32-character hexadecimal GUIDs assigned once at creation and never recycled. Used for disk directory naming and knowledge-store bindings (Domain Notes, Operator Notes).
+
+---
+
+## 4. Documentation Suite Index
+
+Explore the comprehensive guides for deep architectural details, user controls, disk anchors, and API specifications:
+
+| Document | Focus & Key Topics Covered |
+|---|---|
+| [**User Management & GUI Controls**](user-management-and-gui.md) | Browser chrome title bar pills, responsive compact vs. expanded layout, pill markers (color, favicon), hardware recording indicators, context menu actions, SettingsView configuration, scoped data clearing dialog (`SandboxDataClearDialog`), and accessibility traits. |
+| [**Profile Storage, Disk Anchors & Recovery**](profile-storage-and-disk-anchors.md) | File system directory structure, storage isolation matrix (what is partitioned vs. what is shared), `.sandbox-meta.json` schema, atomic staging, startup identity reconciliation rules, deletion markers (`deleted_marker.json`), and the interactive `SandboxRecoveryDialog`. |
+| [**Intent Routing & Agent Interaction**](intent-routing-and-agent-interaction.md) | Semantic attributes (`Purpose`, `Aliases`, `AccountLabel`, `PreferredFor`, `DetectedAccountName`), multi-signal intent scoring formula ($w_{\text{preferred}}$, $w_{\text{purpose}}$, $w_{\text{service}}$, $w_{\text{alias}}$, $w_{\text{account}}$), Agent Awareness Gates (low confidence, ambiguity, mismatch, not ready), and the complete MCP tool catalog. |
+
+---
+
+## 5. Related Documentation
+
+- [Site Data Management](../site-data-management/README.md) — Cookie inspections, storage quotas, and cache clearing.
+- [Agent Awareness Gates (AAG)](../agent-awareness-gates-aag/README.md) — Pre-action validation and account ambiguity protection.
+- [Proxy Routing](../network/proxy/README.md) — SOCKS5/HTTP proxy profiles and WebRTC leak protection.
+- [Fingerprint Protection & Browser Identity](../privacy/fingerprint-and-identity/README.md) — Per-sandbox canvas, audio, and hardware noise overrides.
+- [Outrider Component](../../components/outrider/README.md) — Native helper process boundaries.
 
 [All core features](../README.md)
