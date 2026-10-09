@@ -1,36 +1,198 @@
-# Input Dispatch
+# Low-Level Input Dispatch Architecture
 
-Nova delivers mouse, keyboard and text input through the browser's input pipeline. A known element can be resolved by a selector before dispatch; coordinate tools act at positions in the page viewport.
+The Input Dispatch subsystem is Nova's foundational layer for delivering hardware-accurate mouse, keyboard, and scrolling events directly into web pages. By routing actions through the browser engine's DevTools protocol, Nova generates genuine browser events (`isTrusted: true`), restores throttled presentation surfaces, prevents character drops in rich-text editors, and handles complex scrolling dynamics in modern Single Page Applications (SPAs).
 
-## A Concrete Example: Enter Text and Submit
+```mermaid
+flowchart TD
+    subgraph Caller["Agent Invocation"]
+        ToolCall["Input Tool Call\n(click, move, wheel, text, key, shortcut, scroll)"]
+    end
 
-An agent identifies the current text field, focuses it with `nova.type_selector`, inserts text and dispatches the appropriate key or click. Dispatch establishes that input was sent. It does not establish that a form was accepted or a record was saved; check the expected state afterward.
+    subgraph SurfaceManager["Window & Surface Manager"]
+        WindowGuard["Window Minimization Guard\n(Restores window before dispatch)"]
+        SurfaceRepair["Presentation Surface Repair\n(Synchronizes background tab viewports)"]
+    end
 
-## How Input Is Delivered
+    subgraph DispatchEngine["DevTools Input Dispatch Engine"]
+        MouseEngine["Mouse Dispatcher\n(move -> mousePressed -> 16ms delay -> mouseReleased)\nisTrusted: true"]
+        KeyEngine["Keyboard & Shortcut Dispatcher\n(Virtual Key Mapping & Modifiers)"]
+        TextEngine["Text Insertion Engine\n- Input.insertText (Fast insertion)\n- Chunked Typing (Rich-Text Editors)"]
+        ScrollEngine["Scroll Subsystem\n- Physical Wheel Events\n- Smart Container Detection & Rebound"]
+    end
 
-| Tool | What Nova sends |
-| :--- | :--- |
-| `nova.input_click`, `nova.click_selector` | Through the DevTools input pipeline: a mouse move, a press, about 16 ms later the release. Events arrive as real browser input (`isTrusted: true`). |
-| `nova.input_move` | One mouse-move event to the target position. |
-| `nova.input_wheel` | One wheel event with `deltaX`/`deltaY`; Nova then checks whether something actually scrolled. |
-| `nova.input_text` | Inserts the text into the focused element in one step (`Input.insertText`), not key by key. |
-| `nova.type_selector` | Focuses the element (optionally clears it with select-all and delete), then inserts the text in chunks and waits for the page to render between chunks, so rich-text editors do not drop characters. Optional read-back verification. |
-| `nova.input_key` | Key down and key up for one named key (Enter, Tab, Escape, arrows, F1–F12, ...). |
-| `nova.input_shortcut` | A key combination such as `Ctrl+Shift+K` (modifiers Ctrl, Shift, Alt, Meta plus exactly one key). |
+    subgraph TargetSurface["Target Web Page & DOM"]
+        DOMElement["Target Element / Canvas"]
+        EventHandlers["Page Event Listeners\n(React, Vue, Web Components)"]
+    end
 
-If the Nova window is minimized, Nova restores it before dispatching input, because a minimized window throttles input delivery.
+    ToolCall --> WindowGuard --> SurfaceRepair
+    SurfaceRepair --> MouseEngine --> DOMElement
+    SurfaceRepair --> KeyEngine --> DOMElement
+    SurfaceRepair --> TextEngine --> DOMElement
+    SurfaceRepair --> ScrollEngine --> DOMElement
+    DOMElement --> EventHandlers
+```
 
-## Choose the Target
+---
 
-* [Selectors & Shadow DOM](../selectors-and-shadow-dom/README.md) explains element resolution, supported open shadow roots and selection controls.
-* Coordinate mouse input uses viewport positions. Layout changes or scrolling can move the target.
-* `nova.input_wheel` dispatches a wheel event and checks whether scrolling occurred. The dedicated `nova.scroll_*` tools expose their own scrolling options in the [tool reference](../../../mcp-reference/tools/browser-automation/README.md).
-* Drag gestures have separate browser-input and synthetic paths; see [Drag & Drop](../drag-and-drop/README.md).
+## Physical vs. Synthetic Events (`isTrusted: true`)
 
-## Related Documentation
+A fundamental distinction in web automation is whether an event is trusted:
 
-* [Closed-Loop System (CLS)](../../closed-loop-system-cls/README.md) — Expected states and outcome verification.
-* [Native Dialogs & UI Prompts](../../native-dialogs-and-prompts/README.md) — UI surfaces outside the page.
-* [Browser Automation Tool Reference](../../../mcp-reference/tools/browser-automation/README.md) — Current parameters and protocol examples.
+* **Synthetic Events (`isTrusted: false`):** Dispatched via JavaScript scripts (such as `element.dispatchEvent(new MouseEvent(...))`). Modern web frameworks, bot mitigation services, and security-critical web apps (e.g., banking, corporate portals, CAPTCHAs) frequently ignore or reject untrusted events.
+* **Physical DevTools Events (`isTrusted: true`):** Nova dispatches input through the underlying Chromium DevTools pipeline (`Input.dispatchMouseEvent`, `Input.dispatchKeyEvent`, `Input.insertText`). The browser engine treats these as authentic hardware events generated by physical peripherals.
 
-[Browser Interaction overview](../README.md) · [All core features](../../README.md)
+```mermaid
+sequenceDiagram
+    participant Agent as Autonomous Agent
+    participant Nova as Nova Input Dispatcher
+    participant Chromium as Chromium Core Engine
+    participant Page as Web Application (DOM)
+
+    Agent->>Nova: nova.input_click(x=320, y=180, button="left")
+    Nova->>Chromium: Input.dispatchMouseEvent (type: "mouseMoved", x: 320, y: 180)
+    Nova->>Chromium: Input.dispatchMouseEvent (type: "mousePressed", button: "left", clickCount: 1)
+    Note over Nova,Chromium: Precise hardware delay (~16 ms = 1 frame)
+    Nova->>Chromium: Input.dispatchMouseEvent (type: "mouseReleased", button: "left")
+    Chromium->>Page: Fires mousedown, mouseup, click (event.isTrusted === true)
+    Page-->>Agent: Handlers execute normally
+```
+
+### Click Delivery Sequence
+
+When executing `nova.input_click` or `nova.click_selector`:
+1. **Pointer Movement:** Emits `mouseMoved` to the target coordinates, triggering CSS `:hover` states and element focus transitions.
+2. **Button Press:** Emits `mousePressed` with the specified button (`left`, `middle`, `right`) and `clickCount` (1 for single click, 2 for double click, 3 for triple click).
+3. **Hardware Frame Delay:** Nova introduces a realistic ~16 ms delay (equivalent to one display refresh frame) between press and release. This ensures JavaScript event listeners that measure mousedown-to-mouseup latency acknowledge the click as a physical interaction.
+4. **Button Release:** Emits `mouseReleased` to trigger standard `click` events.
+
+---
+
+## Window State & Surface Protection
+
+### Automatic Minimization Restoration
+
+Chromium aggressively optimizes resource usage when its host window is minimized:
+* Frame rendering loops (`requestAnimationFrame`) are paused.
+* Timers are heavily throttled.
+* Pointer event dispatch can be dropped or desynchronized from the actual DOM layout.
+
+Before dispatching any physical mouse or keyboard input, Nova checks the WinUI 3 window state. If the application window is minimized, Nova automatically restores it to normal windowed or maximized state (`SW_RESTORE`). This guarantees that layout coordinates and rendering pipelines are active before coordinates are evaluated.
+
+### Presentation Surface Repair
+
+When interacting with inactive tabs or background sandboxes, the target viewport may not have rendered recent layout changes. Nova executes a presentation surface repair transaction to ensure the viewport dimensions, scroll offsets, and visual layer trees match the intended target state.
+
+---
+
+## Keyboard & Text Insertion Subsystems
+
+Nova provides three distinct methods for text and keyboard input:
+
+| Tool | Delivery Mechanism | Primary Use Case | Speed & Behavior |
+| :--- | :--- | :--- | :--- |
+| **`nova.input_text`** | DevTools `Input.insertText` | Long text entry into already focused inputs, search bars, and standard forms. | **Near-instantaneous.** Directly inserts string into the focused element without firing individual keystroke events. |
+| **`nova.type_selector`** | Chunked text insertion with render micro-delays | Rich-text editors (Draft.js, Slate, ProseMirror, Quill, Lexical) and interactive composers. | **Resilient & Chunked.** Focuses element, clears content, types in chunks, waits for DOM rendering between chunks, and performs read-back verification. |
+| **`nova.input_key`** | DevTools `rawKeyDown` + `keyUp` | Functional keys: `Enter`, `Tab`, `Escape`, `Backspace`, arrow keys, `F1`–`F12`. | Emulates physical key press and release cycles with Windows virtual key codes. |
+| **`nova.input_shortcut`** | Modifier + Key combination | Global shortcuts: `Ctrl+Shift+K`, `Alt+F4`, `Ctrl+A`, `Ctrl+V`. | Holds modifier keys (`Ctrl`, `Shift`, `Alt`, `Meta`), dispatches the target key, and releases modifiers in reverse order. |
+
+### The Chunked Typing Engine (`nova.type_selector`)
+
+Modern web applications frequently employ asynchronous rich-text editors (such as Slate.js, ProseMirror, or Lexical in Notion, Slack, or Google Docs). In these editors, typing an entire paragraph instantly via `Input.insertText` causes internal state race conditions, dropping characters or corrupting cursor positions.
+
+```mermaid
+flowchart TD
+    Start["nova.type_selector(selector, text, clearFirst)"] --> Focus["1. Resolve Selector & Focus Element"]
+    Focus --> ClearCheck{"clearFirst == true?"}
+    ClearCheck -->|Yes| ClearContent["2. Dispatch Select-All (Ctrl+A) + Backspace"]
+    ClearCheck -->|No| ChunkSplit["3. Split Text into Small Chunks"]
+    ClearContent --> ChunkSplit
+
+    subgraph TypingLoop["4. Chunked Typing Loop"]
+        ChunkInsert["Insert Next Chunk via Input.insertText"]
+        YieldFrame["Yield Micro-Delay (~16-30 ms)\nAllows Page to Render & Update State"]
+        ChunkInsert --> YieldFrame
+        YieldFrame --> NextChunk{"More Chunks?"}
+        NextChunk -->|Yes| ChunkInsert
+    end
+
+    ChunkSplit --> TypingLoop
+    NextChunk -->|No| ReadBack["5. Read-Back Verification\nVerify actual DOM value matches input text"]
+    ReadBack --> Complete["Return Typing Outcome & Diagnostics"]
+```
+
+1. **Focus & Selection:** Focuses the element matched by the CSS selector (with full open Shadow DOM support).
+2. **Clear Existing Content:** If `clearFirst=true`, Nova sends a hardware `Ctrl+A` followed by `Backspace` rather than setting `.value = ""`, ensuring framework dirty-state listeners fire correctly.
+3. **Chunked Insertion:** Long text is divided into small character slices. Nova dispatches each slice and briefly pauses to allow the browser's JavaScript event loop to process state updates and re-render.
+4. **Read-Back Verification:** Following completion, Nova inspects the element's actual `.value` or `.innerText` to verify that the text was accepted by the page without dropped characters.
+
+---
+
+## Scrolling Subsystems
+
+Standard window scrolling (`window.scrollTo` or `window.scrollBy`) frequently fails in modern web applications because scrolling is often contained within inner `<div>` containers (such as a sidebar, message list, or modal dialog) rather than the `window` object. Nova provides four complementary scrolling mechanisms:
+
+```mermaid
+graph TD
+    ScrollDecision{"What kind of scrolling\nis required?"}
+
+    ScrollDecision -->|SPA / Feed / Modal| Smart["nova.scroll_smart\n- Auto-detects main vs modal container\n- Monitors saturation & lazy-load growth\n- Rebound recovery for stalled loaders"]
+
+    ScrollDecision -->|Simple Relative Page| By["nova.scroll_by\n- Relative deltaX / deltaY\n- Auto-fallback to best visible container"]
+
+    ScrollDecision -->|Explicit Container| Elem["nova.scroll_element\n- Scrolls specific CSS selector directly\n- querySelector + scrollTop"]
+
+    ScrollDecision -->|Physical Coordinates| Wheel["nova.input_wheel\n- Physical DevTools wheel event\n- Coordinates (x, y) with deltaX / deltaY\n- Detects actual movement"]
+```
+
+### 1. Smart Scrolling (`nova.scroll_smart`)
+
+`nova.scroll_smart` is Nova's primary tool for Single Page Applications, chat feeds, and infinite-scroll feeds:
+* **Container Auto-Detection:** Automatically evaluates scrollable candidate containers (`main`, `dialog`, scrollable message lists) and chooses the most relevant visible container, falling back to window scrolling only if no container is found.
+* **Saturation Signal:** The response includes saturation diagnostics (`grewThisScroll`, `stableRounds`, and hints) to help agents determine whether more items are currently lazy-loading or if the feed has reached the end.
+* **Stalled-Loader Rebound Recovery:** On infinite-scroll feeds, lazy-loaders often stall when scrolled continuously to the bottom—the page stops loading new items because the `IntersectionObserver` threshold is stuck. Nova automatically performs a **rebound maneuver**: scrolling upward by approximately one viewport (negative `deltaY`) and then back down, re-triggering the observer.
+* **Route Caching:** Learns and caches last-known-good scroll containers per host and route key (`useRouteCache=true`).
+
+### 2. Relative Scrolling (`nova.scroll_by`)
+
+Dispatches relative pixel shifts (`deltaX`, `deltaY`). If the root window cannot scroll, it automatically falls back to the best visible scrollable container.
+
+### 3. Element-Scoped Scrolling (`nova.scroll_element`)
+
+Directly scrolls a specified container element via CSS selector, updating its `scrollTop` or `scrollLeft` position without affecting surrounding page elements.
+
+### 4. Coordinate Wheel Events (`nova.input_wheel`)
+
+Dispatches physical mouse wheel ticks at exact viewport coordinates $(x, y)$. Nova monitors whether the document or an underlying container actually shifted in response to the wheel event, returning a `scrollDetected: true/false` confirmation.
+
+---
+
+## Navigation Waiting & Visual Capture Integration
+
+All pointer actions support optional post-action inspection options:
+
+* **`waitForNavigation`:** When set to `true`, Nova pauses after dispatch to monitor for URL changes, page load lifecycle events, and modal dialog appearances.
+* **`navigationStrict`:** Ensures the tool call is considered successful only if both the input dispatch **and** the navigation complete without error.
+* **`includeScreenshot`:** Embeds an immediate post-action visual capture in the tool response, allowing agents to inspect UI state transitions without requiring a separate screenshot tool call.
+
+---
+
+## Tool Reference
+
+| Tool | Core Parameters | Output / Diagnostics |
+| :--- | :--- | :--- |
+| [`nova.input_click`](../../../mcp-reference/tools/browser-automation/nova-input-click.md) | `x`, `y`, `button`, `clickCount`, `waitForNavigation`, `includeScreenshot` | Action outcome, navigation status, post-click screenshot, overlay detection warnings |
+| [`nova.input_move`](../../../mcp-reference/tools/browser-automation/nova-input-move.md) | `x`, `y` | Pointer movement confirmation |
+| [`nova.input_wheel`](../../../mcp-reference/tools/browser-automation/nova-input-wheel.md) | `x`, `y`, `deltaX`, `deltaY` | Physical wheel event outcome, `scrollDetected` verification |
+| [`nova.input_text`](../../../mcp-reference/tools/browser-automation/nova-input-text.md) | `text` | Fast text insertion confirmation into focused element |
+| [`nova.type_selector`](../../../mcp-reference/tools/browser-automation/nova-type-selector.md) | `selector`, `text`, `clearFirst`, `verify` | Chunked typing outcome, verified read-back text, typing latency metrics |
+| [`nova.input_key`](../../../mcp-reference/tools/browser-automation/nova-input-key.md) | `key` (`Enter`, `Tab`, `Escape`, etc.) | Key event dispatch confirmation |
+| [`nova.input_shortcut`](../../../mcp-reference/tools/browser-automation/nova-input-shortcut.md) | `modifiers` (`ctrl`, `shift`, `alt`, `meta`), `key` | Shortcut dispatch outcome |
+| [`nova.scroll_smart`](../../../mcp-reference/tools/browser-automation/nova-scroll-smart.md) | `deltaY`, `deltaX`, `containerSelector`, `useRouteCache` | Saturation signal, candidate counts, rebound recovery diagnostics |
+| [`nova.scroll_by`](../../../mcp-reference/tools/browser-automation/nova-scroll-by.md) | `deltaY`, `deltaX`, `containerSelector` | Relative scroll outcome and fallback container details |
+| [`nova.scroll_to`](../../../mcp-reference/tools/browser-automation/nova-scroll-to.md) | `x`, `y` | Absolute window scroll coordinates |
+| [`nova.scroll_element`](../../../mcp-reference/tools/browser-automation/nova-scroll-element.md) | `selector`, `deltaY` | Scoped element scroll outcome |
+
+---
+
+[Browser Interaction overview](../README.md) · [Selectors & Shadow DOM](../selectors-and-shadow-dom/README.md) · [Drag & Drop](../drag-and-drop/README.md) · [All core features](../../README.md)
