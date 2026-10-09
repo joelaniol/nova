@@ -1,7 +1,7 @@
 # Dimensional Images: Visual Latent Transport for Multimodal AI
 
 > [!NOTE]
-> Dimensional Images is an empirical research initiative investigating **Visual Latent Transport (VLT)**: a deterministic, zero-decoder mathematical framework for compressing continuous video streams into high-density synthetic visual carrier images. Rather than streaming hundreds of raw image frames into multimodal Vision-Language Models (VLMs), temporal dynamics, velocity, and chromatic shifts are encoded directly into spatial-frequency and polynomial carrier channels.
+> Dimensional Images is an empirical research initiative investigating **Visual Latent Transport (VLT)**: a deterministic mathematical framework for compressing continuous video streams into high-density synthetic visual carrier images. Rather than requiring specialized learned neural decoders, standard Vision-Language Models (VLMs) interpret the carrier directly using a mathematical basis specification and channel layout prompt.
 
 ---
 
@@ -13,7 +13,7 @@ Modern multimodal foundation models (such as GPT-4o, Claude 3.5 Sonnet, and Gemi
 * **Lack of Direct Latent Injection:** External API consumers cannot inject raw float tensors or discrete VQ latents directly into hosted model backbones; only standard image containers (PNG, JPEG, WebP) are accepted.
 * **Downscaling Loss:** Naive spatial downscaling (e.g., resizing 1080p video to 64x64 bicubic) obliterates fast transients, edge boundaries, and fine-grained temporal ordering.
 
-**Dimensional Images solves this challenge through deterministic frequency-space and polynomial packing:** mapping continuous time slices directly into structured 2D visual carriers that standard VLMs can read without specialized neural decoders.
+**Dimensional Images solves this challenge through deterministic frequency-space and polynomial packing:** mapping continuous time slices directly into structured 2D visual carriers that standard VLMs can read directly with explanatory basis prompts.
 
 ---
 
@@ -76,16 +76,16 @@ flowchart LR
 
 ## 4. Adaptive Temporal Windowing (ATW)
 
-A key finding from long-horizon stress tests is that uniform time allocation fails when scenes alternate between long quiescent periods and short, high-entropy dynamic bursts.
+A key finding from long-horizon stress tests is that uniform time allocation encounters practical resolution limits when scenes alternate between long quiescent periods and short, high-entropy dynamic bursts.
 
-Under uniform windowing (8.0s per slot), rapid successive events occurring within < 2.0 seconds experience **temporal smearing** and mode contention.
+Under uniform windowing (8.0s per slot), rapid successive events occurring within < 2.0 seconds can experience **temporal smearing** and chromatic mode contention.
 
 ```mermaid
 flowchart TD
     Stream["Raw Video Stream"] --> Entropy["Temporal Entropy & Activity Estimator"]
     Entropy --> Split{"High Dynamic Activity?"}
-    Split -- "Yes (Burst / Acceleration)" --> Dense["Allocate Fine-Grained Slots (e.g., 2.0s - 4.0s)"]
-    Split -- "No (Quiescent / Static Drift)" --> Sparse["Allocate Broad Slots (e.g., 16.0s - 32.0s)"]
+    Split -- "Yes (Burst / Acceleration)" --> Dense["Allocate Fine-Grained Slots (e.g., 4.0s)"]
+    Split -- "No (Quiescent / Static Drift)" --> Sparse["Allocate Broad Slots (e.g., 16.0s)"]
     Dense & Sparse --> ATWMosaic["ATW 512x512 Mosaic"]
 ```
 
@@ -116,10 +116,10 @@ To enable lightweight transmission across agent workflows, metadata is decoupled
 ### Transmission Benchmark:
 | Metric | Raw Uncompressed Video | Individual 128x128 Tiles | 512x512 Mosaic + Compact Sidecar |
 | :--- | :--- | :--- | :--- |
-| **Payload Size** | ~12.5 MB (1,024 frames) | ~26.8 KB (16 PNGs + JSON) | **~5.4 KB WebP + 230 B Sidecar** |
-| **Streaming Rate** | 97,656 Bytes/sec | 214.4 Bytes/sec | **42.5 Bytes/sec** |
-| **Bandwidth Reduction** | 1.0x (Baseline) | ~466x reduction | **2,312x reduction** |
-| **Model Ingestion Tokens** | ~80,000+ tokens | ~4,100 tokens | **~260 tokens (Single image)** |
+| **Payload Size** | ~12.5 MB (1,024 frames) | ~26.8 KB (16 PNGs + JSON) | **5,464 B WebP + 230 B Sidecar** |
+| **Streaming Rate** | 98,304 Bytes/sec | 214.4 Bytes/sec | **44.5 Bytes/sec** |
+| **Bandwidth Reduction** | 1.0x (Baseline) | ~466x reduction | **2,210x reduction** |
+| **Model Ingestion Tokens** | ~80,000+ tokens | ~4,100 tokens | **~256 tokens (single tiled patch, model-dependent)** |
 
 ---
 
@@ -131,7 +131,7 @@ The Dimensional Images framework was evaluated through rigorous adversarial and 
 | :--- | :--- | :--- | :--- |
 | **F1: Event Density & Salience** | High event density (10 discrete beacons over 128s) causes attention exhaustion. | **Recall: 1.0 (10/10 events detected)** | Density threshold confirmed; cognitive attention degradation occurs only when events exceed channel bandwidth limits. |
 | **F2: Identity Swap under Occlusion** | Long visual disappearance (36.0s tunnel gap) causes identity loss and lane confusion. | **100% Identity Retention & Swap Detection** | Spatial lane crossing during occlusion correctly mapped; object identity preserved without re-identification drift. |
-| **F3: Mode Contention Boundary** | Micro-transients with Delta t < 2.0s fuse into chromatic superposition in single slots. | **Boundary verified at Delta t = 2.0s** | Mathematical limit established: polynomial Gram decomposition requires ATW subdivision when event spacing is below 2.0s. |
+| **F3: Mode Contention Boundary** | Micro-transients with Delta t <= 1.0s fuse into chromatic superposition in single slots. | **Mode fusion observed** | Empirical resolution limit observed for tested E3-K12 configuration; sub-second micro-events fuse into chromatic superposition, demonstrating practical utility of ATW. |
 | **F4: Format Isolation Parity** | Assembling 16 tiles into a unified 512x512 mosaic degrades retrieval vs isolated tiles. | **Delta F1 = 0.000 (Parity confirmed)** | Zero spatial degradation observed, accompanied by **22.8% byte savings** in container overhead. |
 | **F5: Non-Stationary ATW Stress** | Rapid bursts in non-stationary sequences cause temporal smear under uniform grids. | **Smear eliminated (`preferred: adaptive`)** | Dynamic time-budget allocation restores crisp event detection during high-velocity transients. |
 | **F6: Adversarial Nullspace Calibration** | Orthogonal polynomial perturbations ((I - P^T P)) test honest uncertainty calibration. | **0.0 Confidence / Unresolvability Acknowledged** | When carrier difference is below perceptual threshold (Delta <= 2 LSB), the system honestly reports nullspace ambiguity rather than hallucinating false claims. |
@@ -143,9 +143,9 @@ The Dimensional Images framework was evaluated through rigorous adversarial and 
 Dimensional Images provide autonomous agents in Nova with unprecedented temporal perception:
 
 1. **Long-Horizon Browser Automation:** Autonomous agents monitoring complex web applications (e.g., streaming financial dashboards, continuous build monitors, long-running batch migrations) can record minute-long activity into a single carrier image.
-2. **Zero-Token Video Inspection:** Web agents can audit embedded HTML5 video playback and canvas animations with negligible LLM token overhead.
-3. **Evidence Verification Mode (EVM) Integration:** Visual carriers serve as verifiable, tamper-evident cryptographic artifacts proving dynamic state transitions over time.
+2. **Minimal-Token Video Auditing:** Web agents can audit embedded HTML5 video playback, canvas animations, and dynamic charts using single-image inspection rather than multi-frame token ingestion.
+3. **Evidence Verification Mode (EVM) Provenance:** Visual carriers integrate with signed audit hashes and session recordings to verify temporal UI transitions as compact empirical evidence.
 
 ---
 
-[Research Overview](../README.md) · [Evidence Verification Mode (EVM)](../evidence-verification-mode-evm/README.md) · [All Documentation](../../README.md)
+[Research Overview](../README.md) · [Detailed Experiment Log](EXPERIMENTS.md) · [Evidence Verification Mode (EVM)](../evidence-verification-mode-evm/README.md) · [All Documentation](../../README.md)
