@@ -32,6 +32,14 @@ The behavior is configured in Nova settings and persistent configuration:
 - **`AmbientAutoApplyEnabled` (boolean, default: `true`):** Master switch for ambient background remediation. When disabled, all background triggers skip with `ambient_policy_disabled`.
 - **`AmbientAutoApplyConfirmMode` (`McpConfirmMode`, default: `AlwaysAsk`):** Confirmation mode governing operator prompts.
 
+### WinUI 3 Settings Presentation
+
+In Nova's graphical settings panel, Ambient Auto-Apply is integrated into the Agent & Autonomy governance section:
+
+- **Master Toggle:** A dedicated toggle switch (`_ambientAutoApplyToggle`) allows operators to disable background remediation completely without turning off PKS learning or manual tool calls.
+- **Confirmation Mode Dropdown:** A combo box (`_ambientAutoApplyConfirmModeBox`) provides direct selection between `Always Ask`, `Once Per Session`, and `Never Ask`.
+- **Validation Guard:** The settings view automatically reconciles and normalizes missing or legacy configuration fields to `AlwaysAsk` to prevent inadvertent silent background mutations.
+
 ### Confirmation Modes
 
 | Mode | Behavior | Use Case |
@@ -122,6 +130,26 @@ This indicates that executing the playbook actively broke the page or caused an 
 
 - **Read-Back Re-Derivation:** To prevent phenomena from remaining in quarantine indefinitely if the browser restarts, Nova re-evaluates `IsQuarantineAgedOut` during database load. Any quarantined phenomenon whose last failure anchor exceeds 14 days is automatically re-derived as `Deprecated`.
 - **Content Revision Resets:** When an operator or agent publishes a revised playbook (`ContentRev` increments), historical failure counters reset to zero. This allows an updated selector or timing fix to start with a clean health record.
+
+### Persistent Health Data Structure (`PksHealth`)
+
+Health states are backed by the following metrics serialized in SQLite within `pks.db`:
+
+| Field | Type | Description |
+|---|---|---|
+| `TotalAttempts` | integer | Total lifetime execution attempts commanded via ambient or explicit channels. |
+| `SuccessCount` | integer | Count of verified successful remediations. |
+| `FailureCount` | integer | Count of active execution attempts that failed Closed-Loop verification. |
+| `ConsecutiveFailures` | integer | Current consecutive failure streak (advances via active failures and silent verify misses). |
+| `SevereMisfireCount` | integer | Total occurrences of severe unrecoverable misfires (`DoNotRetry`). |
+| `SilentVerifyFailCount` | integer | Count of background silent-verify probe failures (revalidation probes); tracked separately from runtime failures. |
+| `SuccessRate30d` | double ($[0.0, 1.0]$) | Rolling 30-day success probability evaluated by the health state machine. |
+| `StalenessScore` | double ($[0.0, 1.0]$) | Age decay score reflecting time elapsed since last successful verification. |
+| `LastAttempt` | UTC timestamp | Timestamp of the most recent execution attempt. |
+| `LastSuccess` | UTC timestamp | Timestamp of the most recent verified success. |
+| `LastFailure` | UTC timestamp | Timestamp of the most recent failure. |
+| `LastSevereMisfire` | UTC timestamp | Timestamp of the most recent severe misfire. |
+| `LastOutcome` | string | Normalized outcome string (`verifiedsuccess`, `verifiedfail`, `uncertain`). |
 
 ---
 

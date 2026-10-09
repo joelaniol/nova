@@ -160,6 +160,41 @@ Ambient execution invokes the internal PKS write handler using the standard `nov
 - **Dispatch Timeout:** Capped at 12,000 ms (`timeoutMs = 12_000`).
 - **Emergency Stop Integration:** Before acquiring the reservation lock and immediately before dispatch, the runtime checks `EmergencyStopState.IsActive`. If active, auto-apply halts instantly with reason code `emergency_stop_active`.
 
+### Internal Dispatch Arguments
+
+The ambient runtime packages the remediation request as a serialized JSON element:
+
+```json
+{
+  "scope": "example.com",
+  "phenomenonId": "phenom-a1b2c3d4",
+  "targetId": "tab-3",
+  "maxSteps": 8,
+  "timeoutMs": 12000
+}
+```
+
+### Result Parsing Contract
+
+When the handler completes, Nova extracts outcome parameters from the returned `structuredContent` payload:
+
+```json
+{
+  "structuredContent": {
+    "ok": true,
+    "status": "resolved",
+    "reasonCode": null,
+    "stepsExecuted": 2,
+    "durationMs": 340
+  }
+}
+```
+
+- **`ok` (boolean):** Indicates whether all playbook steps and post-action assertions passed successfully.
+- **`status` (string):** Semantic resolution state (`resolved`, `blocked`, `failed`).
+- **`reasonCode` (string):** Specific diagnostic reason code if execution was prevented or failed.
+- **Fault Tolerance:** If JSON parsing fails or `structuredContent` is missing, the execution fails gracefully with `auto_apply.no_structured_content` or `auto_apply.parse_failed` without throwing unhandled runtime exceptions.
+
 ---
 
 ## 5. Denial Reason Code Taxonomy

@@ -108,16 +108,39 @@ If multiple phenomena match the active route, Nova ranks candidates before trunc
 
 $$\mathbf{r} = \langle r_{\text{route}}, r_{\text{health}}, r_{\text{risk}}, r_{\text{fingerprint}}, s_{\text{stale}}, c_{\text{failures}}, t_{\text{evidence}}, o_{\text{source}} \rangle$$
 
-1. **Route Rank ($r_{\text{route}}$):** Exact sub-path match ($2$) > Path prefix match ($1$) > Wildcard / root match ($0$).
-2. **Health Rank ($r_{\text{health}}$):** `Healthy` ($3$) > `Watch` ($2$) > `Quarantined` ($1$) > `Deprecated` ($0$).
-3. **Risk Rank ($r_{\text{risk}}$):** `Dismissive` preferred over `ReadOnly`.
-4. **Fingerprint Rank ($r_{\text{fingerprint}}$):** Higher historical selector specificity and match score.
-5. **Staleness Score ($s_{\text{stale}}$):** Elapsed time since last verification (lower score = fresher evidence).
-6. **Consecutive Failures ($c_{\text{failures}}$):** Fewer consecutive failures prioritized.
-7. **Last Evidence Ticks ($t_{\text{evidence}}$):** Most recent successful execution preferred.
-8. **Source Order ($o_{\text{source}}$):** Deterministic tie-breaker based on catalog storage order.
+The elements of $\mathbf{r}$ are evaluated with exact numerical weightings:
 
-Only the top 8 ranked candidates are submitted to the silent verification engine.
+1. **Route Rank ($r_{\text{route}}$):**
+   - Exact sub-route match without wildcards (e.g., `/checkout` matches `/checkout`): $r_{\text{route}} = 3$
+   - Exact sub-route match with wildcard patterns: $r_{\text{route}} = 2$
+   - Global wildcard route (`*`): $r_{\text{route}} = 1$
+   - No route filter specified (fallback to `_root`): $r_{\text{route}} = 0$
+2. **Health Rank ($r_{\text{health}}$):**
+   - `Healthy`: $r_{\text{health}} = 3$
+   - `Watch`: $r_{\text{health}} = 2$
+   - `Quarantined`: $r_{\text{health}} = 1$
+   - `Deprecated`: $r_{\text{health}} = 0$
+3. **Risk Rank ($r_{\text{risk}}$):**
+   - `ReadOnly`: $r_{\text{risk}} = 0$
+   - `Dismissive`: $r_{\text{risk}} = 1$
+   - `Auth`: $r_{\text{risk}} = 2$ (ineligible)
+   - `Transactional`: $r_{\text{risk}} = 3$ (ineligible)
+4. **Fingerprint Rank ($r_{\text{fingerprint}}$):**
+   $$r_{\text{fingerprint}} = (\text{MinConfidence} \times 10.0) + \min(\text{selectorCount}, 12) + \text{Confidence}$$
+   Prioritizes phenomena with dense, high-confidence DOM selectors over sparse single-selector candidates.
+5. **Staleness Score ($s_{\text{stale}}$):** Elapsed time since last verification clamped to $[0.0, 1.0]$ (lower score = fresher evidence).
+6. **Consecutive Failures ($c_{\text{failures}}$):** Number of consecutive runtime failures $\ge 0$ (fewer failures prioritized).
+7. **Last Evidence Ticks ($t_{\text{evidence}}$):**
+   $$t_{\text{evidence}} = \max(\text{LastSuccess.Ticks}, \text{LastAttempt.Ticks})$$
+8. **Source Order ($o_{\text{source}}$):** Deterministic zero-indexed catalog position used as the final tie-breaker.
+
+### Deterministic Tie-Breaking Order
+
+The candidate list is ordered sequentially through the following LINQ evaluation pipeline:
+
+$$\text{Sort} = \text{OrderByDescending}(r_{\text{route}}) \to \text{ThenByDescending}(r_{\text{health}}) \to \text{ThenBy}(r_{\text{risk}}) \to \text{ThenByDescending}(r_{\text{fingerprint}}) \to \text{ThenBy}(s_{\text{stale}}) \to \text{ThenBy}(c_{\text{failures}}) \to \text{ThenByDescending}(t_{\text{evidence}}) \to \text{ThenBy}(o_{\text{source}})$$
+
+Only the first 8 candidates resulting from this sort are submitted to the silent verification engine.
 
 ---
 
