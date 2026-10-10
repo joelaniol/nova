@@ -20,7 +20,10 @@ jobs:
 
       - name: Only publishable file types
         run: |
+          # Python is published only as a code example of a research page (docs/research/); the
+          # content check below still scans those files for paths, tokens and private references.
           bad=$(git ls-files | grep -v -E '^(\.github/|\.gitignore$|LICENSE$)' \
+            | grep -v -E '^docs/research/.*\.py$' \
             | grep -v -i -E '\.(md|txt|html?|css|js|json|ya?ml|svg|png|jpe?g|gif|webp|ico|mp4|webm)$' || true)
           if [ -n "$bad" ]; then
             echo "::error::Files of a type that is never published:"
