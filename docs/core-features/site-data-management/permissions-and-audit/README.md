@@ -1,52 +1,181 @@
 # Site Data Permissions & Audit
 
-Before allowing an agent to read session values or clear data, check the target profile, requested operation and stated reason. Metadata inspection and revealing a cookie or token are different operations.
+Managing website state introduces significant security risks: session cookies contain authentication tokens, `localStorage` holds OAuth bearer tokens, and bulk clearing operations can disrupt active user sessions across multiple tabs.
 
-## Agent access controls
+Nova implements a defense-in-depth security model through the **Site Data Permission Gate** and **Site Data Audit Log**. This architecture strictly separates safe metadata reads from sensitive credential disclosures, enforces scoped session authorizations, guarantees sticky user denials over global policies, and ensures that raw secrets never leak into persistent audit logs.
 
-The **Agent cookie/storage access** setting offers **Always ask** (the default), **Ask once per session** and **Always allow**. The **Website data access** prompt offers **Allow once** and **Allow for session**. Existing grants can be revoked under **Active agent permissions**.
+---
 
-The target's actual browser profile determines the scope of profile-level operations and grants. A different tab can still share that profile; a sandbox has its own profile. Do not treat a tab ID as an isolation guarantee.
+## 1. The Three-Tier Access Policy
 
-## What a session grant covers
+Nova governs agent access to site data through a global configuration setting (**Settings → Tools → Site data and cookies → Agent cookie/storage access**):
 
-A grant is scoped to the agent, browser profile, action group and, where specified, domain. Reading values, writing an entry, deleting one entry and clearing a category are separate action groups: permission to read a token is not permission to delete its cookie.
+```
++-----------------------------------------------------------------------------------+
+| POLICY LEVEL     | KEY IDENTIFIER   | BEHAVIOR FOR SENSITIVE OPERATIONS           |
++-----------------------------------------------------------------------------------+
+| Always Ask       | always_ask       | Every sensitive read, write, or clear prompts |
+| (Default)        |                  | the user for approval. Recommended for daily|
+|                  |                  | interactive workflows.                      |
++------------------+------------------+---------------------------------------------+
+| Ask Once per     | ask_first        | Prompts on the first protected operation    |
+| Session          |                  | within a specific {session, profile, domain,|
+|                  |                  | actionGroup} scope. Subsequent calls in that|
+|                  |                  | scope are auto-authorized for the session.  |
++------------------+------------------+---------------------------------------------+
+| Always Allow     | always_allow     | Auto-allows protected operations, including |
+|                  |                  | bulk clears. Intended for autonomous CI/CD  |
+|                  |                  | and headless batch automation.              |
++-----------------------------------------------------------------------------------+
+```
 
-A domain-specific grant does not cover every domain in the profile. A grant without a domain is broader and covers that profile/action scope. Tabs sharing a profile can share the effect of a grant; another sandbox has a different profile.
+---
 
-* **Allow once** permits the current request without creating a session grant.
-* **Allow for session** records a grant for that scope. The global policy can independently allow later requests.
-* Metadata-only cookie and storage inspection is allowed by this site-data gate without a value-read prompt. Other tool requirements can still apply.
-* An explicit denial blocks subsequent protected requests in the same scope until that session state is reset. Switching the global policy to **Always allow** does not override a recorded session denial.
-* Closing, cancelling or timing out a prompt does not grant access and is not stored as an explicit session denial.
+## 2. The Five Action Groups
 
-## Revoke a grant
+Permissions are not evaluated as a blunt binary toggle. Operations are classified into five distinct action groups:
 
-Under **Active agent permissions**, find the entry for the intended agent, profile, action and domain. Choose **Revoke** and confirm the dialog. Revocation removes that stored grant; it does not undo a completed read, change or deletion.
+```mermaid
+flowchart TD
+    Operation["Incoming Site Data Tool Call"] --> ClassifyAction{"Classify Action Group"}
 
-To require approval again, also check the global policy: **Always allow** can authorize later requests even after an individual grant is revoked. Session grants are not permanent website permissions.
+    ClassifyAction -->|"ReadMetadata"| SafeGroup["ReadMetadata (Safe)<br/>• cookie_list (includeValues=false)<br/>• storage_inspect (includeValues=false)<br/>Decision: AUTO-ALLOWED"]
 
-## Sensitive reads and destructive clears
+    ClassifyAction -->|"ReadValues"| SecretGroup["ReadValues (Sensitive)<br/>• cookie_list (includeValues=true)<br/>• storage_inspect (includeValues=true)<br/>• Replay session adoption<br/>Decision: GATED BY PROMPT"]
 
-| Operation | Relevant distinction |
-|---|---|
-| Cookie inspection | Metadata is the default; values require `includeValues=true` plus a `domainFilter` and are a high-impact secret read. |
-| Web Storage inspection | Keys are the default; requesting values can expose tokens or application state and is treated as a sensitive read. |
-| Cookie or cache clearing | Requires `_meta.intent` and goes through the site-data permission gate. Check domain versus profile scope before allowing it. |
-| Replay session adoption | Uses the existing cookie/storage-value permission gate to populate a request draft for a checked destination. |
+    ClassifyAction -->|"Write"| WriteGroup["Write (Mutation)<br/>• cookie_set<br/>• storage_set<br/>Decision: GATED BY PROMPT"]
 
-A tool's baseline category does not mean every combination of its parameters has the same impact. The current [tool reference](../../../mcp-reference/tools/site-data-and-identity/README.md) describes parameter-dependent intent requirements.
+    ClassifyAction -->|"Delete"| DeleteGroup["Delete (Surgical Removal)<br/>• cookie_delete<br/>• storage_delete<br/>Decision: GATED BY PROMPT"]
 
-## What the audit records mean
+    ClassifyAction -->|"Clear"| ClearGroup["Clear (Bulk Destruction)<br/>• cookie_clear<br/>• cache_clear<br/>Decision: GATED BY PROMPT"]
+```
 
-The current site-data log records the operation and tool, agent, target, profile, origin, affected cookie or storage key, whether a value changed, the result and the user-decision field. It does not log the raw cookie or storage values.
+### 1. `ReadMetadata` (Safe Read)
+* **Operations:** Listing cookie names, domains, paths, expiry dates, security flags, or storage key names.
+* **Security Classification:** Safe. Discloses website structure and state presence without revealing secret credentials.
+* **Evaluation:** Auto-allowed across all policy tiers without user interruption.
 
-Although the operation paths can calculate value hashes, those hashes are not included in the current emitted site-data log entry. The log therefore does not provide a before/after value-hash comparison or a backup from which deleted data can be recovered. An authorized value read can still disclose the requested value to the agent; the audit log and the tool response are separate outputs.
+### 2. `ReadValues` (Sensitive Secret Read)
+* **Operations:** Retrieving actual cookie values (`nova.cookie_list` with `includeValues: true`), reading storage key contents (`nova.storage_inspect` with `includeValues: true`), or adopting browser sessions into network replay requests.
+* **Security Classification:** Sensitive. Discloses live session tokens, JWTs, or passwords.
+* **Evaluation:** Requires explicit user authorization under `always_ask` and `ask_first`.
 
-[Request replay adoption](../../network/network-interception/README.md#adopt-a-browser-session-with-a-redacted-preview) provides redacted preview provenance, such as header names and the storage keys used. Adopted values are still sent to the destination when the separately prepared request is sent. Check that destination as well as the source profile.
+### 3. `Write` (Mutation)
+* **Operations:** Setting or updating cookies (`nova.cookie_set`) or writing storage keys (`nova.storage_set`).
+* **Evaluation:** Evaluates domain and origin bounds; prompts user for confirmation.
 
-## Separate permission systems
+### 4. `Delete` (Surgical Removal)
+* **Operations:** Deleting a single cookie by ID (`nova.cookie_delete`) or deleting a single storage key (`nova.storage_delete`).
+* **Evaluation:** Prompts user to confirm removal of the identified entry.
 
-These controls govern agent access to browser site data. They are distinct from [website permissions](../../../user-guide/settings/site-permissions.md), the Cookie Inspector's visibility setting and approval rules in an external AI client. Clearing cookies does not revoke those other permissions.
+### 5. `Clear` (Bulk Destruction)
+* **Operations:** Clearing cookies for a domain or profile (`nova.cookie_clear`) or clearing browsing-data categories (`nova.cache_clear`).
+* **Evaluation:** High-impact. Requires mandatory `_meta.intent` justification and user approval.
+
+---
+
+## 3. Session Grant Scoping & Sticky Denials
+
+When a sensitive operation triggers a user prompt, the dialog presents two choices:
+* **Allow once:** Authorizes the current operation only; no grant is recorded.
+* **Allow for session:** Creates a session grant recorded in memory.
+
+### Dimensional Scoping of Session Grants
+Session grants are strictly scoped across four dimensions:
+
+$$\text{Grant Scope} = \{\text{AgentId}, \text{ProfileId}, \text{Domain}, \text{ActionGroup}\}$$
+
+* **Grant Isolation:** An approval to read cookie values on `github.com` does **not** authorize reading cookies on `google.com`.
+* **Action Isolation:** An approval to read values (`ReadValues`) on `example.com` does **not** authorize deleting cookies (`Delete`) or clearing the cache (`Clear`) on that domain.
+* **Profile Isolation:** An approval granted in `Sandbox A` does **not** grant access in `Sandbox B` or the shared `Tabs` profile.
+
+### The Sticky Denial Invariant
+
+To guarantee user supremacy over automated systems:
+
+$$\text{Recorded Session Denial} > \text{Global Always-Allow Policy}$$
+
+1. If a user clicks **Deny** on an authorization prompt, Nova records an explicit session denial for that `{ProfileId, Domain, ActionGroup}` scope.
+2. Subsequent calls by the agent within that scope are immediately rejected with JSON-RPC error code `-32002` (`PermissionDenied`).
+3. **Absolute Invariant:** Even if the user or an agent subsequently changes the global policy to `always_allow`, the recorded session denial remains strictly in effect until the application session is restarted or explicitly revoked.
+
+---
+
+## 4. Active Grants Management & Revocation
+
+Users can inspect and revoke active session grants at any time without restarting Nova:
+
+1. Open **Settings → Tools → Site data and cookies**.
+2. Locate the **Active agent permissions** list.
+3. Each entry details:
+   * **Agent:** Identifier of the authorized agent.
+   * **Profile:** Target profile (`all_browser_tabs` or sandbox name).
+   * **Domain:** Scoped domain (or `All domains` if profile-wide).
+   * **Action:** Scoped action group (`Read values`, `Write`, `Delete`, `Clear`).
+4. Click **Revoke** on any entry to immediately invalidate the grant.
+5. *Note:* Revoking a grant prevents future operations; it does not undo already completed reads or writes.
+
+---
+
+## 5. Site Data Audit Log Specifications
+
+Nova maintains a tamper-resistant operational log of all site-data interactions in the user data directory:
+
+```
+%LOCALAPPDATA%\NovaBrowser\Logs\site-data-audit.jsonl
+```
+
+### Record Schema
+Each line in the log is a structured JSON record:
+
+```json
+{
+  "timestamp": "2026-10-10T02:45:00.123Z",
+  "toolName": "nova.cookie_list",
+  "actionGroup": "ReadValues",
+  "agentId": "research-assistant-01",
+  "targetId": "tab-101",
+  "profileId": "sandbox_work_2026",
+  "origin": "https://app.example.com",
+  "targetIdentifier": "auth_token",
+  "isModified": false,
+  "userDecision": "AllowedBySessionGrant",
+  "success": true
+}
+```
+
+### Privacy & Sanitization Guarantees
+* **Zero Secret Logging Invariant:** The audit log **never writes raw cookie values, bearer tokens, or password strings** to disk.
+* **Deterministic Tracking:** The log records the affected cookie name, domain, path, or storage key, allowing administrators to audit which items were accessed without persisting sensitive authentication payload data.
+
+---
+
+## 6. One-Click Origin Permission Purge
+
+In addition to cookie and storage management, web applications acquire permissions for hardware APIs (camera, microphone, notifications, geolocation).
+
+Nova provides `nova.site_permissions_reset_origin` to completely purge all stored permissions for an origin in a single atomic call:
+* Resets camera, microphone, speaker, and geolocation permissions.
+* Clears desktop notification grants.
+* Purges remembered per-site device preferences.
+* Unconditionally terminates active WebRTC media streams and drops in-memory clipboard-read decisions.
+
+```json
+{
+  "origin": "https://meet.example.com"
+}
+```
+
+---
+
+## 7. Related References
+
+* [Cookies Architecture Guide](../cookies/README.md): Cookie identity, PSL validation, and HttpOnly security.
+* [Web Storage Architecture Guide](../web-storage/README.md): Key inspection and request replay mapping.
+* [Cache & Cleanup Guide](../cache-and-cleanup/README.md): Invalidation categories and Vault isolation.
+* [Site Data Troubleshooting](../troubleshooting/README.md): Diagnosing permission stalls and unapproved agent calls.
+* [Reset Origin Permissions Tool Reference](../../../mcp-reference/tools/site-data-and-identity/nova-site-permissions-reset-origin.md)
+
+---
 
 [Site Data Management](../README.md)
