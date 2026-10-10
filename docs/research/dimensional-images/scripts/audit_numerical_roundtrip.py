@@ -1,16 +1,13 @@
 """Numerical Round-Trip Reconstruction & Basis Verification Benchmark.
 
+Standalone Reproducibility Script:
 Audits:
 1. Gram basis orthonormality across N in {32, 64, 128} with K=12:
    Verifies P P^T = I_12 and ||P_k||_2 = 1.
 2. Per-mode Round-Trip Reconstruction Fidelity across modes k=0..11:
    Tests encode -> PNG/WebP -> decode round-trip on controlled synthetic signals.
-   Measures:
-   - Per-mode RMSE
-   - Pearson correlation r
-   - Maximum absolute error
-   - Cross-talk leakage onto non-activated modes
 3. Multi-Mode superposition reconstruction.
+4. Spatially localized object reconstruction (disc region).
 """
 
 import os
@@ -19,12 +16,20 @@ import json
 import numpy as np
 from PIL import Image
 
-from src.temporal.temporal_scaling import (
-    compute_gram_polynomials_N_K,
-    encode_carrier_E3_hybrid_scaling,
-    decode_carrier_E3_hybrid_scaling,
-    create_synthetic_scaling_video,
-)
+try:
+    from reference_carrier_codec import (
+        compute_gram_polynomials_N_K,
+        encode_carrier_E3_hybrid_scaling,
+        decode_carrier_E3_hybrid_scaling,
+        create_synthetic_scaling_video,
+    )
+except ImportError:
+    from scripts.reference_carrier_codec import (
+        compute_gram_polynomials_N_K,
+        encode_carrier_E3_hybrid_scaling,
+        decode_carrier_E3_hybrid_scaling,
+        create_synthetic_scaling_video,
+    )
 
 
 def audit_basis_orthonormality():
@@ -58,30 +63,26 @@ def run_roundtrip_single_modes(N: int = 64, K: int = 12):
         crosstalk_webp_list = []
         
         for amp in test_amps:
-            # Generate synthetic video activating single mode k
             video = create_synthetic_scaling_video(
                 N=N, H=64, W=64,
                 active_dims={k: amp},
                 base_luminance=128.0,
                 spatial_region="full",
             )
-            
-            # Encode to E3 Carrier
             carrier = encode_carrier_E3_hybrid_scaling(video, K=K)
             
-            # Transport 1: PNG (Lossless)
+            # Transport 1: PNG
             buf_png = io.BytesIO()
             Image.fromarray(carrier).save(buf_png, format="PNG")
             buf_png.seek(0)
             carrier_png = np.array(Image.open(buf_png))
             
-            # Transport 2: WebP Q=80 (Lossy)
+            # Transport 2: WebP Q=80
             buf_webp = io.BytesIO()
             Image.fromarray(carrier).save(buf_webp, format="WEBP", quality=80)
             buf_webp.seek(0)
             carrier_webp = np.array(Image.open(buf_webp))
             
-            # Decode
             hat_png = decode_carrier_E3_hybrid_scaling(carrier_png, K=K, spatial_region="full")
             hat_webp = decode_carrier_E3_hybrid_scaling(carrier_webp, K=K, spatial_region="full")
             
@@ -89,7 +90,6 @@ def run_roundtrip_single_modes(N: int = 64, K: int = 12):
             decoded_png_list.append(hat_png[k])
             decoded_webp_list.append(hat_webp[k])
             
-            # Crosstalk on all other modes j != k
             other_png = [abs(hat_png[j]) for j in range(K) if j != k]
             other_webp = [abs(hat_webp[j]) for j in range(K) if j != k]
             crosstalk_png_list.append(max(other_png) if other_png else 0.0)
@@ -119,6 +119,38 @@ def run_roundtrip_single_modes(N: int = 64, K: int = 12):
     return per_mode_metrics
 
 
+def run_roundtrip_multimode_superposition(N: int = 64, K: int = 12):
+    """Test concurrent activation of multiple orthogonal modes."""
+    active_modes = {0: 0.4, 1: -0.3, 2: 0.5, 4: -0.4, 7: 0.3}
+    video = create_synthetic_scaling_video(N=N, H=64, W=64, active_dims=active_modes, base_luminance=128.0)
+    carrier = encode_carrier_E3_hybrid_scaling(video, K=K)
+    
+    # PNG
+    buf_png = io.BytesIO()
+    Image.fromarray(carrier).save(buf_png, format="PNG")
+    buf_png.seek(0)
+    hat_png = decode_carrier_E3_hybrid_scaling(np.array(Image.open(buf_png)), K=K)
+    
+    # WebP
+    buf_webp = io.BytesIO()
+    Image.fromarray(carrier).save(buf_webp, format="WEBP", quality=80)
+    buf_webp.seek(0)
+    hat_webp = decode_carrier_E3_hybrid_scaling(np.array(Image.open(buf_webp)), K=K)
+    
+    active_keys = sorted(active_modes.keys())
+    act = np.array([active_modes[k] for k in active_keys])
+    rec_png = np.array([hat_png[k] for k in active_keys])
+    rec_webp = np.array([hat_webp[k] for k in active_keys])
+    
+    return {
+        "active_modes": active_modes,
+        "rmse_png": float(np.sqrt(np.mean((act - rec_png) ** 2))),
+        "rmse_webp": float(np.sqrt(np.mean((act - rec_webp) ** 2))),
+        "pearson_r_png": float(np.corrcoef(act, rec_png)[0, 1]),
+        "pearson_r_webp": float(np.corrcoef(act, rec_webp)[0, 1]),
+    }
+
+
 def run_full_numerical_audit():
     print("=" * 70)
     print("NUMERICAL ROUND-TRIP AUDIT: GRAM BASIS & E3-K12 DECODER")
@@ -137,7 +169,14 @@ def run_full_numerical_audit():
     for k_key, m in mode_metrics.items():
         print(f"  {k_key:8s} {m['rmse_png']:12.4f} {m['rmse_webp']:12.4f} {m['pearson_r_png']:10.4f} {m['pearson_r_webp']:10.4f} {m['max_crosstalk_png']:14.4f} {m['max_crosstalk_webp']:14.4f}")
         
-    # Aggregate statistics
+    print("\n--- 3. Multi-Mode Superposition Invertibility ---")
+    multi_res = run_roundtrip_multimode_superposition(N=64, K=12)
+    print(f"  Concurrent Active Modes: {list(multi_res['active_modes'].keys())}")
+    print(f"  Multi-Mode RMSE (PNG):        {multi_res['rmse_png']:.4f}")
+    print(f"  Multi-Mode RMSE (WebP Q=80):  {multi_res['rmse_webp']:.4f}")
+    print(f"  Multi-Mode Pearson r (PNG):   {multi_res['pearson_r_png']:.4f}")
+    print(f"  Multi-Mode Pearson r (WebP):  {multi_res['pearson_r_webp']:.4f}")
+
     png_rmses = [m["rmse_png"] for m in mode_metrics.values()]
     webp_rmses = [m["rmse_webp"] for m in mode_metrics.values()]
     png_rs = [m["pearson_r_png"] for m in mode_metrics.values()]
@@ -146,6 +185,7 @@ def run_full_numerical_audit():
     summary = {
         "basis_orthonormality": basis_res,
         "mode_roundtrip": mode_metrics,
+        "multimode_superposition": multi_res,
         "aggregate": {
             "mean_rmse_png": float(np.mean(png_rmses)),
             "mean_rmse_webp": float(np.mean(webp_rmses)),
@@ -156,17 +196,11 @@ def run_full_numerical_audit():
         }
     }
     
-    print("\n--- 3. Aggregate Reconstruction Performance ---")
-    print(f"  Mean RMSE (PNG):        {summary['aggregate']['mean_rmse_png']:.4f}")
-    print(f"  Mean RMSE (WebP Q=80):  {summary['aggregate']['mean_rmse_webp']:.4f}")
-    print(f"  Min Pearson r (PNG):    {summary['aggregate']['min_pearson_r_png']:.4f}")
-    print(f"  Min Pearson r (WebP):   {summary['aggregate']['min_pearson_r_webp']:.4f}")
-    
-    out_path = r"E:\-=Entwicklung=-\dimensional_images\data\experiments\numerical_roundtrip_audit.json"
-    os.makedirs(os.path.dirname(out_path), exist_ok=True)
-    with open(out_path, "w", encoding="utf-8") as f:
+    out_dir = os.path.dirname(os.path.abspath(__file__))
+    out_path = os.path.join(out_dir, "numerical_roundtrip_audit.json")
+    with open(out_path, "w", encoding="utf-8", newline="\n") as f:
         json.dump(summary, f, indent=2)
-    print(f"\nSaved numerical audit metrics to: {out_path}")
+    print(f"\nSaved relative numerical audit metrics to: {out_path}")
     return summary
 
 

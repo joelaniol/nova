@@ -39,7 +39,7 @@ The research documentation is partitioned into specialized academic modules:
 * [`LIMITATIONS.md`](LIMITATIONS.md): Formal boundary analysis covering the 52-dimensional projection nullspace, carrier quantization saturation collapse, empirical temporal resolution thresholds, high-order mode contention, and evaluation protocol integrity.
 * [`REFERENCES.md`](REFERENCES.md): Academic bibliography covering discrete orthogonal polynomials, wavelets, transform coding, and multimodal foundation models.
 * `experiments/2026/`: Versioned, reproducible experiment packages containing machine-readable protocols (`protocol.json`), tabular measurements (`metrics.csv`), and verbatim model evaluation logs (`model-responses.jsonl`) ([`EXP-025`](experiments/2026/EXP-025/README.md), [`EXP-026`](experiments/2026/EXP-026/README.md)).
-* `scripts/`: Automated reproducibility scripts ([`verify_research_docs.py`](scripts/verify_research_docs.py), [`audit_numerical_roundtrip.py`](scripts/audit_numerical_roundtrip.py)).
+* Reproducibility Tooling: Automated evaluation and numerical round-trip audit test benches verify polynomial invertibility across carrier channels.
 * `figures/`: High-resolution carrier mosaics, experimental stimuli, and comparative diagnostic figures.
 
 ---
