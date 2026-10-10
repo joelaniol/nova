@@ -1,0 +1,7 @@
+test_id,delta_t_sec,delta_frames,webp_bytes,mse,psnr_db,high_order_energy_ratio,vlm_classification
+S1_delta_0_25s,0.25,2,476,22.628,34.58,0.6792,fused_single (sub-Rayleigh coherence)
+S1_delta_0_50s,0.5,4,476,22.628,34.58,0.6402,fused_single (sub-Rayleigh coherence)
+S1_delta_1_00s,1.0,8,480,18.249,35.52,0.4665,fused_single (destructive phase desaturation)
+S1_delta_1_50s,1.5,12,456,16.785,35.88,0.3131,separable_double (bimodal bifurcation)
+S1_delta_2_00s,2.0,16,486,22.178,34.67,0.4759,separable_double (4-column fringe grid)
+S1_delta_3_00s,3.0,24,476,21.767,34.75,0.6602,separable_double (wide separation)

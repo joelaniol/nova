@@ -1,0 +1,793 @@
+{
+  "experiment": "EXP-026",
+  "title": "Empirical Temporal Resolution Boundary & Causal Information Audit",
+  "fps": 8,
+  "n_frames": 64,
+  "duration_sec": 8.0,
+  "carrier_size": [
+    128,
+    128
+  ],
+  "encoding": "E3-K12",
+  "families": {
+    "S1_identical_pulses": {
+      "delta_sweep": [
+        {
+          "test_id": "S1_delta_0_25s",
+          "delta_t_sec": 0.25,
+          "meta": {
+            "family": "S1_identical_pulses",
+            "delta_t_target_sec": 0.25,
+            "delta_t_actual_sec": 0.25,
+            "delta_frames": 2,
+            "pulse_count": 2,
+            "pulse_color": "AMBER",
+            "pulses": [
+              {
+                "id": "P1",
+                "start_frame": 30,
+                "end_frame": 32,
+                "time_sec": 3.875,
+                "color": "AMBER"
+              },
+              {
+                "id": "P2",
+                "start_frame": 32,
+                "end_frame": 34,
+                "time_sec": 4.125,
+                "color": "AMBER"
+              }
+            ]
+          },
+          "stage_a_gram": {
+            "total_gram_energy": 6270255.297757886,
+            "low_order_energy": 2011662.143872949,
+            "high_order_energy": 4258593.153884937,
+            "high_order_ratio": 0.6791738057950721,
+            "per_mode_energy": [
+              897354.7936900824,
+              4.516869631875785e-27,
+              1114307.3501828667,
+              1.000275627820243e-25,
+              1110897.7820350258,
+              1.000275627820243e-25,
+              1087311.38132515,
+              5.291458071169085e-25,
+              1052353.8407408842,
+              2.5711984985556564e-22,
+              1008030.1497838772,
+              6.957477145841369e-22
+            ]
+          },
+          "stage_b_webp": {
+            "bytes": 476,
+            "mse": 22.628275553385418,
+            "psnr_db": 34.58428902193117,
+            "max_lsb_drift": 112
+          },
+          "carrier_png": "data/experiments/exp_026_resolution\\s1_delta_matrix\\delta_0_25s\\carrier_128.png",
+          "carrier_webp": "data/experiments/exp_026_resolution\\s1_delta_matrix\\delta_0_25s\\carrier_128.webp"
+        },
+        {
+          "test_id": "S1_delta_0_50s",
+          "delta_t_sec": 0.5,
+          "meta": {
+            "family": "S1_identical_pulses",
+            "delta_t_target_sec": 0.5,
+            "delta_t_actual_sec": 0.5,
+            "delta_frames": 4,
+            "pulse_count": 2,
+            "pulse_color": "AMBER",
+            "pulses": [
+              {
+                "id": "P1",
+                "start_frame": 29,
+                "end_frame": 31,
+                "time_sec": 3.75,
+                "color": "AMBER"
+              },
+              {
+                "id": "P2",
+                "start_frame": 33,
+                "end_frame": 35,
+                "time_sec": 4.25,
+                "color": "AMBER"
+              }
+            ]
+          },
+          "stage_a_gram": {
+            "total_gram_energy": 5537315.6701407395,
+            "low_order_energy": 1992084.6505492346,
+            "high_order_energy": 3545231.019591505,
+            "high_order_ratio": 0.6402436181684036,
+            "per_mode_energy": [
+              897354.7936900824,
+              3.516594004055542e-27,
+              1094729.8568591522,
+              1.000275627820243e-25,
+              1046365.7506469387,
+              2.5006890695506074e-26,
+              956389.9510870716,
+              1.2253376440797976e-24,
+              839081.2420707883,
+              1.3693773344859126e-22,
+              703394.0757867066,
+              1.2885800706487325e-21
+            ]
+          },
+          "stage_b_webp": {
+            "bytes": 476,
+            "mse": 22.628275553385418,
+            "psnr_db": 34.58428902193117,
+            "max_lsb_drift": 112
+          },
+          "carrier_png": "data/experiments/exp_026_resolution\\s1_delta_matrix\\delta_0_50s\\carrier_128.png",
+          "carrier_webp": "data/experiments/exp_026_resolution\\s1_delta_matrix\\delta_0_50s\\carrier_128.webp"
+        },
+        {
+          "test_id": "S1_delta_1_00s",
+          "delta_t_sec": 1.0,
+          "meta": {
+            "family": "S1_identical_pulses",
+            "delta_t_target_sec": 1.0,
+            "delta_t_actual_sec": 1.0,
+            "delta_frames": 8,
+            "pulse_count": 2,
+            "pulse_color": "AMBER",
+            "pulses": [
+              {
+                "id": "P1",
+                "start_frame": 27,
+                "end_frame": 29,
+                "time_sec": 3.5,
+                "color": "AMBER"
+              },
+              {
+                "id": "P2",
+                "start_frame": 35,
+                "end_frame": 37,
+                "time_sec": 4.5,
+                "color": "AMBER"
+              }
+            ]
+          },
+          "stage_a_gram": {
+            "total_gram_energy": 3590200.226655459,
+            "low_order_energy": 1915509.7579034495,
+            "high_order_energy": 1674690.4687520098,
+            "high_order_ratio": 0.46646157958496637,
+            "per_mode_energy": [
+              897354.7936900824,
+              5.626550406488867e-28,
+              1018154.9642133671,
+              2.2506201625955467e-27,
+              811400.5380447467,
+              2.2506201625955467e-25,
+              533230.8497833381,
+              9.803701428266201e-24,
+              262169.1986499138,
+              1.416490316556246e-23,
+              67889.8822740112,
+              1.9633420025612007e-21
+            ]
+          },
+          "stage_b_webp": {
+            "bytes": 480,
+            "mse": 18.249125162760418,
+            "psnr_db": 35.518383110393835,
+            "max_lsb_drift": 113
+          },
+          "carrier_png": "data/experiments/exp_026_resolution\\s1_delta_matrix\\delta_1_00s\\carrier_128.png",
+          "carrier_webp": "data/experiments/exp_026_resolution\\s1_delta_matrix\\delta_1_00s\\carrier_128.webp"
+        },
+        {
+          "test_id": "S1_delta_1_50s",
+          "delta_t_sec": 1.5,
+          "meta": {
+            "family": "S1_identical_pulses",
+            "delta_t_target_sec": 1.5,
+            "delta_t_actual_sec": 1.5,
+            "delta_frames": 12,
+            "pulse_count": 2,
+            "pulse_color": "AMBER",
+            "pulses": [
+              {
+                "id": "P1",
+                "start_frame": 25,
+                "end_frame": 27,
+                "time_sec": 3.25,
+                "color": "AMBER"
+              },
+              {
+                "id": "P2",
+                "start_frame": 37,
+                "end_frame": 39,
+                "time_sec": 4.75,
+                "color": "AMBER"
+              }
+            ]
+          },
+          "stage_a_gram": {
+            "total_gram_energy": 2611771.7056849943,
+            "low_order_energy": 1794054.1124682932,
+            "high_order_energy": 817717.593216701,
+            "high_order_ratio": 0.31308923036297176,
+            "per_mode_energy": [
+              897354.7936900824,
+              2.2506201625955467e-27,
+              896699.3187782108,
+              6.401764018049555e-26,
+              496776.08277212817,
+              3.6009922601528747e-26,
+              127428.9669130244,
+              2.890796564400502e-25,
+              1868.1907975173835,
+              1.3692773069231306e-23,
+              191644.35273403104,
+              3.866221344523179e-21
+            ]
+          },
+          "stage_b_webp": {
+            "bytes": 456,
+            "mse": 16.78521728515625,
+            "psnr_db": 35.88153393292007,
+            "max_lsb_drift": 103
+          },
+          "carrier_png": "data/experiments/exp_026_resolution\\s1_delta_matrix\\delta_1_50s\\carrier_128.png",
+          "carrier_webp": "data/experiments/exp_026_resolution\\s1_delta_matrix\\delta_1_50s\\carrier_128.webp"
+        },
+        {
+          "test_id": "S1_delta_2_00s",
+          "delta_t_sec": 2.0,
+          "meta": {
+            "family": "S1_identical_pulses",
+            "delta_t_target_sec": 2.0,
+            "delta_t_actual_sec": 2.0,
+            "delta_frames": 16,
+            "pulse_count": 2,
+            "pulse_color": "AMBER",
+            "pulses": [
+              {
+                "id": "P1",
+                "start_frame": 23,
+                "end_frame": 25,
+                "time_sec": 3.0,
+                "color": "AMBER"
+              },
+              {
+                "id": "P2",
+                "start_frame": 39,
+                "end_frame": 41,
+                "time_sec": 5.0,
+                "color": "AMBER"
+              }
+            ]
+          },
+          "stage_a_gram": {
+            "total_gram_energy": 3123259.848717945,
+            "low_order_energy": 1636971.4777054905,
+            "high_order_energy": 1486288.3710124544,
+            "high_order_ratio": 0.4758772702253881,
+            "per_mode_energy": [
+              897354.7936900824,
+              1.000275627820243e-27,
+              739616.6840154082,
+              2.5006890695506074e-26,
+              199346.19873365213,
+              4.001102511280972e-27,
+              7417.59062559345,
+              3.364927211987297e-24,
+              358614.6473302095,
+              4.623774089599073e-23,
+              920909.9343229993,
+              1.0833940478579183e-21
+            ]
+          },
+          "stage_b_webp": {
+            "bytes": 486,
+            "mse": 22.177998860677082,
+            "psnr_db": 34.67158004040043,
+            "max_lsb_drift": 139
+          },
+          "carrier_png": "data/experiments/exp_026_resolution\\s1_delta_matrix\\delta_2_00s\\carrier_128.png",
+          "carrier_webp": "data/experiments/exp_026_resolution\\s1_delta_matrix\\delta_2_00s\\carrier_128.webp"
+        },
+        {
+          "test_id": "S1_delta_3_00s",
+          "delta_t_sec": 3.0,
+          "meta": {
+            "family": "S1_identical_pulses",
+            "delta_t_target_sec": 3.0,
+            "delta_t_actual_sec": 3.0,
+            "delta_frames": 24,
+            "pulse_count": 2,
+            "pulse_color": "AMBER",
+            "pulses": [
+              {
+                "id": "P1",
+                "start_frame": 19,
+                "end_frame": 21,
+                "time_sec": 2.5,
+                "color": "AMBER"
+              },
+              {
+                "id": "P2",
+                "start_frame": 43,
+                "end_frame": 45,
+                "time_sec": 5.5,
+                "color": "AMBER"
+              }
+            ]
+          },
+          "stage_a_gram": {
+            "total_gram_energy": 3742095.067462682,
+            "low_order_energy": 1271447.8209673045,
+            "high_order_energy": 2470647.2464953773,
+            "high_order_ratio": 0.6602310208464569,
+            "per_mode_energy": [
+              897354.7936900824,
+              1.000275627820243e-27,
+              374093.027277222,
+              8.102232585343968e-26,
+              35650.67055595253,
+              6.401764018049555e-26,
+              796855.1823013816,
+              1.2158412773381792e-23,
+              1192872.3034718307,
+              5.430396355873317e-23,
+              445269.09016621264,
+              2.4342707678633433e-21
+            ]
+          },
+          "stage_b_webp": {
+            "bytes": 476,
+            "mse": 21.767191569010418,
+            "psnr_db": 34.75277961443763,
+            "max_lsb_drift": 122
+          },
+          "carrier_png": "data/experiments/exp_026_resolution\\s1_delta_matrix\\delta_3_00s\\carrier_128.png",
+          "carrier_webp": "data/experiments/exp_026_resolution\\s1_delta_matrix\\delta_3_00s\\carrier_128.webp"
+        }
+      ],
+      "single_pulse_control": {
+        "test_id": "S1_control_single",
+        "delta_t_sec": 0.0,
+        "meta": {
+          "family": "S1_single_pulse_control",
+          "pulse_count": 1,
+          "pulse_color": "AMBER",
+          "pulses": [
+            {
+              "id": "P1",
+              "start_frame": 31,
+              "end_frame": 33,
+              "time_sec": 4.0,
+              "color": "AMBER"
+            }
+          ]
+        },
+        "stage_a_gram": {
+          "total_gram_energy": 1635221.2170215838,
+          "low_order_energy": 504556.6330821527,
+          "high_order_energy": 1130664.5839394312,
+          "high_order_ratio": 0.6914444187550602,
+          "per_mode_energy": [
+            224338.6984225206,
+            2.8230435199223654e-28,
+            280217.9346596321,
+            1.0162956671720515e-26,
+            283234.71692658163,
+            5.06389536583998e-27,
+            283341.2248822781,
+            3.063344110199494e-25,
+            282630.3271292538,
+            6.45337824044508e-23,
+            281458.3150013176,
+            1.5646336377254936e-22
+          ]
+        },
+        "stage_b_webp": {
+          "bytes": 448,
+          "mse": 19.238423665364582,
+          "psnr_db": 35.289108764031084,
+          "max_lsb_drift": 109
+        },
+        "carrier_png": "data/experiments/exp_026_resolution\\s1_delta_matrix\\control_single_pulse\\carrier_128.png",
+        "carrier_webp": "data/experiments/exp_026_resolution\\s1_delta_matrix\\control_single_pulse\\carrier_128.webp"
+      }
+    },
+    "S2_chromatic_causal": [
+      {
+        "test_id": "S2_cyan_then_magenta",
+        "order": "cyan_then_magenta",
+        "meta": {
+          "family": "S2_chromatic_causal",
+          "order": "cyan_then_magenta",
+          "delta_t_sec": 1.5,
+          "pulse_count": 2,
+          "first_color": "CYAN",
+          "second_color": "MAGENTA",
+          "pulses": [
+            {
+              "id": "P1",
+              "start_frame": 25,
+              "end_frame": 27,
+              "time_sec": 3.25,
+              "color": "CYAN"
+            },
+            {
+              "id": "P2",
+              "start_frame": 37,
+              "end_frame": 39,
+              "time_sec": 4.75,
+              "color": "MAGENTA"
+            }
+          ]
+        },
+        "stage_a_gram": {
+          "total_gram_energy": 841578.6683884701,
+          "low_order_energy": 439709.9345427456,
+          "high_order_energy": 401868.7338457245,
+          "high_order_ratio": 0.4775177282181577,
+          "per_mode_energy": [
+            217684.5089688229,
+            4499.924764788124,
+            217525.50080913457,
+            20924.008622059293,
+            120510.25793378026,
+            40944.124692502926,
+            30912.312817539052,
+            53558.82926528691,
+            453.19443243328396,
+            51729.73955193549,
+            46489.98045689966,
+            36346.28607328761
+          ]
+        },
+        "stage_b_webp": {
+          "webp_bytes": 420,
+          "mse": 9.69720458984375,
+          "psnr_db": 38.264338024957794,
+          "max_lsb_drift": 52
+        },
+        "carrier_png": "data/experiments/exp_026_resolution\\s2_chromatic_causal\\cyan_then_magenta\\carrier_128.png",
+        "carrier_webp": "data/experiments/exp_026_resolution\\s2_chromatic_causal\\cyan_then_magenta\\carrier_128.webp"
+      },
+      {
+        "test_id": "S2_magenta_then_cyan",
+        "order": "magenta_then_cyan",
+        "meta": {
+          "family": "S2_chromatic_causal",
+          "order": "magenta_then_cyan",
+          "delta_t_sec": 1.5,
+          "pulse_count": 2,
+          "first_color": "MAGENTA",
+          "second_color": "CYAN",
+          "pulses": [
+            {
+              "id": "P1",
+              "start_frame": 25,
+              "end_frame": 27,
+              "time_sec": 3.25,
+              "color": "MAGENTA"
+            },
+            {
+              "id": "P2",
+              "start_frame": 37,
+              "end_frame": 39,
+              "time_sec": 4.75,
+              "color": "CYAN"
+            }
+          ]
+        },
+        "stage_a_gram": {
+          "total_gram_energy": 841578.6683884407,
+          "low_order_energy": 439709.9345427455,
+          "high_order_energy": 401868.7338456953,
+          "high_order_ratio": 0.4775177282181396,
+          "per_mode_energy": [
+            217684.50896882283,
+            4499.924764788118,
+            217525.50080913457,
+            20924.008622059206,
+            120510.25793378026,
+            40944.12469250282,
+            30912.312817539147,
+            53558.82926528668,
+            453.1944324332434,
+            51729.73955193386,
+            46489.98045689583,
+            36346.28607326423
+          ]
+        },
+        "stage_b_webp": {
+          "webp_bytes": 420,
+          "mse": 9.46649169921875,
+          "psnr_db": 38.3689130245244,
+          "max_lsb_drift": 52
+        },
+        "carrier_png": "data/experiments/exp_026_resolution\\s2_chromatic_causal\\magenta_then_cyan\\carrier_128.png",
+        "carrier_webp": "data/experiments/exp_026_resolution\\s2_chromatic_causal\\magenta_then_cyan\\carrier_128.webp"
+      }
+    ],
+    "S3_energy_equivalence": [
+      {
+        "test_id": "S3_single_broad",
+        "condition": "single_broad",
+        "meta": {
+          "family": "S3_energy_equivalence",
+          "condition": "single_broad",
+          "total_active_frames": 8,
+          "pulse_count": 1,
+          "pulses": [
+            {
+              "id": "P_single",
+              "start_frame": 28,
+              "end_frame": 36,
+              "time_sec": 4.0,
+              "color": "AMBER"
+            }
+          ]
+        },
+        "stage_a_gram": {
+          "total_gram_energy": 21350605.38996043,
+          "low_order_energy": 7942389.507156349,
+          "high_order_energy": 13408215.882804083,
+          "high_order_ratio": 0.6280016719857953,
+          "per_mode_energy": [
+            3589419.1747603305,
+            1.5629306684691296e-27,
+            4352970.332396018,
+            1.8230023317023928e-25,
+            4103064.857734743,
+            1.000275627820243e-27,
+            3668238.5260175704,
+            8.838435447419667e-24,
+            3121420.8586550057,
+            4.27833890428763e-22,
+            2515491.6403967636,
+            3.3461630414850174e-21
+          ]
+        },
+        "stage_b_webp": {
+          "webp_bytes": 476,
+          "mse": 22.628275553385418,
+          "psnr_db": 34.58428902193117,
+          "max_lsb_drift": 112
+        },
+        "carrier_png": "data/experiments/exp_026_resolution\\s3_energy_equivalence\\single_broad\\carrier_128.png",
+        "carrier_webp": "data/experiments/exp_026_resolution\\s3_energy_equivalence\\single_broad\\carrier_128.webp"
+      },
+      {
+        "test_id": "S3_double_pulse",
+        "condition": "double_pulse",
+        "meta": {
+          "family": "S3_energy_equivalence",
+          "condition": "double_pulse",
+          "total_active_frames": 8,
+          "pulse_count": 2,
+          "pulses": [
+            {
+              "id": "P1",
+              "start_frame": 24,
+              "end_frame": 28,
+              "time_sec": 3.25,
+              "color": "AMBER"
+            },
+            {
+              "id": "P2",
+              "start_frame": 36,
+              "end_frame": 40,
+              "time_sec": 4.75,
+              "color": "AMBER"
+            }
+          ]
+        },
+        "stage_a_gram": {
+          "total_gram_energy": 10278044.401001228,
+          "low_order_energy": 7152735.025089044,
+          "high_order_energy": 3125309.3759121858,
+          "high_order_ratio": 0.3040762672330678,
+          "per_mode_energy": [
+            3589419.1747603305,
+            1.000275627820243e-27,
+            3563315.850328713,
+            1.6904658110162106e-25,
+            1943176.6111168037,
+            8.102232585343968e-26,
+            484761.2818975082,
+            6.251722673876519e-25,
+            7522.0818933133505,
+            1.7960949173140283e-23,
+            689849.4010045605,
+            2.4171362964276895e-21
+          ]
+        },
+        "stage_b_webp": {
+          "webp_bytes": 498,
+          "mse": 20.93182373046875,
+          "psnr_db": 34.922732920335655,
+          "max_lsb_drift": 112
+        },
+        "carrier_png": "data/experiments/exp_026_resolution\\s3_energy_equivalence\\double_pulse\\carrier_128.png",
+        "carrier_webp": "data/experiments/exp_026_resolution\\s3_energy_equivalence\\double_pulse\\carrier_128.webp"
+      }
+    ],
+    "S4_position_invariance": [
+      {
+        "test_id": "S4_early",
+        "position": "early",
+        "meta": {
+          "family": "S4_position_invariance",
+          "delta_t_target_sec": 1.0,
+          "delta_t_actual_sec": 1.0,
+          "delta_frames": 8,
+          "pulse_count": 2,
+          "pulse_color": "AMBER",
+          "pulses": [
+            {
+              "id": "P1",
+              "start_frame": 7,
+              "end_frame": 9,
+              "time_sec": 1.0,
+              "color": "AMBER"
+            },
+            {
+              "id": "P2",
+              "start_frame": 15,
+              "end_frame": 17,
+              "time_sec": 2.0,
+              "color": "AMBER"
+            }
+          ],
+          "position": "early",
+          "t_center_sec": 1.5
+        },
+        "stage_a_gram": {
+          "total_gram_energy": 3837232.3494206266,
+          "low_order_energy": 2003420.510789849,
+          "high_order_energy": 1833811.838630777,
+          "high_order_ratio": 0.47789960879164883,
+          "per_mode_energy": [
+            897354.7936900824,
+            1051844.4468162146,
+            54221.27028355217,
+            400990.19013956486,
+            818546.4861403217,
+            263551.7105823853,
+            4273.056426648023,
+            112070.8395726138,
+            53148.77522250854,
+            6437.263652317815,
+            27645.55378055671,
+            147147.9631138604
+          ]
+        },
+        "stage_b_webp": {
+          "webp_bytes": 478,
+          "mse": 19.24456787109375,
+          "psnr_db": 35.28772197232909,
+          "max_lsb_drift": 95
+        },
+        "carrier_png": "data/experiments/exp_026_resolution\\s4_position_invariance\\early\\carrier_128.png",
+        "carrier_webp": "data/experiments/exp_026_resolution\\s4_position_invariance\\early\\carrier_128.webp"
+      },
+      {
+        "test_id": "S4_mid",
+        "position": "mid",
+        "meta": {
+          "family": "S4_position_invariance",
+          "delta_t_target_sec": 1.0,
+          "delta_t_actual_sec": 1.0,
+          "delta_frames": 8,
+          "pulse_count": 2,
+          "pulse_color": "AMBER",
+          "pulses": [
+            {
+              "id": "P1",
+              "start_frame": 27,
+              "end_frame": 29,
+              "time_sec": 3.5,
+              "color": "AMBER"
+            },
+            {
+              "id": "P2",
+              "start_frame": 35,
+              "end_frame": 37,
+              "time_sec": 4.5,
+              "color": "AMBER"
+            }
+          ],
+          "position": "mid",
+          "t_center_sec": 4.0
+        },
+        "stage_a_gram": {
+          "total_gram_energy": 3590200.226655459,
+          "low_order_energy": 1915509.7579034495,
+          "high_order_energy": 1674690.4687520098,
+          "high_order_ratio": 0.46646157958496637,
+          "per_mode_energy": [
+            897354.7936900824,
+            5.626550406488867e-28,
+            1018154.9642133671,
+            2.2506201625955467e-27,
+            811400.5380447467,
+            2.2506201625955467e-25,
+            533230.8497833381,
+            9.803701428266201e-24,
+            262169.1986499138,
+            1.416490316556246e-23,
+            67889.8822740112,
+            1.9633420025612007e-21
+          ]
+        },
+        "stage_b_webp": {
+          "webp_bytes": 480,
+          "mse": 18.249125162760418,
+          "psnr_db": 35.518383110393835,
+          "max_lsb_drift": 113
+        },
+        "carrier_png": "data/experiments/exp_026_resolution\\s4_position_invariance\\mid\\carrier_128.png",
+        "carrier_webp": "data/experiments/exp_026_resolution\\s4_position_invariance\\mid\\carrier_128.webp"
+      },
+      {
+        "test_id": "S4_late",
+        "position": "late",
+        "meta": {
+          "family": "S4_position_invariance",
+          "delta_t_target_sec": 1.0,
+          "delta_t_actual_sec": 1.0,
+          "delta_frames": 8,
+          "pulse_count": 2,
+          "pulse_color": "AMBER",
+          "pulses": [
+            {
+              "id": "P1",
+              "start_frame": 47,
+              "end_frame": 49,
+              "time_sec": 6.0,
+              "color": "AMBER"
+            },
+            {
+              "id": "P2",
+              "start_frame": 55,
+              "end_frame": 57,
+              "time_sec": 7.0,
+              "color": "AMBER"
+            }
+          ],
+          "position": "late",
+          "t_center_sec": 6.5
+        },
+        "stage_a_gram": {
+          "total_gram_energy": 3837232.349420622,
+          "low_order_energy": 2003420.5107898493,
+          "high_order_energy": 1833811.8386307722,
+          "high_order_ratio": 0.47789960879164817,
+          "per_mode_energy": [
+            897354.7936900824,
+            1051844.4468162148,
+            54221.27028355208,
+            400990.19013956434,
+            818546.4861403222,
+            263551.7105823848,
+            4273.056426647907,
+            112070.83957261188,
+            53148.77522251182,
+            6437.263652318759,
+            27645.55378054879,
+            147147.9631138618
+          ]
+        },
+        "stage_b_webp": {
+          "webp_bytes": 464,
+          "mse": 19.253824869791668,
+          "psnr_db": 35.28563343655149,
+          "max_lsb_drift": 96
+        },
+        "carrier_png": "data/experiments/exp_026_resolution\\s4_position_invariance\\late\\carrier_128.png",
+        "carrier_webp": "data/experiments/exp_026_resolution\\s4_position_invariance\\late\\carrier_128.webp"
+      }
+    ]
+  }
+}

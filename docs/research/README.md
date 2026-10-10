@@ -14,7 +14,7 @@ Research tools help agents gather evidence and distinguish supported claims from
 
 | Page | What it covers |
 |---|---|
-| [Dimensional Images](dimensional-images/README.md) | Visual Latent Transport: zero-decoder temporal carrier compression for multimodal models |
+| [Dimensional Images](dimensional-images/README.md) | Visual Latent Transport: deterministic temporal carrier encoding for multimodal vision models |
 | [Gemini research](gemini/README.md) | Project-specific empirical studies, starting with Nova code-review reliability |
 | [BREACH](breach/README.md) | A method for structurally new concepts: break one load-bearing assumption, reorganize the system, repeat on orthogonal axes |
 | [The BREACH prompt](breach/prompt.md) | The meta-prompt that runs the method with a language model |

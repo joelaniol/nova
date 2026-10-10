@@ -1,96 +1,81 @@
-# Dimensional Images: Experiment Log & Falsification Suite
+# Experiments: Comprehensive Empirical Index & Falsification Suite
 
-> [!NOTE]
-> This document compiles the empirical experiment logs, stimulus parameters, evaluation protocols, and raw blind-test responses for the **Dimensional Images (Visual Latent Transport)** project. It provides reproducible evidence for the claims summarized in the [Research Overview](README.md).
-
----
-
-## 1. Experiment Overview Index
-
-| Experiment | Focus Area | Container Layout | Key Metric / Result |
-| :--- | :--- | :--- | :--- |
-| **EXP-023** | 32s Dimensional Video Mosaic V1 | 256x256 Mosaic (4x 128x128 tiles) | 4-slot uniform progression verified; 1,338x compression vs raw. |
-| **EXP-024a** | Open-Ended Cognitive Stress Testing | 256x256 Mosaic (4x 128x128 tiles) | Aggregate F1 = 86.5%; 100% Chronology; 100% Object Binding. |
-| **EXP-024b** | Long-Horizon Scaling (128.0s / 1,024 frames) | 512x512 Mosaic (16x 128x128 tiles) | Format Parity Delta F1 = 0.000 (L1 vs L3); 22.8% byte savings in L3. |
-| **EXP-025** | Long-Horizon Falsification Suite (128s / 512x512) | 512x512 Mosaic (ATW vs Uniform) | Full F1-F6 stress suite; mode contention boundary; honest nullspace calibration. |
-| **EXP-026** | Temporal Resolution Boundary & Causal Audit | Single 128x128 Carrier (8.0s, K=12) | Empirical resolution boundary localized at Delta t = 1.50s; 100% causal arrow; energy equivalence distinguished. |
+**Project:** Dimensional Images: Visual Latent Transport for Multimodal AI  
+**Document:** Experiment Index & Empirical Verification Archive (V1.0)  
+**Date:** 2026-10-10  
+**Project Lead:** Joel Aniol  
+**Status:** Experimental research / Working paper  
 
 ---
 
-## 2. Mathematical Carrier Formalization (E3-K12)
+## 1. Scientific Evidence Hierarchy
 
-The temporal projection maps a temporal pixel intensity sequence $s(t)$ of length $N = 64$ frames (8.0 seconds at 8 FPS) onto an orthogonal Gram discrete polynomial basis $P_k(t)$:
+Every experiment in this archive is cataloged under a strict scientific evidence classification:
 
-$$m_k = \sum_{t=0}^{N-1} P_k(t) \cdot s(t), \quad k = 0, \ldots, 11$$
-
-The resulting coefficients $m_k$ are allocated to the carrier sub-quadrants:
-
-1. **Quadrant G ($64 \times 64$):** Baseline spatial frame at slot onset $t = 0$.
-2. **Quadrant T ($64 \times 64$):** 
-   - Channel R: $P_0$ (Temporal Mean / DC Offset).
-   - Channel G: $P_2$ (Curvature / Acceleration / Reversals).
-   - Channel B: High-frequency subcarrier modulation.
-3. **Quadrant C ($64 \times 64$):**
-   - Channel R: $P_1$ (Linear Velocity / Trend).
-   - Channel G: Cb chromatic drift.
-   - Channel B: Cr chromatic subcarrier.
-4. **Quadrant R ($64 \times 64$):** Neutral reference floor (constant intensity 128).
+| Badge | Evidence Classification | Verification Mechanism |
+| :--- | :--- | :--- |
+| `[PROVED]` | **Mathematically Derived & Proven** | Exact analytic derivation (e.g. projection nullspaces, polynomial recurrence, Parseval energy conservation). |
+| `[NUMERICAL]` | **Numerically Measured & Replicated** | Algorithmic benchmark measurements (e.g. MSE, PSNR, WebP compression size, LSB quantization drift). |
+| `[EMPIRICAL-VLM]` | **Experimentally Observed via Blinded VLM** | Independent blinded multi-agent model evaluations on visual stimuli without access to generator ground truth. |
+| `[PROVISIONAL]` | **Empirical Hypothesis / Preliminary Finding** | Observed behavior within tested parameter ranges; requires further parametric sweeps to establish generality. |
 
 ---
 
-## 3. EXP-025: Long-Horizon Falsification Suite (Detailed Protocols)
+## 2. Chronological Experiment Index (EXP-001 to EXP-026)
 
-EXP-025 evaluated 6 stress hypotheses using independent blinded model evaluators.
-
-### F1: Event Density & Salience Thresholds
-* **Stimulus:** 128-second timeline containing 10 discrete chromatic beacons distributed across the 16 slots.
-* **Empirical Finding:**
-  - Evaluator detected all 10 out of 10 events (Recall: 1.0).
-  - Minor salience attenuation observed at Slot 11, successfully localized to Stage 3 (cognitive attention threshold) rather than Stage 1 (projection loss) or Stage 2 (compression loss).
-
-### F2: Identity Swap under Occlusion Gap
-* **Stimulus:** Two objects (Gold Disc on upper lane $y \approx 20$, Cyan Square on lower lane $y \approx 44$). Both enter a complete visual tunnel occlusion from $t = 28$s to $t = 64$s (36.0s gap). During occlusion, trajectories cross.
-* **Empirical Finding:**
-  - Objects re-emerged in Slot 8 with swapped lanes.
-  - Blind evaluation confirmed lane swap detection (`lane_swap_detected: true`, confidence: 1.0).
-  - Object identity preserved without re-identification drift (`identity_maintained_despite_swap: true`).
-
-### F3: Temporal Mode Contention
-* **Stimulus:** In Slot 5 (40.0s - 48.0s), 4 rapid chromatic pulses were triggered within 3.0 seconds ($\Delta t = 1.0$s spacing).
-* **Empirical Finding:**
-  - Carrier container remained structurally intact.
-  - Discrete pulses fused into an overlapping Cyan/Magenta superposition (`mode_contention_observed: true`, `distinguishable_burst_count: 0`).
-  - **Empirical Boundary:** Within an 8.0s window, micro-events spaced at $\Delta t \le 1.0$s exceed the resolving capacity of the fixed 12-polynomial basis, demonstrating the practical necessity of Adaptive Temporal Windowing (ATW).
-
-### F4: Format Isolation Parity (L1 vs L2 vs L3)
-* **Stimulus:** 6 landmark events distributed across the 128-second timeline, evaluated across three formats:
-  - **L1:** 16 individual $128 \times 128$ PNG images (Total: 7,076 Bytes).
-  - **L2:** 4 sub-mosaics of $256 \times 256$ (Total: 6,036 Bytes).
-  - **L3:** 1 unified $512 \times 512$ mosaic (Total: 5,464 Bytes).
-* **Empirical Finding:**
-  - Retrieval Parity: All 6 landmark events detected identically in L1 and L3 ($\Delta F1 = 0.000$).
-  - Container Efficiency: L3 achieved **22.8% byte savings** over L1 while maintaining crisp perceptual boundaries (`sharp_uncompromised`).
-
-### F5: Non-Stationary Adaptive Temporal Windowing (ATW)
-* **Stimulus:** Non-stationary video alternating between 48.0s calm drift and rapid high-velocity oscillation bursts.
-* **Empirical Finding:**
-  - Uniform 8.0s grid suffered significant temporal smearing during dynamic phases (`uniform_temporal_smear_observed: true`).
-  - Adaptive partition (`16,16,16,8,8,8,8,8,8,4,4,4,4,8,4,4`) allocated 4.0s slots to bursts, eliminating smearing (`preferred_representation: "adaptive"`).
-
-### F6: Adversarial Nullspace Calibration
-* **Stimulus:** Two video sequences differing by $\Delta_{\text{raw}} = 31$ in raw pixel space, perturbed strictly within the orthogonal nullspace complement $(I - P^T P)$ of the Gram polynomial basis.
-* **Empirical Finding:**
-  - Carrier difference was below perceptual discrimination ($\Delta_{\text{carrier}} \le 2$ LSB, mean absolute difference 0.0004).
-  - Blind evaluator correctly recognized mathematical unresolvability (`is_unresolvable_nullspace_collision: true`, `uncertainty_honestly_calibrated: true`, confidence: 0.0). No false hallucinations were generated.
+| ID | Title / Focus | Date | Evidence Tier | Container / Layout | Key Finding / Rationale |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **EXP-001** | Wavelet Carrier Baselines & Naive Bicubic | 2026-10-08 | `[NUMERICAL]` | 64x64 DWT (Haar / DB4) | DWT frequency packing preserves edges over bicubic downscaling; establishes baseline. |
+| **EXP-002** | Color Space Quantization (RGB vs YCbCr) | 2026-10-08 | `[NUMERICAL]` | 64x64 YCbCr | Luminance separation reduces compression MSE by 18.4% under lossy WebP. |
+| **EXP-008** | Gram Orthogonal Polynomial Temporal Breakthrough | 2026-10-08 | `[PROVED]` / `[NUMERICAL]` | 128x128 E3-K12 | 12-mode Gram polynomial projection eliminates non-periodic boundary leakage. |
+| **EXP-015** | Continuous Trajectory Tracking | 2026-10-09 | `[EMPIRICAL-VLM]` | 128x128 Single-Tile | Models track object kinematic vectors via P0 mean offset and P2 curvature. |
+| **EXP-023** | 32.0-Second Dimensional Video Mosaic V1 | 2026-10-09 | `[NUMERICAL]` / `[EMPIRICAL-VLM]` | 256x256 Mosaic (4 slots) | 4-slot uniform progression verified; 1,338x compression ratio vs raw uncompressed video. |
+| **EXP-024a** | Open-Ended Cognitive Stress Testing | 2026-10-09 | `[EMPIRICAL-VLM]` | 256x256 Mosaic (4 slots) | Aggregate F1 = 86.5%; 100% Chronology; 100% Boundary Crossing Continuity. |
+| **EXP-024b** | Long-Horizon Scaling (128.0s / 1,024 frames) | 2026-10-09 | `[NUMERICAL]` / `[EMPIRICAL-VLM]` | 512x512 Mosaic (16 slots) | Zero format degradation between 16 individual tiles and unified 512x512 mosaic ($\Delta \text{F1} = 0.000$). |
+| **EXP-025** | Long-Horizon Falsification Suite (F1–F6) | 2026-10-09 | `[EMPIRICAL-VLM]` / `[PROVED]` | 512x512 Mosaic (ATW vs Uniform) | Full 6-family adversarial stress suite; ATW confirmed; honest nullspace calibration validated. |
+| **EXP-026** | Empirical Temporal Resolution Boundary Audit | 2026-10-10 | `[EMPIRICAL-VLM]` / `[PROVISIONAL]` | 128x128 Single-Tile (8.0s) | Resolution threshold localized to $\Delta t \in (1.00\text{s}, 1.50\text{s}]$; arrow of time confirmed with 100% accuracy. |
 
 ---
 
-## 4. EXP-026: Empirical Temporal Resolution Boundary Audit
+## 3. EXP-025: Long-Horizon Falsification Suite
 
-To resolve the peer-review question raised by ChatGPT regarding whether temporal event separation possesses a hard boundary or a continuous transition, EXP-026 isolated the fundamental 2-pulse discrimination problem in a single $128 \times 128$ carrier (8.0s @ 8 FPS, $K=12$ modes).
+* **Date:** 2026-10-09  
+* **Target:** 128.0s continuous video (1,024 frames @ 8 FPS) mapped into a single 512x512 mosaic.  
+* **Artifacts Directory:** [`experiments/2026/EXP-025/`](experiments/2026/EXP-025/) ([`protocol.json`](experiments/2026/EXP-025/protocol.json), [`model-responses.jsonl`](experiments/2026/EXP-025/model-responses.jsonl)).  
 
-### S1: Two Identical Pulses (Separation Matrix Sweep)
-Evaluated across 6 discrete time deltas:
+### F1: Event Density & Cognitive Attention Limits (`[EMPIRICAL-VLM]`)
+* **Stimulus:** 10 discrete chromatic beacons distributed across the 16 slots.
+* **Finding:** All 10/10 events detected (Recall: 1.0). Minor salience attenuation at Slot 11 attributed to VLM attention capacity rather than carrier loss.
+
+### F2: Identity Swap under 36.0s Tunnel Occlusion (`[EMPIRICAL-VLM]`)
+* **Stimulus:** Gold disc ($y \approx 20$) and Cyan square ($y \approx 44$) cross trajectories while fully occluded from $t=28\text{s}$ to $t=64\text{s}$.
+* **Finding:** Swap recognized with 100% confidence (`lane_swap_detected: true`). Object identities preserved without drift.
+
+### F3: Temporal Mode Contention Boundary (`[EMPIRICAL-VLM]`)
+* **Stimulus:** 4 rapid chromatic pulses triggered within 3.0s ($\Delta t = 1.0\text{s}$) in Slot 5.
+* **Finding:** Discrete pulses fused into an overlapping chromatic superposition in Quadrant C/T. Identifies an empirical resolution boundary for static 8.0s slots, demonstrating the need for ATW.
+
+### F4: Format Isolation Parity (L1 vs L2 vs L3) (`[NUMERICAL]` / `[EMPIRICAL-VLM]`)
+* **Stimulus:** 6 landmark events evaluated across 16 individual tiles (L1: 7,076 B), 4 sub-mosaics (L2: 6,036 B), and 1 unified mosaic (L3: 5,464 B).
+* **Finding:** Perfect retrieval parity ($\Delta \text{F1} = 0.000$) with **22.8% byte savings** in the unified container.
+
+### F5: Non-Stationary Adaptive Temporal Windowing (ATW) (`[EMPIRICAL-VLM]`)
+* **Stimulus:** Sequence alternating between 48.0s calm drift and rapid high-velocity oscillation bursts.
+* **Finding:** Uniform 8.0s grid suffered temporal smearing. ATW dynamic allocation eliminated smear (`preferred_representation: "adaptive"`).
+
+### F6: Adversarial Nullspace Calibration (`[PROVED]` / `[EMPIRICAL-VLM]`)
+* **Stimulus:** Video pair differing by $\Delta_{\text{raw}} = 31$ in raw pixel space, perturbed strictly within the orthogonal nullspace $(I - P^T P)$.
+* **Finding:** Carrier difference was imperceptible ($\Delta_{\text{carrier}} \le 2$ LSB). Blinded model correctly recognized mathematical indeterminacy (`0.0 confidence`), confirming honest uncertainty reporting.
+
+---
+
+## 4. EXP-026: Empirical Temporal Resolution Boundary & Causal Information Audit
+
+* **Date:** 2026-10-10  
+* **Target:** Single 128x128 E3-K12 Carrier (8.0s @ 8 FPS, $K=12$ modes).  
+* **Artifacts Directory:** [`experiments/2026/EXP-026/`](experiments/2026/EXP-026/) ([`protocol.json`](experiments/2026/EXP-026/protocol.json), [`metrics.csv`](experiments/2026/EXP-026/metrics.csv), [`model-responses.jsonl`](experiments/2026/EXP-026/model-responses.jsonl)).  
+
+### S1: Two Identical Pulses (Separation Matrix Sweep) (`[EMPIRICAL-VLM]` / `[PROVISIONAL]`)
 
 | Delta t | Frame Delta | Perceptual Regime | Structural Pattern in Quadrant C | Classification |
 | :--- | :--- | :--- | :--- | :--- |
@@ -101,31 +86,29 @@ Evaluated across 6 discrete time deltas:
 | **2.00 s** | 16 frames | High-order interference | 4-column interference grid clearly separated | `separable_double` |
 | **3.00 s** | 24 frames | Fully resolved regime | Wide spatial separation across temporal subcarrier | `separable_double` |
 
-* **Empirical Resolution Limit:** Exactly **$\Delta t = 1.50$ seconds** (12 frames at 8 FPS) under the standard E3-K12 configuration.
-* **Spectral Interference Onset:** Phase interference is detectable as destructive desaturation starting at $\Delta t = 1.00$s.
-
-| Fused Single ($\Delta t = 0.25$s) | Bifurcation Boundary ($\Delta t = 1.50$s) | Separated Double ($\Delta t = 3.00$s) |
+| Figure 3a: Fused Single ($\Delta t = 0.25$s) | Figure 3b: Bifurcation Boundary ($\Delta t = 1.50$s) | Figure 3c: Separated Double ($\Delta t = 3.00$s) |
 | :---: | :---: | :---: |
-| ![Delta 0.25s](exp026_delta_0_25s.png) | ![Delta 1.50s](exp026_delta_1_50s.png) | ![Delta 3.00s](exp026_delta_3_00s.png) |
+| ![Figure 3a](figures/exp-026/exp026_delta_0_25s.png) | ![Figure 3b](figures/exp-026/exp026_delta_1_50s.png) | ![Figure 3c](figures/exp-026/exp026_delta_3_00s.png) |
 
-### S2: Causal Chronology & Arrow of Time
-* **Test:** Pulse 1 (Cyan) $\to$ Pulse 2 (Magenta) vs Pulse 1 (Magenta) $\to$ Pulse 2 (Cyan).
-* **Empirical Finding:** Evaluator correctly identified temporal order in both directions with **100% accuracy** (`causal_arrow_of_time_preserved: true`, confidence: 1.0).
-* **Mechanism:** Quadrant C exhibits a strict 180° phase inversion in the odd Gram polynomial coefficients ($P_1$, $P_3$), preserving causal chronology unambiguously.
+* **Empirical Resolution Transition:** The boundary of bimodal separation is observed in the interval $\Delta t \in (1.00\text{s}, 1.50\text{s}]$. At $\Delta t = 1.50\text{s}$ (12 frames @ 8 FPS), the carrier bifurcates into two distinct lobes (confidence 0.92).
+* **Scientific Caveat:** This boundary is empirical for E3-K12 @ 8 FPS and frontier VLMs; it is not an unalterable universal law.
 
-### S3: Integral Energy Equivalence Discrimination
-* **Test:** 1 broad continuous pulse vs 2 discrete pulses with **mathematically identical integrated energy** ($\int I^2 dt$).
-* **Empirical Finding:** Evaluator distinguished both conditions with **98% confidence** (`distinguishable_from_integral: true`).
-* **Mechanism:** Single pulse yields smooth, unimodal $P_2$ response; double pulse generates strong bimodal curvature in Quadrant T (Green channel) and high-frequency Gram subcarrier modulation (Blue channel).
+### S2: Chromatic Chronology & Temporal Arrow of Time (`[EMPIRICAL-VLM]`)
+* **Test:** Cyan $\to$ Magenta vs. Magenta $\to$ Cyan (identical timing, position, and amplitudes).
+* **Finding:** 100% accurate classification (confidence 1.0).
+* **Mechanism:** 180° phase inversion in odd Gram polynomial coefficients ($P_1, P_3, \dots$) distinctly reverses chromatic trajectory in Quadrant C.
 
-### S4: Window Position Invariance
-* **Test:** Identical pulse pair ($\Delta t = 1.0$s) positioned early ($t = 1.5$s), mid ($t = 4.0$s), and late ($t = 6.5$s) in the 8-second window.
-* **Empirical Finding:** All three positions achieved `high` salience with **zero boundary attenuation** (`position_invariance_confirmed: true`, confidence: 0.99).
-* **Mechanism:** Temporal position is encoded continuously as a smooth chromatic phase shift (warm orange/lime $\to$ magenta/teal $\to$ cool violet/cyan) across the polynomial basis.
+### S3: Energy Equivalence Integral Fallacy (`[EMPIRICAL-VLM]`)
+* **Test:** 1 broad continuous pulse vs. 2 discrete pulses with **mathematically identical integrated energy** ($\int I^2 dt$).
+* **Finding:** Distinguished with **98% confidence**. Curvature ($P_2$) and high-order Gram subcarriers discriminate the discrete pulses from the continuous pulse.
+
+### S4: Window Position Invariance (`[EMPIRICAL-VLM]`)
+* **Test:** Identical pulse pair placed early ($t=1.5\text{s}$), mid ($t=4.0\text{s}$), and late ($t=6.5\text{s}$).
+* **Finding:** Uniform `high` salience with **zero boundary attenuation** (confidence 0.99).
 
 ---
 
-## 5. Transmission & Bitrate Metrics
+## 5. Streaming Bitrate & Payload Accounting
 
 $$\text{Continuous Streaming Rate} = \frac{\text{Container Payload (Bytes)} + \text{Sidecar Metadata (Bytes)}}{\text{Timeline Duration (Seconds)}}$$
 
@@ -137,4 +120,11 @@ $$\text{Effective Bandwidth Reduction Factor} = \frac{12,582,912 \text{ B}}{5,69
 
 ---
 
-[Back to Research Overview](README.md) · [Evidence Verification Mode (EVM)](../evidence-verification-mode-evm/README.md)
+## 6. Reproducibility & Open Experiment Artifacts
+
+Every experiment run produces a standardized machine-readable artifact bundle:
+1. `protocol.json`: Generator configuration, frame indices, pulse parameters, and compression metrics.
+2. `metrics.csv`: Tabular quantitative measurements.
+3. `model-responses.jsonl`: Verbatim model evaluation transcripts from blinded test instances.
+
+Refer to [`experiments/2026/`](experiments/2026/) for all released bundles.
