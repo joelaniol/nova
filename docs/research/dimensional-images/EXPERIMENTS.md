@@ -1,7 +1,7 @@
-# Experiments: Comprehensive Empirical Index & Falsification Suite
+# Experiments: Milestone Experiment Index & Verification Archive
 
 **Project:** Dimensional Images: Visual Latent Transport for Multimodal AI  
-**Document:** Experiment Index & Empirical Verification Archive (V1.0)  
+**Document:** Experiment Index & Empirical Verification Archive (V1.1)  
 **Date:** 2026-10-10  
 **Project Lead:** Joel Aniol  
 **Status:** Experimental research / Working paper  
@@ -21,7 +21,9 @@ Every experiment in this archive is cataloged under a strict scientific evidence
 
 ---
 
-## 2. Chronological Experiment Index (EXP-001 to EXP-026)
+## 2. Key Milestone Experiment Trajectory (EXP-001 to EXP-026)
+
+*Note: This index documents the primary architectural milestones along the research trajectory from initial wavelet baselines to long-horizon 512x512 video mosaics.*
 
 | ID | Title / Focus | Date | Evidence Tier | Container / Layout | Key Finding / Rationale |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -64,7 +66,7 @@ Every experiment in this archive is cataloged under a strict scientific evidence
 * **Finding:** Uniform 8.0s grid suffered temporal smearing. ATW dynamic allocation eliminated smear (`preferred_representation: "adaptive"`).
 
 ### F6: Adversarial Nullspace Calibration (`[PROVED]` / `[EMPIRICAL-VLM]`)
-* **Stimulus:** Video pair differing by $\Delta_{\text{raw}} = 31$ in raw pixel space, perturbed strictly within the orthogonal nullspace $(I - P^T P)$.
+* **Stimulus:** Video pair differing by $\Delta_{\text{raw}} = 31$ in raw pixel space, perturbed strictly within the orthogonal nullspace complement $(I_N - P^T P) \mathbf{u}$.
 * **Finding:** Carrier difference was imperceptible ($\Delta_{\text{carrier}} \le 2$ LSB). Blinded model correctly recognized mathematical indeterminacy (`0.0 confidence`), confirming honest uncertainty reporting.
 
 ---
@@ -73,14 +75,15 @@ Every experiment in this archive is cataloged under a strict scientific evidence
 
 * **Date:** 2026-10-10  
 * **Target:** Single 128x128 E3-K12 Carrier (8.0s @ 8 FPS, $K=12$ modes).  
+* **Evaluation Structure:** 4 distinct sub-protocols (BT1 to BT4), each evaluated via independent blinded model instances.  
 * **Artifacts Directory:** [`experiments/2026/EXP-026/`](experiments/2026/EXP-026/) ([`protocol.json`](experiments/2026/EXP-026/protocol.json), [`metrics.csv`](experiments/2026/EXP-026/metrics.csv), [`model-responses.jsonl`](experiments/2026/EXP-026/model-responses.jsonl)).  
 
 ### S1: Two Identical Pulses (Separation Matrix Sweep) (`[EMPIRICAL-VLM]` / `[PROVISIONAL]`)
 
 | Delta t | Frame Delta | Perceptual Regime | Structural Pattern in Quadrant C | Classification |
 | :--- | :--- | :--- | :--- | :--- |
-| **0.25 s** | 2 frames | Sub-Rayleigh coherence | Unimodal vertical stripe, identical to single pulse | `fused_single` |
-| **0.50 s** | 4 frames | Sub-Rayleigh coherence | Unimodal vertical stripe, zero discernible interference | `fused_single` |
+| **0.25 s** | 2 frames | Coherent fusion | Unimodal vertical stripe, identical to single pulse | `fused_single` |
+| **0.50 s** | 4 frames | Coherent fusion | Unimodal vertical stripe, zero discernible interference | `fused_single` |
 | **1.00 s** | 8 frames | Spectral phase interference | Desaturation / destructive phase cancellation, unimodal topology | `fused_single` |
 | **1.50 s** | 12 frames | **Bimodal bifurcation** | **Split into 2 distinct symmetrical lobes, doubled line density** | `separable_double` |
 | **2.00 s** | 16 frames | High-order interference | 4-column interference grid clearly separated | `separable_double` |
@@ -91,7 +94,7 @@ Every experiment in this archive is cataloged under a strict scientific evidence
 | ![Figure 3a](figures/exp-026/exp026_delta_0_25s.png) | ![Figure 3b](figures/exp-026/exp026_delta_1_50s.png) | ![Figure 3c](figures/exp-026/exp026_delta_3_00s.png) |
 
 * **Empirical Resolution Transition:** The boundary of bimodal separation is observed in the interval $\Delta t \in (1.00\text{s}, 1.50\text{s}]$. At $\Delta t = 1.50\text{s}$ (12 frames @ 8 FPS), the carrier bifurcates into two distinct lobes (confidence 0.92).
-* **Scientific Caveat:** This boundary is empirical for E3-K12 @ 8 FPS and frontier VLMs; it is not an unalterable universal law.
+* **Scientific Caveat:** This boundary is an empirical pilot finding for E3-K12 @ 8 FPS and frontier VLMs; it is not an unalterable universal law.
 
 ### S2: Chromatic Chronology & Temporal Arrow of Time (`[EMPIRICAL-VLM]`)
 * **Test:** Cyan $\to$ Magenta vs. Magenta $\to$ Cyan (identical timing, position, and amplitudes).
@@ -112,11 +115,11 @@ Every experiment in this archive is cataloged under a strict scientific evidence
 
 $$\text{Continuous Streaming Rate} = \frac{\text{Container Payload (Bytes)} + \text{Sidecar Metadata (Bytes)}}{\text{Timeline Duration (Seconds)}}$$
 
-$$\text{EXP-025 Rate} = \frac{5,464 \text{ B} + 230 \text{ B}}{128.0 \text{ s}} \approx 44.5 \text{ Bytes / second}$$
+$$\text{EXP-025 Rate} = \frac{5,464 \text{ B} + 215 \text{ B}}{128.0 \text{ s}} \approx 44.4 \text{ Bytes / second}$$
 
 $$\text{Raw Video Frame Baseline (1,024 frames @ 64x64 RGB)} = 12,582,912 \text{ Bytes} \implies 98,304 \text{ Bytes / second}$$
 
-$$\text{Effective Bandwidth Reduction Factor} = \frac{12,582,912 \text{ B}}{5,694 \text{ B}} \approx 2,210\times$$
+$$\text{Effective Bandwidth Reduction Factor} = \frac{12,582,912 \text{ B}}{5,679 \text{ B}} \approx 2,215\times$$
 
 ---
 
@@ -125,6 +128,6 @@ $$\text{Effective Bandwidth Reduction Factor} = \frac{12,582,912 \text{ B}}{5,69
 Every experiment run produces a standardized machine-readable artifact bundle:
 1. `protocol.json`: Generator configuration, frame indices, pulse parameters, and compression metrics.
 2. `metrics.csv`: Tabular quantitative measurements.
-3. `model-responses.jsonl`: Verbatim model evaluation transcripts from blinded test instances.
+3. `model-responses.jsonl`: Verbatim model evaluation transcripts, including prompt protocols, stimulus SHA256 hashes, and extracted model responses.
 
 Refer to [`experiments/2026/`](experiments/2026/) for all released bundles.

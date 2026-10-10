@@ -65,8 +65,8 @@
             "psnr_db": 34.58428902193117,
             "max_lsb_drift": 112
           },
-          "carrier_png": "data/experiments/exp_026_resolution\\s1_delta_matrix\\delta_0_25s\\carrier_128.png",
-          "carrier_webp": "data/experiments/exp_026_resolution\\s1_delta_matrix\\delta_0_25s\\carrier_128.webp"
+          "carrier_png": "s1_delta_matrix/delta_0_25s/carrier_128.png",
+          "carrier_webp": "s1_delta_matrix/delta_0_25s/carrier_128.webp"
         },
         {
           "test_id": "S1_delta_0_50s",
@@ -121,8 +121,8 @@
             "psnr_db": 34.58428902193117,
             "max_lsb_drift": 112
           },
-          "carrier_png": "data/experiments/exp_026_resolution\\s1_delta_matrix\\delta_0_50s\\carrier_128.png",
-          "carrier_webp": "data/experiments/exp_026_resolution\\s1_delta_matrix\\delta_0_50s\\carrier_128.webp"
+          "carrier_png": "s1_delta_matrix/delta_0_50s/carrier_128.png",
+          "carrier_webp": "s1_delta_matrix/delta_0_50s/carrier_128.webp"
         },
         {
           "test_id": "S1_delta_1_00s",
@@ -177,8 +177,8 @@
             "psnr_db": 35.518383110393835,
             "max_lsb_drift": 113
           },
-          "carrier_png": "data/experiments/exp_026_resolution\\s1_delta_matrix\\delta_1_00s\\carrier_128.png",
-          "carrier_webp": "data/experiments/exp_026_resolution\\s1_delta_matrix\\delta_1_00s\\carrier_128.webp"
+          "carrier_png": "s1_delta_matrix/delta_1_00s/carrier_128.png",
+          "carrier_webp": "s1_delta_matrix/delta_1_00s/carrier_128.webp"
         },
         {
           "test_id": "S1_delta_1_50s",
@@ -233,8 +233,8 @@
             "psnr_db": 35.88153393292007,
             "max_lsb_drift": 103
           },
-          "carrier_png": "data/experiments/exp_026_resolution\\s1_delta_matrix\\delta_1_50s\\carrier_128.png",
-          "carrier_webp": "data/experiments/exp_026_resolution\\s1_delta_matrix\\delta_1_50s\\carrier_128.webp"
+          "carrier_png": "s1_delta_matrix/delta_1_50s/carrier_128.png",
+          "carrier_webp": "s1_delta_matrix/delta_1_50s/carrier_128.webp"
         },
         {
           "test_id": "S1_delta_2_00s",
@@ -289,8 +289,8 @@
             "psnr_db": 34.67158004040043,
             "max_lsb_drift": 139
           },
-          "carrier_png": "data/experiments/exp_026_resolution\\s1_delta_matrix\\delta_2_00s\\carrier_128.png",
-          "carrier_webp": "data/experiments/exp_026_resolution\\s1_delta_matrix\\delta_2_00s\\carrier_128.webp"
+          "carrier_png": "s1_delta_matrix/delta_2_00s/carrier_128.png",
+          "carrier_webp": "s1_delta_matrix/delta_2_00s/carrier_128.webp"
         },
         {
           "test_id": "S1_delta_3_00s",
@@ -345,8 +345,8 @@
             "psnr_db": 34.75277961443763,
             "max_lsb_drift": 122
           },
-          "carrier_png": "data/experiments/exp_026_resolution\\s1_delta_matrix\\delta_3_00s\\carrier_128.png",
-          "carrier_webp": "data/experiments/exp_026_resolution\\s1_delta_matrix\\delta_3_00s\\carrier_128.webp"
+          "carrier_png": "s1_delta_matrix/delta_3_00s/carrier_128.png",
+          "carrier_webp": "s1_delta_matrix/delta_3_00s/carrier_128.webp"
         }
       ],
       "single_pulse_control": {
@@ -392,8 +392,8 @@
           "psnr_db": 35.289108764031084,
           "max_lsb_drift": 109
         },
-        "carrier_png": "data/experiments/exp_026_resolution\\s1_delta_matrix\\control_single_pulse\\carrier_128.png",
-        "carrier_webp": "data/experiments/exp_026_resolution\\s1_delta_matrix\\control_single_pulse\\carrier_128.webp"
+        "carrier_png": "s1_delta_matrix/control_single_pulse/carrier_128.png",
+        "carrier_webp": "s1_delta_matrix/control_single_pulse/carrier_128.webp"
       }
     },
     "S2_chromatic_causal": [
@@ -450,8 +450,8 @@
           "psnr_db": 38.264338024957794,
           "max_lsb_drift": 52
         },
-        "carrier_png": "data/experiments/exp_026_resolution\\s2_chromatic_causal\\cyan_then_magenta\\carrier_128.png",
-        "carrier_webp": "data/experiments/exp_026_resolution\\s2_chromatic_causal\\cyan_then_magenta\\carrier_128.webp"
+        "carrier_png": "s2_chromatic_causal/cyan_then_magenta/carrier_128.png",
+        "carrier_webp": "s2_chromatic_causal/cyan_then_magenta/carrier_128.webp"
       },
       {
         "test_id": "S2_magenta_then_cyan",
@@ -506,8 +506,8 @@
           "psnr_db": 38.3689130245244,
           "max_lsb_drift": 52
         },
-        "carrier_png": "data/experiments/exp_026_resolution\\s2_chromatic_causal\\magenta_then_cyan\\carrier_128.png",
-        "carrier_webp": "data/experiments/exp_026_resolution\\s2_chromatic_causal\\magenta_then_cyan\\carrier_128.webp"
+        "carrier_png": "s2_chromatic_causal/magenta_then_cyan/carrier_128.png",
+        "carrier_webp": "s2_chromatic_causal/magenta_then_cyan/carrier_128.webp"
       }
     ],
     "S3_energy_equivalence": [
@@ -555,8 +555,8 @@
           "psnr_db": 34.58428902193117,
           "max_lsb_drift": 112
         },
-        "carrier_png": "data/experiments/exp_026_resolution\\s3_energy_equivalence\\single_broad\\carrier_128.png",
-        "carrier_webp": "data/experiments/exp_026_resolution\\s3_energy_equivalence\\single_broad\\carrier_128.webp"
+        "carrier_png": "s3_energy_equivalence/single_broad/carrier_128.png",
+        "carrier_webp": "s3_energy_equivalence/single_broad/carrier_128.webp"
       },
       {
         "test_id": "S3_double_pulse",
@@ -609,8 +609,8 @@
           "psnr_db": 34.922732920335655,
           "max_lsb_drift": 112
         },
-        "carrier_png": "data/experiments/exp_026_resolution\\s3_energy_equivalence\\double_pulse\\carrier_128.png",
-        "carrier_webp": "data/experiments/exp_026_resolution\\s3_energy_equivalence\\double_pulse\\carrier_128.webp"
+        "carrier_png": "s3_energy_equivalence/double_pulse/carrier_128.png",
+        "carrier_webp": "s3_energy_equivalence/double_pulse/carrier_128.webp"
       }
     ],
     "S4_position_invariance": [
@@ -669,8 +669,8 @@
           "psnr_db": 35.28772197232909,
           "max_lsb_drift": 95
         },
-        "carrier_png": "data/experiments/exp_026_resolution\\s4_position_invariance\\early\\carrier_128.png",
-        "carrier_webp": "data/experiments/exp_026_resolution\\s4_position_invariance\\early\\carrier_128.webp"
+        "carrier_png": "s4_position_invariance/early/carrier_128.png",
+        "carrier_webp": "s4_position_invariance/early/carrier_128.webp"
       },
       {
         "test_id": "S4_mid",
@@ -727,8 +727,8 @@
           "psnr_db": 35.518383110393835,
           "max_lsb_drift": 113
         },
-        "carrier_png": "data/experiments/exp_026_resolution\\s4_position_invariance\\mid\\carrier_128.png",
-        "carrier_webp": "data/experiments/exp_026_resolution\\s4_position_invariance\\mid\\carrier_128.webp"
+        "carrier_png": "s4_position_invariance/mid/carrier_128.png",
+        "carrier_webp": "s4_position_invariance/mid/carrier_128.webp"
       },
       {
         "test_id": "S4_late",
@@ -785,8 +785,8 @@
           "psnr_db": 35.28563343655149,
           "max_lsb_drift": 96
         },
-        "carrier_png": "data/experiments/exp_026_resolution\\s4_position_invariance\\late\\carrier_128.png",
-        "carrier_webp": "data/experiments/exp_026_resolution\\s4_position_invariance\\late\\carrier_128.webp"
+        "carrier_png": "s4_position_invariance/late/carrier_128.png",
+        "carrier_webp": "s4_position_invariance/late/carrier_128.webp"
       }
     ]
   }

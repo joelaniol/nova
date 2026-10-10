@@ -1,7 +1,7 @@
 # Methodology: Mathematical Foundations of Visual Latent Transport
 
 **Project:** Dimensional Images  
-**Document:** Methodology & Theoretical Specification (V1.0)  
+**Document:** Methodology & Theoretical Specification (V1.1)  
 **Date:** 2026-10-10  
 **Lead:** Joel Aniol  
 **Classification:** `[PROVED]` (Mathematical Derivations) / `[NUMERICAL]` (Quantization Bounds)  
@@ -33,7 +33,11 @@ A discrete polynomial basis $\{P_k(n)\}_{k=0}^{K-1}$ of degree $k$ over $N$ disc
 
 $$\sum_{n=0}^{N-1} P_j(n) P_k(n) = \delta_{jk} = \begin{cases} 1 & \text{if } j = k \\ 0 & \text{if } j \neq k \end{cases}$$
 
-### 2.2 Discrete Recurrence Relation
+In matrix notation, letting $P \in \mathbb{R}^{K \times N}$ denote the projection matrix with rows $P_k$:
+
+$$P P^T = I_K$$
+
+### 2.2 Discrete Recurrence & Normalization
 The basis polynomials are constructed via the standard three-term recurrence:
 
 $$P_0(n) = \frac{1}{\sqrt{N}}$$
@@ -42,44 +46,42 @@ $$P_1(n) = \sqrt{\frac{12}{N(N^2 - 1)}} \left(n - \frac{N - 1}{2}\right)$$
 
 $$P_{k+1}(n) = \alpha_k \left(n - \frac{N - 1}{2}\right) P_k(n) - \beta_k P_{k-1}(n)$$
 
-where normalization coefficients $\alpha_k$ and $\beta_k$ are chosen such that $\|P_k\|_2 = 1$.
+where normalization coefficients $\alpha_k$ and $\beta_k$ are chosen such that $\|P_k\|_2 = 1$. The sign convention is anchored such that $P_1(N-1) > 0$, $P_2(0) > 0$ (convex parabola), and $P_k(N-1) > 0$ for $k \ge 3$.
 
 ### 2.3 Temporal Projection
-For any spatial pixel channel $s(n) = S_n(x, y)$, the $k$-th temporal projection coefficient $m_k$ is defined by:
+For centered pixel luminance $y(n) = Y_n(x, y) - 128.0$, the $k$-th temporal projection coefficient $M_k$ is computed by:
 
-$$m_k(x, y) = \sum_{n=0}^{N-1} P_k(n) s(n), \quad k \in \{0, 1, \dots, K-1\}$$
+$$M_k(x, y) = \sum_{n=0}^{N-1} P_k(n) \cdot y(n), \quad k \in \{0, 1, \dots, K-1\}$$
 
-In matrix notation, letting $P \in \mathbb{R}^{K \times N}$ denote the projection matrix with rows $P_k$:
+In vector notation:
 
-$$\mathbf{m}(x, y) = P \mathbf{s}(x, y)$$
+$$\mathbf{M}(x, y) = P \mathbf{y}(x, y)$$
 
-### 2.4 Energy Conservation & Parseval Identity
-By orthonormality, the total energy captured by the $K$ coefficients satisfies Bessel's inequality:
+### 2.4 Energy Conservation & Bessel Inequality
+By orthonormality, the energy captured by the $K$ coefficients satisfies:
 
-$$\sum_{k=0}^{K-1} m_k(x, y)^2 \le \sum_{n=0}^{N-1} s(n)^2 = \|\mathbf{s}(x, y)\|_2^2$$
+$$\sum_{k=0}^{K-1} M_k(x, y)^2 \le \sum_{n=0}^{N-1} y(n)^2 = \|\mathbf{y}(x, y)\|_2^2$$
 
-Equality holds if and only if the temporal signal $\mathbf{s}(x, y)$ lies entirely within the subspace spanned by $\{P_0, \dots, P_{K-1}\}$.
-
-### 2.5 The Orthogonal Nullspace
-Since $K < N$ (in E3-K12, $K=12$ modes for $N=64$ frames), the projection operator $P$ induces an exact $(N - K)$-dimensional nullspace $\mathcal{N}$:
+### 2.5 The Orthogonal Nullspace Complement
+Since $K < N$ ($K=12$ modes for $N=64$ frames in E3-K12), the projection operator $P \in \mathbb{R}^{K \times N}$ induces an exact $(N - K)$-dimensional nullspace $\mathcal{N} = \ker(P)$ on $\mathbb{R}^N$:
 
 $$\dim(\mathcal{N}) = N - K = 64 - 12 = 52$$
 
-Any temporal perturbation $\Delta \mathbf{s} \in \mathcal{N}$ satisfies:
+For an arbitrary temporal sequence $\mathbf{u} \in \mathbb{R}^N$, its projection onto the nullspace is formed by the orthogonal complement operator:
 
-$$P \Delta \mathbf{s} = \mathbf{0}$$
+$$\Delta \mathbf{s} = (I_N - P^T P) \mathbf{u}$$
 
-Consequently, two distinct video signals $S_A(t)$ and $S_B(t)$ whose difference $\Delta \mathbf{s} = S_A - S_B$ lies within $\mathcal{N}$ produce mathematically identical projection coefficients:
+Because $P P^T = I_K$:
 
-$$\mathbf{m}_A(x, y) = \mathbf{m}_B(x, y)$$
+$$P \Delta \mathbf{s} = P(I_N - P^T P)\mathbf{u} = (P - P P^T P)\mathbf{u} = (P - I_K P)\mathbf{u} = \mathbf{0}$$
 
-This property is fundamental to the honest uncertainty calibration demonstrated in EXP-025 (F6).
+Consequently, two distinct video signals $S_A(t)$ and $S_B(t)$ whose difference lies in $\mathcal{N}$ produce mathematically identical Gram projection coefficients.
 
 ---
 
-## 3. The E3-K12 Carrier Architecture
+## 3. The E3-K12 Spatial Carrier Specification
 
-The E3-K12 specification maps a continuous 8.0-second video block ($N=64$ frames @ 8 FPS) into a single 128x128 pixel visual carrier tile partitioned into four 64x64 quadrants:
+The E3-K12 specification maps a continuous 8.0-second video block ($N=64$ frames @ 8 FPS, $H=64, W=64$) into a single 128x128 pixel visual carrier tile partitioned into four 64x64 quadrants:
 
 ```
 +---------------------------+---------------------------+
@@ -97,31 +99,45 @@ The E3-K12 specification maps a continuous 8.0-second video block ($N=64$ frames
 +---------------------------+---------------------------+
 ```
 
-### 3.1 Quadrant Allocation Specification
+### 3.1 Mode Normalization & Dynamic Range Mapping
+To avoid clipping while preserving faint transients, projection coefficients $M_k \in \mathbb{R}$ are normalized using a calibrated saturation divisor ($D = 35.0$):
 
-| Quadrant | Coordinate Range | Channel | Mathematical Mapping | Physical Interpretation |
-| :--- | :--- | :--- | :--- | :--- |
-| **G (Geometric)** | $u \in [0, 63], v \in [0, 63]$ | R, G, B | $S(x, y, 0)$ mapped to RGB | **Base Scene State:** High-resolution spatial snapshot at window onset ($t=0$). Anchors object geometry and background layout. |
-| **T (Temporal)** | $u \in [64, 127], v \in [0, 63]$ | **R** | $m_0 = \sum P_0(n) Y(n)$ | **Mean Luminance (P0):** Time-averaged scene brightness. |
-| | | **G** | $m_2 = \sum P_2(n) Y(n)$ | **Curvature / Acceleration (P2):** Detects velocity reversals, pulse counts, and bimodal bifurcations. |
-| | | **B** | $\sum_{k=3}^{11} w_k m_k Y(n)$ | **High-Order Transient Subcarrier:** Weighted superposition of micro-transients and oscillations. |
-| **C (Chromatic)** | $u \in [0, 63], v \in [64, 127]$ | **R** | $m_1^{Cb} = \sum P_1(n) Cb(n)$ | **Linear Color Trend (P1):** Determines temporal arrow of time (e.g. Cyan $\to$ Magenta vs Magenta $\to$ Cyan). |
-| | | **G** | $m_0^{Cb} - Cb(0)$ | **Chromatic Drift:** Net color migration over duration. |
-| | | **B** | $\sum_{k=2}^{11} w_k m_k^{Cr}$ | **Chrominance High-Order Subcarrier:** Cr-channel transients and beacon flares. |
-| **R (Reference)** | $u \in [64, 127], v \in [64, 127]$ | R, G, B | Uniform constant 128 | **Calibration Floor:** Neutral reference floor enabling invariant contrast calibration across varying VLM backbones. |
+$$m_k^{\text{norm}}(x, y) = \text{clip}\left(\frac{M_k(x, y)}{35.0}, -1.0, 1.0\right)$$
 
-### 3.2 Dynamic Range Mapping & Quantization
-Raw projection coefficients $m_k \in \mathbb{R}$ are quantized to 8-bit unsigned integers $Q(m_k) \in [0, 255]$:
+### 3.2 Exact Quadrant Encoding Equations
 
-$$Q(m_k) = \text{clip}\left(\left\lfloor 128 + \gamma_k \cdot m_k \right\rceil, 0, 255\right)$$
+#### 1. Quadrant G (Geometric Base State, $[0:64, 0:64]$)
+Anchors initial scene geometry at $t=0$:
+$$Q_G(x, y, c) = \text{clip}(Y_0(x, y), 0, 255), \quad c \in \{R, G, B\}$$
 
-where $\gamma_k$ is a calibrated mode-dependent gain vector preserving high-frequency transient fidelity without clipping low-order polynomials.
+#### 2. Quadrant T (Temporal Kinematics, $[0:64, 64:128]$)
+Encodes luminance mean, curvature, and odd high-order subcarriers:
+* **Channel 0 (Red):** Mean intensity offset ($P_0$):
+  $$T_R(x, y) = \text{clip}\left(128.0 + 90.0 \cdot m_0^{\text{norm}}(x, y), 0, 255\right)$$
+* **Channel 1 (Green):** Temporal curvature / acceleration ($P_2$):
+  $$T_G(x, y) = \text{clip}\left(128.0 + 90.0 \cdot m_2^{\text{norm}}(x, y), 0, 255\right)$$
+* **Channel 2 (Blue):** Odd high-order subcarrier modulation ($k \in \{3, 5, 7, 9, 11\}$):
+  $$T_B(x, y) = \text{clip}\left(128.0 + \sum_{j=0}^{|\text{odd}|-1} m_{k_j}^{\text{norm}}(x, y) \cdot \frac{80.0}{\sqrt{|\text{odd}|}} \cdot W_{j+1}(x, y), 0, 255\right)$$
+  where $W_j(x, y) \in \{-1, +1\}$ are 2D Walsh orthogonal block bases over the $64 \times 64$ grid.
+
+#### 3. Quadrant C (Chromatic Dynamics, $[64:128, 0:64]$)
+Encodes linear temporal trend ($P_1$) and even high-order subcarriers ($k \in \{4, 6, 8, 10\}$) via YCbCr:
+* **Cb Channel:** Linear trend ($P_1$):
+  $$Cb(x, y) = \text{clip}\left(128.0 + 90.0 \cdot m_1^{\text{norm}}(x, y), 0, 255\right)$$
+* **Cr Channel:** Even high-order subcarriers:
+  $$Cr(x, y) = \text{clip}\left(128.0 + \sum_{j=0}^{|\text{even}|-1} m_{k_j}^{\text{norm}}(x, y) \cdot \frac{80.0}{\sqrt{|\text{even}|}} \cdot W_{j+1}(x, y), 0, 255\right)$$
+* **Luminance Floor:** $Y_C(x, y) = 128.0$.
+* The composite $(Y_C, Cb, Cr)$ layer is mapped to RGB via standard BT.601 conversion.
+
+#### 4. Quadrant R (Reference Floor, $[64:128, 64:128]$)
+Invariant neutral baseline:
+$$Q_R(x, y, c) = 128, \quad c \in \{R, G, B\}$$
 
 ---
 
 ## 4. Dimensional Video Mosaic (128.0-Second Integration)
 
-To represent multi-minute timelines, 16 individual 128x128 E3-K12 carriers are tiled into a unified **512x512 Mosaic**:
+To encode multi-minute timelines, 16 individual 128x128 E3-K12 carriers are tiled into a unified **512x512 Mosaic**:
 
 $$\text{Mosaic}(U, V) \in \{0, \dots, 255\}^{512 \times 512 \times 3}$$
 
@@ -130,10 +146,10 @@ The 16 slots are arranged in a 4x4 temporal raster grid:
 
 $$\text{Slot } s = 4 \cdot \text{Row} + \text{Col}, \quad s \in \{0, 1, \dots, 15\}$$
 
-$$\text{Time Interval: } t \in [s \cdot 8.0\text{s}, (s + 1) \cdot 8.0\text{s}]$$
+$$\text{Time Interval: } t \in [t_{\text{start}}(s), t_{\text{end}}(s)]$$
 
 ### 4.2 Boundary Continuity Principle
-Because Quadrant G of slot $s+1$ encodes $S(x, y, t = (s+1) \cdot 8.0\text{s})$, the terminal state of slot $s$ is directly adjacent to the initial state of slot $s+1$. In blind evaluations (EXP-024b, EXP-025), models reliably trace continuous trajectories across slot transitions without trajectory fragmentation.
+Because Quadrant G of slot $s+1$ encodes $S(x, y, t = t_{\text{start}}(s+1))$, the terminal state of slot $s$ is directly adjacent to the initial state of slot $s+1$. In blind evaluations (EXP-024b, EXP-025), models reliably trace continuous trajectories across slot transitions without trajectory fragmentation.
 
 ---
 
@@ -154,22 +170,19 @@ The total mosaic remains strictly 512x512, preserving deterministic spatial comp
 
 ## 6. Compact Sidecar Protocol (`dimensional-mosaic-compact-v1`)
 
-To guarantee zero-ambiguity model decoding without bloating token overhead, every mosaic is accompanied by a standardized, ultra-compact JSON sidecar (230 bytes):
+To guarantee zero-ambiguity model decoding without bloating token overhead, every mosaic is accompanied by a standardized, ultra-compact JSON sidecar (215–230 bytes minified):
 
+### 6.1 Exact Transmitted Minified JSON (215 Bytes)
 ```json
-{
-  "version": "dimensional-mosaic-compact-v1",
-  "grid": [4, 4],
-  "timeline_sec": [0.0, 128.0],
-  "slots": 16,
-  "slot_durations_sec": [8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 8.0],
-  "quadrant_layout": {
-    "G": [0, 0],
-    "T": [0, 1],
-    "C": [1, 0],
-    "R": [1, 1]
-  }
-}
+{"format":"dimensional-mosaic-compact-v1","fps":8,"total_duration_sec":128.0,"layout":[4,4],"carrier_size":[128,128],"mosaic_size":[512,512],"encoding":"E3-K12","partition_code":"16,16,16,8,8,8,8,8,8,4,4,4,4,8,4,4"}
 ```
 
-This sidecar specifies the exact duration and coordinate mapping for each slot, decoupling model inference from any hardcoded assumptions.
+### 6.2 Schema Definition
+* `format` (string): Protocol version identifier (`"dimensional-mosaic-compact-v1"`).
+* `fps` (int): Sampling frame rate of original video.
+* `total_duration_sec` (float): Total temporal coverage across all slots.
+* `layout` ([int, int]): Grid dimensions $[rows, cols]$ ($[4, 4]$ for 16 slots).
+* `carrier_size` ([int, int]): Single tile resolution ($[128, 128]$).
+* `mosaic_size` ([int, int]): Composite container resolution ($[512, 512]$).
+* `encoding` (string): Basis specification (`"E3-K12"`).
+* `partition_code` (string): Comma-separated list of individual slot durations in seconds.

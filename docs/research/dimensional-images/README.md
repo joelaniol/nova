@@ -1,13 +1,16 @@
 # Dimensional Images: Visual Latent Transport for Multimodal AI
 ### An Experimental Investigation of Spatiotemporal Information Encoding for Vision-Language Models
 
-**Project Lead:** Joel Aniol  
-**Contributors:** Joel Aniol (Project Lead & Research Direction), Antigravity / Agy (AI Coding & Autonomous Execution Agent), ChatGPT (AI Scientific Research Partner)  
+**Project Lead & Research Direction:** Joel Aniol  
+**Contributors:**  
+* **Joel Aniol:** Project Lead, Core Concept, Research Strategy & Direction  
+* **Antigravity / Agy:** Autonomous Code Implementation, Algorithmic Execution, Local Experiments & Benchmark Runs (Google DeepMind Coding Agent)  
+* **ChatGPT:** Scientific Peer-Review, Mathematical Validation, Experimental Design & Critical Methodology Auditing (OpenAI)  
 **Research Initiated:** 2026-10-08  
 **Last Updated:** 2026-10-10  
-**Status:** Experimental research / Working paper (V1.0)  
+**Status:** Experimental research / Working paper (V1.1)  
 **Target Model Class:** Multimodal Vision-Language Models (GPT-4o, Claude 3.5 Sonnet, Gemini 1.5/2.0)  
-**Identifier:** `VLT-2026.10-V1`  
+**Identifier:** `VLT-2026.10-V1.1`  
 
 ---
 
@@ -17,7 +20,7 @@ Multimodal foundation models process visual information through patch-based Visi
 
 This research paper investigates **Visual Latent Transport (VLT)**: a deterministic mathematical framework that projects continuous video timelines directly into high-density 2D synthetic carrier images. Rather than relying on specialized learned neural decoders, standard Vision-Language Models (VLMs) interpret the carrier directly via mathematical basis specifications provided in system prompts.
 
-We formulate and evaluate the **E3-K12** carrier architecture, which maps temporal dynamics across discrete orthogonal Gram polynomials into a structured 4-quadrant visual tile. By tiling 16 temporal slots into a unified **512x512 Dimensional Video Mosaic**, we demonstrate the lossless compression of 128.0 seconds of continuous video (1,024 frames @ 8 FPS) into a single 5,464-byte WebP container accompanied by a 230-byte structured sidecar. This achieves an unprecedented streaming bitrate of **44.5 Bytes/second** (a **2,210x bandwidth reduction** over raw frames) with zero format retrieval degradation ($\Delta \text{F1} = 0.000$).
+We formulate and evaluate the **E3-K12** carrier architecture, which maps temporal dynamics across discrete orthogonal Gram polynomials into a structured 4-quadrant visual tile. By tiling 16 temporal slots into a unified **512x512 Dimensional Video Mosaic**, we demonstrate a highly compressed, lossy visual representation of 128.0 seconds of continuous video (1,024 frames @ 8 FPS), retaining selected spatiotemporal information relevant to the evaluated VLM tasks. The resulting single 5,464-byte WebP container accompanied by a 215-byte structured sidecar achieves a continuous streaming bitrate of **44.5 Bytes/second** (a **2,210x bandwidth reduction** over raw frames) with zero format retrieval degradation ($\Delta \text{F1} = 0.000$).
 
 Through rigorous adversarial falsification suites (EXP-025, EXP-026), we establish:
 1. **Empirical Temporal Resolution Boundary:** Discrete event separation bifurcates into distinct bimodal modes in the transition interval $\Delta t \in (1.00\text{s}, 1.50\text{s}]$ for 8.0s windows at 8 FPS.
@@ -30,9 +33,9 @@ Through rigorous adversarial falsification suites (EXP-025, EXP-026), we establi
 
 The research documentation is partitioned into specialized academic modules:
 
-* [`METHODOLOGY.md`](METHODOLOGY.md): Comprehensive mathematical derivations of discrete Gram orthogonal polynomials, projection operators, Parseval energy conservation, dynamic range quantization, and the Adaptive Temporal Windowing (ATW) algorithm.
-* [`EXPERIMENTS.md`](EXPERIMENTS.md): Chronological experiment index from EXP-001 through EXP-026, accompanied by stimulus parameters, quantitative metrics, and evidence classifications.
-* [`LIMITATIONS.md`](LIMITATIONS.md): Formal boundary analysis covering the 52-dimensional projection nullspace, empirical temporal resolution thresholds, high-order mode contention, and ViT patch boundary artifacts.
+* [`METHODOLOGY.md`](METHODOLOGY.md): Comprehensive mathematical derivations of discrete Gram orthogonal polynomials, projection operators, Parseval energy conservation, dynamic range quantization, exact E3-K12 encoder equations, and the Adaptive Temporal Windowing (ATW) algorithm.
+* [`EXPERIMENTS.md`](EXPERIMENTS.md): Chronological milestone experiment index from EXP-001 through EXP-026, accompanied by stimulus parameters, quantitative metrics, and evidence classifications.
+* [`LIMITATIONS.md`](LIMITATIONS.md): Formal boundary analysis covering the 52-dimensional projection nullspace, carrier bit-identity conditions, empirical temporal resolution thresholds, high-order mode contention, and ViT patch boundary artifacts.
 * [`REFERENCES.md`](REFERENCES.md): Academic bibliography covering discrete orthogonal polynomials, wavelets, transform coding, and multimodal foundation models.
 * [`experiments/2026/`](experiments/2026/): Versioned, reproducible experiment packages containing machine-readable protocols (`protocol.json`), tabular measurements (`metrics.csv`), and verbatim model evaluation logs (`model-responses.jsonl`).
 * [`figures/`](figures/): High-resolution carrier mosaics, experimental stimuli, and comparative diagnostic figures.
@@ -102,7 +105,7 @@ In EXP-026, we systematically investigated the minimum temporal spacing $\Delta 
 | Figure 3a: Fused Single ($\Delta t = 0.25$s) | Figure 3b: Bimodal Bifurcation ($\Delta t = 1.50$s) | Figure 3c: Separated Double ($\Delta t = 3.00$s) |
 | :---: | :---: | :---: |
 | ![Figure 3a](figures/exp-026/exp026_delta_0_25s.png) | ![Figure 3b](figures/exp-026/exp026_delta_1_50s.png) | ![Figure 3c](figures/exp-026/exp026_delta_3_00s.png) |
-| *Sub-Rayleigh coherence (unimodal).* | *Midline bifurcates into two distinct lobes.* | *Fully resolved 4-column fringe grid.* |
+| *Coherent fusion (unimodal).* | *Midline bifurcates into two distinct lobes.* | *Fully resolved 4-column fringe grid.* |
 
 * **Empirical Resolution Boundary:** For the tested E3-K12 configuration (8.0s window, 64 frames @ 8 FPS), the separation threshold lies in the interval $\Delta t \in (1.00\text{s}, 1.50\text{s}]$. At $\Delta t = 1.50\text{s}$ (12 frames), the carrier exhibits clean bimodal bifurcation (confidence 0.92).
 * **Scientific Caveat:** This threshold is specific to E3-K12 @ 8 FPS and the tested VLM architecture; it is an empirical perception boundary rather than an unalterable universal law.
@@ -111,10 +114,10 @@ In EXP-026, we systematically investigated the minimum temporal spacing $\Delta 
 
 ## 6. Quantitative Transmission & Storage Benchmarks
 
-| Metric | Raw Video (1,024 frames) | L1 Individual Tiles (16 PNGs) | L3 Unified Mosaic + Compact Sidecar |
+| Metric | Raw Video (1,024 frames) | L1 Individual Tiles (16 WebP) | L3 Unified Mosaic (1 WebP) + Compact Sidecar |
 | :--- | :--- | :--- | :--- |
-| **Payload Size** | 12,582,912 Bytes (12.0 MB) | 7,076 Bytes (WebP) | **5,464 Bytes (WebP) + 230 B Sidecar** |
-| **Streaming Bitrate** | 98,304 Bytes/sec | 55.3 Bytes/sec | **44.5 Bytes/sec** |
+| **Payload Size** | 12,582,912 Bytes (12.0 MB) | 7,076 Bytes (WebP) | **5,464 Bytes (WebP) + 215 B Sidecar** |
+| **Streaming Bitrate** | 98,304 Bytes/sec | 55.3 Bytes/sec | **44.4 Bytes/sec** |
 | **Bandwidth Reduction** | 1.0x (Baseline) | ~1,778x reduction | **2,210x reduction** |
 | **Format Efficiency** | Baseline | Baseline | **22.8% byte savings over L1** |
 | **Model Ingestion Tokens** | ~80,000+ tokens | ~4,100 tokens | **~256 tokens (model-dependent estimate)** |
