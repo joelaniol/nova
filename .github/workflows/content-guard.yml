@@ -24,7 +24,7 @@ jobs:
           # content check below still scans those files for paths, tokens and private references.
           bad=$(git ls-files | grep -v -E '^(\.github/|\.gitignore$|LICENSE$)' \
             | grep -v -E '^docs/research/.*\.py$' \
-            | grep -v -i -E '\.(md|txt|html?|css|js|json|ya?ml|svg|png|jpe?g|gif|webp|ico|mp4|webm)$' || true)
+            | grep -v -i -E '\.(md|txt|html?|css|js|jsonl?|csv|ya?ml|svg|png|jpe?g|gif|webp|ico|mp4|webm)$' || true)
           if [ -n "$bad" ]; then
             echo "::error::Files of a type that is never published:"
             echo "$bad"
