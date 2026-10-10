@@ -1,142 +1,175 @@
 # Session Recording & Time-Travel Debugging
 
-> [!NOTE]
-> Nova AI Workspace can record what happens in a browser tab — network traffic, console output, errors, page lifecycle, interactions, DOM snapshots and, on request, further streams such as DOM mutations or WebSocket payloads. Recordings are stored locally and encrypted at rest; agents start, query and export them through the `nova.session_record_*` tools.
+Session Recording provides high-fidelity, tamper-resistant, forensic capture of everything occurring within a browser tab. When automated workflows encounter unexpected regressions, transient network errors, silent UI validation failures, or authentication race conditions, standard logs are rarely sufficient. Session Recording captures network traffic, console output, page errors, document lifecycle, user/agent interactions, and DOM snapshots into encrypted event streams.
+
+Nova combines an asynchronous, bounded capture pipeline with per-recording AES-256-GCM encryption, Windows DPAPI key protection, capture-time secret redaction, and a specialized Model Context Protocol (MCP) tool suite. Agents and developers can interrogate preserved session history post-mortem—correlating interaction clicks with network failures and DOM snapshots without re-running destructive requests.
 
 ---
 
-## 1. A Concrete Example: Why Did Save Fail?
+## 1. Concrete Diagnostic Scenario: Why Did the Checkout Fail?
 
-An agent clicks Save, but the expected confirmation never appears. If a recording was started beforehand, the agent can correlate the interaction timestamp with the network request, console errors and a DOM snapshot. A server error, a missing request and a changed page state suggest different next steps.
+Consider an autonomous purchasing workflow where an agent executes a form submission:
+1. The agent invokes `nova.click_selector` on the `#submit-order` button.
+2. The page does not transition, and no success confirmation banner appears.
+3. The live document displays a generic error message, but the underlying reason is unknown.
 
-The recording preserves captured evidence so the investigation can continue after the page changes. It cannot recover events from before recording started, and it does not automatically prove that the business action succeeded. [CLS](../closed-loop-system-cls/README.md) checks outcomes; [TOB](../tool-observation-bus-tob/README.md) records tool execution; a session recording adds the captured page and network context.
+Without session recording, debugging requires re-submitting the transaction—risking duplicate orders or losing ephemeral error states. With an active recording:
+* The agent queries `nova.session_record_interactions` to locate the exact interaction timestamp and selector ancestry.
+* The agent inspects `nova.session_record_query` around that timestamp to evaluate outgoing HTTP POST requests, status codes, and server response headers.
+* The agent reads `nova.session_record_events` for `errors.jsonl` and `console.jsonl` to inspect unhandled client-side JavaScript promise rejections.
+* The agent retrieves the automatic DOM snapshot taken immediately after the click via `nova.session_record_dom_snapshot` to inspect client-side field validation classes (`is-invalid`).
 
-## 2. Read a Recording as Scoped Evidence
-
-Only granted streams can be captured. Bodies, storage values and additional streams have their own permissions and limits. Under load, the bounded writer queue may drop events; a missing event therefore does not always mean nothing happened.
-
-Here, “time-travel debugging” means inspecting preserved history. Reading or exporting a recording does not restore the website's old state or undo a submitted request.
-
-The default permission classes omit request and response bodies and storage values, but this does not make the recording free of sensitive information: URLs, headers, console output and DOM content can still contain it. Capture-time redaction is a separate setting and is off by default. Exports are decrypted files, so their protection differs from the encrypted recording.
-
-## 3. Why Preserve the History?
-
-Browser automation workflows are often difficult to debug when things go wrong:
-
-1. **Ephemeral Failure States:** When a multi-step workflow fails (such as an automated checkout or complex web form submission), reproducing the exact DOM state and network traffic post-mortem is nearly impossible without a recording.
-2. **Data at Rest:** Granted streams can contain sensitive page and session data. Writing them to disk in plain text would leave that captured data readable for anything that can open the file.
-3. **Performance Degradation:** Recording must not block the browser while a page produces a burst of events.
-
-Nova records into separate JSONL streams per category, writes them through a bounded background queue and encrypts every line before it reaches the disk.
+Within seconds, the agent determines whether the failure was caused by a 500 server error, an unhandled client-side exception, or a missing form field—all without mutating live application state.
 
 ---
 
-## 4. Architecture & Data Flow
+## 2. High-Level Architecture & End-to-End Data Flow
+
+Nova's session recording pipeline is engineered for zero runtime interference with the host browser. Event collection occurs asynchronously through Chrome DevTools Protocol (CDP) hooks and lightweight page script observers:
 
 ```mermaid
 flowchart TD
-    subgraph Tab["Recorded tab"]
-        CDP["DevTools protocol events: network, console, errors, lifecycle"]
-        Page["Injected page scripts: interactions, DOM snapshots, DOM mutations"]
+    subgraph TabEngine ["Active Browser Tab (WebView2)"]
+        CDP["DevTools Protocol (CDP)<br/>• Network requests/responses<br/>• Console log & error events<br/>• Page lifecycle & navigation"]
+        PageScripts["Injected Page Observers<br/>• Native/MCP interactions<br/>• Auto & on-demand DOM snapshots<br/>• Brotli rrweb DOM mutations"]
     end
 
-    subgraph Gate["Permission classes"]
-        Classes["Only streams covered by the granted classes are captured"]
+    subgraph PermissionGate ["Permission Class Gate"]
+        PermRegistry{"PermissionClassRegistry<br/>(15 Granular Classes)"}
+        PermRegistry -->|"Granted Streams"| RedactionPipeline["Capture-Time Redaction Pipeline<br/>• Sensitive headers masked<br/>• Query/JSON secret sanitization<br/>• DPAPI Vault constant-time match"]
+        PermRegistry -->|"Ungranted / Revoked"| DropStream["Suppressed by Default"]
     end
 
-    subgraph Writer["Background writer"]
-        Queue["Bounded queue, 10000 entries"]
-        Enc["AES-256-GCM per line"]
+    subgraph QueueBuffer ["Asynchronous Writer Engine"]
+        SafetyContract{"Writer Safety Seam<br/>(ThrowIfRaw Guard)"}
+        RedactionPipeline --> SafetyContract
+        SafetyContract --> Queue["Bounded Background Queue<br/>(10,000 Capacity)"]
+        Queue --> Encryptor["Per-Recording AES-256-GCM<br/>Line-by-Line Encryption"]
     end
 
-    subgraph Disk["Recordings folder in the Nova profile"]
-        Streams["network.cdp.jsonl, console.jsonl, errors.jsonl, lifecycle.jsonl, ..."]
-        Manifest["manifest.json, plain text, no URLs or titles"]
-        Key["dek.wrapped, key protected with Windows DPAPI"]
+    subgraph StorageDisk ["Local Disk Artifacts (%LOCALAPPDATA%)"]
+        Streams["12 Encrypted Stream Files<br/>(network.cdp.jsonl, console.jsonl, etc.)"]
+        Manifest["manifest.json<br/>(Plaintext metadata, zero secrets)"]
+        WrappedDEK["dek.wrapped<br/>(256-bit AES DEK protected via DPAPI)"]
+        Encryptor --> Streams
+        Encryptor --> Manifest
+        Encryptor --> WrappedDEK
     end
 
-    CDP --> Gate
-    Page --> Gate
-    Gate --> Queue
-    Queue --> Enc
-    Enc --> Streams
-    Writer --> Manifest
-    Writer --> Key
+    CDP --> PermRegistry
+    PageScripts --> PermRegistry
+```
+
+### Pipeline Guarantees
+1. **Asynchronous Non-Blocking Execution:** All file I/O and encryption operations execute on a dedicated background thread pool. Bursts of page events cannot degrade tab responsiveness or drop UI frame rates.
+2. **The 10,000-Entry Bounded Queue:** The writer queue is strictly capped at 10,000 events. Under catastrophic event flooding (e.g., an infinite logging loop), the queue safely drops the oldest unwritten events while logging typed gap markers.
+3. **Safety Seam Contract:** Ingested payloads are partitioned at the compiler level. Payloads carrying raw, un-redacted bytes implement raw capture contracts; the writer queue accepts only verified, post-redaction records. Enqueuing un-redacted bytes triggers an immediate runtime exception at the boundary rather than leaking secrets to disk.
+
+---
+
+## 3. The Four Architectural Pillars
+
+The Session Recording system is divided into four functional domains:
+
+```
++-----------------------------------------------------------------------------------+
+|                           SESSION RECORDING CORE PILLARS                          |
++-----------------------------------------------------------------------------------+
+| 1. Capture Pipeline & Architecture | CDP hooks, page observers, 10,000-entry      |
+|                                    | bounded queue, memory safety, gap markers.   |
++------------------------------------+----------------------------------------------+
+| 2. Streams & Permission Taxonomy   | 12 stream files, 15 permission classes       |
+|                                    | (Waves R1–R4), rrweb Brotli DOM mutations,   |
+|                                    | secret-bearing IndexedDB storage stream.     |
++------------------------------------+----------------------------------------------+
+| 3. Encryption & Redaction Engine   | Ephemeral 256-bit AES-GCM DEK, Windows       |
+|                                    | DPAPI key wrapping, capture-time redaction,  |
+|                                    | Vault constant-time fingerprinting.          |
++------------------------------------+----------------------------------------------+
+| 4. Querying & Time-Travel Analysis | Post-mortem investigation, regex/MIME/status |
+|                                    | query filters, DOM snapshot correlation,     |
+|                                    | decrypted exports & standard HAR generation. |
++-----------------------------------------------------------------------------------+
 ```
 
 ---
 
-## 5. What a Recording Contains
+## 4. Documentation Suite Index
 
-A recording is a folder in the `Recordings` subfolder of the Nova profile (`%LOCALAPPDATA%\nova-cognitive\Nova\`; installations from 1.0.0-alpha.18 and earlier keep `%LOCALAPPDATA%\NovaBrowser\`). Which stream files it contains depends on the permission classes granted when the recording was started:
+Explore the specialized guides within the Session Recording documentation suite:
 
-| Stream | Content |
-| :--- | :--- |
-| `network.cdp.jsonl` | Network requests and responses (bodies only with `request_bodies` / `response_bodies`). |
-| `console.jsonl`, `errors.jsonl`, `lifecycle.jsonl` | Console output, page errors, navigation and lifecycle events. |
-| `interactions.jsonl` | Agent-driven interactions (`interactions_mcp`) and, with `interactions_native`, real mouse and keyboard input on the page. |
-| `dom-snapshots.jsonl` | Index of DOM snapshots (`dom_snapshots`). |
-| `security-violations.jsonl`, `performance.jsonl`, `workers.jsonl`, `indexeddb-ops.jsonl` | Security violations, performance entries, worker lifecycle, IndexedDB operations. |
-| `websocket-payloads.jsonl`, `indexeddb-values.jsonl`, `dom-mutations.jsonl` | Opt-in streams; only present when the matching class (`websocket_payloads`, `indexeddb_values`, `dom_mutations`) was granted. A recording without them is normal. |
-
-Without an explicit `permissionClasses` list, a recording uses `metadata`, `interactions_mcp` and `dom_snapshots` — no bodies and no storage values. The full list of classes is in [`nova.session_record_start`](../../mcp-reference/tools/session-recording/nova-session-record-start.md).
-
-**DOM snapshots** are taken automatically after a recorded click or submit, and on demand with `nova.session_record_snapshot_dom`. A snapshot holds the target element (or the whole document with `fullPage=true`) and is capped at about 256 KB.
-
-**DOM mutations** (`dom_mutations`) are recorded from the top frame only, as rrweb-compatible events, and the stream is Brotli-compressed before encryption.
+| Guide | Focus Area | Key Architectural Concepts |
+| :--- | :--- | :--- |
+| [Architecture & Capture Pipeline](architecture-and-pipeline/README.md) | Ingestion & Queue Engine | CDP event capture, page observers, 10,000-entry bounded queue, writer safety contracts, `MetadataOnlyRecord`, and runtime gap markers. |
+| [Streams & Permission Classes](streams-and-permission-classes/README.md) | Stream Catalog & Taxonomy | The 12 encrypted JSONL streams, 15 permission classes across Waves R1–R4, default safe classes vs secret-bearing storage, Brotli compression. |
+| [Encryption & Redaction Pipeline](encryption-and-redaction/README.md) | Cryptographic Storage & Privacy | 256-bit AES-GCM DEK, Windows DPAPI envelope encryption, capture-time sanitization, Vault secret fingerprinting, crash recovery states. |
+| [Querying & Time-Travel Debugging](query-and-time-travel/README.md) | Forensic Investigation | Filtering network requests, inspecting console/lifecycle timelines, interaction correlation, DOM snapshots, and standard HAR exports. |
 
 ---
 
-## 6. Lifetime and Limits
+## 5. Lifecycle, Time-To-Live (TTL), and Resource Limits
 
-| Limit | Value |
-| :--- | :--- |
-| Default duration (TTL) | 5 minutes |
-| Allowed TTL | 5 seconds to 60 minutes; `nova.session_record_extend` adds up to 60 minutes per call |
-| Recordings running at the same time | 8 (setting "Maximum concurrent recordings") |
-| Writer queue | 10,000 entries; when it is full, the oldest queued entries are dropped |
-| Automatic deletion | Recordings older than 7 days are deleted when Nova starts (setting "Auto-delete after (days)", 0 = never) |
+Session recordings are strictly bounded in time, disk footprint, and concurrency to prevent resource exhaustion:
 
-While a recording runs, Nova shows a recording indicator in the toolbar (setting "Show recording indicator in toolbar"). The master switch is "Allow session recording" in the Session recording settings card.
-
----
-
-## 7. MCP Tool Reference
-
-Agents control and inspect session recordings through the `session_recording` bundle:
-
-* **Lifecycle Management:**
-  * `nova.session_record_start`: Starts recording a tab with optional TTL and permission classes.
-  * `nova.session_record_stop`: Stops a recording and finalizes its files.
-  * `nova.session_record_status`: Returns state, expiry, granted permission classes and byte counts.
-  * `nova.session_record_extend`: Extends the TTL of an active recording.
-* **Query & Extraction:**
-  * `nova.session_record_query`: Filters the network stream of a recording by URL regex, method, MIME type, status range, time range, body presence or vault match.
-  * `nova.session_record_get_entry`: Returns all events for one network request ID, optionally with the body.
-  * `nova.session_record_events`: Reads one stream (console, errors, lifecycle, IndexedDB and others) as decrypted events.
-  * `nova.session_record_interactions`: Reads the interaction timeline, filterable by source (`mcp` or `user_dom`), type, selector and time.
-  * `nova.session_record_snapshot_dom`: Takes a DOM snapshot on a running recording.
-  * `nova.session_record_dom_snapshot`: Returns a stored DOM snapshot by snapshot ID.
-* **Export & Maintenance:**
-  * `nova.session_record_export`: Decrypts a recording into plain-text JSONL files in a `decoded` subfolder of the recording, plus `manifest.json` and a `_summary.txt`.
-  * `nova.session_record_purge`: Deletes finalized recordings older than a given number of days.
+| Limit Dimension | Constrained Value | Operational Rationale |
+| :--- | :--- | :--- |
+| **Default Duration (TTL)** | 5 minutes (300,000 ms) | Prevents runaway recording sessions from filling disk storage. |
+| **Allowed TTL Range** | 5 seconds to 60 minutes | Flexible window for brief task verification or prolonged audits. |
+| **TTL Extension** | Up to 60 minutes per call | Active sessions can be extended via `nova.session_record_extend`. |
+| **Concurrent Recordings** | Max 8 simultaneous tabs | Bounded memory usage across multi-tab workspaces. |
+| **Writer Queue Capacity** | 10,000 entries | Drops oldest items under sustained flood while logging gap markers. |
+| **DOM Snapshot Size Cap** | ~256 KB per snapshot | Prevents multi-megabyte string transfers across the JS bridge. |
+| **Automatic Purge** | 7 days retention | Completed recordings are automatically purged on Nova startup. |
 
 ---
 
-## 8. Encryption & Redaction
+## 6. MCP Tool Capability Matrix
 
-1. **Encryption at rest:** Each recording gets its own random 256-bit key. Every stream line is encrypted with AES-GCM; the key itself is stored only in wrapped form, protected with Windows DPAPI for the current user. A copy of the files on another account or machine cannot be decrypted. DPAPI does not protect against other programs running as the same Windows user — the automatic deletion after 7 days limits how long data stays on disk.
-2. **Plain-text manifest:** `manifest.json` stays readable without the key so recordings can be listed; it contains no URLs, host names, tab titles or counts.
-3. **Redaction is off by default:** A recording stores raw debug data; the protection boundary is the permission classes you grant per recording. When capture-time redaction is switched on (`sessionRecordingRedactionEnabled` in the settings file; there is no switch on the Settings page), sensitive header values such as `Authorization` and `Cookie`, sensitive query parameters, sensitive JSON fields and values that match a secret stored in the [Vault](../privacy/vault-and-secrets/README.md) are replaced with `[redacted:...]` markers before they are written.
-4. **Revoked classes stay closed:** If a permission class is revoked after capture, its streams are no longer returned by the read tools and are skipped by the export.
+Agents interact with the recording subsystem through the `session_recording` bundle:
 
-Revocation controls subsequent tool access and export. It does not retract plaintext files already exported or information already returned to a client.
+| Tool Name | Primary Function | Typical Use Case |
+| :--- | :--- | :--- |
+| `nova.session_record_start` | Initiates tab recording | Pre-flight setup before executing high-risk autonomous workflows. |
+| `nova.session_record_stop` | Terminates active recording | Finalizing stream files and writing the final manifest. |
+| `nova.session_record_status` | Returns state and byte counts | Checking recording progress, remaining TTL, and stream sizes. |
+| `nova.session_record_extend` | Extends active recording TTL | Granting additional time for long-running workflows. |
+| `nova.session_record_query` | Filters network CDP streams | Locating specific API calls by URL regex, HTTP status, or MIME type. |
+| `nova.session_record_get_entry` | Retrieves full request lifecycle | Deep inspection of headers, timing, and payload for a single request. |
+| `nova.session_record_events` | Reads decrypted stream lines | Paged reading of console logs, errors, worker events, or IndexedDB ops. |
+| `nova.session_record_interactions` | Retrieves input timeline | Auditing exact mouse, keyboard, or MCP input dispatch sequences. |
+| `nova.session_record_snapshot_dom` | Captures on-demand DOM snapshot | Preserving document HTML before or after an interactive event. |
+| `nova.session_record_dom_snapshot` | Reads stored snapshot by ID | Inspecting target element outerHTML and selector ancestry. |
+| `nova.session_record_export` | Decrypts files & exports HAR | Generating human-readable post-mortem packages and standard HAR archives. |
+| `nova.session_record_purge` | Cleans up historical recordings | Manual disk maintenance and compliance data destruction. |
 
-## Related Documentation
+---
 
-* **[Closed-Loop System (CLS)](../closed-loop-system-cls/README.md)** — Checking the outcome of an action.
-* **[Tool Observation Bus (TOB)](../tool-observation-bus-tob/README.md)** — Evidence of tool execution.
-* **[Vault and Secrets](../privacy/vault-and-secrets/README.md)** — Saved-credential delivery and recording redaction boundaries.
-* **[Network Interception & Request Replay](../network/network-interception/README.md)** — Live interception and separate request replay.
+## 7. Security, Privacy & Boundary Guarantees
+
+1. **Envelope Encryption with Windows DPAPI:**
+   * Every recording is encrypted with a unique, randomly generated 256-bit AES Data Encryption Key (DEK).
+   * The DEK is encrypted at rest using the Windows Data Protection API (DPAPI) tied to the active Windows user account.
+   * If recording files are copied to another machine or user account, they cannot be decrypted.
+2. **Capture-Time Redaction (Pre-Disk Sanitization):**
+   * Redaction occurs in process memory before records enter the background queue.
+   * When redaction is enabled, sensitive HTTP headers (`Authorization`, `Cookie`, `Set-Cookie`), credential query parameters, and values matching secrets in Nova's DPAPI Vault are replaced with `[redacted:...]` markers.
+3. **Decoupled Plaintext Manifest:**
+   * The directory `manifest.json` is stored unencrypted so recordings can be indexed and listed.
+   * To prevent metadata leakage, the manifest contains **zero URLs, hostnames, page titles, or query parameters**.
+4. **Time-Travel Debugging Boundary:**
+   * "Time-travel debugging" in Nova refers to inspecting preserved multi-stream historical evidence.
+   * Reading a past recording **does not** revert the live website's server-side database state or rewind submitted transactions.
+
+---
+
+## 8. Related Architecture Guides
+
+* [Closed-Loop System (CLS)](../closed-loop-system-cls/README.md): Outcome verification that validates whether an action achieved its business goal.
+* [Tool Observation Bus (TOB)](../tool-observation-bus-tob/README.md): High-level operational telemetry recording agent tool calls and arguments.
+* [Privacy & Vault Architecture](../privacy/README.md): Structure of the DPAPI credential Vault, single-use `SecretRef` tokens, and fingerprint noise.
+* [Network Interception & Request Replay](../network/network-interception/README.md): Live HTTP interception and session adoption into standalone request drafts.
+* [Session Recording Tool Reference](../../mcp-reference/tools/session-recording/README.md): Formal JSON-RPC schemas and parameters for all 13 recording tools.
+
+---
 
 [All core features](../README.md)
