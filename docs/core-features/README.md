@@ -58,6 +58,7 @@ The [alpha status page](../../ALPHA.md) lists current limitations, including plu
 
 | Page | What it covers | Main MCP tools |
 | :--- | :--- | :--- |
+| [Desktop Notifications & Unified Inbox](notifications/README.md) | Native Windows toasts, persistent SQLite inbox, deep-link router and web notification permissions | `nova.notifications_list`, `nova.notifications_send`, `nova.notifications_permission_set` |
 | [Terminal Workspaces & ConPTY Integration](terminal-workspaces/README.md) | Terminals the agent can use | `nova.terminal_open`, `nova.terminal_run_command`, `nova.terminal_read` |
 | [Scheduled Tasks & Background Automation Engine](scheduled-tasks/README.md) | Work that runs on its own | `nova.scheduled_task_create`, `nova.scheduled_task_runs`, `nova.scheduled_task_workspace_*` |
 | [Connectors](connectors/README.md) | Mail, SSH, SFTP, FTP/FTPS and external MCP servers | `nova.connector_*`, `nova.mail_*`, `nova.ssh_run*`, `nova.sftp_*`, `nova.ftp_*`, `nova.external_*` |

@@ -253,6 +253,40 @@ Copyright (c) 2010, RENCI
 (Same MIT license text as .NET Runtime above.)
 
 ----------------------------------------------------------------------
+XTerm.NET
+License: MIT
+Source:  https://github.com/tomlm/XTerm.NET
+Package: XTerm.NET 1.2.0
+----------------------------------------------------------------------
+
+Copyright (c) Tom Laird-McConnell and XTerm.NET contributors
+
+Headless VT100/xterm screen engine for the interactive SSH-PTY session.
+(Same MIT license text as .NET Runtime above.)
+
+----------------------------------------------------------------------
+Unicode.net (NeoSmart.Unicode)
+License: MIT
+Source:  https://github.com/neosmart/unicode.net
+Package: Unicode.net 2.0.0
+----------------------------------------------------------------------
+
+Copyright (c) 2017 NeoSmart Technologies <https://neosmart.net/>
+
+Pulled in transitively by XTerm.NET. (Same MIT license text as .NET Runtime above.)
+
+----------------------------------------------------------------------
+Wcwidth
+License: MIT
+Source:  https://github.com/spectreconsole/wcwidth
+Package: Wcwidth 3.0.0
+----------------------------------------------------------------------
+
+Copyright (c) Patrik Svensson, Phil Scott and contributors
+
+Pulled in transitively by XTerm.NET. (Same MIT license text as .NET Runtime above.)
+
+----------------------------------------------------------------------
 Windows App SDK Runtime Installer (WindowsAppRuntimeInstall-x64.exe)
 License: Microsoft Software License Terms (redistributable)
 Source:  https://learn.microsoft.com/windows/apps/windows-app-sdk/downloads
