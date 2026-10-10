@@ -47,7 +47,19 @@ flowchart TD
 
 ---
 
-## 2. The Four In-Depth Diagnostic Checks
+## 2. In-Depth Subsystems & Architecture Guides
+
+Explore the dedicated cryptographic subsystems:
+
+| Cryptographic Discipline | Guide | Core Architectural Scope & Enforcements |
+| :--- | :--- | :--- |
+| **X.509 Certificate Chains** | [Certificate Chain Analysis & Validation](certificate-chains/README.md) | Hierarchy (Leaf, Intermediate, Root), RFC 6125 SAN matching, intermediate CA caching fallacies, Windows `X509Chain` offline verification policies, and raw PEM exports. |
+| **Cipher Suites & Protocols** | [Cipher Suites, Protocols & PFS](cipher-suites-and-protocols/README.md) | Deprecation of SSLv3–TLS 1.1, TLS 1.2/1.3 cipher negotiation, AEAD algorithms, Perfect Forward Secrecy (PFS), Post-Quantum hybrid groups (Kyber768), and ALPN protocol selection. |
+| **Certificate Transparency** | [Certificate Transparency & Subdomains](certificate-transparency/README.md) | RFC 6962 framework, Signed Certificate Timestamps (SCTs), automated public CT log mining via `crt.sh`, subdomain discovery, and proxy privacy boundaries. |
+
+---
+
+## 3. The Four In-Depth Diagnostic Checks
 
 The `checks` array allows callers to select specific analytical components:
 
@@ -73,9 +85,12 @@ The `checks` array allows callers to select specific analytical components:
 
 ---
 
-## 3. Deep Dive: Certificate Chain Analysis (`check: certificate`)
+## 4. Deep Dive: Certificate Chain Analysis (`check: certificate`)
 
 When `certificate` is selected, Nova parses every X.509 certificate in the chain and evaluates its cryptographic properties:
+
+> [!TIP]
+> For an exhaustive architectural deep dive into intermediate CA synthesis bugs, RFC 6125 SAN matching algorithms, offline Windows `X509Chain` policies, and raw PEM export mechanics, consult the dedicated guide: [Certificate Chain Analysis & Validation](certificate-chains/README.md).
 
 ### 1. Delivery Chain & Certificate Hierarchy
 Nova reports certificates in exact delivery order:
@@ -107,9 +122,12 @@ Nova reports certificates in exact delivery order:
 
 ---
 
-## 4. Deep Dive: Server Protocol & Cipher Scanning (`check: server`)
+## 5. Deep Dive: Server Protocol & Cipher Scanning (`check: server`)
 
 When `server` is enabled, Nova conducts an active probe against the target host:
+
+> [!TIP]
+> For detailed protocol security grading, AEAD cipher comparison tables, Post-Quantum hybrid key exchange groups (`X25519Kyber768`), and ALPN negotiation parameters, see the dedicated guide: [Cipher Suites, Protocols & PFS](cipher-suites-and-protocols/README.md).
 
 ```mermaid
 flowchart TD
@@ -139,7 +157,7 @@ flowchart TD
 
 ---
 
-## 5. HTTP & Certificate Transparency Checks
+## 6. HTTP & Certificate Transparency Checks
 
 ### `check: http` (HSTS & Redirects)
 1. **HTTP-to-HTTPS Redirect Verification:** Connects to port 80 (plain HTTP) to evaluate whether the server redirects to HTTPS:
@@ -156,9 +174,12 @@ flowchart TD
 * **Privacy Disclosure:** **Invoking this check transmits the domain name to crt.sh**, an external third-party service.
 * Supports pagination via `maxCtEntries` (default: 200; maximum: 2,000).
 
+> [!TIP]
+> For a comprehensive analysis of the RFC 6962 framework, CT data models, row/byte limits, and proxy routing assurances, see [Certificate Transparency & Subdomains](certificate-transparency/README.md).
+
 ---
 
-## 6. Security Findings Grading System
+## 7. Security Findings Grading System
 
 Unlike diagnostic tools that compute a single, opaque security letter grade (e.g. "B+"), Nova's `TlsFindings` engine decomposes measurements into discrete, actionable findings:
 
@@ -171,7 +192,7 @@ Unlike diagnostic tools that compute a single, opaque security letter grade (e.g
 
 ---
 
-## 7. Integration: Inspection vs. Certificate UI Prompts
+## 8. Integration: Inspection vs. Certificate UI Prompts
 
 It is essential to distinguish between **cryptographic inspection** and **security prompt resolution**:
 
@@ -180,8 +201,14 @@ It is essential to distinguish between **cryptographic inspection** and **securi
 
 ---
 
-## 8. Related References
+## 9. Related References
 
+### Cryptographic Subsystems
+* [Certificate Chain Analysis & Validation](certificate-chains/README.md): X.509 hierarchy, intermediate caching fallacies, and offline validation.
+* [Cipher Suites, Protocols & PFS](cipher-suites-and-protocols/README.md): Modern AEAD algorithms, PFS, post-quantum groups, and ALPN.
+* [Certificate Transparency & Subdomains](certificate-transparency/README.md): Public log mining, subdomain reconnaissance, and privacy boundaries.
+
+### Network Architecture & Tools
 * [Network Overview](../README.md): Primary architecture hub, routing flowcharts, and decision matrices.
 * [Proxy Routing Architecture](../proxy/README.md): Shared browser routes, SOCKS5/HTTP profiles, and DPAPI credentials.
 * [Network Interception & Request Replay](../network-interception/README.md): Tab-scoped CDP interception and standalone request testing.
