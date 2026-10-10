@@ -59,8 +59,16 @@ a more precise `messageSelector`.
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
-| `selector` | `string` | No | — | ≤ 10000 characters | Optional CSS selector scoping the scan to the first matched element's subtree. Supports the ' >>> ' shadow DOM combinator. Landmarks and modals inside that subtree are reported; a subtree without landmarks comes back as a single 'scope' region. Errors if it matches nothing instead of falling back to the whole page. Omit to scan the entire document. |
-| `maxCharsPerRegion` | `integer` | No | `10000` | 100–200000 | Maximum characters per region. Regions exceeding this limit are truncated. |
+| `selector` | `string` | No | — | ≤ 10000 characters | Optional CSS subtree scope with ' >>> ' open-shadow traversal. Landmark mode reads the first match, including landmark/body fallback behavior. Conversation mode requires exactly one matched scope and returns an ambiguous outcome otherwise. No match is an error; neither mode broadens to unrelated page content. Omit for the document. |
+| `maxCharsPerRegion` | `integer` | No | `10000` | 100–200000 | Maximum characters per landmark region, or per message text in conversation mode. Over-limit text is truncated. |
+| `mode` | `string` | No | `"landmarks"` | `landmarks`, `conversation` | Output projection. Omit for the existing landmark contract; conversation reads rendered messages only with unknown total-history coverage. |
+| `messageSelector` | `string` | No | — | ≤ 10000 characters | Conversation only: message boundaries inside selector scope, including the root if it matches. Supports ' >>> ' open-shadow traversal. Omit to use declared semantics; ambiguous/nested boundaries return an explicit uncertain outcome, never unrelated page text. |
+| `textSelector` | `string` | No | — | ≤ 10000 characters | Conversation only: one visible text element relative to each message, including the message itself. Supports ' >>> '. Missing/ambiguous text is skipped and disclosed; no fallback to the entire message when supplied. |
+| `authorSelector` | `string` | No | — | ≤ 10000 characters | Conversation only: one visible author-label element relative to each message, with optional ' >>> '. Omit or no unique match means unknown author. Labels never determine assistant/user roles. |
+| `timestampSelector` | `string` | No | — | ≤ 10000 characters | Conversation only: one visible timestamp element relative to each message, with optional ' >>> '. Default time[datetime]. Returns only a declared datetime value; no inferred timestamp. |
+| `roleAttribute` | `string` | No | `"data-message-author-role"` | ≤ 64 characters | Conversation only: attribute on a message declaring its role. Known machine values user/assistant/system/developer/tool normalize; others stay unknown with bounded raw evidence. Does not change auto-detection boundaries. |
+| `maxMessages` | `integer` | No | `50` | 1–200 | Conversation only: maximum returned messages, in DOM order. More rendered candidates are disclosed; this is not a total-history count. |
+| `maxChars` | `integer` | No | `50000` | 1000–200000 | Conversation only: total returned message text/role-value/author/timestamp character budget, excluding fixed JSON structure. Message text also respects maxCharsPerRegion. |
 
 Capability bundles: `browser_automation`, `page_read_debug`.
 Tool category: `safe` (lowest risk class in Nova's agent permission settings).

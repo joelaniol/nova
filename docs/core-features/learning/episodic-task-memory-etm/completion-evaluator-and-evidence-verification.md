@@ -85,7 +85,7 @@ Every task completion condition defines one of three operational modes:
 ### Exhaustive Mode Invariants
 * **Non-Empty Frontier (`no_units_discovered`):** An agent cannot freeze discovery on an empty list and claim completion.
 * **Zero Blocked or Failed Units (`units_blocked_or_failed`):** Units that encountered captchas, network drops, or broken assertions must either be successfully resolved, or explicitly transitioned to `excluded` with a recorded rationale.
-* **Frontier Lock (`discovery_not_frozen`):** The agent must have explicitly frozen discovery via `nova.task_instance_progress(discoveryState="frozen")`.
+* **Frontier Lock (`discovery_not_frozen`):** The agent must have explicitly frozen discovery via `nova.task_instance_progress(setDiscoveryState="frozen")`.
 
 ### Threshold Mode Metrics
 The `stopMetric` parameter supports three evaluation targets:

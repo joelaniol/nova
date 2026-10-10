@@ -19,15 +19,15 @@ sequenceDiagram
     participant Console as console.jsonl
     participant Snapshots as dom-snapshots.jsonl
 
-    Agent->>Interactions: nova.session_record_interactions(selector="#submit-order")
+    Agent->>Interactions: nova.session_record_interactions(targetSelectorMatch="submit-order")
     Note over Interactions: Found click at T = 14:02:10.150<br/>Snapshot ID: snap_8f90a2
     Agent->>Snapshots: nova.session_record_dom_snapshot(snapshotId="snap_8f90a2")
     Note over Snapshots: Button was enabled, form had valid values
-    Agent->>Network: nova.session_record_query(sinceTs="14:02:10.000", method="POST")
+    Agent->>Network: nova.session_record_query(sinceMs=1791684130000, method="POST")
     Note over Network: POST /api/checkout returned HTTP 500<br/>Request ID: req_9921
     Agent->>Network: nova.session_record_get_entry(requestId="req_9921", includeBody=true)
     Note over Network: Server returned JSON: {"error": "inventory_locked"}
-    Agent->>Console: nova.session_record_events(stream="errors.jsonl", sinceTs="14:02:10.000")
+    Agent->>Console: nova.session_record_events(stream="errors.jsonl")
     Note over Console: Unhandled Promise Rejection on checkout response
 ```
 
@@ -44,23 +44,23 @@ The `network.cdp.jsonl` stream contains thousands of HTTP subrequests (images, f
 ```json
 {
   "recordingId": "rec_20261010_024015_a1b2",
-  "urlRegex": ".*\\/api\\/v1\\/orders.*",
+  "urlMatch": "/api/v1/orders",
   "method": "POST",
-  "statusMin": 400,
-  "statusMax": 599,
+  "statusGte": 400,
+  "statusLte": 599,
   "hasBody": true,
   "limit": 10
 }
 ```
 
 ### Supported Filter Capabilities
-* `urlRegex`: Regular expression matching against request URLs.
+* `urlMatch`: Case-insensitive regular expression applied to request URLs.
 * `method`: Filter by HTTP verb (`GET`, `POST`, `PUT`, `DELETE`, etc.).
-* `statusMin` / `statusMax`: Filter by response code ranges (e.g. `400` to `599` for errors).
+* `statusGte` / `statusLte`: Filter by response code ranges (e.g. `400` to `599` for errors).
 * `mimeType`: Filter by response content type (e.g. `application/json` or `text/html`).
-* `sinceTs` / `untilTs`: Narrow analysis to a specific ISO 8601 time window.
+* `sinceMs` / `untilMs`: Narrow analysis to a time window (Unix milliseconds; an ISO 8601 string is also accepted).
 * `hasBody`: Isolate requests that captured payload bodies.
-* `vaultMatch`: Filter for requests where redaction detected Vault credentials.
+* `vaultMatched`: Filter for requests where redaction detected Vault credentials.
 
 ### Deep Payload Inspection via `nova.session_record_get_entry`
 Once an interesting `requestId` is identified from query results, call `nova.session_record_get_entry` to inspect its full lifecycle:
@@ -97,7 +97,6 @@ When a web page fails silently without firing a network request, client-side Jav
    {
      "recordingId": "rec_20261010_024015_a1b2",
      "stream": "console.jsonl",
-     "sinceTs": "2026-10-10T02:42:00.000Z",
      "limit": 50
    }
    ```

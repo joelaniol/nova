@@ -14,8 +14,8 @@ Surface Explorer operates through the `nova.explore_surface` tool (part of the `
 flowchart TD
     subgraph Agent["MCP Agent Layer"]
         CmdDiscover["nova.explore_surface(mode='discover')"]
-        CmdActivate["nova.explore_surface(mode='activate', triggerId='...')"]
-        CmdHover["nova.explore_surface(mode='hover', triggerId='...')"]
+        CmdActivate["nova.explore_surface(mode='activate', activate=...)"]
+        CmdHover["nova.explore_surface(mode='hover', hover=...)"]
         CmdClose["nova.explore_surface(mode='close')"]
     end
 

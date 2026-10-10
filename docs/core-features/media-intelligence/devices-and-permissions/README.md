@@ -73,7 +73,7 @@ Nova clearly distinguishes between persistent settings and temporary memory gran
 | **Storage Location** | Persisted to disk in Nova's configuration | Stored exclusively in volatile memory |
 | **Lifetime** | Indefinite until explicitly cleared or revoked | Discarded when the tab closes or Nova restarts |
 | **Intended Use** | Trusted daily work applications (e.g. company video conferencing) | One-off meetings, ad-hoc voice recordings, unknown websites |
-| **Revocation** | `nova.media_permission_set(mode="prompt")` | `nova.media_permissions_clear_session_grants` |
+| **Revocation** | `nova.media_permission_set(camera="ask", microphone="ask")` | `nova.media_permissions_clear_session_grants` |
 
 ### Session Grant Flushing
 

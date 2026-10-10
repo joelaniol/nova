@@ -174,7 +174,7 @@ sequenceDiagram
     end
 
     opt Interactive Input (Requires process.stdin)
-        Agent->>Nova: nova.ssh_run_write(execId="exec_77a1", input="y\n")
+        Agent->>Nova: nova.ssh_run_write(execId="exec_77a1", data="y\n")
         Nova->>Remote: Transmit bytes to remote stdin channel
         Nova-->>Agent: { bytesWritten: 2 }
     end

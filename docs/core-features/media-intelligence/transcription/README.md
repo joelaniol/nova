@@ -102,7 +102,7 @@ sequenceDiagram
     participant Nova as Nova Transcription Service
     participant Outrider as Outrider Process (whisper.cpp)
 
-    Agent->>Nova: nova.media_transcribe_start(filePath="meeting.m4a", model="small", language="de")
+    Agent->>Nova: nova.media_transcribe_start(path="meeting.m4a", model="small", language="de")
     Nova->>Outrider: Spawn worker with model and audio stream
     Outrider-->>Nova: Job initialized
     Nova-->>Agent: { jobId: "tx_91a0", status: "processing" }

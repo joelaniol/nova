@@ -104,7 +104,7 @@ sequenceDiagram
     end
 
     Note over Agent,Hub: Phase 3: Freezing & Verification
-    Agent->>Hub: nova.task_instance_progress(discoveryState="frozen")
+    Agent->>Hub: nova.task_instance_progress(setDiscoveryState="frozen")
     Hub-->>Agent: Discovery frontier frozen
     Agent->>Hub: nova.task_instance_verify(instanceId)
     Hub-->>Agent: Verification contract assertions evaluated (Fast Gates)

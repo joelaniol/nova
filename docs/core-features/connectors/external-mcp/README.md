@@ -74,19 +74,19 @@ sequenceDiagram
     participant Vault as Nova Encrypted Vault
     participant Remote as External MCP Server
 
-    Note over Agent,Nova: Registration with Vault Reference
-    Agent->>Nova: nova.external_server_add(endpointUrl="https://api.tools.com/mcp", authMode="bearer", vaultEntryRef="vlt_123")
+    Note over Agent,Nova: Registration via site discovery (token stored in the Vault)
+    Agent->>Nova: nova.site_mcp_connect_request(domain="api.tools.com")
     Nova-->>Agent: { serverKey: "a1b2c3d4", status: "configured" }
 
     Note over Agent,Remote: Proxied Tool Execution
     Agent->>Nova: nova.external_tool_call(serverKey="a1b2c3d4", toolName="query_db", arguments={...})
-    Nova->>Vault: Resolve DPAPI-encrypted password for "vlt_123"
+    Nova->>Vault: Resolve the DPAPI-encrypted token behind the stored Vault reference
     Nova->>Remote: HTTP POST /mcp (Authorization: Bearer <token>)
     Remote-->>Nova: Tool Result Payload
     Nova-->>Agent: Result (Opaque to agent, secrets isolated)
 ```
 
-1. **Vault Reference (`vaultEntryRef`):** Rather than transmitting plain text Bearer tokens over JSON-RPC, configurations can point to a Vault entry ID. Nova decrypts the token internally using Windows DPAPI upon each connection.
+1. **Vault Reference:** A server registered through `nova.site_mcp_connect_request` keeps its token in the Vault; the server configuration only points to the Vault entry, and Nova decrypts the token with Windows DPAPI on each connection. A server added by hand with `nova.external_server_add` takes the token as `bearerToken` (with `authMode="bearer"`). If both are present, the Vault reference wins.
 2. **Config Hash Fingerprinting:** Nova computes configuration hashes to detect changes and trigger server reconnection. To prevent secret exposure, Bearer tokens are never hashed directly; Nova computes an 8-character SHA-256 fingerprint (`bearer:<fingerprint>`), ensuring secret material is never logged or exposed.
 
 ---

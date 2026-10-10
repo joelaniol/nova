@@ -74,11 +74,11 @@ sequenceDiagram
 
     Note over Tab,Disk: Page plays media; chunks are streamed to disk
     loop Monitor Progress
-        Agent->>Nova: nova.media_capture_status(captureId="cap_44b1")
+        Agent->>Nova: nova.media_capture_status(targetId="tab_7")
         Nova-->>Agent: { bytesWritten: 14500000, durationSeconds: 68.2, tracks: [...] }
     end
 
-    Agent->>Nova: nova.media_capture_stop(captureId="cap_44b1")
+    Agent->>Nova: nova.media_capture_stop(targetId="tab_7")
     Nova->>Tab: Detach hooks & flush trailing buffers
     Nova->>Disk: Finalize track headers and close files
     Nova-->>Agent: { status: "finished", files: ["C:/.../track_0_audio.m4a"] }

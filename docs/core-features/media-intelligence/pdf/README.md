@@ -67,7 +67,7 @@ sequenceDiagram
     participant Chromium as DevTools Print Pipeline
     participant Disk as Local File Storage
 
-    Agent->>Nova: nova.save_pdf(printBackground=true, paperFormat="A4", landscape=false)
+    Agent->>Nova: nova.save_pdf(printBackground=true, paperWidth=8.27, paperHeight=11.69, landscape=false)
     Nova->>Chromium: Page.printToPDF with layout metrics
     Chromium->>Chromium: Renders CSS @media print layout
     Chromium-->>Nova: Raw PDF binary stream

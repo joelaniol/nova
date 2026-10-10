@@ -104,7 +104,7 @@ sequenceDiagram
     Capture->>Disk: Writes "recording_track_0.m4a"
     Capture-->>Agent: File path returned
 
-    Agent->>Transcribe: nova.media_transcribe_start(filePath="recording_track_0.m4a", model="small")
+    Agent->>Transcribe: nova.media_transcribe_start(path="recording_track_0.m4a", model="small")
     Transcribe->>Disk: Streams audio through WMF decoder
     Transcribe-->>Agent: Returns job ID
 
