@@ -8,9 +8,9 @@
 * **ChatGPT:** Scientific Peer-Review, Mathematical Validation, Experimental Design & Critical Methodology Auditing (OpenAI)  
 **Research Initiated:** 2026-10-08  
 **Last Updated:** 2026-10-10  
-**Status:** Experimental research / Working paper (V1.1)  
+**Status:** Experimental research / Working paper (V1.2)  
 **Target Model Class:** Multimodal Vision-Language Models (GPT-4o, Claude 3.5 Sonnet, Gemini 1.5/2.0)  
-**Identifier:** `VLT-2026.10-V1.1`  
+**Identifier:** `VLT-2026.10-V1.2`  
 
 ---
 

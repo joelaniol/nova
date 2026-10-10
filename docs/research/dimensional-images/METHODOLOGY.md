@@ -1,7 +1,7 @@
 # Methodology: Mathematical Foundations of Visual Latent Transport
 
 **Project:** Dimensional Images  
-**Document:** Methodology & Theoretical Specification (V1.1)  
+**Document:** Methodology & Theoretical Specification (V1.2)  
 **Date:** 2026-10-10  
 **Lead:** Joel Aniol  
 **Classification:** `[PROVED]` (Mathematical Derivations) / `[NUMERICAL]` (Quantization Bounds)  
@@ -120,18 +120,29 @@ Encodes luminance mean, curvature, and odd high-order subcarriers:
   $$T_B(x, y) = \text{clip}\left(128.0 + \sum_{j=0}^{|\text{odd}|-1} m_{k_j}^{\text{norm}}(x, y) \cdot \frac{80.0}{\sqrt{|\text{odd}|}} \cdot W_{j+1}(x, y), 0, 255\right)$$
   where $W_j(x, y) \in \{-1, +1\}$ are 2D Walsh orthogonal block bases over the $64 \times 64$ grid.
 
-#### 3. Quadrant C (Chromatic Dynamics, $[64:128, 0:64]$)
-Encodes linear temporal trend ($P_1$) and even high-order subcarriers ($k \in \{4, 6, 8, 10\}$) via YCbCr:
+#### 3. Quadrant C (Chromatic Dynamics & False-Color Multiplexing, $[64:128, 0:64]$)
+Quadrant C encodes the luminance linear temporal trend mode ($P_1$) and even high-order luminance subcarriers ($k \in \{4, 6, 8, 10\}$) by mapping them onto the chrominance channels (Cb and Cr) via **false-color carrier multiplexing**:
 * **Cb Channel:** Linear trend ($P_1$):
   $$Cb(x, y) = \text{clip}\left(128.0 + 90.0 \cdot m_1^{\text{norm}}(x, y), 0, 255\right)$$
-* **Cr Channel:** Even high-order subcarriers:
+* **Cr Channel:** Even high-order subcarriers ($k \in \{4, 6, 8, 10\}$):
   $$Cr(x, y) = \text{clip}\left(128.0 + \sum_{j=0}^{|\text{even}|-1} m_{k_j}^{\text{norm}}(x, y) \cdot \frac{80.0}{\sqrt{|\text{even}|}} \cdot W_{j+1}(x, y), 0, 255\right)$$
 * **Luminance Floor:** $Y_C(x, y) = 128.0$.
 * The composite $(Y_C, Cb, Cr)$ layer is mapped to RGB via standard BT.601 conversion.
+* *Implementation Note:* In the current E3-K12 reference architecture, Quadrant C functions as a false-color carrier to visually represent temporal gradients and even-mode activity for the VLM. Full spatiotemporal chrominance projection (projecting native Cb and Cr channels across time) is defined as a planned architectural extension.
 
 #### 4. Quadrant R (Reference Floor, $[64:128, 64:128]$)
 Invariant neutral baseline:
 $$Q_R(x, y, c) = 128, \quad c \in \{R, G, B\}$$
+
+### 3.3 Model Attribution & Evaluation Transparency
+
+The Vision-Language Models GPT-4o, Claude, and Gemini are referenced in this working paper as illustrative examples of multimodal model architectures and potential deployment target platforms. Their citation does not imply that they participated directly in the reported experiments.
+
+The visual evaluations in EXP-025 and EXP-026 were performed by independently invoked AI evaluation subagents operating within the Antigravity agentic runtime with direct multimodal image inspection capabilities. Their exact underlying model configurations, prompts, and execution transcripts are permanently preserved in the repository experiment archives (`experiments/2026/`).
+
+ChatGPT contributed methodological review, mathematical criticism, adversarial stress-testing, and examination of published experimental documentation and results. This review constitutes independent theoretical and editorial critique, not an independent visual blind-test replication.
+
+Future experiment records (EXP-027+) will explicitly document the model provider, exact model identifier, API snapshot/version where available, evaluation timestamp, blind-test prompts, input image checksums, and decoding configuration.
 
 ---
 

@@ -1,7 +1,7 @@
 # Limitations, Failure Modes & Boundary Analysis
 
 **Project:** Dimensional Images  
-**Document:** Boundary Analysis & Empirical Falsification Report (V1.1)  
+**Document:** Boundary Analysis & Empirical Falsification Report (V1.2)  
 **Date:** 2026-10-10  
 **Lead:** Joel Aniol  
 **Classification:** `[PROVED]` (Nullspace & Dimension Theorems) / `[EMPIRICAL-VLM]` (Observed Thresholds)  
@@ -64,9 +64,10 @@ Status:  [    Fused Single Mode     ] [Phase Shift] [ Bimodal   ] [ Separated ]
 > [!WARNING]
 > The observed transition threshold at $\Delta t = 1.50\text{s}$ is an **empirical boundary specific to the evaluated E3-K12 configuration** ($N=64$, $K=12$, 8.0s duration, 8 FPS, evaluated via frontier VLMs).
 >
-> 1. **Mathematical Projection vs. VLM Perception:** The underlying Gram projection coefficients already exhibit subtle differences at $\Delta t = 0.50\text{s}$ (e.g. shifts in high-order mode energy ratios). The fusion into `fused_single` represents a limitation of VLM visual perception over the quantized carrier, not necessarily a total collapse of continuous projection mathematics.
-> 2. **Descriptive Analogies:** The terms *"Sub-Rayleigh Coherence"* and *"Bimodal Bifurcation"* are descriptive qualitative analogies for the visual carrier pattern transitions; they do not represent formal analytic derivations of classical optical diffraction limits or dynamical system bifurcations.
-> 3. **Non-Universal Constant:** Changing the frame rate $f_s$, increasing the mode count $K$, or adopting local wavelet subcarriers can shift this boundary.
+> 1. **Mathematical Projection vs. VLM Perception:** The underlying continuous Gram projection coefficients already exhibit mathematical differences at $\Delta t = 0.25\text{s}$ and $\Delta t = 0.50\text{s}$ (e.g., $M_2 = -59.29$ vs. $-58.77$, and $M_4 = 59.20$ vs. $57.45$). The raw video tensors differ across frames.
+> 2. **Carrier Quantization & Saturation Collapse (Identical SHA256 Hashes):** In EXP-026, the stimulus carriers for $\Delta t = 0.25\text{s}$, $\Delta t = 0.50\text{s}$, and the single broad pulse baseline (S3) yield bit-identical uint8 images on disk (`sha256 = de0a3320cd687ceb`). Empirical inspection of the encoder confirms that this is **not** a file path assignment error: because the intense test pulses drive $M_0 / 35.0 < -1.0$ and $M_2 / 35.0 < -1.0$, the low-order projection coefficients saturate the $[-1.0, 1.0]$ normalization clamp. At $\Delta t \le 0.50\text{s}$, the higher-order spatial Walsh modulation is below the 8-bit dynamic range threshold, collapsing both signals into identical quantized pixel arrays. At $\Delta t \ge 1.00\text{s}$, however, phase separation drives substantial subcarrier shifts ($\max |\Delta C| = 43$ pixel levels), cleanly breaking the saturation regime.
+> 3. **Descriptive Analogies:** The terms *"Sub-Rayleigh Coherence"* and *"Bimodal Bifurcation"* are descriptive qualitative analogies for the visual carrier pattern transitions; they do not represent formal analytic derivations of classical optical diffraction limits or dynamical system bifurcations.
+> 4. **Non-Universal Constant:** Changing the frame rate $f_s$, increasing the mode count $K$, tuning the normalization divisor $D$, or adopting local wavelet subcarriers can shift this boundary.
 
 ---
 
