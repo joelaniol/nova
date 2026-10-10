@@ -1,165 +1,205 @@
 # Multi-Sandbox User Management & GUI Controls
 
-Nova AI Workspace provides a rich WinUI 3 desktop interface for managing isolated browser sandboxes. Operators can switch between separate accounts, customize sandbox colors and icons, configure granular security policies, and clear profile data per sandbox without affecting any other session.
+> "Power without visibility is chaos; human operators must always know at a glance which account is active, who is recording, and where agents are working."
+>
+> — WinUI 3 Chrome Experience Guidelines
 
-```mermaid
-flowchart TD
-    subgraph Chrome["Browser Chrome (Title Bar & Tab Strip)"]
-        Pills["Sandbox Pill Bar\n(Chips A, B, C, ...)"]
-        Pills --> Responsive{"Viewport Width Check"}
-        Responsive -- "Expanded Width" --> Exp["Full Label + Color Marker + Recording Icon"]
-        Responsive -- "Compact Width" --> Cmp["Short ID Letter + Marker"]
-        Pills --> Ctx["Right-Click Context Menu"]
-        Pills --> Flyout["Sandbox Overview Flyout"]
-    end
-
-    subgraph Actions["Context Menu Actions"]
-        Ctx --> A1["Release Agent Claim"]
-        Ctx --> A2["Proxy Routing & Disconnect Toggle"]
-        Ctx --> A3["Visual Marker: None, Color, Favicon"]
-        Ctx --> A4["Allow Tabs in this Sandbox (Popup Routing)"]
-        Ctx --> A5["Hide from Toolbar (Pause)"]
-        Ctx --> A6["Clear Sandbox Data Dialog"]
-    end
-
-    subgraph Settings["Settings Panel (AI & Agents → Sandboxes)"]
-        S1["Add New Sandbox (+ Button)"]
-        S2["Color Picker & Custom Name"]
-        S3["Start URL & Suggestions"]
-        S4["Fingerprint Override (Off/Standard/Strict)"]
-        S5["Vault Autofill Override (Force On/Off)"]
-        S6["Allowed External Detour Hosts (OAuth/SSO)"]
-    end
-```
+> [!NOTE]
+> Nova AI Workspace provides an integrated WinUI 3 desktop interface designed for seamless multi-identity management. Operators can switch between sandboxes, customize visual markers, inspect hardware device indicators, configure per-sandbox security overrides, and execute scoped data clearing without affecting any other session.
 
 ---
 
 ## 1. The Sandbox Pill Bar in the Browser Chrome
 
-Active sandboxes appear as interactive pill buttons directly within Nova's top browser title bar and tab strip:
+Active sandboxes appear as interactive pill buttons positioned directly within Nova's top title bar and tab strip:
+
+```mermaid
+flowchart TD
+    subgraph ChromeStrip["Title Bar Pill Strip"]
+        PillA["[ (•) Work Mail ]\n(Active Focus)"]
+        PillB["[ (Favicon) Personal ]\n(Agent Pulse Ring ⚡)"]
+        PillC["[ (•) Staging QA ]\n(📹 Hardware Recording)"]
+    end
+
+    subgraph Responsive["Responsive Viewport Engine"]
+        ChromeStrip --> WidthCheck{"Title Bar Width Check"}
+        WidthCheck -- "Ample Space" --> Expanded["Expanded Mode:\nFull Account Label + Color/Favicon + Indicators\nPadding: (10, 3, 10, 3) px, Spacing: 6 px"]
+        WidthCheck -- "Constrained Space" --> Compact["Compact Mode:\nShort Letter ID ('A', 'B', 'C') + Marker\nPadding: (8, 3, 8, 3) px, Spacing: 4 px"]
+    end
+```
 
 ### Visual Structure of a Sandbox Pill
 
-Each pill button integrates three visual components:
+Every sandbox pill combines three visual components:
 
-1. **Identity Marker:**
-   - **Color Dot:** A circular badge displaying the sandbox's assigned hex color (e.g., `#818cf8`, `#34d399`).
-   - **Site Icon (Favicon):** Renders the active site's high-resolution favicon inside the marker badge.
-   - **Agent Activity Ring:** An animated pulse ring surrounding the marker when an MCP agent holds an active tab claim on that sandbox.
+1. **Identity Marker Badge:**
+   - **Color Dot:** A circular badge rendered in the sandbox's assigned hex accent color.
+   - **Site Icon (Favicon):** Dynamically loads, caches, and renders the high-resolution favicon of the active domain.
+   - **Agent Activity Pulse Ring:** An animated accent glow ring surrounding the marker whenever an autonomous MCP agent holds an active tab lease (`_mcpServer.IsTabClaimed`) on that sandbox.
 2. **Hardware Recording Indicator:**
-   - An SVG camera indicator (`camera_16_filled_site-warning.svg`) appears automatically whenever an active tab in the sandbox accesses the webcam, microphone, or screen sharing APIs.
+   - An SVG camera warning icon (`camera_16_filled_site-warning.svg`) appears automatically whenever an active tab within the sandbox accesses media capture APIs (webcam, microphone, or desktop screen sharing).
+   - Tooltip: *"This sandbox is using camera, microphone, or screen sharing."*
 3. **Identity Label:**
-   - Displays the user-defined name (e.g., `Work Mail`) or the automatically detected account name (e.g., `john.doe@example.com`).
+   - Displays the user-defined name (e.g., `Work Mail`) or the automatically detected identity (e.g., `john.doe@example.com`).
 
 ### Responsive Chrome (Expanded vs. Compact Mode)
 
-When multiple sandboxes or narrow window geometries constrain title bar width, Nova dynamically adjusts the pill layout:
+When multiple sandboxes are active or narrow window geometries constrain the title bar, Nova adjusts the pill layout dynamically:
 
-| Mode | Layout & Padding | Label Content | Space Optimization |
+| Layout Mode | Geometry & Padding | Visual Content | Space Efficiency |
 |---|---|---|---|
-| **Expanded** | Padding: `(10, 3, 10, 3)` px, Spacing: `6` px | Full name / account label (`Work Mail`) | Complete human-readable context. |
-| **Compact** | Padding: `(8, 3, 8, 3)` px, Spacing: `4` px | Short letter ID (`A`, `B`, `S1`) | Minimal footprint; full name remains visible via hover tooltip and automation accessibility names. |
+| **Expanded Mode** | Padding: `(10, 3, 10, 3)` px<br>Spacing: `6` px | Full custom name or detected account label (`Work Mail`) | Complete human-readable context; ideal for wide screens and 1–4 sandboxes. |
+| **Compact Mode** | Padding: `(8, 3, 8, 3)` px<br>Spacing: `4` px | Short Letter ID (`A`, `B`, `S1`) + marker badge | Ultra-compact footprint. Full name remains instantly accessible via hover tooltip and accessibility automation tree. |
+
+### The Sandbox Overview Flyout (`SandboxOverviewFlyout`)
+
+When the total number of provisioned sandboxes exceeds available title bar space, Nova displays an overflow affordance button. Clicking opens a high-density grid flyout listing all sandboxes, their active tab counts, proxy states, and agent lease statuses for instantaneous one-click navigation.
 
 ---
 
-## 2. Sandbox Pill Context Menu
+## 2. Sandbox Pill Context Menu Flyout
 
-Right-clicking any sandbox pill in the title bar opens a dedicated management context flyout:
+Right-clicking any sandbox pill opens a dedicated context management flyout:
 
 ```
-┌───────────────────────────────────────────────┐
-│  Sandbox A (Work Mail)                        │
-├───────────────────────────────────────────────┤
-│  ⚡ Release agent                              │
-│  🛡️ Proxy                                    ▶│
-│     ├── Disconnect proxy for this sandbox     │
-│     └── Proxy settings...                     │
-│  🎨 Mark                                     ▶│
-│     ├── None                                  │
-│     ├── (•) Colour                            │
-│     └── ( ) Site icon (favicon)               │
-│  ☑ Allow tabs in this sandbox                 │
-│  👁️ Hide from toolbar                         │
-├───────────────────────────────────────────────┤
-│  🧹 Clear sandbox data...                     │
-└───────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────┐
+│  Sandbox A (Work Mail)                                 │
+├────────────────────────────────────────────────────────┤
+│  ⚡ Release agent                                       │
+│  🛡️ Proxy                                             ▶│
+│     ├── Disconnect proxy for this sandbox (direct)     │
+│     └── Open proxy settings...                         │
+│  🎨 Mark                                              ▶│
+│     ├── ( ) None                                       │
+│     ├── (•) Colour                                     │
+│     └── ( ) Site icon (favicon)                        │
+│  ☑ Allow tabs in this sandbox                          │
+│  👁️ Hide from toolbar                                  │
+├────────────────────────────────────────────────────────┤
+│  🧹 Clear sandbox data...                              │
+└────────────────────────────────────────────────────────┘
 ```
 
 ### Context Actions Breakdown
 
-- **Release Agent:** Appears when an autonomous agent holds an exclusive tab claim (`_mcpServer.IsTabClaimed(sandboxId)`). Clicking immediately revokes the claim, releasing the sandbox for human control.
-- **Proxy Submenu:** Shows the effective proxy profile for the sandbox. Allows toggling proxy disconnection specifically for that sandbox (forcing direct connections) or navigating directly to proxy settings.
-- **Mark Selection:** Toggles between `None`, `Colour`, or `Site icon`. When set to *Site icon*, the pill dynamically fetches and renders the site's favicon.
-- **Allow Tabs in this Sandbox:** Configures popup window routing:
-  - *Enabled (Default):* Links requesting `window.open` or `target="_blank"` open as secondary tabs within the same sandbox profile, preserving login sessions.
-  - *Disabled:* Window-open requests route to the global browser-tab profile.
-- **Hide from Toolbar:** Soft-hides (pauses) the sandbox. Its profile data, logins, and storage remain intact on disk, but the pill is removed from the active toolbar until unhidden in Settings.
-- **Clear Sandbox Data:** Opens the scoped data cleanup dialog.
+- **⚡ Release Agent:**
+  Appears dynamically when an autonomous MCP agent holds an active tab claim (`nova.tab_claim`). Clicking immediately revokes the lease, returning control to the human operator.
+- **🛡️ Proxy Submenu:**
+  Displays the effective proxy connection for the sandbox. Operators can toggle **Disconnect proxy for this sandbox** to force direct, unproxied connections specifically for that profile while leaving global proxy settings active for all other sandboxes.
+- **🎨 Mark Submenu:**
+  Configures the visual marker badge:
+  - *None:* Clears the marker badge.
+  - *Colour:* Renders a circular color chip in the sandbox's accent hue.
+  - *Site icon (favicon):* Preloads and renders the current website's high-resolution favicon inside the pill badge.
+- **☑ Allow Tabs in This Sandbox (Popup Routing):**
+  Controls how window-open requests (`window.open` or `target="_blank"`) are routed:
+  - *Enabled (Default):* New popup tabs open within the same sandbox profile, preserving session credentials and authentication cookies.
+  - *Disabled:* Popup requests route to the global browser profile.
+- **👁️ Hide from Toolbar (Soft-Pause):**
+  Pauses the sandbox by hiding its pill from the active toolbar strip. The profile directory, cookies, and saved logins remain completely intact on disk. The sandbox can be unpaused at any time in Settings.
+- **🧹 Clear Sandbox Data:**
+  Opens the scoped sandbox cleanup dialog.
 
 ---
 
-## 3. Scoped Sandbox Data Clearing
+## 3. Scoped Sandbox Data Clearing (`SandboxDataClearDialog`)
 
-Nova allows operators to purge stored data from a specific sandbox without touching any other profile:
+Nova allows operators to purge stored data from an individual sandbox without touching any other profile:
 
 ```mermaid
 flowchart TD
-    D["Clear Sandbox Data Dialog"] --> R["Reset Entire Sandbox (All Data)"]
-    D --> C["Cache (HTTP & Layout Cache)"]
-    D --> S["Cookies and Site Data (Logins, IndexedDB, localStorage)"]
-    D --> H["History and Last Visited URL"]
+    Dialog["Clear Sandbox Data Dialog (SandboxDataClearDialog)"] --> Buckets{"Selected Cleanup Buckets"}
+    Buckets --> B1["Cache (HTTP & Shader Cache)\nPreserves active logins"]
+    Buckets --> B2["Cookies & Site Data (SQLite & LevelDB)\nSigns out of all websites in sandbox"]
+    Buckets --> B3["History & Last URL\nResets navigation history"]
+    Buckets --> B4["Reset Entire Sandbox (All Buckets Combined)\nRestores pristine profile state"]
 ```
 
 ### Granular Cleanup Buckets
 
-In the **Clear sandbox data** dialog (`SandboxDataClearDialog`), users select exactly which data categories to purge:
+In the **Clear sandbox data** dialog, operators select precisely which data categories to purge:
 
-| Cleanup Bucket | Data Purged | Impact on Session |
+| Cleanup Bucket | Target Storage Subsystem | Impact on Active Session |
 |---|---|---|
-| **Cache** | HTTP disk cache, memory cache, shader cache | Clears cached images and scripts; user remains signed in. |
-| **Cookies and site data** | Session cookies, persistent cookies, `localStorage`, `sessionStorage`, `IndexedDB`, Service Workers | Signs the user out of all websites in this sandbox. |
-| **History and last URL** | Visited URL history, navigation stack, remembered last URL | Resets the sandbox's default startup page without signing out. |
+| **Cache** | HTTP disk cache (`Default\Cache`), memory cache, shader cache, V8 code cache (`Code Cache\js`) | Purges cached images, stylesheets, and scripts. **Preserves user logins and session cookies.** |
+| **Cookies and site data** | SQLite cookie store (`Network\Cookies`), `localStorage`, `sessionStorage`, `IndexedDB`, Service Workers | **Signs the user out of all websites in this sandbox.** Cookies in all other sandboxes remain completely unaffected. |
+| **History and last URL** | Visited URL history, navigation stack, remembered startup page | Resets the sandbox's default startup URL without affecting active cookies or logins. |
 | **Reset entire sandbox** | All of the above combined | Restores the sandbox profile to a pristine, freshly initialized state. |
 
 > [!IMPORTANT]
-> Purging data in Sandbox B has zero impact on Sandbox A. Cookies, tokens, and active sessions in Sandbox A remain completely unaffected.
+> **Zero Cross-Sandbox Bleed Invariant:**
+> Purging data in Sandbox B has zero impact on Sandbox A. SQLite files, LevelDB directories, and cache folders are physically partitioned on disk.
 
 ---
 
 ## 4. Settings Panel Configuration (`SettingsView`)
 
-Full configuration of sandbox identities and security policies is available under **Menu → Settings → AI & agents → Sandboxes**:
+Complete configuration of all sandbox identities and security policies is accessible via **Menu → Settings → AI & agents → Sandboxes**:
 
-### Adding and Editing Sandboxes
+```mermaid
+flowchart TD
+    subgraph Config["Sandbox Configuration Options"]
+        C1["Name & Account Label"]
+        C2["10-Color Accessible Palette"]
+        C3["Startup URL & Suggestions"]
+        C4["Fingerprint Override (Off / Standard / Strict)"]
+        C5["Password Vault Autofill Override (Force On / Force Off)"]
+        C6["Allowed External Detour Hosts (OAuth Whitelist)"]
+    end
+```
 
-Operators can create up to **100 sandboxes** (`AppSettings.MaxSandboxes = 100`). At least one sandbox must always remain.
+### Adding and Customizing Sandboxes
 
-- **Name & Account Label:** Custom descriptive names (e.g., `Personal Shopping`, `Production AWS Console`).
-- **Color Palette Selection:** Choose from Nova's curated 10-color accessible palette:
-  `#818cf8` (Indigo), `#34d399` (Emerald), `#f472b6` (Pink), `#fbbf24` (Amber), `#60a5fa` (Blue), `#a78bfa` (Purple), `#2dd4bf` (Teal), `#fb7185` (Rose), `#4ade80` (Green), `#f97316` (Orange).
-- **Startup URL & Auto-Suggestions:** Specify a default URL to navigate to when the sandbox opens. Nova provides autocomplete suggestions based on recent bookmarks and history.
+Operators can provision up to **100 sandboxes** (`AppSettings.MaxSandboxes = 100`). At least one sandbox must always remain active.
 
-### Granular Per-Sandbox Overrides
+- **Name & Account Label:** Custom descriptive titles (e.g., `Personal Banking`, `Production AWS Console`).
+- **Curated 10-Color Accessible Palette:**
+  Nova provides a high-contrast, accessibility-tested color palette:
+  - `#818cf8` (Indigo)
+  - `#34d399` (Emerald)
+  - `#f472b6` (Pink)
+  - `#fbbf24` (Amber)
+  - `#60a5fa` (Blue)
+  - `#a78bfa` (Purple)
+  - `#2dd4bf` (Teal)
+  - `#fb7185` (Rose)
+  - `#4ade80` (Green)
+  - `#f97316` (Orange)
+- **Startup URL & Auto-Suggestions:**
+  Specify a default entry URL. Nova provides intelligent autocomplete suggestions based on recent bookmarks and history entries.
 
-Each sandbox profile can override global browser security policies:
+### Granular Per-Sandbox Policy Overrides
 
-1. **Fingerprint Protection Level Override:**
-   - `Inherit Global (Default)`: Follows global setting (`Off`, `Standard`, `Strict`).
-   - `Off`: Disables Canvas, Audio, and WebGL noise for compatibility on sensitive portals.
+Each sandbox profile can override global browser security policies independently:
+
+1. **Fingerprint Protection Override:**
+   - `Inherit Global (Default)`: Inherits the system-wide protection setting (`Off`, `Standard`, `Strict`).
+   - `Off`: Neutralizes Canvas and Audio noise for compatibility on sensitive portals.
    - `Standard`: Applies uniform timing and Canvas jitter.
-   - `Strict`: Maximum entropy masking and hardware API neutralization.
+   - `Strict`: Applies maximum entropy masking and hardware API neutralization.
 2. **Password Vault Autofill Override:**
    - `Inherit Global`: Uses the main password vault preference.
-   - `Force On`: Enables automatic password filling even if global auto-fill is cautious.
-   - `Force Off`: Prohibits credential filling in this sandbox (ideal for shared demonstration sandboxes).
-3. **Allowed External Detour Hosts:**
-   - Whitelist of external domains that this sandbox is permitted to visit during authentication detours (e.g., `accounts.google.com`, `login.microsoftonline.com`, `appleid.apple.com`, `checkout.stripe.com`, `paypal.com`).
-   - Prevents unintended cross-site navigations while allowing legitimate Single Sign-On (SSO) and payment redirects.
+   - `Force On`: Automatically fills credentials even if global autofill is cautious.
+   - `Force Off`: Prohibits credential filling in this sandbox (ideal for shared demonstration or untrusted sandboxes).
+3. **Allowed External Detour Hosts (OAuth / SSO Whitelist):**
+   - Whitelist of permitted third-party domains that tabs in this sandbox are authorized to visit during authentication detours (e.g., `accounts.google.com`, `login.microsoftonline.com`, `appleid.apple.com`, `checkout.stripe.com`, `paypal.com`).
+   - Prevents unintended cross-site navigations while facilitating legitimate Single Sign-On (SSO) and checkout workflows.
 
 ---
 
 ## 5. Keyboard Navigation & Accessibility
 
 - **Keyboard Focus:** Tabbing through the title bar places high-contrast focus rings around sandbox pills using `NovaPalette.AccentWash`.
-- **Keyboard Activation:** Pressing `Space` or `Enter` activates the focused sandbox.
-- **Screen Reader Support:** Every pill exposes an `AutomationProperties.Name` formatted with the sandbox ID, custom name, and detected account status.
+- **Keyboard Activation:** Pressing `Space` or `Enter` activates the focused sandbox immediately.
+- **Screen Reader Support:** Every pill exposes an `AutomationProperties.Name` formatted with the sandbox ID, custom name, and detected account status, ensuring complete accessibility compliance.
+
+---
+
+## 6. Related Documentation
+
+- [Profile Storage, Disk Anchors & Recovery](profile-storage-and-disk-anchors.md) — Disk architecture and boot-time reconciliation.
+- [Intent Routing & Agent Interaction](intent-routing-and-agent-interaction.md) — Multi-signal scoring and MCP tool operations.
+- [Site Data Management](../site-data-management/README.md) — Cookie inspections and storage quotas.
+- [Multi-Sandbox Overview](README.md) — Master architectural index.
+
+[All core features](../README.md)
