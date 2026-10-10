@@ -166,16 +166,17 @@ Because Quadrant G of slot $s+1$ encodes $S(x, y, t = t_{\text{start}}(s+1))$, t
 
 ## 5. Adaptive Temporal Windowing (ATW)
 
-Uniform temporal allocation ($T = 8.0\text{s}$ per slot) suffers from temporal smearing when video contains rapid, non-stationary bursts. The **Adaptive Temporal Windowing (ATW)** engine computes the temporal activity entropy $\mathcal{E}(t)$:
+Uniform temporal allocation ($T = 8.0\text{s}$ per slot) suffers from temporal smearing when video contains rapid, non-stationary bursts. The **Adaptive Temporal Windowing (ATW)** engine computes the temporal activity energy $\mathcal{E}(t)$ (integrated squared temporal gradient):
 
 $$\mathcal{E}(t) = \int_{\Omega} \left| \frac{\partial S(x, y, t)}{\partial t} \right|^2 dx dy$$
 
 When dynamic bursts are detected ($\mathcal{E}(t) > \theta_{\text{dynamic}}$), the window allocator dynamically partitions the timeline:
-* **High-activity burst:** $T_{\text{slot}} = 4.0\text{s}$ (allocates 2 slots to resolve sub-second transients).
-* **Nominal activity:** $T_{\text{slot}} = 8.0\text{s}$ (standard E3-K12 configuration).
-* **Quiescent / Static drift:** $T_{\text{slot}} = 16.0\text{s}$ (merges quiescent intervals to save token and container budget).
+* **High-activity burst:** $T_{\text{slot}} = 4.0\text{s}$ ($N=32$ frames @ 8 FPS).
+* **Nominal activity:** $T_{\text{slot}} = 8.0\text{s}$ ($N=64$ frames @ 8 FPS).
+* **Quiescent / Static drift:** $T_{\text{slot}} = 16.0\text{s}$ ($N=128$ frames @ 8 FPS).
 
-The total mosaic remains strictly 512x512, preserving deterministic spatial compatibility.
+### 5.1 Variable Sequence Length Normalization
+For each allocated slot duration $T_{\text{slot}}$, a dedicated discrete orthonormal Gram polynomial basis $P(N) \in \mathbb{R}^{K \times N}$ is evaluated. Because each basis satisfies $P(N) P(N)^T = I_K$ with maximum orthogonality error $< 10^{-15}$ (audited for $N \in \{32, 64, 128\}$), projection coefficients $M_k$ represent true orthonormal coordinates regardless of slot duration. All tiles are packed into identical 128x128 carriers, preserving strict spatial compatibility in the 512x512 mosaic.
 
 ---
 
@@ -197,3 +198,34 @@ To guarantee zero-ambiguity model decoding without bloating token overhead, ever
 * `mosaic_size` ([int, int]): Composite container resolution ($[512, 512]$).
 * `encoding` (string): Basis specification (`"E3-K12"`).
 * `partition_code` (string): Comma-separated list of individual slot durations in seconds.
+
+---
+
+## 7. Numerical Inversion & Round-Trip Reconstruction Protocol
+
+To rigorously separate mathematical transmission fidelity from Vision-Language Model perceptual comprehension, the framework specifies a matched-filter reference decoder (`decode_carrier_E3_hybrid_scaling`):
+
+### 7.1 Direct Inversion Formulas
+From the 128x128 carrier tile, the original projection coefficients $\hat{m}_k^{\text{norm}}$ are extracted:
+1. **Low-Order Luminance Modes (Quadrant T & C):**
+   * $\hat{m}_0^{\text{norm}} = (T_R - 128.0) / 90.0$
+   * $\hat{m}_2^{\text{norm}} = (T_G - 128.0) / 90.0$
+   * $\hat{m}_1^{\text{norm}} = (Cb - 128.0) / 90.0$
+2. **High-Order Spatial Demodulation:**
+   * Odd modes ($k \in \{3, 5, 7, 9, 11\}$):
+     $$\hat{m}_{k_j}^{\text{norm}} = \frac{\sqrt{|\text{odd}|}}{80.0} \cdot \frac{1}{H W} \sum_{x, y} (T_B(x, y) - 128.0) \cdot W_{j+1}(x, y)$$
+   * Even modes ($k \in \{4, 6, 8, 10\}$):
+     $$\hat{m}_{k_j}^{\text{norm}} = \frac{\sqrt{|\text{even}|}}{80.0} \cdot \frac{1}{H W} \sum_{x, y} (Cr(x, y) - 128.0) \cdot W_{j+1}(x, y)$$
+
+### 7.2 Empirical Round-Trip Benchmark Results
+Across all 12 polynomial dimensions audited on controlled synthetic signals (`scripts/audit_numerical_roundtrip.py`):
+
+| Metric | PNG (Lossless 8-bit Transport) | WebP (Q=80 Lossy Transport) |
+| :--- | :--- | :--- |
+| **Mean RMSE across modes** | **0.0176** (~1.8% error) | **0.1653** |
+| **Minimum Pearson $r$** | **0.9899** | **0.9643** |
+| **Low-Order RMSE ($k \in \{0, 1, 2\}$)** | $0.0121 - 0.0782$ | $0.0153 - 0.0803$ |
+| **Maximum Off-Diagonal Crosstalk** | $< 0.0333$ | $< 0.0694$ |
+
+*Conclusion:* The mathematical carrier channels exhibit near-lossless linear invertibility in PNG and preserve high rank correlation ($r > 0.96$) under lossy WebP compression.
+

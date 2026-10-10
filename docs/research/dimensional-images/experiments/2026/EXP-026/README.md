@@ -2,7 +2,8 @@
 
 **Date:** 2026-10-10  
 **Status:** Evaluated & Ratified (ADR-030)  
-**Evidence Tier:** `[EMPIRICAL-VLM]` / `[NUMERICAL]` / `[PROVISIONAL]` (Resolution Threshold)  
+**Evidence Tier:** `[GUIDED-PILOT-VLM]` / `[NUMERICAL]`  
+**Evaluation Note:** Guided pilot evaluation suite. Stimulus directory names and prompts provided structural context to exploratory subagents; serves as qualitative calibration for pre-registered EXP-027.  
 **Carrier Geometry:** 128x128 E3-K12 Single-Carrier Tile  
 **Window Duration:** 8.0 seconds (64 frames @ 8 FPS)  
 **Encoding:** E3-K12 (12 Discrete Gram Orthogonal Polynomials)  

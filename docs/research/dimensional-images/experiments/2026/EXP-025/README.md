@@ -2,7 +2,8 @@
 
 **Date:** 2026-10-09  
 **Status:** Evaluated & Ratified (ADR-028)  
-**Evidence Tier:** `[EMPIRICAL-VLM]` / `[PROVED]` (F6 Nullspace)  
+**Evidence Tier:** `[GUIDED-PILOT-VLM]` / `[PROVED]` (F6 Nullspace)  
+**Evaluation Note:** Guided pilot evaluation suite. Stimulus file paths and task prompts provided structural context to exploratory subagents; serves as qualitative calibration for pre-registered EXP-027.  
 **Container Geometry:** 512x512 Dimensional Video Mosaic (16 Slots, 128x128 each)  
 **Timeline Duration:** 128.0 seconds (1,024 frames @ 8 FPS)  
 **Sidecar Format:** `dimensional-mosaic-compact-v1` (230 bytes)  

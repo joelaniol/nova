@@ -106,8 +106,29 @@ Consequently, statements of token savings must cite specific benchmark architect
 
 | Phenomenon | Boundary / Limit | Scientific Mechanism | Practical Mitigation |
 | :--- | :--- | :--- | :--- |
-| **High-Frequency Nullspace** | 52 dimensions ($N=64, K=12$) | Orthogonal projection complement $(I_N - P^T P) \mathbf{u} = \mathbf{0}$ | Explicit uncertainty calibration; EVM verification |
+| **High-Frequency Nullspace** | 52 dimensions ($N=64, K=12$) | Orthogonal projection complement $P(I_N - P^T P) \mathbf{u} = \mathbf{0}$ | Explicit uncertainty calibration; EVM verification |
 | **Temporal Bimodal Separation** | $\Delta t \in (1.00\text{s}, 1.50\text{s}]$ | Modal phase overlap in Gram basis | Adaptive Temporal Windowing (ATW) |
 | **Dense Micro-Transient Contention** | $>3$ pulses per 8.0s slot | High-order subcarrier superposition | Energy-guided slot splitting |
 | **Quantization Noise Floor** | $\Delta \le 2$ LSB | 8-bit dynamic range clipping | Calibrated mode gain vector $\gamma_k$ |
 | **Vision Token Ingestion** | Model-dependent (~256 tokens) | Proprietary ViT patch architectures | Standardized 512x512 container dimension |
+
+---
+
+## 7. Protocol Integrity & Bias Avoidance (Distinguishing Guided Pilots from Blind Verification)
+
+A crucial insight from peer review and exploratory evaluations (EXP-024 to EXP-026) concerns the integrity of blind-testing protocols:
+
+### 7.1 Reclassification of Exploratory Experiments as Guided Pilots
+In the preliminary experiment packages (`EXP-025`, `EXP-026`), stimulus file paths and prompt task descriptions inadvertently contained semantic cues (e.g., directory names such as `cyan_then_magenta`, `single_broad`, or explicit lists of event slots). While these exploratory runs confirmed that Vision-Language Models can parse carrier topologies when directed, they do **not** constitute independent proofs of unguided event detection or chronological ordering.
+
+Consequently, all evaluations prior to EXP-027 are officially classified as **Guided Pilot Evaluations** (`[GUIDED-PILOT-VLM]`).
+
+### 7.2 Strict Protocol Requirements for EXP-027 (Pre-Registered Blind Benchmarking)
+To achieve rigorous scientific evidential standards in future benchmarks, EXP-027 and subsequent evaluations must strictly adhere to the following 5-point protocol:
+
+1. **Neutral & Anonymized Identifiers:** Stimulus files must use randomized hashes or neutral letters (e.g. `stimulus_a_4f8b1c.png`), completely eliminating semantic strings from file paths.
+2. **Randomized Stimulus Presentation:** Stimulus order across conditions must be randomly shuffled and blinded to the evaluating agent.
+3. **Open-Ended Prompts Without Semantic Leaks:** Evaluation prompts must not mention event counts, expected slot positions, or candidate hypothesis labels.
+4. **Pre-Registered Scoring Rubrics:** Ground truth criteria, metric extraction scripts, and tolerance thresholds must be fixed prior to running evaluations.
+5. **Full Model Attribution:** Every evaluation log must record the exact model provider, API snapshot / version tag, system prompt, temperature, and timestamp.
+

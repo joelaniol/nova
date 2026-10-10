@@ -20,12 +20,13 @@ Multimodal foundation models process visual information through patch-based Visi
 
 This research paper investigates **Visual Latent Transport (VLT)**: a deterministic mathematical framework that projects continuous video timelines directly into high-density 2D synthetic carrier images. Rather than relying on specialized learned neural decoders, standard Vision-Language Models (VLMs) interpret the carrier directly via mathematical basis specifications provided in system prompts.
 
-We formulate and evaluate the **E3-K12** carrier architecture, which maps temporal dynamics across discrete orthogonal Gram polynomials into a structured 4-quadrant visual tile. By tiling 16 temporal slots into a unified **512x512 Dimensional Video Mosaic**, we demonstrate a highly compressed, lossy visual representation of 128.0 seconds of continuous video (1,024 frames @ 8 FPS), retaining selected spatiotemporal information relevant to the evaluated VLM tasks. The resulting single 5,464-byte WebP container accompanied by a 215-byte structured sidecar achieves a continuous streaming bitrate of **44.5 Bytes/second** (a **2,210x bandwidth reduction** over raw frames) with zero format retrieval degradation ($\Delta \text{F1} = 0.000$).
+We formulate and evaluate the **E3-K12** carrier architecture, which maps temporal dynamics across discrete orthogonal Gram polynomials into a structured 4-quadrant visual tile. By tiling 16 temporal slots into a unified **512x512 Dimensional Video Mosaic**, we demonstrate a highly compressed, lossy visual representation of 128.0 seconds of continuous video (1,024 frames @ 8 FPS), retaining selected spatiotemporal information relevant to the evaluated VLM tasks. The resulting single 5,464-byte WebP container accompanied by a 215-byte structured sidecar achieves a continuous streaming bitrate of **44.4 Bytes/second** (5,464 B WebP + 215 B sidecar / 128s = 44.37 B/s, a **2,216x bandwidth reduction** over raw frames) with zero format retrieval degradation ($\Delta \text{F1} = 0.000$).
 
-Through rigorous adversarial falsification suites (EXP-025, EXP-026), we establish:
+Through empirical guided pilot evaluations (EXP-025, EXP-026) and numerical round-trip audits, we establish:
 1. **Empirical Temporal Resolution Boundary:** Discrete event separation bifurcates into distinct bimodal modes in the transition interval $\Delta t \in (1.00\text{s}, 1.50\text{s}]$ for 8.0s windows at 8 FPS.
-2. **Causal Arrow of Time:** 180° phase inversion in odd Gram polynomial modes reliably encodes chronological event ordering (100% accuracy).
+2. **Causal Arrow of Time:** 180° phase inversion in odd Gram polynomial modes reliably encodes chronological event ordering.
 3. **Honest Uncertainty Calibration:** Orthogonal polynomial nullspaces are correctly recognized by blinded models with 0.0 confidence rather than hallucinated.
+4. **Numerical Round-Trip Invertibility:** Linear projection and inverse demodulation achieve mean RMSE of 0.0176 (PNG) and 0.1653 (WebP Q=80) across all 12 polynomial modes ($r \ge 0.964$).
 
 ---
 
@@ -33,12 +34,13 @@ Through rigorous adversarial falsification suites (EXP-025, EXP-026), we establi
 
 The research documentation is partitioned into specialized academic modules:
 
-* [`METHODOLOGY.md`](METHODOLOGY.md): Comprehensive mathematical derivations of discrete Gram orthogonal polynomials, projection operators, Parseval energy conservation, dynamic range quantization, exact E3-K12 encoder equations, and the Adaptive Temporal Windowing (ATW) algorithm.
+* [`METHODOLOGY.md`](METHODOLOGY.md): Comprehensive mathematical derivations of discrete Gram orthogonal polynomials, projection operators, Parseval energy conservation, dynamic range quantization, exact E3-K12 encoder/decoder equations, and the Adaptive Temporal Windowing (ATW) algorithm.
 * [`EXPERIMENTS.md`](EXPERIMENTS.md): Chronological milestone experiment index from EXP-001 through EXP-026, accompanied by stimulus parameters, quantitative metrics, and evidence classifications.
-* [`LIMITATIONS.md`](LIMITATIONS.md): Formal boundary analysis covering the 52-dimensional projection nullspace, carrier bit-identity conditions, empirical temporal resolution thresholds, high-order mode contention, and ViT patch boundary artifacts.
+* [`LIMITATIONS.md`](LIMITATIONS.md): Formal boundary analysis covering the 52-dimensional projection nullspace, carrier quantization saturation collapse, empirical temporal resolution thresholds, high-order mode contention, and evaluation protocol integrity.
 * [`REFERENCES.md`](REFERENCES.md): Academic bibliography covering discrete orthogonal polynomials, wavelets, transform coding, and multimodal foundation models.
-* [`experiments/2026/`](experiments/2026/): Versioned, reproducible experiment packages containing machine-readable protocols (`protocol.json`), tabular measurements (`metrics.csv`), and verbatim model evaluation logs (`model-responses.jsonl`).
-* [`figures/`](figures/): High-resolution carrier mosaics, experimental stimuli, and comparative diagnostic figures.
+* `experiments/2026/`: Versioned, reproducible experiment packages containing machine-readable protocols (`protocol.json`), tabular measurements (`metrics.csv`), and verbatim model evaluation logs (`model-responses.jsonl`) ([`EXP-025`](experiments/2026/EXP-025/README.md), [`EXP-026`](experiments/2026/EXP-026/README.md)).
+* `scripts/`: Automated reproducibility scripts ([`verify_research_docs.py`](scripts/verify_research_docs.py), [`audit_numerical_roundtrip.py`](scripts/audit_numerical_roundtrip.py)).
+* `figures/`: High-resolution carrier mosaics, experimental stimuli, and comparative diagnostic figures.
 
 ---
 
@@ -59,7 +61,7 @@ The fundamental building block of the framework is the **128x128 E3-K12 Carrier 
 |                           |                           |
 |        Quadrant C         |        Quadrant R         |
 |   Chromatic Dynamics      |    Calibration Floor      |
-|   (P1 Linear Color Trend) |   (Invariant Const 128)   |
+| (False-Color Multiplex)   |   (Invariant Const 128)   |
 |          [64x64]          |          [64x64]          |
 |                           |                           |
 +---------------------------+---------------------------+
@@ -68,8 +70,8 @@ The fundamental building block of the framework is the **128x128 E3-K12 Carrier 
 | Quadrant | Physical Role | Channel Mapping | Physical Mechanism |
 | :--- | :--- | :--- | :--- |
 | **Quadrant G** | Base Geometry | YCbCr $\to$ RGB | Initial scene state ($t=0$), anchoring background layout and object geometry. |
-| **Quadrant T** | Kinematics | R: $P_0$, G: $P_2$, B: Subcarrier | Discrete Gram polynomial projection of luminance $Y(t)$. Encodes velocity, acceleration reversals, and high-frequency vibrations. |
-| **Quadrant C** | Chromatic Trajectory | R: $P_1$, G: Cb drift, B: Cr subcarrier | Orthogonal projection of chrominance channels. Encodes illumination shifts, beacon flashes, and directional temporal arrows. |
+| **Quadrant T** | Kinematics | R: $P_0$, G: $P_2$, B: Subcarriers | Discrete Gram polynomial projection of luminance $Y(t)$. Encodes velocity, acceleration reversals, and odd high-frequency vibrations ($k \in \{3, 5, 7, 9, 11\}$). |
+| **Quadrant C** | False-Color Dynamics | Cb: $P_1$, Cr: Even Subcarriers | False-color multiplexing of luminance temporal modes onto chrominance channels. Encodes linear temporal drift ($P_1$) and even higher modes ($k \in \{4, 6, 8, 10\}$). |
 | **Quadrant R** | Reference Floor | Uniform 128 | Neutral baseline floor providing invariant contrast calibration across varying model backbones. |
 
 ---
