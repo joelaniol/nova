@@ -61,6 +61,7 @@ Sending a prompt or chat message in modern AI interfaces involves complex intera
 | `transitionContract.stabilityMs` | `integer` | No | — | — | Optional stability hold duration in milliseconds. Success must remain true for this long before verification passes. |
 | `text` | `string` | No | — | — | Optional text to type into the chat composer before sending. When provided, Nova auto-discovers the input field, types the text, verifies via read-back, then clicks send. No length limit — long text is auto-chunked. When text is set, selector/ctaRef are ignored for input discovery but can still override send-button resolution. |
 | `message` | `string` | No | — | — | Alias for 'text'. Accepted for convenience — many agents use 'message' instinctively. If both 'text' and 'message' are provided, 'text' wins. |
+| `waitForReplyMs` | `integer` | No | `0` | 0–120000 | Also wait up to this long for the recipient's reply to finish (0 = do not wait). The result then carries reply (state, confidence, signals, text, watchId) and delivery. Longer replies: continue with nova.read_text_structured(mode='conversation', replyWatchId=reply.watchId) - never send again to 'retry' a wait. |
 
 Capability bundles: `browser_automation`, `form_submission`.
 Tool category: `normal` (standard risk class in Nova's agent permission settings).

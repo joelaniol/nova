@@ -69,6 +69,8 @@ a more precise `messageSelector`.
 | `roleAttribute` | `string` | No | `"data-message-author-role"` | ≤ 64 characters | Conversation only: attribute on a message declaring its role. Known machine values user/assistant/system/developer/tool normalize; others stay unknown with bounded raw evidence. Does not change auto-detection boundaries. |
 | `maxMessages` | `integer` | No | `50` | 1–200 | Conversation only: maximum returned messages, in DOM order. More rendered candidates are disclosed; this is not a total-history count. |
 | `maxChars` | `integer` | No | `50000` | 1000–200000 | Conversation only: total returned message text/role-value/author/timestamp character budget, excluding fixed JSON structure. Message text also respects maxCharsPerRegion. |
+| `replyWatchId` | `string` | No | — | ≤ 64 characters | Conversation only: continue waiting on the reply of a message sent with nova.guarded_send_message(waitForReplyMs) - the reply.watchId from that result. Returns reply.state (done \| settled \| running \| error \| lost \| scope_changed \| reopened) plus the reply text; read-only, never sends. Unknown or expired ids (15 minutes without reads) fail with reasonCode reply.watch_unknown instead of reading some other conversation. |
+| `waitMs` | `integer` | No | `30000` | 0–120000 | With replyWatchId: how long to wait for the reply to end before returning running. 0 reads the current state once. |
 
 Capability bundles: `browser_automation`, `page_read_debug`.
 Tool category: `safe` (lowest risk class in Nova's agent permission settings).
