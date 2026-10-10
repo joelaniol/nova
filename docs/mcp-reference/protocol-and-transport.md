@@ -28,7 +28,7 @@ Nova's MCP server speaks **Streamable HTTP**. Clients reach it either directly o
   * `--antigravity-tool-names`: advertises tool names with underscores (`nova_tabs`) for clients that reject dots, and maps calls back. Includes `--mirror-structured-content`.
   * `--mirror-structured-content`: copies `structuredContent` into `content[].text` for clients that pass only the text to the model.
   * `--version` or `--self-test`, each on its own: print the bridge version, or check that the bridge itself works, and exit.
-* **Developer configuration:** `NOVA_MCP_AUTOSTART=0` disables bridge autostart. `NOVA_MCP_COLD_START_MS` sets its cold-start wait (default 90,000 ms, bounded to 5,000–300,000 ms). These are bridge environment variables for custom integrations, not result-format settings for users.
+* **Developer configuration:** `NOVA_MCP_AUTOSTART=0` disables bridge autostart. `NOVA_MCP_COLD_START_MS` sets its cold-start wait (default 90,000 ms, bounded to 5,000–300,000 ms). These are bridge environment variables for custom integrations (see [Variables & State Injection](README.md#c-bridge-environment-variables)), not result-format settings for users.
 
 ### B. Streamable HTTP (`http://127.0.0.1:27183/mcp`)
 * For services and scripts that cannot start a child process.
