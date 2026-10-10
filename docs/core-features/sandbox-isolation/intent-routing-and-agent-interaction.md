@@ -293,7 +293,7 @@ Destroys a sandbox profile and securely cleans up its disk files:
 - **Scoped Tab Creation:**
   `nova.tab_new(sandbox="B", url="https://example.com")` opens a tab directly bound to Sandbox B's profile.
 - **Tab Leases & Agent Activity Rings:**
-  When an agent calls `nova.tab_claim(tabId=...)`, an animated pulse ring appears around the sandbox pill in the browser chrome, alerting human operators that an autonomous session is active.
+  When an agent calls `nova.tab_claim(targetId=...)`, an animated pulse ring appears around the sandbox pill in the browser chrome, alerting human operators that an autonomous session is active.
 - **Switching Visible View:**
   `nova.guarded_switch_sandbox` enables interactive viewport switching while respecting Agent Awareness Gates.
 

@@ -23,7 +23,7 @@ If no dialog is open, the call returns `ok: false` with `reasonCode: "certificat
 | `decision` | `string` | Yes | — | `proceed`, `refuse` | refuse: decline the connection (safe, unblocks browsing). proceed: continue with an unverified certificate for this session. |
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
-Tool category: `high_impact` (highest risk class; Nova's agent permission settings can ask before it runs).
+Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
 ---
