@@ -21,11 +21,12 @@
 | `scope` | `string` | Yes | — | — | Domain scope (e.g. 'youtube.com'). |
 | `domainHint` | `object` | Yes | — | — | Domain hint to upsert (matched by id if existing). |
 | `domainHint.id` | `string` | No | — | — | Hint ID (stable across updates). Omit to auto-generate. |
-| `domainHint.kind` | `string` | Yes | — | `content_filter.ad_container`, `noise_region`, `content_container.result_item` | Hint kind. |
+| `domainHint.kind` | `string` | Yes | — | `content_filter.ad_container`, `noise_region`, `content_container.result_item`, `chat_surface` | Hint kind. chat_surface takes chatSurface and no selectors/effect/extract/mode. |
 | `domainHint.mode` | `string` | No | `"ancestor"` | `ancestor`, `item_root` | ancestor (el.closest check) \| item_root (enumerate matching elements). |
-| `domainHint.selectors` | `array` of `string` | Yes | — | 1–10 items | CSS selectors (1..10, each non-empty string). For ancestor mode: checked via el.closest(). For item_root: enumerated via querySelectorAll(). |
+| `domainHint.selectors` | `array` of `string` | No | — | 1–10 items | CSS selectors (1..10, each non-empty string), required for every kind except chat_surface. For ancestor mode: checked via el.closest(). For item_root: enumerated via querySelectorAll(). |
 | `domainHint.effect` | `object` | No | — | — | Effect when hint matches (ad_container/noise_region only). |
 | `domainHint.extract` | `object` | No | — | — | Extraction config (result_item only). |
+| `domainHint.chatSurface` | `object` | No | — | — | chat_surface only: a reply-watch site profile. Data only - selectors and numbers, never script. A new profile runs in shadow next to the provider-neutral rules; it decides only after 10 confirmed runs (or learn_promote) and is quarantined on its first premature 'done'. |
 | `domainHint.enumerateMax` | `integer` | No | `8` | 1–50 | Max instances to enumerate for result_item hints during Perceive/CTA scanning. Defaults to 8 when omitted. |
 | `domainHint.confidence` | `number` | No | `0.5` | 0–1 | Confidence 0.0-1.0 used as a ranking weight for this hint during Perceive/CTA scoring. Defaults to 0.5. |
 

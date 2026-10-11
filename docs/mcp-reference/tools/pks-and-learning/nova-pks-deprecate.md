@@ -19,7 +19,8 @@
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `scope` | `string` | Yes | — | — | Domain scope. |
-| `phenomenonId` | `string` | Yes | — | — | Phenomenon ID to deprecate. |
+| `phenomenonId` | `string` | No | — | — | Phenomenon ID to deprecate. Exactly one of phenomenonId or hintId. |
+| `hintId` | `string` | No | — | — | Domain hint id to deprecate (domainHint.id of nova.pks_upsert_hint; a chat_surface profile without id is 'chat-surface'). |
 | `reason` | `string` | No | — | — | Reason for deprecation (e.g. 'selector no longer matches', '5x consecutive failure'). |
 
 Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_learning')`).
