@@ -1,43 +1,131 @@
-# AI Visualization & Staying in Control
+# AI Visualization & Live Observation
 
 > [!NOTE]
-> Nova AI Workspace shows you what an agent does in the browser while it does it, marks the tabs and sandboxes an agent is working in, and gives you an emergency stop. In the product this view is called **AI visualization**; it was described as "Live Assist" or "Spectator Mode" in earlier versions of this guide.
+> Unlike traditional headless browser automation where agents act silently and invisibly in the background, Nova AI Workspace features a real-time **AI Visualization** layer. It projects an animated assist cursor, action captions, target locks, and step cards directly over the live browser viewport so you always see what an agent is doing as it happens.
 
 ---
 
-## 1. What Is the AI Visualization?
+## 1. High-Level Architecture: The Live Visual Feedback Loop
 
-Keep this view enabled when you want to follow an agent's browser work without reading its tool calls. It shows supported actions as they happen; it is not a transcript of the agent's private reasoning.
-
-The **AI visualization** (also called the assist cursor) mirrors agent actions on screen:
-* An on-screen cursor labelled **AI** moves to the element the agent is about to use and pulses when it acts.
-* A short caption says what is happening — for example *Searching target...*, *Target locked*, *Performing action...*, *Verified* or *Verification failed*.
-* An optional step card shows the current and the next step (*Step 2/5: Click*, *Next step: Verify result*).
-
-It covers clicks, typing, option selection, scrolling, waiting for elements, navigation and the guarded actions.
+Nova's assist visualization acts as a transparent visual bridge between autonomous Model Context Protocol (MCP) tool calls and human supervision:
 
 ```mermaid
 flowchart LR
-    Agent["MCP agent"] -->|"tool call, e.g. nova.click_selector"| Nova["Nova"]
-    Nova -->|"input"| Page["Web page"]
-    Nova -->|"visualization"| Overlay["AI cursor, caption, step card"]
-    Overlay --> Human["You"]
-    Human -.->|"Menu - Emergency stop"| Nova
+    Agent["MCP Agent<br/>(Claude, Codex, Antigravity)"] -->|"Tool Call (e.g., nova.click_selector)"| Engine["Nova Interaction Engine"]
+    Engine -->|"Physical Input Dispatch"| Page["Active Web Page"]
+    Engine -->|"Telemetry & Coordinates"| Overlay["WinUI 3 Assist Visual Overlay"]
+    Overlay -->|"Assist Cursor, HUD, Step Card"| User["Human Co-Browser"]
+    User -.->|"Manual Takeover or Ctrl+Alt+Escape"| Engine
 ```
 
 ---
 
-## 2. Settings & Indicators
+## 2. The AI Assist Cursor & Action Phases
 
-### 2.1 Turning It On or Off
-* The visualization is on by default. Toggle it quickly with **Menu → View → AI visualization**.
-* Under **Settings → Appearance & performance → AI visualization** you find **Show assist cursor (AI)**, **Assist cursor: reduced motion** and **Show optional step card (current and next step)**. Less certain steps move slower and stay visible longer.
+When an agent interacts with a webpage, Nova displays an on-screen cursor badge marked **AI**. The cursor moves smoothly across the viewport, locks onto targeted DOM bounding boxes, and reflects the agent's internal progress through distinct action phases:
 
-### 2.2 Agent Markers on Tabs and Sandboxes
-* Tabs and sandbox pills that an agent works in carry a marker. Its tooltip tells you the state: *Agent active*, *Agent recently active* or *Agent reserved* (the agent has claimed the tab but is not acting right now).
-* While agents are active, an activity indicator lists active and reserved targets; from its details you can switch to a claimed tab or release the claim. On a sandbox pill, **Release agent** does the same.
-* Outside the window, the Nova button in the taskbar shows agent activity; when Nova keeps running in the background, its icon in the notification area says *an agent is working*.
+```
++-------------------------------------------------------------------+
+|                                                                   |
+|       +---------------------------------------------+             |
+|       | [Search corporate directory...]             |             |
+|       +---------------------------------------------+             |
+|                     ^                                             |
+|                     | [ AI ] Target locked                        |
+|                     +-(O) (pulsing reticle)                       |
+|                                                                   |
+|   +-----------------------------------------------------------+   |
+|   | Step 2/4: Type query "Financial report Q3"                |   |
+|   | Next: Click Search button                                 |   |
+|   +-----------------------------------------------------------+   |
++-------------------------------------------------------------------+
+```
 
-For taking over a tab or interrupting work, see [Taking over and emergency stop](taking-over-and-emergency-stop.md).
+### The Seven Assist Action Phases
 
-[Back to this section](README.md) · [All user guides](../README.md)
+| Action Phase | Visual Feedback | HUD Caption | Next-Step Prediction |
+| :--- | :--- | :--- | :--- |
+| **`scan`** | Pulsing searching ring moving across layout | *Searching target...* | Lock target |
+| **`lock_on`** | Snaps to element bounding box with animated reticle | *Target locked* | Perform action |
+| **`act`** | Action ripple for clicks; blinking caret for typing; scroll indicator | *Performing action...* | Verify result |
+| **`verify_ok`** | Expanding green confirmation ring | *Verified* | Complete step |
+| **`verify_fail`** | Amber/red warning pulse | *Verification failed* | Complete step |
+| **`recover`** | Repositioning sweep to adjacent layout boundaries | *Recovering...* | Rescan |
+| **`step_done`** | Smooth fade-out of active reticle | *Done* | Prepare next step |
+
+### Confidence Scoring & Tempo Modulation
+
+Nova dynamically modulates the playback speed and visual duration of assist animations based on element confidence scores:
+* **High-Confidence Steps:** Executed cleanly with brisk, fluid animations so automated workflows remain responsive.
+* **Low-Confidence or Ambiguous Targets:** The assist cursor slows down and lingers over the target element, giving the human supervisor adequate time to intervene before a potentially erroneous click occurs.
+
+---
+
+## 3. The Assist Step Card & HUD
+
+In addition to the cursor reticle, Nova can render an informative **Step Card** at the bottom of the viewport:
+
+* **Step Index & Total:** Displays progress through multi-action sequences (*Step 2/5: Click "Checkout"*).
+* **Intent & Action Description:** Summarizes the current operation in clear human terms (*Type query: "Annual 2026 report"*).
+* **Next-Step Preview:** Predicts the agent's upcoming operation (*Next: Verify confirmation message*).
+* **Intelligent Text Bounds:** Long labels and complex selectors are automatically truncated to prevent the HUD from obscuring critical form elements or navigation controls.
+
+---
+
+## 4. Window Chrome & System-Level Indicators
+
+You do not need to look directly at the active page to know when an agent is working. Nova projects agent status across all browser chrome surfaces:
+
+### 4.1 Tab Strip Markers
+* **Active Glow:** Any browser tab currently executing agent commands displays an animated glow and a dedicated agent badge.
+* **Informative Tooltips:** Hovering over the tab badge reveals the exact operational state:
+  * *Agent active:* Tool call currently executing in the tab.
+  * *Agent recently active:* Completed a tool call within the last few seconds.
+  * *Agent reserved:* The agent holds an exclusive lease on the tab but is currently idle or deliberating.
+
+### 4.2 Sandbox Pill Indicators
+When an agent operates inside an isolated sandbox (e.g., Sandbox A or B), the sandbox pill in the title bar displays the active agent badge. Right-clicking the pill exposes the **Release agent** option.
+
+### 4.3 The Activity Flyout
+Clicking the agent icon in the top toolbar opens the **Activity Flyout**. It provides a comprehensive live overview:
+* All tabs and sandboxes currently claimed by agents.
+* The connected client identity (Claude Code, OpenAI Codex, Antigravity).
+* Elapsed lease durations and active tool names.
+* One-click **Release claim** buttons for surgical, tab-by-tab intervention.
+
+### 4.4 Windows Taskbar & System Tray
+* **Taskbar Overlay Badge:** Nova's taskbar icon displays a small activity badge while agents are running.
+* **System Notification Area (Tray):** When Nova is minimized or configured to run in the background, hovering over its notification area icon displays: *Nova AI Workspace — an agent is working*.
+
+---
+
+## 5. Configuration & Accessibility Settings
+
+Customize the AI visualization layer under **Settings → Appearance & performance → AI visualization** (or toggle it quickly via **Menu → View → AI visualization**):
+
+* **Show assist cursor (AI):** Master toggle for the on-screen assist reticle and action captions (Enabled by default).
+* **Assist cursor: reduced motion:** Respects Windows accessibility preferences. Disables continuous fluid cursor easing and snaps the reticle directly to element coordinates, eliminating motion fatigue.
+* **Show optional step card:** Controls the visibility of the multi-step HUD card at the bottom of the viewport.
+
+---
+
+## 6. Seamless Co-Browsing & Emergency Stop
+
+Nova is engineered for co-browsing, meaning human users always retain absolute authority:
+
+1. **Direct Takeover:** You can click, scroll, or type into any claimed tab at any time. Your direct physical input immediately takes precedence.
+2. **Surgical Lease Release:** Click **Release agent** on any tab context menu or sandbox pill to revoke the agent's hold without interrupting other tasks.
+3. **Global Emergency Stop:** Press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Esc</kbd> or choose **Menu → Emergency stop** to instantly freeze all running agents, fade out all assist visual overlays, revoke tab claims, and pause terminal sessions.
+
+---
+
+## Related Documentation
+
+* **[Taking Over & Emergency Stop](taking-over-and-emergency-stop.md)** — Step-by-step procedures for live takeover and safety interrupts.
+* **[Connecting an Agent](connecting-an-agent.md)** — Setting up MCP connections and configuring AI assistants.
+* **[Appearance & Performance Settings](../settings/appearance.md)** — Visual customization and assist cursor settings.
+* **[AI & Agents Settings](../settings/ai-and-agents.md)** — Autonomy levels and confirmation rules.
+
+---
+
+[Back to Agents](README.md) · [All user guides](../README.md)
