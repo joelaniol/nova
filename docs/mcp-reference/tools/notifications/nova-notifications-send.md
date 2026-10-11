@@ -8,6 +8,8 @@ Dispatches a host-authored Windows toast notification and persists it to the Nov
 
 `nova.notifications_send` presents native Windows desktop toast notifications to the user and stores them in Nova's persistent notification drawer. It includes rate-limiting (10 requests per 30 seconds) and blocks website impersonation (`sourceKind: "website"` is rejected).
 
+A notification can carry a small icon (`iconPath`), a preview picture (`imagePath`, for example a screenshot the agent just took) and one button (`actionButtonLabel`) that opens the same target as clicking the notification. Pictures are given as an absolute path to a local image file or as a base64 `data:` URI; web addresses are not downloaded. Nova checks that each picture really is an image (PNG, JPEG, GIF, BMP, ICO or WebP, at most 1 MB) and shows only its own copy. A picture that fails the check rejects the call with `-32602` instead of being silently dropped; `structuredContent.attached` reports what went onto the notification.
+
 
 ---
 
@@ -23,6 +25,9 @@ Dispatches a host-authored Windows toast notification and persists it to the Nov
 | `targetId` | `string` | No | — | — | Optional target ID for click routing. |
 | `sandboxId` | `string` | No | — | — | Optional sandbox ID for click routing. |
 | `urgent` | `boolean` | No | — | — | If true, mark the notification important (Windows 'Urgent' scenario) so it breaks through Focus Assist / Do-Not-Disturb and pops a banner even under 'priority only'. Reserve for genuinely important events; default false. |
+| `iconPath` | `string` | No | — | — | Optional small icon shown in the toast corner and on the notification card: absolute path to a local image file or a base64 data: URI (PNG/JPEG/GIF/BMP/ICO/WebP, max 1 MB). Web addresses are rejected - save the image first. An unusable picture fails the call (-32602) instead of being dropped. |
+| `imagePath` | `string` | No | — | — | Optional preview picture shown below the text (e.g. a screenshot or a generated image): absolute path to a local image file or a base64 data: URI (PNG/JPEG/GIF/BMP/ICO/WebP, max 1 MB). Windows toasts show PNG/JPEG/GIF; the notification list shows all formats. Web addresses are rejected. |
+| `actionButtonLabel` | `string` | No | — | — | Optional label of one toast button (max 40 chars) that opens the same target as clicking the notification (targetId/sandboxId). |
 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
 
@@ -61,7 +66,24 @@ Tool category: `high_impact` (highest risk class; Nova's agent permission settin
   ],
   "structuredContent": {
     "status": "sent",
-    "notificationId": "notif-7b8c9d0e"
+    "notificationId": "notif-7b8c9d0e",
+    "attached": { "icon": false, "image": false, "actionButton": false }
+  }
+}
+```
+
+### With a screenshot and a button
+```json
+{
+  "name": "nova.notifications_send",
+  "arguments": {
+    "sourceKind": "agent",
+    "title": "Layout check finished",
+    "body": "Two pages need a look.",
+    "imagePath": "C:\\Users\\<you>\\Pictures\\layout-check.png",
+    "actionButtonLabel": "Open report",
+    "targetId": "<tab id>",
+    "_meta": { "intent": "Show the operator the screenshot of the failed check" }
   }
 }
 ```
