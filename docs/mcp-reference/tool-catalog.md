@@ -269,7 +269,7 @@ Native OS notification dispatch, unread inbox management, and per-origin notific
 | Tool Name | Parameters | Description |
 | :--- | :--- | :--- |
 | **[`nova.notifications_send`](tools/notifications/nova-notifications-send.md)** | `sourceKind`, `title`, `body?`, `tag?`, `targetId?`, `sandboxId?`, `urgent?`, `iconPath?`, `imagePath?`, `actionButtonLabel?` | Dispatches a host-authored Windows toast notification and persists it to the Nova notification inbox. |
-| **[`nova.notifications_list`](tools/notifications/nova-notifications-list.md)** | `sourceKind?`, `origin?`, `unreadOnly?`, `includeDismissed?`, `limit?`, `offset?` | Queries the Nova notification inbox with filtering by source, website origin, and read status. |
+| **[`nova.notifications_list`](tools/notifications/nova-notifications-list.md)** | `sourceKind?`, `origin?`, `unreadOnly?`, `includeDismissed?`, `limit?`, `offset?`, `tag?`, `targetId?` | Queries the Nova notification inbox with filtering by source, website origin, and read status. |
 | **[`nova.notifications_get`](tools/notifications/nova-notifications-get.md)** | `notificationId` | Retrieves complete metadata and payload for a single notification by ID. |
 | **[`nova.notifications_unread_count`](tools/notifications/nova-notifications-unread-count.md)** | *(none)* | Returns the count of unread, non-dismissed notifications currently in the inbox. |
 | **[`nova.notifications_mark_read`](tools/notifications/nova-notifications-mark-read.md)** | `notificationId` | Marks a notification as read without dismissing it from the inbox. |

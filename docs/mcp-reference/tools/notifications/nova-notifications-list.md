@@ -22,6 +22,8 @@ Queries the Nova notification inbox with filtering by source, website origin, an
 | `includeDismissed` | `boolean` | No | — | — | If true, include dismissed notifications. Default: false. |
 | `limit` | `integer` | No | — | 1–200 | Maximum number of results. Default: 50, max: 200. |
 | `offset` | `integer` | No | — | ≥ 0 | Number of results to skip for pagination. Default: 0. |
+| `tag` | `string` | No | — | — | Only notifications with exactly this tag (the replacement tag given to notifications_send or set by a website). |
+| `targetId` | `string` | No | — | — | Only notifications whose click target is this tab or sandbox ID (the targetId shown in the list; for website notifications the tab that sent it). |
 
 Capability bundle: `notifications` (load it with `nova.tools_bundle(bundle='notifications')`).
 Tool category: `safe` (lowest risk class in Nova's agent permission settings).

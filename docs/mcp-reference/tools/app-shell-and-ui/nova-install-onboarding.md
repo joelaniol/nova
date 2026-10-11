@@ -64,6 +64,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
       { "path": ".nova/tools/ftp.md", "outcome": "created", "error": null },
       { "path": "CLAUDE.md", "outcome": "markerreplaced", "error": null }
     ],
+    "filesSkipped": [],
     "registered": true,
     "bootstrapNow": [
       "nova.get_instructions(taskKeywords=[...])",
@@ -73,7 +74,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 }
 ```
 
-`outcome` is one of `created`, `updated`, `markerreplaced`, `unchanged`, `skipped` or `error`. `status` is `ok`, `partial` (some files written) or `error`.
+`outcome` is one of `created`, `updated`, `markerreplaced`, `unchanged`, `skipped` or `error`. Nova writes its block into `CLAUDE.md` (Claude Code), `AGENTS.md` (Codex, Cursor and other agents of that convention) and `GEMINI.md` (Gemini CLI, Antigravity): existing files are edited, missing ones are created, so every agent family finds the block. `AGENTS.md` is edited even when `CLAUDE.md` imports it, because the other `AGENTS.md` readers never open `CLAUDE.md`. `filesSkipped` lists each agent entry file Nova left out and why: `covered_by_import` (the root `CLAUDE.md` imports `.claude/CLAUDE.md`) or `same_agent_file_present` (no root `CLAUDE.md` is created next to an existing `.claude/CLAUDE.md`). `status` is `ok`, `partial` (some files written) or `error`.
 
 ---
 

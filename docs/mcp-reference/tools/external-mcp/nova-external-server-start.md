@@ -65,7 +65,35 @@ Tool category: `high_impact` (highest risk class; Nova's agent permission settin
 }
 ```
 
-On failure, `ok` is `false`, `result.status` is `"Failed"`, `result.pid` is omitted, and `result` instead carries `errorPhase`, `errorMessage`, an optional `exitCode`/`stderr`, and `suggestions` (a short list of likely fixes).
+On failure, `ok` is `false`, `result.status` is `"Failed"`, `result.pid` is omitted, and `result` instead carries `errorPhase`, `errorMessage`, an optional `exitCode`/`stderr`, and `suggestions` (a short list of likely fixes that follow the observed cause).
+
+`result.reasonCode` names that cause:
+
+| `reasonCode` | Meaning | Extra field |
+| :--- | :--- | :--- |
+| `no_response` | No answer arrived within `startupTimeoutMs`. Only here does a longer timeout help. | — |
+| `response_id_mismatch` | The server answered, but with an id Nova never sent (JSON-RPC requires the request id unchanged). Nova never assigns such an answer to a request. | `uncorrelatedResponse` (`idKind`, `id`, `isError`, `awaitingIds`) |
+| `upstream_error` | The server answered `initialize` with a JSON-RPC error. | `upstreamError` (`code`, `message`, `data`; message and data are length-bounded) |
+| `http_status` | The server answered with an HTTP error status. | `httpStatus` |
+| `connection_reset` | The server accepted the connection and closed it before answering. | — |
+| `connection_refused` | Nothing accepts connections at the endpoint. Nova connects to HTTP/SSE servers but does not start them. | — |
+| `connection_failed` | Any other network failure before an answer. | — |
+| `protocol_error` | The answer broke the transport contract (for example HTTP 401, an oversized body, an SSE stream without `endpoint` event). | — |
+
+Example of a server that returns its own id instead of the request id:
+
+```json
+{
+  "ok": false,
+  "result": {
+    "status": "Failed",
+    "errorPhase": "timeout",
+    "reasonCode": "response_id_mismatch",
+    "errorMessage": "The server sent a response with id 0 (number) while Nova waited for id \"1\" (string). Nova does not assign a response to a request it did not send.",
+    "uncorrelatedResponse": { "idKind": "number", "id": "0", "isError": false, "awaitingIds": ["1"] }
+  }
+}
+```
 
 ---
 

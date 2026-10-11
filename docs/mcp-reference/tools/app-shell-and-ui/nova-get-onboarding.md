@@ -72,7 +72,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
     "verify": [
       "Re-open each edited file and confirm the block exists exactly once.",
       "Do not modify any content outside the marker block.",
-      "If CLAUDE.md already imports AGENTS.md, skip the AGENTS.md edit."
+      "Edit AGENTS.md even when CLAUDE.md imports it: Codex and other AGENTS.md readers never open CLAUDE.md."
     ],
     "bundles": ["browser_automation", "page_read_debug", "..."],
     "files": [
