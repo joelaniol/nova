@@ -12,6 +12,7 @@ Nova AI Workspace provides a full-featured Windows desktop browser designed for 
 | **[Favorites & Bookmarks](favorites.md)** | Saved Pages & NTP | Address bar star (`Ctrl+D`), bookmark bar (`Ctrl+Shift+B`), folders, New Tab speed dials, and `@bookmarks` scoped search. |
 | **[Browsing History](history.md)** | Visited Pages & Cleanup | Chronological search (`Ctrl+H`), per-sandbox visit badges, `@history` scoped search, and bulk data clearing (`Ctrl+Shift+Del`). |
 | **[Downloads Panel](downloads.md)** | File Retrieval & Safety | Download shelf (`Ctrl+J`), virus scanner integration, safe file opening, pause/resume, and auto-open preferences. |
+| **[Desktop Notifications](notifications.md)** | Unified Alerts & Inbox | Window bell badge, slide-out notification center, website prompts, Windows toasts, and deep-link tab routing. |
 | **[Private Browsing](private-browsing.md)** | Ephemeral Sessions | InPrivate tabs (`Ctrl+Shift+N`), in-memory session isolation, zero history persistence, and tracking prevention. |
 | **[Keyboard Shortcuts](keyboard-shortcuts.md)** | Quick Navigation | Complete reference of browser navigation, tab management, terminal dock, and agent control hotkeys. |
 

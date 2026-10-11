@@ -220,6 +220,7 @@ All notification capabilities are exposed to AI agents via the `notifications` c
 
 ## Next Steps
 
+* Read the everyday user guide for **[Desktop Notifications & Notification Center](../../user-guide/browser/notifications.md)**.
 * Manage notification tools in the **[MCP Tool Catalog](../../mcp-reference/tool-catalog.md#11-desktop-notifications--alerts)**.
 * Read the **[Agent Awareness Gates (AAG)](../agent-awareness-gates-aag/README.md)** for human-in-the-loop permission contracts.
 * Explore **[Multi-Sandbox Session Isolation](../sandbox-isolation/README.md)** for profile partition rules.
