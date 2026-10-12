@@ -231,6 +231,11 @@ Weiter: **[Installation auf Deutsch](docs/getting-started/installation.md#nova-a
 
 When Nova becomes available to buy, everyone will have the option to tick a box during checkout to say that one of these circumstances applies to them. I will not ask for proof, references, or explanations. Everyone has their own reasons, and I will respect yours.
 
+> **Your privacy comes first.**<br>
+> We will not spy on you. We will never sell your personal data. We avoid collecting personal data wherever possible and keep any necessary collection to a minimum.
+
+Nova does not collect usage analytics or track your browsing behavior. License activation and renewal require limited data; crash reports are sent only if you choose to send them. Connected AI providers and websites have their own data practices. See our [Privacy Policy](PRIVACY.md) for the details.
+
 <div align="center">
 
 **Joel Aniol**  
@@ -250,6 +255,11 @@ Hilfreiche Technologie sollte Türen öffnen — unabhängig vom Einkommen oder 
 > Nova wird für Menschen ohne Einkommen, benachteiligte Menschen sowie Studierende immer kostenlos sein.
 
 Sobald Nova zum Kauf angeboten wird, kann jede Person beim Kauf ein Kästchen ankreuzen, wenn eine dieser Lebenssituationen auf sie zutrifft. Ich werde keine Belege, Verweise oder Erklärungen verlangen. Jeder Mensch hat seine eigenen Gründe, und ich respektiere deine.
+
+> **Deine Privatsphäre steht an erster Stelle.**<br>
+> Wir werden dich nicht ausspionieren. Wir werden deine personenbezogenen Daten niemals verkaufen. Wir vermeiden die Erhebung personenbezogener Daten, wo immer es möglich ist, und beschränken notwendige Erhebungen auf ein Minimum.
+
+Nova erhebt keine Nutzungsanalysen und verfolgt dein Surfverhalten nicht. Lizenzaktivierung und -verlängerung benötigen einen begrenzten Datensatz; Crashberichte werden nur gesendet, wenn du dich dafür entscheidest. Verbundene KI-Anbieter und Websites haben eigene Regeln zum Umgang mit Daten. Details stehen in unserer [Datenschutzerklärung](PRIVACY.md#deutsch).
 
 — **Joel Aniol**, Entwickler von Nova AI Workspace
 
