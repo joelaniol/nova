@@ -229,6 +229,8 @@ Weiter: **[Installation auf Deutsch](docs/getting-started/installation.md#nova-a
 > **Always free for those who need it.**  
 > Nova will always be free for people without income, people facing disadvantage, and students.
 
+When Nova becomes available to buy, everyone will have the option to tick a box during checkout to say that one of these circumstances applies to them. I will not ask for proof, references, or explanations. Everyone has their own reasons, and I will respect yours.
+
 <div align="center">
 
 **Joel Aniol**  
@@ -246,6 +248,8 @@ Hilfreiche Technologie sollte Türen öffnen — unabhängig vom Einkommen oder 
 >
 > **Immer kostenlos für diejenigen, die es brauchen.**  
 > Nova wird für Menschen ohne Einkommen, benachteiligte Menschen sowie Studierende immer kostenlos sein.
+
+Sobald Nova zum Kauf angeboten wird, kann jede Person beim Kauf ein Kästchen ankreuzen, wenn eine dieser Lebenssituationen auf sie zutrifft. Ich werde keine Belege, Verweise oder Erklärungen verlangen. Jeder Mensch hat seine eigenen Gründe, und ich respektiere deine.
 
 — **Joel Aniol**, Entwickler von Nova AI Workspace
 
