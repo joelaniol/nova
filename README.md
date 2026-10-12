@@ -214,18 +214,39 @@ Weiter: **[Installation auf Deutsch](docs/getting-started/installation.md#nova-a
 
 ---
 
-## Ethics — My promise
+<a name="ethics--my-promise"></a>
+<div align="center">
 
-I believe access to useful technology should not depend on your income or circumstances.
+## ❤️ Ethics · My promise
 
-**Nova AI Workspace will never have a subscription model. Nova will always be free for people without income, people facing disadvantage, and students.**
+*Useful technology should open doors — whatever your income or circumstances.*
 
-— Joel Aniol, creator of Nova AI Workspace
+</div>
 
-### Mein Versprechen
+> **Never a subscription.**  
+> Nova AI Workspace will never have a subscription model.
+>
+> **Always free for those who need it.**  
+> Nova will always be free for people without income, people facing disadvantage, and students.
 
-Ich bin überzeugt, dass der Zugang zu hilfreicher Technologie nicht vom Einkommen oder den Lebensumständen abhängen sollte.
+<div align="center">
 
-**Nova AI Workspace wird niemals ein Abo-Modell haben. Nova wird für Menschen ohne Einkommen, benachteiligte Menschen sowie Studierende immer kostenlos sein.**
+**Joel Aniol**  
+*Creator of Nova AI Workspace · Made with love*
 
-— Joel Aniol, Entwickler von Nova AI Workspace
+</div>
+
+<details>
+<summary><strong>🇩🇪 Mein Versprechen — auf Deutsch lesen</strong></summary>
+
+Hilfreiche Technologie sollte Türen öffnen — unabhängig vom Einkommen oder den Lebensumständen.
+
+> **Niemals ein Abo.**  
+> Nova AI Workspace wird niemals ein Abo-Modell haben.
+>
+> **Immer kostenlos für diejenigen, die es brauchen.**  
+> Nova wird für Menschen ohne Einkommen, benachteiligte Menschen sowie Studierende immer kostenlos sein.
+
+— **Joel Aniol**, Entwickler von Nova AI Workspace
+
+</details>
