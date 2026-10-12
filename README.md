@@ -241,6 +241,11 @@ Nova does not collect usage analytics or track your browsing behavior. License a
 
 We will be fully transparent about every sponsorship: who supports Nova, what financial or other support they provide, what they receive in return, and any conditions or conflicts of interest. Sponsorship will never override these promises.
 
+> **Built to help people.**<br>
+> We do not tolerate misuse that harms others. We use clear rules and safeguards and take action against misuse within our capabilities.
+
+See our [Acceptable Use Policy](ACCEPTABLE-USE.md).
+
 <div align="center">
 
 **Joel Aniol**  
@@ -270,6 +275,11 @@ Nova erhebt keine Nutzungsanalysen und verfolgt dein Surfverhalten nicht. Lizenz
 > Sollte Nova jemals Sponsoren annehmen, werden wir nur mit solchen zusammenarbeiten, die einen positiven Beitrag zur Gesellschaft leisten. Wir werden ihr Handeln sorgfältig prüfen und kein Sponsoring von Akteuren annehmen, deren Praktiken Menschen, der Gesellschaft oder der Umwelt schaden.
 
 Wir werden jedes Sponsoring vollständig transparent machen: wer Nova unterstützt, welche finanziellen oder sonstigen Leistungen erbracht werden, welche Gegenleistungen vereinbart sind und welche Bedingungen oder Interessenkonflikte bestehen. Sponsoring wird diese Versprechen niemals außer Kraft setzen.
+
+> **Nova soll Menschen helfen.**<br>
+> Missbrauch, der anderen schadet, dulden wir nicht. Wir setzen klare Nutzungsregeln und Schutzmaßnahmen ein und gehen im Rahmen unserer Möglichkeiten gegen Missbrauch vor.
+
+Details stehen in unserer [Nutzungsrichtlinie](ACCEPTABLE-USE.md#deutsch).
 
 — **Joel Aniol**, Entwickler von Nova AI Workspace
 
