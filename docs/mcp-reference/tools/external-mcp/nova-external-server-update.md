@@ -31,6 +31,8 @@ Updates configuration, environment variables, or transport settings of an existi
 | `autoConnect` | `boolean` | No | — | — | Change auto-connect behavior. |
 | `autoStart` | `boolean` | No | — | — | Change auto-start behavior. |
 | `restartOnCrash` | `boolean` | No | — | — | Change restart-on-crash behavior. |
+| `allowedTools` | `array or null` | No | — | — | Change which tools agents may call (exact names). Omit: unchanged. []: none. null: all. Restricting applies at once; widening (adding names or null) asks the user first and fails with -32033/-32036 when they cannot be asked or decline. |
+| `numericRequestIds` | `boolean` | No | — | — | Send request ids as JSON numbers instead of strings (true) or back to strings (false). Takes effect with the next session; omitted keeps the current value. |
 | `startupTimeoutMs` | `integer` | No | — | — | New startup timeout in ms. |
 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.

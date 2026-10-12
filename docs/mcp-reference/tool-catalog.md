@@ -24,7 +24,7 @@ Every tool exposed by **Nova AI Workspace**, grouped by operational domain. Clic
 - [15. Site Crawler & URL Discovery Index](#15-site-crawler--url-discovery-index) (14)
 - [16. Session Tracing & DOM Event Recording](#16-session-tracing--dom-event-recording) (14)
 - [17. Scheduled Tasks, Cron & Workspaces](#17-scheduled-tasks-cron--workspaces) (25)
-- [18. Connectors, Mail & File Transfer](#18-connectors-mail--file-transfer) (46)
+- [18. Connectors, Mail & File Transfer](#18-connectors-mail--file-transfer) (52)
 - [19. Media Intelligence & Whisper Speech-to-Text](#19-media-intelligence--whisper-speech-to-text) (24)
 - [20. Site Data, Fingerprinting & Sandboxes](#20-site-data-fingerprinting--sandboxes) (23)
 - [21. Episodic Task Memory & Guidance](#21-episodic-task-memory--guidance) (34)
@@ -308,12 +308,12 @@ Registering, running, and dynamically calling secondary MCP servers through Nova
 | Tool Name | Parameters | Description |
 | :--- | :--- | :--- |
 | **[`nova.external_servers`](tools/external-mcp/nova-external-servers.md)** | *(none)* | Lists all configured external MCP servers with runtime status, health, and tool count. |
-| **[`nova.external_server_add`](tools/external-mcp/nova-external-server-add.md)** | `displayName`, `transport`, `command?`, `args?`, `cwd?`, `env?`, `endpointUrl?`, `authMode?`, `bearerToken?`, `headers?`, `enabled?`, `autoConnect?`, `autoStart?`, `restartOnCrash?`, `startupTimeoutMs?` | Registers a new external MCP server with stdio, HTTP, or SSE transport. |
-| **[`nova.external_server_update`](tools/external-mcp/nova-external-server-update.md)** | `serverKey`, `displayName?`, `command?`, `args?`, `cwd?`, `env?`, `endpointUrl?`, `authMode?`, `bearerToken?`, `headers?`, `enabled?`, `autoConnect?`, `autoStart?`, `restartOnCrash?`, `startupTimeoutMs?` | Updates configuration, environment variables, or transport settings of an existing server. |
+| **[`nova.external_server_add`](tools/external-mcp/nova-external-server-add.md)** | `displayName`, `transport`, `command?`, `args?`, `cwd?`, `env?`, `endpointUrl?`, `authMode?`, `bearerToken?`, `headers?`, `enabled?`, `autoConnect?`, `autoStart?`, `restartOnCrash?`, `allowedTools?`, `numericRequestIds?`, `startupTimeoutMs?` | Registers a new external MCP server with stdio, HTTP, or SSE transport. |
+| **[`nova.external_server_update`](tools/external-mcp/nova-external-server-update.md)** | `serverKey`, `displayName?`, `command?`, `args?`, `cwd?`, `env?`, `endpointUrl?`, `authMode?`, `bearerToken?`, `headers?`, `enabled?`, `autoConnect?`, `autoStart?`, `restartOnCrash?`, `allowedTools?`, `numericRequestIds?`, `startupTimeoutMs?` | Updates configuration, environment variables, or transport settings of an existing server. |
 | **[`nova.external_server_remove`](tools/external-mcp/nova-external-server-remove.md)** | `serverKey` | Deletes an external MCP server registration, stopping it if running. |
 | **[`nova.external_server_start`](tools/external-mcp/nova-external-server-start.md)** | `serverKey` | Launches an external MCP server, runs initialize handshake, and discovers available tools. |
 | **[`nova.external_server_stop`](tools/external-mcp/nova-external-server-stop.md)** | `serverKey`, `force?` | Stops a running external MCP server gracefully with force-kill fallback. |
-| **[`nova.external_server_logs`](tools/external-mcp/nova-external-server-logs.md)** | `serverKey`, `lines?` | Reads recent stderr log lines captured from an external MCP server process. |
+| **[`nova.external_server_logs`](tools/external-mcp/nova-external-server-logs.md)** | `serverKey`, `lines?` | Reads recent stderr log lines captured from an external MCP server process, plus the server's connection history (transport events). |
 | **[`nova.external_tools`](tools/external-mcp/nova-external-tools.md)** | `serverKey`, `includeSchema?`, `refresh?` | Lists all tools available on an external MCP server, with optional full inputSchema. |
 | **[`nova.external_tool_call`](tools/external-mcp/nova-external-tool-call.md)** | `serverKey`, `toolName`, `arguments?`, `timeoutMs?` | Invokes a specific tool on a connected external MCP server and returns the raw response. |
 | **[`nova.external_server_import`](tools/external-mcp/nova-external-server-import.md)** | `source`, `filePath?`, `serverName?`, `autoStart?` | Imports MCP server definitions from Claude Desktop, VS Code, Claude Code, or JSON config files. |
@@ -467,6 +467,12 @@ IMAP/SMTP email client automation, EML exports, SFTP/FTP server operations, and 
 | **[`nova.ssh_run_write`](tools/connectors-and-mail/nova-ssh-run-write.md)** | `execId`, `data`, `writeSequence`, `eof?` | Writes to a background SSH session's stdin with ordered, retry-safe sequencing and an honest half-close. |
 | **[`nova.ssh_run_stop`](tools/connectors-and-mail/nova-ssh-run-stop.md)** | `execId`, `signal?`, `operationId?` | Requests termination of a background SSH session — honestly, never claiming the remote process died. |
 | **[`nova.ssh_run_list`](tools/connectors-and-mail/nova-ssh-run-list.md)** | *(none)* | Lists the background SSH sessions you own, so a lost `execId` never leaves a session running until its timeout. |
+| **[`nova.ssh_shell_open`](tools/connectors-and-mail/nova-ssh-shell-open.md)** | `profileId`, `columns?`, `rows?`, `term?`, `operationId?`, `unattended?` | Opens an interactive terminal (a real PTY) on an SSH/SFTP server and returns an `execId` you drive with keystrokes and read back as a reconstructed screen. |
+| **[`nova.ssh_shell_send`](tools/connectors-and-mail/nova-ssh-shell-send.md)** | `execId`, `data`, `writeSequence`, `inputKind?` | Sends input to an interactive terminal: a named key (encoded mode-aware), literal text, a paste, or raw bytes. |
+| **[`nova.ssh_shell_read`](tools/connectors-and-mail/nova-ssh-shell-read.md)** | `execId`, `sinceRevision?`, `waitMs?` | Reads an interactive terminal's reconstructed screen — rows, cursor, revision and hash — with an honest observation envelope. |
+| **[`nova.ssh_shell_resize`](tools/connectors-and-mail/nova-ssh-shell-resize.md)** | `execId`, `columns`, `rows` | Resizes an interactive terminal's window and sends an SSH window-change request (requested, not confirmed as redrawn). |
+| **[`nova.ssh_shell_close`](tools/connectors-and-mail/nova-ssh-shell-close.md)** | `execId`, `operationId?` | Closes an interactive terminal (closes the channel, typically SIGHUP-ing the remote shell). Requests termination; never a proof the remote died. |
+| **[`nova.ssh_shell_list`](tools/connectors-and-mail/nova-ssh-shell-list.md)** | *(none)* | Lists the interactive terminals you own, so a lost `execId` does not leave one running until its idle timeout. |
 | **[`nova.sftp_transfer_status`](tools/connectors-and-mail/nova-sftp-transfer-status.md)** | `jobId?`, `profileId?` | Reports progress and result of background SFTP transfers started by `nova.sftp_get` or `nova.sftp_put`. |
 | **[`nova.sftp_transfer_stop`](tools/connectors-and-mail/nova-sftp-transfer-stop.md)** | `jobId` | Stops a running background SFTP transfer softly and keeps everything for a resume. |
 | **[`nova.sftp_delete`](tools/connectors-and-mail/nova-sftp-delete.md)** | `profileId`, `remotePath`, `recursive?`, `maxFiles?`, `maxBytes?`, `unattended?` | Deletes a remote file, empty directory, or bounded directory tree over SFTP. |

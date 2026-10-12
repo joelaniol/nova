@@ -8,7 +8,7 @@ IMAP/SMTP email client automation, EML exports, SFTP/FTP server operations, and 
 ---
 
 <!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
-## Tool Inventory (46 Tools)
+## Tool Inventory (52 Tools)
 
 Capability bundles of these tools: `connector_ops`.
 
@@ -60,6 +60,12 @@ Capability bundles of these tools: `connector_ops`.
 | **[`nova.ssh_run_start`](nova-ssh-run-start.md)** | Starts a background command session on an SSH/SFTP server and returns an `execId` you poll, feed and stop over time. |
 | **[`nova.ssh_run_stop`](nova-ssh-run-stop.md)** | Requests termination of a background SSH session — honestly, never claiming the remote process died. |
 | **[`nova.ssh_run_write`](nova-ssh-run-write.md)** | Writes to a background SSH session's stdin with ordered, retry-safe sequencing and an honest half-close. |
+| **[`nova.ssh_shell_close`](nova-ssh-shell-close.md)** | Closes an interactive terminal (closes the channel, typically SIGHUP-ing the remote shell). Requests termination; never a proof the remote died. |
+| **[`nova.ssh_shell_list`](nova-ssh-shell-list.md)** | Lists the interactive terminals you own, so a lost `execId` does not leave one running until its idle timeout. |
+| **[`nova.ssh_shell_open`](nova-ssh-shell-open.md)** | Opens an interactive terminal (a real PTY) on an SSH/SFTP server and returns an `execId` you drive with keystrokes and read back as a reconstructed screen. |
+| **[`nova.ssh_shell_read`](nova-ssh-shell-read.md)** | Reads an interactive terminal's reconstructed screen — rows, cursor, revision and hash — with an honest observation envelope. |
+| **[`nova.ssh_shell_resize`](nova-ssh-shell-resize.md)** | Resizes an interactive terminal's window and sends an SSH window-change request (requested, not confirmed as redrawn). |
+| **[`nova.ssh_shell_send`](nova-ssh-shell-send.md)** | Sends input to an interactive terminal: a named key (encoded mode-aware), literal text, a paste, or raw bytes. |
 <!-- /generated:tool-list -->
 
 ---

@@ -55,7 +55,7 @@ flowchart TD
 | Subsystem | Underlying Protocols | Primary Capabilities | Core Operations |
 | :--- | :--- | :--- | :--- |
 | **[Mail: IMAP & SMTP](mail/README.md)** | IMAP (RFC 3501) & SMTP (RFC 5321) | `read`, `organize`, `send` | Message search, reading, tagging, drafting, sending, `.eml` exports, background mailbox archiving |
-| **[Secure Shell (SSH)](ssh/README.md)** | SSH-2 (RFC 4251-4254) | `process.exec`, `process.stdin` | Batch command execution, background long-running sessions, interactive stdin streaming, stream capture |
+| **[Secure Shell (SSH)](ssh/README.md)** | SSH-2 (RFC 4251-4254) | `process.exec`, `process.stdin`, `process.pty` | Batch command execution, background long-running sessions, interactive stdin streaming, interactive terminals (PTY) for full-screen programs, stream capture |
 | **[SSH File Transfer (SFTP)](sftp/README.md)** | SFTP over SSH-2 | `read`, `full` | Directory synchronization, resumable uploads/downloads, atomic commit recovery, parallel acceleration |
 | **[FTP & FTPS](ftp-and-ftps/README.md)** | FTP (RFC 959) & FTPS (RFC 4217) | `read`, `full` | Directory listing, explicit/implicit TLS transfers, passive mode negotiation, resumable single-file jobs |
 | **[External MCP Servers](external-mcp/README.md)** | stdio, Streamable HTTP, SSE | Aggregated tools | Subprocess orchestration, configuration import (Claude/VS Code), token authentication, tool call proxying |
@@ -155,6 +155,7 @@ classDiagram
         +full (File Upload, Rename, Deletion, Chmod, Chown, Mkdir)
         +process.exec (SSH Command Execution)
         +process.stdin (Interactive Shell Input Channel)
+        +process.pty (Interactive Terminal / PTY)
     }
 
     ConnectorType <|-- MailCapabilities
@@ -174,6 +175,7 @@ classDiagram
   - `full`: Uploads, deletions, directory creation, symbolic link management, and permission changes (`chmod`, `chown`).
   - `process.exec`: Spawning one-shot commands or background SSH sessions. Automatically inherits the `full` grant if not explicitly defined.
   - `process.stdin`: Streaming interactive standard input into an active SSH session (`nova.ssh_run_write`). This capability is strictly opt-in and **never** inherits weaker grants.
+  - `process.pty`: Opening a full interactive terminal / pseudo-terminal on the server (`nova.ssh_shell_open`) for full-screen programs and interactive prompts. The most powerful process stage; strictly opt-in and **never** inherits weaker grants.
 
 ---
 

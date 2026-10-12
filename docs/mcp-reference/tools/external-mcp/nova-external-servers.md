@@ -60,6 +60,13 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
         "command": "npx",
         "arguments": "-y @modelcontextprotocol/server-postgres postgresql://localhost/mydb",
         "lastError": null,
+        "lastErrorCode": null,
+        "lastSuccessAt": "2026-10-11T20:41:07.512+00:00",
+        "lastFailureAt": null,
+        "novaStartsProcess": true,
+        "numericRequestIds": false,
+        "allowedTools": null,
+        "processNote": "Nova starts and stops this process. If it is an adapter for another application, that application must run on its own; a running adapter does not show it is reachable.",
         "autoStart": true,
         "autoConnect": false,
         "restartOnCrash": true,
@@ -75,6 +82,9 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 ## 4. Operational Best Practices
 
 * **Server Key Reference:** Use the returned 8-character `serverKey` in subsequent calls to `start`, `stop`, `external_tools`, or `external_tool_call`.
+* **Who starts what:** `novaStartsProcess` is `true` only for `stdio`. For `http`/`sse` Nova connects to an application that must already be running; `connection_refused` from `nova.external_server_start` usually means it is not.
+* **Tool release:** `allowedTools` is `null` when every tool is released, otherwise the released names. Agents may narrow it with `nova.external_server_update`; widening it, or removing a server that has one, asks the user first.
+* **Last outcome:** A failed start sets `status` to `Failed` and keeps its cause in `lastError` and `lastErrorCode` (the `reasonCode` of the start result), next to `lastSuccessAt` and `lastFailureAt`. The full connection history is in `transportEvents` of `nova.external_server_logs`.
 
 ---
 

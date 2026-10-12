@@ -72,6 +72,9 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
         }
       }
     ],
+    "allowlistActive": true,
+    "hiddenByAllowlist": 2,
+    "allowlistUnknown": [],
     "fromCache": false,
     "inventoryAge": null,
     "includeSchema": true,
@@ -96,3 +99,9 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 * [`nova.external_tool_call`](nova-external-tool-call.md) - Execute tool.
 * [External MCP Servers Category](README.md)
 * [MCP Tool Catalog](../../tool-catalog.md)
+
+---
+
+## Tool release per server
+
+A server can carry a release list (`allowedTools` on `nova.external_server_add` / `nova.external_server_update`, or the **Tools…** button of the server card in Settings). When it does, this tool lists only the released tools. `hiddenByAllowlist` counts the others without naming them, and `allowlistUnknown` names released tools the server does not offer (typos, renamed tools). The release goes by exact name only: it is not a sandbox and says nothing about whether a tool merely reads.

@@ -16,7 +16,7 @@ Capability bundles of these tools: `external_mcp`.
 | :--- | :--- |
 | **[`nova.external_server_add`](nova-external-server-add.md)** | Registers a new external MCP server with stdio, HTTP, or SSE transport. |
 | **[`nova.external_server_import`](nova-external-server-import.md)** | Imports MCP server definitions from Claude Desktop, VS Code, Claude Code, or JSON config files. |
-| **[`nova.external_server_logs`](nova-external-server-logs.md)** | Reads recent stderr log lines captured from an external MCP server process. |
+| **[`nova.external_server_logs`](nova-external-server-logs.md)** | Reads recent stderr log lines captured from an external MCP server process, plus the server's connection history (transport events). |
 | **[`nova.external_server_remove`](nova-external-server-remove.md)** | Deletes an external MCP server registration, stopping it if running. |
 | **[`nova.external_server_start`](nova-external-server-start.md)** | Launches an external MCP server, runs initialize handshake, and discovers available tools. |
 | **[`nova.external_server_stop`](nova-external-server-stop.md)** | Stops a running external MCP server gracefully with force-kill fallback. |

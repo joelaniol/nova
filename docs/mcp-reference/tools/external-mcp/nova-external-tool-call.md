@@ -50,6 +50,8 @@ Tool category: `high_impact` (highest risk class; Nova's agent permission settin
 
 `content` carries the external tool's own content blocks unchanged, so text and images from the external server reach the client directly. `structuredContent.result` holds the full external result; for image and audio blocks the base64 `data` is left out there (`dataForwardedToContent: true`) because it already travels in `content`. When the external tool reports `isError: true`, a status line (`Tool 'query' on 'a1b2c3d4' completed in 45ms (tool returned error).`) comes first in `content`.
 
+A tool that the server's release list (`allowedTools`) does not contain is refused before anything is sent to the server: `ok: false`, `reasonCode: "external_tool.not_allowed"`. Releasing it is the user's decision (Settings, or `nova.external_server_update`, which asks the user before widening).
+
 ```json
 {
   "content": [

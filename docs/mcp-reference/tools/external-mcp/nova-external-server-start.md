@@ -72,7 +72,7 @@ On failure, `ok` is `false`, `result.status` is `"Failed"`, `result.pid` is omit
 | `reasonCode` | Meaning | Extra field |
 | :--- | :--- | :--- |
 | `no_response` | No answer arrived within `startupTimeoutMs`. Only here does a longer timeout help. | — |
-| `response_id_mismatch` | The server answered, but with an id Nova never sent (JSON-RPC requires the request id unchanged). Nova never assigns such an answer to a request. | `uncorrelatedResponse` (`idKind`, `id`, `isError`, `awaitingIds`) |
+| `response_id_mismatch` | The server answered, but with an id Nova never sent (JSON-RPC requires the request id unchanged). Nova never assigns such an answer to a request. If the server handles numeric ids correctly, `numericRequestIds=true` on `nova.external_server_update` makes Nova send numbers; the suggestions say so when the stray id was a number. | `uncorrelatedResponse` (`idKind`, `id`, `isError`, `awaitingIds`) |
 | `upstream_error` | The server answered `initialize` with a JSON-RPC error. | `upstreamError` (`code`, `message`, `data`; message and data are length-bounded) |
 | `http_status` | The server answered with an HTTP error status. | `httpStatus` |
 | `connection_reset` | The server accepted the connection and closed it before answering. | — |

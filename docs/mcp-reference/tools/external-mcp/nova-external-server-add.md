@@ -31,6 +31,8 @@ Registers a new external MCP server with stdio, HTTP, or SSE transport.
 | `autoConnect` | `boolean` | No | — | — | Auto-connect on Nova startup (http/sse). Default: true. |
 | `autoStart` | `boolean` | No | — | — | Auto-start the process on Nova startup (stdio). Default: false. |
 | `restartOnCrash` | `boolean` | No | — | — | Automatically restart if the process crashes (stdio). Default: false. |
+| `allowedTools` | `array or null` | No | — | — | Tools agents may call on this server, as exact names (case-sensitive, no patterns). Omit or null: all tools. []: none. A list only restricts; if the same connection is already registered with a restriction, the new entry keeps it. |
+| `numericRequestIds` | `boolean` | No | — | — | Send request ids as JSON numbers instead of strings. Default: false. Only for servers that mishandle string ids (nova.external_server_start then reports reasonCode response_id_mismatch); answers are still matched to the exact id sent. |
 | `startupTimeoutMs` | `integer` | No | — | — | Timeout in ms for the MCP initialize handshake. Default: 30000. Min: 5000, Max: 120000. |
 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.

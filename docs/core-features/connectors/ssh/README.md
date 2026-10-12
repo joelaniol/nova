@@ -45,9 +45,9 @@ To prevent Man-in-the-Middle (MitM) attacks and credential interception, Nova en
 
 ---
 
-## Capability Stages: Execution vs. Interactive Stdin
+## Capability Stages: Execution, Interactive Stdin, and Terminals
 
-Command execution is partitioned into two specialized capability stages:
+Command execution is partitioned into specialized capability stages:
 
 ```mermaid
 graph LR
@@ -55,13 +55,16 @@ graph LR
         FullCap["Capability: 'full'"]
         ProcessExec["Capability: 'process.exec'"]
         ProcessStdin["Capability: 'process.stdin'"]
+        ProcessPty["Capability: 'process.pty'"]
     end
 
     FullCap -.->|Inherited by default| ProcessExec
     ProcessExec -->|Launches| RunCmd["One-Shot & Background Commands\n(nova.ssh_run, nova.ssh_run_start)"]
     ProcessStdin -->|Required for| StdinWrite["Interactive Stdin Streaming\n(nova.ssh_run_write)"]
+    ProcessPty -->|Required for| Terminal["Interactive Terminal (PTY)\n(nova.ssh_shell_open)"]
 
     style ProcessStdin fill:#ffdddd,stroke:#cc0000
+    style ProcessPty fill:#ffdddd,stroke:#cc0000
 ```
 
 1. **`process.exec` Capability:**
@@ -70,6 +73,9 @@ graph LR
 2. **`process.stdin` Capability (Strict Opt-In):**
    - Authorizes feeding live, interactive standard input into a running background process (`allowStdin=true` and `nova.ssh_run_write`).
    - Because open stdin channels allow arbitrary command chaining and interactive shell escape, `process.stdin` is **strictly opt-in and never inherits weaker grants**.
+3. **`process.pty` Capability (Strict Opt-In):**
+   - Authorizes opening a full interactive terminal — a real pseudo-terminal (PTY) — on the server (`nova.ssh_shell_open`).
+   - A terminal is the most powerful process stage: it runs full-screen programs, can execute any command, and reads typed passwords. It is **strictly opt-in and never inherits weaker grants**. Opening a terminal authorizes `process.exec` + `process.stdin` + `process.pty` together in a single prompt.
 
 In addition to connector-level capabilities, executing mutating remote commands requires approval under Nova's system-wide `MutatingRemote` execution policy.
 
@@ -194,12 +200,62 @@ sequenceDiagram
 
 ---
 
-## Architecture Decision: Line-Oriented Execution vs. PTY
+## Two Execution Models: Line-Oriented vs. Interactive Terminal
 
-Nova deliberately executes commands via standard SSH exec channels **without allocating a Pseudo-Terminal (PTY)**:
+Nova offers two distinct remote-execution models, chosen by the task:
 
-* **Why No PTY?** Interactive PTYs alter program behavior: tools paginate output (invoking `less` or `more`), emit escape codes for terminal dimensions, redraw progress bars, and send carriage returns that corrupt log streams.
-* **Autonomous Reliability:** Operating without a PTY forces programs into standard non-interactive line-buffering mode, generating clean, deterministic log outputs that autonomous agents can reliably parse.
+1. **Line-oriented (no PTY) — `nova.ssh_run` / `nova.ssh_run_start`.** Commands run via standard SSH exec channels **without a pseudo-terminal**. This is the default for automation: programs fall into non-interactive line-buffering, producing clean, deterministic logs an agent can parse, without pagers, redraws, or terminal escape noise. Full-screen programs do not work here (`htop` reports "Error opening terminal").
+2. **Interactive terminal (real PTY) — `nova.ssh_shell_open`.** When a task genuinely needs a terminal — a full-screen TUI (`htop`, `top`, `vim`, `nano`, `watch`) or an interactive prompt (`sudo`, `passwd`) — Nova opens a real PTY and exposes it as keystrokes in / reconstructed screen out. This path is opt-in behind the `process.pty` capability.
+
+Use the line-oriented path whenever it suffices; reach for a terminal only when a program insists on one.
+
+---
+
+## Interactive Terminal Sessions (`nova.ssh_shell_*`)
+
+```mermaid
+sequenceDiagram
+    participant Agent as Agent
+    participant Nova as Nova Terminal Engine
+    participant Remote as Remote SSH Server
+
+    Agent->>Nova: nova.ssh_shell_open(profileId, columns=120, rows=40)
+    Nova->>Remote: Open channel, request PTY (xterm-256color), start login shell
+    Nova-->>Agent: { execId: "ssh_3f9a", state: "active" }
+
+    loop Drive the terminal
+        Agent->>Nova: nova.ssh_shell_send(execId, inputKind="key", data="Down", writeSequence=n)
+        Nova->>Remote: Transmit mode-aware key bytes
+        Agent->>Nova: nova.ssh_shell_read(execId, sinceRevision=r, waitMs=2000)
+        Nova-->>Agent: Reconstructed screen { rows, cursor, revision, hash }
+    end
+
+    opt Resize
+        Agent->>Nova: nova.ssh_shell_resize(execId, columns=132, rows=50)
+        Nova->>Remote: SSH window-change request (sent, not confirmed redrawn)
+    end
+
+    Agent->>Nova: nova.ssh_shell_close(execId)
+    Nova->>Remote: Close channel (typically SIGHUP the shell)
+    Nova-->>Agent: { closeRequested: true, descendants: "unknown" }
+```
+
+### The screen is a reconstruction, not remote truth
+
+Nova feeds the raw PTY byte stream through a headless VT (xterm) emulator and returns the resulting screen grid. This is **Nova's reconstruction of the bytes it has received and processed** — it is never proof of the remote application's current state. A monotone `revision` (with a content `hash`) advances only when the canonical screen actually changes, so an agent can distinguish "no change" from "changed back", and `sinceRevision` + `waitMs` turn polling into a short wait for the next repaint. There is an honest **causal gap**: a read immediately after a send can still show the pre-send revision — the screen simply has not repainted yet, which is not a failed send.
+
+### Mode-aware input
+
+`nova.ssh_shell_send` encodes input by `inputKind`: a named **key** (`Enter`, `Up`, `Ctrl-C`, `F5`, …) is encoded for the terminal's *current* modes, so arrow keys produce the right bytes whether or not the application enabled DECCKM application-cursor mode; **text** types literal UTF-8; **paste** is bracketed when the app enabled bracketed-paste mode; **raw** sends bytes verbatim. `Ctrl-D` is an ordinary key byte (there is no stdin half-close for a terminal). A send result means the bytes were **handed to the channel**, never that the remote application processed them.
+
+### Honest lifecycle
+
+* **`nova.ssh_shell_open`:** opens the PTY and returns an `execId`; `state:"active"` means the channel is open and the shell started, not that a prompt is visible.
+* **`nova.ssh_shell_send` / `read` / `resize`:** drive and observe the terminal; resize is a window-change *request*, not a confirmed redraw.
+* **`nova.ssh_shell_close`:** requests termination (channel close → typically `SIGHUP`); it never claims the remote shell or its children died (`descendants:"unknown"`).
+* **`nova.ssh_shell_list`:** recovers terminals you own before their idle timeout.
+
+Terminal sessions share the same connection setup, human-verified host-key gate, concurrency ceilings, idle/lifetime caps, and flood protection as the command sessions above.
 
 ---
 
@@ -213,6 +269,12 @@ Nova deliberately executes commands via standard SSH exec channels **without all
 | [`nova.ssh_run_write`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-run-write.md) | `process.stdin` | Sends interactive input to a background session with `allowStdin=true` |
 | [`nova.ssh_run_stop`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-run-stop.md) | `process.exec` | Stops an active background session and signals the remote process |
 | [`nova.ssh_run_list`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-run-list.md) | `read` / `process.exec` | Lists all active and recent background SSH command sessions |
+| [`nova.ssh_shell_open`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-shell-open.md) | `process.pty` | Opens an interactive terminal (PTY) and returns an `execId` |
+| [`nova.ssh_shell_send`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-shell-send.md) | `process.pty` | Sends keystrokes, text, a paste, or raw bytes to a terminal (mode-aware) |
+| [`nova.ssh_shell_read`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-shell-read.md) | `read` / `process.pty` | Reads the reconstructed terminal screen (rows, cursor, revision) |
+| [`nova.ssh_shell_resize`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-shell-resize.md) | `process.pty` | Requests a new terminal window size |
+| [`nova.ssh_shell_close`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-shell-close.md) | `process.pty` | Closes a terminal (requests termination; never a death proof) |
+| [`nova.ssh_shell_list`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-shell-list.md) | `read` / `process.pty` | Lists the interactive terminals you own |
 
 ---
 
