@@ -14,7 +14,11 @@ Postal address:
 
 ![Controller postal contact details](assets/legal/contact-identity.png)
 
-Email: **joel@gnetwork.eu**. The address image is provided to reduce simple automated harvesting, not as a guarantee against scraping. You can use the email contact without having to transcribe the postal image; an accessible text version of the postal details can also be requested there.
+Email contact:
+
+![Email contact for privacy and support](assets/legal/contact-email.png)
+
+The contact images reduce simple automated harvesting; they do not guarantee protection against scraping or OCR. An accessible text version of the contact details can be requested via the contact routes in the [legal notice](docs/legal-notice.md).
 
 ### Purposes and Legal Bases
 
@@ -42,7 +46,7 @@ These are purpose-based criteria, not a promise of an implemented fixed-day purg
 
 ### Your Rights
 
-Where applicable and subject to the statutory conditions, you may request access, rectification, erasure, restriction, and data portability. You may object to processing based on legitimate interests and withdraw consent at any time for consent-based processing. You may complain to a competent supervisory authority, including the [Bavarian State Office for Data Protection Supervision](https://www.lda.bayern.de/en/index.html). Contact **joel@gnetwork.eu**; proportionate identity verification may be needed to prevent disclosure to another person.
+Where applicable and subject to the statutory conditions, you may request access, rectification, erasure, restriction, and data portability. You may object to processing based on legitimate interests and withdraw consent at any time for consent-based processing. You may complain to a competent supervisory authority, including the [Bavarian State Office for Data Protection Supervision](https://www.lda.bayern.de/en/index.html). Contact [email contact](#controller-and-contact); proportionate identity verification may be needed to prevent disclosure to another person.
 
 License-status decisions are technical checks against the issued license. They do not authorize behavioral profiling or automated evaluation of your suitability as a person. No sale of personal data or advertising use of license and crash-report data is permitted by this policy.
 
@@ -220,7 +224,7 @@ Nova AI Workspace is not directed at children under 13. We do not knowingly coll
 
 ### Contact
 
-For privacy-related questions: **joel@gnetwork.eu**. See Controller and Contact above for postal details.
+For privacy-related questions: [email contact](#controller-and-contact). See Controller and Contact above for postal details.
 
 ---
 
@@ -234,7 +238,11 @@ Postanschrift:
 
 ![Postalische Kontaktdaten des Verantwortlichen](assets/legal/contact-identity.png)
 
-E-Mail: **joel@gnetwork.eu**. Das Anschriftbild soll einfaches automatisiertes Auslesen erschweren; es garantiert keinen Schutz vor Scraping. Du kannst den E-Mail-Kontakt nutzen, ohne das Anschriftbild abschreiben zu müssen; dort ist auch eine zugängliche Textfassung der postalischen Angaben erhältlich.
+E-Mail-Kontakt:
+
+![E-Mail-Kontakt für Datenschutz und Support](assets/legal/contact-email.png)
+
+Die Kontaktbilder erschweren einfaches automatisiertes Auslesen; sie garantieren keinen Schutz vor Scraping oder OCR. Eine zugängliche Textfassung der Kontaktdaten kann über die Kontaktwege in den [rechtlichen Hinweisen](docs/legal-notice.md) angefragt werden.
 
 ### Zwecke und Rechtsgrundlagen
 
@@ -262,7 +270,7 @@ Dies sind zweckbezogene Kriterien, keine Zusage eines implementierten festen Lö
 
 ### Deine Rechte
 
-Soweit anwendbar und unter den gesetzlichen Voraussetzungen kannst du Auskunft, Berichtigung, Löschung, Einschränkung und Datenübertragbarkeit verlangen. Du kannst Verarbeitung auf Grundlage berechtigter Interessen widersprechen und Einwilligungen jederzeit für weitere Verarbeitung widerrufen. Du kannst dich bei einer zuständigen Aufsichtsbehörde beschweren, darunter dem [Bayerischen Landesamt für Datenschutzaufsicht](https://www.lda.bayern.de/de/index.html). Kontakt: **joel@gnetwork.eu**. Eine verhältnismäßige Identitätsprüfung kann nötig sein, um Daten nicht an eine andere Person herauszugeben.
+Soweit anwendbar und unter den gesetzlichen Voraussetzungen kannst du Auskunft, Berichtigung, Löschung, Einschränkung und Datenübertragbarkeit verlangen. Du kannst Verarbeitung auf Grundlage berechtigter Interessen widersprechen und Einwilligungen jederzeit für weitere Verarbeitung widerrufen. Du kannst dich bei einer zuständigen Aufsichtsbehörde beschweren, darunter dem [Bayerischen Landesamt für Datenschutzaufsicht](https://www.lda.bayern.de/de/index.html). Kontakt: [E-Mail-Kontakt](#verantwortlicher-und-kontakt). Eine verhältnismäßige Identitätsprüfung kann nötig sein, um Daten nicht an eine andere Person herauszugeben.
 
 Lizenzstatusentscheidungen sind technische Prüfungen gegen die erteilte Lizenz. Sie erlauben keine Verhaltensprofile oder automatisierte Bewertung deiner Eignung als Person. Ein Verkauf personenbezogener Daten oder Werbenutzung von Lizenz- und Crashberichtsdaten ist durch diese Erklärung nicht gestattet.
 
@@ -444,4 +452,4 @@ Nova AI Workspace richtet sich nicht an Kinder unter 13 Jahren. Es werden wissen
 
 ### Kontakt
 
-Für Datenschutzanfragen: **joel@gnetwork.eu**. Postalische Angaben stehen oben unter Verantwortlicher und Kontakt.
+Für Datenschutzanfragen: [E-Mail-Kontakt](#verantwortlicher-und-kontakt). Postalische Angaben stehen oben unter Verantwortlicher und Kontakt.

@@ -28,6 +28,11 @@ You do not need to install .NET: Nova ships with its own runtime. The setup inst
 
 Once installed, Nova checks for new versions by itself and offers the update.
 
+**License agreement:** Read the [EULA and contract-version notice](../../EULA.md) before installing.
+The interactive setup displays the agreement bundled with that setup; the online page may describe
+a newer, upcoming revision. After installation, both language copies are available as
+`EULA-de.txt` and `EULA-en.txt` in the installation folder.
+
 > [!NOTE]
 > **Windows SmartScreen.** Alpha builds are signed with a certificate Windows does not know yet, so
 > SmartScreen may show *"Windows protected your PC"* and *"Unknown publisher"*. Click
@@ -70,6 +75,11 @@ Herausgeber“: auf **Weitere Informationen** → **Trotzdem ausführen** klicke
 Signaturzertifikat der Alpha-Versionen, das Windows noch nicht kennt.
 
 Nach der Installation sucht Nova selbst nach neuen Versionen und bietet das Update an.
+
+**Lizenzvereinbarung:** Lies vor der Installation die [EULA und ihren Versionshinweis](../../EULA.md#deutsch).
+Das interaktive Setup zeigt seine mitgelieferte Vertragsfassung; online kann bereits eine neuere,
+kommende Überarbeitung stehen. Nach der Installation liegen beide Sprachfassungen als
+`EULA-de.txt` und `EULA-en.txt` im Installationsordner.
 
 ## Nächster Schritt
 

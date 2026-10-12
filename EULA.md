@@ -20,7 +20,11 @@ Postal address / Postanschrift:
 
 ![Postal contact details for Joel Aniol](assets/legal/contact-identity.png)
 
-Email / E-Mail: **joel@gnetwork.eu**. An accessible text version of the postal details is available on request / Eine zugängliche Textfassung der postalischen Angaben ist auf Anfrage erhältlich.
+Email / E-Mail:
+
+![Email contact for Joel Aniol](assets/legal/contact-email.png)
+
+An accessible text version of the contact details can be requested through the [legal notice contact routes](docs/legal-notice.md) / Eine zugängliche Textfassung der Kontaktdaten ist über die [Kontaktwege der rechtlichen Hinweise](docs/legal-notice.md) erhältlich.
 
 ## English
 
@@ -28,7 +32,7 @@ NOVA AI WORKSPACE — END USER LICENSE AGREEMENT (EULA) Version 1.2-alpha · Rev
 
 ### 1. PARTIES AND SCOPE
 
-This End User License Agreement ("EULA") is concluded between Joel Aniol (contact: joel@gnetwork.eu · aniol-consulting.com · nova-cognitive.com; "Licensor") and the person or organization installing or using Nova AI Workspace ("User"). It supplements the terms agreed at purchase or order; individual agreements take precedence. Mandatory consumer rights remain unaffected. The postal address and contact details are published at https://github.com/joelaniol/nova/blob/main/EULA.md#contact where the postal address is displayed as an image.
+This End User License Agreement ("EULA") is concluded between Joel Aniol (contact: aniol-consulting.com · nova-cognitive.com; "Licensor") and the person or organization installing or using Nova AI Workspace ("User"). It supplements the terms agreed at purchase or order; individual agreements take precedence. Mandatory consumer rights remain unaffected. The postal address and contact details are published at https://github.com/joelaniol/nova/blob/main/EULA.md#contact where the postal address and email are displayed as images.
 
 ### 2. PRODUCT AND ALPHA STATUS
 
@@ -44,7 +48,7 @@ Contractual update periods do not limit mandatory statutory update, defect, or c
 
 ### 4. ACTIVATION
 
-Where the license plan requires activation, the data described in the activation privacy notice is required (account email address, license key, technical device and license identifiers). Deactivation and device changes are available in the app. In the event of a technically erroneous block or unavailability of the license service, the Licensor assists with recovery at joel@gnetwork.eu.
+Where the license plan requires activation, the data described in the activation privacy notice is required (account email address, license key, technical device and license identifiers). Deactivation and device changes are available in the app. In the event of a technically erroneous block or unavailability of the license service, the Licensor assists with recovery through the contact route linked above.
 
 ### 5. INTELLECTUAL PROPERTY AND STATUTORY EXCEPTIONS
 
@@ -96,7 +100,7 @@ The license ends on the agreed end date or upon valid termination. There is no a
 
 For a material breach of agreed use restrictions or a concrete, significant security threat, the Licensor may temporarily suspend the license to the extent necessary and proportionate. The User is informed of the reason, scope, and available remedies unless doing so would itself create a concrete threat or breach a legal duty. Remediable breaches ordinarily require a reasonable opportunity to remedy them first. Immediate suspension may be appropriate to address an imminent threat or other circumstances justified under applicable law.
 
-Final termination requires a statutory or validly agreed contractual ground; any required warnings and remedy periods remain applicable. Objections may be sent to joel@gnetwork.eu and will be reviewed. Temporary suspensions are lifted when their grounds no longer apply. Erroneous suspensions are corrected.
+Final termination requires a statutory or validly agreed contractual ground; any required warnings and remedy periods remain applicable. Objections may be submitted through the contact route linked above and will be reviewed. Temporary suspensions are lifted when their grounds no longer apply. Erroneous suspensions are corrected.
 
 Suspension and expiry do not authorize deletion of local User data. Refunds and other claims follow applicable statutory and contractual rules; suspension does not automatically eliminate those claims.
 
@@ -110,7 +114,7 @@ The governing version is the one presented to the User at contract formation and
 
 ---
 
-A copy of this EULA is installed together with Nova AI Workspace. Questions: joel@gnetwork.eu
+A copy of this EULA is installed together with Nova AI Workspace. Questions and objections: https://github.com/joelaniol/nova/blob/main/EULA.md#contact
 
 ---
 
@@ -120,7 +124,7 @@ NOVA AI WORKSPACE — ENDNUTZER-LIZENZVEREINBARUNG (EULA) Version 1.2-alpha · S
 
 ### 1. VERTRAGSPARTNER UND GELTUNG
 
-Diese Endnutzer-Lizenzvereinbarung („EULA") wird geschlossen zwischen Joel Aniol (Kontakt: joel@gnetwork.eu · aniol-consulting.com · nova-cognitive.com; „Lizenzgeber") und der Person oder Organisation, die Nova AI Workspace installiert oder nutzt („Nutzer"). Sie ergänzt die beim Erwerb oder bei der Bestellung vereinbarten Bedingungen; individuelle Vereinbarungen gehen vor. Zwingende Rechte von Verbrauchern bleiben unberührt. Die Postanschrift und Kontaktangaben sind unter https://github.com/joelaniol/nova/blob/main/EULA.md#kontakt veröffentlicht; die Postanschrift wird dort als Bild dargestellt.
+Diese Endnutzer-Lizenzvereinbarung („EULA") wird geschlossen zwischen Joel Aniol (Kontakt: aniol-consulting.com · nova-cognitive.com; „Lizenzgeber") und der Person oder Organisation, die Nova AI Workspace installiert oder nutzt („Nutzer"). Sie ergänzt die beim Erwerb oder bei der Bestellung vereinbarten Bedingungen; individuelle Vereinbarungen gehen vor. Zwingende Rechte von Verbrauchern bleiben unberührt. Die Postanschrift und Kontaktangaben sind unter https://github.com/joelaniol/nova/blob/main/EULA.md#kontakt veröffentlicht; Postanschrift und E-Mail werden dort als Bilder dargestellt.
 
 ### 2. PRODUKT UND ALPHA-STATUS
 
@@ -136,7 +140,7 @@ Vertragliche Updatezeiträume beschränken keine zwingenden gesetzlichen Aktuali
 
 ### 4. AKTIVIERUNG
 
-Soweit der Lizenzplan eine Aktivierung vorsieht, sind die in den Datenschutzhinweisen zur Aktivierung beschriebenen Angaben erforderlich (Konto-E-Mail-Adresse, Lizenzschlüssel, technische Geräte- und Lizenzkennungen). Deaktivierung und Gerätewechsel sind über die App möglich. Bei einer technisch fehlerhaften Sperre oder bei Nichterreichbarkeit des Lizenzdienstes hilft der Lizenzgeber unter joel@gnetwork.eu bei der Wiederherstellung.
+Soweit der Lizenzplan eine Aktivierung vorsieht, sind die in den Datenschutzhinweisen zur Aktivierung beschriebenen Angaben erforderlich (Konto-E-Mail-Adresse, Lizenzschlüssel, technische Geräte- und Lizenzkennungen). Deaktivierung und Gerätewechsel sind über die App möglich. Bei einer technisch fehlerhaften Sperre oder bei Nichterreichbarkeit des Lizenzdienstes hilft der Lizenzgeber unter dem oben verlinkten Kontaktweg bei der Wiederherstellung.
 
 ### 5. SCHUTZRECHTE UND GESETZLICHE AUSNAHMEN
 
@@ -188,7 +192,7 @@ Die Lizenz endet zum vereinbarten Enddatum oder durch wirksame Kündigung. Es er
 
 Bei einem wesentlichen Verstoß gegen vereinbarte Nutzungsgrenzen oder einer konkreten erheblichen Sicherheitsgefahr kann der Lizenzgeber die Lizenz im erforderlichen und verhältnismäßigen Umfang vorübergehend sperren. Der Nutzer wird über Grund, Umfang und Abhilfemöglichkeiten informiert, soweit dadurch nicht selbst eine konkrete Gefahr entsteht oder eine gesetzliche Pflicht verletzt wird. Bei behebbaren Verstößen ist grundsätzlich zunächst eine angemessene Abhilfefrist zu gewähren. Eine sofortige Sperre kommt insbesondere zur Abwehr akuter Gefahren oder bei sonstigen gesetzlich gerechtfertigten Umständen in Betracht.
 
-Eine endgültige Vertragsbeendigung setzt einen gesetzlichen oder wirksam vereinbarten Kündigungsgrund voraus; erforderliche Abmahnungen und Abhilfefristen bleiben gewahrt. Einwände können an joel@gnetwork.eu gerichtet werden und werden geprüft. Entfällt der Sperrgrund, wird eine vorübergehende Sperre aufgehoben. Fehlerhafte Sperren werden korrigiert.
+Eine endgültige Vertragsbeendigung setzt einen gesetzlichen oder wirksam vereinbarten Kündigungsgrund voraus; erforderliche Abmahnungen und Abhilfefristen bleiben gewahrt. Einwände können über den oben verlinkten Kontaktweg eingereicht werden und werden geprüft. Entfällt der Sperrgrund, wird eine vorübergehende Sperre aufgehoben. Fehlerhafte Sperren werden korrigiert.
 
 Sperren und Vertragsende berechtigen nicht zur Löschung der lokalen Nutzerdaten. Erstattungen und sonstige Ansprüche richten sich nach den anwendbaren gesetzlichen und vertraglichen Regeln; eine Sperre lässt solche Ansprüche nicht pauschal entfallen.
 
@@ -202,4 +206,4 @@ Maßgeblich ist die dem Nutzer bei Vertragsschluss vorgelegte und wirksam verein
 
 ---
 
-Eine Kopie dieser EULA wird mit Nova AI Workspace installiert. Fragen: joel@gnetwork.eu
+Eine Kopie dieser EULA wird mit Nova AI Workspace installiert. Fragen und Einwände: https://github.com/joelaniol/nova/blob/main/EULA.md#kontakt

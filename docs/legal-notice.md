@@ -24,8 +24,11 @@ Nova AI Workspace is currently in alpha. Features may change, and the software m
 
 ### Contact
 Joel Aniol
-- Email / E-Mail: joel@gnetwork.eu
+- [Contact details / Kontaktdaten](../EULA.md#contact)
+
+![Email contact / E-Mail-Kontakt](../assets/legal/contact-email.png)
 - [Postal address / Postanschrift](../EULA.md#contact)
+- [LinkedIn contact / LinkedIn-Kontakt](https://www.linkedin.com/in/joelaniol/)
 
 ---
 
@@ -51,5 +54,8 @@ Nova AI Workspace befindet sich derzeit in der Alpha-Phase. Funktionen können s
 
 ### Kontakt
 Joel Aniol
-- Email / E-Mail: joel@gnetwork.eu
+- [Contact details / Kontaktdaten](../EULA.md#contact)
+
+![Email contact / E-Mail-Kontakt](../assets/legal/contact-email.png)
 - [Postal address / Postanschrift](../EULA.md#contact)
+- [LinkedIn contact / LinkedIn-Kontakt](https://www.linkedin.com/in/joelaniol/)
