@@ -25,8 +25,8 @@ Opens an interactive terminal (a real PTY) on an SSH/SFTP server and returns an 
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `profileId` | `string` | Yes | — | — | SSH/SFTP connector id from nova.connector_list. |
-| `columns` | `integer` | No | `80` | 1–1000 | Terminal width in columns. Default 80. |
-| `rows` | `integer` | No | `24` | 1–1000 | Terminal height in rows. Default 24. |
+| `columns` | `integer` | No | `80` | 2–500 | Terminal width in columns (2-500). Default 80. |
+| `rows` | `integer` | No | `24` | 2–300 | Terminal height in rows (2-300). Default 24. |
 | `term` | `string` | No | — | — | Optional TERM value (e.g. xterm-256color, xterm). Default xterm-256color; unusual values fall back to the default. |
 | `operationId` | `string` | No | — | — | Optional idempotency key: retrying open with the same operationId returns the existing terminal instead of opening a second connection. |
 | `unattended` | `boolean` | No | `false` | — | Fail closed instead of prompting. Scheduled-task hosts enforce this even when omitted. |

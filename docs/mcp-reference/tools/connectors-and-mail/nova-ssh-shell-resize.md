@@ -21,8 +21,8 @@ Resizes an interactive terminal's window and sends an SSH window-change request 
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `execId` | `string` | Yes | — | — | Terminal id from nova.ssh_shell_open. |
-| `columns` | `integer` | Yes | — | 1–1000 | New terminal width in columns. |
-| `rows` | `integer` | Yes | — | 1–1000 | New terminal height in rows. |
+| `columns` | `integer` | Yes | — | 2–500 | New terminal width in columns (2-500). |
+| `rows` | `integer` | Yes | — | 2–300 | New terminal height in rows (2-300). |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
