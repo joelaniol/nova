@@ -246,6 +246,10 @@ We will be fully transparent about every sponsorship: who supports Nova, what fi
 
 See our [Acceptable Use Policy](ACCEPTABLE-USE.md).
 
+**No arms-industry business use.** Nova is not offered for business use by or on behalf of arms companies. Use for weapons, ammunition, military explosives, or military combat operations is prohibited. The [scope and exceptions](ACCEPTABLE-USE.md#arms-industry-and-military-use-restrictions) are defined in our policy.
+
+This also excludes business use by providers of software, AI, or data-analysis systems specifically designed or adapted for military combat, even if they also have civilian customers.
+
 <div align="center">
 
 **Joel Aniol**  
@@ -280,6 +284,10 @@ Wir werden jedes Sponsoring vollständig transparent machen: wer Nova unterstüt
 > Missbrauch, der anderen schadet, dulden wir nicht. Wir setzen klare Nutzungsregeln und Schutzmaßnahmen ein und gehen im Rahmen unserer Möglichkeiten gegen Missbrauch vor.
 
 Details stehen in unserer [Nutzungsrichtlinie](ACCEPTABLE-USE.md#deutsch).
+
+**Keine geschäftliche Nutzung durch die Rüstungswirtschaft.** Nova wird nicht für die geschäftliche Nutzung durch oder im Auftrag von Rüstungsunternehmen angeboten. Die Nutzung für Waffen, Munition, militärische Sprengstoffe oder militärische Kampfhandlungen ist untersagt. [Geltungsbereich und Ausnahmen](ACCEPTABLE-USE.md#ausschluss-der-rüstungswirtschaft-und-militärischer-nutzung) stehen in der Nutzungsrichtlinie.
+
+Dies schließt auch die geschäftliche Nutzung durch Anbieter von Software, KI oder Datenanalysesystemen aus, die speziell für militärische Kampfhandlungen konzipiert oder angepasst sind, selbst wenn sie zusätzlich zivile Kunden haben.
 
 — **Joel Aniol**, Entwickler von Nova AI Workspace
 
