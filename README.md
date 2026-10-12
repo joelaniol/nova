@@ -12,7 +12,8 @@
 [![Platform](https://img.shields.io/badge/Windows-10%20%7C%2011%20(x64)-0078D4?logo=windows&logoColor=white)](docs/getting-started/installation.md#1-system-requirements)
 [![Status: Alpha](https://img.shields.io/badge/status-alpha-orange)](ALPHA.md)
 [![Tools](https://img.shields.io/badge/MCP-Tool%20Catalog-success)](docs/mcp-reference/tool-catalog.md)
-[![Terminal](https://img.shields.io/badge/Terminal-ConPTY%20PowerShell-2D7D9A?logo=powershell&logoColor=white)](docs/user-guide/tools/terminal.md)
+[![Ethics — My promise](https://img.shields.io/badge/Ethics-My%20promise-6f42c1)](#ethics--my-promise)
+[![Made with love ❤️](https://img.shields.io/badge/Made%20with-love%20%E2%9D%A4%EF%B8%8F-d6336c)](#ethics--my-promise)
 [![Local-first](https://img.shields.io/badge/data-local--first-2ea44f)](PRIVACY.md)
 
 **[Download & install](docs/getting-started/installation.md#2-download-and-install) · [Connect your AI program](docs/getting-started/quickstart.md) · [Deutsch](#nova-ai-workspace-deutsch) · [Get help](docs/troubleshooting/README.md)**
@@ -198,8 +199,33 @@ Weiter: **[Installation auf Deutsch](docs/getting-started/installation.md#nova-a
 * **Nova AI Workspace** is developed by Joel Aniol and contributors.
 * **License:** [License terms](LICENSE).
 * **Security vulnerabilities:** Follow the [private reporting route](SECURITY.md).
-* **Issues & Feedback:** Report issues and feature requests on [GitHub Issues](https://github.com/joelaniol/nova/issues).
-  Agents can use [Nova's bug-report guide](docs/mcp-reference/tools/app-shell-and-ui/nova-get-instructions.md#reporting-bugs-and-work-session-feedback) via `nova.get_instructions(topic='bug_report')` for reporting rules and bug-ticket or work-session feedback templates. Review URLs and evidence for secrets and personal data; see the [alpha reporting policy](ALPHA.md#what-to-report).
+* **Issues & Feedback:** Report issues and feature requests on [GitHub Issues](https://github.com/joelaniol/nova/issues). You can ask your connected AI agent:
+
+  > Please prepare a Nova bug report following Nova's reporting guide. Help me describe the problem, collect relevant evidence, and check it for secrets and personal data. Show me the draft before submitting it.
+
+  Auf Deutsch:
+
+  > Bitte erstelle einen Nova-Bugreport nach Novas Meldeanleitung. Hilf mir, das Problem zu beschreiben, passende Belege zu sammeln und sie auf Geheimnisse und persönliche Daten zu prüfen. Zeige mir den Entwurf, bevor du ihn absendest.
+
+  See [Nova's reporting guide](docs/mcp-reference/tools/app-shell-and-ui/nova-get-instructions.md#reporting-bugs-and-work-session-feedback) and the [alpha reporting policy](ALPHA.md#what-to-report).
 * **Website:** [nova-cognitive.com](https://nova-cognitive.com)
 * **YouTube:** [Nova Cognitive (@novacognitive)](https://www.youtube.com/@novacognitive)
 * **Contact:** Joel Aniol — [LinkedIn](https://www.linkedin.com/in/joelaniol/)
+
+---
+
+## Ethics — My promise
+
+I believe access to useful technology should not depend on your income or circumstances.
+
+**Nova AI Workspace will never have a subscription model. Nova will always be free for people without income, people facing disadvantage, and students.**
+
+— Joel Aniol, creator of Nova AI Workspace
+
+### Mein Versprechen
+
+Ich bin überzeugt, dass der Zugang zu hilfreicher Technologie nicht vom Einkommen oder den Lebensumständen abhängen sollte.
+
+**Nova AI Workspace wird niemals ein Abo-Modell haben. Nova wird für Menschen ohne Einkommen, benachteiligte Menschen sowie Studierende immer kostenlos sein.**
+
+— Joel Aniol, Entwickler von Nova AI Workspace
