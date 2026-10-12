@@ -51,11 +51,14 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
       "2026-10-02 21:00:12.345 +02:00 INFO Proxy manually disconnected. Target=browser-tabs Profile=proxy-2",
       "2026-10-02 21:00:15.012 +02:00 INFO MCP probe OK for 'US East SOCKS5' (socks5://198.51.100.25:1080): Proxy test OK. External IP: 198.51.100.25. [78 ms]"
     ],
-    "count": 2
+    "count": 2,
+    "effectiveMaxLines": 20,
+    "clamped": false,
+    "source": "Logs/proxy"
   }
 }
 ```
-Response is shortened to 2 lines for this example; a real call returns up to `maxLines`.
+Response is shortened to 2 lines for this example; a real call returns up to `maxLines`. Values outside 1–500 are clamped; the response then reports `clamped: true`, the `effectiveMaxLines` actually used, and a sentence in the text block.
 
 ---
 

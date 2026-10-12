@@ -162,6 +162,14 @@ Installations up to version 1.0.0-alpha.17 used `%LOCALAPPDATA%\NovaBrowser\`. T
 
 This includes settings, browser profiles, history, favorites, vault entries, knowledge stores, conversation archives, logs, and task workspaces. You can delete this folder at any time to remove all Nova data. The uninstaller offers this option as well.
 
+**Notifications:** Nova keeps a local notification history containing message text, source website,
+time, pictures when supplied, and the originating tab, sandbox, or browsing profile needed to open
+the right source. This can include notifications received in private tabs: ending a private session
+does not itself delete the notification history. Read or cleared notifications may remain in the
+local history database until the configured retention period removes them. Windows also receives
+the content of notifications shown through its notification system; Windows notification settings
+control that separate copy. Nova does not upload notification history to its own server.
+
 ### Children
 
 Nova AI Workspace is not directed at children under 13. We do not knowingly collect data from children.
@@ -332,6 +340,15 @@ Alle Anwendungsdaten werden lokal auf deinem Rechner gespeichert:
 Installationen bis Version 1.0.0-alpha.17 nutzten `%LOCALAPPDATA%\NovaBrowser\`. Das Setup einer neueren Version verschiebt diesen Ordner an den neuen Ort; ist das nicht möglich, bleiben die Daten im alten Ordner.
 
 Dies umfasst Einstellungen, Browser-Profile, Verlauf, Favoriten, Vault-Einträge, Wissensspeicher, Gesprächsarchive, Logs und Task-Workspaces. Du kannst diesen Ordner jederzeit löschen, um alle Nova-Daten zu entfernen. Der Deinstaller bietet diese Option ebenfalls an.
+
+**Benachrichtigungen:** Nova führt einen lokalen Benachrichtigungsverlauf mit Meldungstext,
+Website, Zeitpunkt, mitgelieferten Bildern sowie der Zuordnung zum ursprünglichen Tab, zur Sandbox
+oder zum Browserprofil, damit die richtige Quelle geöffnet werden kann. Dazu können auch Meldungen
+aus privaten Tabs gehören: Das Beenden einer privaten Sitzung löscht den Benachrichtigungsverlauf
+nicht automatisch. Gelesene oder aus der Liste entfernte Meldungen können bis zum Ablauf der
+eingestellten Aufbewahrungsdauer in der lokalen Datenbank verbleiben. Windows erhält außerdem die
+Inhalte der über sein Benachrichtigungssystem angezeigten Meldungen; für diese separate Kopie gelten
+die Windows-Benachrichtigungseinstellungen. Nova lädt den Verlauf nicht auf seinen eigenen Server hoch.
 
 ### Kinder
 
