@@ -236,6 +236,11 @@ When Nova becomes available to buy, everyone will have the option to tick a box 
 
 Nova does not collect usage analytics or track your browsing behavior. License activation and renewal require limited data; crash reports are sent only if you choose to send them. Connected AI providers and websites have their own data practices. See our [Privacy Policy](PRIVACY.md) for the details.
 
+> **Sponsorship must serve people.**<br>
+> If Nova ever accepts sponsors, we will only partner with those who make a positive contribution to society. We will carefully examine their conduct and will not accept sponsorship from those whose practices harm people, society, or the environment.
+
+We will be fully transparent about every sponsorship: who supports Nova, what financial or other support they provide, what they receive in return, and any conditions or conflicts of interest. Sponsorship will never override these promises.
+
 <div align="center">
 
 **Joel Aniol**  
@@ -260,6 +265,11 @@ Sobald Nova zum Kauf angeboten wird, kann jede Person beim Kauf ein Kästchen an
 > Wir werden dich nicht ausspionieren. Wir werden deine personenbezogenen Daten niemals verkaufen. Wir vermeiden die Erhebung personenbezogener Daten, wo immer es möglich ist, und beschränken notwendige Erhebungen auf ein Minimum.
 
 Nova erhebt keine Nutzungsanalysen und verfolgt dein Surfverhalten nicht. Lizenzaktivierung und -verlängerung benötigen einen begrenzten Datensatz; Crashberichte werden nur gesendet, wenn du dich dafür entscheidest. Verbundene KI-Anbieter und Websites haben eigene Regeln zum Umgang mit Daten. Details stehen in unserer [Datenschutzerklärung](PRIVACY.md#deutsch).
+
+> **Sponsoring muss Menschen zugutekommen.**<br>
+> Sollte Nova jemals Sponsoren annehmen, werden wir nur mit solchen zusammenarbeiten, die einen positiven Beitrag zur Gesellschaft leisten. Wir werden ihr Handeln sorgfältig prüfen und kein Sponsoring von Akteuren annehmen, deren Praktiken Menschen, der Gesellschaft oder der Umwelt schaden.
+
+Wir werden jedes Sponsoring vollständig transparent machen: wer Nova unterstützt, welche finanziellen oder sonstigen Leistungen erbracht werden, welche Gegenleistungen vereinbart sind und welche Bedingungen oder Interessenkonflikte bestehen. Sponsoring wird diese Versprechen niemals außer Kraft setzen.
 
 — **Joel Aniol**, Entwickler von Nova AI Workspace
 
