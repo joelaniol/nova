@@ -40,15 +40,19 @@ Nova AI Workspace is an AI agent browser framework for Windows. The software is 
 
 ### 3. LICENSE GRANT AND PURCHASE MODEL
 
-The Licensor grants the User a non-exclusive, non-sublicensable right to install and use Nova AI Workspace as intended on supported Windows systems. User and device counts are specified when the license is issued; this revision does not retrospectively reduce rights already expressly granted. Section 6 also applies to free, trial, and evaluation licenses.
+The Licensor grants the User a non-exclusive, non-sublicensable right to install and use Nova AI Workspace as intended on supported Windows systems. This right does not transfer copyright in Nova or its components. This revision does not retrospectively reduce rights already expressly granted. Section 6 also applies to free, trial, and evaluation licenses.
 
-The intended future purchase model provides one year of use, including updates, from the start date disclosed before purchase. There is no automatic renewal or automatic charge. Continued use after expiry requires a new, voluntary purchase. Scope, price, device count, and start and end dates must be disclosed before purchase. This does not announce an already available purchase offer. Free alpha, trial, and social-access licenses follow the conditions expressly communicated when they are issued.
+Under the intended future purchase model, a one-time purchase grants a perpetual right to use the purchased Nova version. A regular personal license permits one User to use Nova on two devices. Updates containing new versions and features are included for twelve months from the start date disclosed before purchase. Versions received within that period may also be used perpetually. After the period ends, the last version received remains fully usable within the agreed feature scope; expiry of update entitlement causes neither a forced shutdown nor expiry of the right to use it.
 
-Contractual update periods do not limit mandatory statutory update, defect, or consumer rights. Technical activation and offline-validity periods are not automatic contractual renewals and do not replace the agreed license term.
+Further new versions and features may then be obtained by voluntarily purchasing another update package. There is no automatic renewal or automatic charge. Scope, price, device count, and the start and end of the update period must be disclosed before purchase. This does not announce an already available purchase offer. Free alpha, trial, and social-access licenses follow the conditions expressly communicated when they are issued.
+
+Contractual update periods do not limit mandatory statutory update, security, defect, or consumer rights. The lawful use restrictions and the termination and suspension grounds in Section 12 remain applicable.
 
 ### 4. ACTIVATION
 
 Where the license plan requires activation, the data described in the activation privacy notice is required (account email address, license key, technical device and license identifiers). Deactivation and device changes are available in the app. In the event of a technically erroneous block or unavailability of the license service, the Licensor assists with recovery through the contact route linked above.
+
+Activation, the right to use the software, and update entitlement are separate states. The license server and app must not treat expiry of contractual update entitlement as expiry of a purchased perpetual right to use the software or as a reason for deactivation. Technical activation or validation intervals do not change the agreed usage rights. Offline activation is planned as a future feature; this revision does not claim that it is already available.
 
 ### 5. INTELLECTUAL PROPERTY AND STATUTORY EXCEPTIONS
 
@@ -80,7 +84,11 @@ Bundled third-party components are governed primarily by their own license terms
 
 ### 8. UPDATES
 
-During the license term, the Licensor provides the contractually and legally required updates, including security updates, and informs about their availability and the consequences of not installing them. Feature changes are made for valid reasons such as security, legal compliance or restoring interoperability. Mandatory information, consent, termination and price-reduction rights remain unaffected.
+For a purchase under Section 3, contractual update entitlement includes new versions and features for twelve months from the start date disclosed before purchase. A further update package is provided only upon a voluntary additional purchase on the terms disclosed for that purchase. Without that purchase, the last version received remains perpetually usable within the agreed feature scope.
+
+Independently of the contractual update period, the Licensor provides legally required updates, including security updates, for the period required by law and informs the User about their availability and the consequences of not installing them. These rights do not end solely because the twelve-month update period ends and are not conditional on another purchase. A perpetual right to use the software does not by itself grant perpetual entitlement to all future new versions or features.
+
+Feature changes are made for valid reasons such as security, legal compliance or restoring interoperability. Mandatory information, consent, termination and price-reduction rights remain unaffected.
 
 ### 9. USER OBLIGATIONS, BACKUPS
 
@@ -96,13 +104,13 @@ The Licensor is liable without limitation for intent and gross negligence, for c
 
 ### 12. TERM, TERMINATION AND SUSPENSION
 
-The license ends on the agreed end date or upon valid termination. There is no automatic renewal. Statutory termination, withdrawal, price- reduction, and refund rights remain unaffected.
+The purchased right to use the software under Section 3 is perpetual and does not end with the update period. It ends only upon valid termination of the agreement. Alpha or trial licenses expressly issued for a limited term follow their agreed term. Update packages do not renew automatically. Statutory termination, withdrawal, price- reduction, and refund rights remain unaffected.
 
 For a material breach of agreed use restrictions or a concrete, significant security threat, the Licensor may temporarily suspend the license to the extent necessary and proportionate. The User is informed of the reason, scope, and available remedies unless doing so would itself create a concrete threat or breach a legal duty. Remediable breaches ordinarily require a reasonable opportunity to remedy them first. Immediate suspension may be appropriate to address an imminent threat or other circumstances justified under applicable law.
 
 Final termination requires a statutory or validly agreed contractual ground; any required warnings and remedy periods remain applicable. Objections may be submitted through the contact route linked above and will be reviewed. Temporary suspensions are lifted when their grounds no longer apply. Erroneous suspensions are corrected.
 
-Suspension and expiry do not authorize deletion of local User data. Refunds and other claims follow applicable statutory and contractual rules; suspension does not automatically eliminate those claims.
+Suspension and termination do not authorize deletion of local User data. Refunds and other claims follow applicable statutory and contractual rules; suspension does not automatically eliminate those claims.
 
 ### 13. GOVERNING LAW AND LANGUAGE
 
@@ -132,15 +140,19 @@ Nova AI Workspace ist ein KI-Agent-Browser-Framework für Windows. Die Software 
 
 ### 3. NUTZUNGSRECHT UND KAUFMODELL
 
-Der Lizenzgeber räumt dem Nutzer ein einfaches, nicht ausschließliches und nicht unterlizenzierbares Recht ein, Nova AI Workspace auf unterstützten Windows-Systemen zu installieren und bestimmungsgemäß zu verwenden. Nutzer- und Gerätezahl werden bei Erteilung der Lizenz angegeben; bereits ausdrücklich zugesagte Rechte werden durch diese Überarbeitung nicht nachträglich eingeschränkt. Abschnitt 6 gilt auch für kostenlose, Test- und Evaluierungslizenzen.
+Der Lizenzgeber räumt dem Nutzer ein einfaches, nicht ausschließliches und nicht unterlizenzierbares Recht ein, Nova AI Workspace auf unterstützten Windows-Systemen zu installieren und bestimmungsgemäß zu verwenden. Das Nutzungsrecht überträgt kein Urheberrecht an Nova oder seinen Bestandteilen. Bereits ausdrücklich zugesagte Rechte werden durch diese Überarbeitung nicht nachträglich eingeschränkt. Abschnitt 6 gilt auch für kostenlose, Test- und Evaluierungslizenzen.
 
-Das vorgesehene künftige Kaufmodell umfasst ein Jahr Nutzungsrecht inklusive Updates ab dem vor dem Kauf ausgewiesenen Startdatum. Es gibt keine automatische Verlängerung und keine automatische Abbuchung. Nach Ablauf ist für weitere Nutzung ein neuer, freiwilliger Kauf notwendig. Umfang, Preis, Gerätezahl, Start- und Enddatum sind vor dem Kauf anzugeben. Dies kündigt kein heute bereits verfügbares Kaufangebot an. Kostenlose Alpha-, Test- und soziale Lizenzen richten sich nach den bei ihrer Erteilung ausdrücklich mitgeteilten Bedingungen.
+Im vorgesehenen künftigen Kaufmodell gewährt ein einmaliger Kauf ein zeitlich unbefristetes Nutzungsrecht an der erworbenen Nova-Version. Eine reguläre Privatlizenz erlaubt einem Nutzer die Nutzung auf zwei Geräten. Neue Versionen und Funktionen sind für zwölf Monate ab dem vor dem Kauf ausgewiesenen Startdatum als Updates enthalten. Auch die innerhalb dieses Zeitraums erhaltenen Versionen dürfen dauerhaft genutzt werden. Nach Ablauf bleibt die zuletzt erhaltene Version im vereinbarten Funktionsumfang uneingeschränkt nutzbar; der Ablauf des Updateanspruchs führt weder zu einer Zwangsabschaltung noch zum Ende des Nutzungsrechts.
 
-Vertragliche Updatezeiträume beschränken keine zwingenden gesetzlichen Aktualisierungs-, Mängel- oder Verbraucherrechte. Die technischen Aktivierungs- und Offlinefristen sind keine automatische Vertrags- verlängerung und ersetzen nicht die vereinbarte Lizenzlaufzeit.
+Weitere neue Versionen und Funktionen können anschließend durch einen freiwilligen erneuten Kauf eines Updatepakets erworben werden. Es gibt keine automatische Verlängerung und keine automatische Abbuchung. Umfang, Preis, Gerätezahl sowie Beginn und Ende des Updatezeitraums müssen vor dem Kauf angegeben werden. Dies kündigt kein heute bereits verfügbares Kaufangebot an. Kostenlose Alpha-, Test- und soziale Lizenzen richten sich nach den bei ihrer Erteilung ausdrücklich mitgeteilten Bedingungen.
+
+Vertragliche Updatezeiträume beschränken keine zwingenden gesetzlichen Aktualisierungs-, Sicherheits-, Mängel- oder Verbraucherrechte. Die rechtmäßigen Nutzungsgrenzen und die Kündigungs- und Sperrgründe nach Abschnitt 12 bleiben anwendbar.
 
 ### 4. AKTIVIERUNG
 
 Soweit der Lizenzplan eine Aktivierung vorsieht, sind die in den Datenschutzhinweisen zur Aktivierung beschriebenen Angaben erforderlich (Konto-E-Mail-Adresse, Lizenzschlüssel, technische Geräte- und Lizenzkennungen). Deaktivierung und Gerätewechsel sind über die App möglich. Bei einer technisch fehlerhaften Sperre oder bei Nichterreichbarkeit des Lizenzdienstes hilft der Lizenzgeber unter dem oben verlinkten Kontaktweg bei der Wiederherstellung.
+
+Aktivierung, Nutzungsrecht und Updateanspruch sind getrennte Zustände. Der Lizenzserver und die App dürfen den Ablauf des vertraglichen Updateanspruchs nicht als Ablauf des dauerhaft erworbenen Nutzungsrechts oder als Anlass zur Deaktivierung behandeln. Technische Aktivierungs- oder Prüfintervalle ändern die vereinbarten Nutzungsrechte nicht. Eine Offline-Aktivierung ist als künftige Funktion geplant; diese Fassung behauptet nicht, dass sie bereits verfügbar ist.
 
 ### 5. SCHUTZRECHTE UND GESETZLICHE AUSNAHMEN
 
@@ -162,7 +174,7 @@ Keine Nutzung für Waffen oder militärische Kampfhandlungen: Niemand darf Nova 
 
 Die Beschäftigung bei einem solchen Unternehmen schließt eine tatsächlich private Nutzung ohne Bezug zu diesen verbotenen Zwecken nicht aus. Zivile Sprengstoffanwendungen, etwa im Bergbau oder Bauwesen, sind nicht allein wegen des Einsatzes von Sprengstoffen verboten. Das bloße Anbieten allgemeiner ziviler Waren oder Dienstleistungen macht ein Unternehmen nach dieser Definition nicht zum Rüstungsunternehmen. Journalismus, historische Forschung, humanitäre Hilfe sowie Abrüstung oder Kampfmittelbeseitigung sind nicht allein deshalb verboten, weil sie Waffen oder Konflikte betreffen; der oben geregelte Ausschluss als Geschäftskunde bleibt bestehen.
 
-Für die Werkzeuge zum Mitlesen, Abfangen, Verändern und erneuten Senden von Netzwerkverkehr gilt zusätzlich: Der Nutzer setzt sie gegen fremde Dienste nur ein, soweit deren Betreiber dies genehmigt hat. Untersagt ist insbesondere, damit Bezahlung, Lizenzierung, Kontingente, clientseitige Prüfungen, Zustimmungsdialoge oder Sicherheitsmechanismen eines fremden Dienstes zu umgehen sowie aufgezeichnete Anfragen ohne Genehmigung erneut zu senden; die technische Möglichkeit, eine bestehende Sitzung wiederzuverwenden, ersetzt keine Genehmigung des Dienstes. Zeichnet der Nutzer dabei personenbezogene Daten Dritter auf, ist er für den zulässigen Umgang damit verantwortlich; welche Daten Nova Browser selbst verarbeitet, steht in der Datenschutzerklärung.
+Für die Werkzeuge zum Mitlesen, Abfangen, Verändern und erneuten Senden von Netzwerkverkehr gilt zusätzlich: Der Nutzer setzt sie gegen fremde Dienste nur ein, soweit deren Betreiber dies genehmigt hat. Untersagt ist insbesondere, damit Bezahlung, Lizenzierung, Kontingente, clientseitige Prüfungen, Zustimmungsdialoge oder Sicherheitsmechanismen eines fremden Dienstes zu umgehen sowie aufgezeichnete Anfragen ohne Genehmigung erneut zu senden; die technische Möglichkeit, eine bestehende Sitzung wiederzuverwenden, ersetzt keine Genehmigung des Dienstes. Zeichnet der Nutzer dabei personenbezogene Daten Dritter auf, ist er für den zulässigen Umgang damit verantwortlich; welche Daten Nova AI Workspace selbst verarbeitet, steht in der Datenschutzerklärung.
 
 Der Lizenzgeber garantiert nicht, dass Drittseiten ihre Oberflächen oder Bedingungen unverändert lassen. Diese Regelung beseitigt nicht die Verantwortung des Lizenzgebers für sichere Produktgestaltung und vereinbarte Kernfunktionen.
 
@@ -172,7 +184,11 @@ Für mitgelieferte Drittkomponenten gelten vorrangig deren eigene Lizenzbedingun
 
 ### 8. UPDATES
 
-Der Lizenzgeber stellt während der Lizenz-Laufzeit die vertraglich und gesetzlich erforderlichen Aktualisierungen einschließlich Sicherheitsaktualisierungen bereit und informiert über deren Verfügbarkeit und die Folgen einer Nichtinstallation. Funktionsänderungen erfolgen aus sachlichen Gründen, etwa zur Sicherheit, Rechtskonformität oder Wiederherstellung der Interoperabilität. Zwingende Informations-, Zustimmungs-, Kündigungs- und Minderungsrechte bleiben unberührt.
+Beim Kauf nach Abschnitt 3 umfasst der vertragliche Updateanspruch neue Versionen und Funktionen für zwölf Monate ab dem vor dem Kauf ausgewiesenen Startdatum. Ein weiteres Updatepaket wird nur auf freiwilligen erneuten Kauf zu den dabei ausgewiesenen Bedingungen bereitgestellt. Ohne diesen Kauf bleibt die zuletzt erhaltene Version dauerhaft im vereinbarten Funktionsumfang nutzbar.
+
+Unabhängig vom vertraglichen Updatezeitraum stellt der Lizenzgeber die gesetzlich erforderlichen Aktualisierungen einschließlich Sicherheitsaktualisierungen für den gesetzlich maßgeblichen Zeitraum bereit und informiert über deren Verfügbarkeit und die Folgen einer Nichtinstallation. Diese Ansprüche enden nicht allein mit dem zwölfmonatigen Updatezeitraum und werden nicht von einem weiteren Kauf abhängig gemacht. Das zeitlich unbefristete Nutzungsrecht bedeutet für sich allein keinen unbefristeten Anspruch auf alle künftigen neuen Versionen oder Funktionen.
+
+Funktionsänderungen erfolgen aus sachlichen Gründen, etwa zur Sicherheit, Rechtskonformität oder Wiederherstellung der Interoperabilität. Zwingende Informations-, Zustimmungs-, Kündigungs- und Minderungsrechte bleiben unberührt.
 
 ### 9. PFLICHTEN DES NUTZERS, SICHERUNGEN
 
@@ -188,7 +204,7 @@ Der Lizenzgeber haftet unbeschränkt bei Vorsatz und grober Fahrlässigkeit, bei
 
 ### 12. LAUFZEIT, KÜNDIGUNG UND SPERRE
 
-Die Lizenz endet zum vereinbarten Enddatum oder durch wirksame Kündigung. Es erfolgt keine automatische Verlängerung. Gesetzliche Kündigungs-, Widerrufs-, Minderungs- und Erstattungsrechte bleiben unberührt.
+Das entgeltlich erworbene Nutzungsrecht nach Abschnitt 3 ist zeitlich unbefristet und endet nicht mit dem Updatezeitraum. Es endet nur durch wirksame Vertragsbeendigung. Für ausdrücklich befristet erteilte Alpha- oder Testlizenzen gilt die vereinbarte Laufzeit. Updatepakete werden nicht automatisch verlängert. Gesetzliche Kündigungs-, Widerrufs-, Minderungs- und Erstattungsrechte bleiben unberührt.
 
 Bei einem wesentlichen Verstoß gegen vereinbarte Nutzungsgrenzen oder einer konkreten erheblichen Sicherheitsgefahr kann der Lizenzgeber die Lizenz im erforderlichen und verhältnismäßigen Umfang vorübergehend sperren. Der Nutzer wird über Grund, Umfang und Abhilfemöglichkeiten informiert, soweit dadurch nicht selbst eine konkrete Gefahr entsteht oder eine gesetzliche Pflicht verletzt wird. Bei behebbaren Verstößen ist grundsätzlich zunächst eine angemessene Abhilfefrist zu gewähren. Eine sofortige Sperre kommt insbesondere zur Abwehr akuter Gefahren oder bei sonstigen gesetzlich gerechtfertigten Umständen in Betracht.
 
