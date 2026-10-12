@@ -51,7 +51,7 @@ Installation details: [requirements and setup](docs/getting-started/installation
 > Windows SmartScreen may show **"Windows protected your PC"**. See the [installation notes](docs/getting-started/installation.md) before continuing with **"More info" → "Run anyway"**.
 
 > [!WARNING]
-> **ALPHA SOFTWARE — USE AT YOUR OWN RISK.** Nova is in active alpha development. Bugs, crashes, data loss and breaking changes may occur. By using Nova you accept the [Disclaimer](DISCLAIMER.md), [Acceptable Use Policy](ACCEPTABLE-USE.md), [Privacy Policy](PRIVACY.md), and [License](LICENSE). · [Alpha status & known issues →](ALPHA.md)
+> **ALPHA SOFTWARE — REVIEW THE TECHNICAL RISKS.** Nova is in active alpha development. Bugs, crashes, data loss and breaking changes may occur. Read the [technical risk notice](DISCLAIMER.md), [Acceptable Use Policy](ACCEPTABLE-USE.md), [Privacy Policy](PRIVACY.md), and [license documents](EULA.md). The applicable agreed contract and mandatory statutory rights govern; reading this page or installing an update does not by itself accept new contractual terms. · [Alpha status & known issues →](ALPHA.md)
 
 ---
 
@@ -197,7 +197,7 @@ Weiter: **[Installation auf Deutsch](docs/getting-started/installation.md#nova-a
 ## 📄 License & Community
 
 * **Nova AI Workspace** is developed by Joel Aniol and contributors.
-* **License:** [License terms](LICENSE).
+* **License:** [License notice](LICENSE) · [EULA and contract versions](EULA.md).
 * **Security vulnerabilities:** Follow the [private reporting route](SECURITY.md).
 * **Issues & Feedback:** Report issues and feature requests on [GitHub Issues](https://github.com/joelaniol/nova/issues). You can ask your connected AI agent:
 

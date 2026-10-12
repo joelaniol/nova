@@ -6,7 +6,7 @@
 
 ## English
 
-By using Nova AI Workspace, you agree to the following terms. Violation of this policy may result in revocation of your license to use the software.
+This policy describes permitted use and misuse of Nova AI Workspace. Contractual consequences depend on the terms validly agreed with you; publication of this page does not by itself amend an existing contract. See the [EULA](EULA.md) for license rights, statutory warranty, liability, and suspension procedures.
 
 ### Arms-Industry and Military-Use Restrictions
 
@@ -19,6 +19,10 @@ By using Nova AI Workspace, you agree to the following terms. Violation of this 
 Employment by such a company does not prevent genuinely private use unrelated to these prohibited purposes. Civilian explosives applications, such as mining or construction, are not prohibited solely because they involve explosives. Providing general-purpose civilian goods or services alone does not make a company an arms company under this definition. Journalism, historical research, humanitarian aid, and disarmament or explosive-ordnance disposal are not prohibited solely because they concern weapons or conflict; the business-customer exclusion above still applies.
 
 These restrictions concern Nova-owned software. They do not restrict rights granted independently by third-party or open-source licenses. Publishing this revision does not by itself retroactively change existing contracts; applicable contractual terms and mandatory legal rights remain unaffected.
+
+### Authorized Testing
+
+Authorized testing requires express permission from a person or organization entitled to grant it. Identify the systems, scope, permitted methods, and, where necessary, time limits before testing. Credentials, an existing session, or a technically available tool are not permission to act outside that scope.
 
 ### Permitted Use
 
@@ -44,7 +48,7 @@ You may **not** use Nova AI Workspace to:
 - **Spam or abuse** — send unsolicited messages, create fake accounts, manipulate reviews, or engage in any form of automated abuse
 - **Impersonation** — use browser identity features to impersonate other individuals or organizations for fraudulent purposes
 - **Denial of service** — use crawling, automation, or agent features to overload or disrupt third-party services
-- **Surveillance** — use Nova's capabilities to monitor, track, or surveil individuals without their knowledge and consent
+- **Surveillance** — use Nova's capabilities to monitor, track, or surveil individuals without a valid legal basis or lawful authority
 - **Harm or harassment** — use AI agent features to generate harmful, abusive, threatening, or harassing content
 - **Credential abuse** — use Nova's vault or MCP tools to test stolen credentials or conduct credential stuffing attacks
 - **Traffic manipulation against services you do not operate** — use request interception, modification or failure injection to bypass payment, licensing, quotas, client-side validation, consent dialogs or security controls of a service you neither operate nor are authorized to test
@@ -54,23 +58,23 @@ You may **not** use Nova AI Workspace to:
 
 ### Your Responsibility
 
-- **You are responsible** for all actions performed by AI agents you configure, authorize, or allow to run through Nova
-- **Review permissions carefully** — Nova's approval prompts exist for your protection. Granting broad permissions to agents means accepting responsibility for their actions
+- **Your area of responsibility:** configure, authorize, and reasonably supervise connected agents to the extent these actions are within your control and legally attributable to you. This does not transfer responsibility for defects in Nova or failures in its permission checks to you
+- **Review permissions carefully** — Nova's approval prompts exist for your protection. An authorization covers only its actual scope; it is not blanket consent to future actions
 - **Monitor agent activity** — Use Nova's transcript, audit logs, and activity indicators to stay informed about what agents are doing
 - **Third-party AI providers** — When using Claude, Codex, Gemini, or other providers through Nova, you must also comply with their respective terms of service and acceptable use policies
 - **Emergency Stop exists for a reason** — If agent behavior is unexpected, use it
 - **An armed interception rule stays your rule** — Nova shows it in the toolbar, binds it to one tab and a URL scope, and lets it expire by itself, but everything it does while armed is done on your behalf. Clear it when the task is over
 - **Captured traffic can contain secrets** — headers and bodies may hold tokens, cookies and personal data, and they can reach an agent's transcript. Use `redact`, and treat a recording like the data it contains
 
-### No Warranty
+### Alpha Risks and Mandatory Rights
 
-Nova AI Workspace is provided "as is" without any warranty. The author is not responsible for damages caused by misuse, agent actions, or bugs in alpha software. See [LICENSE](LICENSE) for full terms.
+Nova is alpha software; see the [technical risk notice](DISCLAIMER.md). Alpha status does not remove mandatory statutory warranty, update, consumer, or liability rights. The applicable license agreement governs contractual limitations; this policy creates no separate warranty or liability exclusion. See [EULA](EULA.md), sections 10 and 11.
 
 ---
 
 ## Deutsch
 
-Mit der Nutzung von Nova AI Workspace stimmst du den folgenden Bedingungen zu. Ein Verstoß gegen diese Richtlinie kann zum Entzug deiner Nutzungslizenz führen.
+Diese Richtlinie beschreibt erlaubte Nutzung und Missbrauch von Nova AI Workspace. Vertragliche Folgen richten sich nach den wirksam mit dir vereinbarten Bedingungen; die Veröffentlichung dieser Seite ändert für sich genommen keinen bestehenden Vertrag. Nutzungsrechte, Mängelrechte, Haftung und Sperrverfahren stehen in der [EULA](EULA.md#deutsch).
 
 ### Ausschluss der Rüstungswirtschaft und militärischer Nutzung
 
@@ -83,6 +87,10 @@ Mit der Nutzung von Nova AI Workspace stimmst du den folgenden Bedingungen zu. E
 Die Beschäftigung bei einem solchen Unternehmen schließt eine tatsächlich private Nutzung ohne Bezug zu diesen verbotenen Zwecken nicht aus. Zivile Sprengstoffanwendungen, etwa im Bergbau oder Bauwesen, sind nicht allein wegen des Einsatzes von Sprengstoffen verboten. Das bloße Anbieten allgemeiner ziviler Waren oder Dienstleistungen macht ein Unternehmen nach dieser Definition nicht zum Rüstungsunternehmen. Journalismus, historische Forschung, humanitäre Hilfe sowie Abrüstung oder Kampfmittelbeseitigung sind nicht allein deshalb verboten, weil sie Waffen oder Konflikte betreffen; der oben geregelte Ausschluss als Geschäftskunde bleibt bestehen.
 
 Diese Grenzen betreffen Nova-eigene Software. Sie beschränken keine Rechte, die Drittanbieter- oder Open-Source-Lizenzen unabhängig gewähren. Die Veröffentlichung dieser Überarbeitung ändert bestehende Verträge nicht für sich genommen rückwirkend; anwendbare Vertragsbedingungen und zwingende gesetzliche Rechte bleiben unberührt.
+
+### Autorisierte Prüfungen
+
+Autorisierte Prüfungen setzen die ausdrückliche Genehmigung einer dazu befugten Person oder Stelle voraus. Systeme, Umfang, zulässige Verfahren und erforderlichenfalls Zeitgrenzen sind vor der Prüfung festzulegen. Zugangsdaten, eine vorhandene Sitzung oder ein technisch verfügbares Werkzeug erlauben keine Aktionen außerhalb dieses Rahmens.
 
 ### Erlaubte Nutzung
 
@@ -108,7 +116,7 @@ Du darfst Nova AI Workspace **nicht** verwenden für:
 - **Spam oder Missbrauch** — Versand unerwünschter Nachrichten, Erstellung gefälschter Konten, Bewertungsmanipulation oder jede Form automatisierten Missbrauchs
 - **Identitätstäuschung** — Nutzung der Browser-Identitätsfunktionen zur betrügerischen Nachahmung anderer Personen oder Organisationen
 - **Dienstverweigerungsangriffe** — Nutzung von Crawling, Automation oder Agentenfunktionen zur Überlastung oder Störung von Drittanbieterdiensten
-- **Überwachung** — Nutzung von Novas Fähigkeiten zur Beobachtung, Verfolgung oder Überwachung von Personen ohne deren Wissen und Zustimmung
+- **Überwachung** — Nutzung von Novas Fähigkeiten zur Beobachtung, Verfolgung oder Überwachung von Personen ohne gültige Rechtsgrundlage oder rechtmäßige Befugnis
 - **Schädigung oder Belästigung** — Nutzung von KI-Agentenfunktionen zur Erzeugung schädlicher, missbräuchlicher, bedrohlicher oder belästigender Inhalte
 - **Credential-Missbrauch** — Nutzung von Novas Vault oder MCP-Tools zum Testen gestohlener Zugangsdaten oder für Credential-Stuffing-Angriffe
 - **Manipulation des Verkehrs fremder Dienste** — Nutzung von Abfangen, Verändern oder absichtlichem Scheiternlassen von Anfragen, um Bezahlung, Lizenzierung, Kontingente, clientseitige Prüfungen, Zustimmungsdialoge oder Sicherheitsmechanismen eines Dienstes zu umgehen, den du weder betreibst noch zu testen befugt bist
@@ -118,14 +126,14 @@ Du darfst Nova AI Workspace **nicht** verwenden für:
 
 ### Deine Verantwortung
 
-- **Du bist verantwortlich** für alle Aktionen von KI-Agenten, die du konfigurierst, autorisierst oder über Nova laufen lässt
-- **Prüfe Berechtigungen sorgfältig** — Novas Approval-Prompts existieren zu deinem Schutz. Weitreichende Berechtigungen an Agenten bedeuten Verantwortung für deren Handlungen
+- **Dein Verantwortungsbereich:** Konfiguration, Autorisierung und angemessene Beaufsichtigung verbundener Agenten, soweit diese Handlungen in deinem Einflussbereich liegen und dir rechtlich zurechenbar sind. Fehler in Nova oder seiner Rechteprüfung werden dadurch nicht zu deiner Verantwortung
+- **Prüfe Berechtigungen sorgfältig** — Novas Approval-Prompts existieren zu deinem Schutz. Eine Freigabe gilt nur in ihrem tatsächlichen Umfang und ist keine pauschale Zustimmung zu zukünftigen Aktionen
 - **Überwache Agentenaktivität** — Nutze Novas Transcript, Audit-Logs und Aktivitätsindikatoren, um informiert zu bleiben
 - **Drittanbieter-KI-Provider** — Bei Nutzung von Claude, Codex, Gemini oder anderen Anbietern über Nova müssen auch deren Nutzungsbedingungen eingehalten werden
 - **Emergency Stop existiert aus gutem Grund** — Bei unerwartetem Agentenverhalten sofort nutzen
 - **Eine scharfe Abfang-Regel bleibt deine Regel** — Nova zeigt sie in der Symbolleiste, bindet sie an einen Tab und einen URL-Bereich und lässt sie von selbst ablaufen; alles, was sie tut, solange sie scharf ist, geschieht in deinem Namen. Räume sie auf, wenn die Aufgabe erledigt ist
 - **Aufgezeichneter Verkehr kann Geheimnisse enthalten** — Header und Inhalte können Tokens, Cookies und personenbezogene Daten tragen und in das Transcript eines Agenten gelangen. Nutze `redact` und behandle eine Aufzeichnung wie die Daten, die sie enthält
 
-### Keine Gewährleistung
+### Alpha-Risiken und zwingende Rechte
 
-Nova AI Workspace wird "wie besehen" ohne jegliche Gewährleistung bereitgestellt. Der Autor ist nicht verantwortlich für Schäden durch Missbrauch, Agentenaktionen oder Fehler in Alpha-Software. Siehe [LICENSE](LICENSE) für die vollständigen Bedingungen.
+Nova ist Alpha-Software; siehe die [technischen Risikohinweise](DISCLAIMER.md). Der Alpha-Status beseitigt keine zwingenden gesetzlichen Mängel-, Aktualisierungs-, Verbraucher- oder Haftungsrechte. Vertragliche Grenzen richten sich nach der anwendbaren Lizenzvereinbarung; diese Richtlinie enthält keinen eigenständigen Gewährleistungs- oder Haftungsausschluss. Siehe [EULA](EULA.md#deutsch), Abschnitte 10 und 11.

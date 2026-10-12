@@ -8,7 +8,7 @@ issues, so you know what to expect before and during use.
 ## Status
 
 - Public alpha, updated frequently — the built-in auto-update pulls new versions from this repo.
-- **Use at your own risk** (see the [Disclaimer](DISCLAIMER.md)); not meant for critical or production tasks.
+- **Review the alpha risks** (see the [technical risk notice](DISCLAIMER.md)); not meant for critical or production tasks. Mandatory statutory rights remain unaffected.
 
 ## Known issues
 
@@ -62,7 +62,7 @@ bekannte Probleme, damit du weißt, was dich erwartet.
 ## Status
 
 - Öffentliche Alpha, häufige Updates — das eingebaute Auto-Update zieht neue Versionen aus diesem Repo.
-- **Nutzung auf eigene Gefahr** (siehe [Haftungsausschluss](DISCLAIMER.md)); nicht für kritische Aufgaben.
+- **Alpha-Risiken beachten** (siehe [technische Risikohinweise](DISCLAIMER.md)); nicht für kritische Aufgaben. Zwingende gesetzliche Rechte bleiben unberührt.
 
 ## Bekannte Probleme
 

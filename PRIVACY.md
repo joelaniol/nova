@@ -1,18 +1,58 @@
 # Privacy Policy / Datenschutzerklärung
 
-*Last updated: October 2026*
+*Last updated: October 12, 2026*
 
 ---
 
 ## English
 
+### Controller and Contact
+
+**Joel Aniol** is the controller for license-service data, reports you submit to Nova, and support correspondence. There is no separate data-protection contact: direct requests to Joel Aniol.
+
+Postal address:
+
+![Controller postal contact details](assets/legal/contact-identity.png)
+
+Email: **joel@gnetwork.eu**. The address image is provided to reduce simple automated harvesting, not as a guarantee against scraping. You can use the email contact without having to transcribe the postal image; an accessible text version of the postal details can also be requested there.
+
+### Purposes and Legal Bases
+
+Where the GDPR applies, the following bases are used for the specified purposes; sending a request is not consent to unrelated processing.
+
+| Processing | Purpose and legal basis |
+| --- | --- |
+| License activation, renewal, device allocation and contract-related support | Providing and administering the license agreement: Article 6(1)(b) GDPR. Required fields are necessary to activate and administer the licensed service; without them activation cannot be completed. |
+| License API security and event records | Preventing unauthorized activation, investigating errors, and defending the license service: Article 6(1)(f) GDPR, subject to the balancing of those legitimate interests and your rights. Records include event time, success/failure, license/activation identifiers, entered email where applicable, a hash of the IP address, request user agent, and the technical fields listed under License Activation. This is service-security logging, not browsing analytics. |
+| Nova version and profile-layout state used to plan compatibility updates | Maintaining supported installations and avoiding data loss when retiring compatibility code: Article 6(1)(f) GDPR, subject to balancing your rights. |
+| Optional crash reports | Your specific, voluntary consent to send the displayed report: Article 6(1)(a) GDPR. Declining does not prevent normal use of Nova. You may withdraw consent for further processing by contacting us; withdrawal does not invalidate earlier lawful processing. |
+| Requests, objections, and privacy correspondence | Responding to a contract-related request: Article 6(1)(b); handling applicable legal duties or data-subject rights: Article 6(1)(c); other necessary correspondence: Article 6(1)(f), subject to balancing your rights. |
+
+The absence of usage analytics does not mean that the license service has no technical records. The server receives connection data when contacted. Necessary hosting or service providers may process it on our behalf; disclosure to other recipients requires an applicable legal basis. Your websites and AI providers receive data directly under their own practices, as described below.
+
+### Storage and Erasure Criteria
+
+- **Local Nova data:** stays in the local profile until you delete it, a feature's configured retention removes it, or you choose removal during uninstall. Individual features may retain local history after an item disappears from the visible list; notification history is explained below.
+- **License and activation records:** retained for administering the issued license and its device allocations, resolving related support or disputes, and meeting any applicable legal retention duties. Deactivation is not erasure. After those purposes end, deletion or anonymization is assessed against remaining legal obligations and claims.
+- **License API/security records:** kept only for the security, error investigation, and dispute purposes above. Applicable incident investigation, legal claims, and statutory duties determine any continued retention; a device-deactivation action does not erase the event history.
+- **Submitted crash reports:** retained for investigating the reported defect and related support; once that purpose ends, continued identifiable storage requires a separate applicable basis. Withdrawal or an erasure request is assessed accordingly.
+- **Support and privacy correspondence:** retained while the request is handled and where necessary for related legal obligations or claims.
+
+These are purpose-based criteria, not a promise of an implemented fixed-day purge. No fixed automatic deletion interval is currently specified here for server-side license, event, or crash-report records. Contact us to request erasure or information about the retention applicable to your records. Any statutory retention prevents deletion only to the extent it actually applies; it is not a blanket reason to keep all data indefinitely.
+
+### Your Rights
+
+Where applicable and subject to the statutory conditions, you may request access, rectification, erasure, restriction, and data portability. You may object to processing based on legitimate interests and withdraw consent at any time for consent-based processing. You may complain to a competent supervisory authority, including the [Bavarian State Office for Data Protection Supervision](https://www.lda.bayern.de/en/index.html). Contact **joel@gnetwork.eu**; proportionate identity verification may be needed to prevent disclosure to another person.
+
+License-status decisions are technical checks against the issued license. They do not authorize behavioral profiling or automated evaluation of your suitability as a person. No sale of personal data or advertising use of license and crash-report data is permitted by this policy.
+
 ### Overview
 
-Nova AI Workspace is designed to keep your data local. It does not collect usage analytics, does not track your browsing behavior, and does not build a behavioral profile of you. Nova only contacts its own server (`nova-cognitive.com`) for two purposes: **license activation and renewal** (required for the licensed app to run), and **optional, user-consented crash reports** after an unclean shutdown. A few features also connect directly to other services; they are listed under "Connections to Other Services". Your browsing, files and Nova data stay on your machine.
+Nova AI Workspace is designed to keep your data local. It does not collect usage analytics, does not track your browsing behavior, and does not build a behavioral profile of you. Nova only contacts its own server (`nova-cognitive.com`) for two purposes: **license activation and renewal** (required for the licensed app to run), and **optional, user-consented crash reports** after an unclean shutdown. A few features also connect directly to other services; they are listed under "Connections to Other Services". Nova keeps its browser profiles and stored workspace data locally. Data you send to websites, connected agents, or an optional crash report can leave your machine as described below.
 
 ### What Nova Does NOT Collect
 
-- No browsing history is sent anywhere
+- Nova does not upload your browsing-history database to its own server
 - No usage analytics or telemetry during normal operation
 - No behavioral tracking, browser/canvas fingerprinting, or usage profiling
 - No automatic collection of your files, content, or activity
@@ -26,7 +66,8 @@ Nova is a licensed application. To activate your license and keep it valid, Nova
 
 **What is sent during activation and renewal:**
 - The **email address** and **license key** you entered
-- A **device fingerprint hash** (SHA-256) derived from your Windows installation ID, Windows user SID, and Windows MachineGuid. The raw values are **never** sent — only the one-way hash. It is used solely to identify and count license seats (which device an activation belongs to), not to track you.
+- A **Nova installation ID**, generated for the local installation; the same ID is used for crash-report correlation. It is pseudonymous, not anonymous, and an activation can associate it with license data.
+- A **device fingerprint hash** (SHA-256) derived from that Nova installation ID, Windows user SID, and Windows MachineGuid. The Windows SID and MachineGuid are not sent in plaintext; the Nova installation ID is sent separately. The hash identifies and counts license seats and is not used for browsing tracking.
 - Your **device name** (Windows hostname) in plain text, so you can recognize your own devices when managing activations
 - Basic **environment info**: Windows edition and build, CPU architecture, and UI language
 - The **Nova version** you are running
@@ -39,7 +80,7 @@ Nova is a licensed application. To activate your license and keep it valid, Nova
 - Protocol: HTTPS (encrypted in transit)
 - No third-party analytics services are involved
 
-You can deactivate a device at any time, which removes that activation from the server.
+You can deactivate a device at any time. Deactivation marks the server-side activation record as deactivated; it does not automatically erase that record or the related license-event history.
 
 ### Optional Address-Bar Diagnostics
 
@@ -60,18 +101,21 @@ If Nova did not shut down cleanly (crash, forced termination, system failure), i
 **What a crash report contains:**
 - Nova version and display version
 - Operating system version, edition, and build number
-- Anonymous installation ID (randomly generated, not linked to any account or identity)
+- Pseudonymous installation ID (randomly generated to correlate reports from an installation)
 - Application log tail (last 200 lines of the previous run's log)
 - Crash exception type and stack trace
 - Application uptime at the time of crash
-- Open tab URLs, active sandbox names, and recent agent activity context
+- Open tab URLs, active tab index and tab count, and active sandbox names/identifiers
+- Report timestamp, crashed-run identifier, and the crashed run's start time when available
 
 **What a crash report does NOT contain:**
-- No real names, email addresses, or account information
+- The builder does not separately request real names, email addresses, or account details for the report
 - No passwords, API keys, or authentication tokens
 - No browsing history beyond the tabs open at crash time
 - No file contents, downloads, or local documents
 - No cookies or session data
+
+Report excerpts and URLs can nevertheless contain personal or confidential context. Review the displayed report before sending it; automatic redaction is not a guarantee that every sensitive detail has been removed.
 
 **Automatic PII redaction:**
 Before the report is shown to you and before it could be sent, Nova automatically redacts:
@@ -90,7 +134,7 @@ Before the report is shown to you and before it could be sent, Nova automaticall
 
 ### Connections to Other Services
 
-Apart from the license and crash-report requests above, Nova itself contacts these services. Each of them receives your IP address and Nova's request, but nothing from your Nova profile:
+Apart from the license and crash-report requests above, Nova itself contacts these services. Each receives your IP address and the request data described for that feature:
 
 - **Update check — GitHub** (`api.github.com`). Nova asks GitHub for its newest release, at most about once a day and when you click **Check for updates**. If you install an update, the setup file is downloaded from GitHub. On by default; turn it off in Settings → About with **Check for new versions automatically**.
 - **Search suggestions — your search engine.** While you type in the address bar, Nova sends the typed text to your default search engine (Google unless you changed it; Bing or DuckDuckGo otherwise) to show search suggestions. If that engine returns none, Nova asks DuckDuckGo. On by default; turn it off in Settings with **Show search suggestions from the internet**.
@@ -176,19 +220,59 @@ Nova AI Workspace is not directed at children under 13. We do not knowingly coll
 
 ### Contact
 
-For privacy-related questions: [LinkedIn](https://www.linkedin.com/in/joelaniol/)
+For privacy-related questions: **joel@gnetwork.eu**. See Controller and Contact above for postal details.
 
 ---
 
 ## Deutsch
 
+### Verantwortlicher und Kontakt
+
+**Joel Aniol** ist Verantwortlicher für Daten des Lizenzdienstes, an Nova übermittelte Berichte und Supportkorrespondenz. Es gibt keinen gesonderten Datenschutzkontakt; richte Anfragen direkt an Joel Aniol.
+
+Postanschrift:
+
+![Postalische Kontaktdaten des Verantwortlichen](assets/legal/contact-identity.png)
+
+E-Mail: **joel@gnetwork.eu**. Das Anschriftbild soll einfaches automatisiertes Auslesen erschweren; es garantiert keinen Schutz vor Scraping. Du kannst den E-Mail-Kontakt nutzen, ohne das Anschriftbild abschreiben zu müssen; dort ist auch eine zugängliche Textfassung der postalischen Angaben erhältlich.
+
+### Zwecke und Rechtsgrundlagen
+
+Soweit die DSGVO gilt, werden für die angegebenen Zwecke folgende Grundlagen verwendet. Eine Anfrage ist keine Einwilligung in sachfremde Verarbeitung.
+
+| Verarbeitung | Zweck und Rechtsgrundlage |
+| --- | --- |
+| Lizenzaktivierung, Verlängerung, Gerätezuordnung und vertragsbezogener Support | Bereitstellung und Verwaltung der Lizenzvereinbarung: Art. 6 Abs. 1 lit. b DSGVO. Erforderliche Angaben sind für Aktivierung und Verwaltung des lizenzierten Dienstes notwendig; ohne sie ist die Aktivierung nicht möglich. |
+| Sicherheit und Ereignisprotokolle der Lizenz-API | Verhinderung unbefugter Aktivierung, Fehlerklärung und Schutz des Lizenzdienstes: Art. 6 Abs. 1 lit. f DSGVO unter Abwägung dieser berechtigten Interessen und deiner Rechte. Protokolle enthalten Ereigniszeit, Erfolg/Fehler, Lizenz-/Aktivierungskennungen, gegebenenfalls eingegebene E-Mail, einen Hash der IP-Adresse, den User-Agent der Anfrage und die unter Lizenzaktivierung genannten technischen Angaben. Das ist Protokollierung zur Dienstsicherheit, keine Surfverhaltensanalyse. |
+| Nova-Version und Profilpfadstatus für Kompatibilitätsplanung | Erhalt unterstützter Installationen und Vermeidung von Datenverlust beim Abbau von Kompatibilitätscode: Art. 6 Abs. 1 lit. f DSGVO unter Abwägung deiner Rechte. |
+| Optionale Crashberichte | Deine konkrete, freiwillige Einwilligung in die Übermittlung des angezeigten Berichts: Art. 6 Abs. 1 lit. a DSGVO. Ablehnung verhindert nicht die normale Nutzung. Du kannst die Einwilligung für weitere Verarbeitung durch Kontaktaufnahme widerrufen; die Rechtmäßigkeit vorheriger Verarbeitung bleibt unberührt. |
+| Anfragen, Einwände und Datenschutzkorrespondenz | Vertragsbezogene Anfragen: Art. 6 Abs. 1 lit. b; geltende Rechtspflichten oder Betroffenenrechte: Art. 6 Abs. 1 lit. c; sonstige erforderliche Korrespondenz: Art. 6 Abs. 1 lit. f jeweils unter Abwägung deiner Rechte. |
+
+Keine Nutzungsanalysen bedeutet nicht, dass der Lizenzdienst keine technischen Protokolle führt. Bei Kontakt erhält der Server Verbindungsdaten. Erforderliche Hosting- oder Dienstleister können diese in unserem Auftrag verarbeiten; weitere Empfänger benötigen eine anwendbare Rechtsgrundlage. Websites und KI-Anbieter erhalten Daten direkt nach ihren eigenen Regeln, wie unten beschrieben.
+
+### Aufbewahrungs- und Löschkriterien
+
+- **Lokale Nova-Daten:** verbleiben im lokalen Profil, bis du sie löschst, eine eingestellte Aufbewahrungsdauer sie entfernt oder du beim Deinstallieren ihre Entfernung wählst. Einzelne Funktionen können lokale Historie nach dem Verschwinden eines sichtbaren Eintrags behalten; der Benachrichtigungsverlauf ist unten erläutert.
+- **Lizenz- und Aktivierungsdaten:** werden für Verwaltung der erteilten Lizenz und ihrer Gerätezuordnung, zugehörigen Support oder Streitfälle sowie anwendbare gesetzliche Aufbewahrungspflichten gespeichert. Deaktivierung ist keine Löschung. Nach Wegfall dieser Zwecke wird Löschung oder Anonymisierung anhand verbleibender Pflichten und Ansprüche geprüft.
+- **Lizenz-API-/Sicherheitsprotokolle:** werden nur für die oben genannten Sicherheits-, Fehlerklärungs- und Streitfallzwecke aufbewahrt. Laufende Vorfallklärung, Rechtsansprüche und gesetzliche Pflichten bestimmen eine weitere Aufbewahrung; Geräte-Deaktivierung löscht die Ereignishistorie nicht.
+- **Übermittelte Crashberichte:** werden zur Untersuchung des gemeldeten Fehlers und für zugehörigen Support aufbewahrt. Nach Wegfall dieses Zwecks benötigt weitere personenbezogene Speicherung eine gesonderte anwendbare Grundlage. Widerrufs- und Löschanfragen werden entsprechend geprüft.
+- **Support- und Datenschutzkorrespondenz:** wird während der Bearbeitung und soweit für zugehörige Pflichten oder Rechtsansprüche erforderlich gespeichert.
+
+Dies sind zweckbezogene Kriterien, keine Zusage eines implementierten festen Löschintervalls. Für serverseitige Lizenz-, Ereignis- und Crashberichtsdaten ist hier derzeit keine feste automatische Tagesfrist angegeben. Kontaktiere uns für Löschung oder Auskunft über die Aufbewahrung deiner Daten. Gesetzliche Aufbewahrung verhindert Löschung nur in ihrem tatsächlichen Anwendungsbereich; sie rechtfertigt keine pauschale unbegrenzte Speicherung sämtlicher Daten.
+
+### Deine Rechte
+
+Soweit anwendbar und unter den gesetzlichen Voraussetzungen kannst du Auskunft, Berichtigung, Löschung, Einschränkung und Datenübertragbarkeit verlangen. Du kannst Verarbeitung auf Grundlage berechtigter Interessen widersprechen und Einwilligungen jederzeit für weitere Verarbeitung widerrufen. Du kannst dich bei einer zuständigen Aufsichtsbehörde beschweren, darunter dem [Bayerischen Landesamt für Datenschutzaufsicht](https://www.lda.bayern.de/de/index.html). Kontakt: **joel@gnetwork.eu**. Eine verhältnismäßige Identitätsprüfung kann nötig sein, um Daten nicht an eine andere Person herauszugeben.
+
+Lizenzstatusentscheidungen sind technische Prüfungen gegen die erteilte Lizenz. Sie erlauben keine Verhaltensprofile oder automatisierte Bewertung deiner Eignung als Person. Ein Verkauf personenbezogener Daten oder Werbenutzung von Lizenz- und Crashberichtsdaten ist durch diese Erklärung nicht gestattet.
+
 ### Überblick
 
-Nova AI Workspace ist darauf ausgelegt, deine Daten lokal zu halten. Es werden keine Nutzungsanalysen gesammelt, dein Browserverhalten wird nicht getrackt und es wird kein Verhaltensprofil von dir erstellt. Nova kontaktiert seinen eigenen Server (`nova-cognitive.com`) nur für zwei Zwecke: **Lizenzaktivierung und -verlängerung** (erforderlich, damit die lizenzierte App läuft) und **optionale, von dir bestätigte Absturzberichte** nach einem unsauberen Beenden. Einige Funktionen verbinden sich außerdem direkt mit anderen Diensten; sie stehen unter „Verbindungen zu anderen Diensten“. Dein Surfen, deine Dateien und deine Nova-Daten bleiben auf deinem Rechner.
+Nova AI Workspace ist darauf ausgelegt, deine Daten lokal zu halten. Es werden keine Nutzungsanalysen gesammelt, dein Browserverhalten wird nicht getrackt und es wird kein Verhaltensprofil von dir erstellt. Nova kontaktiert seinen eigenen Server (`nova-cognitive.com`) nur für zwei Zwecke: **Lizenzaktivierung und -verlängerung** (erforderlich, damit die lizenzierte App läuft) und **optionale, von dir bestätigte Absturzberichte** nach einem unsauberen Beenden. Einige Funktionen verbinden sich außerdem direkt mit anderen Diensten; sie stehen unter „Verbindungen zu anderen Diensten“. Nova hält Browserprofile und gespeicherte Workspace-Daten lokal. Daten, die du an Websites, verbundene Agenten oder über einen optionalen Crashbericht sendest, können deinen Rechner wie unten beschrieben verlassen.
 
 ### Was Nova NICHT sammelt
 
-- Kein Browserverlauf wird irgendwohin gesendet
+- Nova lädt die Browserverlauf-Datenbank nicht auf seinen eigenen Server hoch
 - Keine Nutzungsanalysen oder Telemetrie im Normalbetrieb
 - Kein Verhaltens-Tracking, kein Browser-/Canvas-Fingerprinting, kein Nutzungsprofiling
 - Keine automatische Erfassung deiner Dateien, Inhalte oder Aktivitäten
@@ -202,7 +286,8 @@ Nova ist eine lizenzierte Anwendung. Um deine Lizenz zu aktivieren und gültig z
 
 **Was bei Aktivierung und Verlängerung gesendet wird:**
 - Die von dir eingegebene **E-Mail-Adresse** und der **Lizenzschlüssel**
-- Ein **Geräte-Fingerprint-Hash** (SHA-256), abgeleitet aus deiner Windows-Installations-ID, deiner Windows-Benutzer-SID und der Windows-MachineGuid. Die Rohwerte werden **nie** gesendet — nur der Einweg-Hash. Er dient ausschließlich dazu, Lizenzplätze zu identifizieren und zu zählen (welchem Gerät eine Aktivierung gehört), nicht um dich zu tracken.
+- Eine **Nova-Installations-ID**, die für die lokale Installation erzeugt wird; dieselbe ID dient der Zuordnung von Crashberichten. Sie ist pseudonym, nicht anonym, und kann bei der Aktivierung mit Lizenzdaten verknüpft werden.
+- Ein **Geräte-Fingerprint-Hash** (SHA-256), abgeleitet aus dieser Nova-Installations-ID, der Windows-Benutzer-SID und der Windows-MachineGuid. Windows-SID und MachineGuid werden nicht im Klartext gesendet; die Nova-Installations-ID wird separat übertragen. Der Hash dient der Identifikation und Zählung von Lizenzplätzen und wird nicht für Surfverhaltens-Tracking verwendet.
 - Dein **Gerätename** (Windows-Hostname) im Klartext, damit du deine eigenen Geräte bei der Verwaltung der Aktivierungen wiedererkennst
 - Grundlegende **Umgebungsinfos**: Windows-Edition und -Build, CPU-Architektur und UI-Sprache
 - Die **Nova-Version**, die du nutzt
@@ -215,7 +300,7 @@ Nova ist eine lizenzierte Anwendung. Um deine Lizenz zu aktivieren und gültig z
 - Protokoll: HTTPS (verschlüsselt bei der Übertragung)
 - Keine Drittanbieter-Analysedienste sind beteiligt
 
-Du kannst ein Gerät jederzeit deaktivieren, wodurch diese Aktivierung vom Server entfernt wird.
+Du kannst ein Gerät jederzeit deaktivieren. Die Deaktivierung markiert den serverseitigen Aktivierungsdatensatz als deaktiviert; sie löscht diesen Datensatz oder die zugehörige Lizenz-Ereignishistorie nicht automatisch.
 
 ### Optionale Adresszeilen-Diagnose
 
@@ -236,18 +321,21 @@ Wenn Nova nicht sauber beendet wurde (Absturz, erzwungenes Beenden, Systemfehler
 **Was ein Absturzbericht enthält:**
 - Nova-Version und Anzeige-Version
 - Betriebssystem-Version, Edition und Build-Nummer
-- Anonyme Installations-ID (zufällig generiert, nicht mit einem Konto oder einer Identität verknüpft)
+- Pseudonyme Installations-ID (zufällig generiert, um Berichte einer Installation zuzuordnen)
 - Anwendungs-Log-Ende (letzte 200 Zeilen des vorherigen Programmlaufs)
 - Absturz-Ausnahmetyp und Stack-Trace
 - Anwendungslaufzeit zum Zeitpunkt des Absturzes
-- Geöffnete Tab-URLs, aktive Sandbox-Namen und aktueller Agentenaktivitäts-Kontext
+- Geöffnete Tab-URLs, aktiver Tabindex und Tabanzahl sowie Namen/Kennungen aktiver Sandboxes
+- Berichtszeitpunkt, Kennung des abgestürzten Laufs und dessen Startzeit, soweit verfügbar
 
 **Was ein Absturzbericht NICHT enthält:**
-- Keine echten Namen, E-Mail-Adressen oder Kontoinformationen
+- Der Builder fragt für den Bericht keine echten Namen, E-Mail-Adressen oder Kontodetails gesondert ab
 - Keine Passwörter, API-Schlüssel oder Authentifizierungs-Tokens
 - Keinen Browserverlauf über die zum Absturzzeitpunkt offenen Tabs hinaus
 - Keine Dateiinhalte, Downloads oder lokale Dokumente
 - Keine Cookies oder Sitzungsdaten
+
+Berichtsauszüge und URLs können dennoch personenbezogenen oder vertraulichen Kontext enthalten. Prüfe den angezeigten Bericht vor dem Senden; automatische Maskierung garantiert nicht, dass jedes sensible Detail entfernt wurde.
 
 **Automatische PII-Schwärzung:**
 Bevor der Bericht dir angezeigt wird und bevor er gesendet werden könnte, schwärzt Nova automatisch:
@@ -266,7 +354,7 @@ Bevor der Bericht dir angezeigt wird und bevor er gesendet werden könnte, schw�
 
 ### Verbindungen zu anderen Diensten
 
-Neben den oben beschriebenen Anfragen für Lizenz und Absturzberichte kontaktiert Nova selbst diese Dienste. Jeder davon erhält deine IP-Adresse und die Anfrage von Nova, aber nichts aus deinem Nova-Profil:
+Neben den oben beschriebenen Anfragen für Lizenz und Absturzberichte kontaktiert Nova selbst diese Dienste. Jeder erhält deine IP-Adresse und die bei der jeweiligen Funktion beschriebenen Anfragedaten:
 
 - **Update-Prüfung — GitHub** (`api.github.com`). Nova fragt bei GitHub nach der neuesten Version, höchstens etwa einmal am Tag und wenn du auf **Nach Updates suchen** klickst. Installierst du ein Update, wird die Setup-Datei von GitHub geladen. Standardmäßig an; abschalten unter Einstellungen → Info mit **Automatisch nach neuen Versionen suchen**.
 - **Suchvorschläge — deine Suchmaschine.** Während du in die Adressleiste tippst, sendet Nova den getippten Text an deine Standardsuchmaschine (Google, sofern du nichts anderes gewählt hast, sonst Bing oder DuckDuckGo), um Suchvorschläge anzuzeigen. Liefert diese keine, fragt Nova bei DuckDuckGo. Standardmäßig an; abschalten in den Einstellungen mit **Suchvorschläge aus dem Internet**.
@@ -356,4 +444,4 @@ Nova AI Workspace richtet sich nicht an Kinder unter 13 Jahren. Es werden wissen
 
 ### Kontakt
 
-Für datenschutzbezogene Fragen: [LinkedIn](https://www.linkedin.com/in/joelaniol/)
+Für Datenschutzanfragen: **joel@gnetwork.eu**. Postalische Angaben stehen oben unter Verantwortlicher und Kontakt.

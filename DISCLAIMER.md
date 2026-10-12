@@ -1,137 +1,47 @@
-# Disclaimer / Haftungsausschluss
+# Technical Risk Notice / Technische Risikohinweise
 
-*Last updated: July 2026*
-
----
+*Last updated: October 12, 2026*
 
 ## English
 
 ### Alpha Software
 
-Nova AI Workspace is **alpha software**. It is incomplete, contains known and unknown bugs, and is under active development. Features may change, break, or be removed without notice.
+Nova AI Workspace is alpha software: it is incomplete, may contain known and unknown defects, and is under active development. Browser interactions, agent workflows, permissions, storage, and updates can fail. A successful earlier run does not guarantee that a later action will succeed.
 
-### No Warranty
+### Practical Precautions
 
-Nova AI Workspace is provided **"as is" and "as available"**, without warranty of any kind, express or implied. This includes, but is not limited to, warranties of:
+- Keep backups of important data and review consequential actions before authorizing them.
+- Give connected agents only the permissions needed for the task. An authorization is limited to its actual scope.
+- Monitor agent activity and use emergency stop when behavior is unexpected.
+- Verify outputs before relying on them for legal, medical, financial, or safety-critical decisions.
+- Nova is not intended for life-support or other environments where malfunction could cause significant personal injury or property damage.
 
-- Merchantability
-- Fitness for a particular purpose
-- Accuracy or reliability
-- Uninterrupted or error-free operation
-- Security or data integrity
+### Agents, Nova, and Third Parties
 
-**There is no guarantee that Nova AI Workspace is free of defects, vulnerabilities, or errors.**
+AI providers determine their models' outputs; websites and services may change or become unavailable. You control the instructions and permissions you provide, to the extent they are within your control. The Licensor remains responsible under applicable law and the agreed contract for its own implementation, including defects in permission checks or execution. A third-party dependency does not automatically remove that responsibility.
 
-### Limitation of Liability
+### This Notice Does Not Remove Your Rights
 
-In no event shall the author or contributors be liable for any direct, indirect, incidental, special, exemplary, or consequential damages, including but not limited to:
-
-- Loss of data
-- Loss of profits or revenue
-- Business interruption
-- Damage to systems or third-party services
-- Consequences of AI agent actions
-- Unauthorized data disclosure due to software defects
-
-This applies regardless of the cause and whether arising from contract, tort, negligence, strict liability, or any other legal theory, even if the author has been advised of the possibility of such damages.
-
-### AI Agent Actions
-
-Nova AI Workspace enables AI agents to interact with websites, services, and local data. **You are solely responsible for:**
-
-- All actions performed by AI agents you configure, authorize, or allow to run
-- Reviewing and approving agent requests before granting permissions
-- Monitoring agent activity during execution
-- Any consequences resulting from agent actions, whether intended or unintended
-
-The author of Nova AI Workspace has no control over and accepts no liability for the behavior of third-party AI models (Claude, Codex, Gemini, or others) accessed through Nova.
-
-### Not for Critical Use
-
-**Do not use Nova AI Workspace in environments where failure could cause harm**, including but not limited to:
-
-- Medical, healthcare, or life-safety systems
-- Financial trading or transactions involving significant sums
-- Legal or compliance-critical workflows without human verification
-- Infrastructure management without safeguards
-- Any environment where unattended agent errors could cause irreversible damage
-
-### Third-Party Services
-
-Nova AI Workspace connects to third-party services including AI providers, websites, and MCP endpoints. The author is not responsible for:
-
-- Availability, accuracy, or behavior of third-party services
-- Data processed by third-party AI providers
-- Changes to third-party APIs or terms of service
-- Costs incurred through third-party API usage
-
-### Acceptance
-
-By downloading, installing, or using Nova AI Workspace, you acknowledge that you have read and understood this disclaimer and agree to its terms. If you do not agree, do not use the software.
-
----
+This page explains technical risks. It is not a blanket exclusion of warranty or liability, does not amend an existing contract, and is not an additional acceptance mechanism. Mandatory statutory defect, update, consumer, and liability rights remain unaffected. Contractual terms and any lawful limitations are set out in the applicable [EULA](EULA.md), particularly sections 10 and 11. Do not use an upcoming draft as proof that existing users have accepted new terms.
 
 ## Deutsch
 
 ### Alpha-Software
 
-Nova AI Workspace ist **Alpha-Software**. Sie ist unvollständig, enthält bekannte und unbekannte Fehler und wird aktiv weiterentwickelt. Funktionen können sich ohne Vorankündigung ändern, fehlschlagen oder entfernt werden.
+Nova AI Workspace ist Alpha-Software: Sie ist unvollständig, kann bekannte und unbekannte Fehler enthalten und wird aktiv weiterentwickelt. Browseraktionen, Agentenabläufe, Berechtigungen, Speicherung und Updates können fehlschlagen. Ein früherer erfolgreicher Lauf garantiert nicht den Erfolg einer späteren Aktion.
 
-### Keine Gewährleistung
+### Praktische Vorsichtsmaßnahmen
 
-Nova AI Workspace wird **"wie besehen" und "wie verfügbar"** bereitgestellt, ohne jegliche ausdrückliche oder stillschweigende Gewährleistung. Dies umfasst insbesondere Gewährleistungen für:
+- Sichere wichtige Daten und prüfe folgenreiche Aktionen, bevor du sie freigibst.
+- Erteile verbundenen Agenten nur die für die Aufgabe erforderlichen Rechte. Eine Freigabe ist auf ihren tatsächlichen Umfang begrenzt.
+- Verfolge Agentenaktivitäten und nutze den Not-Aus bei unerwartetem Verhalten.
+- Prüfe Ergebnisse vor ihrer Verwendung für rechtliche, medizinische, finanzielle oder sicherheitskritische Entscheidungen.
+- Nova ist nicht für lebenserhaltende Systeme oder andere Umgebungen bestimmt, in denen Fehlfunktionen erhebliche Personen- oder Sachschäden verursachen können.
 
-- Handelsüblichkeit
-- Eignung für einen bestimmten Zweck
-- Richtigkeit oder Zuverlässigkeit
-- Unterbrechungsfreien oder fehlerfreien Betrieb
-- Sicherheit oder Datenintegrität
+### Agenten, Nova und Drittanbieter
 
-**Es gibt keine Garantie, dass Nova AI Workspace frei von Mängeln, Schwachstellen oder Fehlern ist.**
+KI-Anbieter bestimmen die Ausgaben ihrer Modelle; Websites und Dienste können sich ändern oder ausfallen. Du kontrollierst die von dir erteilten Anweisungen und Freigaben, soweit diese in deinem Einflussbereich liegen. Der Lizenzgeber bleibt nach anwendbarem Recht und dem vereinbarten Vertrag für seine eigene Implementierung verantwortlich, einschließlich Fehlern in Rechteprüfung oder Ausführung. Eine Abhängigkeit von Drittanbietern beseitigt diese Verantwortung nicht automatisch.
 
-### Haftungsbeschränkung
+### Dieser Hinweis beseitigt keine Rechte
 
-Der Autor und Mitwirkende haften in keinem Fall für direkte, indirekte, zufällige, besondere, beispielhafte oder Folgeschäden, einschließlich aber nicht beschränkt auf:
-
-- Datenverlust
-- Gewinn- oder Umsatzverlust
-- Betriebsunterbrechung
-- Schäden an Systemen oder Drittanbieterdiensten
-- Folgen von KI-Agenten-Aktionen
-- Unbefugte Datenoffenlegung durch Softwarefehler
-
-Dies gilt unabhängig von der Ursache und unabhängig davon, ob der Anspruch aus Vertrag, unerlaubter Handlung, Fahrlässigkeit, Gefährdungshaftung oder einer anderen Rechtsgrundlage entsteht, selbst wenn der Autor auf die Möglichkeit solcher Schäden hingewiesen wurde.
-
-### KI-Agenten-Aktionen
-
-Nova AI Workspace ermöglicht KI-Agenten die Interaktion mit Websites, Diensten und lokalen Daten. **Du bist allein verantwortlich für:**
-
-- Alle Aktionen von KI-Agenten, die du konfigurierst, autorisierst oder laufen lässt
-- Die Prüfung und Genehmigung von Agentenanfragen vor Erteilung von Berechtigungen
-- Die Überwachung der Agentenaktivität während der Ausführung
-- Alle Folgen von Agentenaktionen, ob beabsichtigt oder unbeabsichtigt
-
-Der Autor von Nova AI Workspace hat keine Kontrolle über und übernimmt keine Haftung für das Verhalten von Drittanbieter-KI-Modellen (Claude, Codex, Gemini oder andere), die über Nova genutzt werden.
-
-### Nicht für kritische Einsätze
-
-**Verwende Nova AI Workspace nicht in Umgebungen, in denen ein Ausfall Schaden verursachen könnte**, einschließlich aber nicht beschränkt auf:
-
-- Medizinische, gesundheitliche oder lebenserhaltende Systeme
-- Finanzhandel oder Transaktionen mit erheblichen Summen
-- Rechts- oder compliance-kritische Workflows ohne menschliche Verifikation
-- Infrastrukturverwaltung ohne Absicherung
-- Jede Umgebung, in der unbeaufsichtigte Agentenfehler irreversible Schäden verursachen könnten
-
-### Drittanbieterdienste
-
-Nova AI Workspace verbindet sich mit Drittanbieterdiensten wie KI-Providern, Websites und MCP-Endpunkten. Der Autor ist nicht verantwortlich für:
-
-- Verfügbarkeit, Richtigkeit oder Verhalten von Drittanbieterdiensten
-- Daten, die von Drittanbieter-KI-Providern verarbeitet werden
-- Änderungen an APIs oder Nutzungsbedingungen von Drittanbietern
-- Kosten, die durch Nutzung von Drittanbieter-APIs entstehen
-
-### Akzeptanz
-
-Mit dem Herunterladen, Installieren oder Nutzen von Nova AI Workspace bestätigst du, dass du diesen Haftungsausschluss gelesen und verstanden hast und seinen Bedingungen zustimmst. Wenn du nicht zustimmst, nutze die Software nicht.
+Diese Seite erläutert technische Risiken. Sie ist kein pauschaler Gewährleistungs- oder Haftungsausschluss, ändert keinen bestehenden Vertrag und stellt keinen zusätzlichen Zustimmungsmechanismus dar. Zwingende gesetzliche Mängel-, Aktualisierungs-, Verbraucher- und Haftungsrechte bleiben unberührt. Vertragsbedingungen und zulässige Beschränkungen stehen in der anwendbaren [EULA](EULA.md#deutsch), insbesondere in den Abschnitten 10 und 11. Ein kommender Entwurf belegt keine Zustimmung bestehender Nutzer zu neuen Bedingungen.
