@@ -14,7 +14,7 @@
 [![Tools](https://img.shields.io/badge/MCP-Tool%20Catalog-success)](docs/mcp-reference/tool-catalog.md)
 [![Ethics — My promise](https://img.shields.io/badge/Ethics-My%20promise-6f42c1)](#ethics--my-promise)
 [![Made with love ❤️](https://img.shields.io/badge/Made%20with-love%20%E2%9D%A4%EF%B8%8F-d6336c)](#ethics--my-promise)
-[![Local-first](https://img.shields.io/badge/data-local--first-2ea44f)](PRIVACY.md)
+[![Changelog](https://img.shields.io/badge/Changelog-Release%20notes-2ea44f)](docs/changelog/)
 
 **[Download & install](docs/getting-started/installation.md#2-download-and-install) · [Connect your AI program](docs/getting-started/quickstart.md) · [Deutsch](#nova-ai-workspace-deutsch) · [Get help](docs/troubleshooting/README.md)**
 

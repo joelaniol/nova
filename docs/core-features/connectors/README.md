@@ -173,7 +173,7 @@ classDiagram
 * **SFTP Stages:**
   - `read`: Listing directories and downloading files.
   - `full`: Uploads, deletions, directory creation, symbolic link management, and permission changes (`chmod`, `chown`).
-  - `process.exec`: Spawning one-shot commands or background SSH sessions. Automatically inherits the `full` grant if not explicitly defined.
+  - `process.exec`: Spawning one-shot commands or background SSH sessions. Its own grant: full file access does not include it. When unset, the first command asks once (an unattended run fails closed).
   - `process.stdin`: Streaming interactive standard input into an active SSH session (`nova.ssh_run_write`). This capability is strictly opt-in and **never** inherits weaker grants.
   - `process.pty`: Opening a full interactive terminal / pseudo-terminal on the server (`nova.ssh_shell_open`) for full-screen programs and interactive prompts. The most powerful process stage; strictly opt-in and **never** inherits weaker grants.
 
@@ -258,6 +258,12 @@ Every reported capability item is tagged with a provenance state and source:
 5. **Insecure Connection Guard:** Plaintext transport (`security='none'`) or invalid TLS certificate exceptions require both the global user setting ("Allow insecure mail and FTP connections for debugging") and explicit per-call opt-in (`allowInsecure=true`).
 
 ---
+
+## Web Page of a Connection
+
+Every connection can name the web page that belongs to it, such as the webmail of a mail account or a hoster's file manager for SFTP/FTP. Set it under **Settings > Connectors** (field "Web page for this connection") or with `webInterfaceUrl` on `nova.connector_create` / `nova.connector_update`. Only full `https://` or `http://` addresses without a user name or password are accepted.
+
+Nova stores only the address. How to work that page (open a sent message, find an upload folder) is learned by agents and kept as domain notes for its domain. `nova.connector_list` returns `webInterface` with the address and, as `knownTasks`, the names of the notes already saved for it, so the next agent can follow a known way instead of searching again. When a way stops working, the agent re-checks it on the page and updates the note. Nova has no built-in link formats for particular webmail products; the notes are the knowledge.
 
 ## MCP Tool Catalog (`connector_ops`)
 

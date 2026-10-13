@@ -22,6 +22,7 @@ The stop blocks new agent/tool actions in Nova and interrupts running work. It s
 | Scheduled task runs | Running tasks are cancelled; scheduled work is blocked while the stop is active. |
 | Nova terminal sessions and scripts | Sessions managed by Nova's terminal service are terminated, including your own dock terminals. |
 | Connections from Nova to external MCP servers | Nova stops its external MCP sessions. |
+| Agent claims on browser tabs | Every claim is released; the tabs are yours again and stay unclaimed after you release the stop. |
 
 Emergency stop acts on work managed through Nova. Your separate AI program can still be running or generating a reply; stop its task there too if you want the whole agent run to end. It does not terminate unrelated programs or shells outside Nova's terminal service.
 
@@ -42,6 +43,6 @@ Releasing the stop enables work again; it does not restore terminated shells or 
 
 ## Take over one tab instead
 
-Moving your mouse or typing does not pause the agent. To take over a single claimed tab, use the activity details to release its claim, or choose **Release agent** on its sandbox pill; confirm **Take over control** if prompted. This releases that claim and is distinct from the global Emergency stop.
+Moving your mouse or typing does not pause the agent. To take over a single claimed tab, click into it and answer **Take over control?** with **Take over**, or choose **Release agent** on its sandbox pill or in the activity details. The agent's running actions on that tab are stopped and the tab is yours, even while the agent is in the middle of a step. This releases that claim and is distinct from the global Emergency stop.
 
 See [AI visualization and staying in control](../user-guide/agents/taking-over-and-emergency-stop.md#3-staying-in-control) for activity markers and tab controls. Continue with [Your first five minutes](quickstart.md) or [What's next?](whats-next.md).

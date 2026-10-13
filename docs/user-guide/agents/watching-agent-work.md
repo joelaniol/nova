@@ -15,7 +15,7 @@ flowchart LR
     Engine -->|"Physical Input Dispatch"| Page["Active Web Page"]
     Engine -->|"Telemetry & Coordinates"| Overlay["WinUI 3 Assist Visual Overlay"]
     Overlay -->|"Assist Cursor, HUD, Step Card"| User["Human Co-Browser"]
-    User -.->|"Manual Takeover or Ctrl+Alt+Escape"| Engine
+    User -.->|"Manual Takeover or Emergency Stop"| Engine
 ```
 
 ---
@@ -91,7 +91,7 @@ Clicking the agent icon in the top toolbar opens the **Activity Flyout**. It pro
 * All tabs and sandboxes currently claimed by agents.
 * The connected client identity (Claude Code, OpenAI Codex, Antigravity).
 * Elapsed lease durations and active tool names.
-* One-click **Release claim** buttons for surgical, tab-by-tab intervention.
+* One-click **Release agent** buttons for surgical, tab-by-tab intervention.
 
 ### 4.4 Windows Taskbar & System Tray
 * **Taskbar Overlay Badge:** Nova's taskbar icon displays a small activity badge while agents are running.
@@ -113,9 +113,9 @@ Customize the AI visualization layer under **Settings → Appearance & performan
 
 Nova is engineered for co-browsing, meaning human users always retain absolute authority:
 
-1. **Direct Takeover:** You can click, scroll, or type into any claimed tab at any time. Your direct physical input immediately takes precedence.
+1. **Direct Takeover:** While an agent holds a tab, Nova protects it against accidental clicks and keystrokes. Click into the tab and Nova asks **Take over control?** — choose **Take over** and the tab is yours. You can also click **Release agent** on the sandbox pill.
 2. **Surgical Lease Release:** Click **Release agent** on any tab context menu or sandbox pill to revoke the agent's hold without interrupting other tasks.
-3. **Global Emergency Stop:** Press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Esc</kbd> or choose **Menu → Emergency stop** to instantly freeze all running agents, fade out all assist visual overlays, revoke tab claims, and pause terminal sessions.
+3. **Global Emergency Stop:** Choose **Menu → Emergency stop** to instantly freeze all running agents, fade out all assist visual overlays, revoke tab claims, and pause terminal sessions. There is intentionally no keyboard shortcut to prevent accidental triggers during active browsing.
 
 ---
 

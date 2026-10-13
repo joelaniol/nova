@@ -8,6 +8,8 @@ Sends an email with optional HTML body, CC/BCC, priority, and attachments via SM
 
 `nova.mail_send` sends an e-mail from a configured mail account. Three independent gates apply: Nova's global MutatingRemote confirmation policy, the account's `send` capability, and the account allow-list (or an interactive approval) for every recipient, including cc/bcc. Off-list recipients in unattended runs fail with `reasonCode: "recipient_not_allowed"` — replies to incoming mail are not auto-allowed. A per-account, process-local hourly send cap guards against a runaway loop (`reasonCode: "connector_rate_limited"`, not retryable). If SMTP submission began but its final acknowledgement was lost, the call fails with `connector_delivery_unknown`, still returning the stable `messageId` with `actionDispatched: true` — do not auto-retry; check Sent mail or the recipient first.
 
+**Preview first:** the same call with `dryRun: true` sends nothing, asks nothing and changes no mailbox. It returns the mail exactly as it would go out (final text including the account signature, headers, attachments with sizes, the size as sent) plus `readyToSend`, the `blockers` that would stop the send and the confirmations the real send would show. Attachment path errors fail the preview just as they would fail the send.
+
 * **Core Architecture Guide:** [Mail: IMAP & SMTP](../../../core-features/connectors/mail/README.md)
 
 ---
@@ -19,6 +21,7 @@ Sends an email with optional HTML body, CC/BCC, priority, and attachments via SM
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `profileId` | `string` | Yes | — | — | Mail connector id (from nova.connector_list). |
 | `to` | `array` of `string` | Yes | — | ≤ 20 items | Recipient address(es), max 20 unique values. A single string is accepted and treated as one recipient. All must be allow-listed or approved interactively. |
+| `dryRun` | `boolean` | No | `false` | — | true = preview only: Nova composes the mail exactly as it would send it (signature, headers, attachments, encoded size) and reports readyToSend, blockers, recipients needing approval and the send permission. No SMTP/IMAP connection, no prompt, no rate-limit slot, no mailbox change. Attachment path errors still fail as they would on send. |
 | `subject` | `string` | No | — | ≤ 500 characters | Subject line, max 500 characters. Optional (defaults to empty). |
 | `bodyText` | `string` | No | — | — | Plain-text body; max 1024 KiB encoded as UTF-8 (runtime byte limit). Either bodyText or bodyHtml is required; with both, this is the text alternative to the HTML. |
 | `cc` | `array` of `string` | No | — | ≤ 20 items | Optional copy recipients (max 20; to+cc+bcc together max 50). Each passes the same allow-list/approval gate as 'to'. A single string is accepted. |

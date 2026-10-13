@@ -6,7 +6,7 @@ Sets capability access modes (ask, always, blocked) for a connector.
 
 ## 1. Overview
 
-`nova.connector_grant_set` configures fine-grained capability gates for a connector. Grants control what operations an AI agent can execute autonomously without human prompts.
+`nova.connector_grant_set` configures fine-grained capability gates for a connector. Grants control what operations an AI agent can execute autonomously without human prompts. An agent can lower or keep its own access at any time; every widening (a stronger mode, or an `always` mail-read filter that covers more folders or senders) opens a Nova dialog that shows the user the permission in plain words, whatever the global confirmation settings say. Unattended runs cannot widen access.
 
 * **Core Architecture Guide:** [Connectors](../../../core-features/connectors/README.md)
 
@@ -18,7 +18,7 @@ Sets capability access modes (ask, always, blocked) for a connector.
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `profileId` | `string` | Yes | — | — | Connector id (from nova.connector_list). |
-| `capability` | `string` | Yes | — | — | Capability wire name: 'read'/'organize'/'send' (mail), 'read'/'full' (sftp/ftp), 'process.exec' (sftp command execution; inherits 'full' when unset), 'process.stdin' (interactive input into a running ssh_run_start session; opt-in only, never inherited), or 'process.pty' (interactive terminal via ssh_shell_open; opt-in only, never inherited). |
+| `capability` | `string` | Yes | — | — | Capability wire name: 'read'/'organize'/'send' (mail), 'read'/'full' (sftp/ftp), 'process.exec' (sftp command execution; its own grant, never inherited from 'full'), 'process.stdin' (interactive input into a running ssh_run_start session; opt-in only, never inherited), or 'process.pty' (interactive terminal via ssh_shell_open; opt-in only, never inherited). |
 | `mode` | `string` | Yes | — | `ask`, `always`, `blocked` | Access mode for this capability. |
 | `scope` | `string` | No | `"global"` | `global`, `workspace` | Where the grant applies. 'workspace' requires Nova's host-verified current terminal/task context; the caller never supplies an id. |
 | `allowedMailFolders` | `array` of `string` | No | — | ≤ 200 items | Mail read + always only: exact IMAP folder names this grant may read. Omit to preserve this axis; pass [] to allow all folders. No wildcard or regex syntax. |

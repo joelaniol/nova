@@ -26,6 +26,7 @@ Reads a background SSH session's live output by independent byte offsets, non-co
 | `stdoutFromOffset` | `integer` | No | `0` | ≥ 0 | Absolute stdout byte offset to read from. Pass the previous read's stdout nextOffset to continue. |
 | `stderrFromOffset` | `integer` | No | `0` | ≥ 0 | Absolute stderr byte offset to read from. Pass the previous read's stderr nextOffset to continue. |
 | `maxBytes` | `integer` | No | `65536` | 1–262144 | Maximum bytes to return per stream this call. |
+| `redactSecrets` | `boolean` | No | `true` | — | Mask recognised password hashes, PEM private keys and mysql_native_password hashes in the returned text. Set false only when the task needs the value itself. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 

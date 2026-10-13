@@ -8,7 +8,7 @@ IMAP/SMTP email client automation, EML exports, SFTP/FTP server operations, and 
 ---
 
 <!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
-## Tool Inventory (52 Tools)
+## Tool Inventory (53 Tools)
 
 Capability bundles of these tools: `connector_ops`.
 
@@ -66,6 +66,7 @@ Capability bundles of these tools: `connector_ops`.
 | **[`nova.ssh_shell_read`](nova-ssh-shell-read.md)** | Reads an interactive terminal's reconstructed screen — rows, cursor, revision and hash — with an honest observation envelope. |
 | **[`nova.ssh_shell_resize`](nova-ssh-shell-resize.md)** | Resizes an interactive terminal's window and sends an SSH window-change request (requested, not confirmed as redrawn). |
 | **[`nova.ssh_shell_send`](nova-ssh-shell-send.md)** | Sends input to an interactive terminal: a named key (encoded mode-aware), literal text, a paste, or raw bytes. |
+| **[`nova.ssh_shell_watch`](nova-ssh-shell-watch.md)** | Shows the **user** a read-only live view of an interactive terminal you opened, and controls that display window. |
 <!-- /generated:tool-list -->
 
 ---

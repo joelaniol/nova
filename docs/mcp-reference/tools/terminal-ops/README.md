@@ -4,6 +4,7 @@ Isolated pseudo-terminals (ConPTY), command execution streams, terminal dock con
 
 * **Core Architecture Guide:** [Core Features: terminal-workspaces.md](../../../core-features/terminal-workspaces/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
+* **Remote SSH Terminals (PTY):** [Connectors, Mail & File Transfer: `nova.ssh_shell_*`](../connectors-and-mail/README.md)
 
 ---
 

@@ -155,6 +155,7 @@ For complete implementation specifications, protocol frame layouts, and edge-cas
 
 ## Related Documentation
 
+* **[Remote SSH Pseudo-Terminal (PTY) Architecture](../connectors/ssh/README.md)** — Interactive remote terminals and streaming execution over SSH.
 * **[Scheduled Tasks & Automation Engine](../scheduled-tasks/README.md)** — Automated task runs bound to terminal workspaces.
 * **[TerminalRunner Component Reference](../../components/terminal-runner.md)** — Standalone component specification for `NovaBrowser.TerminalRunner.exe`.
 * **[Outrider Process Boundary](../../components/outrider/README.md)** — Nova's disposable native OS and hardware diagnostic process.

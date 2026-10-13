@@ -12,7 +12,7 @@ flowchart TD
 
     subgraph SecurityCore["Security & Policy Gates"]
         HostKeyGate["Human-Confirmed Host Key Gate\n(Stored in Known Hosts)"]
-        ExecGate["Capability: 'process.exec'\n(Inherits 'full' when unset)"]
+        ExecGate["Capability: 'process.exec'\n(Own grant, asks once when unset)"]
         StdinGate["Capability: 'process.stdin'\n(Strict Opt-In, Never Inherited)"]
         MutatingPolicy["Nova MutatingRemote Policy"]
     end
@@ -58,7 +58,7 @@ graph LR
         ProcessPty["Capability: 'process.pty'"]
     end
 
-    FullCap -.->|Inherited by default| ProcessExec
+    FullCap -.-x|Not inherited| ProcessExec
     ProcessExec -->|Launches| RunCmd["One-Shot & Background Commands\n(nova.ssh_run, nova.ssh_run_start)"]
     ProcessStdin -->|Required for| StdinWrite["Interactive Stdin Streaming\n(nova.ssh_run_write)"]
     ProcessPty -->|Required for| Terminal["Interactive Terminal (PTY)\n(nova.ssh_shell_open)"]
@@ -69,7 +69,7 @@ graph LR
 
 1. **`process.exec` Capability:**
    - Authorizes spawning remote commands and background sessions.
-   - For backward compatibility and ease of configuration, if an account already has an explicit `full` file-transfer grant, `process.exec` automatically inherits that grant mode unless explicitly overridden.
+   - `process.exec` is its own grant and is **not** covered by the `full` file-transfer grant: being allowed to write files never silently allows a remote shell. When it is unset, the first command asks once ("Always" stores the grant); an unattended run such as a scheduled task fails closed until the grant is set. *(Up to 1.0.0-alpha.18, commands ran on the `full` grant; from alpha.19, not published yet, they need this stage.)*
 2. **`process.stdin` Capability (Strict Opt-In):**
    - Authorizes feeding live, interactive standard input into a running background process (`allowStdin=true` and `nova.ssh_run_write`).
    - Because open stdin channels allow arbitrary command chaining and interactive shell escape, `process.stdin` is **strictly opt-in and never inherits weaker grants**.
@@ -115,6 +115,13 @@ In an SSH exec batch, **each command executes inside a fresh, independent remote
 * **`stopOnError` (Default: `true`):** Halts the batch immediately if any command returns an exit code outside `expectedExitCodes`. Subsequent commands are marked with outcome `Skipped`.
 * **`expectedExitCodes` (Default: `[0]`):** Defines which return codes indicate success.
 
+### Reading the result: call status vs. command success
+
+*From 1.0.0-alpha.19 (not published yet).* The result answers two separate questions:
+
+* **`ok`** — did Nova reach the server and run the batch? `ok: false` means a connection error; `connectionError` says in which phase.
+* **`allCommandsSucceeded`** — did every command end with an exit code from `expectedExitCodes`? This is the field to base decisions on. A command that exits with an unexpected code still returns `ok: true` together with `allCommandsSucceeded: false`, `status: "failed"` or `"partial"`, and `results[].success: false`. An exit code listed in `expectedExitCodes` (for example `1` for `grep`) counts as success.
+
 ---
 
 ## Stream Capture & Flood Protection
@@ -141,6 +148,11 @@ flowchart LR
    - Terminal color sequences and raw cursor manipulation codes are stripped from text output, leaving clean, machine-readable log lines.
 4. **Stream Integrity Hash:**
    - Every completed stream includes a SHA-256 cryptographic hash of all received bytes, providing verifiable proof of stream content.
+5. **Masking of recognised credentials** *(from 1.0.0-alpha.19, not published yet)*:
+   - In `nova.ssh_run` and `nova.ssh_run_read`, password hashes in crypt format (`$1$`, `$2y$`, `$5$`, `$6$`, `$y$`, argon2 and related), PEM private keys and `mysql_native_password` hashes are replaced with `[REDACTED:<kind>]` before the agent reads the text. Each stream reports `redactions` and `redactedKinds`; the SHA-256 hash, byte counters and offsets still describe the raw stream.
+   - Only these formats are recognised. Other secrets pass through unchanged, so remote scripts should print error classes rather than full exception text that may quote credentials.
+   - `redactSecrets: false` turns masking off for a task that needs the value itself, such as moving a hash between systems.
+   - Interactive terminals: `nova.ssh_shell_read` overwrites the same values with `*` in the rows and scrollback it returns to the agent, keeping every row's length so columns and highlights stay valid; a value wrapped across full-width rows is masked on every row. Your own terminal view and the watch window are not masked.
 
 ---
 

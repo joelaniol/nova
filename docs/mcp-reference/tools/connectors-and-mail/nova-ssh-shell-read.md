@@ -31,6 +31,7 @@ Reads an interactive terminal's reconstructed screen — rows, cursor, revision 
 | `sinceRevision` | `integer` | No | — | ≥ 0 | The revision you already have; the result sets unchanged=true if the screen has not advanced past it. |
 | `waitMs` | `integer` | No | `0` | 0–10000 | With sinceRevision: wait up to this many ms for the screen to change before returning. Default 0, but if you pass sinceRevision and omit waitMs, Nova waits ~1000ms for the post-send repaint. |
 | `maxScrollbackLines` | `integer` | No | `0` | 0–2000 | If >0, also return up to this many scrollback history lines (oldest first) that scrolled above the visible screen. Empty on the alternate screen. Default 0 (no scrollback). |
+| `redactSecrets` | `boolean` | No | `true` | — | Mask recognised password hashes, PEM private keys and mysql_native_password hashes in rows and scrollback with '*'. Set false only when the task needs the value itself. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 

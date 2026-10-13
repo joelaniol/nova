@@ -18,7 +18,7 @@ To take over yourself:
 
 1. Open Nova's agent activity details and select the affected target. You can also right-click a claimed sandbox pill.
 2. Choose **Release agent** for that target.
-3. Review **Take over control** if Nova asks for confirmation.
+3. If Nova asks **Take over control?**, choose **Take over**.
 4. Return to the tab and check its agent marker. Tell your agent whether to continue or leave that tab alone.
 
 This releases a reservation; it is distinct from Emergency stop. Claims also expire, but an active agent can renew its reservation. Do not copy another agent's identity into a tool call to bypass ownership.

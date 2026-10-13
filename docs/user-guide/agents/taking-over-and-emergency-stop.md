@@ -39,7 +39,7 @@ When an AI agent interacts with a webpage—such as clicking buttons, selecting 
 ### How to Reclaim an Individual Tab
 If you want to take over manual control of a tab without aborting the agent's entire session:
 1. Look at the tab strip or the window title bar.
-2. Click the **Release agent** button located on the tab's sandbox pill, or open the toolbar activity indicator and click **Release claim**.
+2. Click the **Release agent** button located on the tab's sandbox pill, or open the toolbar activity indicator and click **Release agent**. Clicking into the protected tab also works: Nova asks **Take over control?**, and **Take over** gives you the tab even while the agent is mid-step.
 3. If prompted with **Take over control?**, confirm your choice.
 4. The agent is immediately notified that its lease was revoked and cannot interact with the tab until you permit it. All other tabs remain active.
 

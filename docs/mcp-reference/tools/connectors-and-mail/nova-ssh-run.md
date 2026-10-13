@@ -34,6 +34,7 @@ Runs shell commands on the server of an SSH/SFTP connection and reports exit sta
 | `maxOutputBytes` | `integer` | No | `262144` | 1024–1048576 | Bytes kept per stream for the result (head + tail). The full stream is still hashed and counted. |
 | `stdin` | `string` | No | — | — | Optional standard input, only with a single command (max 256 KiB). Nova always sends EOF so a command reading stdin ends. |
 | `unattended` | `boolean` | No | `false` | — | Fail closed instead of prompting. Scheduled-task hosts enforce this even when omitted. |
+| `redactSecrets` | `boolean` | No | `true` | — | Mask recognised password hashes, PEM private keys and mysql_native_password hashes in stdout/stderr. Set false only when the task needs the value itself (for example moving a hash between systems). |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
