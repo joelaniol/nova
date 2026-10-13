@@ -8,7 +8,7 @@ Only the newest release is offered for [download](https://github.com/joelaniol/n
 
 | Version | Date | Highlights |
 |---|---|---|
-| [1.0.0-alpha.19](v1.0.0-alpha.19.md) | *(Upcoming / in development)* | Interactive SSH pseudo-terminal (PTY) with VT screen engine, streaming background SSH, granular connector permissions, automated chat reply detection, cross-origin iframe automation, external MCP hub tool allowlisting, live settings engine restart, rich notifications with source navigation |
+| [1.0.0-alpha.19](v1.0.0-alpha.19.md) | *(Upcoming / in development)* | Interactive SSH pseudo-terminal (PTY) with VT screen engine and live watch window, streaming background SSH, granular connector permissions, automated chat reply detection, cross-origin iframe automation, external MCP hub tool allowlisting, SQLite notes database, live settings engine restart, rich notifications with source navigation |
 | [1.0.0-alpha.18](v1.0.0-alpha.18.md) | 2026-10-07 | New product name & look, Edge-style favorites panel, SQLite history & adaptive address bar, native permission dialogs, guided AI setup, expanded sandboxes, password vault, resumable SFTP/FTP background transfers, local audio/video transcription |
 | [1.0.0-alpha.17](v1.0.0-alpha.17.md) | 2026-09-10 | Targeted hotfix for blank context menu spellcheck rows, official slogan adoption ("Built for what's next."), UI blank label scanner |
 | [1.0.0-alpha.16](v1.0.0-alpha.16.md) | 2026-09-10 | Background agent mode with notification area icon, taskbar integration & autostart fix, console read for agent devtools |
