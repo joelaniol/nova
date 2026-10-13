@@ -8,7 +8,7 @@ Starts a background command session on an SSH/SFTP server and returns an `execId
 
 `nova.ssh_run_start` opens a **background** command session on the server behind an SSH/SFTP connection. Unlike [`nova.ssh_run`](nova-ssh-run.md) — which runs a command to completion and returns — this keeps the command running so you can read its output live (`tail -f`, a long build, `top -b -d2`) and, when `allowStdin` is set, feed it input. It uses the same connection setup and the same **human-verified host-key gate** as the file transfer; an unconfirmed or changed host key stops before any credential is sent.
 
-* **Capability:** needs the account's `full` capability plus Nova's independent MutatingRemote policy. The same approval and host-key gate as `nova.ssh_run`.
+* **Capability:** needs the account's own `process.exec` capability (its own grant — not included in the file-transfer `full` capability), plus `process.stdin` as well when `allowStdin` is used, plus Nova's independent MutatingRemote policy. The same approval and host-key gate as `nova.ssh_run`.
 * **Returns an `execId`.** Poll output with [`nova.ssh_run_read`](nova-ssh-run-read.md), feed stdin with [`nova.ssh_run_write`](nova-ssh-run-write.md), end with [`nova.ssh_run_stop`](nova-ssh-run-stop.md), and find sessions you lost with [`nova.ssh_run_list`](nova-ssh-run-list.md).
 * **Honest state.** `state:"active"` means the channel is open and the exec request was **sent** — not that the server confirmed execution (SSH does not expose that). There is no PTY: line-oriented programs and prompts work, full-screen TUIs (`htop`, `vim`) do not.
 * **stdin is fixed at start.** `allowStdin` cannot be enabled later. Leave it off unless you will send input.
