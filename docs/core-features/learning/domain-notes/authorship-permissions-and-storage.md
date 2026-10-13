@@ -1,7 +1,7 @@
 # Authorship, Override Permissions & Storage Architecture
 
 > [!NOTE]
-> This guide details the authority model, security gates, persistence layer, and lifecycle management of Domain Notes in Nova AI Workspace: human vs agent authorship, the User-Note Override Permission Gate, atomic JSON storage, key validation rules, capacity pruning, and sandbox deletion cascades.
+> This guide details the authority model, security gates, persistence layer, and lifecycle management of Domain Notes in Nova AI Workspace: human vs agent authorship, the User-Note Override Permission Gate, the local notes database, key validation rules, capacity limits, and what happens to notes when a sandbox is deleted.
 
 ---
 
@@ -119,7 +119,9 @@ When the confirmation resolves, Nova verifies that `latest.UpdatedUtc == authori
 
 ---
 
-### Multi-User-Note Delete Protection & Ambiguity Handling
+### Delete Confirmation, Multi-User-Note Protection & Ambiguity Handling
+
+Domain notes are learned knowledge. From 1.0.0-alpha.19 (upcoming, not published yet), every `nova.domain_note_delete` shows the user a Nova dialog with the note before anything is removed, for agent notes as well as user notes, and Nova never remembers the answer. Declining returns `-32036` and the note stays; without a confirmation UI (for example an unattended run) the call fails with `-32033`. Agents should update a wrong note with `nova.domain_note` instead of deleting it.
 
 1. **Individual Confirmations on Multi-Delete:** When an agent attempts a broad delete across multiple user notes (e.g. `scope="all"` matching both global and sandboxed user notes), Nova enforces separate confirmations for **each user note in the target set**. A single cached session allow cannot silently delete multiple user notes.
 2. **Ambiguous Target Detection (-32602):** If both a global note and a sandbox-scoped note share the same `domain` and `key`, a bare delete call without an explicit `scope` or `sandboxId` will be rejected with `ambiguous_note_target`, returning candidate metadata so the agent can specify the exact target.
@@ -129,43 +131,46 @@ When the confirmation resolves, Nova verifies that `latest.UpdatedUtc == authori
 
 ## 3. Storage Architecture & Persistence Pipeline
 
-Domain Notes are stored on local storage as clean, human-readable JSON:
+From 1.0.0-alpha.19 (upcoming, not published yet), Domain Notes live in a local SQLite database together with operator notes and connector extras:
 
-$$\text{Path: } \%LOCALAPPDATA\%\backslash\text{NovaBrowser}\backslash\text{domain-notes.json}$$
+$$\text{Path: } \%LOCALAPPDATA\%\backslash\text{NovaBrowser}\backslash\text{notes.db}$$
 
 ```mermaid
 flowchart TD
-    Memory["In-Memory Note List"]
-    AcquireLock["Acquire GlobalWriteLock (Mutex)"]
-    PruneCycle["Execute Pruning Pipeline (Limits & Stale Days)"]
-    Serialize["Serialize to JSON (CamelCase, Indented, UTF-8 No BOM)"]
-    WriteTemp["Write to 'domain-notes.json.tmp'"]
-    AtomicSwap["Atomic OS File Replace (AtomicFileWriter)"]
+    Load["Load notes (all, or one domain via index)"]
+    Mutate["Change the loaded list"]
+    AcquireLock["Acquire GlobalWriteLock"]
+    Diff["Compare with the loaded state"]
+    Tx["One transaction: insert / update changed notes,<br/>delete only notes taken out of the loaded list"]
     ReleaseLock["Release GlobalWriteLock"]
 
-    Memory --> AcquireLock --> PruneCycle --> Serialize --> WriteTemp --> AtomicSwap --> ReleaseLock
+    Load --> AcquireLock --> Mutate --> Diff --> Tx --> ReleaseLock
 ```
 
-### The Atomic Write Pipeline
+### Write and Read Behavior
 
-To protect against data corruption during abrupt system power loss, process termination, or disk saturation, Nova employs atomic file writes:
-1. **Thread Synchronization:** All load-mutate-save cycles synchronize on a process-wide mutex (`DomainNotesStore.GlobalWriteLock`).
-2. **Temporary File Staging:** Serialized JSON (formatted using UTF-8 without BOM) is written to a staging file (`domain-notes.json.tmp`).
-3. **Native Atomic Replacement:** The staging file replaces the target file via native OS filesystem replace calls (`AtomicFileWriter.WriteAllText`). If writing fails at any point, the existing `domain-notes.json` remains completely intact.
+1. **Thread Synchronization:** All load-mutate-save cycles synchronize on a process-wide lock (`DomainNotesStore.GlobalWriteLock`).
+2. **Differential Saves:** A save writes only what changed since the list was loaded, inside one database transaction. A note is deleted only when the caller removed it from a list it had loaded. A save that did not start from a loaded list never deletes anything, so a failed read can no longer wipe the store.
+3. **Per-Domain Reads:** Hot paths such as `nova.perceive` and the site-note gate read only the notes of the current domain (with parent-domain fallback) through an index instead of the whole store.
+4. **Damage Handling:** A database that fails its integrity check, including one that becomes unreadable while Nova runs, is moved aside as `notes.corrupt.<time>.db` and rebuilt; the moved file stays on disk for recovery.
+
+### One-Time Import of the Earlier JSON File
+
+Versions up to 1.0.0-alpha.18 stored Domain Notes in `domain-notes.json`. On the first start of a version with `notes.db`, Nova imports that file once, together with the earlier operator-note and connector files. The old files are left unchanged as a frozen fallback; an unreadable old file is logged and does not stop the import of the others.
 
 ---
 
 ### Backward-Compatibility Wire Migrations
 
-When loading older `domain-notes.json` files, Nova performs automatic, one-time in-place migrations:
-1. **Stable GUID Assignment:** Legacy notes authored before the introduction of note IDs have a stable GUID generated once and persisted back to disk. This ensures that per-tab acknowledgment caches remain stable across app restarts.
+When importing an older `domain-notes.json`, Nova applies these one-time migrations:
+1. **Stable GUID Assignment:** Legacy notes authored before the introduction of note IDs receive a stable GUID during the import (duplicate IDs are replaced the same way). This ensures that per-tab acknowledgment caches remain stable across app restarts.
 2. **Punycode Domain Key Migration:** Stored domain keys containing Unicode characters (e.g. `münchen.de`) are converted to ASCII wire form (`xn--mnchen-3ya.de`), ensuring future lookups align with WebView2 host reporting.
 
 ---
 
 ## 4. Key Validation & Strict Capacity Limits
 
-To ensure robust performance and protect LLM token budgets, Nova enforces strict input validation and automated capacity pruning:
+To keep input well-formed, Nova validates every note. Notes are never removed automatically; the store only refuses new notes beyond very high limits:
 
 ```mermaid
 mindmap
@@ -175,9 +180,9 @@ mindmap
       Key Regex: ^[a-zA-Z0-9_\- ]+$
       Value: Max 100,000 Chars
     Store Capacities
-      Max 50 Registered Domains
-      Max 20 Notes per Domain
-      180-Day Inactivity Prune
+      Max 1,000,000 Domains
+      Max 1,000 Notes per Domain
+      Never Pruned
 ```
 
 ### String Guards & Validation Rules
@@ -189,33 +194,34 @@ mindmap
 
 ---
 
-### Automated Store Pruning (`DomainNotesStore.Prune`)
+### No Automatic Deletion
 
-During every save cycle, Nova automatically maintains storage bounds:
-1. **180-Day Inactivity Prune (`StaleDays = 180`):** Notes whose `UpdatedUtc` timestamp is older than 180 days are permanently purged.
-2. **Per-Domain Note Capping (`MaxNotesPerDomain = 20`):** If a single domain exceeds 20 notes, notes are ordered by `UpdatedUtc` descending; the newest 20 notes are kept, and older notes are dropped.
-3. **Global Domain Capping (`MaxDomains = 50`):** If more than 50 distinct domains exist in the store, domains are ranked by their most recent note update; the top 50 domains are preserved, and older domains are pruned.
+Domain notes are distilled knowledge, not raw logs, so Nova never prunes them by age, use or count. Earlier versions removed notes after 180 days and kept at most 20 notes per domain and 50 domains; from 1.0.0-alpha.19 (upcoming, not published yet) that pruning is gone. When a limit (1,000,000 domains, 1,000 notes per domain) is reached, a new note is refused with an error and existing notes stay untouched.
 
 ---
 
-## 5. Sandbox Deletion Cleanup Cascade
+## 5. Sandbox Deletion and Its Notes
 
-When a user deletes a sandbox profile through Nova's settings or user interface:
+From 1.0.0-alpha.19 (upcoming, not published yet), deleting a sandbox never deletes notes on its own:
 
 ```mermaid
 flowchart LR
     DeleteEvent["User Deletes Sandbox 'B'<br/>(Persistent UID: '3c1b...88')"]
-    PurgeStore["Purge Matching Notes from Store<br/>(domain-notes.json)"]
+    Ask["Dialog: also delete the notes of 'B'?<br/>(counts domain and operator notes)"]
+    Keep["Keep: notes stay as orphaned notes"]
+    Remove["Delete notes: only that sandbox's notes"]
     PurgeSession["Purge Matching Session Allows<br/>(McpDomainNotesHandler Cache)"]
-    SaveDisk["Atomic Save of Cleaned Notes"]
 
-    DeleteEvent --> PurgeStore --> SaveDisk
+    DeleteEvent --> Ask
+    Ask --> Keep
+    Ask --> Remove
     DeleteEvent --> PurgeSession
 ```
 
-1. **Disk Store Purge:** The sandbox deletion pipeline scans `domain-notes.json` and deletes all notes where `SandboxUid == persistentUid`. Global notes (`SandboxUid == null`) and notes belonging to other sandboxes remain completely untouched.
-2. **Session Allowance Purge (`PurgeSandboxScopedAllowsForUid`):** Cleanses all cached Once-Per-Session approvals matching `:sandbox:{persistentUid}:` from memory.
-3. **Identity Safety:** If a user subsequently creates a new sandbox that happens to receive the reused letter handle `"B"`, it will not inherit ghost permissions or orphaned notes from the deleted sandbox.
+1. **Notes Are Kept by Default:** Notes bound to the deleted sandbox remain as orphaned notes. Agents do not see them; the user can review, reassign or delete them in Settings.
+2. **Explicit Choice:** If the sandbox has notes, a follow-up dialog shows how many domain and operator notes it has. Only the choice to delete them removes exactly the notes bound to that sandbox (`SandboxUid == persistentUid`); global notes and notes of other sandboxes are never touched.
+3. **Session Allowance Purge (`PurgeSandboxScopedAllowsForUid`):** Cleanses all cached Once-Per-Session approvals matching `:sandbox:{persistentUid}:` from memory.
+4. **Identity Safety:** If a user subsequently creates a new sandbox that happens to receive the reused letter handle `"B"`, it will not inherit ghost permissions or the orphaned notes of the deleted sandbox.
 
 ---
 

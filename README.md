@@ -12,7 +12,6 @@
 [![Platform](https://img.shields.io/badge/Windows-10%20%7C%2011%20(x64)-0078D4?logo=windows&logoColor=white)](docs/getting-started/installation.md#1-system-requirements)
 [![Status: Alpha](https://img.shields.io/badge/status-alpha-orange)](ALPHA.md)
 [![Tools](https://img.shields.io/badge/MCP-Tool%20Catalog-success)](docs/mcp-reference/tool-catalog.md)
-[![Ethics — My promise](https://img.shields.io/badge/Ethics-My%20promise-6f42c1)](#ethics--my-promise)
 [![Made with love ❤️](https://img.shields.io/badge/Made%20with-love%20%E2%9D%A4%EF%B8%8F-d6336c)](#ethics--my-promise)
 [![Changelog](https://img.shields.io/badge/Changelog-Release%20notes-2ea44f)](docs/changelog/)
 

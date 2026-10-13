@@ -13,7 +13,7 @@ To explore the mathematical formulas, scoring models, and security mechanics in 
 * **[Scoring Engine, TF-IDF & Temporal Decay](scoring-and-retrieval.md)**  
   Mathematical specification of the retrieval pipeline, tag intersection scoring ($\text{tagScore}$), Vector Space TF-IDF cosine similarity ($\text{contentScore}$), non-dilutive maximum blending, and dynamic exponential temporal decay with the 3x reinforcement dynamic.
 * **[Sandbox Binding, Identity & Lifecycle](sandbox-binding-and-lifecycle.md)**  
-  Deep analysis of the recycled-handle vulnerability, dual-token handshake (`sandboxId` + `sandboxRef`), the four retrieval scopes (`current_sandbox`, `global`, `all`, `orphaned`), the anti-leakage orphan invariant during sandbox deletion, and 3-stage capacity pruning (`MaxNotes = 100`).
+  Deep analysis of the recycled-handle vulnerability, dual-token handshake (`sandboxId` + `sandboxRef`), the four retrieval scopes (`current_sandbox`, `global`, `all`, `orphaned`), the anti-leakage orphan invariant during sandbox deletion, and the input limits (notes are never pruned automatically).
 * **[Provider Neutrality, Prompt Projection & Runtime Contracts](provider-neutrality-and-system-prompts.md)**  
   Architecture of cross-model memory synchronization, how Operator Notes eliminate provider silos (Claude, Codex, Gemini), `ContextSnapshot` prompt injection, epistemological guardrails (`NotesDynamicHint`), and resilient argument coercion.
 
@@ -41,7 +41,7 @@ Nova features several complementary memory systems designed for distinct operati
 
 | Memory System | Scope / Anchor | Primary Content | Verification Gate | Persistence | MCP Access |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Operator Notes** | Global or Sandbox Profile (`SandboxUid`) | User preferences, workflow guidance, environment variables, tool constraints | **None** (Historical snapshot; not verified truth) | Persistent across sessions; pruned at 100 notes | [`nova.operator_notes_store`](../../../mcp-reference/tools/task-memory/nova-operator-notes-store.md)<br/>[`nova.operator_notes_query`](../../../mcp-reference/tools/task-memory/nova-operator-notes-query.md) |
+| **Operator Notes** | Global or Sandbox Profile (`SandboxUid`) | User preferences, workflow guidance, environment variables, tool constraints | **None** (Historical snapshot; not verified truth) | Persistent across sessions; never pruned automatically | [`nova.operator_notes_store`](../../../mcp-reference/tools/task-memory/nova-operator-notes-store.md)<br/>[`nova.operator_notes_query`](../../../mcp-reference/tools/task-memory/nova-operator-notes-query.md) |
 | [Domain Notes](../domain-notes/README.md) | Website Origin / Domain (`example.com`) | Origin-specific instructions, policy requirements, required acknowledgements | Optional mandatory ACK gate (`mustAck=true`) | Persistent per domain across all tabs | [`nova.domain_note`](../../../mcp-reference/tools/task-memory/nova-domain-note.md)<br/>[`nova.domain_notes_list`](../../../mcp-reference/tools/task-memory/nova-domain-notes-list.md) |
 | [Browser Memory](../browser-memory/README.md) | Website Domain / Tab Session | Domain-bound browsing observations, dynamic site behaviors, recalled context | Read/write recall without policy gates | Persistent per domain | [`nova.memory_recall`](../../../mcp-reference/tools/task-memory/nova-memory-recall.md)<br/>[`nova.memory_note`](../../../mcp-reference/tools/task-memory/nova-memory-note.md) |
 | [Episodic Task Memory (ETM)](../episodic-task-memory-etm/README.md) | Task Instance / Task Profile | Multi-turn task progress, subtask execution logs, milestone completions | Milestone completion & verification gates | Persistent per task lifecycle | [`nova.task_instance_create`](../../../mcp-reference/tools/task-memory/nova-task-instance-create.md)<br/>[`nova.task_instance_progress`](../../../mcp-reference/tools/task-memory/nova-task-instance-progress.md) |
@@ -53,7 +53,7 @@ Nova features several complementary memory systems designed for distinct operati
 
 ## 3. End-to-End Architectural Lifecycle
 
-The complete lifecycle of an Operator Note spans initial creation, atomic storage, relevance-ranked query retrieval, read-time reinforcement, and capacity reconciliation:
+The complete lifecycle of an Operator Note spans initial creation, atomic storage, relevance-ranked query retrieval and read-time reinforcement:
 
 ```mermaid
 flowchart TD
@@ -64,10 +64,9 @@ flowchart TD
         RejectRace["Reject Stale Reference<br/>(-32602)"]
     end
 
-    subgraph Storage ["2. Atomic Storage Engine"]
+    subgraph Storage ["2. Storage"]
         WriteLock["Acquire GlobalWriteLock"]
-        PruneCheck["Enforce MaxNotes (100)<br/>3-Stage Pruning"]
-        AtomicSave["AtomicFileWriter.WriteAllText<br/>operator-notes.json (UTF-8 No BOM)"]
+        DiffSave["Differential save in one transaction<br/>notes.db (never pruned)"]
     end
 
     subgraph Retrieval ["3. Query & Projection"]
@@ -87,7 +86,7 @@ flowchart TD
     UISettings --> WriteLock
     DualTokenCheck -- Valid or Global --> WriteLock
     DualTokenCheck -- Mismatch --> RejectRace
-    WriteLock --> PruneCheck --> AtomicSave
+    WriteLock --> DiffSave
 
     QueryCall --> ScopeFilter
     InstructionCall --> ScopeFilter
@@ -223,7 +222,9 @@ Retrieves a paginated inventory of notes filtered by scope.
 ---
 
 ### 4. `nova.operator_notes_delete`
-Permanently deletes an operator note by its unique identifier.
+Permanently deletes an operator note by its unique identifier, after the user confirms it.
+
+From 1.0.0-alpha.19 (upcoming, not published yet), every delete first shows the user a Nova dialog with the note's tags and content; Nova never remembers the answer. Declining returns `-32036` and the note stays; without a confirmation UI (for example an unattended run) the call fails with `-32033`. Agents should update an outdated note with `nova.operator_notes_store(id=...)` instead of deleting it.
 
 | Parameter | Type | Required | Default | Description |
 | :--- | :--- | :---: | :--- | :--- |
@@ -240,7 +241,7 @@ Permanently deletes an operator note by its unique identifier.
 }
 ```
 
-If the ID is not found, `deleted` is `false`, and an informational message is returned without raising an RPC error.
+If the ID is not found, `deleted` is `false`, and an informational message is returned without raising an RPC error or asking the user.
 
 ---
 
@@ -270,14 +271,17 @@ Nova automatically executes an internal query against the active sandbox scope:
 
 ## 6. Storage Mechanics & Data Structure
 
-Operator Notes are persisted in the user profile directory:
+From 1.0.0-alpha.19 (upcoming, not published yet), Operator Notes are stored in a local SQLite database in the user profile directory, together with domain notes and connector extras:
 ```
-%LOCALAPPDATA%\NovaBrowser\operator-notes.json
+%LOCALAPPDATA%\NovaBrowser\notes.db
 ```
 
-### Concurrency & Atomic Writes
+Versions up to 1.0.0-alpha.18 used `operator-notes.json`. On the first start of a version with `notes.db`, Nova imports that file once and leaves it unchanged as a frozen fallback.
+
+### Concurrency & Saves
 * **Global Write Lock:** All read-modify-write sequences are synchronized under an internal global lock, preventing race conditions between parallel MCP tool calls and the desktop UI.
-* **Atomic File Updates:** Serialization uses an atomic file writer (writing to a temporary file before performing an atomic replace) encoded in UTF-8 without BOM.
+* **Differential Saves:** A save writes only what changed since the list was loaded, inside one database transaction. A note is deleted only when the caller removed it from a list it had loaded, so a failed read can never wipe the store.
+* **No Automatic Deletion:** Operator notes are kept knowledge. Nova does not prune them by age, use or count; earlier versions removed never-matched notes after 90 days and kept at most 100. Query ranking and `limit` keep agent context small instead.
 
 ### Data Model Schema
 Each note entry adheres to the following record structure:
@@ -336,7 +340,7 @@ In addition to programmatic MCP management, Nova provides a full desktop managem
 * **Interactive Creation Card:** Easily compose new notes with multi-line content, tags, category, and an intuitive sandbox scope picker.
 * **Instant Inline Editing:** Edit content, tags, category, or re-bind sandbox scopes directly inside the card. Edits persist on `LostFocus` under the global write lock. Editing a note automatically flips `source` to `"user"`.
 * **Live Filtering:** Substring search across content, tags, and category, paired with a scope filter dropdown.
-* **Orphaned Notes Recovery Section:** When a sandbox is deleted, orphaned notes are rendered in a dedicated review section at the bottom of the list. Operators can migrate them to an active sandbox via the scope picker or execute a bulk delete.
+* **Orphaned Notes Recovery Section:** When a sandbox is deleted and the user keeps its notes (the follow-up dialog offers to delete them), orphaned notes are rendered in a dedicated review section at the bottom of the list. Operators can migrate them to an active sandbox via the scope picker or execute a bulk delete.
 
 ---
 
@@ -346,7 +350,7 @@ In addition to programmatic MCP management, Nova provides a full desktop managem
 2. **Pre-Filtering Invariant:** Scope filtering is strictly evaluated **before** relevance scoring. Foreign sandbox notes never compete for top-$K$ rankings.
 3. **Anti-Leakage Orphan Invariant:** Deleting a sandbox profile never converts its notes into global notes. Orphaned notes remain strictly isolated from active agents until explicitly reassigned by the operator.
 4. **Recycled-Handle Defense:** Specifying a `sandboxId` requires the corresponding `sandboxRef` token. Recycled sandbox letter handles throw `-32602 stale_sandbox_reference` rather than accepting stale bindings.
-5. **Capacity Protection:** Storage is capped at 100 notes with a 3-stage pruning algorithm to protect local disk resources and agent token context.
+5. **Knowledge Is Kept:** Notes are never deleted automatically. Deleting one needs the user: a confirmed `nova.operator_notes_delete`, a delete in Settings, or the explicit choice to delete a removed sandbox's notes.
 
 ---
 

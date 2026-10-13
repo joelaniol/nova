@@ -206,7 +206,7 @@ For detailed specifications, schemas, and implementation mechanics, explore the 
 
 * **[Delivery Levels, Dual-Mode Acknowledgment & AAG Enforcement](delivery-levels-and-aag-enforcement.md)** — The three delivery levels, pure evaluation engine, retry vs tool ack, bulk-acknowledgment, acknowledge cache internals, and the cross-carrier deduplication ledger.
 * **[Scoping, Host Normalization & Re-Acknowledgment Policies](scoping-normalization-and-repeat-policies.md)** — Canonical host normalization, eTLD+1 resolution, the curated Multi-Tenant Suffix Lexicon, sandbox binding with Stale-Letter Defense, the heuristic Scope Advisor, and dual-trigger repeat policies.
-* **[Authorship, Override Permissions & Storage Architecture](authorship-permissions-and-storage.md)** — User vs agent authorship, the User-Note Override Permission Gate, atomic JSON persistence, key validation rules, capacity pruning, and sandbox deletion cascades.
+* **[Authorship, Override Permissions & Storage Architecture](authorship-permissions-and-storage.md)** — User vs agent authorship, the User-Note Override Permission Gate, the local notes database, key validation rules, capacity limits, and what happens to notes when a sandbox is deleted.
 
 ---
 

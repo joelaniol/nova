@@ -149,7 +149,7 @@ notes[idx] = notes[idx] with
 };
 ```
 
-* **Zero-Turn Learning:** The agent does not need to call an extra tool to indicate that a note was useful. The act of retrieval itself reinforces the note's half-life and protects it from background pruning.
+* **Zero-Turn Learning:** The agent does not need to call an extra tool to indicate that a note was useful. The act of retrieval itself reinforces the note's half-life, so useful notes rank higher in later queries.
 * **Concurrency Safety:** Read-time updates are serialized under `OperatorNotesStore.GlobalWriteLock` to prevent race conditions during parallel agent operations.
 
 ---
@@ -199,7 +199,7 @@ This ensures that the model assimilates user preferences and environmental const
 ## Related Documentation
 
 * **[Operator Notes Overview](README.md)** — Architectural hub, memory taxonomy, and tool catalog.
-* **[Sandbox Binding & Lifecycle](sandbox-binding-and-lifecycle.md)** — Dual-token identity, orphan recovery, and capacity pruning.
+* **[Sandbox Binding & Lifecycle](sandbox-binding-and-lifecycle.md)** — Dual-token identity, orphan recovery, and input limits.
 * **[Provider Neutrality & Runtime Contracts](provider-neutrality-and-system-prompts.md)** — Multi-model memory synchronization, ContextSnapshot injection, and schema fallbacks.
 * **[Tool Reference: nova.operator_notes_query](../../../mcp-reference/tools/task-memory/nova-operator-notes-query.md)** — Parameter and return schema.
 * **[Tool Reference: nova.get_instructions](../../../mcp-reference/tools/app-shell-and-ui/nova-get-instructions.md)** — Session instruction dispatch.

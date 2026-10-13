@@ -191,4 +191,4 @@ The reliability of Operator Notes across edge cases is verified through an exten
 
 * **[Operator Notes Overview](README.md)** — Architectural hub, memory taxonomy, and tool catalog.
 * **[Scoring Engine & Temporal Decay](scoring-and-retrieval.md)** — TF-IDF vector similarity and exponential decay formulas.
-* **[Sandbox Binding & Lifecycle](sandbox-binding-and-lifecycle.md)** — Dual-token identity, orphan recovery, and capacity pruning.
+* **[Sandbox Binding & Lifecycle](sandbox-binding-and-lifecycle.md)** — Dual-token identity, orphan recovery, and input limits.
