@@ -2,7 +2,7 @@
   "experiment_id": "EXP-027",
   "status": "FROZEN_VERIFIED_GROUND_TRUTH",
   "freeze_timestamp_utc": "2026-10-14T05:55:00Z",
-  "source_delivery": "E:/-=Entwicklung=-/clip_generator/projects/swiftclip_exp027/lieferung/EXP-027",
+  "source_delivery": "EXP-027_delivery",
   "clips": {
     "C1": {
       "clip_id": "C1",
@@ -41,22 +41,22 @@
       "per_frame_visibility_csv": "C1_sichtbarkeit_pro_frame_60fps.csv",
       "file_hashes": {
         "video_60fps_webm": {
-          "path": "E:/-=Entwicklung=-/clip_generator/projects/swiftclip_exp027/lieferung/EXP-027/videos_60fps/C1_C1_visible_pass_1080_60fps.webm",
+          "path": "EXP-027_delivery/videos_60fps/C1_C1_visible_pass_1080_60fps.webm",
           "sha256": "c0d4bef982b420874b8dd9ee61813d4fd5364de3ed26977fdc352ab148c86c71",
           "bytes": 392689
         },
         "video_64f_webm": {
-          "path": "E:/-=Entwicklung=-/clip_generator/projects/swiftclip_exp027/lieferung/EXP-027/videos_64f/C1_C1_visible_pass_1080_64f_16fps.webm",
+          "path": "EXP-027_delivery/videos_64f/C1_C1_visible_pass_1080_64f_16fps.webm",
           "sha256": "72d4eff52d591bc4f847f4e0ec30b657424184de88a3e63e6853a7136af08c1e",
           "bytes": 109607
         },
         "grid128_webp": {
-          "path": "E:/-=Entwicklung=-/clip_generator/projects/swiftclip_exp027/lieferung/EXP-027/kontaktboegen/C1_GRID128.webp",
+          "path": "EXP-027_delivery/kontaktboegen/C1_GRID128.webp",
           "sha256": "19053552adce5e06c0dd1736a8a3bcbbdc7253b2bb283c8ba6515febe96c3b7d",
           "bytes": 896
         },
         "grid512_webp": {
-          "path": "E:/-=Entwicklung=-/clip_generator/projects/swiftclip_exp027/lieferung/EXP-027/kontaktboegen/C1_GRID512.webp",
+          "path": "EXP-027_delivery/kontaktboegen/C1_GRID512.webp",
           "sha256": "7d53c69822585084594c95d9a700410190504e9c9751a6482a72378fc2392cc7",
           "bytes": 3218
         }
@@ -103,22 +103,22 @@
       "per_frame_visibility_csv": "C2_sichtbarkeit_pro_frame_60fps.csv",
       "file_hashes": {
         "video_60fps_webm": {
-          "path": "E:/-=Entwicklung=-/clip_generator/projects/swiftclip_exp027/lieferung/EXP-027/videos_60fps/C2_C2_partial_occlusion_1080_60fps.webm",
+          "path": "EXP-027_delivery/videos_60fps/C2_C2_partial_occlusion_1080_60fps.webm",
           "sha256": "173c349596e3247e3c9ebcdd5f2eb7be1dbfc03594da17d0bbf04ed9bbe04a1e",
           "bytes": 173218
         },
         "video_64f_webm": {
-          "path": "E:/-=Entwicklung=-/clip_generator/projects/swiftclip_exp027/lieferung/EXP-027/videos_64f/C2_C2_partial_occlusion_1080_64f_16fps.webm",
+          "path": "EXP-027_delivery/videos_64f/C2_C2_partial_occlusion_1080_64f_16fps.webm",
           "sha256": "243f241321aabf978d52b8a1a1b03238d363ebb963aed8a3c9f4660afb309603",
           "bytes": 73618
         },
         "grid128_webp": {
-          "path": "E:/-=Entwicklung=-/clip_generator/projects/swiftclip_exp027/lieferung/EXP-027/kontaktboegen/C2_GRID128.webp",
+          "path": "EXP-027_delivery/kontaktboegen/C2_GRID128.webp",
           "sha256": "7a69392e811d59242b01a2ac973cd4baa160f3e18d596ca410cb202160856d97",
           "bytes": 784
         },
         "grid512_webp": {
-          "path": "E:/-=Entwicklung=-/clip_generator/projects/swiftclip_exp027/lieferung/EXP-027/kontaktboegen/C2_GRID512.webp",
+          "path": "EXP-027_delivery/kontaktboegen/C2_GRID512.webp",
           "sha256": "877e815c4c7306bbdebf044b7656447cc647ebbd9fbed1b02c66f4b355ed1a5b",
           "bytes": 2730
         }
@@ -172,22 +172,22 @@
       "per_frame_visibility_csv": "C3_sichtbarkeit_pro_frame_60fps.csv",
       "file_hashes": {
         "video_60fps_webm": {
-          "path": "E:/-=Entwicklung=-/clip_generator/projects/swiftclip_exp027/lieferung/EXP-027/videos_60fps/C3_C3_full_occlusion_1080_60fps.webm",
+          "path": "EXP-027_delivery/videos_60fps/C3_C3_full_occlusion_1080_60fps.webm",
           "sha256": "17e37f524dab0a7bac4d5f656f9cf3b062c0979cea27cccca2919f79196f4c1a",
           "bytes": 256869
         },
         "video_64f_webm": {
-          "path": "E:/-=Entwicklung=-/clip_generator/projects/swiftclip_exp027/lieferung/EXP-027/videos_64f/C3_C3_full_occlusion_1080_64f_16fps.webm",
+          "path": "EXP-027_delivery/videos_64f/C3_C3_full_occlusion_1080_64f_16fps.webm",
           "sha256": "944a5cb61fc7259e76dc419eac5f064bfa286d4a1b0057d3734a68e092f4dd7a",
           "bytes": 83707
         },
         "grid128_webp": {
-          "path": "E:/-=Entwicklung=-/clip_generator/projects/swiftclip_exp027/lieferung/EXP-027/kontaktboegen/C3_GRID128.webp",
+          "path": "EXP-027_delivery/kontaktboegen/C3_GRID128.webp",
           "sha256": "9da9e048138f6e19972fd1bbdd16393b05a5ee366d3a448a69ba0db0305dc216",
           "bytes": 830
         },
         "grid512_webp": {
-          "path": "E:/-=Entwicklung=-/clip_generator/projects/swiftclip_exp027/lieferung/EXP-027/kontaktboegen/C3_GRID512.webp",
+          "path": "EXP-027_delivery/kontaktboegen/C3_GRID512.webp",
           "sha256": "a63a9ca6cc02ef5dc9626a0e81b1ff2ba2fc5eb09f880443d9d4fab42a078fc9",
           "bytes": 2762
         }
@@ -237,22 +237,22 @@
       "per_frame_visibility_csv": "C4_sichtbarkeit_pro_frame_60fps.csv",
       "file_hashes": {
         "video_60fps_webm": {
-          "path": "E:/-=Entwicklung=-/clip_generator/projects/swiftclip_exp027/lieferung/EXP-027/videos_60fps/C4_C4_bounce_reversal_1080_60fps.webm",
+          "path": "EXP-027_delivery/videos_60fps/C4_C4_bounce_reversal_1080_60fps.webm",
           "sha256": "4cd90c0343802c72de81c790f9733fb6421f45f96b19364b2e4de31e53cff2b1",
           "bytes": 361583
         },
         "video_64f_webm": {
-          "path": "E:/-=Entwicklung=-/clip_generator/projects/swiftclip_exp027/lieferung/EXP-027/videos_64f/C4_C4_bounce_reversal_1080_64f_16fps.webm",
+          "path": "EXP-027_delivery/videos_64f/C4_C4_bounce_reversal_1080_64f_16fps.webm",
           "sha256": "838843cd054a3adfa2a53328d00ceba36e3a6dcf4e714e232c54f47f0bb71bd1",
           "bytes": 110532
         },
         "grid128_webp": {
-          "path": "E:/-=Entwicklung=-/clip_generator/projects/swiftclip_exp027/lieferung/EXP-027/kontaktboegen/C4_GRID128.webp",
+          "path": "EXP-027_delivery/kontaktboegen/C4_GRID128.webp",
           "sha256": "12b40295764997160cd91299412550b6b371df7cd0933eb1e7fba35b682caabb",
           "bytes": 1094
         },
         "grid512_webp": {
-          "path": "E:/-=Entwicklung=-/clip_generator/projects/swiftclip_exp027/lieferung/EXP-027/kontaktboegen/C4_GRID512.webp",
+          "path": "EXP-027_delivery/kontaktboegen/C4_GRID512.webp",
           "sha256": "d2c4ee43c2e1f46b463a4fc979dcd7c20e02d10acd4d02ae9621248bf4616370",
           "bytes": 3214
         }
@@ -328,22 +328,22 @@
       "per_frame_visibility_csv": "C5_sichtbarkeit_pro_frame_60fps.csv",
       "file_hashes": {
         "video_60fps_webm": {
-          "path": "E:/-=Entwicklung=-/clip_generator/projects/swiftclip_exp027/lieferung/EXP-027/videos_60fps/C5_C5_occlusion_with_pulse_1080_60fps.webm",
+          "path": "EXP-027_delivery/videos_60fps/C5_C5_occlusion_with_pulse_1080_60fps.webm",
           "sha256": "0a3c4de1d22988ff9b848d6687fea47726069a27c9675e6fcb3f2c01e5e573ef",
           "bytes": 264645
         },
         "video_64f_webm": {
-          "path": "E:/-=Entwicklung=-/clip_generator/projects/swiftclip_exp027/lieferung/EXP-027/videos_64f/C5_C5_occlusion_with_pulse_1080_64f_16fps.webm",
+          "path": "EXP-027_delivery/videos_64f/C5_C5_occlusion_with_pulse_1080_64f_16fps.webm",
           "sha256": "855df37eb96d6e1187559a7eee36373a947e4f3e2650f94a1f87dfe01845702a",
           "bytes": 86372
         },
         "grid128_webp": {
-          "path": "E:/-=Entwicklung=-/clip_generator/projects/swiftclip_exp027/lieferung/EXP-027/kontaktboegen/C5_GRID128.webp",
+          "path": "EXP-027_delivery/kontaktboegen/C5_GRID128.webp",
           "sha256": "cc4ace87017d90a2878227364bf8eafcb083f751757413181b28fbc9a26c1973",
           "bytes": 834
         },
         "grid512_webp": {
-          "path": "E:/-=Entwicklung=-/clip_generator/projects/swiftclip_exp027/lieferung/EXP-027/kontaktboegen/C5_GRID512.webp",
+          "path": "EXP-027_delivery/kontaktboegen/C5_GRID512.webp",
           "sha256": "c273800cb3283728622642fa9dd8c5a442105367971825c4b2d5bdf7efa95890",
           "bytes": 2796
         }
