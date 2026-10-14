@@ -49,8 +49,8 @@ Antworte im folgenden JSON-Format:
     "GRID_FORMAT": """WISSENSCHAFTLICHER VIDEO-BLINDTEST:
 
 Analysiere die dargestellte Szene völlig frei und neutral:
-Das Bild ist ein 8x8 Kontaktbogen aus 64 zeitlich aufeinanderfolgenden Videobildern.
-Die Zeit verläuft zeilenweise von oben-links nach unten-rechts (Zeile 0 = Anfang, Zeile 7 = Ende).
+Das Bild ist ein 4x4 Kontaktbogen aus 16 zeitlich aufeinanderfolgenden Videobildern.
+Die Zeit verläuft zeilenweise von oben-links nach unten-rechts (Zeile 0 = Anfang, Zeile 3 = Ende).
 
 AUFGABE:
 Beschreibe ausschließlich, was du in der dargestellten Szene erkennen kannst, in zeitlicher Reihenfolge:

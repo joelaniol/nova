@@ -1,0 +1,133 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "EXP-027",
+  "audit_status": "peer_reviewed_audited",
+  "execution_harness": {
+    "platform": "Google Antigravity Subagent Framework",
+    "subagent_type": "research",
+    "perception_mechanism": "Native binary image viewing via view_file",
+    "model_identifier_internal": "MODEL_PLACEHOLDER_M318",
+    "model_architecture_family": "Claude 3.5 Sonnet (Multimodal Vision Engine)",
+    "blinding_enforcement": "Content-blind UUID stimuli, isolated nur_auswertung/ ground truth, zero filesystem exploration permitted",
+    "contact_sheet_format_presented": "4x4 uniform grid (16 frames at t=0, 4, ..., 60; 16 FPS sample rate)"
+  },
+  "subagent_instances": [
+    {
+      "run": 1,
+      "batch": "A",
+      "conversation_id": "fb218a2e-2449-4219-bf03-c37ab2a57175",
+      "spawn_step_index": 7955,
+      "stimuli": [
+        "stimulus_dc93ad4e4cb0",
+        "stimulus_629248a847a1",
+        "stimulus_8bf9e7c6ecc2",
+        "stimulus_f1b6727a98d7",
+        "stimulus_d940edfa4408"
+      ]
+    },
+    {
+      "run": 1,
+      "batch": "B",
+      "conversation_id": "cc575a3d-600e-4452-9dcb-ca1d01fbaa4d",
+      "spawn_step_index": 7955,
+      "stimuli": [
+        "stimulus_cd107141bd9d",
+        "stimulus_902864d64466",
+        "stimulus_157e107a1ce1",
+        "stimulus_599d29deae99",
+        "stimulus_de352cce172e"
+      ]
+    },
+    {
+      "run": 1,
+      "batch": "C",
+      "conversation_id": "918d734e-fa29-47ab-97ca-9f3387639825",
+      "spawn_step_index": 7955,
+      "stimuli": [
+        "stimulus_f5ba23e6fc4c",
+        "stimulus_1bb69c94b9f4",
+        "stimulus_67633cbc580d",
+        "stimulus_6a807652bf33",
+        "stimulus_91d4e99b8620"
+      ]
+    },
+    {
+      "run": 2,
+      "batch": "A",
+      "conversation_id": "e86320e3-996f-4662-814e-bf16d13bd03c",
+      "spawn_step_index": 7957,
+      "stimuli": [
+        "stimulus_dc93ad4e4cb0",
+        "stimulus_629248a847a1",
+        "stimulus_8bf9e7c6ecc2",
+        "stimulus_f1b6727a98d7",
+        "stimulus_d940edfa4408"
+      ]
+    },
+    {
+      "run": 2,
+      "batch": "B",
+      "conversation_id": "535c65bc-230e-422f-b84a-bf81902ad689",
+      "spawn_step_index": 7957,
+      "stimuli": [
+        "stimulus_cd107141bd9d",
+        "stimulus_902864d64466",
+        "stimulus_157e107a1ce1",
+        "stimulus_599d29deae99",
+        "stimulus_de352cce172e"
+      ]
+    },
+    {
+      "run": 2,
+      "batch": "C",
+      "conversation_id": "a76358a4-aa2c-44f4-b631-4907c1fbfdf9",
+      "spawn_step_index": 7957,
+      "stimuli": [
+        "stimulus_f5ba23e6fc4c",
+        "stimulus_1bb69c94b9f4",
+        "stimulus_67633cbc580d",
+        "stimulus_6a807652bf33",
+        "stimulus_91d4e99b8620"
+      ]
+    },
+    {
+      "run": 3,
+      "batch": "A",
+      "conversation_id": "348ac387-d6e0-4d7a-a4ea-65aeea37a824",
+      "spawn_step_index": 7959,
+      "stimuli": [
+        "stimulus_dc93ad4e4cb0",
+        "stimulus_629248a847a1",
+        "stimulus_8bf9e7c6ecc2",
+        "stimulus_f1b6727a98d7",
+        "stimulus_d940edfa4408"
+      ]
+    },
+    {
+      "run": 3,
+      "batch": "B",
+      "conversation_id": "cc157430-4a38-4b4c-8351-338c1a158376",
+      "spawn_step_index": 7959,
+      "stimuli": [
+        "stimulus_cd107141bd9d",
+        "stimulus_902864d64466",
+        "stimulus_157e107a1ce1",
+        "stimulus_599d29deae99",
+        "stimulus_de352cce172e"
+      ]
+    },
+    {
+      "run": 3,
+      "batch": "C",
+      "conversation_id": "d1506ec5-2ece-431b-8fe8-56bf86e90090",
+      "spawn_step_index": 7959,
+      "stimuli": [
+        "stimulus_f5ba23e6fc4c",
+        "stimulus_1bb69c94b9f4",
+        "stimulus_67633cbc580d",
+        "stimulus_6a807652bf33",
+        "stimulus_91d4e99b8620"
+      ]
+    }
+  ]
+}
