@@ -1,0 +1,185 @@
+{
+  "experiment_id": "EXP-027",
+  "random_seed": 20261027,
+  "total_stimuli": 15,
+  "source_delivery": "EXP-027_delivery",
+  "records": [
+    {
+      "stimulus_id": "stimulus_6a807652bf33",
+      "filename": "stimulus_6a807652bf33.webp",
+      "png_filename": "stimulus_6a807652bf33.png",
+      "clip_id": "C1",
+      "condition": "VLT_WEBP",
+      "format": "E3_K12_Carrier_128x128",
+      "bytes_webp": 656,
+      "bytes_png": 3010,
+      "sha256_webp": "5801734457a5ac3612074f6903db3998841a73b98341193b041c1a085700a22f",
+      "sha256_png": "ed5ec842b142148433e38fadde19c9be6fcb781e18292818f8ec1be72a9c79ff"
+    },
+    {
+      "stimulus_id": "stimulus_8bf9e7c6ecc2",
+      "filename": "stimulus_8bf9e7c6ecc2.webp",
+      "clip_id": "C1",
+      "condition": "GRID128_WEBP",
+      "format": "Contact_Sheet_128x128_4x4",
+      "bytes_webp": 896,
+      "sha256_webp": "19053552adce5e06c0dd1736a8a3bcbbdc7253b2bb283c8ba6515febe96c3b7d",
+      "source_file": "C1_GRID128.webp"
+    },
+    {
+      "stimulus_id": "stimulus_91d4e99b8620",
+      "filename": "stimulus_91d4e99b8620.webp",
+      "clip_id": "C1",
+      "condition": "GRID512_WEBP",
+      "format": "Contact_Sheet_512x512_4x4",
+      "bytes_webp": 3218,
+      "sha256_webp": "7d53c69822585084594c95d9a700410190504e9c9751a6482a72378fc2392cc7",
+      "source_file": "C1_GRID512.webp"
+    },
+    {
+      "stimulus_id": "stimulus_599d29deae99",
+      "filename": "stimulus_599d29deae99.webp",
+      "png_filename": "stimulus_599d29deae99.png",
+      "clip_id": "C2",
+      "condition": "VLT_WEBP",
+      "format": "E3_K12_Carrier_128x128",
+      "bytes_webp": 472,
+      "bytes_png": 2528,
+      "sha256_webp": "2818668c63647000fa24562a7d151132fe99cd7cdb5425ac0983c401706d320b",
+      "sha256_png": "f4fcd19a8cbf069af6d2f35bf8103b79344d927265371256940956097b840811"
+    },
+    {
+      "stimulus_id": "stimulus_902864d64466",
+      "filename": "stimulus_902864d64466.webp",
+      "clip_id": "C2",
+      "condition": "GRID128_WEBP",
+      "format": "Contact_Sheet_128x128_4x4",
+      "bytes_webp": 784,
+      "sha256_webp": "7a69392e811d59242b01a2ac973cd4baa160f3e18d596ca410cb202160856d97",
+      "source_file": "C2_GRID128.webp"
+    },
+    {
+      "stimulus_id": "stimulus_cd107141bd9d",
+      "filename": "stimulus_cd107141bd9d.webp",
+      "clip_id": "C2",
+      "condition": "GRID512_WEBP",
+      "format": "Contact_Sheet_512x512_4x4",
+      "bytes_webp": 2730,
+      "sha256_webp": "877e815c4c7306bbdebf044b7656447cc647ebbd9fbed1b02c66f4b355ed1a5b",
+      "source_file": "C2_GRID512.webp"
+    },
+    {
+      "stimulus_id": "stimulus_f1b6727a98d7",
+      "filename": "stimulus_f1b6727a98d7.webp",
+      "png_filename": "stimulus_f1b6727a98d7.png",
+      "clip_id": "C3",
+      "condition": "VLT_WEBP",
+      "format": "E3_K12_Carrier_128x128",
+      "bytes_webp": 560,
+      "bytes_png": 2578,
+      "sha256_webp": "0360eb3c6717f96058bb909bce24c9ec3f47fad70b4b36b6fbc36907c61f870f",
+      "sha256_png": "71fee3a083e48cf6dff4a738283ef7b2e3ab065d212e982d137164132e6ab316"
+    },
+    {
+      "stimulus_id": "stimulus_f5ba23e6fc4c",
+      "filename": "stimulus_f5ba23e6fc4c.webp",
+      "clip_id": "C3",
+      "condition": "GRID128_WEBP",
+      "format": "Contact_Sheet_128x128_4x4",
+      "bytes_webp": 830,
+      "sha256_webp": "9da9e048138f6e19972fd1bbdd16393b05a5ee366d3a448a69ba0db0305dc216",
+      "source_file": "C3_GRID128.webp"
+    },
+    {
+      "stimulus_id": "stimulus_1bb69c94b9f4",
+      "filename": "stimulus_1bb69c94b9f4.webp",
+      "clip_id": "C3",
+      "condition": "GRID512_WEBP",
+      "format": "Contact_Sheet_512x512_4x4",
+      "bytes_webp": 2762,
+      "sha256_webp": "a63a9ca6cc02ef5dc9626a0e81b1ff2ba2fc5eb09f880443d9d4fab42a078fc9",
+      "source_file": "C3_GRID512.webp"
+    },
+    {
+      "stimulus_id": "stimulus_157e107a1ce1",
+      "filename": "stimulus_157e107a1ce1.webp",
+      "png_filename": "stimulus_157e107a1ce1.png",
+      "clip_id": "C4",
+      "condition": "VLT_WEBP",
+      "format": "E3_K12_Carrier_128x128",
+      "bytes_webp": 482,
+      "bytes_png": 2284,
+      "sha256_webp": "2c29b5e971a8b912f1da0211f501cd03539e4f0a8652208e493b1446a3af59f5",
+      "sha256_png": "30a7acde336878258778e14529d48e5e7837d07cf6ef46403f9bc2956c81953d"
+    },
+    {
+      "stimulus_id": "stimulus_dc93ad4e4cb0",
+      "filename": "stimulus_dc93ad4e4cb0.webp",
+      "clip_id": "C4",
+      "condition": "GRID128_WEBP",
+      "format": "Contact_Sheet_128x128_4x4",
+      "bytes_webp": 1094,
+      "sha256_webp": "12b40295764997160cd91299412550b6b371df7cd0933eb1e7fba35b682caabb",
+      "source_file": "C4_GRID128.webp"
+    },
+    {
+      "stimulus_id": "stimulus_d940edfa4408",
+      "filename": "stimulus_d940edfa4408.webp",
+      "clip_id": "C4",
+      "condition": "GRID512_WEBP",
+      "format": "Contact_Sheet_512x512_4x4",
+      "bytes_webp": 3214,
+      "sha256_webp": "d2c4ee43c2e1f46b463a4fc979dcd7c20e02d10acd4d02ae9621248bf4616370",
+      "source_file": "C4_GRID512.webp"
+    },
+    {
+      "stimulus_id": "stimulus_67633cbc580d",
+      "filename": "stimulus_67633cbc580d.webp",
+      "png_filename": "stimulus_67633cbc580d.png",
+      "clip_id": "C5",
+      "condition": "VLT_WEBP",
+      "format": "E3_K12_Carrier_128x128",
+      "bytes_webp": 558,
+      "bytes_png": 2561,
+      "sha256_webp": "1067ba9aba550faeaa99c28e0a8616d1edcb388906d77b0056879c49a65ca153",
+      "sha256_png": "a503b899c1e30b12fb5239953275b8ea2c179f3a16041915ba121d3690372fca"
+    },
+    {
+      "stimulus_id": "stimulus_de352cce172e",
+      "filename": "stimulus_de352cce172e.webp",
+      "clip_id": "C5",
+      "condition": "GRID128_WEBP",
+      "format": "Contact_Sheet_128x128_4x4",
+      "bytes_webp": 834,
+      "sha256_webp": "cc4ace87017d90a2878227364bf8eafcb083f751757413181b28fbc9a26c1973",
+      "source_file": "C5_GRID128.webp"
+    },
+    {
+      "stimulus_id": "stimulus_629248a847a1",
+      "filename": "stimulus_629248a847a1.webp",
+      "clip_id": "C5",
+      "condition": "GRID512_WEBP",
+      "format": "Contact_Sheet_512x512_4x4",
+      "bytes_webp": 2796,
+      "sha256_webp": "c273800cb3283728622642fa9dd8c5a442105367971825c4b2d5bdf7efa95890",
+      "source_file": "C5_GRID512.webp"
+    }
+  ],
+  "evaluation_order": [
+    "stimulus_dc93ad4e4cb0",
+    "stimulus_629248a847a1",
+    "stimulus_8bf9e7c6ecc2",
+    "stimulus_f1b6727a98d7",
+    "stimulus_d940edfa4408",
+    "stimulus_cd107141bd9d",
+    "stimulus_902864d64466",
+    "stimulus_157e107a1ce1",
+    "stimulus_599d29deae99",
+    "stimulus_de352cce172e",
+    "stimulus_f5ba23e6fc4c",
+    "stimulus_1bb69c94b9f4",
+    "stimulus_67633cbc580d",
+    "stimulus_6a807652bf33",
+    "stimulus_91d4e99b8620"
+  ]
+}

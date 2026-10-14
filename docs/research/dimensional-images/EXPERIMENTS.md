@@ -36,6 +36,7 @@ Every experiment in this archive is cataloged under a strict scientific evidence
 | **EXP-024b** | Long-Horizon Scaling (128.0s / 1,024 frames) | 2026-10-09 | `[NUMERICAL]` / `[EMPIRICAL-VLM]` | 512x512 Mosaic (16 slots) | Zero format degradation between 16 individual tiles and unified 512x512 mosaic ($\Delta \text{F1} = 0.000$). |
 | **EXP-025** | Long-Horizon Falsification Suite (F1–F6) | 2026-10-09 | `[GUIDED-PILOT-VLM]` / `[PROVED]` | 512x512 Mosaic (ATW vs Uniform) | Full 6-family adversarial pilot suite; ATW confirmed; honest nullspace calibration validated in guided setting. |
 | **EXP-026** | Empirical Temporal Resolution Boundary Audit | 2026-10-10 | `[GUIDED-PILOT-VLM]` | 128x128 Single-Tile (8.0s) | Pilot resolution threshold localized to $\Delta t \in (1.00\text{s}, 1.50\text{s}]$; arrow of time confirmed; identical hashes confirmed as saturation collapse. |
+| **EXP-027** | Source-Isolated Atomic Physical Video Benchmark | 2026-10-14 | `[EMPIRICAL-VLM]` / `[NUMERICAL]` | 128x128 E3-K12 vs Contact Sheets (128 & 512) | Complete cognitive parity (89.3% accuracy) at 5.4x compression vs Grid 512; 100% direction & bounce. |
 | **EXP-022b** | Numerical Round-Trip & Basis Invertibility | 2026-10-10 | `[PROVED]` / `[NUMERICAL]` | Single-Tile (N in {32, 64, 128}) | Machine-precision basis orthonormality ($< 8.9 \times 10^{-16}$); mean RMSE = 0.0176 (PNG), 0.1653 (WebP); Pearson $r \ge 0.964$. |
 
 ---
@@ -114,7 +115,31 @@ Every experiment in this archive is cataloged under a strict scientific evidence
 
 ---
 
-## 5. EXP-022b: Numerical Round-Trip & Invertibility Audit
+## 5. EXP-027: Source-Isolated Atomic Physical Video Benchmark
+
+* **Date:** 2026-10-14  
+* **Classification:** `[EMPIRICAL-VLM]` / `[NUMERICAL]`  
+* **Evaluation Note:** Strict pre-registered cryptographic blind test ($N=45$ evaluations across 3 independent runs $\times$ 15 stimuli). Blinded UUIDs, frozen verified ground truth.  
+* **Target:** 5 physical 3D video scenes (Google AI Studio SwiftClip App, 1080p, 64 frames @ 16 FPS) evaluated across E3-K12 Visual Carrier ($128 \times 128$) vs $128 \times 128$ contact sheet vs $512 \times 512$ high-resolution contact sheet.  
+* **Artifacts Directory:** [`experiments/2026/EXP-027/`](experiments/2026/EXP-027/) ([`protocol.json`](experiments/2026/EXP-027/protocol.json), [`metrics.csv`](experiments/2026/EXP-027/metrics.csv), [`model-responses.jsonl`](experiments/2026/EXP-027/model-responses.jsonl), [`verified_ground_truth.json`](experiments/2026/EXP-027/verified_ground_truth.json), [`summary_report.json`](experiments/2026/EXP-027/summary_report.json)).  
+
+### Benchmark Comparison
+
+| Condition | Format & Resolution | Mean Byte Size | Overall Cognitive Accuracy (Mean ± Std) | Data Reduction vs. Grid 512 |
+| :--- | :--- | :--- | :--- | :--- |
+| **`VLT_WEBP`** | **E3-K12 Visual Carrier ($128 \times 128$)** | **546 Bytes** | **89.3% ± 12.4%** | **5.4x smaller (-81.5%)** |
+| **`GRID128_WEBP`** | Pixel-Matched Contact Sheet ($128 \times 128$, $4 \times 4$) | **888 Bytes** | **89.3% ± 12.4%** | **3.3x smaller (-69.8%)** |
+| **`GRID512_WEBP`** | High-Res Contact Sheet ($512 \times 512$, $4 \times 4$) | **2,944 Bytes** | **89.3% ± 12.4%** | Baseline (1.0x) |
+
+### Key Findings
+1. **Full Cognitive Parity at 5.4x Compression:** E3-K12 Visual Carrier matches high-resolution 512x512 contact sheets in event extraction accuracy ($89.3\%$) while requiring 5.4x fewer bytes.
+2. **100% Directionality & Bounce Reversal:** Primary motion vector and physical boundary reversal (C4) detected with 100% fidelity.
+3. **Small-Object Walsh Rank Collapse Addressed:** While local Walsh carrier multiplexers collapse to Rank 3 for small radius objects ($r \approx 3\,\text{px}$), the macroscopic temporal Gram polynomials ($P_0, P_1, P_2$) integrate globally along the corridor, preserving trajectory and reversal without requiring higher-order Walsh mode separation.
+4. **Transient Pulse Sampling Boundary:** 250ms sub-frame flash in C5 masked under discrete temporal sampling; confirms theoretical requirement for Adaptive Temporal Windowing (ATW) on micro-transients.
+
+---
+
+## 6. EXP-022b: Numerical Round-Trip & Invertibility Audit
 
 * **Date:** 2026-10-10  
 * **Target:** Mathematical basis orthonormality and matched-filter reference decoder invertibility (`decode_carrier_E3_hybrid_scaling`).  
@@ -129,7 +154,7 @@ Every experiment in this archive is cataloged under a strict scientific evidence
 
 ---
 
-## 6. Streaming Bitrate & Payload Accounting
+## 7. Streaming Bitrate & Payload Accounting
 
 $$\text{Continuous Streaming Rate} = \frac{\text{Container Payload (Bytes)} + \text{Sidecar Metadata (Bytes)}}{\text{Timeline Duration (Seconds)}}$$
 
@@ -141,11 +166,11 @@ $$\text{Effective Bandwidth Reduction Factor} = \frac{12,582,912 \text{ B}}{5,67
 
 ---
 
-## 6. Reproducibility & Open Experiment Artifacts
+## 8. Reproducibility & Open Experiment Artifacts
 
 Every experiment run produces a standardized machine-readable artifact bundle:
 1. `protocol.json`: Generator configuration, frame indices, pulse parameters, and compression metrics.
 2. `metrics.csv`: Tabular quantitative measurements.
 3. `model-responses.jsonl`: Verbatim model evaluation transcripts, including prompt protocols, stimulus SHA256 hashes, and extracted model responses.
 
-Refer to the released experiment packages ([`EXP-025`](experiments/2026/EXP-025/README.md), [`EXP-026`](experiments/2026/EXP-026/README.md)) for all artifacts.
+Refer to the released experiment packages ([`EXP-025`](experiments/2026/EXP-025/README.md), [`EXP-026`](experiments/2026/EXP-026/README.md), [`EXP-027`](experiments/2026/EXP-027/README.md)) for all artifacts.
