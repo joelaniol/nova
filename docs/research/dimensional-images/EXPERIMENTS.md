@@ -118,24 +118,25 @@ Every experiment in this archive is cataloged under a strict scientific evidence
 ## 5. EXP-027: Source-Isolated Atomic Physical Video Benchmark
 
 * **Date:** 2026-10-14  
-* **Classification:** `[EMPIRICAL-VLM]` / `[NUMERICAL]`  
+* **Classification:** `[EMPIRICAL-PILOT-VLM]` / `[NUMERICAL]`  
 * **Evaluation Note:** Strict pre-registered cryptographic blind test ($N=45$ evaluations across 3 independent runs $\times$ 15 stimuli). Blinded UUIDs, frozen verified ground truth.  
 * **Target:** 5 physical 3D video scenes (Google AI Studio SwiftClip App, 1080p, 64 frames @ 16 FPS) evaluated across E3-K12 Visual Carrier ($128 \times 128$) vs $128 \times 128$ contact sheet vs $512 \times 512$ high-resolution contact sheet.  
-* **Artifacts Directory:** [`experiments/2026/EXP-027/`](experiments/2026/EXP-027/) ([`protocol.json`](experiments/2026/EXP-027/protocol.json), [`metrics.csv`](experiments/2026/EXP-027/metrics.csv), [`model-responses.jsonl`](experiments/2026/EXP-027/model-responses.jsonl), [`verified_ground_truth.json`](experiments/2026/EXP-027/verified_ground_truth.json), [`summary_report.json`](experiments/2026/EXP-027/summary_report.json)).  
+* **Artifacts Directory:** [`experiments/2026/EXP-027/`](experiments/2026/EXP-027/) ([`protocol.json`](experiments/2026/EXP-027/protocol.json), [`metrics.csv`](experiments/2026/EXP-027/metrics.csv), [`model-responses.jsonl`](experiments/2026/EXP-027/model-responses.jsonl), [`verified_ground_truth.json`](experiments/2026/EXP-027/verified_ground_truth.json), [`summary_report.json`](experiments/2026/EXP-027/summary_report.json), [`evaluator_provenance.json`](experiments/2026/EXP-027/evaluator_provenance.json), [`run_posthoc_reanalysis.py`](experiments/2026/EXP-027/run_posthoc_reanalysis.py), [`stimuli/`](experiments/2026/EXP-027/stimuli/)).  
 
 ### Benchmark Comparison
 
-| Condition | Format & Resolution | Mean Byte Size | Overall Cognitive Accuracy (Mean ± Std) | Data Reduction vs. Grid 512 |
-| :--- | :--- | :--- | :--- | :--- |
-| **`VLT_WEBP`** | **E3-K12 Visual Carrier ($128 \times 128$)** | **546 Bytes** | **89.3% ± 12.4%** | **5.4x smaller (-81.5%)** |
-| **`GRID128_WEBP`** | Pixel-Matched Contact Sheet ($128 \times 128$, $4 \times 4$) | **888 Bytes** | **89.3% ± 12.4%** | **3.3x smaller (-69.8%)** |
-| **`GRID512_WEBP`** | High-Res Contact Sheet ($512 \times 512$, $4 \times 4$) | **2,944 Bytes** | **89.3% ± 12.4%** | Baseline (1.0x) |
+| Condition | Format & Resolution | Mean Byte Size | Historical 5-Endpoint Score | Core Kinematics (3 Endpoints) | Extended Kinematics (4 Endpoints, C2 Disentangled) | Data Reduction vs. Grid 512 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **`VLT_WEBP`** | **E3-K12 Visual Carrier ($128 \times 128$)** | **546 Bytes** | **89.3% ± 12.8%** (67/75) | **97.8% ± 8.6%** (44/45) | **96.7% ± 12.9%** (58/60) | **5.4x smaller (-81.5%)** |
+| **`GRID128_WEBP`** | Pixel-Matched Contact Sheet ($128 \times 128$, $4 \times 4$) | **888 Bytes** | **89.3% ± 12.8%** (67/75) | **97.8% ± 8.6%** (44/45) | **96.7% ± 12.9%** (58/60) | **3.3x smaller (-69.8%)** |
+| **`GRID512_WEBP`** | High-Res Contact Sheet ($512 \times 512$, $4 \times 4$) | **2,944 Bytes** | **89.3% ± 12.8%** (67/75) | **97.8% ± 8.6%** (44/45) | **96.7% ± 12.9%** (58/60) | Baseline (1.0x) |
 
 ### Key Findings
-1. **Full Cognitive Parity at 5.4x Compression:** E3-K12 Visual Carrier matches high-resolution 512x512 contact sheets in event extraction accuracy ($89.3\%$) while requiring 5.4x fewer bytes.
-2. **100% Directionality & Bounce Reversal:** Primary motion vector and physical boundary reversal (C4) detected with 100% fidelity.
+1. **Full Cognitive Task Parity at 5.4x Compression:** E3-K12 Visual Carrier matches high-resolution 512x512 contact sheets identically across all primary metrics while requiring 5.4x fewer bytes (546 Bytes vs. 2,944 Bytes).
+2. **100% Directionality & Bounce Reversal:** Primary motion vector (15/15) and physical boundary reversal in C4 (15/15) detected with 100% fidelity across all conditions.
 3. **Small-Object Walsh Rank Collapse Addressed:** While local Walsh carrier multiplexers collapse to Rank 3 for small radius objects ($r \approx 3\,\text{px}$), the macroscopic temporal Gram polynomials ($P_0, P_1, P_2$) integrate globally along the corridor, preserving trajectory and reversal without requiring higher-order Walsh mode separation.
-4. **Transient Pulse Sampling Boundary:** 250ms sub-frame flash in C5 masked under discrete temporal sampling; confirms theoretical requirement for Adaptive Temporal Windowing (ATW) on micro-transients.
+4. **Transient Pulse Class Imbalance & Sampling Analysis:** In the 4x4 contact sheet, frame 44 falls at $t = 44/16 = 2.75\,\text{s}$ (within the pulse window $t = 2.65\text{--}2.90\,\text{s}$). The non-detection (Sensitivity 0.0%, Specificity 100.0%, Balanced Accuracy 50.0%) is an open empirical question regarding spatial downsampling, WebP compression, and model attention, rather than a missed frame. In the E3-K12 carrier, high-order Walsh modes for a 3 px object were insufficient for discrete pulse detection.
+5. **Audit Provenance Verified:** Complete execution trail of all 9 subagents, 45 `view_file` calls, and 45 raw model responses archived in `evaluator_provenance.json`. Deterministic score reproduction verified via `run_posthoc_reanalysis.py`.
 
 ---
 

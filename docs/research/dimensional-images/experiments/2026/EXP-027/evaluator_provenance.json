@@ -1,132 +1,1378 @@
 {
-  "schema_version": "1.0",
   "experiment_id": "EXP-027",
-  "audit_status": "peer_reviewed_audited",
-  "execution_harness": {
-    "platform": "Google Antigravity Subagent Framework",
-    "subagent_type": "research",
-    "perception_mechanism": "Native binary image viewing via view_file",
-    "model_identifier_internal": "MODEL_PLACEHOLDER_M318",
-    "model_architecture_family": "Claude 3.5 Sonnet (Multimodal Vision Engine)",
-    "blinding_enforcement": "Content-blind UUID stimuli, isolated nur_auswertung/ ground truth, zero filesystem exploration permitted",
-    "contact_sheet_format_presented": "4x4 uniform grid (16 frames at t=0, 4, ..., 60; 16 FPS sample rate)"
+  "title": "Atomic Visual Temporal Understanding Benchmark - Evaluator Execution Provenance",
+  "framework": "Google Antigravity Subagent Framework",
+  "model_environment": {
+    "runtime_model_identifier": "MODEL_PLACEHOLDER_M318",
+    "documentation_note": "In the Antigravity CLI environment, subagents execute in hermetic isolated containers using the active LLM tier. The runtime environment abstracts provider-level snapshot strings as MODEL_PLACEHOLDER_M318. Provider API-level headers cannot be independently queried from within the sandbox; no speculative provider assumptions are made.",
+    "vision_capability": "Multimodal visual inspection via native view_file tool call",
+    "temperature": "Platform default deterministic sampling"
   },
-  "subagent_instances": [
+  "blinding_and_isolation": {
+    "isolation_verified": true,
+    "ground_truth_accessible_to_evaluators": false,
+    "filesystem_browsing_permitted": false,
+    "web_access_permitted": false,
+    "evaluation_protocol": "3 runs x 15 blinded stimuli = 45 evaluations across 9 independent subagent sessions"
+  },
+  "subagents": [
     {
-      "run": 1,
-      "batch": "A",
-      "conversation_id": "fb218a2e-2449-4219-bf03-c37ab2a57175",
+      "subagent_id": "fb218a2e-2449-4219-bf03-c37ab2a57175",
+      "batch_label": "Run 1 Batch A",
+      "run_id": 1,
+      "batch_id": "A",
       "spawn_step_index": 7955,
-      "stimuli": [
+      "created_at": "2026-10-14T05:54:58Z",
+      "completed_at": "2026-10-14T05:57:14Z",
+      "prompt_specification": {
+        "contact_sheet_grid": "4x4 (16 frames)",
+        "carrier_specification": "128x128 E3-K12 Visual Carrier",
+        "full_prompt_sanitized": ""
+      },
+      "view_file_calls": [
+        {
+          "step_index": 1,
+          "timestamp": "2026-10-14T05:54:58Z",
+          "stimulus_id": "stimulus_dc93ad4e4cb0",
+          "relative_file": "stimuli/stimulus_dc93ad4e4cb0.webp",
+          "format": "Contact_Sheet_128x128_4x4",
+          "condition": "GRID128_WEBP",
+          "resolution": [
+            128,
+            128
+          ]
+        },
+        {
+          "step_index": 3,
+          "timestamp": "2026-10-14T05:55:06Z",
+          "stimulus_id": "stimulus_629248a847a1",
+          "relative_file": "stimuli/stimulus_629248a847a1.webp",
+          "format": "Contact_Sheet_512x512_4x4",
+          "condition": "GRID512_WEBP",
+          "resolution": [
+            512,
+            512
+          ]
+        },
+        {
+          "step_index": 5,
+          "timestamp": "2026-10-14T05:55:09Z",
+          "stimulus_id": "stimulus_8bf9e7c6ecc2",
+          "relative_file": "stimuli/stimulus_8bf9e7c6ecc2.webp",
+          "format": "Contact_Sheet_128x128_4x4",
+          "condition": "GRID128_WEBP",
+          "resolution": [
+            128,
+            128
+          ]
+        },
+        {
+          "step_index": 7,
+          "timestamp": "2026-10-14T05:55:11Z",
+          "stimulus_id": "stimulus_f1b6727a98d7",
+          "relative_file": "stimuli/stimulus_f1b6727a98d7.webp",
+          "format": "E3_K12_Carrier_128x128",
+          "condition": "VLT_WEBP",
+          "resolution": [
+            128,
+            128
+          ]
+        },
+        {
+          "step_index": 9,
+          "timestamp": "2026-10-14T05:55:14Z",
+          "stimulus_id": "stimulus_d940edfa4408",
+          "relative_file": "stimuli/stimulus_d940edfa4408.webp",
+          "format": "Contact_Sheet_512x512_4x4",
+          "condition": "GRID512_WEBP",
+          "resolution": [
+            512,
+            512
+          ]
+        }
+      ],
+      "evaluated_stimulus_ids": [
         "stimulus_dc93ad4e4cb0",
         "stimulus_629248a847a1",
         "stimulus_8bf9e7c6ecc2",
         "stimulus_f1b6727a98d7",
         "stimulus_d940edfa4408"
+      ],
+      "evaluations_count": 5,
+      "raw_responses": [
+        {
+          "stimulus_id": "stimulus_dc93ad4e4cb0",
+          "narrative": "4x4-Kontaktbogen (niedrig aufgelöst). Ein kugelförmiges Objekt startet links und bewegt sich nach rechts auf ein stationäres rechteckiges Hindernis zu (Frames 0-5). Bei Frames 6-8 erreicht das Objekt die linke Kante des Hindernisses, prallt ab / kehrt um, und bewegt sich anschließend kontinuierlich nach links zurück (Frames 9-15). Es tritt keine Verdeckung auf, da das Objekt vor dem Hindernis umkehrt und zu keinem Zeitpunkt dahinter verschwindet. Kein Helligkeitspuls sichtbar.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "approach_then_reverse",
+          "occlusion_type": "none",
+          "reemergence_observed": false,
+          "reemergence_side": "none",
+          "reversal_observed": true,
+          "pulse_observed": false,
+          "confidence": 0.95
+        },
+        {
+          "stimulus_id": "stimulus_629248a847a1",
+          "narrative": "4x4-Kontaktbogen (hochauflösend). Eine 3D-Kugel startet links und bewegt sich gleichförmig nach rechts auf einen blauen Quader zu (Frames 0-2). Ab Frame 3 tritt eine partielle Okklusion ein, in den Frames 5 und 6 ist die Kugel vollständig hinter dem Quader verdeckt. Ab Frame 7 taucht die Kugel an der rechten Seite des Quaders wieder auf (Re-Emergence) und setzt ihre Bewegung ungestört nach rechts fort (Frames 8-15). Kein Abprallen, kein Helligkeitsblitz.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "full",
+          "reemergence_observed": true,
+          "reemergence_side": "right",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 1.0
+        },
+        {
+          "stimulus_id": "stimulus_8bf9e7c6ecc2",
+          "narrative": "4x4-Kontaktbogen (niedrig aufgelöst). Ein kugelförmiges Objekt bewegt sich kontinuierlich von links nach rechts (Frames 0-15). In den mittleren Frames (Frames 4-7) passiert es die Position des stationären rechteckigen Hindernisses, bleibt dabei jedoch durchgehend als vollständiger heller Kreis im Vordergrund sichtbar (keine Verdeckung durch das Hindernis). Die Kugel setzt ihren Weg nach rechts kontinuierlich fort. Kein Richtungswechsel, kein Helligkeitspuls.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "none",
+          "reemergence_observed": false,
+          "reemergence_side": "none",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 0.95
+        },
+        {
+          "stimulus_id": "stimulus_f1b6727a98d7",
+          "narrative": "E3-K12 Visual Carrier (128x128). Oben-Links (t=0) zeigt eine weiße Kugel links und einen rechteckigen Block rechts. Oben-Rechts (Kinematik) zeigt zwei getrennte grüne Trajektorien-Segmente links und rechts des Blocks, während der Blockbereich eine distinkte dunkelblaue Okklusionszone bildet. Unten-Links (chromatischer Trend P1) zeigt entgegengesetzte Farbsignaturen (orange/gelb links = frühe Zeit, magenta/blau rechts = späte Zeit), was eine gerichtete Bewegung von links nach rechts belegt. Die Kugel wandert von links hinter das Hindernis (vollständige Okklusion) und taucht rechts davon wieder auf. Keine Richtungsumkehr, kein Puls.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "full",
+          "reemergence_observed": true,
+          "reemergence_side": "right",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 0.85
+        },
+        {
+          "stimulus_id": "stimulus_d940edfa4408",
+          "narrative": "4x4-Kontaktbogen (hochauflösend). Eine weiße 3D-Kugel startet links und nähert sich einem stationären blauen Quader (Frames 0-5). In den Frames 6-8 berührt sie die linke Kante des Quaders, kehrt ihre Bewegungsrichtung um (Reversal) und wandert von Frame 9 bis 15 kontinuierlich nach links zurück. Es tritt zu keinem Zeitpunkt eine Verdeckung auf. Beleuchtung und Helligkeit bleiben konstant, kein Puls.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "approach_then_reverse",
+          "occlusion_type": "none",
+          "reemergence_observed": false,
+          "reemergence_side": "none",
+          "reversal_observed": true,
+          "pulse_observed": false,
+          "confidence": 1.0
+        }
       ]
     },
     {
-      "run": 1,
-      "batch": "B",
-      "conversation_id": "cc575a3d-600e-4452-9dcb-ca1d01fbaa4d",
+      "subagent_id": "cc575a3d-600e-4452-9dcb-ca1d01fbaa4d",
+      "batch_label": "Run 1 Batch B",
+      "run_id": 1,
+      "batch_id": "B",
       "spawn_step_index": 7955,
-      "stimuli": [
+      "created_at": "2026-10-14T05:54:58Z",
+      "completed_at": "2026-10-14T05:56:38Z",
+      "prompt_specification": {
+        "contact_sheet_grid": "4x4 (16 frames)",
+        "carrier_specification": "128x128 E3-K12 Visual Carrier",
+        "full_prompt_sanitized": ""
+      },
+      "view_file_calls": [
+        {
+          "step_index": 1,
+          "timestamp": "2026-10-14T05:54:58Z",
+          "stimulus_id": "stimulus_cd107141bd9d",
+          "relative_file": "stimuli/stimulus_cd107141bd9d.webp",
+          "format": "Contact_Sheet_512x512_4x4",
+          "condition": "GRID512_WEBP",
+          "resolution": [
+            512,
+            512
+          ]
+        },
+        {
+          "step_index": 3,
+          "timestamp": "2026-10-14T05:55:04Z",
+          "stimulus_id": "stimulus_902864d64466",
+          "relative_file": "stimuli/stimulus_902864d64466.webp",
+          "format": "Contact_Sheet_128x128_4x4",
+          "condition": "GRID128_WEBP",
+          "resolution": [
+            128,
+            128
+          ]
+        },
+        {
+          "step_index": 5,
+          "timestamp": "2026-10-14T05:55:16Z",
+          "stimulus_id": "stimulus_157e107a1ce1",
+          "relative_file": "stimuli/stimulus_157e107a1ce1.webp",
+          "format": "E3_K12_Carrier_128x128",
+          "condition": "VLT_WEBP",
+          "resolution": [
+            128,
+            128
+          ]
+        },
+        {
+          "step_index": 7,
+          "timestamp": "2026-10-14T05:55:22Z",
+          "stimulus_id": "stimulus_599d29deae99",
+          "relative_file": "stimuli/stimulus_599d29deae99.webp",
+          "format": "E3_K12_Carrier_128x128",
+          "condition": "VLT_WEBP",
+          "resolution": [
+            128,
+            128
+          ]
+        },
+        {
+          "step_index": 9,
+          "timestamp": "2026-10-14T05:55:37Z",
+          "stimulus_id": "stimulus_de352cce172e",
+          "relative_file": "stimuli/stimulus_de352cce172e.webp",
+          "format": "Contact_Sheet_128x128_4x4",
+          "condition": "GRID128_WEBP",
+          "resolution": [
+            128,
+            128
+          ]
+        }
+      ],
+      "evaluated_stimulus_ids": [
         "stimulus_cd107141bd9d",
         "stimulus_902864d64466",
         "stimulus_157e107a1ce1",
         "stimulus_599d29deae99",
         "stimulus_de352cce172e"
+      ],
+      "evaluations_count": 5,
+      "raw_responses": [
+        {
+          "stimulus_id": "stimulus_cd107141bd9d",
+          "narrative": "Szene mit zwei Objekten: ein statischer dunkelblauer Quader (Hindernis) und eine helle matte Kugel. Zu Beginn (Frames 0-1) befindet sich die Kugel links vom Quader auf einer leicht erhöhten horizontalen Bahn (Kugelmitte ca. auf Höhe der Oberkante des Quaders). Sie bewegt sich kontinuierlich von links nach rechts (Frames 0-3). Beim Vorbeiziehen am Quader schiebt sie sich hinter diesen; da ihre Bahn leicht über die Oberkante ragt, bleibt der obere Teil der Kugel während der Verdeckung in den Frames 4-7 sichtbar (partielle Okklusion). In Frame 8 taucht die Kugel an der rechten Flanke des Quaders wieder auf, löst sich in den Frames 9-11 vollständig und setzt ihre Bewegung bis zum Ende (Frame 15) nach rechts fort. Es tritt kein Richtungswechsel und kein Helligkeits- oder Farbereignis (Puls) auf.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "partial",
+          "reemergence_observed": true,
+          "reemergence_side": "right",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 0.98
+        },
+        {
+          "stimulus_id": "stimulus_902864d64466",
+          "narrative": "Grobe, stark pixelierte 4x4-Kontaktbogen-Darstellung: erkennbar sind ein statischer dunkler Block und ein heller kreisförmiger Punkt (Kugel). Der helle Punkt startet links (Frames 0-1) und wandert von links nach rechts. In Frames 2-3 erreicht er den Block. In den Frames 4-7 ist an der Oberkante des Blocks ein einzelner heller Pixelstreifen sichtbar, was einer partiellen Verdeckung entspricht, bei der der obere Rand sichtbar bleibt. In Frame 8 taucht der Punkt an der rechten Kante wieder auf und wandert in den Frames 9-15 kontinuierlich nach rechts weiter. Trotz grober Auflösung sind Trajektorie und Okklusion eindeutig rekonstruierbar. Kein Richtungswechsel, kein Puls.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "partial",
+          "reemergence_observed": true,
+          "reemergence_side": "right",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 0.88
+        },
+        {
+          "stimulus_id": "stimulus_157e107a1ce1",
+          "narrative": "E3-K12 Visual Carrier (128x128). Im Frame t=0 (oben links) steht eine helle Kugel links von einem statischen Quader. Im Quadranten der temporalen Kinematik (oben rechts) und der chromatischen Trägerschicht (unten links) ist eine horizontale Trajektorie (kapselförmige Signatur) ausschließlich links vom Quader sichtbar (von x≈8 bis zur linken Kante des Quaders bei x≈26). Rechts vom Quader existiert keinerlei temporales Signal (flacher homogener Hintergrund). Die ausgeprägte Krümmungskomponente (P2 im Grün-Kanal) und die Signatur im Trendkanal zeigen, dass sich die Kugel von links dem Hindernis nähert, an dessen linker Flanke abprallt / umkehrt und wieder nach links zurückläuft (approach_then_reverse). Es tritt keine Verdeckung auf (occlusion_type: none) und kein Wiedereintauchen. Kein Helligkeitspuls sichtbar.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "approach_then_reverse",
+          "occlusion_type": "none",
+          "reemergence_observed": false,
+          "reemergence_side": "none",
+          "reversal_observed": true,
+          "pulse_observed": false,
+          "confidence": 0.92
+        },
+        {
+          "stimulus_id": "stimulus_599d29deae99",
+          "narrative": "E3-K12 Visual Carrier (128x128). Im Basiszustand (t=0, oben links) befindet sich die Kugel links vom Quader, leicht über die Quaderoberkante versetzt. Im kinematischen Quadranten (oben rechts) und im chromatischen Quadranten (unten links) erstreckt sich eine durchgehende horizontale Bewegungsspur von der linken Bildhälfte quer über den Quaderbereich bis zum rechten Bildrand. Im x-Bereich des Quaders ist die Signalintensität stark reduziert und auf einen schmalen Streifen an der oberen Kante verengt, was einer partiellen Verdeckung beim Vorbeiziehen hinter dem Quader entspricht. Danach setzt sich die Bewegungsspur auf der rechten Seite ungebrochen fort (Wiedereintauchen rechts). Kontinuierliche Bewegung von links nach rechts, kein Richtungswechsel, kein Puls.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "partial",
+          "reemergence_observed": true,
+          "reemergence_side": "right",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 0.9
+        },
+        {
+          "stimulus_id": "stimulus_de352cce172e",
+          "narrative": "4x4-Kontaktbogen aus 16 Videobildern. In der Szene befinden sich ein statischer dunkler Quader und eine helle Kugel auf exakt gleicher vertikaler Achse. Die Kugel startet links (Frames 0-1) und bewegt sich von links nach rechts. In Frames 2-3 schiebt sie sich hinter die linke Flanke des Quaders. In den Frames 4, 5 und 6 ist die Kugel vollständig hinter dem Quader verborgen (vollständige Okklusion, keinerlei sichtbare Pixel der Kugel). In Frame 7 beginnt der rechte Rand der Kugel an der rechten Flanke wieder hervorzutreten. In Frames 8-10 tritt sie vollständig aus dem Quaderschatten heraus und wandert in Frames 11-15 ungehindert nach rechts weiter. Kein Richtungswechsel, kein Puls.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "full",
+          "reemergence_observed": true,
+          "reemergence_side": "right",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 0.98
+        }
       ]
     },
     {
-      "run": 1,
-      "batch": "C",
-      "conversation_id": "918d734e-fa29-47ab-97ca-9f3387639825",
+      "subagent_id": "918d734e-fa29-47ab-97ca-9f3387639825",
+      "batch_label": "Run 1 Batch C",
+      "run_id": 1,
+      "batch_id": "C",
       "spawn_step_index": 7955,
-      "stimuli": [
+      "created_at": "2026-10-14T05:54:58Z",
+      "completed_at": "2026-10-14T05:57:31Z",
+      "prompt_specification": {
+        "contact_sheet_grid": "4x4 (16 frames)",
+        "carrier_specification": "128x128 E3-K12 Visual Carrier",
+        "full_prompt_sanitized": ""
+      },
+      "view_file_calls": [
+        {
+          "step_index": 1,
+          "timestamp": "2026-10-14T05:54:58Z",
+          "stimulus_id": "stimulus_f5ba23e6fc4c",
+          "relative_file": "stimuli/stimulus_f5ba23e6fc4c.webp",
+          "format": "Contact_Sheet_128x128_4x4",
+          "condition": "GRID128_WEBP",
+          "resolution": [
+            128,
+            128
+          ]
+        },
+        {
+          "step_index": 3,
+          "timestamp": "2026-10-14T05:55:06Z",
+          "stimulus_id": "stimulus_1bb69c94b9f4",
+          "relative_file": "stimuli/stimulus_1bb69c94b9f4.webp",
+          "format": "Contact_Sheet_512x512_4x4",
+          "condition": "GRID512_WEBP",
+          "resolution": [
+            512,
+            512
+          ]
+        },
+        {
+          "step_index": 5,
+          "timestamp": "2026-10-14T05:55:13Z",
+          "stimulus_id": "stimulus_67633cbc580d",
+          "relative_file": "stimuli/stimulus_67633cbc580d.webp",
+          "format": "E3_K12_Carrier_128x128",
+          "condition": "VLT_WEBP",
+          "resolution": [
+            128,
+            128
+          ]
+        },
+        {
+          "step_index": 7,
+          "timestamp": "2026-10-14T05:55:19Z",
+          "stimulus_id": "stimulus_6a807652bf33",
+          "relative_file": "stimuli/stimulus_6a807652bf33.webp",
+          "format": "E3_K12_Carrier_128x128",
+          "condition": "VLT_WEBP",
+          "resolution": [
+            128,
+            128
+          ]
+        },
+        {
+          "step_index": 9,
+          "timestamp": "2026-10-14T05:55:30Z",
+          "stimulus_id": "stimulus_91d4e99b8620",
+          "relative_file": "stimuli/stimulus_91d4e99b8620.webp",
+          "format": "Contact_Sheet_512x512_4x4",
+          "condition": "GRID512_WEBP",
+          "resolution": [
+            512,
+            512
+          ]
+        }
+      ],
+      "evaluated_stimulus_ids": [
         "stimulus_f5ba23e6fc4c",
         "stimulus_1bb69c94b9f4",
         "stimulus_67633cbc580d",
         "stimulus_6a807652bf33",
         "stimulus_91d4e99b8620"
+      ],
+      "evaluations_count": 5,
+      "raw_responses": [
+        {
+          "stimulus_id": "stimulus_f5ba23e6fc4c",
+          "narrative": "4x4-Kontaktbogen mit 16 zeitlich aufeinanderfolgenden Frames (niedrigere Auflösung): Zu Beginn (t=0) befindet sich eine helle, kreisförmige Kugel links von einem statischen, grauen rechteckigen Hindernis. In den Frames 1 bis 3 bewegt sich die Kugel geradlinig von links nach rechts auf das Hindernis zu und tritt dahinter ein. In den Frames 4 bis 6 ist die Kugel vollständig hinter dem Hindernis verdeckt (Vollokklusion). Ab Frame 7 taucht die Kugel an der rechten Kante des Hindernisses wieder auf und setzt in den Frames 8 bis 15 ihre gleichförmige Bewegung nach rechts bis zum Bildrand fort. Kein Richtungswechsel, kein Helligkeitsblitz.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "full",
+          "reemergence_observed": true,
+          "reemergence_side": "right",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 0.95
+        },
+        {
+          "stimulus_id": "stimulus_1bb69c94b9f4",
+          "narrative": "4x4-Kontaktbogen mit 16 hochaufgelösten Videobildern: Eine weiße, dreidimensional schattierte Kugel befindet sich zu Beginn links auf einer dunklen Führungslinie vor einem blaugrauen quaderförmigen Hindernis. Die Kugel bewegt sich in Frames 1 bis 3 nach rechts und tritt hinter den Quader. In den Frames 4 bis 6 verschwindet die Kugel vollständig hinter dem Hindernis (vollständige Okklusion). In Frame 7 beginnt der vordere Rand der Kugel an der rechten Seite des Quaders sichtbar zu werden; in Frames 8 bis 10 tritt sie vollständig aus und wandert in Frames 11 bis 15 geradlinig nach rechts weiter. Keine Richtungsänderung oder Lichtpulsierung.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "full",
+          "reemergence_observed": true,
+          "reemergence_side": "right",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 1.0
+        },
+        {
+          "stimulus_id": "stimulus_67633cbc580d",
+          "narrative": "E3-K12 Visual Carrier (128x128): Der Basiszustand (t=0, oben links) zeigt eine weiße Kugel links neben einem statischen grauen rechteckigen Block. Im temporalen Kinematik-Quadranten (oben rechts) und chromatischen Trägerquadranten (unten links) ist eine Bewegungstrajektorie von links nach rechts kodiert (Orange/Grün links für frühe Zeitpunkte, Cyan/Blau rechts für späte Zeitpunkte). Im Bereich des Hindernisses weisen beide Quadranten eine klare Signalunterbrechung (statischer dunkelblauer Block bzw. neutralgraue Lücke) auf, was belegt, dass das Objekt während der Passage vollständig hinter dem Hindernis verdeckt war und anschließend auf der rechten Seite wieder austrat. Kein Abprallen oder Puls sichtbar.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "full",
+          "reemergence_observed": true,
+          "reemergence_side": "right",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 0.9
+        },
+        {
+          "stimulus_id": "stimulus_6a807652bf33",
+          "narrative": "E3-K12 Visual Carrier (128x128): Der Basiszustand (t=0, oben links) zeigt eine weiße Kugel links neben einem rechteckigen Block. Im Kinematik-Quadranten (oben rechts) und chromatischen Träger (unten links) ist eine kontinuierliche Bewegungstrajektorie von links nach rechts kodiert. Anders als bei Stimulus 3 ist im chromatischen Träger (unten links) keine neutrale Okklusionslücke vorhanden; der Farbverlauf (Orange -> Grün -> Magenta -> Cyan/Blau) verläuft unterbrechungsfrei durch die Hinderniszone. Dies indiziert, dass sich die Kugel im Vordergrund vor dem Hindernis bzw. ohne vollständige Verdeckung von links nach rechts bewegt hat. Da keine Verdeckung auftrat, gibt es kein Re-Emergence-Ereignis. Kein Abprallen, kein Puls.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "none",
+          "reemergence_observed": false,
+          "reemergence_side": "none",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 0.85
+        },
+        {
+          "stimulus_id": "stimulus_91d4e99b8620",
+          "narrative": "4x4-Kontaktbogen mit 16 Frames: Eine weiße 3D-Kugel bewegt sich auf einer horizontalen Führungslinie von links nach rechts. Ein blaugrauer Quader befindet sich in der Bildmitte, ist jedoch leicht nach oben versetzt positioniert. In den Frames 2 bis 7 rollt die Kugel direkt an der unteren Kante des Quaders im Vordergrund vorbei. Die Kugel bleibt dabei in jedem einzelnen Frame vollständig sichtbar und erfährt zu keinem Zeitpunkt eine Okklusion durch das Hindernis. Nach Passieren des Quaders wandert sie in den Frames 8 bis 15 gleichförmig nach rechts weiter. Keine Richtungsänderung, kein Lichtpuls.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "none",
+          "reemergence_observed": false,
+          "reemergence_side": "none",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 1.0
+        }
       ]
     },
     {
-      "run": 2,
-      "batch": "A",
-      "conversation_id": "e86320e3-996f-4662-814e-bf16d13bd03c",
+      "subagent_id": "e86320e3-996f-4662-814e-bf16d13bd03c",
+      "batch_label": "Run 2 Batch A",
+      "run_id": 2,
+      "batch_id": "A",
       "spawn_step_index": 7957,
-      "stimuli": [
+      "created_at": "2026-10-14T05:55:25Z",
+      "completed_at": "2026-10-14T05:58:19Z",
+      "prompt_specification": {
+        "contact_sheet_grid": "4x4 (16 frames)",
+        "carrier_specification": "128x128 E3-K12 Visual Carrier",
+        "full_prompt_sanitized": ""
+      },
+      "view_file_calls": [
+        {
+          "step_index": 1,
+          "timestamp": "2026-10-14T05:55:25Z",
+          "stimulus_id": "stimulus_dc93ad4e4cb0",
+          "relative_file": "stimuli/stimulus_dc93ad4e4cb0.webp",
+          "format": "Contact_Sheet_128x128_4x4",
+          "condition": "GRID128_WEBP",
+          "resolution": [
+            128,
+            128
+          ]
+        },
+        {
+          "step_index": 3,
+          "timestamp": "2026-10-14T05:55:32Z",
+          "stimulus_id": "stimulus_629248a847a1",
+          "relative_file": "stimuli/stimulus_629248a847a1.webp",
+          "format": "Contact_Sheet_512x512_4x4",
+          "condition": "GRID512_WEBP",
+          "resolution": [
+            512,
+            512
+          ]
+        },
+        {
+          "step_index": 5,
+          "timestamp": "2026-10-14T05:55:39Z",
+          "stimulus_id": "stimulus_8bf9e7c6ecc2",
+          "relative_file": "stimuli/stimulus_8bf9e7c6ecc2.webp",
+          "format": "Contact_Sheet_128x128_4x4",
+          "condition": "GRID128_WEBP",
+          "resolution": [
+            128,
+            128
+          ]
+        },
+        {
+          "step_index": 7,
+          "timestamp": "2026-10-14T05:55:42Z",
+          "stimulus_id": "stimulus_f1b6727a98d7",
+          "relative_file": "stimuli/stimulus_f1b6727a98d7.webp",
+          "format": "E3_K12_Carrier_128x128",
+          "condition": "VLT_WEBP",
+          "resolution": [
+            128,
+            128
+          ]
+        },
+        {
+          "step_index": 9,
+          "timestamp": "2026-10-14T05:55:47Z",
+          "stimulus_id": "stimulus_d940edfa4408",
+          "relative_file": "stimuli/stimulus_d940edfa4408.webp",
+          "format": "Contact_Sheet_512x512_4x4",
+          "condition": "GRID512_WEBP",
+          "resolution": [
+            512,
+            512
+          ]
+        }
+      ],
+      "evaluated_stimulus_ids": [
         "stimulus_dc93ad4e4cb0",
         "stimulus_629248a847a1",
         "stimulus_8bf9e7c6ecc2",
         "stimulus_f1b6727a98d7",
         "stimulus_d940edfa4408"
+      ],
+      "evaluations_count": 5,
+      "raw_responses": [
+        {
+          "stimulus_id": "stimulus_dc93ad4e4cb0",
+          "narrative": "In einer 4x4-Kontaktbogen-Sequenz mit reduzierter Auflösung ist links eine helle Kugel und mittig-rechts ein rechteckiges Hindernis zu sehen. Die Kugel bewegt sich in Zeile 0 (Frames 0-3) von links nach rechts auf das Hindernis zu. In Zeile 1 (Frames 4-7) erreicht sie das Hindernis, prallt an dessen linker Flanke ab und kehrt ihre Bewegungsrichtung um. In den Zeilen 2 und 3 (Frames 8-15) bewegt sie sich kontinuierlich nach links zurück an den linken Bildrand. Eine Verdeckung tritt nicht auf.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "approach_then_reverse",
+          "occlusion_type": "none",
+          "reemergence_observed": false,
+          "reemergence_side": "none",
+          "reversal_observed": true,
+          "pulse_observed": false,
+          "confidence": 0.95
+        },
+        {
+          "stimulus_id": "stimulus_629248a847a1",
+          "narrative": "In einer hochauflösenden 4x4-Kontaktbogen-Sequenz startet eine weiße Kugel links und bewegt sich horizontal nach rechts auf einen statischen blauen Quader zu. In Frames 2-3 schiebt sie sich hinter den Quader und ist in Frames 4-6 (Zeile 1) vollständig durch diesen verdeckt. In Frame 7 beginnt sie an der rechten Kante des Quaders wieder aufzutauchen. In den Zeilen 2 und 3 (Frames 8-15) tritt sie vollständig auf der rechten Seite hervor und setzt ihren Weg nach rechts ungestört fort. Kein Abprallen, kein Puls.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "full",
+          "reemergence_observed": true,
+          "reemergence_side": "right",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 1.0
+        },
+        {
+          "stimulus_id": "stimulus_8bf9e7c6ecc2",
+          "narrative": "In einer herunterskalierten 4x4-Kontaktbogen-Sequenz bewegt sich eine helle Kugel von links nach rechts auf ein zentrales Block-Hindernis zu (Zeile 0, Frames 0-3). Beim Erreichen des Hindernisses verschwindet die Kugel in Frames 4-6 dahinter (vollständige Okklusion). In Frame 7 taucht sie an der rechten Kante des Hindernisses wieder auf und bewegt sich über die Zeilen 2 und 3 (Frames 8-15) kontinuierlich weiter nach rechts bis zum Bildrand. Keine Richtungsumkehr oder Lichtpulse erkennbar.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "full",
+          "reemergence_observed": true,
+          "reemergence_side": "right",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 0.9
+        },
+        {
+          "stimulus_id": "stimulus_f1b6727a98d7",
+          "narrative": "E3-K12 Visual Carrier (128x128). Quadrant Oben-Links (t=0) zeigt eine Kugel links neben einem statischen Block. Der Kinematik-Quadrant (Oben-Rechts) weist eine zweigeteilte Trajektorie auf: eine Bewegungskapsel links vom Hindernis sowie eine wiederauftauchende Bewegungskapsel rechts vom Hindernis mit okkludiertem Mittelbereich am Block. Der Chromatische Quadrant (Unten-Links) zeigt einen klaren P1-Trendwechsel von warmen Farbtönen links (frühe Präsenz) zu kühlen Blau-/Magentatönen rechts (späte Präsenz), was einen monotonen Transit von links nach rechts mit Verdeckung und Wiederauftauchen rechts belegt. Eine Richtungsumkehr ist ausgeschlossen.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "full",
+          "reemergence_observed": true,
+          "reemergence_side": "right",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 0.85
+        },
+        {
+          "stimulus_id": "stimulus_d940edfa4408",
+          "narrative": "In einer hochauflösenden 4x4-Kontaktbogen-Sequenz bewegt sich eine weiße Kugel von links nach rechts auf einen statischen blauen Quader zu (Zeile 0 und Zeile 1 bis Frame 6). Bei Frame 7-8 stößt die Kugel gegen die linke Seitenfläche des Quaders, prallt elastisch ab und kehrt die Bewegungsrichtung um. In den Zeilen 2 und 3 (Frames 9-15) wandert die Kugel nach links zurück, bis sie den linken Bildrand erreicht. Es findet zu keinem Zeitpunkt eine Verdeckung statt.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "approach_then_reverse",
+          "occlusion_type": "none",
+          "reemergence_observed": false,
+          "reemergence_side": "none",
+          "reversal_observed": true,
+          "pulse_observed": false,
+          "confidence": 1.0
+        }
       ]
     },
     {
-      "run": 2,
-      "batch": "B",
-      "conversation_id": "535c65bc-230e-422f-b84a-bf81902ad689",
+      "subagent_id": "535c65bc-230e-422f-b84a-bf81902ad689",
+      "batch_label": "Run 2 Batch B",
+      "run_id": 2,
+      "batch_id": "B",
       "spawn_step_index": 7957,
-      "stimuli": [
+      "created_at": "2026-10-14T05:55:25Z",
+      "completed_at": "2026-10-14T05:58:04Z",
+      "prompt_specification": {
+        "contact_sheet_grid": "4x4 (16 frames)",
+        "carrier_specification": "128x128 E3-K12 Visual Carrier",
+        "full_prompt_sanitized": ""
+      },
+      "view_file_calls": [
+        {
+          "step_index": 1,
+          "timestamp": "2026-10-14T05:55:25Z",
+          "stimulus_id": "stimulus_cd107141bd9d",
+          "relative_file": "stimuli/stimulus_cd107141bd9d.webp",
+          "format": "Contact_Sheet_512x512_4x4",
+          "condition": "GRID512_WEBP",
+          "resolution": [
+            512,
+            512
+          ]
+        },
+        {
+          "step_index": 3,
+          "timestamp": "2026-10-14T05:55:33Z",
+          "stimulus_id": "stimulus_902864d64466",
+          "relative_file": "stimuli/stimulus_902864d64466.webp",
+          "format": "Contact_Sheet_128x128_4x4",
+          "condition": "GRID128_WEBP",
+          "resolution": [
+            128,
+            128
+          ]
+        },
+        {
+          "step_index": 5,
+          "timestamp": "2026-10-14T05:55:42Z",
+          "stimulus_id": "stimulus_157e107a1ce1",
+          "relative_file": "stimuli/stimulus_157e107a1ce1.webp",
+          "format": "E3_K12_Carrier_128x128",
+          "condition": "VLT_WEBP",
+          "resolution": [
+            128,
+            128
+          ]
+        },
+        {
+          "step_index": 7,
+          "timestamp": "2026-10-14T05:55:47Z",
+          "stimulus_id": "stimulus_599d29deae99",
+          "relative_file": "stimuli/stimulus_599d29deae99.webp",
+          "format": "E3_K12_Carrier_128x128",
+          "condition": "VLT_WEBP",
+          "resolution": [
+            128,
+            128
+          ]
+        },
+        {
+          "step_index": 9,
+          "timestamp": "2026-10-14T05:55:58Z",
+          "stimulus_id": "stimulus_de352cce172e",
+          "relative_file": "stimuli/stimulus_de352cce172e.webp",
+          "format": "Contact_Sheet_128x128_4x4",
+          "condition": "GRID128_WEBP",
+          "resolution": [
+            128,
+            128
+          ]
+        }
+      ],
+      "evaluated_stimulus_ids": [
         "stimulus_cd107141bd9d",
         "stimulus_902864d64466",
         "stimulus_157e107a1ce1",
         "stimulus_599d29deae99",
         "stimulus_de352cce172e"
+      ],
+      "evaluations_count": 5,
+      "raw_responses": [
+        {
+          "stimulus_id": "stimulus_cd107141bd9d",
+          "narrative": "In einem 4x4-Kontaktbogen (16 Frames, zeilenweiser Verlauf von oben-links nach unten-rechts) ist eine Szene mit einem statischen blaugrauen quadratischen Hindernisblock im linken Bildzentrum und einer beweglichen hellgrauen Kugel zu sehen. In Frame 0 befindet sich die Kugel links vor dem Hindernis auf Höhe der Oberkante. In den Frames 1-3 wandert die Kugel nach rechts und schiebt sich hinter die obere Kante des Blocks. In den Frames 4-7 passiert sie die Rückseite des Hindernisses, wobei ihr oberer Rand kontinuierlich über der Kante sichtbar bleibt (partielle Okklusion). Ab Frame 8 tritt die Kugel an der oberen rechten Ecke wieder hervor und bewegt sich in den Frames 9-15 ungehindert geradlinig weiter nach rechts bis zum Bildrand. Kein Richtungswechsel, kein Helligkeits-/Farbpuls.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "partial",
+          "reemergence_observed": true,
+          "reemergence_side": "right",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 0.98
+        },
+        {
+          "stimulus_id": "stimulus_902864d64466",
+          "narrative": "Niedrig aufgelöster 4x4-Kontaktbogen (16 Frames, zeilenweiser Verlauf). Dargestellt ist dieselbe Szene wie in stimulus_cd107141bd9d in reduzierter nativer Auflösung. Ein kleiner heller kreisförmiger Punkt (Kugel) startet links oben vor einem grauen quadratischen Hindernis (Frames 0-2), wandert entlang der oberen Begrenzung des Hindernisses nach rechts (Frames 3-7, partiell als oberer Rand sichtbar), tritt ab Frame 8 auf der rechten Seite wieder hervor und setzt seine lineare Bewegung nach rechts bis Frame 15 fort. Kein Richtungswechsel, kein Puls.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "partial",
+          "reemergence_observed": true,
+          "reemergence_side": "right",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 0.92
+        },
+        {
+          "stimulus_id": "stimulus_157e107a1ce1",
+          "narrative": "128x128 E3-K12 Visual Carrier. Im Basisquadranten TL (t=0) befindet sich eine weiße Kugel links von einem dunklen quadratischen Hindernisblock auf mittlerer Höhe. Im kinematischen Quadranten TR (R=P0, G=P2, B=Walsh) und im chromatischen Quadranten BL (Cb=P1, Cr=Walsh) erstreckt sich eine kompakte Trajektorienkapsel von der Kugelposition (links) exakt bis zur Vorderkante des Hindernisses (Mitte-links). Rechts des Hindernisses ist weder im kinematischen noch im chromatischen Kanal irgendein Signal vorhanden (vollständig leer/Hintergrund). Die Kinematik zeigt linksseitig hohe Krümmung P2 (grün, Umkehr-/Endpunkt) und rechtsseitig an der Hindernisgrenze ein Minimum (dunkelblau). Die Chrominanz zeigt einen monotonen Zeitverlauf (orange nach magenta). Dies indiziert eine Bewegung der Kugel auf das Hindernis zu mit anschließendem Richtungswechsel/Abprallen (approach_then_reverse), ohne das Hindernis zu passieren oder verdeckt zu werden (occlusion_type: none). Unsicherheit: Carrier aggregiert Zeit; alternativ denkbar wäre eine vollständige Absorption/Stopp am Hindernis ohne Reemergence, das Signalmuster entspricht jedoch primär einer elastischen Kollision/Reversal.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "approach_then_reverse",
+          "occlusion_type": "none",
+          "reemergence_observed": false,
+          "reemergence_side": "none",
+          "reversal_observed": true,
+          "pulse_observed": false,
+          "confidence": 0.82
+        },
+        {
+          "stimulus_id": "stimulus_599d29deae99",
+          "narrative": "128x128 E3-K12 Visual Carrier. In Quadrant TL (t=0) ist eine weiße Kugel links neben einem quadratischen Hindernisblock auf Höhe des oberen Hindernisdrittels positioniert. In Quadrant TR (Kinematik) zeigt sich ein durchgängiger Pfad von links nach rechts: links eine kräftig grüne Kapsel (Anfahrt), über dem oberen Hindernisrand ein schmaler Verbindungspfad mit reduzierter Amplitude, und rechts des Hindernisses erneut eine kräftige zyan/grüne Kapsel (Weiterfahrt nach rechts). In Quadrant BL (Chrominanz) verläuft ein kontinuierlicher spektraler Farbgradient von Orange/Grün (links/Start) über Zyan (Mitte) bis Magenta/Blau (rechts/Ende). Die Kugel bewegt sich kontinuierlich von links nach rechts, passiert das Hindernis partiell verdeckt am oberen Rand und taucht auf der rechten Seite wieder auf. Kein Richtungswechsel, kein Puls.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "partial",
+          "reemergence_observed": true,
+          "reemergence_side": "right",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 0.88
+        },
+        {
+          "stimulus_id": "stimulus_de352cce172e",
+          "narrative": "4x4-Kontaktbogen (16 Frames, zeitliche Reihenfolge zeilenweise). Szene mit einem dunklen quadratischen Hindernis und einer hellen Kugel auf exakt gleicher vertikaler Höhe (Zentrum). Frame 0: Kugel links vor dem Hindernis. Frames 1-3: Kugel wandert nach rechts und tritt hinter die linke Flanke des Hindernisses. Frames 4-7: Kugel ist zu 100% vollständig hinter dem Hindernis verborgen (vollständige Okklusion, kein Rand sichtbar). Frame 8: Kugel beginnt als schmale Sichel an der rechten Hinderniskante wieder aufzutauchen. Frames 9-11: Kugel tritt vollständig hervor. Frames 12-15: Kugel setzt ihre geradlinige Bewegung nach rechts bis zum rechten Bildrand fort. Kein Richtungswechsel, kein Puls.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "full",
+          "reemergence_observed": true,
+          "reemergence_side": "right",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 0.98
+        }
       ]
     },
     {
-      "run": 2,
-      "batch": "C",
-      "conversation_id": "a76358a4-aa2c-44f4-b631-4907c1fbfdf9",
+      "subagent_id": "a76358a4-aa2c-44f4-b631-4907c1fbfdf9",
+      "batch_label": "Run 2 Batch C",
+      "run_id": 2,
+      "batch_id": "C",
       "spawn_step_index": 7957,
-      "stimuli": [
+      "created_at": "2026-10-14T05:55:25Z",
+      "completed_at": "2026-10-14T05:57:23Z",
+      "prompt_specification": {
+        "contact_sheet_grid": "4x4 (16 frames)",
+        "carrier_specification": "128x128 E3-K12 Visual Carrier",
+        "full_prompt_sanitized": ""
+      },
+      "view_file_calls": [
+        {
+          "step_index": 1,
+          "timestamp": "2026-10-14T05:55:25Z",
+          "stimulus_id": "stimulus_f5ba23e6fc4c",
+          "relative_file": "stimuli/stimulus_f5ba23e6fc4c.webp",
+          "format": "Contact_Sheet_128x128_4x4",
+          "condition": "GRID128_WEBP",
+          "resolution": [
+            128,
+            128
+          ]
+        },
+        {
+          "step_index": 3,
+          "timestamp": "2026-10-14T05:55:34Z",
+          "stimulus_id": "stimulus_1bb69c94b9f4",
+          "relative_file": "stimuli/stimulus_1bb69c94b9f4.webp",
+          "format": "Contact_Sheet_512x512_4x4",
+          "condition": "GRID512_WEBP",
+          "resolution": [
+            512,
+            512
+          ]
+        },
+        {
+          "step_index": 5,
+          "timestamp": "2026-10-14T05:55:40Z",
+          "stimulus_id": "stimulus_67633cbc580d",
+          "relative_file": "stimuli/stimulus_67633cbc580d.webp",
+          "format": "E3_K12_Carrier_128x128",
+          "condition": "VLT_WEBP",
+          "resolution": [
+            128,
+            128
+          ]
+        },
+        {
+          "step_index": 7,
+          "timestamp": "2026-10-14T05:55:47Z",
+          "stimulus_id": "stimulus_6a807652bf33",
+          "relative_file": "stimuli/stimulus_6a807652bf33.webp",
+          "format": "E3_K12_Carrier_128x128",
+          "condition": "VLT_WEBP",
+          "resolution": [
+            128,
+            128
+          ]
+        },
+        {
+          "step_index": 9,
+          "timestamp": "2026-10-14T05:55:57Z",
+          "stimulus_id": "stimulus_91d4e99b8620",
+          "relative_file": "stimuli/stimulus_91d4e99b8620.webp",
+          "format": "Contact_Sheet_512x512_4x4",
+          "condition": "GRID512_WEBP",
+          "resolution": [
+            512,
+            512
+          ]
+        }
+      ],
+      "evaluated_stimulus_ids": [
         "stimulus_f5ba23e6fc4c",
         "stimulus_1bb69c94b9f4",
         "stimulus_67633cbc580d",
         "stimulus_6a807652bf33",
         "stimulus_91d4e99b8620"
+      ],
+      "evaluations_count": 5,
+      "raw_responses": [
+        {
+          "stimulus_id": "stimulus_f5ba23e6fc4c",
+          "narrative": "In einem 4x4-Kontaktbogen (16 Frames) ist links ein helles kreisförmiges Objekt (Kugel) und mittig ein rechteckiges Hindernis zu sehen. In Zeile 0 bewegt sich die Kugel geradlinig von links nach rechts auf das Hindernis zu und wird ab Frame 2 partiell verdeckt. In Zeile 1 (Frames 4-6) ist die Kugel vollständig hinter dem Hindernis verschwunden (volle Okklusion). In Frame 7 beginnt sie auf der rechten Seite des Hindernisses wieder aufzutauchen. In Zeile 2 und 3 setzt die Kugel ihre gleichförmige Bewegung nach rechts bis zum Bildrand fort. Es findet kein Richtungswechsel (Abprallen) und kein Helligkeitsblitz/Puls statt.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "full",
+          "reemergence_observed": true,
+          "reemergence_side": "right",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 0.98
+        },
+        {
+          "stimulus_id": "stimulus_1bb69c94b9f4",
+          "narrative": "Hochaufgelöster 4x4-Kontaktbogen (16 Frames) einer gerenderten 3D-Szene. Eine schattierte Kugel befindet sich links von einem statischen blaugrauen rechteckigen Block. In Zeile 0 wandert die Kugel nach rechts und schiebt sich ab Frame 2 hinter den Block. In Zeile 1 (Frames 4-6) ist die Kugel vollständig vom Block verdeckt (volle Okklusion). Ab Frame 7 tritt sie an der rechten Kante des Blocks wieder hervor. In den Zeilen 2 und 3 bewegt sich die vollständig sichtbare Kugel kontinuierlich weiter nach rechts. Kein Abprallen/Richtungswechsel, kein Helligkeitspuls.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "full",
+          "reemergence_observed": true,
+          "reemergence_side": "right",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 1.0
+        },
+        {
+          "stimulus_id": "stimulus_67633cbc580d",
+          "narrative": "E3-K12 Visual Carrier (128x128). Oben-Links (t=0) zeigt eine weiße Kugel links neben einem statischen grauen Block. Oben-Rechts (Kinematik) und Unten-Links (chromatischer Träger) bilden die Trajektorie ab: Unten-links zeigt sich links ein negativer Zeittrend (Orange/Rot = Startposition der Kugel, die sich entfernt). Im Bereich des Hindernisses bricht die Farbspur ab und zeigt neutrales Grau (konstante Pixelwerte, d.h. Kugel läuft verdeckt hinter dem Hindernis durch). Rechts vom Hindernis erscheint wieder ein ausgeprägter positiver Zeittrend (Magenta/Blau = Ankunft und Verbleib der Kugel am Ende). Dies belegt eine Translation von links nach rechts mit vollständiger Okklusion und Wiederauftauchen rechts. Kein Abprallen, kein Puls.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "full",
+          "reemergence_observed": true,
+          "reemergence_side": "right",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 0.88
+        },
+        {
+          "stimulus_id": "stimulus_6a807652bf33",
+          "narrative": "E3-K12 Visual Carrier (128x128). Oben-Links (t=0) zeigt eine weiße Kugel links neben einem grauen Block. Im Gegensatz zu Stimulus 3 zeigt Unten-Links (chromatischer Trend P1) eine vollkommen ununterbrochene, durchgehende Farbspur von links (Orange/Gelb = früher Zeittrend) über die Mitte (Grün/Magenta) bis ganz nach rechts (Blau = später Zeittrend). Das Fehlen einer Unterbrechung/Graulücke im Hindernisbereich belegt, dass die Kugel sich im Vordergrund vor dem Block bewegt hat und somit keine Verdeckung durch das Hindernis vorlag. Reine Bewegung von links nach rechts ohne Okklusion, kein Abprallen, kein Puls.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "none",
+          "reemergence_observed": false,
+          "reemergence_side": "none",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 0.85
+        },
+        {
+          "stimulus_id": "stimulus_91d4e99b8620",
+          "narrative": "4x4-Kontaktbogen (16 Frames) einer gerenderten 3D-Szene. Eine schattierte Kugel bewegt sich von links nach rechts. In Zeile 0 nähert sie sich dem blaugrauen rechteckigen Block. In Zeile 1 (Frames 4-7) passiert die Kugel den Block im Vordergrund: Sie überdeckt den Block teilweise, bleibt jedoch selbst zu 100% vollständig sichtbar (keine Verdeckung durch das Hindernis aufgetreten). In den Zeilen 2 und 3 setzt sie ihren Weg nach rechts ungestört fort. Da keine Okklusion durch das Hindernis stattfand, gibt es kein Wiederauftauchen. Kein Richtungswechsel, kein Puls.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "none",
+          "reemergence_observed": false,
+          "reemergence_side": "none",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 1.0
+        }
       ]
     },
     {
-      "run": 3,
-      "batch": "A",
-      "conversation_id": "348ac387-d6e0-4d7a-a4ea-65aeea37a824",
+      "subagent_id": "348ac387-d6e0-4d7a-a4ea-65aeea37a824",
+      "batch_label": "Run 3 Batch A",
+      "run_id": 3,
+      "batch_id": "A",
       "spawn_step_index": 7959,
-      "stimuli": [
+      "created_at": "2026-10-14T05:55:49Z",
+      "completed_at": "2026-10-14T05:57:19Z",
+      "prompt_specification": {
+        "contact_sheet_grid": "4x4 (16 frames)",
+        "carrier_specification": "128x128 E3-K12 Visual Carrier",
+        "full_prompt_sanitized": ""
+      },
+      "view_file_calls": [
+        {
+          "step_index": 1,
+          "timestamp": "2026-10-14T05:55:49Z",
+          "stimulus_id": "stimulus_dc93ad4e4cb0",
+          "relative_file": "stimuli/stimulus_dc93ad4e4cb0.webp",
+          "format": "Contact_Sheet_128x128_4x4",
+          "condition": "GRID128_WEBP",
+          "resolution": [
+            128,
+            128
+          ]
+        },
+        {
+          "step_index": 3,
+          "timestamp": "2026-10-14T05:55:55Z",
+          "stimulus_id": "stimulus_629248a847a1",
+          "relative_file": "stimuli/stimulus_629248a847a1.webp",
+          "format": "Contact_Sheet_512x512_4x4",
+          "condition": "GRID512_WEBP",
+          "resolution": [
+            512,
+            512
+          ]
+        },
+        {
+          "step_index": 5,
+          "timestamp": "2026-10-14T05:56:11Z",
+          "stimulus_id": "stimulus_8bf9e7c6ecc2",
+          "relative_file": "stimuli/stimulus_8bf9e7c6ecc2.webp",
+          "format": "Contact_Sheet_128x128_4x4",
+          "condition": "GRID128_WEBP",
+          "resolution": [
+            128,
+            128
+          ]
+        },
+        {
+          "step_index": 7,
+          "timestamp": "2026-10-14T05:56:18Z",
+          "stimulus_id": "stimulus_f1b6727a98d7",
+          "relative_file": "stimuli/stimulus_f1b6727a98d7.webp",
+          "format": "E3_K12_Carrier_128x128",
+          "condition": "VLT_WEBP",
+          "resolution": [
+            128,
+            128
+          ]
+        },
+        {
+          "step_index": 9,
+          "timestamp": "2026-10-14T05:56:34Z",
+          "stimulus_id": "stimulus_d940edfa4408",
+          "relative_file": "stimuli/stimulus_d940edfa4408.webp",
+          "format": "Contact_Sheet_512x512_4x4",
+          "condition": "GRID512_WEBP",
+          "resolution": [
+            512,
+            512
+          ]
+        }
+      ],
+      "evaluated_stimulus_ids": [
         "stimulus_dc93ad4e4cb0",
         "stimulus_629248a847a1",
         "stimulus_8bf9e7c6ecc2",
         "stimulus_f1b6727a98d7",
         "stimulus_d940edfa4408"
+      ],
+      "evaluations_count": 5,
+      "raw_responses": [
+        {
+          "stimulus_id": "stimulus_dc93ad4e4cb0",
+          "narrative": "In Zeile 0 bewegt sich eine weiße Kugel von links nach rechts auf ein graues, rechteckiges Hindernis zu. In Zeile 1 und 2 erreicht die Kugel die linke Kante des Hindernisses und berührt diese. In Zeile 3 kehrt die Kugel ihre Bewegungsrichtung um und bewegt sich wieder nach links vom Hindernis weg. Es findet keine Verdeckung statt, die Kugel bleibt während der gesamten Sequenz links vom Hindernis sichtbar.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "approach_then_reverse",
+          "occlusion_type": "none",
+          "reemergence_observed": false,
+          "reemergence_side": "none",
+          "reversal_observed": true,
+          "pulse_observed": false,
+          "confidence": 0.95
+        },
+        {
+          "stimulus_id": "stimulus_629248a847a1",
+          "narrative": "Eine weiße Kugel startet links und bewegt sich geradlinig nach rechts auf ein blaugraues rechteckiges Hindernis zu (Zeile 0). Am Ende von Zeile 0 schiebt sie sich hinter das Hindernis. In Zeile 1 (Frames 4-6) ist die Kugel vollständig verdeckt. Am Ende von Zeile 1 (Frame 7) beginnt sie auf der rechten Seite wieder aufzutauchen. In Zeile 2 und 3 tritt sie vollständig hervor und setzt ihren Weg nach rechts ungestört fort.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "full",
+          "reemergence_observed": true,
+          "reemergence_side": "right",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 1.0
+        },
+        {
+          "stimulus_id": "stimulus_8bf9e7c6ecc2",
+          "narrative": "Eine weiße Kugel bewegt sich kontinuierlich von links nach rechts über das Bildfeld. In Zeile 1 passiert sie die Position eines grauen rechteckigen Hindernisses, verläuft jedoch im Vordergrund vor dem Hindernis: Die Kugel bleibt zu jedem Zeitpunkt vollständig sichtbar und unbeeinträchtigt. In Zeile 2 und 3 setzt sie ihren Weg nach rechts fort. Es tritt keine Okklusion und kein Abprallen auf.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "none",
+          "reemergence_observed": false,
+          "reemergence_side": "none",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 0.95
+        },
+        {
+          "stimulus_id": "stimulus_f1b6727a98d7",
+          "narrative": "E3-K12 Carrier: Quadrant Oben-Links (t=0) zeigt eine weiße Kugel links vor einem rechteckigen Hindernis. Der Kinematik-Quadrant (Oben-Rechts) und die chromatische Trägerschicht (Unten-Links) zeigen eine Bewegungsspur, die links beginnt, im Bereich des Hindernisses unterbrochen/gefiltert ist und rechts vom Hindernis als deutliche Signatur wieder austritt. Dies korrespondiert mit einer Bewegung von links nach rechts mit vollständiger Verdeckung durch das Hindernis und Wiederauftauchen rechts.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "full",
+          "reemergence_observed": true,
+          "reemergence_side": "right",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 0.85
+        },
+        {
+          "stimulus_id": "stimulus_d940edfa4408",
+          "narrative": "Eine weiße Kugel startet links und rollt nach rechts auf ein blaugraues rechteckiges Hindernis zu (Zeile 0 und 1). In Zeile 2 erreicht sie das Hindernis an dessen linker Kante, prallt elastisch ab und kehrt ihre Richtung um. In Zeile 3 entfernt sie sich wieder nach links. Die Kugel bleibt stets links vom Hindernis sichtbar; es findet weder Okklusion noch Durchquerung statt.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "approach_then_reverse",
+          "occlusion_type": "none",
+          "reemergence_observed": false,
+          "reemergence_side": "none",
+          "reversal_observed": true,
+          "pulse_observed": false,
+          "confidence": 1.0
+        }
       ]
     },
     {
-      "run": 3,
-      "batch": "B",
-      "conversation_id": "cc157430-4a38-4b4c-8351-338c1a158376",
+      "subagent_id": "cc157430-4a38-4b4c-8351-338c1a158376",
+      "batch_label": "Run 3 Batch B",
+      "run_id": 3,
+      "batch_id": "B",
       "spawn_step_index": 7959,
-      "stimuli": [
+      "created_at": "2026-10-14T05:55:49Z",
+      "completed_at": "2026-10-14T05:57:30Z",
+      "prompt_specification": {
+        "contact_sheet_grid": "4x4 (16 frames)",
+        "carrier_specification": "128x128 E3-K12 Visual Carrier",
+        "full_prompt_sanitized": ""
+      },
+      "view_file_calls": [
+        {
+          "step_index": 1,
+          "timestamp": "2026-10-14T05:55:49Z",
+          "stimulus_id": "stimulus_cd107141bd9d",
+          "relative_file": "stimuli/stimulus_cd107141bd9d.webp",
+          "format": "Contact_Sheet_512x512_4x4",
+          "condition": "GRID512_WEBP",
+          "resolution": [
+            512,
+            512
+          ]
+        },
+        {
+          "step_index": 3,
+          "timestamp": "2026-10-14T05:55:57Z",
+          "stimulus_id": "stimulus_902864d64466",
+          "relative_file": "stimuli/stimulus_902864d64466.webp",
+          "format": "Contact_Sheet_128x128_4x4",
+          "condition": "GRID128_WEBP",
+          "resolution": [
+            128,
+            128
+          ]
+        },
+        {
+          "step_index": 5,
+          "timestamp": "2026-10-14T05:56:07Z",
+          "stimulus_id": "stimulus_157e107a1ce1",
+          "relative_file": "stimuli/stimulus_157e107a1ce1.webp",
+          "format": "E3_K12_Carrier_128x128",
+          "condition": "VLT_WEBP",
+          "resolution": [
+            128,
+            128
+          ]
+        },
+        {
+          "step_index": 7,
+          "timestamp": "2026-10-14T05:56:13Z",
+          "stimulus_id": "stimulus_599d29deae99",
+          "relative_file": "stimuli/stimulus_599d29deae99.webp",
+          "format": "E3_K12_Carrier_128x128",
+          "condition": "VLT_WEBP",
+          "resolution": [
+            128,
+            128
+          ]
+        },
+        {
+          "step_index": 9,
+          "timestamp": "2026-10-14T05:56:33Z",
+          "stimulus_id": "stimulus_de352cce172e",
+          "relative_file": "stimuli/stimulus_de352cce172e.webp",
+          "format": "Contact_Sheet_128x128_4x4",
+          "condition": "GRID128_WEBP",
+          "resolution": [
+            128,
+            128
+          ]
+        }
+      ],
+      "evaluated_stimulus_ids": [
         "stimulus_cd107141bd9d",
         "stimulus_902864d64466",
         "stimulus_157e107a1ce1",
         "stimulus_599d29deae99",
         "stimulus_de352cce172e"
+      ],
+      "evaluations_count": 5,
+      "raw_responses": [
+        {
+          "stimulus_id": "stimulus_cd107141bd9d",
+          "narrative": "Kontaktbogen 4x4 (16 Frames). Eine helle Kugel startet links von einem statischen Quader und bewegt sich kontinuierlich nach rechts. Sie passiert hinter dem Quader, wobei ihre obere Kuppe in den Frames 4-7 oberhalb der Quaderkante sichtbar bleibt (partielle Okklusion). In den Frames 8-9 taucht sie rechts vollständig wieder auf und setzt ihren Weg nach rechts fort bis zum rechten Rand. Kein Richtungswechsel, kein Helligkeits- oder Farbpuls.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "partial",
+          "reemergence_observed": true,
+          "reemergence_side": "right",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 0.95
+        },
+        {
+          "stimulus_id": "stimulus_902864d64466",
+          "narrative": "Niedrig aufgelöster / downscaled Kontaktbogen 4x4 (16 Frames). Ein heller runder Punkt/Kugel startet links von einem dunklen rechteckigen Hindernis und wandert nach rechts. Während der Passage hinter dem Hindernis (Zeile 2, Frames 4-7) bleibt die Oberkante als Pixel-Spitze über der Hinderniskante sichtbar (partielle Okklusion). Anschließend taucht die Kugel rechts wieder auf und wandert nach rechts weiter. Kein Richtungswechsel, kein Helligkeits- oder Farbpuls.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "partial",
+          "reemergence_observed": true,
+          "reemergence_side": "right",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 0.9
+        },
+        {
+          "stimulus_id": "stimulus_157e107a1ce1",
+          "narrative": "Visual Carrier E3-K12 (128x128). Basiszustand TL zeigt eine helle Kugel links von einem statischen Quader. Die temporale Kinematik (TR) und Chromatizität (BL) zeigen eine horizontale Bewegungsspur, die links bei der Kugel beginnt und exakt an der linken Kante des Quaders endet. In TR zeigt der linke Bereich ein helles Grün (hohe P2-Krümmung bei t=0 und t=Ende), während der Umkehrpunkt an der Quaderkante dunkelblau ist (P2-Minimum beim Richtungswechsel/Scheitelpunkt). Rechts des Quaders existiert keinerlei Bewegungssignal. Die Kugel läuft auf das Hindernis zu, prallt dort ab / kehrt um und kehrt nach links zurück. Keine Verdeckung hinter dem Quader, kein Wiederauftauchen rechts, kein Helligkeits- oder Farbpuls.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "approach_then_reverse",
+          "occlusion_type": "none",
+          "reemergence_observed": false,
+          "reemergence_side": "none",
+          "reversal_observed": true,
+          "pulse_observed": false,
+          "confidence": 0.92
+        },
+        {
+          "stimulus_id": "stimulus_599d29deae99",
+          "narrative": "Visual Carrier E3-K12 (128x128). Basiszustand TL zeigt die Kugel links von einem Quader. TR und BL zeigen eine kontinuierliche Bewegungstrajektorie von links nach rechts über das gesamte Bildfeld. Im Bereich des Quaders ist der Bewegungspfad partiell verdeckt (nur der obere Bogen oberhalb des Quaders bleibt erhalten, partielle Okklusion). Rechts vom Quader re-emergiert die Kugel voll und läuft bis an den rechten Bildrand. BL zeigt einen monotonen Farbtrend von rot/orange nach blau/magenta. Kein Richtungswechsel, kein Helligkeits- oder Farbpuls.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "partial",
+          "reemergence_observed": true,
+          "reemergence_side": "right",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 0.95
+        },
+        {
+          "stimulus_id": "stimulus_de352cce172e",
+          "narrative": "Kontaktbogen 4x4 (16 Frames). Eine helle Kugel startet links von einem Quader und bewegt sich nach rechts. In den Frames 4-6 verschwindet die Kugel vollständig hinter dem Quader (vollständige Okklusion, keinerlei Pixel sichtbar). In Frame 7 beginnt sie am rechten Rand hervorzutreten, taucht in Frames 8-9 vollständig rechts wieder auf und wandert geradlinig weiter nach rechts bis Frame 15. Kein Richtungswechsel, kein Helligkeits- oder Farbpuls.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "full",
+          "reemergence_observed": true,
+          "reemergence_side": "right",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 0.95
+        }
       ]
     },
     {
-      "run": 3,
-      "batch": "C",
-      "conversation_id": "d1506ec5-2ece-431b-8fe8-56bf86e90090",
+      "subagent_id": "d1506ec5-2ece-431b-8fe8-56bf86e90090",
+      "batch_label": "Run 3 Batch C",
+      "run_id": 3,
+      "batch_id": "C",
       "spawn_step_index": 7959,
-      "stimuli": [
+      "created_at": "2026-10-14T05:55:49Z",
+      "completed_at": "2026-10-14T05:58:08Z",
+      "prompt_specification": {
+        "contact_sheet_grid": "4x4 (16 frames)",
+        "carrier_specification": "128x128 E3-K12 Visual Carrier",
+        "full_prompt_sanitized": ""
+      },
+      "view_file_calls": [
+        {
+          "step_index": 1,
+          "timestamp": "2026-10-14T05:55:49Z",
+          "stimulus_id": "stimulus_f5ba23e6fc4c",
+          "relative_file": "stimuli/stimulus_f5ba23e6fc4c.webp",
+          "format": "Contact_Sheet_128x128_4x4",
+          "condition": "GRID128_WEBP",
+          "resolution": [
+            128,
+            128
+          ]
+        },
+        {
+          "step_index": 3,
+          "timestamp": "2026-10-14T05:55:55Z",
+          "stimulus_id": "stimulus_1bb69c94b9f4",
+          "relative_file": "stimuli/stimulus_1bb69c94b9f4.webp",
+          "format": "Contact_Sheet_512x512_4x4",
+          "condition": "GRID512_WEBP",
+          "resolution": [
+            512,
+            512
+          ]
+        },
+        {
+          "step_index": 5,
+          "timestamp": "2026-10-14T05:56:03Z",
+          "stimulus_id": "stimulus_67633cbc580d",
+          "relative_file": "stimuli/stimulus_67633cbc580d.webp",
+          "format": "E3_K12_Carrier_128x128",
+          "condition": "VLT_WEBP",
+          "resolution": [
+            128,
+            128
+          ]
+        },
+        {
+          "step_index": 7,
+          "timestamp": "2026-10-14T05:56:08Z",
+          "stimulus_id": "stimulus_6a807652bf33",
+          "relative_file": "stimuli/stimulus_6a807652bf33.webp",
+          "format": "E3_K12_Carrier_128x128",
+          "condition": "VLT_WEBP",
+          "resolution": [
+            128,
+            128
+          ]
+        },
+        {
+          "step_index": 9,
+          "timestamp": "2026-10-14T05:56:17Z",
+          "stimulus_id": "stimulus_91d4e99b8620",
+          "relative_file": "stimuli/stimulus_91d4e99b8620.webp",
+          "format": "Contact_Sheet_512x512_4x4",
+          "condition": "GRID512_WEBP",
+          "resolution": [
+            512,
+            512
+          ]
+        }
+      ],
+      "evaluated_stimulus_ids": [
         "stimulus_f5ba23e6fc4c",
         "stimulus_1bb69c94b9f4",
         "stimulus_67633cbc580d",
         "stimulus_6a807652bf33",
         "stimulus_91d4e99b8620"
+      ],
+      "evaluations_count": 5,
+      "raw_responses": [
+        {
+          "stimulus_id": "stimulus_f5ba23e6fc4c",
+          "narrative": "Ein 4x4-Kontaktbogen zeigt eine weiße Kugel und ein statisches graues rechteckiges Hindernis. In den Frames 0 bis 2 bewegt sich die Kugel von links auf das Hindernis zu und tritt in Frame 2-3 dahinter ein. In den Frames 4 bis 6 ist die Kugel vollständig verdeckt (volle Okklusion). In Frame 7 beginnt sie an der rechten Kante des Hindernisses wieder aufzutauchen und bewegt sich in den Frames 8 bis 15 kontinuierlich weiter nach rechts bis zum rechten Bildrand. Keine Richtungsumkehr oder Helligkeitsblitze.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "full",
+          "reemergence_observed": true,
+          "reemergence_side": "right",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 0.98
+        },
+        {
+          "stimulus_id": "stimulus_1bb69c94b9f4",
+          "narrative": "Ein 4x4-Kontaktbogen zeigt eine 3D-weiße Kugel auf einer horizontalen Führungslinie sowie einen statischen blaugrauen Block in der Mitte. In den Frames 0 bis 3 bewegt sich die Kugel von links auf den Block zu und verschwindet dahinter. In den Frames 4 bis 6 ist die Kugel vollständig hinter dem Block verborgen (volle Okklusion). In Frame 7 tritt die Kugel an der rechten Seite des Blocks wieder hervor und wandert in den Frames 8 bis 15 ungehindert nach rechts weiter. Keine Richtungsumkehr oder Pulse erkennbar.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "full",
+          "reemergence_observed": true,
+          "reemergence_side": "right",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 0.98
+        },
+        {
+          "stimulus_id": "stimulus_67633cbc580d",
+          "narrative": "Ein E3-K12 Visual Carrier. Quadrant Oben-Links (t=0) zeigt eine weiße Kugel links und ein statisches graues Rechteck mittig auf derselben horizontalen Achse. Quadrant Oben-Rechts (Kinematik) zeigt grüne Bewegungsregionen links und rechts des Hindernisses, während das Hindernis selbst dunkelblau und bewegungsfrei bleibt. Quadrant Unten-Links (Chromatik P1-Trend) zeigt ein klares Frühtrend-Signal (orange/grün) links, eine Lücke/Unterbrechung an der Position des Hindernisses und ein Spättrend-Signal (magenta/cyan) rechts. Dies indiziert eine Bewegung von links nach rechts mit vollständiger Okklusion hinter dem Hindernis und Wiederauftauchen rechts. Keine Umkehrung oder Pulse.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "full",
+          "reemergence_observed": true,
+          "reemergence_side": "right",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 0.85
+        },
+        {
+          "stimulus_id": "stimulus_6a807652bf33",
+          "narrative": "Ein E3-K12 Visual Carrier. Quadrant Oben-Links (t=0) zeigt eine weiße Kugel links und ein graues statisches Rechteck. Quadrant Oben-Rechts (Kinematik) und Unten-Links (Chromatik) zeigen eine durchgehende horizontale Bewegungstrajektorie von links nach rechts (Farbverlauf von orange über grün und magenta nach cyan). Da das temporale Kinematik- und P1-Signal über die Hinderniszone hinweg nicht vollständig abreißt, liegt eine partielle Okklusion vor (Kugel bleibt am unteren Rand während des Passierens sichtbar). Die Kugel taucht rechts vollständig auf. Keine Umkehrung oder Pulse.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "partial",
+          "reemergence_observed": true,
+          "reemergence_side": "right",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 0.85
+        },
+        {
+          "stimulus_id": "stimulus_91d4e99b8620",
+          "narrative": "Ein 4x4-Kontaktbogen zeigt eine weiße Kugel und einen blaugrauen Block, dessen untere Kante an der Bewegungsachse liegt. Die Kugel wandert von links nach rechts (Frames 0-3). Beim Passieren des Blocks in den Frames 4 bis 7 ragt die untere Hälfte der Kugel unterhalb der Blockkante heraus und bleibt durchgehend sichtbar (partielle Okklusion, keine vollständige Verdeckung). In Frame 8 tritt die Kugel rechts wieder komplett frei hervor und läuft in den Frames 9 bis 15 nach rechts weiter. Keine Richtungsumkehr oder Helligkeitsblitze.",
+          "moving_object_count": 1,
+          "object_shape": "sphere",
+          "primary_motion": "left_to_right",
+          "occlusion_type": "partial",
+          "reemergence_observed": true,
+          "reemergence_side": "right",
+          "reversal_observed": false,
+          "pulse_observed": false,
+          "confidence": 0.98
+        }
       ]
     }
   ]
