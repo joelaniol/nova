@@ -61,7 +61,7 @@ The Closed-Loop Outcome Evaluator returns a structured result record:
   "evaluatedAssertions": 3,
   "traces": [
     {
-      "factKey": "dom.element.#cookie-banner.exists",
+      "factKey": "dom.#cookie-banner",
       "operator": "NotExists",
       "expected": false,
       "actual": false,

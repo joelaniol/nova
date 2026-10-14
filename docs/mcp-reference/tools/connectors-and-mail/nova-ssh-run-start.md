@@ -27,6 +27,11 @@ Starts a background command session on an SSH/SFTP server and returns an `execId
 | `profileId` | `string` | Yes | — | — | SSH/SFTP connector id from nova.connector_list. |
 | `command` | `string` | Yes | — | — | The single command line to run in the session. |
 | `allowStdin` | `boolean` | No | `false` | — | Enable interactive stdin for this session. Fixed at start; it cannot be enabled later. Default disabled. |
+| `connectTimeoutSeconds` | `integer` | No | `15` | 1–60 | TCP and SSH handshake deadline in seconds. Lower it (e.g. 3) for a host on the local network, so a machine that is off answers fast with reasonCode timeout instead of after 15 s. |
+| `stdin` | `string` | No | — | — | One-shot standard input (max 256 KiB), written right after the start and followed by EOF, like ssh_run's stdin - e.g. a script for command='bash -s'. Needs only process.exec. Not together with allowStdin. |
+| `stdinFromFile` | `string` | No | — | — | Instead of stdin: a local UTF-8 file (max 256 KiB) Nova reads and sends once, then EOF. Downloads and the verified workspace are allowed; another path needs the account's local.read stage (asked together with process.exec; an 'always' then covers every local folder). Not together with allowStdin. |
+| `waitForEndSeconds` | `integer` | No | `0` | 0–300 | Wait up to this many seconds for the command to end before answering; the result then carries 'output' in the ssh_run_read shape. A short run is done in one call, a long one keeps its execId - continue with nova.ssh_run_read from output's next offsets. Pass operationId too, so a dropped wait can be resumed with the same call. |
+| `outputDetail` | `string` | No | `"full"` | `full`, `compact` | Shape of 'output' when waitForEndSeconds is set; same meaning as in nova.ssh_run_read. |
 | `operationId` | `string` | No | — | — | Optional idempotency key: retrying start with the same operationId returns the existing session instead of opening a second connection. |
 | `unattended` | `boolean` | No | `false` | — | Fail closed instead of prompting. Scheduled-task hosts enforce this even when omitted. |
 

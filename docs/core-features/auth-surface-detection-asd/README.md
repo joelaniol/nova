@@ -427,26 +427,26 @@ sequenceDiagram
   "ambiguityPolicy": "signal",
   "preconditions": {
     "all": [
-      { "factKey": "auth.loginWallVisible", "op": "eq", "value": true }
+      { "factKey": "auth.loginWallVisible", "operator": "eq", "expected": true }
     ]
   },
   "postconditions": {
     "success": {
       "all": [
-        { "factKey": "auth.loggedIn", "op": "eq", "value": true }
+        { "factKey": "auth.loggedIn", "operator": "eq", "expected": true }
       ]
     },
     "forbidden": {
       "forbidden": [
-        { "factKey": "auth.authError", "op": "eq", "value": true }
+        { "factKey": "auth.authError", "operator": "eq", "expected": true }
       ]
     },
     "ambiguous": {
       "any": [
-        { "factKey": "auth.mfaChallenge", "op": "eq", "value": true },
-        { "factKey": "auth.stage", "op": "eq", "value": "mfa_challenge" },
-        { "factKey": "auth.stage", "op": "eq", "value": "identity_step" },
-        { "factKey": "auth.stage", "op": "eq", "value": "federated_login" }
+        { "factKey": "auth.mfaChallenge", "operator": "eq", "expected": true },
+        { "factKey": "auth.stage", "operator": "eq", "expected": "mfa_challenge" },
+        { "factKey": "auth.stage", "operator": "eq", "expected": "identity_step" },
+        { "factKey": "auth.stage", "operator": "eq", "expected": "federated_login" }
       ]
     }
   }

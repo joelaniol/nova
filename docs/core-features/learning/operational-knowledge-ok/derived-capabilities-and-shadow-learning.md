@@ -147,28 +147,25 @@ An agent logging into a dashboard can assert that successful authentication has 
 ```json
 {
   "transitionContract": {
-    "intent": "Submit credentials and verify authenticated session",
-    "preconditions": [
-      {
-        "factKey": "core.login_state",
-        "operator": "NotEq",
-        "expectedValue": "logged_in"
+    "actionKind": "submit_form",
+    "stabilityMs": 500,
+    "preconditions": {
+      "all": [
+        { "factKey": "core.login_state", "operator": "not_eq", "expected": "logged_in" }
+      ]
+    },
+    "postconditions": {
+      "success": {
+        "all": [
+          { "factKey": "core.login_state", "operator": "eq", "expected": "logged_in" }
+        ]
       }
-    ],
-    "postconditions": [
-      {
-        "factKey": "core.login_state",
-        "operator": "Eq",
-        "expectedValue": "logged_in",
-        "stabilityMs": 500
-      }
-    ],
-    "timeoutMs": 8000
+    }
   }
 }
 ```
 
-If the OK fact store does not reflect the asserted state within the timeout window, CLS halts further execution, preventing downstream tools from acting on an unverified session.
+If the OK fact store does not reflect the asserted state within the verification window, the result reports the action as not verified (`verifyState`, `retryAdvice`), so the agent does not continue on an unconfirmed session.
 
 ---
 

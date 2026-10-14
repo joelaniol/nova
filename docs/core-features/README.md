@@ -7,7 +7,7 @@
 
 ## Overview
 
-Nova AI Workspace is a Windows browser built on **.NET 8, WinUI 3 and Microsoft WebView2**. AI agents control it through the Model Context Protocol (MCP); Nova provides a [tool catalog](../mcp-reference/tools/README.md). The pages below explain the parts of Nova that sit behind those tools: how it reads and acts on pages, how it checks that an action worked, what it remembers between sessions, how it keeps logins apart, and what it can do outside the browser.
+Nova AI Workspace is a Windows browser built on **.NET 10, WinUI 3 and Microsoft WebView2** (.NET 10 since 1.0.0-alpha.20; earlier versions run on .NET 8). AI agents control it through the Model Context Protocol (MCP); Nova provides a [tool catalog](../mcp-reference/tools/README.md). The pages below explain the parts of Nova that sit behind those tools: how it reads and acts on pages, how it checks that an action worked, what it remembers between sessions, how it keeps logins apart, and what it can do outside the browser.
 
 ---
 

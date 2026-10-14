@@ -138,6 +138,15 @@ Copyright (c) .NET Foundation and Contributors
 (Same MIT license text as .NET Runtime above.)
 
 ----------------------------------------------------------------------
+System.Security.Cryptography.Pkcs
+License: MIT
+Source:  https://github.com/dotnet/runtime
+----------------------------------------------------------------------
+
+Copyright (c) .NET Foundation and Contributors
+(Same MIT license text as .NET Runtime above.)
+
+----------------------------------------------------------------------
 Microsoft.Win32.SystemEvents
 License: MIT
 Source:  https://github.com/dotnet/runtime

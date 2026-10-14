@@ -265,24 +265,24 @@ Agents specify transition contracts using the `transitionContract` parameter. No
   "stabilityMs": 200,
   "preconditions": {
     "all": [
-      { "factKey": "form.fields.valid", "op": "eq", "value": true }
+      { "factKey": "form.fields.valid", "operator": "eq", "expected": true }
     ]
   },
   "postconditions": {
     "success": {
       "any": [
-        { "factKey": "page.urlChanged", "op": "eq", "value": true },
-        { "factKey": "form.successIndicator.visible", "op": "eq", "value": true }
+        { "factKey": "page.urlChanged", "operator": "eq", "expected": true },
+        { "factKey": "form.successIndicator.visible", "operator": "eq", "expected": true }
       ]
     },
     "forbidden": {
       "any": [
-        { "factKey": "dom.div.form-error-banner", "op": "exists" }
+        { "factKey": "dom.div.form-error-banner", "operator": "eq", "expected": true }
       ]
     },
     "ambiguous": {
       "any": [
-        { "factKey": "auth.mfaChallenge", "op": "eq", "value": true }
+        { "factKey": "auth.mfaChallenge", "operator": "eq", "expected": true }
       ]
     }
   }

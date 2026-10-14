@@ -184,22 +184,18 @@ sequenceDiagram
 
 ### Verification Best Practices
 
-1. **[Closed-Loop System (CLS) Contracts](../../closed-loop-system-cls/README.md):**
-   Attach transition contracts to assert on state properties:
+1. **Check the resulting state after the drag:**
+   The drag tools do not take a transition contract. Read the value the application kept, and wait for it, in the call that follows the drag:
    ```json
    {
-     "transitionContract": {
-       "actionKind": "custom",
-       "postconditions": {
-         "success": {
-           "all": [
-             { "factKey": "@css=input#price-slider", "operator": "gte", "expected": 75 }
-           ]
-         }
-       }
+     "name": "nova.wait_for_eval",
+     "arguments": {
+       "expression": "Number(document.querySelector('input#price-slider').value) >= 75",
+       "timeoutMs": 3000
      }
    }
    ```
+   A timeout here means the slider did not end up where the drag left it. Check the page before dragging again. Clicks and typing can carry the same kind of check inside the action itself, see [Closed-Loop System (CLS) Contracts](../../closed-loop-system-cls/README.md).
 2. **[Evidence Verification Mode (EVM)](../../../research/evidence-verification-mode-evm/README.md):**
    Capture an immediate post-action screenshot to verify visual alignment and element positioning.
 

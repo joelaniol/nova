@@ -24,7 +24,8 @@ Sets or clears persistent or session-based camera, mic, speaker, and geolocation
 | `speaker` | `string` | No | — | `ask`, `allow`, `deny` | Speaker / audio output routing mode. |
 | `screenCapture` | `string` | No | — | `ask`, `allow`, `deny` | Screen sharing (getDisplayMedia) per-site override. lifetime='session' is not supported for this axis. |
 | `geolocation` | `string` | No | — | `ask`, `allow`, `deny` | Geolocation (navigator.geolocation) per-site override. lifetime='session' is not supported for this axis. |
-| `lifetime` | `string` | No | — | `persistent`, `session` | How long the grant lives. 'persistent' (default) survives restart; 'session' is in-memory only and only valid for camera/microphone/speaker. |
+| `automaticDownloads` | `string` | No | — | `ask`, `allow`, `allow_once`, `deny` | May the site download several files on its own (from the second download without a user click). Set it alone - not together with other axes, clearAll or requestingOrigin. Values: 'allow_once' = allow only the next such request (lifetime does not apply); 'allow'/'deny'/'ask' with lifetime 'session' = until Nova closes, or 'persistent' (default) = stored for the site, where 'ask' is kept as 'always ask on this site' even when the global mode allows. The global default is nova.permission_center_set(automaticDownloadsPermissionMode). The result's state says what decides the next request and why. |
+| `lifetime` | `string` | No | — | `persistent`, `session` | How long the grant lives. 'persistent' (default) survives restart; 'session' is in-memory only and valid for camera/microphone/speaker and automaticDownloads. |
 | `clearAll` | `boolean` | No | — | — | Remove the entire stored override for this origin. Cannot be combined with axis modes or lifetime. |
 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.

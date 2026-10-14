@@ -35,7 +35,7 @@ flowchart TD
         CustomCall["plugin.{pluginId}.{toolName}<br>Dynamic Custom MCP Tools"]
     end
 
-    subgraph HostCore["2. Nova Host Core (.NET 8 WinUI 3)"]
+    subgraph HostCore["2. Nova Host Core (.NET 10 WinUI 3)"]
         Dispatcher["PluginEngineDispatcher<br>Single Serialized Message Pump"]
         Supervisor["PluginSupervisor<br>Lifecycle, Port Relays, Quotas"]
         PermEngine["PluginPermissionEngine<br>Two-Tier Approval Gate"]

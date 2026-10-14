@@ -29,6 +29,7 @@ Opens an interactive terminal (a real PTY) on an SSH/SFTP server and returns an 
 | `rows` | `integer` | No | `24` | 2–300 | Terminal height in rows (2-300). Default 24. |
 | `term` | `string` | No | — | — | Optional TERM value (e.g. xterm-256color, xterm). Default xterm-256color; unusual values fall back to the default. |
 | `operationId` | `string` | No | — | — | Optional idempotency key: retrying open with the same operationId returns the existing terminal instead of opening a second connection. |
+| `connectTimeoutSeconds` | `integer` | No | `15` | 1–60 | TCP and SSH handshake deadline in seconds. Lower it (e.g. 3) for a host on the local network, so a machine that is off answers fast with reasonCode timeout instead of after 15 s. |
 | `unattended` | `boolean` | No | `false` | — | Fail closed instead of prompting. Scheduled-task hosts enforce this even when omitted. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
