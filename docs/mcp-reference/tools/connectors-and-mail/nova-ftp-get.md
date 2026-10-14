@@ -93,7 +93,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ## 4. Operational Best Practices
 
-* **Path Security:** `localPath` is checked against Downloads/workspace roots before any prompt or connection; a path outside those roots is refused with `reasonCode: "local_path_not_allowed"`.
+* **Path Security:** `localPath` inside Downloads or the verified workspace needs no extra permission. A path outside them needs the connector's `local.write` grant (asked like any other permission) and is refused before any prompt or connection with `reasonCode: "connector_local_file_access_disabled"` (code -32005) while the user has turned off local file access for connectors in Settings.
 * **Overwrite Safety:** An existing local destination is preserved unless `overwrite: true` is set.
 * **Single File Only:** There is no `recursive` option here; a remote directory or link is rejected rather than followed.
 

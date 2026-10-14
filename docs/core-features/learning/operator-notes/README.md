@@ -224,7 +224,7 @@ Retrieves a paginated inventory of notes filtered by scope.
 ### 4. `nova.operator_notes_delete`
 Permanently deletes an operator note by its unique identifier, after the user confirms it.
 
-From 1.0.0-alpha.19 (upcoming, not published yet), every delete first shows the user a Nova dialog with the note's tags and content; Nova never remembers the answer. Declining returns `-32036` and the note stays; without a confirmation UI (for example an unattended run) the call fails with `-32033`. Agents should update an outdated note with `nova.operator_notes_store(id=...)` instead of deleting it.
+Since 1.0.0-alpha.19, every delete first shows the user a Nova dialog with the note's tags and content; Nova never remembers the answer. Declining returns `-32036` and the note stays; without a confirmation UI (for example an unattended run) the call fails with `-32033`. Agents should update an outdated note with `nova.operator_notes_store(id=...)` instead of deleting it.
 
 | Parameter | Type | Required | Default | Description |
 | :--- | :--- | :---: | :--- | :--- |
@@ -271,7 +271,7 @@ Nova automatically executes an internal query against the active sandbox scope:
 
 ## 6. Storage Mechanics & Data Structure
 
-From 1.0.0-alpha.19 (upcoming, not published yet), Operator Notes are stored in a local SQLite database in the user profile directory, together with domain notes and connector extras:
+Since 1.0.0-alpha.19, Operator Notes are stored in a local SQLite database in the user profile directory, together with domain notes and connector extras:
 ```
 %LOCALAPPDATA%\NovaBrowser\notes.db
 ```

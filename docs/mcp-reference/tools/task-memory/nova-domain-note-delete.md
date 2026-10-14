@@ -8,7 +8,7 @@ Deletes a domain note by domain name and key.
 
 `nova.domain_note_delete` removes an obsolete note for a specific domain and scope after the user confirms it.
 
-From 1.0.0-alpha.19 (upcoming, not published yet), every delete first shows the user a Nova dialog with the note; Nova never remembers the answer. Declining returns `-32036` and the note stays; without a confirmation UI (for example an unattended run) the call fails with `-32033`. Agents should update a wrong note with `nova.domain_note` instead of deleting it.
+Since 1.0.0-alpha.19, every delete first shows the user a Nova dialog with the note; Nova never remembers the answer. Declining returns `-32036` and the note stays; without a confirmation UI (for example an unattended run) the call fails with `-32033`. Agents should update a wrong note with `nova.domain_note` instead of deleting it.
 
 * **Core Architecture Guide:** [Domain Notes](../../../core-features/learning/domain-notes/README.md)
 

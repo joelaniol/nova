@@ -69,7 +69,7 @@ graph LR
 
 1. **`process.exec` Capability:**
    - Authorizes spawning remote commands and background sessions.
-   - `process.exec` is its own grant and is **not** covered by the `full` file-transfer grant: being allowed to write files never silently allows a remote shell. When it is unset, the first command asks once ("Always" stores the grant); an unattended run such as a scheduled task fails closed until the grant is set. *(Up to 1.0.0-alpha.18, commands ran on the `full` grant; from alpha.19, not published yet, they need this stage.)*
+   - `process.exec` is its own grant and is **not** covered by the `full` file-transfer grant: being allowed to write files never silently allows a remote shell. When it is unset, the first command asks once ("Always" stores the grant); an unattended run such as a scheduled task fails closed until the grant is set. *(Up to 1.0.0-alpha.18, commands ran on the `full` grant; since alpha.19 they need this stage.)*
 2. **`process.stdin` Capability (Strict Opt-In):**
    - Authorizes feeding live, interactive standard input into a running background process (`allowStdin=true` and `nova.ssh_run_write`).
    - Because open stdin channels allow arbitrary command chaining and interactive shell escape, `process.stdin` is **strictly opt-in and never inherits weaker grants**.
@@ -117,7 +117,7 @@ In an SSH exec batch, **each command executes inside a fresh, independent remote
 
 ### Reading the result: call status vs. command success
 
-*From 1.0.0-alpha.19 (not published yet).* The result answers two separate questions:
+*Since 1.0.0-alpha.19.* The result answers two separate questions:
 
 * **`ok`** — did Nova reach the server and run the batch? `ok: false` means a connection error; `connectionError` says in which phase.
 * **`allCommandsSucceeded`** — did every command end with an exit code from `expectedExitCodes`? This is the field to base decisions on. A command that exits with an unexpected code still returns `ok: true` together with `allCommandsSucceeded: false`, `status: "failed"` or `"partial"`, and `results[].success: false`. An exit code listed in `expectedExitCodes` (for example `1` for `grep`) counts as success.
@@ -148,7 +148,7 @@ flowchart LR
    - Terminal color sequences and raw cursor manipulation codes are stripped from text output, leaving clean, machine-readable log lines.
 4. **Stream Integrity Hash:**
    - Every completed stream includes a SHA-256 cryptographic hash of all received bytes, providing verifiable proof of stream content.
-5. **Masking of recognised credentials** *(from 1.0.0-alpha.19, not published yet)*:
+5. **Masking of recognised credentials** *(since 1.0.0-alpha.19)*:
    - In `nova.ssh_run` and `nova.ssh_run_read`, password hashes in crypt format (`$1$`, `$2y$`, `$5$`, `$6$`, `$y$`, argon2 and related), PEM private keys and `mysql_native_password` hashes are replaced with `[REDACTED:<kind>]` before the agent reads the text. Each stream reports `redactions` and `redactedKinds`; the SHA-256 hash, byte counters and offsets still describe the raw stream.
    - Only these formats are recognised. Other secrets pass through unchanged, so remote scripts should print error classes rather than full exception text that may quote credentials.
    - `redactSecrets: false` turns masking off for a task that needs the value itself, such as moving a hash between systems.

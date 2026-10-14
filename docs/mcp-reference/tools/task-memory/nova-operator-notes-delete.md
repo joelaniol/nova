@@ -8,7 +8,7 @@ Deletes an operator note by unique ID.
 
 `nova.operator_notes_delete` removes an operator note from the persistent database after the user confirms it.
 
-From 1.0.0-alpha.19 (upcoming, not published yet), every delete first shows the user a Nova dialog with the note's tags and content; Nova never remembers the answer. Declining returns `-32036` and the note stays; without a confirmation UI (for example an unattended run) the call fails with `-32033`. Agents should update an outdated note with `nova.operator_notes_store(id=...)` instead of deleting it.
+Since 1.0.0-alpha.19, every delete first shows the user a Nova dialog with the note's tags and content; Nova never remembers the answer. Declining returns `-32036` and the note stays; without a confirmation UI (for example an unattended run) the call fails with `-32033`. Agents should update an outdated note with `nova.operator_notes_store(id=...)` instead of deleting it.
 
 * **Core Architecture Guide:** [Operator Notes](../../../core-features/learning/operator-notes/README.md)
 

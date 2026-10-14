@@ -121,7 +121,7 @@ When the confirmation resolves, Nova verifies that `latest.UpdatedUtc == authori
 
 ### Delete Confirmation, Multi-User-Note Protection & Ambiguity Handling
 
-Domain notes are learned knowledge. From 1.0.0-alpha.19 (upcoming, not published yet), every `nova.domain_note_delete` shows the user a Nova dialog with the note before anything is removed, for agent notes as well as user notes, and Nova never remembers the answer. Declining returns `-32036` and the note stays; without a confirmation UI (for example an unattended run) the call fails with `-32033`. Agents should update a wrong note with `nova.domain_note` instead of deleting it.
+Domain notes are learned knowledge. Since 1.0.0-alpha.19, every `nova.domain_note_delete` shows the user a Nova dialog with the note before anything is removed, for agent notes as well as user notes, and Nova never remembers the answer. Declining returns `-32036` and the note stays; without a confirmation UI (for example an unattended run) the call fails with `-32033`. Agents should update a wrong note with `nova.domain_note` instead of deleting it.
 
 1. **Individual Confirmations on Multi-Delete:** When an agent attempts a broad delete across multiple user notes (e.g. `scope="all"` matching both global and sandboxed user notes), Nova enforces separate confirmations for **each user note in the target set**. A single cached session allow cannot silently delete multiple user notes.
 2. **Ambiguous Target Detection (-32602):** If both a global note and a sandbox-scoped note share the same `domain` and `key`, a bare delete call without an explicit `scope` or `sandboxId` will be rejected with `ambiguous_note_target`, returning candidate metadata so the agent can specify the exact target.
@@ -131,7 +131,7 @@ Domain notes are learned knowledge. From 1.0.0-alpha.19 (upcoming, not published
 
 ## 3. Storage Architecture & Persistence Pipeline
 
-From 1.0.0-alpha.19 (upcoming, not published yet), Domain Notes live in a local SQLite database together with operator notes and connector extras:
+Since 1.0.0-alpha.19, Domain Notes live in a local SQLite database together with operator notes and connector extras:
 
 $$\text{Path: } \%LOCALAPPDATA\%\backslash\text{NovaBrowser}\backslash\text{notes.db}$$
 
@@ -196,13 +196,13 @@ mindmap
 
 ### No Automatic Deletion
 
-Domain notes are distilled knowledge, not raw logs, so Nova never prunes them by age, use or count. Earlier versions removed notes after 180 days and kept at most 20 notes per domain and 50 domains; from 1.0.0-alpha.19 (upcoming, not published yet) that pruning is gone. When a limit (1,000,000 domains, 1,000 notes per domain) is reached, a new note is refused with an error and existing notes stay untouched.
+Domain notes are distilled knowledge, not raw logs, so Nova never prunes them by age, use or count. Earlier versions removed notes after 180 days and kept at most 20 notes per domain and 50 domains; since 1.0.0-alpha.19 that pruning is gone. When a limit (1,000,000 domains, 1,000 notes per domain) is reached, a new note is refused with an error and existing notes stay untouched.
 
 ---
 
 ## 5. Sandbox Deletion and Its Notes
 
-From 1.0.0-alpha.19 (upcoming, not published yet), deleting a sandbox never deletes notes on its own:
+Since 1.0.0-alpha.19, deleting a sandbox never deletes notes on its own:
 
 ```mermaid
 flowchart LR

@@ -113,7 +113,7 @@ MatchesScope(note, scope, activeUid):
 
 ## 4. Deletion Lifecycle & The Anti-Leakage Orphan Invariant
 
-When an operator removes a sandbox profile from Nova, any notes created within that sandbox lose their active profile anchor. From 1.0.0-alpha.19 (upcoming, not published yet), a follow-up dialog shows how many domain and operator notes the sandbox has and asks whether to delete them too; only that explicit choice deletes them, otherwise they stay as orphaned notes.
+When an operator removes a sandbox profile from Nova, any notes created within that sandbox lose their active profile anchor. Since 1.0.0-alpha.19, a follow-up dialog shows how many domain and operator notes the sandbox has and asks whether to delete them too; only that explicit choice deletes them, otherwise they stay as orphaned notes.
 
 ```mermaid
 stateDiagram-v2
@@ -164,7 +164,7 @@ Each note is validated when it is stored:
 | `Content` | **10,000 chars** | Maximum character length for a single note's content body. |
 | `Tags` | **20 tags** | Maximum number of tags per note (each tag max 100 chars). |
 
-Operator notes are kept knowledge. From 1.0.0-alpha.19 (upcoming, not published yet), Nova no longer prunes them: earlier versions kept at most 100 notes and removed never-matched notes after 90 days. Query ranking (`minScore`, `limit`) keeps agent context small instead. A note is deleted only by the user: a confirmed `nova.operator_notes_delete`, a delete in Settings, or the explicit choice to delete a removed sandbox's notes.
+Operator notes are kept knowledge. Since 1.0.0-alpha.19, Nova no longer prunes them: earlier versions kept at most 100 notes and removed never-matched notes after 90 days. Query ranking (`minScore`, `limit`) keeps agent context small instead. A note is deleted only by the user: a confirmed `nova.operator_notes_delete`, a delete in Settings, or the explicit choice to delete a removed sandbox's notes.
 
 ---
 

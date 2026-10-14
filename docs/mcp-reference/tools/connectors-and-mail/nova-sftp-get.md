@@ -108,7 +108,7 @@ When the job finishes within `wait`, the same fields come back with `state: "com
 * **Repeat, do not restart:** after `interrupted` or `stopped`, send the identical call again - it resumes the same job (`resumed: true`, `attempt` + 1). Changing any argument makes it a different transfer.
 * **Overwrite Safety:** an existing local target is refused before any byte moves (`error.code: "destination_changed"`) unless `overwrite: true` is set.
 * **Free space is checked first:** a download that cannot fit on the target drive (with a reserve) stops with `target_full` before it starts.
-* **Local Path Is Pre-Checked:** `localPath` must resolve inside Downloads or the host-verified current workspace; a path outside those roots is refused before any prompt, with `reasonCode: "local_path_not_allowed"`.
+* **Local Path Is Pre-Checked:** `localPath` inside Downloads or the host-verified current workspace needs no extra permission. A path outside them needs the connector's `local.write` grant (asked like any other permission) and is refused before any prompt with `reasonCode: "connector_local_file_access_disabled"` (code -32005) while the user has turned off local file access for connectors in Settings.
 
 ---
 
