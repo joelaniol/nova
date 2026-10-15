@@ -37,6 +37,7 @@ Every experiment in this archive is cataloged under a strict scientific evidence
 | **EXP-025** | Long-Horizon Falsification Suite (F1–F6) | 2026-10-09 | `[GUIDED-PILOT-VLM]` / `[PROVED]` | 512x512 Mosaic (ATW vs Uniform) | Full 6-family adversarial pilot suite; ATW confirmed; honest nullspace calibration validated in guided setting. |
 | **EXP-026** | Empirical Temporal Resolution Boundary Audit | 2026-10-10 | `[GUIDED-PILOT-VLM]` | 128x128 Single-Tile (8.0s) | Pilot resolution threshold localized to $\Delta t \in (1.00\text{s}, 1.50\text{s}]$; arrow of time confirmed; identical hashes confirmed as saturation collapse. |
 | **EXP-027** | Source-Isolated Atomic Physical Video Benchmark | 2026-10-14 | `[EMPIRICAL-VLM]` / `[NUMERICAL]` | 128x128 E3-K12 vs Contact Sheets (128 & 512) | Complete cognitive parity (89.3% accuracy) at 5.4x compression vs Grid 512; 100% direction & bounce. |
+| **EXP-028** | Differential Pulse Survival & Signal Propagation Audit | 2026-10-15 | `[EMPIRICAL-SIGNAL-AUDIT]` / `[NUMERICAL]` | 5-Stage Signal Audit (C3 vs C5) | Identifies dual cause of pulse non-detection: physical DC-saturation collapse in carrier vs perceptual attention filter in contact sheets. |
 | **EXP-022b** | Numerical Round-Trip & Basis Invertibility | 2026-10-10 | `[PROVED]` / `[NUMERICAL]` | Single-Tile (N in {32, 64, 128}) | Machine-precision basis orthonormality ($< 8.9 \times 10^{-16}$); mean RMSE = 0.0176 (PNG), 0.1653 (WebP); Pearson $r \ge 0.964$. |
 
 ---
@@ -140,7 +141,32 @@ Every experiment in this archive is cataloged under a strict scientific evidence
 
 ---
 
-## 6. EXP-022b: Numerical Round-Trip & Invertibility Audit
+## 6. EXP-028: Differential Pulse Survival & Signal Propagation Audit
+
+* **Date:** 2026-10-15  
+* **Classification:** `[EMPIRICAL-SIGNAL-AUDIT]` / `[NUMERICAL-DETERMINISTIC]`  
+* **Evaluation Scope:** Deterministic 5-stage signal propagation audit comparing Clip C3 (baseline full occlusion) against Clip C5 (pulsed twin, 250ms sinusoidal luminance pulse at $t=2.65\text{--}2.90\,\text{s}$).  
+* **Artifacts Directory:** [`experiments/2026/EXP-028/`](experiments/2026/EXP-028/) ([`pre_registration.json`](experiments/2026/EXP-028/pre_registration.json), [`pulse_survival_metrics.json`](experiments/2026/EXP-028/pulse_survival_metrics.json), [`summary_table.md`](experiments/2026/EXP-028/summary_table.md), [`README.md`](experiments/2026/EXP-028/README.md), [`diff_maps/`](experiments/2026/EXP-028/diff_maps/)).  
+
+### 5-Stage Signal Survival Summary
+
+| Stage / Format | Representation | ROI MAE | ROI Max Delta | C3-C5 Equal (%) | Delta Weber Contrast | Delta Michelson |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Stage 0: 1080p Ground Truth** | Uncompressed 1080p RGB (Frame 44) | **19.1150** | **118.0** | 55.6% | **+1.66** | +0.070 |
+| **Stage 1: 64x64 Resampled** | BOX (Area) Downsampling (Frame 44) | **23.6343** | **101.0** | 37.5% | **+2.07** | +0.065 |
+| **Stage 2: GRID512 Contact Sheet** | 4x4 Grid 512x512 WebP (Cell 11) | **5.1423** | **109.0** | 63.2% | **+0.40** | +0.067 |
+| **Stage 2: GRID128 Contact Sheet** | 4x4 Grid 128x128 WebP (Cell 11) | **6.6889** | **98.0** | 38.9% | **+0.37** | +0.071 |
+| **Stage 3: E3-K12 Visual Carrier** | 128x128 Lossless PNG (Quad T) | **1.9352** | **38.0** | 54.2% | -0.01 | +0.008 |
+| **Stage 4: E3-K12 Visual Carrier** | 128x128 Lossy WebP Q80 (Quad T) | **3.0556** | **13.0** | 8.3% | -0.01 | +0.005 |
+
+### Key Findings
+1. **Physical DC Saturation Collapse in E3-K12:** Static $-128$ centering against a dark background (`#0a0d14`, $Y \approx 11.5$) drove $M_0 / 35.0$ to $-26.6$, causing 100% saturation at pixel value 38 in the Red channel of Quadrant T. The DC component of the pulse ($\Delta M_0 = +44.75$) was erased into the clipper floor (Delta in Red channel = exactly 0.00).
+2. **Walsh Subcarrier Attenuation & WebP Quantization Destruction:** The remaining AC pulse energy dispersed across 11 Walsh subcarriers, yielding a max delta of 38.0 in lossless PNG, which lossy WebP Q80 compressed down to 13.0 while injecting 16–20 levels of block noise. In WebP carrier, SNR fell below 0 dB.
+3. **Perceptual Attention Failure in Contact Sheets:** In GRID512, the pulse survived with massive physical amplitude (ROI Max Delta = 109.0, peak RGB from $[76, 78, 82]$ to $[185, 186, 190]$, $+40\%$ Weber contrast). The VLM's failure to detect the pulse was purely attentional (interpreting the single-frame specular brightening as 3D shading).
+
+---
+
+## 7. EXP-022b: Numerical Round-Trip & Invertibility Audit
 
 * **Date:** 2026-10-10  
 * **Target:** Mathematical basis orthonormality and matched-filter reference decoder invertibility (`decode_carrier_E3_hybrid_scaling`).  
@@ -174,4 +200,4 @@ Every experiment run produces a standardized machine-readable artifact bundle:
 2. `metrics.csv`: Tabular quantitative measurements.
 3. `model-responses.jsonl`: Verbatim model evaluation transcripts, including prompt protocols, stimulus SHA256 hashes, and extracted model responses.
 
-Refer to the released experiment packages ([`EXP-025`](experiments/2026/EXP-025/README.md), [`EXP-026`](experiments/2026/EXP-026/README.md), [`EXP-027`](experiments/2026/EXP-027/README.md)) for all artifacts.
+Refer to the released experiment packages ([`EXP-025`](experiments/2026/EXP-025/README.md), [`EXP-026`](experiments/2026/EXP-026/README.md), [`EXP-027`](experiments/2026/EXP-027/README.md), [`EXP-028`](experiments/2026/EXP-028/README.md)) for all artifacts.

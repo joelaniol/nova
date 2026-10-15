@@ -35,10 +35,10 @@ Through empirical guided pilot evaluations (EXP-025, EXP-026) and numerical roun
 The research documentation is partitioned into specialized academic modules:
 
 * [`METHODOLOGY.md`](METHODOLOGY.md): Comprehensive mathematical derivations of discrete Gram orthogonal polynomials, projection operators, Parseval energy conservation, dynamic range quantization, exact E3-K12 encoder/decoder equations, and the Adaptive Temporal Windowing (ATW) algorithm.
-* [`EXPERIMENTS.md`](EXPERIMENTS.md): Chronological milestone experiment index from EXP-001 through EXP-026, accompanied by stimulus parameters, quantitative metrics, and evidence classifications.
+* [`EXPERIMENTS.md`](EXPERIMENTS.md): Chronological milestone experiment index from EXP-001 through EXP-028, accompanied by stimulus parameters, quantitative metrics, and evidence classifications.
 * [`LIMITATIONS.md`](LIMITATIONS.md): Formal boundary analysis covering the 52-dimensional projection nullspace, carrier quantization saturation collapse, empirical temporal resolution thresholds, high-order mode contention, and evaluation protocol integrity.
 * [`REFERENCES.md`](REFERENCES.md): Academic bibliography covering discrete orthogonal polynomials, wavelets, transform coding, and multimodal foundation models.
-* `experiments/2026/`: Versioned, reproducible experiment packages containing machine-readable protocols (`protocol.json`), tabular measurements (`metrics.csv`), and verbatim model evaluation logs (`model-responses.jsonl`) ([`EXP-025`](experiments/2026/EXP-025/README.md), [`EXP-026`](experiments/2026/EXP-026/README.md)).
+* `experiments/2026/`: Versioned, reproducible experiment packages containing machine-readable protocols (`protocol.json`), tabular measurements (`metrics.csv`), and verbatim model evaluation logs (`model-responses.jsonl`) ([`EXP-025`](experiments/2026/EXP-025/README.md), [`EXP-026`](experiments/2026/EXP-026/README.md), [`EXP-027`](experiments/2026/EXP-027/README.md), [`EXP-028`](experiments/2026/EXP-028/README.md)).
 * Reproducibility Tooling: Automated evaluation and numerical round-trip audit test benches verify polynomial invertibility across carrier channels.
 * `figures/`: High-resolution carrier mosaics, experimental stimuli, and comparative diagnostic figures.
 

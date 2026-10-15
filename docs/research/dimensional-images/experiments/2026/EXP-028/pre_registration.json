@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "EXP-028",
+  "title": "Pulse Visibility & Information Survival Audit (Differential Signal Chain Analysis: C3 vs. C5)",
+  "status": "COMPLETED_AUDIT",
+  "research_type": "empirical_differential_signal_audit",
+  "research_lead": "Joel Aniol (with ChatGPT Scientific Review & Antigravity Execution)",
+  "registration": {
+    "created_utc": "2026-10-15T02:30:00Z",
+    "status": "frozen_pre_audit",
+    "frozen_git_commit": null,
+    "modification_policy": "Any alteration to the measurement definitions after freeze requires an explicit dated amendment."
+  },
+  "research_context": {
+    "predecessor": "EXP-027",
+    "anomaly_observed": "In EXP-027, the 250ms luminance pulse in Clip C5 was completely missed across all experimental formats (VLT E3-K12 WebP, GRID128 WebP, GRID512 WebP) by blinded VLM evaluation (Sensitivity = 0.0%). At 16 FPS, frame index 44 (t = 2.75s) falls directly within the pulse window (t = 2.65s to 2.90s), confirming the event was sampled in time.",
+    "core_objective": "Isolate whether the signal loss occurred physically/numerically in the signal processing chain (1080p -> 64x64 downsampling -> Gram projection -> Carrier packing -> WebP lossy compression) or perceptually/cognitively in the vision model attention layer."
+  },
+  "hypothesis": {
+    "h0_physical_extinction": "The pulse signal was destroyed or submerged below quantization noise (SNR < 0 dB) during spatial downsampling, Gram normalization clipping, or WebP lossy compression.",
+    "h1_perceptual_attentional_failure": "The pulse signal survives with measurable mathematical delta (SNR > 10 dB) across multiple stages, but falls below the visual attention or contextual salience threshold of the model."
+  },
+  "source_data": {
+    "baseline_clip": "C3_full_occlusion (startX=-1.6, endX=3.2, ballZ=-0.7, linear left-to-right, full occlusion 1.02s - 1.63s, reemergence at 2.37s)",
+    "pulsed_twin_clip": "C5_occlusion_with_pulse (Identical kinematics to C3; 250ms emissive luminance pulse at t=2.65s to 2.90s with sinusoidal envelope sin(pi*(t-2.65)/0.25))",
+    "temporal_duration_seconds": 4.0,
+    "native_frame_count": 240,
+    "resampled_frame_count": 64,
+    "sampling_fps": 16.0
+  },
+  "measurement_stages": [
+    {
+      "stage_id": 0,
+      "name": "1080p Ground Truth",
+      "resolution": [1080, 1080],
+      "color_space": "RGB uint8",
+      "frames_evaluated": [43, 44, 45, 46],
+      "description": "Full resolution uncompressed rendered video frames."
+    },
+    {
+      "stage_id": 1,
+      "name": "64x64 Spatial Resampling",
+      "resolution": [64, 64],
+      "color_space": "RGB uint8",
+      "filter": "BOX (Area downsampling)",
+      "frames_evaluated": [43, 44, 45, 46],
+      "description": "Spatial downscaling pipeline matching the visual carrier input."
+    },
+    {
+      "stage_id": 2,
+      "name": "Temporal Grid / Contact Sheets",
+      "conditions": ["GRID128_WEBP", "GRID512_WEBP"],
+      "resolution": [[128, 128], [512, 512]],
+      "cell_evaluated": 11,
+      "frame_represented": 44,
+      "description": "4x4 spatial contact sheet of 16 frames sampled at 4 FPS from the 16 FPS video."
+    },
+    {
+      "stage_id": 3,
+      "name": "Visual Carrier Encoding (E3-K12)",
+      "resolution": [128, 128],
+      "color_space": "RGB uint8",
+      "variants": ["Raw Float / Uint8 Array", "Lossless PNG"],
+      "quadrants": {
+        "G": "Base state frame 0 [0:64, 0:64]",
+        "T": "Kinematics: R=P0, G=P2, B=Odd Walsh subcarriers [0:64, 64:128]",
+        "C": "Chroma: Cb=P1, Cr=Even Walsh subcarriers [64:128, 0:64]",
+        "R": "Neutral baseline [64:128, 64:128]"
+      },
+      "description": "Orthogonal Gram polynomial projection (K=12) and 2D Walsh block multiplexing."
+    },
+    {
+      "stage_id": 4,
+      "name": "Lossy Codec Compression",
+      "codec": "WebP (Quality 80)",
+      "targets": ["Carrier 128x128", "GRID128", "GRID512"],
+      "description": "Final lossy delivery containers evaluated by the model in EXP-027."
+    }
+  ],
+  "metrics_specification": {
+    "FULL_MAE": "Mean absolute pixel difference across all pixels and channels.",
+    "FULL_MAX_DELTA": "Maximum pixel difference across all pixels and channels.",
+    "ROI_MAE": "Mean absolute pixel difference within the moving ball region of interest.",
+    "ROI_MAX_DELTA": "Maximum pixel difference within the moving ball region of interest.",
+    "C3_C5_PIXEL_EQUAL": "Percentage of pixels where C3 == C5 exactly.",
+    "CONTRAST_RATIO": "Michelson and Weber contrast of the ball against local background in C3 vs. C5.",
+    "GRAM_MODE_DELTA": "Coefficient difference Delta M_k = M_k(C5) - M_k(C3) for k = 0 to 11.",
+    "SATURATION_CHECK": "Verification of whether projection values hit the [-35.0, +35.0] normalization clipper."
+  }
+}
