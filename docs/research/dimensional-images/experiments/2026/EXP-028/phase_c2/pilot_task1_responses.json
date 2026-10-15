@@ -1,0 +1,562 @@
+[
+  {
+    "stimulus_id": "stimulus_8ba8762e7486",
+    "event_detected": "nein",
+    "confidence": 0.88,
+    "reasoning": "Visual Carrier (128x128): Oben-Links zeigt eine Kugel links und ein vertikales rechteckiges Hindernis bei t=0. Oben-Rechts und Unten-Links zeigen eine kontinuierliche Translationsspur von links nach rechts mit einer Unterbrechung am Hindernis (Okklusion). Es ist keine isolierte Helligkeitsänderung oder ein Aufblitzen des Objekts erkennbar, sondern eine gleichmäßige Bewegung mit geometrischer Verdeckung.",
+    "batch": 1
+  },
+  {
+    "stimulus_id": "stimulus_63bf94fc7df0",
+    "event_detected": "nein",
+    "confidence": 0.85,
+    "reasoning": "Visual Carrier (128x128): Oben-Links zeigt Ausgangszustand t=0 mit Kugel links. Die temporale Kinematik (TR) und die chromatische Schicht (BL) zeigen die horizontale Verschiebung des Objekts von links nach rechts mit Verdeckungslücke hinter dem zentralen Balken. Keine intrinsische kurzzeitige Helligkeitsänderung des Objekts feststellbar.",
+    "batch": 1
+  },
+  {
+    "stimulus_id": "stimulus_4092b197a022",
+    "event_detected": "nein",
+    "confidence": 0.9,
+    "reasoning": "Visual Carrier (128x128, PNG): Verlustfreie Version von stimulus_8ba8762e7486. Gleichmäßige Links-nach-Rechts-Translation mit Okklusionslücke am Hindernis. Keine temporären Helligkeitsspitzen (Flash/Puls) des Objekts erkennbar.",
+    "batch": 1
+  },
+  {
+    "stimulus_id": "stimulus_a15955a9ecc0",
+    "event_detected": "nein",
+    "confidence": 0.88,
+    "reasoning": "Visual Carrier (128x128, PNG): Verlustfreie Version von stimulus_63bf94fc7df0. Horizontale Bewegungstrajektorie mit Verdeckung hinter dem Hindernis. Keine Hinweise auf eine kurzzeitige Helligkeitsänderung des Objekts.",
+    "batch": 1
+  },
+  {
+    "stimulus_id": "stimulus_ffe38eced318",
+    "event_detected": "nein",
+    "confidence": 0.98,
+    "reasoning": "Kontaktbogen (512x512, 16 Frames): Zeigt eindeutig eine Kugel, die von links nach rechts gleichmäßig wandert und in den Frames 5-8 hinter dem grauen Balken verdeckt wird, bevor sie in Frame 9-15 rechts wieder hervortritt. Die Kugel behält ihre Oberflächenhelligkeit und Schattierung in allen sichtbaren Frames unverändert bei; kein Aufblitzen oder Helligkeitswechsel.",
+    "batch": 1
+  },
+  {
+    "stimulus_id": "stimulus_dde1f42f8cc0",
+    "event_detected": "nein",
+    "confidence": 0.88,
+    "reasoning": "Visual Carrier (128x128): Oben-Links zeigt die Kugel rechts vom Hindernis (t=0). Oben-Rechts und Unten-Links zeigen eine Bewegungstrajektorie von rechts nach links mit Unterbrechung am Hindernis. Keine kurzzeitige Helligkeitsänderung des Objekts feststellbar, lediglich Translation und Okklusion.",
+    "batch": 1
+  },
+  {
+    "stimulus_id": "stimulus_e33755ecaa2c",
+    "event_detected": "nein",
+    "confidence": 0.85,
+    "reasoning": "Visual Carrier (128x128): Ausgangszustand t=0 mit Kugel rechts. Kinematische Quadranten zeigen die kontinuierliche Bewegung von rechts nach links mit Okklusionslücke. Keine intrinsische Helligkeitsänderung des Objekts erkennbar.",
+    "batch": 1
+  },
+  {
+    "stimulus_id": "stimulus_d8167a788b3a",
+    "event_detected": "nein",
+    "confidence": 0.9,
+    "reasoning": "Visual Carrier (128x128, PNG): Verlustfreie Version von stimulus_dde1f42f8cc0. Rechts-nach-Links-Translation mit zentraler Okklusion. Kein temporärer Helligkeitspuls oder Flash des Objekts nachweisbar.",
+    "batch": 1
+  },
+  {
+    "stimulus_id": "stimulus_d11faf3c0bd3",
+    "event_detected": "nein",
+    "confidence": 0.88,
+    "reasoning": "Visual Carrier (128x128, PNG): Verlustfreie Version von stimulus_e33755ecaa2c. Kinematik-Muster belegt reine Rechts-nach-Links-Bewegung mit Verdeckung hinter dem Hindernis. Keine kurzzeitige Helligkeitsänderung des Objekts sichtbar.",
+    "batch": 1
+  },
+  {
+    "stimulus_id": "stimulus_fefd76a0e400",
+    "event_detected": "nein",
+    "confidence": 0.98,
+    "reasoning": "Kontaktbogen (512x512, 16 Frames): Zeigt eine Kugel, die von rechts nach links wandert und in den Frames 5-9 hinter dem grauen Balken verdeckt wird, um in Frame 10-15 links weiterzulaufen. Die Objekthelligkeit (Shading/Luminanz der Kugel) bleibt über alle Frames konstant; kein Aufblitzen oder Verblassen.",
+    "batch": 1
+  },
+  {
+    "stimulus_id": "stimulus_d4527505733e",
+    "event_detected": "ja",
+    "confidence": 0.95,
+    "reasoning": "Im Visual Carrier zeigt der temporale Kinematik-Quadrant (oben-rechts) eine deutliche Abweichung vom neutralgrauen Referenzhintergrund mit einer durchgehenden Cyan-Tönung sowie einer scharf abgegrenzten horizontalen rechteckigen Signatur im oberen rechten Bereich (oberhalb des Blocks). Dies indiziert ein kurzzeitiges Aufleuchten bzw. eine transiente Helligkeitsänderung eines Objekts/Lichtquelle.",
+    "batch": 2
+  },
+  {
+    "stimulus_id": "stimulus_0ec3b206a97f",
+    "event_detected": "nein",
+    "confidence": 0.95,
+    "reasoning": "Im Visual Carrier ist der obere rechte Kinematik-Quadrant abgesehen von der kontinuierlichen Bewegungstrajektorie des abprallenden Balls vollständig neutralgrau (Wert 128). Weder am stationären Block noch im Hintergrund sind Helligkeitsänderungen oder transiente Moden erkennbar.",
+    "batch": 2
+  },
+  {
+    "stimulus_id": "stimulus_329c33a57efa",
+    "event_detected": "ja",
+    "confidence": 0.98,
+    "reasoning": "Verlustfreie PNG-Repräsentation des Trägerbilds von stimulus_d4527505733e. Der temporale Kinematik-Quadrant (oben-rechts) weist dieselbe Cyan-Verschiebung im Hintergrund und die markante horizontale rechteckige Helligkeits-/Kinematiksignatur oben rechts auf, was eine transiente Helligkeitsänderung zweifelsfrei belegt.",
+    "batch": 2
+  },
+  {
+    "stimulus_id": "stimulus_bfb98656d9cf",
+    "event_detected": "nein",
+    "confidence": 0.98,
+    "reasoning": "Verlustfreie PNG-Repräsentation des Trägerbilds von stimulus_0ec3b206a97f. Der Kinematik-Quadrant oben-rechts ist bis auf den Pfad der Kugel vollkommen homogen neutralgrau. Keine Helligkeitsfluktuationen oder transiente Ereignisse detektierbar.",
+    "batch": 2
+  },
+  {
+    "stimulus_id": "stimulus_fea71ef2b9ae",
+    "event_detected": "nein",
+    "confidence": 0.98,
+    "reasoning": "Im 4x4-Kontaktbogen aus 16 aufeinanderfolgenden Einzelbildern rollt die Kugel zum Block, prallt ab und rollt zurück. Weder der Block, noch die Kugel, noch die Umgebung weisen in irgendeinem Frame eine kurzzeitige Helligkeitsänderung oder ein Aufblitzen auf.",
+    "batch": 2
+  },
+  {
+    "stimulus_id": "stimulus_79b1f32b4b5f",
+    "event_detected": "ja",
+    "confidence": 0.98,
+    "reasoning": "Im Visual Carrier (oben-rechts) ist eine massive, diffuse rötlich-pinke Ausleuchtungskuppel über dem Szenenhintergrund sichtbar, kombiniert mit einer intensiven weißlich-gelben Aufhellung entlang der Kugelbahn. Dies indiziert eine ausgeprägte transiente Helligkeitsänderung (Lichtblitz / Flackern).",
+    "batch": 2
+  },
+  {
+    "stimulus_id": "stimulus_50c842e2e087",
+    "event_detected": "nein",
+    "confidence": 0.95,
+    "reasoning": "Im Visual Carrier zeigt der obere rechte Kinematik-Quadrant einen vollkommen flachen, neutralgrauen Hintergrund ohne diffuse Farbkuppel. Sichtbar ist ausschließlich die ungestörte diagonale Bewegungstrajektorie der Kugel. Kein Helligkeitsereignis erkennbar.",
+    "batch": 2
+  },
+  {
+    "stimulus_id": "stimulus_1bd48453efcb",
+    "event_detected": "ja",
+    "confidence": 0.98,
+    "reasoning": "Verlustfreie PNG-Repräsentation von stimulus_79b1f32b4b5f. Die diffuse rötlich-pinke Kuppelstruktur und die intensive Helligkeitsüberhöhung im Kinematik-Quadranten sind artefaktfrei und scharf ausgeprägt, was ein vorübergehendes Aufleuchten eindeutig bestätigt.",
+    "batch": 2
+  },
+  {
+    "stimulus_id": "stimulus_0568d712d43f",
+    "event_detected": "nein",
+    "confidence": 0.98,
+    "reasoning": "Verlustfreie PNG-Repräsentation von stimulus_50c842e2e087. Der Kinematik-Quadrant oben-rechts ist vollständig neutralgrau ohne jegliche Beleuchtungs- oder Farbabweichungen abseits der Kugelbahn. Keine Helligkeitsänderung vorhanden.",
+    "batch": 2
+  },
+  {
+    "stimulus_id": "stimulus_752d1afaf36c",
+    "event_detected": "nein",
+    "confidence": 0.98,
+    "reasoning": "Im 4x4-Kontaktbogen bewegt sich die Kugel diagonal von oben-links nach unten-rechts. Die Beleuchtung und Objektreflexionen sind über alle 16 Frames hinweg vollkommen konstant; es tritt keine kurzzeitige Helligkeitsänderung auf.",
+    "batch": 2
+  },
+  {
+    "stimulus_id": "stimulus_d992a6e80ef0",
+    "event_detected": "nein",
+    "confidence": 0.9,
+    "reasoning": "Visual Carrier (128x128, unzentriertes P0): Oben-Rechts zeigt eine kontinuierliche horizontale Bewegungstrajektorie einer Kugel hin zu einem statischen Rechteck und zurück. Der Farbverlauf (grüne Ränder für positive P2-Randwerte, bläulich-gedämpfte Mitte für negative P2-Krümmung) entspricht der regulären Legendre-Signatur einer kontinuierlichen Bewegung mit konstanter Objekt-Helligkeit. Es ist kein isolierter Helligkeitsblitz oder temporaler Peak erkennbar.",
+    "batch": 3
+  },
+  {
+    "stimulus_id": "stimulus_851d606baee7",
+    "event_detected": "nein",
+    "confidence": 0.9,
+    "reasoning": "Visual Carrier (128x128, zentriertes P0): Neutralgrauer Hintergrund (128) in Quadrant 2 und 3. Die horizontale Bewegungskapsel zeigt den charakteristischen glatten Verlauf einer Translation mit Richtungsumkehr (grüne Randbereiche für P2 > 0, Magentatöne am Wendepunkt durch P2 < 0). Keine punktuelle oder transiente Helligkeitsüberhöhung eines Objekts sichtbar.",
+    "batch": 3
+  },
+  {
+    "stimulus_id": "stimulus_cfa5fb3d485b",
+    "event_detected": "nein",
+    "confidence": 0.9,
+    "reasoning": "Visual Carrier (128x128, PNG, unzentriertes P0): Identische Trajektorie wie d992a6e80ef0. Die temporale Kinematik (Quadrant oben-rechts) und chromatische Walsh-Schicht (unten-links) zeigen ausschließlich eine glatte Hin- und Rückbewegung der Kugel vor dem Rechteck. Keine Helligkeitsfluktuation oder kurzzeitiger Helligkeitsanstieg feststellbar.",
+    "batch": 3
+  },
+  {
+    "stimulus_id": "stimulus_a0bbe90a6b11",
+    "event_detected": "nein",
+    "confidence": 0.9,
+    "reasoning": "Visual Carrier (128x128, PNG, zentriertes P0): Identischer Träger wie 851d606baee7 mit neutralgrauer Basis (128). Die Kinematikschicht zeigt eine reine Bewegungssignatur (grün/magenta) ohne transiente Luminanzspitzen oder Blitzereignisse an der Kugel oder dem Rechteck.",
+    "batch": 3
+  },
+  {
+    "stimulus_id": "stimulus_d2839ffc27ec",
+    "event_detected": "nein",
+    "confidence": 0.95,
+    "reasoning": "Kontaktbogen (512x512, 16 Frames): Die Sequenz zeigt eine Kugel, die sich von links nach rechts auf ein statisches Rechteck zubewegt (Frames 0-6), an diesem abprallt (Frames 7-8) und nach links zurückkehrt (Frames 9-15). Kugel und Rechteck behalten über alle 16 Einzelbilder eine konstante Schattierung und Helligkeit bei; es tritt zu keinem Zeitpunkt eine vorübergehende Aufhellung auf.",
+    "batch": 3
+  },
+  {
+    "stimulus_id": "stimulus_140d8921274a",
+    "event_detected": "nein",
+    "confidence": 0.9,
+    "reasoning": "Visual Carrier (128x128, unzentriertes P0): Diagonale lineare Bewegungstrajektorie einer einzelnen Kugel von rechts-unten nach links-oben. Die Farbverteilung im Kinematik-Quadranten (grüne Endpunkte für Rand-P2, dunkelblauer Kern für negative Mitten-P2) reflektiert eine gleichförmige Bewegung mit konstanter Eigenhelligkeit. Keine Spur eines kurzzeitigen Aufblitzens.",
+    "batch": 3
+  },
+  {
+    "stimulus_id": "stimulus_dafe0e16b432",
+    "event_detected": "nein",
+    "confidence": 0.9,
+    "reasoning": "Visual Carrier (128x128, zentriertes P0): Neutralgrauer Ruhezustand (128) außerhalb der Bewegungslinie. Die diagonale Kapsel weist eine glatte P2-Parabelstruktur auf (gelbgrüne Endkappen, magentafarbene Mitte). Dies ist das Standardprofil einer translatorischen Bewegung ohne transiente Helligkeitsveränderung.",
+    "batch": 3
+  },
+  {
+    "stimulus_id": "stimulus_a266456e2860",
+    "event_detected": "nein",
+    "confidence": 0.9,
+    "reasoning": "Visual Carrier (128x128, PNG, unzentriertes P0): PNG-Fassung von 140d8921274a. Der temporale Kinematik-Quadrant zeigt eine kontinuierliche diagonale Bewegungstrajektorie ohne jegliche kurzzeitige Helligkeitseruption oder transiente Intensitätspeaks.",
+    "batch": 3
+  },
+  {
+    "stimulus_id": "stimulus_3286bb33d0e7",
+    "event_detected": "nein",
+    "confidence": 0.9,
+    "reasoning": "Visual Carrier (128x128, PNG, zentriertes P0): PNG-Fassung von dafe0e16b432. Homogene Kinematik- und Walsh-Struktur entlang der linearen Raumzeit-Trajektorie. Kein Anzeichen einer temporären Helligkeitsänderung der Kugel.",
+    "batch": 3
+  },
+  {
+    "stimulus_id": "stimulus_1bf13a65e242",
+    "event_detected": "nein",
+    "confidence": 0.95,
+    "reasoning": "Kontaktbogen (512x512, 16 Frames): Eine Kugel bewegt sich gleichförmig entlang einer Diagonalen von rechts-unten (Frame 0) nach links-oben (Frame 15). Die Beleuchtung, Oberflächenreflexion und Helligkeit der Kugel bleiben in sämtlichen 16 Einzelbildern absolut stabil; kein Helligkeitsimpuls erkennbar.",
+    "batch": 3
+  },
+  {
+    "stimulus_id": "stimulus_d2b5af51e7a9",
+    "event_detected": "ja",
+    "confidence": 0.75,
+    "reasoning": "Der TR-Quadrant (temporale Kinematik) weicht deutlich von der neutralen 128-Grau-Referenz ab und zeigt eine ausgeprägte Cyan/Teal-Signatur (stark reduzierter P0-Mittelwert bei erhöhtem P2-Krümmungsanteil) sowie modifizierte spektrale Kontraste der Kugeltrajektorie. Dies deutet auf eine transiente Helligkeitsmodulation (temporäre Helligkeitsabsenkung/Invers-Puls mit anschließender Rückkehr) hin.",
+    "batch": 4
+  },
+  {
+    "stimulus_id": "stimulus_4052c0688393",
+    "event_detected": "nein",
+    "confidence": 0.95,
+    "reasoning": "Der TR-Quadrant zeigt einen vollkommen homogenen neutralgrauen Hintergrund (128). Sichtbar sind ausschließlich die reinen kinematischen Bewegungstrajektorien der Kugel vor und nach der Okklusion durch die Säule; keinerlei Helligkeitsblitz oder transiente Intensitätsänderung.",
+    "batch": 4
+  },
+  {
+    "stimulus_id": "stimulus_3ed463981418",
+    "event_detected": "ja",
+    "confidence": 0.75,
+    "reasoning": "PNG-Pendant zu d2b5af51e7a9. TR-Quadrant zeigt dieselbe deutliche Cyan/Teal-Verschiebung gegenüber der neutralen Kontrolle (7de8b5df6933), konsistent mit einer transienten Helligkeitsänderung (P0-Absenkung, P2-Krümmung) über der Szene und den Bewegungspfaden.",
+    "batch": 4
+  },
+  {
+    "stimulus_id": "stimulus_7de8b5df6933",
+    "event_detected": "nein",
+    "confidence": 0.95,
+    "reasoning": "PNG-Pendant zu 4052c0688393. TR-Quadrant mit neutralgrauem Hintergrund (128) und reiner Bewegungskinematik der Kugel um die statische Säule. Keine transiente Helligkeitsänderung nachweisbar.",
+    "batch": 4
+  },
+  {
+    "stimulus_id": "stimulus_7a36445dd67d",
+    "event_detected": "nein",
+    "confidence": 0.95,
+    "reasoning": "Kontaktbogen mit 16 Frames (4x4): Die Kugel bewegt sich gleichmäßig von links nach rechts hinter die Säule und taucht wieder auf. Oberflächenhelligkeit der Kugel, der Säule und des Hintergrunds bleiben über alle 16 Zeitschritte hinweg vollkommen konstant; kein Aufleuchten oder Abdunkeln erkennbar.",
+    "batch": 4
+  },
+  {
+    "stimulus_id": "stimulus_502dea60406c",
+    "event_detected": "ja",
+    "confidence": 0.95,
+    "reasoning": "Der TR-Quadrant zeigt einen massiven, radialen rot/lachsfarbenen Beleuchtungsdom, der die Szene und die Bewegungskorridore der Kugel überlagert. Die starke P0-Rot-Elevation mit charakteristischem Abfall belegt zweifelsfrei einen transienten Helligkeitsblitz (Flash/Puls), der anschließend wieder verschwindet.",
+    "batch": 4
+  },
+  {
+    "stimulus_id": "stimulus_a2eb81c8ad0f",
+    "event_detected": "nein",
+    "confidence": 0.95,
+    "reasoning": "Der TR-Quadrant weist einen homogenen neutralgrauen Hintergrund (128) auf. Es sind lediglich die Ein- und Austrittsspuren der von rechts nach links hinter die Säule laufenden Kugel erkennbar; keine transiente Helligkeitsänderung vorhanden.",
+    "batch": 4
+  },
+  {
+    "stimulus_id": "stimulus_97609e98a801",
+    "event_detected": "ja",
+    "confidence": 0.95,
+    "reasoning": "PNG-Pendant zu 502dea60406c. Eindeutiger rot/lachsfarbener Emissionsdom im TR-Quadranten (starke P0-Mittelwerterhöhung), der eine kurzzeitige transiente Helligkeitszunahme der Szene und Objekte mit Rückkehr zum Ausgangszustand belegt.",
+    "batch": 4
+  },
+  {
+    "stimulus_id": "stimulus_9fca96ee5f54",
+    "event_detected": "nein",
+    "confidence": 0.95,
+    "reasoning": "PNG-Pendant zu a2eb81c8ad0f. TR-Quadrant ist neutralgrau (128) mit reinen Bewegungstrajektorien. Keinerlei Hinweis auf einen Helligkeitsblitz oder transiente Beleuchtungsänderung.",
+    "batch": 4
+  },
+  {
+    "stimulus_id": "stimulus_1097e90427c9",
+    "event_detected": "nein",
+    "confidence": 0.95,
+    "reasoning": "Kontaktbogen mit 16 Frames (4x4): Kugel wandert von rechts nach links hinter die Säule und tritt links wieder hervor. Glanzpunkt und Schattierung der Kugel sowie Beleuchtung von Säule und Hintergrund sind in sämtlichen 16 Frames exakt stabil; kein transientes Helligkeitsereignis.",
+    "batch": 4
+  },
+  {
+    "stimulus_id": "stimulus_2b80ec97c553",
+    "event_detected": "nein",
+    "confidence": 0.9,
+    "reasoning": "Im Visual Carrier (Quadrant oben-rechts für temporale Kinematik) ist eine kontinuierliche Bewegungsspur in gleichmäßigen Grün-/Blautönen auf dunklem Cyan-Hintergrund zu sehen. Es existiert kein Helligkeitspeak, keine Farbsättigung zu Weiß/Gelb und keine abrupte Amplitudenüberhöhung, die auf ein kurzzeitiges Aufleuchten hinweist.",
+    "batch": 5
+  },
+  {
+    "stimulus_id": "stimulus_0d6892db59ba",
+    "event_detected": "ja",
+    "confidence": 0.95,
+    "reasoning": "Im Visual Carrier (Quadrant oben-rechts) zeigt die temporale Kinematik nach dem Hindernis eine deutliche weiße/gelbe Überstrahlung (Sättigung in P0-Mittelwert, P2-Krümmung und Walsh-Moden), die klar auf einen kurzzeitigen intensiven Helligkeitsblitz des Objekts hinweist.",
+    "batch": 5
+  },
+  {
+    "stimulus_id": "stimulus_28f1fdf4b69a",
+    "event_detected": "nein",
+    "confidence": 0.92,
+    "reasoning": "Verlustfreie PNG-Darstellung des Visual Carriers: Die temporale Kinematik (oben-rechts) zeigt eine glatte, ununterbrochene Trajektorie mit normaler Frequenz- und Krümmungsverteilung ohne Helligkeitsüberhöhung oder Flash-Signatur.",
+    "batch": 5
+  },
+  {
+    "stimulus_id": "stimulus_cab0bd7391fa",
+    "event_detected": "ja",
+    "confidence": 0.97,
+    "reasoning": "Verlustfreie PNG-Darstellung des Visual Carriers: Im temporalen Kinematik-Quadranten (oben-rechts) ist eine scharf abgegrenzte, intensive weiße und gelbe Signatur sichtbar, die eine kurzzeitige extreme Helligkeitserhöhung (Flash-Event) nach dem Verlassen der Okklusion repräsentiert.",
+    "batch": 5
+  },
+  {
+    "stimulus_id": "stimulus_bfd4d7ee7cdb",
+    "event_detected": "ja",
+    "confidence": 0.98,
+    "reasoning": "Im Kontaktbogen ist in Frame 11 (Reihe 2, Spalte 3) ein deutliches, kurzzeitiges Aufleuchten der Kugel zu erkennen: Die Kugel ist vollflächig hellweiß überstrahlt, während sie in den vorherigen Frames (0–10) und unmittelbar danach in Frame 12 (Reihe 3, Spalte 0) die normale matte Graustufung aufweist.",
+    "batch": 5
+  },
+  {
+    "stimulus_id": "stimulus_b561efe95ddb",
+    "event_detected": "nein",
+    "confidence": 0.9,
+    "reasoning": "Im Visual Carrier (Quadrant oben-rechts) verläuft die Bewegung von rechts nach links mit gleichmäßiger Farbverteilung (Grün/Blau auf Cyan-Hintergrund). Es sind keinerlei Anzeichen einer anomalen Helligkeitsänderung oder eines Flash-Peaks erkennbar.",
+    "batch": 5
+  },
+  {
+    "stimulus_id": "stimulus_e0006d37e27a",
+    "event_detected": "ja",
+    "confidence": 0.94,
+    "reasoning": "Im Visual Carrier (Quadrant oben-rechts) tritt in der Bewegungsbahn eine starke chromatisch-kinematische Anomalie mit gelb-weißer Sättigung und roter P0-Überhöhung auf, die ein kurzzeitiges Aufleuchten des Objekts während der Passage anzeigt.",
+    "batch": 5
+  },
+  {
+    "stimulus_id": "stimulus_fc916dc1c84c",
+    "event_detected": "nein",
+    "confidence": 0.92,
+    "reasoning": "Verlustfreie PNG-Darstellung: Der Kinematik-Quadrant zeigt eine reguläre Translation von rechts nach links ohne Spitzen in den höheren zeitlichen Walsh-Moden oder im Mittelwertkanal; kein Helligkeitsereignis detektiert.",
+    "batch": 5
+  },
+  {
+    "stimulus_id": "stimulus_63f2fd0b40e2",
+    "event_detected": "ja",
+    "confidence": 0.96,
+    "reasoning": "Verlustfreie PNG-Darstellung: Im oberen rechten Quadranten ist eine prägnante, lokal begrenzte Signalüberhöhung in Weiß/Gelb erkennbar, die auf einen singulären zeitlichen Helligkeitsblitz des Objekts zurückzuführen ist.",
+    "batch": 5
+  },
+  {
+    "stimulus_id": "stimulus_5cfb6f658f62",
+    "event_detected": "nein",
+    "confidence": 0.98,
+    "reasoning": "Im Kontaktbogen bewegt sich die Kugel in allen 16 aufeinanderfolgenden Frames mit völlig homogener Helligkeit und unverändertem Shading von rechts nach links hinter dem Pfeiler durch; es tritt zu keinem Zeitpunkt ein Aufleuchten oder eine Helligkeitsänderung auf.",
+    "batch": 5
+  },
+  {
+    "stimulus_id": "stimulus_fca241d8293e",
+    "event_detected": "ja",
+    "confidence": 0.9,
+    "reasoning": "Im TR-Quadranten (temporale Kinematik) ist an der Position der oberen Kante/Fläche des Blocks ein isolierter grauer bzw. rosa-stichiger Balken sichtbar, der vom neutralen Hintergrund abweicht. Da der ruhende Block sonst unsichtbar bleibt, zeigt dieses Signal eine transiente Helligkeitsänderung der Blockoberseite an.",
+    "batch": 6
+  },
+  {
+    "stimulus_id": "stimulus_a91dd16ea62b",
+    "event_detected": "nein",
+    "confidence": 0.95,
+    "reasoning": "Im TR-Quadranten ist ausschließlich das kontinuierliche Bewegungsmuster der Kugel sichtbar. Am Block und im Hintergrund gibt es keinerlei Signalabweichung vom neutralen Hintergrundwert.",
+    "batch": 6
+  },
+  {
+    "stimulus_id": "stimulus_60aa699a335c",
+    "event_detected": "ja",
+    "confidence": 0.95,
+    "reasoning": "Im TR-Quadranten hebt sich an der Oberkante des Blocks ein klar abgegrenzter rötlicher Balken deutlich vom Hintergrund ab, was eine transiente Helligkeitsänderung an diesem Objekt belegt.",
+    "batch": 6
+  },
+  {
+    "stimulus_id": "stimulus_9f36e54a6322",
+    "event_detected": "nein",
+    "confidence": 0.95,
+    "reasoning": "Im TR-Quadranten ist nur die normale Bewegungstrajektorie der Kugel vorhanden; der Block ist vollständig im neutralgrauen Hintergrund verborgen, was die Abwesenheit von Helligkeitsänderungen anzeigt.",
+    "batch": 6
+  },
+  {
+    "stimulus_id": "stimulus_229296c4584e",
+    "event_detected": "nein",
+    "confidence": 0.98,
+    "reasoning": "In allen 16 Einzelbildern des 4x4-Kontaktbogens bleiben Kugel, Block und Szene in konstanter Beleuchtung. Es tritt keine kurzzeitige Helligkeitsänderung auf.",
+    "batch": 6
+  },
+  {
+    "stimulus_id": "stimulus_679ffc9edc8a",
+    "event_detected": "ja",
+    "confidence": 0.95,
+    "reasoning": "Im TR-Quadranten ist eine großflächige rötliche Aura im oberen Szenenbereich sowie ein intensiver gelb-weißer Helligkeitspeak entlang des Kugelpfads erkennbar, was einem transienten Helligkeitspuls entspricht.",
+    "batch": 6
+  },
+  {
+    "stimulus_id": "stimulus_93155320b90a",
+    "event_detected": "nein",
+    "confidence": 0.95,
+    "reasoning": "Im TR-Quadranten ist lediglich das ungestörte Bewegungsmuster der Kugel auf neutralgrauem Grund sichtbar. Es treten weder Halo-Effekte noch Farb- oder Helligkeitspeaks auf.",
+    "batch": 6
+  },
+  {
+    "stimulus_id": "stimulus_4efbf064ef1f",
+    "event_detected": "ja",
+    "confidence": 0.95,
+    "reasoning": "Im TR-Quadranten zeigt sich eine dominante rötliche Halo-Aura im oberen Halbraum sowie eine massive Gelb-/Weiß-Aufhellung entlang der Trajektorie, charakteristisch für ein temporales Helligkeitsevent.",
+    "batch": 6
+  },
+  {
+    "stimulus_id": "stimulus_6c73a15a8ec2",
+    "event_detected": "nein",
+    "confidence": 0.95,
+    "reasoning": "Der TR-Quadrant zeigt ausschließlich die ungestörte Bewegungstrajektorie ohne Überstrahlung oder Hintergrundanomalie auf neutralem Grund.",
+    "batch": 6
+  },
+  {
+    "stimulus_id": "stimulus_24984a4161ca",
+    "event_detected": "ja",
+    "confidence": 0.99,
+    "reasoning": "Im Kontaktbogen blitzt die Kugel in Frame 11 (Zeile 2, Spalte 3 ganz rechts) für genau einen Zeitschritt strahlend weiß auf und kehrt in Frame 12 sofort zur Ausgangshelligkeit zurück.",
+    "batch": 6
+  },
+  {
+    "stimulus_id": "stimulus_4de9f3d06f6e",
+    "event_detected": "unklar",
+    "confidence": 0.35,
+    "reasoning": "Visual Carrier 128x128 mit unipolarer P0-Kodierung (Cyan-Hintergrund im TR-Quadranten). Im oberen rechten und unteren linken Quadranten ist die horizontale Bewegungsbahn der Kugel vom linken Startpunkt in Richtung des Rechtecks deutlich als Farbspur abgebildet. Entlang der Trajektorie sind P0-, P2- und Walsh-Modulationen sichtbar, jedoch lässt sich aus dem statisch komprimierten Trägerbild ohne temporale Dekodierung oder Baseline-Referenz nicht zweifelsfrei ableiten, ob eine kurzzeitige Helligkeitsänderung (Flash) stattfand oder lediglich die normale Translation des schattierten Objekts dargestellt ist.",
+    "batch": 7
+  },
+  {
+    "stimulus_id": "stimulus_ed4357e59304",
+    "event_detected": "unklar",
+    "confidence": 0.4,
+    "reasoning": "Visual Carrier 128x128 mit zentrierter P0-Kodierung (grauer Hintergrund im TR-Quadranten). Die horizontale Trajektorie zeigt eine ausgeprägte Zweiteilung (grünes Segment links, intensives Magenta-Segment rechts vor dem Rechteck). Der hohe Magenta-Anteil indiziert erhöhte P0- und Walsh-Aktivität am Ende der Bahn, was ein Helligkeitsereignis nahelegt. Da jedoch auch translatorische Kanten-/Helligkeitsübergänge solche Moden anregen, bleibt ein vorübergehendes Aufleuchten ohne Rekonstruktion unklar.",
+    "batch": 7
+  },
+  {
+    "stimulus_id": "stimulus_9d0651d6bb15",
+    "event_detected": "unklar",
+    "confidence": 0.35,
+    "reasoning": "Verlustfreie PNG-Fassung von stimulus_4de9f3d06f6e. Zeigt dieselbe unipolare Kinematik-Signatur der horizontalen Bewegung. Trotz artefaktfreier Darstellung bleibt ohne temporale Rücktransformation unklar, ob die beobachtbare spektrale Verteilung ein transientes Helligkeitsereignis oder reine Objektbewegung repräsentiert.",
+    "batch": 7
+  },
+  {
+    "stimulus_id": "stimulus_3d5e8ce44db9",
+    "event_detected": "unklar",
+    "confidence": 0.4,
+    "reasoning": "Verlustfreie PNG-Fassung von stimulus_ed4357e59304 mit zentrierter Kinematik. Die Farbmodulation (grün nach magenta) entlang des horizontalen Pfads ist präzise sichtbar. Eine eindeutige Diskriminierung zwischen einer kurzzeitigen Helligkeitsspitze und regulärer Kinematik ist aus dem einzelnen Trägerbild allein nicht verlässlich möglich.",
+    "batch": 7
+  },
+  {
+    "stimulus_id": "stimulus_3f5e70d970c5",
+    "event_detected": "ja",
+    "confidence": 0.98,
+    "reasoning": "Kontaktbogen 512x512 mit 16 sequenziellen Einzelbildern (4x4-Raster). Die Kugel bewegt sich kontinuierlich von links nach rechts am Rechteck vorbei. In Frame 11 (Zeile 2, Spalte 3) tritt eine drastische, isolierte Helligkeitszunahme der Kugel auf (starkes weißes Aufleuchten), die in Frame 12 (Zeile 3, Spalte 0) vollständig verschwunden ist. Ein kurzzeitiges Helligkeitsereignis ist eindeutig und zweifelsfrei erkennbar.",
+    "batch": 7
+  },
+  {
+    "stimulus_id": "stimulus_cde024f2f276",
+    "event_detected": "unklar",
+    "confidence": 0.35,
+    "reasoning": "Visual Carrier 128x128 (unipolar) für eine diagonale Bewegung. Die kontinuierliche diagonale Trajektorie ist im TR- und BL-Quadranten klar zu erkennen (grün an den Enden, dunkelblau/violett im Zentrum). Ein vorübergehendes Aufblitzen des Objekts lässt sich visuell nicht von den regulären temporalen Projektionswerten einer gleichförmigen Translation unterscheiden.",
+    "batch": 7
+  },
+  {
+    "stimulus_id": "stimulus_6315b3eeaa0b",
+    "event_detected": "unklar",
+    "confidence": 0.4,
+    "reasoning": "Visual Carrier 128x128 (zentriert) der diagonalen Bewegungssequenz. Der TR-Quadrant zeigt eine intensive Rot-/Magenta-Färbung im mittleren und hinteren Abschnitt der Diagonale, was auf verstärkte P0-Mittelwerts- und Walsh-Energie hindeutet. Ein transienter Flash ist plausibel, bleibt jedoch im isolierten Einzelbild ohne Entpackung oder Referenzvergleich unklar.",
+    "batch": 7
+  },
+  {
+    "stimulus_id": "stimulus_a1e7e5f14b83",
+    "event_detected": "unklar",
+    "confidence": 0.35,
+    "reasoning": "Verlustfreie PNG-Fassung von stimulus_cde024f2f276. Die diagonale Bewegungsbahn ist scharf abgegrenzt. Ein transientes Helligkeitsereignis kann anhand der statischen 2D-Frequenzkanäle nicht zweifelsfrei bestätigt oder ausgeschlossen werden.",
+    "batch": 7
+  },
+  {
+    "stimulus_id": "stimulus_fa2adbcc924e",
+    "event_detected": "unklar",
+    "confidence": 0.4,
+    "reasoning": "Verlustfreie PNG-Fassung von stimulus_6315b3eeaa0b mit zentrierter Kinematik. Intensive Farbübergänge von Gelb zu Magentarot entlang der Diagonale signalisieren starke temporale Dynamik. Ohne zeitliche Dekodierung bleibt die Unterscheidung zwischen Geschwindigkeitsverlauf und Helligkeitsblitz unklar.",
+    "batch": 7
+  },
+  {
+    "stimulus_id": "stimulus_9dd44f3bea65",
+    "event_detected": "ja",
+    "confidence": 0.98,
+    "reasoning": "Kontaktbogen 512x512 mit 16 sequenziellen Einzelbildern (4x4-Raster). Die Kugel wandert entlang einer gleichförmigen Bahn. In Frame 11 (Zeile 2, Spalte 3) zeigt die Kugel einen markanten, extrem hellen Lichtblitz mit vergrößertem weißen Kern, der in Frame 12 (Zeile 3, Spalte 0) wieder vollständig auf das normale Helligkeitsniveau zurückfällt. Das Helligkeitsereignis ist eindeutig detektierbar.",
+    "batch": 7
+  },
+  {
+    "stimulus_id": "stimulus_b2f9a7e1247b",
+    "event_detected": "nein",
+    "confidence": 0.9,
+    "reasoning": "Im Visual Carrier zeigt der temporale Kinematik-Quadrant (oben rechts) einen homogenen statischen Hintergrund (Teal-Farbton als neutraler Nullwert) und gleichmäßige Bewegungstrajektorien der Kugel in Grün/Blau ohne erhöhte Rot-Werte (P0) oder auffällige temporale Helligkeitsspitzen.",
+    "batch": 8
+  },
+  {
+    "stimulus_id": "stimulus_dc22d94e79f7",
+    "event_detected": "ja",
+    "confidence": 0.9,
+    "reasoning": "Im Kinematik-Quadranten (oben rechts) weisen die Trajektorien der Kugel deutliche Signalüberhöhungen mit intensiven Gelb-, Weiß- und Magentasignaturen auf (hohe Rot-/P0- und Grün-/P2- sowie Walsh-Anteile), was auf eine ausgeprägte transiente Helligkeitszunahme (Puls/Flash) während der Bewegung hinweist.",
+    "batch": 8
+  },
+  {
+    "stimulus_id": "stimulus_38a008bf86f3",
+    "event_detected": "nein",
+    "confidence": 0.92,
+    "reasoning": "Der Kinematik-Quadrant (oben rechts) weist reguläre Bewegungsmuster mit standardmäßigen Krümmungs- und Walsh-Bändern (Grün/Blau) auf. Es existieren keine erhöhten Rot-/P0-Mittelwerte oder lokalen Helligkeitsüberhöhungen entlang der Kugelbahn.",
+    "batch": 8
+  },
+  {
+    "stimulus_id": "stimulus_552168081217",
+    "event_detected": "ja",
+    "confidence": 0.92,
+    "reasoning": "Entlang des Kugelpfads im Kinematik-Quadranten (oben rechts) treten starke Magenta-, Gelb- und Weißspitzen hervor, die eine signifikante Zunahme der mittleren Intensität (P0) und Krümmung (P2) belegen. Dies kennzeichnet ein kurzzeitiges Aufleuchten des Objekts.",
+    "batch": 8
+  },
+  {
+    "stimulus_id": "stimulus_e54a697b8eb8",
+    "event_detected": "nein",
+    "confidence": 0.98,
+    "reasoning": "Im 16-Frame-Kontaktbogen bewegt sich die Kugel kontinuierlich von links nach rechts hinter die Säule und wieder hervor. Beleuchtung, Reflektionen und Objekthelligkeit sind über die gesamte Bildfolge vollständig stabil; es liegt keine transiente Helligkeitsänderung vor.",
+    "batch": 8
+  },
+  {
+    "stimulus_id": "stimulus_14fd3dcec6ca",
+    "event_detected": "ja",
+    "confidence": 0.96,
+    "reasoning": "Im Kinematik-Quadranten (oben rechts) ist eine markante rötliche Beleuchtungs-Aura im oberen Hintergrund sowie eine grell leuchtende Weiß-, Gelb- und Magentaspur auf der Kugelbahn sichtbar, was eindeutig einem transienten Helligkeitsblitz entspricht.",
+    "batch": 8
+  },
+  {
+    "stimulus_id": "stimulus_8250e8be58dc",
+    "event_detected": "nein",
+    "confidence": 0.9,
+    "reasoning": "Der Kinematik-Quadrant (oben rechts) zeigt einen ungestörten neutralgrauen Hintergrund ohne rötliche Aura. Die Kugelbahn weist moderate Grün-/Blaubänder ohne explosive Aufhellung oder Flare-Spitzen auf, konsistent mit konstanter Szenenbeleuchtung.",
+    "batch": 8
+  },
+  {
+    "stimulus_id": "stimulus_0a42f8ed9f3b",
+    "event_detected": "ja",
+    "confidence": 0.96,
+    "reasoning": "Deutliche Helligkeitsänderung erkennbar: Der obere rechte Quadrant zeigt eine breite rötlich-rosa Aura (P0-Erhöhung) und leuchtend gelb-weiße Signalspitzen auf der Objektbahn, die das kurzzeitige Aufblitzen und Wiederabklingen dokumentieren.",
+    "batch": 8
+  },
+  {
+    "stimulus_id": "stimulus_418d4541cb39",
+    "event_detected": "nein",
+    "confidence": 0.92,
+    "reasoning": "Der Kinematik-Quadrant (oben rechts) weist einen flachen, neutralen Hintergrund auf. Die Objektkonturen zeigen standardmäßige temporale Kinematikmuster ohne übermäßige Rot-Komponente oder transiente Helligkeitssprünge.",
+    "batch": 8
+  },
+  {
+    "stimulus_id": "stimulus_f5a2836570be",
+    "event_detected": "nein",
+    "confidence": 0.98,
+    "reasoning": "Im Kontaktbogen wandert die Kugel gleichförmig von rechts nach links hinter der Säule durch. Kugeloberfläche, Glanzpunkt und Hintergrund behalten in allen 16 Frames eine konstante Helligkeit bei; es ist kein Aufleuchten feststellbar.",
+    "batch": 8
+  }
+]
