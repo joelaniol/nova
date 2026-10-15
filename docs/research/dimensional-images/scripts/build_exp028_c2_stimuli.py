@@ -92,12 +92,13 @@ def build_exp028_stimuli_dataset(
     specs = build_scene_specifications()
 
     os.makedirs(output_dir, exist_ok=True)
-    pilot_dir = os.path.join(output_dir, "pilot")
-    conf_dir = os.path.join(output_dir, "confirmatory")
+    pilot_dir = os.path.join(output_dir, "stimuli", "pilot")
+    conf_dir = os.path.join(output_dir, "stimuli", "confirmatory")
     
     for d in [pilot_dir, conf_dir]:
         os.makedirs(os.path.join(d, "single"), exist_ok=True)
         os.makedirs(os.path.join(d, "paired"), exist_ok=True)
+
 
     prereg_records = {
         "experiment_id": "EXP-028",
