@@ -174,7 +174,7 @@ Every experiment in this archive is cataloged under a strict scientific evidence
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Stage 1** | Ground Truth (64x64 BOX) | **100.17 LSB** | **23.8027** | 0.0000 | Physical Input Signal (Frame 44) |
 | **Stage 2** | Ideal K12 Float Projection | **46.95 LSB** | **11.6001** | 12.4474 | **-53.1% Smoothing Loss** (12-mode Gram basis on 4-frame pulse) |
-| **Stage 3a** | Unquantized Dedicated Channels (P0..P2) | **10.16 LSB** | **2.5175** | 21.2852 | **78.4% Energy Loss** (78.4% of peak energy lies in modes P3..P11) |
+| **Stage 3a** | Unquantized Dedicated Channels (P0..P2) | **10.16 LSB** | **2.5175** | 21.2852 | **21.7% Peak Contribution** / **22.1% L2 Energy** in P0..P2 (78.3% Peak / 77.9% L2 in P3..P11) |
 | **Stage 3b** | Carrier Quantized Channels (P0..P2) | **0.86 LSB** | **0.0647** | 23.7380 | **75% Residual Saturation** in ball corridor |
 | **Stage 4** | Global Walsh Decoder (E4) | **0.87 LSB** | **0.0726** | 23.7445 | **Spatial Walsh Dilution** (factor 1/64 = 0.0156) |
 

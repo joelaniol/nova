@@ -160,26 +160,31 @@ Auf Anweisung des wissenschaftlichen Peer-Reviews durch ChatGPT im Nova Tab A wu
 | **Stage 3b** | Carrier-Quantisierte Kanäle ($P_0..P_2$) | **0,86 LSB** | **0,0647** | 23,7380 | **75 % Restsättigung** in der Kugelbahn ($\sum (Y-Y_0) > 35{,}0$) |
 | **Stage 4** | Globaler Walsh-Decoder (E4) | **0,87 LSB** | **0,0726** | 23,7445 | **Räumliche Walsh-Verdünnung** (Faktor $1/64 = 0{,}0156$) |
 
-### 7.2 Moden-Beitrag zum 46,95 LSB Peak bei Frame 44
+### 7.2 Exakte Punkt-Modenzerlegung am Peak $(x^*=43, y^*=33)$ & Räumliche $L_2$-Energie
 
-Die konstruktive Summe aller 12 Gram-Polynome $\sum_{k=0}^{11} \Delta M_k \cdot P_k(44)$ ergibt exakt den Spitzenwert von **46,95 LSB**:
-- **Dedizierte Kanäle ($P_0, P_1, P_2$):** Tragen zusammen **10,16 LSB** bei (**21,6 %** des Rekonstruktionspeaks).
-- **Höhere Walsh-Modi ($P_3..P_{11}$):** Tragen zusammen **36,79 LSB** bei (**78,4 %** des Rekonstruktionspeaks).
+Gemäß dem Peer-Review von ChatGPT darf die Modenzerlegung nicht über isolierte Maxima verschiedener Pixel gemittelt werden, sondern muss an der exakten Koordinate des Rekonstruktionspeaks $(x^*, y^*) = \arg\max_{x, y \in \text{ROI}} |\Delta Y_{\text{K12}}(44, x, y)|$ ausgewertet werden:
+$$(x^*, y^*) = (43, 33), \quad \Delta Y_{\text{K12}}(44, 43, 33) = \mathbf{46{,}9461\text{ LSB}}$$
 
-| Modus ($k$) | Basisfunktion | $\Delta M_k$ ROI Max | $P_k(44)$ | Rekonstruierter Term (LSB) | Anteil am Peak |
-|---|---|---|---|---|---|
-| **$k=00$** | $P_0$ (DC-Mittelwert) | 44,75 | +0,1250 | **+5,59 LSB** | 11,9 % |
-| **$k=01$** | $P_1$ (Linearer Trend) | 31,31 | +0,0846 | **+2,65 LSB** | 5,6 % |
-| **$k=02$** | $P_2$ (Krümmung) | 0,53 | -0,0758 | **+1,92 LSB** | 4,1 % |
-| **$k=03$** | Walsh Subcarrier 1 | 0,17 | -0,1446 | **+7,50 LSB** | 16,0 % |
-| **$k=04$** | Walsh Subcarrier 2 | 0,24 | -0,0360 | **+0,60 LSB** | 1,3 % |
-| **$k=05$** | Walsh Subcarrier 3 | 38,46 | +0,1171 | **+4,50 LSB** | 9,6 % |
-| **$k=06$** | Walsh Subcarrier 4 | 46,85 | +0,1277 | **+5,98 LSB** | 12,7 % |
-| **$k=07$** | Walsh Subcarrier 5 | 4,81 | -0,0173 | **+0,09 LSB** | 0,2 % |
-| **$k=08$** | Walsh Subcarrier 6 | 0,19 | -0,1416 | **+6,54 LSB** | 13,9 % |
-| **$k=09$** | Walsh Subcarrier 7 | 0,25 | -0,0942 | **+3,51 LSB** | 7,5 % |
-| **$k=10$** | Walsh Subcarrier 8 | 16,74 | +0,0676 | **+1,13 LSB** | 2,4 % |
-| **$k=11$** | Walsh Subcarrier 9 | 48,31 | +0,1480 | **+7,15 LSB** | 15,2 % |
+Die konstruktive Summe aller 12 vorzeichenbehafteten Terme $\sum_{k=0}^{11} \Delta M_k(x^*, y^*) \cdot P_k(44)$ ergibt **maschinengenau $46{,}9461$ LSB**:
+- **Dedizierte Kanäle ($P_0, P_1, P_2$):** Tragen zusammen **$10{,}165$ LSB** bei (**$21{,}65\,\%$** des Rekonstruktionspeaks).
+- **Höhere Walsh-Modi ($P_3..P_{11}$):** Tragen zusammen **$36{,}781$ LSB** bei (**$78{,}35\,\%$** des Rekonstruktionspeaks).
+
+Zusätzlich bestätigt die räumliche $L_2$-Signalenergie über alle 72 Pixel der Kugel-ROI $\sum_{x, y \in \text{ROI}} (\Delta M_k(x, y))^2$ unabhängig dasselbe Verhältnis: **$22{,}1\,\%$** in $P_0..P_2$ vs. **$77{,}9\,\%$** in $P_3..P_{11}$!
+
+| Modus ($k$) | Basisfunktion | $\Delta M_k(43, 33)$ | $P_k(44)$ | Term am Peak (LSB) | Anteil am Peak | $L_2$ ROI-Energie | $L_2$-Anteil |
+|---|---|---|---|---|---|---|---|
+| **$k=00$** | $P_0$ (DC-Mittelwert) | +44,746 | +0,1250 | **+5,593 LSB** | 11,9 % | 20.506,45 | 12,2 % |
+| **$k=01$** | $P_1$ (Linearer Trend) | +31,313 | +0,0846 | **+2,649 LSB** | 5,6 % | 10.124,45 | 6,0 % |
+| **$k=02$** | $P_2$ (Krümmung) | -25,366 | -0,0758 | **+1,923 LSB** | 4,1 % | 6.512,16 | 3,9 % |
+| **$k=03$** | Walsh Subcarrier 1 | -51,863 | -0,1446 | **+7,501 LSB** | 16,0 % | 27.609,35 | 16,4 % |
+| **$k=04$** | Walsh Subcarrier 2 | -16,177 | -0,0360 | **+0,582 LSB** | 1,2 % | 2.878,05 | 1,7 % |
+| **$k=05$** | Walsh Subcarrier 3 | +38,457 | +0,1171 | **+4,505 LSB** | 9,6 % | 14.949,60 | 8,9 % |
+| **$k=06$** | Walsh Subcarrier 4 | +46,855 | +0,1277 | **+5,984 LSB** | 12,7 % | 22.767,12 | 13,6 % |
+| **$k=07$** | Walsh Subcarrier 5 | -0,212 | -0,0173 | **+0,004 LSB** | 0,0 % | 198,55 | 0,1 % |
+| **$k=08$** | Walsh Subcarrier 6 | -46,170 | -0,1416 | **+6,539 LSB** | 13,9 % | 21.596,29 | 12,9 % |
+| **$k=09$** | Walsh Subcarrier 7 | -36,965 | -0,0942 | **+3,483 LSB** | 7,4 % | 14.579,41 | 8,7 % |
+| **$k=10$** | Walsh Subcarrier 8 | +15,280 | +0,0676 | **+1,033 LSB** | 2,2 % | 2.454,91 | 1,5 % |
+| **$k=11$** | Walsh Subcarrier 9 | +48,312 | +0,1480 | **+7,152 LSB** | 15,2 % | 23.808,72 | 14,2 % |
 
 ### 7.3 Synthetischer Stresstest: Lokalisierter Modus $k=3$ (8x8 Patch, True Amp = 25,0 LSB)
 

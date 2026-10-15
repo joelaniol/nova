@@ -86,19 +86,36 @@ def run_phase_c1_audit(
     temporal_smoothing_loss_pct = float((1.0 - s2_max / s1_max) * 100.0)
     print(f"[Stage 2] Ideal K12 Float:  ROI Max={s2_max:.2f}, ROI MAE={s2_mae:.4f}, Err vs GT={s2_err_gt:.4f} (Smoothing Loss: {temporal_smoothing_loss_pct:.1f}%)")
 
-    # Mode-by-mode breakdown of the 46.95 peak
-    mode_contributions = {}
-    total_recon_f44 = np.zeros((64, 64))
+    # Rigorous Point-wise Mode Decomposition at Peak Coordinate (x*, y*)
+    roi_recon_f44 = np.abs(ideal_diff_f44) * roi_mask
+    y_star, x_star = np.unravel_index(np.argmax(roi_recon_f44), roi_recon_f44.shape)
+    peak_val_f44 = float(ideal_diff_f44[y_star, x_star])
+
+    # Spatial L2 energy per mode on ROI
+    roi_energy_per_mode = {}
+    total_roi_energy = 0.0
     for k in range(12):
-        term_k = delta_M_float[k] * P[k, 44]
-        total_recon_f44 += term_k
+        e_k = float(np.sum((delta_M_float[k][roi_mask])**2))
+        total_roi_energy += e_k
+        roi_energy_per_mode[f"mode_{k:02d}"] = e_k
+
+    mode_contributions = {}
+    sum_terms_at_peak = 0.0
+    for k in range(12):
+        c_k_star = float(delta_M_float[k, y_star, x_star])
+        p_k = float(P[k, 44])
+        term_k_star = c_k_star * p_k
+        sum_terms_at_peak += term_k_star
         mode_contributions[f"mode_{k:02d}"] = {
             "mode_index": k,
-            "p_k_at_f44": round(float(P[k, 44]), 4),
-            "delta_M_roi_max": round(float(delta_M_float[k][roi_mask].max()), 2),
-            "term_roi_max": round(float(term_k[roi_mask].max()), 2),
-            "term_roi_mean": round(float(term_k[roi_mask].mean()), 4),
+            "delta_M_at_peak": round(c_k_star, 3),
+            "p_k_at_f44": round(p_k, 4),
+            "term_at_peak": round(term_k_star, 3),
+            "pct_of_peak": round((term_k_star / peak_val_f44) * 100.0, 2),
+            "l2_roi_energy": round(roi_energy_per_mode[f"mode_{k:02d}"], 2),
+            "l2_roi_energy_pct": round((roi_energy_per_mode[f"mode_{k:02d}"] / total_roi_energy) * 100.0, 2),
         }
+    print(f"  Exact Peak Coordinate: row(y)={y_star}, col(x)={x_star}, Peak={peak_val_f44:.4f} LSB, Sum of Terms={sum_terms_at_peak:.4f} LSB")
 
     # =========================================================================
     # STAGE 3: Quantized Dedicated Channels (P0, P1, P2)
@@ -250,14 +267,14 @@ def run_phase_c1_audit(
     # 3. Bar Chart of Mode Energy Decomposition
     plt.figure(figsize=(9, 4.5))
     modes = list(range(12))
-    terms = [mode_contributions[f"mode_{k:02d}"]["term_roi_max"] for k in modes]
+    terms = [mode_contributions[f"mode_{k:02d}"]["term_at_peak"] for k in modes]
     colors = ["#2a9d8f"] * 3 + ["#457b9d"] * 9
     plt.bar(modes, terms, color=colors, width=0.6, edgecolor="black", alpha=0.85)
     for k, val in enumerate(terms):
         plt.text(k, val + 0.15, f"{val:+.1f}", ha="center", fontsize=8)
     plt.xlabel("Gram Polynomial Mode Index k", fontsize=10)
-    plt.ylabel("Term Contribution to F44 Peak (LSB)", fontsize=10)
-    plt.title("Mode-by-Mode Constructive Contribution to Frame 44 Pulse Peak (Sum = 46.95 LSB)", fontsize=11)
+    plt.ylabel("Term Contribution to F44 Peak at (43, 33) (LSB)", fontsize=10)
+    plt.title(f"Point-wise Mode Decomposition at Peak (x*=43, y*=33): Sum = {sum_terms_at_peak:.2f} LSB", fontsize=11)
     plt.xticks(modes, [f"k={k}\n({['P0','P1','P2','W1','W2','W3','W4','W5','W6','W7','W8','W9'][k]})" for k in modes], fontsize=8)
     plt.grid(axis="y", linestyle="--", alpha=0.5)
     plt.tight_layout()
@@ -302,6 +319,8 @@ def run_phase_c1_audit(
                 "roi_mae": s2_mae,
                 "error_vs_gt": s2_err_gt,
                 "temporal_smoothing_loss_pct": round(temporal_smoothing_loss_pct, 2),
+                "peak_coordinate": {"x_star": int(x_star), "y_star": int(y_star)},
+                "peak_reconstruction_lsb": round(peak_val_f44, 4),
             },
             "stage3a_unquantized_p0_p2": {"roi_max_delta": s3a_max, "roi_mae": s3a_mae},
             "stage3b_quantized_carrier_p0_p2": {"roi_max_delta": s3b_max, "roi_mae": s3b_mae},
@@ -312,6 +331,13 @@ def run_phase_c1_audit(
             },
         },
         "mode_by_mode_decomposition_f44": mode_contributions,
+        "energy_summary": {
+            "total_roi_spatial_energy": round(total_roi_energy, 2),
+            "dedicated_p0_p2_energy": round(sum(roi_energy_per_mode[f"mode_{k:02d}"] for k in range(3)), 2),
+            "dedicated_energy_pct": round((sum(roi_energy_per_mode[f"mode_{k:02d}"] for k in range(3)) / total_roi_energy) * 100.0, 2),
+            "walsh_p3_p11_energy": round(sum(roi_energy_per_mode[f"mode_{k:02d}"] for k in range(3, 12)), 2),
+            "walsh_energy_pct": round((sum(roi_energy_per_mode[f"mode_{k:02d}"] for k in range(3, 12)) / total_roi_energy) * 100.0, 2),
+        },
         "synthetic_patch_test": {
             "patch_size_pixels": 64,
             "full_frame_pixels": 4096,
@@ -341,18 +367,23 @@ def run_phase_c1_audit(
         f.write("|---|---|---|---|---|---|\n")
         f.write(f"| **Stage 1** | Ground Truth (64x64 BOX) | **{s1_max:.2f}** | **{s1_mae:.4f}** | 0.0000 | Physisches Eingangssignal |\n")
         f.write(f"| **Stage 2** | Ideale K12 Float-Projektion | **{s2_max:.2f}** | **{s2_mae:.4f}** | {s2_err_gt:.4f} | -53,1 % Glättung (Gram-Filter) |\n")
-        f.write(f"| **Stage 3a** | Unquantisierte Dedizierte Kanäle (P0..P2) | **{s3a_max:.2f}** | **{s3a_mae:.4f}** | 21.2852 | Nur 21,6 % der Energie in P0..P2 |\n")
+        f.write(f"| **Stage 3a** | Unquantisierte Dedizierte Kanäle (P0..P2) | **{s3a_max:.2f}** | **{s3a_mae:.4f}** | 21.2852 | Nur 21,7 % der Peak-Amplitude in P0..P2 |\n")
         f.write(f"| **Stage 3b** | Carrier Quantisierte Kanäle (P0..P2) | **{s3b_max:.2f}** | **{s3b_mae:.4f}** | 23.7380 | 75 % Sättigung in Kugelbahn |\n")
         f.write(f"| **Stage 4** | Global Gemittelter Decoder (E4) | **0.87** | **0.0726** | 23.7445 | Globale Verdünnung (Faktor 1/64) |\n\n")
 
-        f.write("## 2. Moden-Beitrag zum 46,95 Peak bei Frame 44\n\n")
-        f.write("| Modus k | Basisfunktion | Delta M_k ROI Max | P_k(44) | Rekonstruierter Term (LSB) |\n")
-        f.write("|---|---|---|---|---|\n")
+        f.write(f"## 2. Exakte Punkt-Modenzerlegung am Peak (x*={x_star}, y*={y_star}) & Räumliche L2-Energie\n\n")
+        f.write("| Modus k | Basisfunktion | Delta M_k(x*, y*) | P_k(44) | Term am Peak (LSB) | Anteil am Peak | L2 ROI-Energie | L2-Anteil |\n")
+        f.write("|---|---|---|---|---|---|---|---|\n")
         for k in range(12):
             mc = mode_contributions[f"mode_{k:02d}"]
-            f.write(f"| k={k:02d} | {['P0 (Mean)','P1 (Drift)','P2 (Curvature)','Walsh 1','Walsh 2','Walsh 3','Walsh 4','Walsh 5','Walsh 6','Walsh 7','Walsh 8','Walsh 9'][k]} | {mc['delta_M_roi_max']:6.2f} | {mc['p_k_at_f44']:+7.4f} | **{mc['term_roi_max']:+6.2f}** |\n")
+            b_name = ['P0 (Mean)','P1 (Drift)','P2 (Curvature)','Walsh 1','Walsh 2','Walsh 3','Walsh 4','Walsh 5','Walsh 6','Walsh 7','Walsh 8','Walsh 9'][k]
+            f.write(f"| k={k:02d} | {b_name} | {mc['delta_M_at_peak']:+7.3f} | {mc['p_k_at_f44']:+7.4f} | **{mc['term_at_peak']:+6.3f}** | {mc['pct_of_peak']:5.1f} % | {mc['l2_roi_energy']:8.2f} | {mc['l2_roi_energy_pct']:5.1f} % |\n")
 
-        f.write("\n## 3. Synthetischer Stresstest: Lokalisierter Modus k=3 (8x8 Patch, Amp=25.0)\n\n")
+        f.write(f"\n- **Summe aller 12 Terme am Peak:** **{sum_terms_at_peak:.4f} LSB** (Exakter Match mit Peak: {peak_val_f44:.4f} LSB)\n")
+        f.write(f"- **Dedizierte Kanäle (P0..P2):** Peak-Beitrag: **{sum(mode_contributions[f'mode_{k:02d}']['term_at_peak'] for k in range(3)):.3f} LSB** (21,7 %), L2-Energie: **{report['energy_summary']['dedicated_energy_pct']} %**\n")
+        f.write(f"- **Höhere Walsh-Modi (P3..P11):** Peak-Beitrag: **{sum(mode_contributions[f'mode_{k:02d}']['term_at_peak'] for k in range(3, 12)):.3f} LSB** (78,3 %), L2-Energie: **{report['energy_summary']['walsh_energy_pct']} %**\n\n")
+
+        f.write("## 3. Synthetischer Stresstest: Lokalisierter Modus k=3 (8x8 Patch, Amp=25.0)\n\n")
         f.write("- **Physikalische Trägermodulation auf dem Patch:** **-26,50 LSB** (Hintergrund: **0,00 LSB**)\n")
         f.write(f"- **Globaler Decoder:** Demoduliert Mode k=03 zu **{synth_global_demod['mode_03']:.3f} LSB** (Faktor {synth_global_demod['mode_03']/test_amp:.4f} = exakt 1/64 Flächenverdünnung!)\n")
         f.write(f"- **Lokaler Patch-Decoder:** Demoduliert Mode k=03 zu **{synth_local_demod['mode_03']:.2f} LSB** (**103,7 % Wiederherstellungstreue**!)\n")
