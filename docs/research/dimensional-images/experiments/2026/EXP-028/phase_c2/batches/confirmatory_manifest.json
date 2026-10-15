@@ -1,0 +1,130 @@
+{
+  "experiment_id": "EXP-028",
+  "phase": "Phase C2",
+  "type": "Confirmatory Task 1 Batches",
+  "random_seed": 20261028,
+  "total_batches": 24,
+  "items_per_batch": 10,
+  "batches": [
+    {
+      "batch_id": "conf_task1_batch_01",
+      "batch_file": "batches/confirmatory/conf_task1_batch_01.json",
+      "item_count": 10
+    },
+    {
+      "batch_id": "conf_task1_batch_02",
+      "batch_file": "batches/confirmatory/conf_task1_batch_02.json",
+      "item_count": 10
+    },
+    {
+      "batch_id": "conf_task1_batch_03",
+      "batch_file": "batches/confirmatory/conf_task1_batch_03.json",
+      "item_count": 10
+    },
+    {
+      "batch_id": "conf_task1_batch_04",
+      "batch_file": "batches/confirmatory/conf_task1_batch_04.json",
+      "item_count": 10
+    },
+    {
+      "batch_id": "conf_task1_batch_05",
+      "batch_file": "batches/confirmatory/conf_task1_batch_05.json",
+      "item_count": 10
+    },
+    {
+      "batch_id": "conf_task1_batch_06",
+      "batch_file": "batches/confirmatory/conf_task1_batch_06.json",
+      "item_count": 10
+    },
+    {
+      "batch_id": "conf_task1_batch_07",
+      "batch_file": "batches/confirmatory/conf_task1_batch_07.json",
+      "item_count": 10
+    },
+    {
+      "batch_id": "conf_task1_batch_08",
+      "batch_file": "batches/confirmatory/conf_task1_batch_08.json",
+      "item_count": 10
+    },
+    {
+      "batch_id": "conf_task1_batch_09",
+      "batch_file": "batches/confirmatory/conf_task1_batch_09.json",
+      "item_count": 10
+    },
+    {
+      "batch_id": "conf_task1_batch_10",
+      "batch_file": "batches/confirmatory/conf_task1_batch_10.json",
+      "item_count": 10
+    },
+    {
+      "batch_id": "conf_task1_batch_11",
+      "batch_file": "batches/confirmatory/conf_task1_batch_11.json",
+      "item_count": 10
+    },
+    {
+      "batch_id": "conf_task1_batch_12",
+      "batch_file": "batches/confirmatory/conf_task1_batch_12.json",
+      "item_count": 10
+    },
+    {
+      "batch_id": "conf_task1_batch_13",
+      "batch_file": "batches/confirmatory/conf_task1_batch_13.json",
+      "item_count": 10
+    },
+    {
+      "batch_id": "conf_task1_batch_14",
+      "batch_file": "batches/confirmatory/conf_task1_batch_14.json",
+      "item_count": 10
+    },
+    {
+      "batch_id": "conf_task1_batch_15",
+      "batch_file": "batches/confirmatory/conf_task1_batch_15.json",
+      "item_count": 10
+    },
+    {
+      "batch_id": "conf_task1_batch_16",
+      "batch_file": "batches/confirmatory/conf_task1_batch_16.json",
+      "item_count": 10
+    },
+    {
+      "batch_id": "conf_task1_batch_17",
+      "batch_file": "batches/confirmatory/conf_task1_batch_17.json",
+      "item_count": 10
+    },
+    {
+      "batch_id": "conf_task1_batch_18",
+      "batch_file": "batches/confirmatory/conf_task1_batch_18.json",
+      "item_count": 10
+    },
+    {
+      "batch_id": "conf_task1_batch_19",
+      "batch_file": "batches/confirmatory/conf_task1_batch_19.json",
+      "item_count": 10
+    },
+    {
+      "batch_id": "conf_task1_batch_20",
+      "batch_file": "batches/confirmatory/conf_task1_batch_20.json",
+      "item_count": 10
+    },
+    {
+      "batch_id": "conf_task1_batch_21",
+      "batch_file": "batches/confirmatory/conf_task1_batch_21.json",
+      "item_count": 10
+    },
+    {
+      "batch_id": "conf_task1_batch_22",
+      "batch_file": "batches/confirmatory/conf_task1_batch_22.json",
+      "item_count": 10
+    },
+    {
+      "batch_id": "conf_task1_batch_23",
+      "batch_file": "batches/confirmatory/conf_task1_batch_23.json",
+      "item_count": 10
+    },
+    {
+      "batch_id": "conf_task1_batch_24",
+      "batch_file": "batches/confirmatory/conf_task1_batch_24.json",
+      "item_count": 10
+    }
+  ]
+}

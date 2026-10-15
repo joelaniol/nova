@@ -81,5 +81,11 @@ The benchmark tests 5 rigorously controlled conditions across two stimulus prese
 - **Safety Gate (Anti-Hallucination):**
   The specificity (true negative rate on baseline clips without pulse) of Condition B must not degrade by more than 5.0 percentage points compared to Condition A:
   $$\Delta \text{Specificity} = \text{Spec}(\text{Condition B}) - \text{Spec}(\text{Condition A}) \ge -5.0\%$$
-- **Pre-Registration Freeze:**
+- **Pre-Registration Freeze & Amendment 1:**
   All stimulus hashes (SHA-256), blinded UUIDs, random seed (`20261028`), and prompt strings are frozen in `phase_c2_preregistration.json` prior to any confirmatory model evaluation.
+  Following the pilot run and ChatGPT peer-review, [phase_c2_amendment_1.md](phase_c2_amendment_1.md) was ratified:
+  1. Exact 12:12 counterbalanced Task 2 left/right positioning.
+  2. Addition of 30 identical twin catch trials in Task 2 to measure false difference detection.
+  3. Pre-registered paired scene-level cluster-bootstrap ($B=10,000$) 95% CI requirement ($\text{CI}_{2.5\%} > 0.0\%$).
+  4. Numerical documentation of GRID512 pulse sampling attenuation as a formal covariate.
+
