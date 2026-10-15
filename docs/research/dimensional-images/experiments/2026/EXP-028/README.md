@@ -236,3 +236,9 @@ Alle generierten Differenzkarten, Rohmetriken und Zusammenfassungen sind reprodu
     - 1D-Schnittprofil Zeile 31: [`phase_c1/phase_c1_plots/cross_section_profile_f44.png`](phase_c1/phase_c1_plots/cross_section_profile_f44.png)
     - Moden-Energiezerlegung: [`phase_c1/phase_c1_plots/mode_energy_decomposition_f44.png`](phase_c1/phase_c1_plots/mode_energy_decomposition_f44.png)
     - Synthetischer lokalisierter Walsh-Test: [`phase_c1/phase_c1_plots/synthetic_localized_walsh_test.png`](phase_c1/phase_c1_plots/synthetic_localized_walsh_test.png)
+
+- **Phase C2 Protokoll & Preregistration:**
+  - Protokoll: [`phase_c2/README.md`](phase_c2/README.md)
+  - Frozen Pre-Registration JSON: [`phase_c2/phase_c2_preregistration.json`](phase_c2/phase_c2_preregistration.json)
+  - Stimuli-Verzeichnisse: `phase_c2/stimuli/pilot/` und `phase_c2/stimuli/confirmatory/`
+
