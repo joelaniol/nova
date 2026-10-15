@@ -158,6 +158,87 @@ def encode_carrier_E3_hybrid_scaling(
     return mosaic_128
 
 
+def encode_carrier_E4_Y0_hybrid_scaling(
+    video_rgb: np.ndarray,
+    K: int = 12,
+) -> np.ndarray:
+    """Encode video (N, H, W, 3) into single 128x128 E4-Y0 Carrier Tile.
+
+    Identical to E3-K12, except the centering is adaptive to the initial frame:
+        y_centered(t, x, y) = Y(t, x, y) - Y(0, x, y)
+    instead of static y_centered = Y(t, x, y) - 128.0.
+
+    This preserves exact mathematical invariance for all higher modes (P1..P11),
+    while eliminating the DC saturation floor on dark/bright scenes.
+    Base state Y0 is stored in Quadrant G for self-contained decoding.
+    """
+    N, H, W, _ = video_rgb.shape
+    P = compute_gram_polynomials_N_K(N=N, K=K)
+    W_basis = generate_2d_orthogonal_block_basis((H, W), K=8)
+
+    y_list, cb_list, cr_list = [], [], []
+    for f in video_rgb:
+        y, cb, cr = rgb_to_ycbcr(f)
+        y_list.append(y)
+        cb_list.append(cb)
+        cr_list.append(cr)
+
+    y_video = np.stack(y_list, axis=0)
+    # E4-Y0 adaptive centering
+    y_centered = y_video - y_video[0:1]
+
+    # Compute temporal projections: M_k = sum_t y_centered(t) * P_k(t)
+    M = np.sum(y_centered * P[:, :, np.newaxis, np.newaxis], axis=1)
+
+    # Quad G: Base state Y0
+    quad_G = np.zeros((64, 64, 3), dtype=np.uint8)
+    y0_u8 = np.clip(y_list[0], 0, 255).astype(np.uint8)
+    quad_G[..., 0] = y0_u8
+    quad_G[..., 1] = y0_u8
+    quad_G[..., 2] = y0_u8
+
+    # Quad T (Kinematics):
+    m0_norm = np.clip(M[0] / 35.0, -1.0, 1.0) if K > 0 else np.zeros((H, W))
+    m2_norm = np.clip(M[2] / 35.0, -1.0, 1.0) if K > 2 else np.zeros((H, W))
+
+    t_ch0 = np.clip(128.0 + m0_norm * 90.0, 0.0, 255.0).astype(np.uint8)
+    t_ch1 = np.clip(128.0 + m2_norm * 90.0, 0.0, 255.0).astype(np.uint8)
+
+    t_sub_mod = np.zeros((H, W), dtype=np.float64)
+    odd_indices = [k for k in range(3, K) if k % 2 == 1]
+    sub_amp_t = 80.0 / np.sqrt(max(1, len(odd_indices)))
+    for idx_w, k_val in enumerate(odd_indices):
+        m_norm = np.clip(M[k_val] / 35.0, -1.0, 1.0)
+        t_sub_mod += m_norm * sub_amp_t * W_basis[idx_w + 1]
+
+    t_ch2 = np.clip(128.0 + t_sub_mod, 0.0, 255.0).astype(np.uint8)
+    quad_T = np.stack([t_ch0, t_ch1, t_ch2], axis=-1)
+
+    # Quad C (False-color Chrominance Layer):
+    m1_norm = np.clip(M[1] / 35.0, -1.0, 1.0) if K > 1 else np.zeros((H, W))
+    cb_val = np.clip(128.0 + m1_norm * 90.0, 0.0, 255.0)
+
+    c_sub_mod = np.zeros((H, W), dtype=np.float64)
+    even_indices = [k for k in range(3, K) if k % 2 == 0]
+    sub_amp_c = 80.0 / np.sqrt(max(1, len(even_indices)))
+    for idx_w, k_val in enumerate(even_indices):
+        m_norm = np.clip(M[k_val] / 35.0, -1.0, 1.0)
+        c_sub_mod += m_norm * sub_amp_c * W_basis[idx_w + 1]
+
+    cr_val = np.clip(128.0 + c_sub_mod, 0.0, 255.0)
+    y_c = np.full((H, W), 128.0, dtype=np.float64)
+    quad_C = ycbcr_to_rgb(y_c, cb_val, cr_val)
+
+    # Quad R: Neutral baseline
+    quad_R = np.full((64, 64, 3), 128, dtype=np.uint8)
+
+    # 2x2 Assembly
+    top_row = np.concatenate([quad_G, quad_T], axis=1)
+    bot_row = np.concatenate([quad_C, quad_R], axis=1)
+    mosaic_128 = np.concatenate([top_row, bot_row], axis=0)
+    return mosaic_128
+
+
 def decode_carrier_E3_hybrid_scaling(
     mosaic_128: np.ndarray,
     K: int = 12,
@@ -212,6 +293,92 @@ def decode_carrier_E3_hybrid_scaling(
         coeffs[k_val] = proj / sub_amp_c
         
     return coeffs
+
+
+def decode_carrier_E4_Y0_hybrid_scaling(
+    mosaic_128: np.ndarray,
+    K: int = 12,
+    spatial_region: str = "full",
+) -> np.ndarray:
+    """Demodulate normalized projection coefficients m_hat from E4 Carrier.
+
+    Coefficient demodulation is identical to E3, but represents deviations from Y0.
+    """
+    return decode_carrier_E3_hybrid_scaling(mosaic_128, K=K, spatial_region=spatial_region)
+
+
+def reconstruct_video_y_from_carrier(
+    mosaic_128: np.ndarray,
+    N: int = 64,
+    K: int = 12,
+    mode: str = "E4",
+) -> np.ndarray:
+    """Reconstruct video luminance field Y(t, x, y) from 128x128 carrier.
+
+    In mode 'E4', baseline Y0 is read from Quadrant G.
+    In mode 'E3', baseline is fixed to 128.0.
+    """
+    H, W = 64, 64
+    P = compute_gram_polynomials_N_K(N=N, K=K)
+    W_basis = generate_2d_orthogonal_block_basis((H, W), K=8)
+
+    quad_T = mosaic_128[:64, 64:].astype(np.float64)
+    quad_C_rgb = mosaic_128[64:, :64]
+    _, cb_val, cr_val = rgb_to_ycbcr(quad_C_rgb)
+    cb_val = cb_val.astype(np.float64)
+    cr_val = cr_val.astype(np.float64)
+
+    # Base state
+    if mode == "E4":
+        y_base = mosaic_128[:64, :64, 0].astype(np.float64)
+    else:
+        y_base = np.full((H, W), 128.0, dtype=np.float64)
+
+    # Spatial coefficient maps for M0, M1, M2
+    m0_hat = (quad_T[..., 0] - 128.0) / 90.0 * 35.0
+    m1_hat = (cb_val - 128.0) / 90.0 * 35.0
+    m2_hat = (quad_T[..., 1] - 128.0) / 90.0 * 35.0
+
+    # Odd modes from Quad T Blue
+    t_ch2 = quad_T[..., 2] - 128.0
+    odd_indices = [k for k in range(3, K) if k % 2 == 1]
+    sub_amp_t = 80.0 / np.sqrt(max(1, len(odd_indices)))
+
+    odd_coeffs = []
+    for idx_w, k_val in enumerate(odd_indices):
+        proj = np.mean(t_ch2 * W_basis[idx_w + 1])
+        c_k = (proj / sub_amp_t) * 35.0
+        odd_coeffs.append((k_val, c_k))
+
+    # Even modes from Quad C Cr
+    cr_centered = cr_val - 128.0
+    even_indices = [k for k in range(3, K) if k % 2 == 0]
+    sub_amp_c = 80.0 / np.sqrt(max(1, len(even_indices)))
+
+    even_coeffs = []
+    for idx_w, k_val in enumerate(even_indices):
+        proj = np.mean(cr_centered * W_basis[idx_w + 1])
+        c_k = (proj / sub_amp_c) * 35.0
+        even_coeffs.append((k_val, c_k))
+
+    # Reconstruct Y(t, x, y)
+    y_recon = np.zeros((N, H, W), dtype=np.float64)
+    for t in range(N):
+        yt = y_base.copy()
+        if K > 0:
+            yt += m0_hat * P[0, t]
+        if K > 1:
+            yt += m1_hat * P[1, t]
+        if K > 2:
+            yt += m2_hat * P[2, t]
+        for k_val, c_k in odd_coeffs:
+            yt += c_k * P[k_val, t]
+        for k_val, c_k in even_coeffs:
+            yt += c_k * P[k_val, t]
+        y_recon[t] = np.clip(yt, 0.0, 255.0)
+
+    return y_recon
+
 
 
 def create_synthetic_scaling_video(

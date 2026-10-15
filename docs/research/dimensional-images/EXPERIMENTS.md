@@ -148,7 +148,7 @@ Every experiment in this archive is cataloged under a strict scientific evidence
 * **Evaluation Scope:** Deterministic 5-stage signal propagation audit comparing Clip C3 (baseline full occlusion) against Clip C5 (pulsed twin, 250ms sinusoidal luminance pulse at $t=2.65\text{--}2.90\,\text{s}$).  
 * **Artifacts Directory:** [`experiments/2026/EXP-028/`](experiments/2026/EXP-028/) ([`pre_registration.json`](experiments/2026/EXP-028/pre_registration.json), [`pulse_survival_metrics.json`](experiments/2026/EXP-028/pulse_survival_metrics.json), [`summary_table.md`](experiments/2026/EXP-028/summary_table.md), [`README.md`](experiments/2026/EXP-028/README.md), [`diff_maps/`](experiments/2026/EXP-028/diff_maps/)).  
 
-### 5-Stage Signal Survival Summary
+### 5-Stage Signal Survival Summary (Phase A Baseline)
 
 | Stage / Format | Representation | ROI MAE | ROI Max Delta | C3-C5 Equal (%) | Delta Weber Contrast | Delta Michelson |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -159,10 +159,21 @@ Every experiment in this archive is cataloged under a strict scientific evidence
 | **Stage 3: E3-K12 Visual Carrier** | 128x128 Lossless PNG (Quad T) | **1.9352** | **38.0** | 54.2% | -0.01 | +0.008 |
 | **Stage 4: E3-K12 Visual Carrier** | 128x128 Lossy WebP Q80 (Quad T) | **3.0556** | **13.0** | 8.3% | -0.01 | +0.005 |
 
+### Phase B: Adaptive Y0 Centering Counter-Experiment (E4-Y0)
+
+| Condition | Codec | Centering | Format | Size (C5) | ROI Max Delta | ROI MAE | Quad T Red Max Delta |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Condition A** | E3-K12 | 128 (Static) | WebP Q80 | 560 B | 13.0 | 3.0556 | 9.0 |
+| **Condition B** | E3-K12 | 128 (Static) | Lossless PNG | 2564 B | 38.0 | 1.9352 | **0.0** |
+| **Condition C** | **E4-Y0** | **Y0 (Adaptive)** | **WebP Q80** | **528 B** | **24.0** | **4.1528** | **13.0** |
+| **Condition D** | **E4-Y0** | **Y0 (Adaptive)** | **Lossless PNG** | 2724 B | 38.0 | 1.9722 | **3.0** |
+
 ### Key Findings
 1. **Physical DC Saturation Collapse in E3-K12:** Static $-128$ centering against a dark background (`#0a0d14`, $Y \approx 11.5$) drove $M_0 / 35.0$ to $-26.6$, causing 100% saturation at pixel value 38 in the Red channel of Quadrant T. The DC component of the pulse ($\Delta M_0 = +44.75$) was erased into the clipper floor (Delta in Red channel = exactly 0.00).
-2. **Walsh Subcarrier Attenuation & WebP Quantization Destruction:** The remaining AC pulse energy dispersed across 11 Walsh subcarriers, yielding a max delta of 38.0 in lossless PNG, which lossy WebP Q80 compressed down to 13.0 while injecting 16–20 levels of block noise. In WebP carrier, SNR fell below 0 dB.
-3. **Perceptual Attention Failure in Contact Sheets:** In GRID512, the pulse survived with massive physical amplitude (ROI Max Delta = 109.0, peak RGB from $[76, 78, 82]$ to $[185, 186, 190]$, $+40\%$ Weber contrast). The VLM's failure to detect the pulse was purely attentional (interpreting the single-frame specular brightening as 3D shading).
+2. **Phase B Breakthrough via Adaptive Y0 Centering:** Substituting $Y(t) - Y(0)$ eliminates the DC saturation floor: full-image saturation drops from **100.0% to 3.91%** (background saturation = 0.0%). Higher temporal modes $P_1..P_{11}$ remain 100% mathematically invariant ($\max |\Delta M_k| = 3.06 \times 10^{-13}$). In WebP Q80, ROI Max Delta nearly doubles from **13.0 to 24.0**.
+3. **Rigorous Signal-to-Noise Ratio:** Measured on identical ROI pixels, Differential SNR is $-0.41$ dB (E3) and $-0.36$ dB (E4), formally demonstrating that WebP block quantization noise slightly exceeds the high-frequency Walsh energy.
+4. **Safety Control Across All 5 Clips:** C1 through C5 verified; direction reversal in C4 and all kinematics remain perfectly intact under E4-Y0.
+5. **Perceptual Attention Failure in Contact Sheets:** In GRID512, the pulse survived with massive physical amplitude (ROI Max Delta = 109.0, peak RGB from $[76, 78, 82]$ to $[185, 186, 190]$, $+40\%$ Weber contrast). The VLM's failure to detect the pulse was purely attentional (interpreting the single-frame specular brightening as 3D shading).
 
 ---
 

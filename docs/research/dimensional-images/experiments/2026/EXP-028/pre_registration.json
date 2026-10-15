@@ -86,5 +86,19 @@
     "CONTRAST_RATIO": "Michelson and Weber contrast of the ball against local background in C3 vs. C5.",
     "GRAM_MODE_DELTA": "Coefficient difference Delta M_k = M_k(C5) - M_k(C3) for k = 0 to 11.",
     "SATURATION_CHECK": "Verification of whether projection values hit the [-35.0, +35.0] normalization clipper."
+  },
+  "amendment_phase_b_e4_y0": {
+    "date_utc": "2026-10-15T03:00:00Z",
+    "rationale": "ChatGPT peer-review ratified CONDITIONAL YES for Phase B: isolated empirical test of adaptive Y0 centering (Y(t) - Y0) against E3-K12 static 128 centering.",
+    "conditions": [
+      {"condition_id": "Condition_A_E3_WebP", "codec": "E3-K12", "centering": "static_128", "format": "WebP_Q80"},
+      {"condition_id": "Condition_B_E3_Lossless", "codec": "E3-K12", "centering": "static_128", "format": "Lossless_PNG"},
+      {"condition_id": "Condition_C_E4_WebP", "codec": "E4-Y0", "centering": "adaptive_Y0", "format": "WebP_Q80"},
+      {"condition_id": "Condition_D_E4_Lossless", "codec": "E4-Y0", "centering": "adaptive_Y0", "format": "Lossless_PNG"}
+    ],
+    "invariance_requirement": "P1..P11 must satisfy max abs diff < 1e-10 before carrier quantization.",
+    "differential_snr_specification": "SNR_diff = 10 * log10(sum(S^2) / sum(E^2)) measured on identical ROI pixels, where S = Lossless_C5 - Lossless_C3 and E = WebP_diff - Lossless_diff.",
+    "safety_control_scope": "Verify all 5 clips (C1..C5) to prove DC saturation elimination without distortion of kinematics or direction reversals (C4)."
   }
 }
+
