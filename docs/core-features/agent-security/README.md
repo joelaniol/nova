@@ -31,6 +31,7 @@ Nova cannot stop a model from believing what it reads. It enforces independent s
 | 4. Authorship of stored knowledge | Nova records who wrote a note; only the user can make a rule binding |
 | 5. Telling the agent | The result that triggered the finding says so |
 | 6. Isolation and secrets | Separate profiles, secrets filled in without showing them to the agent, emergency stop |
+| 7. Purchases and payments | Clicks that buy or pay always ask you and show what is really sent *(from alpha.21)* |
 
 ### 1. Content screening
 
@@ -107,12 +108,25 @@ These existing parts of Nova limit what an injected instruction could reach in t
 - [Site data permissions](../site-data-management/permissions-and-audit/README.md): cookie and storage values need permission and are not written to the audit log.
 - [Agent Awareness Gates](../agent-awareness-gates-aag/README.md): checks that stop an agent from acting blind, plus the emergency stop.
 
+### 7. Purchases and payments *(from alpha.21)*
+
+Shopping is where a manipulated agent costs real money. A typical attack does not need any text aimed at an AI: the shop page shows the right price, while the amount handed on to the payment step has been changed in the background. Nova therefore adds three safeguards that work with or without a finding:
+
+- **The agent is reminded before it acts.** On a shop, cart or checkout page, the agent first receives rules for handling money and must acknowledge them: item, quantity and price limit come from you, every step is checked again, and if the total differs from your request it stops and asks you. The reminder returns when it enters the cart or checkout.
+- **Every purchase asks you.** A click that buys, orders, pays, subscribes or hands an order over to payment opens Nova's confirmation dialog every time, even if actions are set to never ask or the agent runs fully automatic. Only "Allow once" is offered. You can switch this off under **Settings → AI & agents → Confirmations & audit → Always confirm purchases**; it is on by default.
+- **The dialog shows what is really sent.** Next to the total the page shows, the dialog lists the amount the click hands on. If that amount appears nowhere on the page, Nova warns in red that the order may have been tampered with:
+
+![Nova's purchase confirmation: the page shows a total of 29,90 €, the click hands on 299.00 to the payment provider, and a red warning says this amount appears nowhere on the page](purchase-confirmation-warning.png)
+
+If you deny, the agent is told what Nova found, that it must not retry the purchase or look for another way to buy, and that it should tell you.
+
 ---
 
 ## What this does not promise
 
 - **No filter catches everything.** An instruction disguised as an ordinary business rule ("use the second price for the comparison") looks like normal content. Against that, authorship is the safeguard: whatever such an agent stores stays an agent note and never becomes a binding rule without your click.
 - **The heightened caution ends, the agent's memory may not.** The risk state expires after a few minutes, but an agent can carry what it read further. From then on the safeguards that do not depend on the check still apply: your confirmation settings, critical actions that always ask, and the rule that only you make instructions binding.
+- **The purchase check covers the usual order and payment steps of a shop, not every conceivable path.** Check orders an agent placed for you, as you would check your own.
 - **A model can still be misled in its reasoning.** Nova protects actions and memory. Whether an answer is correct still depends on the model and on your review.
 
 ---

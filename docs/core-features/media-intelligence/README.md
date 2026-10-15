@@ -30,7 +30,7 @@ flowchart TD
         CaptureTools["nova.media_capture_*\n(start, status, stop)"]
         PermTools["nova.media_permission_*\n(list, get, set, clear_session)"]
         AuditTools["nova.media_activity_*\n(status, audit, delta, stop_all)"]
-        DocTools["nova.read_pdf\nnova.save_pdf"]
+        DocTools["nova.read_pdf\nnova.save_pdf\nnova.convert_to_markdown"]
         TranscribeTools["nova.media_transcribe_*\n(start, status, stop, models)"]
     end
 
@@ -66,6 +66,7 @@ flowchart TD
 | **[Media Devices & Permissions](devices-and-permissions/README.md)** | Multi-layered governance over camera, microphone, speaker, and screen-sharing access. Persistent per-origin rules, ephemeral session grants, live stream monitoring, emergency kill-switches, and WebRTC hardware diagnostics. | `nova.media_permissions_list`<br/>`nova.media_permission_get`<br/>`nova.media_permission_set`<br/>`nova.media_permissions_clear_session_grants`<br/>`nova.media_activity_status`<br/>`nova.media_activity_audit`<br/>`nova.media_activity_delta`<br/>`nova.media_stop_all`<br/>`nova.site_permissions_reset_origin`<br/>`nova.media_device_preferences_list`<br/>`nova.hardware_diagnostics_start`<br/>`nova.hardware_diagnostics_state`<br/>`nova.hardware_diagnostics_stop` |
 | **[Media Capture](media-capture/README.md)** | In-page stream recording intercepting live media directly from Media Source Extensions (MSE) and Web Audio API graphs into local native track files without external transcoders. | `nova.media_capture_start`<br/>`nova.media_capture_status`<br/>`nova.media_capture_stop` |
 | **[Media Playback Inspection](media-playback/README.md)** | Real-time diagnostics of in-page `<video>` and `<audio>` elements: playback state, current position, buffer health, network readiness, YouTube video ad detection, and classified pause root causes. | `nova.media_status` |
+| **[Document Conversion](document-conversion/README.md)** | Local conversion of PDF, Word, Excel, PowerPoint, HTML, CSV, JSON and text files into Markdown for AI agents: structure only where the document defines it, stored values instead of calculated formulas, hidden content included and named, nothing uploaded. | `nova.convert_to_markdown` |
 | **[PDF Reading & Export](pdf/README.md)** | Programmatic digital text extraction from local PDF documents and pixel-accurate print-to-PDF export from active webpages using Chromium's print engine with crash-safe untagged rendering. | `nova.read_pdf`<br/>`nova.save_pdf` |
 | **[Image Viewer](image-viewer/README.md)** | Hardware-accelerated WinUI 3 lightbox viewer for high-resolution inspection of web images with kinetic 2D panning, dynamic zoom limits, and a floating picture-in-picture mini-map navigator. | In-app GUI action ("Magnify image") |
 

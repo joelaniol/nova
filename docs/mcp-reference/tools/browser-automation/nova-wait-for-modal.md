@@ -13,6 +13,8 @@
 
 If no dialog appears within `timeoutMs`, the call returns `ok: false` with `reasonCode: "wait_for_modal.timeout"` and the last probe in `lastProbe`.
 
+* **Resumable waits (upcoming in v1.0.0-alpha.21 - not in a published release yet):** `resumable: true` keeps a wait that ran out as a watch you continue with [`nova.wait_continue`](../downloads/nova-wait-continue.md) in short calls.
+
 ---
 
 ## 2. Parameter Reference
@@ -22,6 +24,7 @@ If no dialog appears within `timeoutMs`, the call returns `ok: false` with `reas
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
 | `timeoutMs` | `integer` | No | `10000` | 0–1800000 | Max ms to wait (up to 1800000 = 30 min). Keep the default for quick checks and raise it only for long page work such as a build or render. When it runs out while the condition is simply not met yet, the result is not a failed call: ok=false, status='timeout', waitExpired=true, with the last observed state - calling the same wait again is safe. A check the busy page does not answer in time is skipped and counted (probeTimeouts); only if the last check before the deadline got no answer does the wait end as '<tool>.page_unresponsive', a failed call. |
+| `resumable` | `boolean` | No | `false` | — | If true and timeoutMs runs out before the condition holds, the answer carries a watchId: continue with nova.wait_continue(watchId) instead of repeating this call. Not combinable with stableMs. |
 | `pollMs` | `integer` | No | `250` | 50–2000 | Polling interval in ms. |
 | `maxResults` | `integer` | No | `10` | 1–50 | Maximum modals to collect per probe. |
 | `visibleOnly` | `boolean` | No | `true` | — | If true, only consider visible modals/dialogs. |

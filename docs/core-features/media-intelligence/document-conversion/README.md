@@ -1,0 +1,54 @@
+# Document Conversion (Markdown)
+
+> [!NOTE]
+> **Upcoming.** Document conversion arrives with 1.0.0-alpha.21, which is not published yet. Installed versions up to 1.0.0-alpha.20 do not have it.
+
+Nova turns documents on your computer into Markdown that your AI agent can read: PDFs, Word documents, Excel workbooks, PowerPoint presentations, HTML pages, CSV tables, JSON and plain text files. The conversion runs inside Nova. Nothing is uploaded, and you do not need Office, Python or any other program besides Nova.
+
+You do not operate this yourself. You ask your agent, and the agent uses the tool [`nova.convert_to_markdown`](../../../mcp-reference/tools/visual-evidence/nova-convert-to-markdown.md).
+
+---
+
+## What you can ask your agent
+
+- "Read the invoice I just downloaded and list every amount with its date."
+- "Convert the Excel file in my Downloads folder and tell me which sheet holds the yearly totals."
+- "Summarise this presentation slide by slide, including the speaker notes."
+- "Turn this Word document into Markdown and save it next to it as a `.md` file."
+- "Check whether the contract PDF mentions a cancellation period. If the text looks garbled, look at the page image."
+
+---
+
+## Supported formats
+
+| Format | Files | What your agent gets | Format name in results |
+| --- | --- | --- | --- |
+| PDF | `.pdf` | The text page by page in reading order, the document's own bookmarks as headings, links, form fields, and on request an image of a page to compare against | `pdf` |
+| Word | `.docx`, `.docm`, `.dotx` | Headings, lists and tables as the document defines them | `docx` |
+| Excel | `.xlsx`, `.xlsm`, `.xltx` | One table per sheet with the stored values; dates as dates | `xlsx` |
+| PowerPoint | `.pptx`, `.pptm`, `.ppsx`, `.potx` | One section per slide with its title, text, tables and speaker notes | `pptx` |
+| HTML | `.html`, `.htm`, `.xhtml` | Headings, lists, tables, links and images of the page | `html` |
+| CSV / TSV | `.csv`, `.tsv` | One table, including semicolon files from a German Excel | `csv` |
+| JSON | `.json` | The data, checked and neatly indented | `json` |
+| Plain text | `.txt`, `.text`, `.log` | The text unchanged | `text` |
+
+PDF, Word, Excel, PowerPoint and HTML files are recognised by their content, so a downloaded file with a wrong or missing extension is still read correctly.
+
+**Not supported:** old Office files (`.doc`, `.xls`, `.ppt`), password-protected Office files, other ZIP archives and images. Scanned PDFs without a text layer cannot be read either, because Nova does not run text recognition (OCR); the agent is told which pages are affected.
+
+---
+
+## Good to know
+
+- **Nothing is invented.** Headings, lists and tables appear only where the document itself defines them. Bold text does not become a heading, and Nova never corrects a wrong letter in a scanned PDF's text; it marks pages that are worth checking against the page image instead.
+- **Formulas and macros are never run.** For Excel, the agent sees the results that were saved with the file.
+- **Hidden content is included and named.** Hidden text in Word and HTML, text a PDF never draws on the page, hidden sheets, rows and columns in Excel and hidden slides and shapes in PowerPoint are part of the result. The agent is told that they are hidden and also gets that text on its own, so it can see at a glance what the file contains but does not show.
+- **Document content is data, not instructions.** Every result is marked as untrusted document content, so your agent treats text in a file as something to read, not as a command.
+- **Large documents** can be written to a `.md` file instead of being returned in one answer. Files up to 50 MB are accepted; very large Excel sheets are shortened and the agent is told so.
+- **Which folders Nova may read:** files in Nova's download folder and its Exports folder are always readable. For files anywhere else, and for saving the result to a folder of your choice, enable "Allow local files (file://)" in Nova's settings.
+
+---
+
+## For agents and developers
+
+Parameters, the full result structure, warnings and error codes are in the tool reference: [`nova.convert_to_markdown`](../../../mcp-reference/tools/visual-evidence/nova-convert-to-markdown.md). Related: [PDF Reading & Export](../pdf/README.md) for `nova.read_pdf` (exact PDF text) and `nova.save_pdf` (saving a web page as PDF).

@@ -4,6 +4,9 @@ Nova provides comprehensive document intelligence through two complementary PDF 
 
 It bridges automated document processing for AI agents with a native, hardware-accelerated WinUI 3 PDF viewing surface for human operators.
 
+> [!TIP]
+> To read a PDF as structured Markdown - with page markers, headings from its bookmarks, links and page images for checking - and to read Word, Excel, PowerPoint and other files the same way, see [Document Conversion](../document-conversion/README.md). `nova.read_pdf` stays the tool for the exact text of a PDF.
+
 ```mermaid
 flowchart TD
     subgraph ReadPath["1. Digital PDF Text Extraction (nova.read_pdf)"]

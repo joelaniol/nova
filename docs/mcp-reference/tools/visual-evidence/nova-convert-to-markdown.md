@@ -1,18 +1,33 @@
 # `nova.convert_to_markdown`
 
-> **Converts a local PDF, Word, HTML, CSV, JSON or text file into Markdown for an agent, with an honest account of what was read.**
+> **Converts a local PDF, Word, Excel, PowerPoint, HTML, CSV, JSON or text file into Markdown for an agent, with an honest account of what was read.**
 
 > [!NOTE]
 > **Upcoming.** This tool arrives with 1.0.0-alpha.21, which is not published yet. Installed versions up to 1.0.0-alpha.20 do not have it.
 
-* **Core Feature Guide:** [PDF Reading & Export](../../../core-features/media-intelligence/pdf/README.md)
+* **Core Feature Guide:** [Document Conversion](../../../core-features/media-intelligence/document-conversion/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---
 
 ## 1. Overview
 
-`nova.convert_to_markdown` turns a PDF, a Word document (`.docx`), an HTML file, a CSV/TSV table, a JSON file or a plain text file on disk into Markdown, locally and without any extra software. PDF, Word and HTML are recognised by the file's content, so a renamed download is still read correctly; CSV, JSON and text files by their name.
+### Supported formats
+
+| Format | File names | Recognised by | `detectedFormat` | What comes back |
+| --- | --- | --- | --- | --- |
+| PDF | `.pdf` | content | `pdf` | Page markers, text in reading order, bookmarks, form fields, links, page diagnostics; pages as images on request |
+| Word | `.docx`, `.docm`, `.dotx` | content | `docx` | Headings, lists and tables the document declares |
+| Excel | `.xlsx`, `.xlsm`, `.xltx` | content | `xlsx` | One heading and one table per sheet; stored values, dates as ISO dates |
+| PowerPoint | `.pptx`, `.pptm`, `.ppsx`, `.potx` | content | `pptx` | One heading per slide with its title, text, tables and speaker notes |
+| HTML | `.html`, `.htm`, `.xhtml` | content or name | `html` | Headings, lists, tables, links and images the markup declares |
+| CSV / TSV | `.csv`, `.tsv` | name | `csv` | One table; the delimiter is detected |
+| JSON | `.json` | name | `json` | Checked and printed indented in a code block |
+| Plain text | `.txt`, `.text`, `.log` | name | `text` | Unchanged in a code block |
+
+Not converted: legacy Office files (`.doc`, `.xls`, `.ppt`), password-protected Office files (`reasonCode: "convert_to_markdown.encrypted"`), other ZIP archives, images, and the scanned pages of a PDF that has no text layer, since Nova does not run OCR. Macros in Office files are never run.
+
+`nova.convert_to_markdown` turns a document on disk into Markdown, locally and without any extra software. Formats with a signature of their own (PDF, Word, Excel, PowerPoint, HTML) are recognised by the file's content, so a renamed download is still read correctly; CSV, JSON and text files by their name.
 
 For a PDF, every page starts with a fixed marker `**[Page N]**` (N is the real page number in the PDF). Text comes in reading order as paragraphs, so a two-column page is read column by column. Lists appear only where the document itself has bullets or consecutive numbering, and repeating headers and footers stay in the text, marked as `> [Possible header] …` or `> [Possible footer] …`. Headings come only from the PDF's own bookmarks: a bookmark becomes a Markdown heading where exactly one block on its target page carries its title. Nothing is guessed from font size, and tables are not rebuilt; table contents arrive as paragraphs. Web and mail links become Markdown links (link text plus target) where their text occurs once in its block.
 
@@ -30,11 +45,21 @@ Headings, lists and tables come only from what the document declares: Word's hea
 
 Instead of pages, the answer carries `sections` (level, title and position of every heading in the Markdown) and `structure` (how many headings, list items, tables, links, images and hidden elements were found), plus `documentInfo` with the same keys as for a PDF. These documents are always read whole; `pages`, `renderPages` and `includeFormValues` apply to PDF only and are refused for other formats.
 
+### Excel workbooks and PowerPoint presentations
+
+An Excel workbook becomes one heading per sheet, named like the sheet, followed by a table of its used range. Only stored values are read: a formula is never calculated, its saved result is printed, and formulas without a saved result are reported (`formulas_without_value`). Cells formatted as a date or time come back as ISO dates and times; other display formats such as currency or percent are not applied. A sheet with more than 250,000 cells is cut by rows and reported (`sheet_truncated`).
+
+A PowerPoint presentation becomes one heading per slide, `Slide N: <title>`, in presentation order, followed by the slide's text, tables and speaker notes (as a quote that starts with "Notes:"). Text in a content placeholder is a list unless its bullets are switched off; elsewhere only explicitly bulleted or numbered text becomes a list. The slide number placeholder is left out, since the heading carries the number. Hidden sheets, rows, columns, slides and shapes are included and counted (`hidden_text`). `formatDetails` names the number of sheets or slides and the hidden ones.
+
+### Text that is not shown
+
+Text a file contains but does not show is part of the Markdown like everything else, and it is also returned on its own in `hiddenText`, one piece per line and at most 2,000 characters (`hiddenTextTruncated: true` when it was cut, `null` when there is none). For a PDF the field is per page, in `pageInfo[].hiddenText`: text that is never drawn on the page and text outside the visible page area. On a scanned PDF whose recognised text layer is invisible, this is that whole layer; `textLayerKind` says so. For the other formats the field sits at the top of the answer: hidden text in Word (directly or through its style), elements in HTML with the `hidden` attribute or an inline `display:none` / `visibility:hidden`, cells on hidden sheets, rows and columns in Excel (as `Sheet!B7: value`) and text on hidden slides and in hidden shapes in PowerPoint (as `Slide N: text`). Text hidden by its colour, its size or a style sheet class is not recognised.
+
 ### CSV, JSON and plain text
 
 A CSV file becomes one Markdown table with its first row as the header row. Quoted fields may contain the delimiter, quotes and line breaks; the delimiter (comma, semicolon, tab or pipe) is detected from the first lines. Rows with missing fields and an unclosed quote are reported as warnings. A JSON file is checked and printed indented in a code block, with numbers exactly as written; invalid JSON is refused with the line and position of the error. A text file comes back unchanged in a code block. `formatDetails` names the detected encoding and, depending on the format, the delimiter and the number of rows and columns, the type of the JSON root, or the number of lines.
 
-With `outputMode: "file"` the whole document is written to a `.md` file and the answer carries only its path and the page positions; `"both"` adds a preview. An existing file is never overwritten. Legacy `.doc` files, Excel, PowerPoint and other formats return `reasonCode: "convert_to_markdown.unsupported_format"`; a password-protected Office file returns `reasonCode: "convert_to_markdown.encrypted"`. To check what a PDF literally says, character for character, use [`nova.read_pdf`](nova-read-pdf.md). Files in Nova's download folder and Exports folder can always be read; any other path, and any `outputPath`, needs the setting "Allow local files (file://)".
+With `outputMode: "file"` the whole document is written to a `.md` file and the answer carries only its path and the page positions; `"both"` adds a preview. An existing file is never overwritten. Legacy `.doc`, `.xls` and `.ppt` files and other formats return `reasonCode: "convert_to_markdown.unsupported_format"`; a password-protected Office file returns `reasonCode: "convert_to_markdown.encrypted"`. To check what a PDF literally says, character for character, use [`nova.read_pdf`](nova-read-pdf.md). Files in Nova's download folder and Exports folder can always be read; any other path, and any `outputPath`, needs the setting "Allow local files (file://)".
 
 ---
 
@@ -43,7 +68,7 @@ With `outputMode: "file"` the whole document is written to a `.md` file and the 
 <!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
-| `path` | `string` | Yes | — | — | Absolute path to the document, e.g. the filePath from nova.downloads_list or the savedPath from nova.save_pdf. The format is recognised by the file's first bytes (PDF, a Word package, HTML) and otherwise by its name (.csv, .tsv, .json, .txt, .log). |
+| `path` | `string` | Yes | — | — | Absolute path to the document, e.g. the filePath from nova.downloads_list or the savedPath from nova.save_pdf. The format is recognised by the file's first bytes (PDF, a Word/Excel/PowerPoint package, HTML) and otherwise by its name (.csv, .tsv, .json, .txt, .log). |
 | `pages` | `string` | No | — | — | PDF only. Optional 1-based page selection, e.g. '1', '2-5' or '1,4-6'. Omit for every page. Pages beyond the end are ignored. |
 | `outputMode` | `string` | No | `"inline"` | `inline`, `file`, `both` | inline = return the markdown (cut at maxChars). file = write the whole markdown to a .md file and return only its path, size and page offsets. both = write the file and also return the first maxChars characters. |
 | `outputPath` | `string` | No | — | — | Absolute path for the .md file (outputMode 'file' or 'both' only). Needs the user's 'Allow local files' setting; an existing file is refused with reasonCode 'convert_to_markdown.output_exists'. Omit to write a new file into Nova's Exports folder. |

@@ -63,7 +63,7 @@ The [alpha status page](../../ALPHA.md) lists current limitations, including plu
 | [Terminal Workspaces & ConPTY Integration](terminal-workspaces/README.md) | Terminals the agent can use | `nova.terminal_open`, `nova.terminal_run_command`, `nova.terminal_read` |
 | [Scheduled Tasks & Background Automation Engine](scheduled-tasks/README.md) | Work that runs on its own | `nova.scheduled_task_create`, `nova.scheduled_task_runs`, `nova.scheduled_task_workspace_*` |
 | [Connectors](connectors/README.md) | Mail, SSH, SFTP, FTP/FTPS and external MCP servers | `nova.connector_*`, `nova.mail_*`, `nova.ssh_run*`, `nova.sftp_*`, `nova.ftp_*`, `nova.external_*` |
-| [Media Intelligence](media-intelligence/README.md) | Speech transcription, image viewing, PDFs, playback, capture and media devices | `nova.media_*`, `nova.read_pdf`, `nova.save_pdf`, `nova.hardware_diagnostics_*` |
+| [Media Intelligence](media-intelligence/README.md) | Speech transcription, image viewing, PDFs, documents as Markdown, playback, capture and media devices | `nova.media_*`, `nova.read_pdf`, `nova.save_pdf`, `nova.convert_to_markdown`, `nova.hardware_diagnostics_*` |
 | [Agent-Authored Plugins (AAP) & Jint JavaScript Runtime](plugins/README.md) | Reference only: unavailable during the public alpha | `nova.plugin_create`, `nova.plugin_test`, `nova.plugin_inspect` |
 
 ---
