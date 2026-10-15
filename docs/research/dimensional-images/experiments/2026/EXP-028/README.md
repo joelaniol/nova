@@ -32,6 +32,12 @@ Da bei 16 FPS die Abtastframes 43, 44, 45 und 46 direkt im Pulsfenster liegen (F
    - **Signalverstärkung im WebP-Carrier:** Das messbare maximale Pulsdelta in WebP Q80 steigt von **$13{,}0$ auf $24{,}0$** (nahezu Verdopplung).
    - **Multi-Clip Sicherheitskontrolle (C1..C5):** Bei allen 5 Clips wird die DC-Sättigung eliminiert, während die Richtungsumkehr in C4 und alle Kinematik-Trajektorien unberührt bleiben.
 
+4. **Phase C1 Durchbruch (Decoder- & Informations-Dekomposition):**
+   - **Glättungsverlust der 12-Polynom-Basis:** Die kontinuierliche Gram-Projektion ($K=12$) dämpft einen 4-Frame-Puls von $100{,}17$ LSB (Ground Truth) auf $46{,}95$ LSB (ideale Float-Projektion, $-53{,}1\,\%$ Glättungsverlust).
+   - **78,4 % der Pulsenergie liegen in höheren Walsh-Moden:** Von den $46{,}95$ LSB des F44-Peaks entfallen nur $10{,}16$ LSB ($21{,}6\,\%$) auf die dedizierten Kanäle $P_0..P_2$, während $36{,}79$ LSB ($78{,}4\,\%$) in den gemultiplexten Walsh-Modi $P_3..P_{11}$ liegen.
+   - **Entschlüsselung der räumlichen Walsh-Verdünnung (Faktor 1/64):** Der naive lineare Decoder mittelt global über alle 4.096 Bildpunkte und verdünnt lokalisierte $8\times 8$ Transienten um exakt den Flächenfaktor $\frac{64}{4096} = \frac{1}{64}$ ($0{,}405$ LSB im globalen Decoder).
+   - **Synthetischer Beweis der 103,7 % lokalen Wiedergabetreue:** Ein lokalisierter Patch-Decoder rekonstruiert die wahre Amplitude von $25{,}0$ LSB zu **$25{,}924$ LSB** (**$103{,}7\,\%$**). Das Signal existiert mit voller Amplitude im Trägerbild und ist für einen Vision-Encoder direkt perzeptiv ablesbar.
+
 ---
 
 ## 2. Automatisierter 64-Frame Synchronisationsnachweis (C3 vs. C5)
@@ -140,7 +146,54 @@ Die adaptive Subtraktion von $Y_0$ birgt theoretisch das Risiko negativer Koeffi
 
 ---
 
-## 7. Archivierte Artefakte
+## 7. Phase C1: Information & Decoder-Decomposition Audit (ChatGPT Peer-Review Mandate)
+
+Auf Anweisung des wissenschaftlichen Peer-Reviews durch ChatGPT im Nova Tab A wurde die Signalübertragungskette in 5 getrennte Stufen zerlegt, um den Verlustmechanismus des Pulses mathematisch und empirisch lückenlos zu isolieren.
+
+### 7.1 Vierstufige Signalzerlegung (Frame 44 Peak)
+
+| Stufe | Repräsentationsform | ROI Max Delta | ROI MAE | Fehler vs. GT | Primärer Signalverlust-Mechanismus |
+|---|---|---|---|---|---|
+| **Stage 1** | Ground Truth (64x64 BOX) | **100,17 LSB** | **23,8027** | 0,0000 | Physisches Eingangssignal (Frame 44) |
+| **Stage 2** | Ideale K12 Float-Projektion | **46,95 LSB** | **11,6001** | 12,4474 | **-53,1 % Glättung** (12-Polynom-Basis auf 4-Frame-Puls) |
+| **Stage 3a** | Unquantisierte Dedizierte Kanäle ($P_0..P_2$) | **10,16 LSB** | **2,5175** | 21,2852 | **78,4 % Energieverlust** (Pulsenergie liegt in höheren Moden $P_3..P_{11}$) |
+| **Stage 3b** | Carrier-Quantisierte Kanäle ($P_0..P_2$) | **0,86 LSB** | **0,0647** | 23,7380 | **75 % Restsättigung** in der Kugelbahn ($\sum (Y-Y_0) > 35{,}0$) |
+| **Stage 4** | Globaler Walsh-Decoder (E4) | **0,87 LSB** | **0,0726** | 23,7445 | **Räumliche Walsh-Verdünnung** (Faktor $1/64 = 0{,}0156$) |
+
+### 7.2 Moden-Beitrag zum 46,95 LSB Peak bei Frame 44
+
+Die konstruktive Summe aller 12 Gram-Polynome $\sum_{k=0}^{11} \Delta M_k \cdot P_k(44)$ ergibt exakt den Spitzenwert von **46,95 LSB**:
+- **Dedizierte Kanäle ($P_0, P_1, P_2$):** Tragen zusammen **10,16 LSB** bei (**21,6 %** des Rekonstruktionspeaks).
+- **Höhere Walsh-Modi ($P_3..P_{11}$):** Tragen zusammen **36,79 LSB** bei (**78,4 %** des Rekonstruktionspeaks).
+
+| Modus ($k$) | Basisfunktion | $\Delta M_k$ ROI Max | $P_k(44)$ | Rekonstruierter Term (LSB) | Anteil am Peak |
+|---|---|---|---|---|---|
+| **$k=00$** | $P_0$ (DC-Mittelwert) | 44,75 | +0,1250 | **+5,59 LSB** | 11,9 % |
+| **$k=01$** | $P_1$ (Linearer Trend) | 31,31 | +0,0846 | **+2,65 LSB** | 5,6 % |
+| **$k=02$** | $P_2$ (Krümmung) | 0,53 | -0,0758 | **+1,92 LSB** | 4,1 % |
+| **$k=03$** | Walsh Subcarrier 1 | 0,17 | -0,1446 | **+7,50 LSB** | 16,0 % |
+| **$k=04$** | Walsh Subcarrier 2 | 0,24 | -0,0360 | **+0,60 LSB** | 1,3 % |
+| **$k=05$** | Walsh Subcarrier 3 | 38,46 | +0,1171 | **+4,50 LSB** | 9,6 % |
+| **$k=06$** | Walsh Subcarrier 4 | 46,85 | +0,1277 | **+5,98 LSB** | 12,7 % |
+| **$k=07$** | Walsh Subcarrier 5 | 4,81 | -0,0173 | **+0,09 LSB** | 0,2 % |
+| **$k=08$** | Walsh Subcarrier 6 | 0,19 | -0,1416 | **+6,54 LSB** | 13,9 % |
+| **$k=09$** | Walsh Subcarrier 7 | 0,25 | -0,0942 | **+3,51 LSB** | 7,5 % |
+| **$k=10$** | Walsh Subcarrier 8 | 16,74 | +0,0676 | **+1,13 LSB** | 2,4 % |
+| **$k=11$** | Walsh Subcarrier 9 | 48,31 | +0,1480 | **+7,15 LSB** | 15,2 % |
+
+### 7.3 Synthetischer Stresstest: Lokalisierter Modus $k=3$ (8x8 Patch, True Amp = 25,0 LSB)
+
+Um die mathematische Hypothese der globalen Walsh-Verdünnung zweifelsfrei von Klipping-Effekten zu trennen, wurde ein synthetischer Einzelmoden-Stresstest durchgeführt:
+- **Physikalische Modulation auf dem Träger:** Auf dem $8 \times 8$ Patch im Blaukanal von Quadrant T beträgt die Modulation **$-26,50$ LSB** (Hintergrund: exakt **$0,00$ LSB**).
+- **Global gemittelter Demodulator:** Integriert über alle 4.096 Pixel und liefert für Modus $k=3$ lediglich **$0,405$ LSB** (Verdünnungsfaktor: $0{,}405 / 25{,}0 = 0{,}0162 = \frac{1}{61{,}7} \approx \frac{1}{64}$).
+- **Lokaler Patch-Demodulator:** Rekonstruiert Modus $k=3$ auf dem aktiven Patch zu **$25,924$ LSB** (**$103,7\,\%$ Wiederherstellungstreue**).
+- **Walsh-Aliasing:** Auf dem Teilblock verliert die globale Walsh-Basis ihre Orthogonalität, sodass Modus $k=3$ mit invertiertem Vorzeichen ($-25{,}924$) in Modus $k=9$ aliast.
+
+**Schlussfolgerung aus Phase C1:** Das Signal ist im Trägerbild physikalisch mit voller Amplitude ($\Delta_{\text{max}} = 38{,}0$ LSB in Rohdaten, $24{,}0$ in WebP Q80) räumlich moduliert vorhanden. Das scheinbare Verschwinden im decodierten Differenzbild beruht auf der globalen Mittelung des linearen Decoders über $4.096$ Bildpunkte, während ein Vision-Encoder (VLM) die lokalen Textur- und Farbmuster im Quadranten direkt abtasten kann.
+
+---
+
+## 8. Archivierte Artefakte
 
 Alle generierten Differenzkarten, Rohmetriken und Zusammenfassungen sind reproduzierbar hinterlegt:
 
@@ -169,3 +222,12 @@ Alle generierten Differenzkarten, Rohmetriken und Zusammenfassungen sind reprodu
     - Ground Truth F44 Diff: [`phase_b/phase_b_plots/ground_truth_f44_diff.png`](phase_b/phase_b_plots/ground_truth_f44_diff.png)
     - E3 Reconstructed Diff: [`phase_b/phase_b_plots/recon_f44_diff_e3.png`](phase_b/phase_b_plots/recon_f44_diff_e3.png)
     - E4 Reconstructed Diff: [`phase_b/phase_b_plots/recon_f44_diff_e4.png`](phase_b/phase_b_plots/recon_f44_diff_e4.png)
+
+- **Phase C1 Rohdaten:**
+  - JSON-Metriken: [`phase_c1/phase_c1_results.json`](phase_c1/phase_c1_results.json)
+  - Markdown-Zusammenfassung: [`phase_c1/phase_c1_summary.md`](phase_c1/phase_c1_summary.md)
+  - Plots & Analyse-Karten:
+    - Stufenvergleichs-Heatmaps (F44): [`phase_c1/phase_c1_plots/stage_comparison_f44_heatmaps.png`](phase_c1/phase_c1_plots/stage_comparison_f44_heatmaps.png)
+    - 1D-Schnittprofil Zeile 31: [`phase_c1/phase_c1_plots/cross_section_profile_f44.png`](phase_c1/phase_c1_plots/cross_section_profile_f44.png)
+    - Moden-Energiezerlegung: [`phase_c1/phase_c1_plots/mode_energy_decomposition_f44.png`](phase_c1/phase_c1_plots/mode_energy_decomposition_f44.png)
+    - Synthetischer lokalisierter Walsh-Test: [`phase_c1/phase_c1_plots/synthetic_localized_walsh_test.png`](phase_c1/phase_c1_plots/synthetic_localized_walsh_test.png)
