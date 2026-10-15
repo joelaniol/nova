@@ -1,0 +1,254 @@
+{
+  "status": "PASS",
+  "batches_validated": 24,
+  "total_unique_stimuli": 240,
+  "expected_total_stimuli": 240,
+  "single_stimuli_universe_size": 320,
+  "rule_1_unique_ids_each_exactly_once": true,
+  "rule_2_zero_scene_duplicates_per_batch": true,
+  "rule_3_exact_50pct_prevalence_per_batch": true,
+  "rule_4_orthogonal_condition_coverage": true,
+  "rule_5_zero_twin_overlap_within_batch": true,
+  "batches": [
+    {
+      "batch_id": "conf_task1_batch_01",
+      "stimulus_count": 10,
+      "distinct_scenes": 10,
+      "positive_count": 5,
+      "negative_count": 5,
+      "pos_conditions_complete": true,
+      "neg_conditions_complete": true,
+      "passed": true
+    },
+    {
+      "batch_id": "conf_task1_batch_02",
+      "stimulus_count": 10,
+      "distinct_scenes": 10,
+      "positive_count": 5,
+      "negative_count": 5,
+      "pos_conditions_complete": true,
+      "neg_conditions_complete": true,
+      "passed": true
+    },
+    {
+      "batch_id": "conf_task1_batch_03",
+      "stimulus_count": 10,
+      "distinct_scenes": 10,
+      "positive_count": 5,
+      "negative_count": 5,
+      "pos_conditions_complete": true,
+      "neg_conditions_complete": true,
+      "passed": true
+    },
+    {
+      "batch_id": "conf_task1_batch_04",
+      "stimulus_count": 10,
+      "distinct_scenes": 10,
+      "positive_count": 5,
+      "negative_count": 5,
+      "pos_conditions_complete": true,
+      "neg_conditions_complete": true,
+      "passed": true
+    },
+    {
+      "batch_id": "conf_task1_batch_05",
+      "stimulus_count": 10,
+      "distinct_scenes": 10,
+      "positive_count": 5,
+      "negative_count": 5,
+      "pos_conditions_complete": true,
+      "neg_conditions_complete": true,
+      "passed": true
+    },
+    {
+      "batch_id": "conf_task1_batch_06",
+      "stimulus_count": 10,
+      "distinct_scenes": 10,
+      "positive_count": 5,
+      "negative_count": 5,
+      "pos_conditions_complete": true,
+      "neg_conditions_complete": true,
+      "passed": true
+    },
+    {
+      "batch_id": "conf_task1_batch_07",
+      "stimulus_count": 10,
+      "distinct_scenes": 10,
+      "positive_count": 5,
+      "negative_count": 5,
+      "pos_conditions_complete": true,
+      "neg_conditions_complete": true,
+      "passed": true
+    },
+    {
+      "batch_id": "conf_task1_batch_08",
+      "stimulus_count": 10,
+      "distinct_scenes": 10,
+      "positive_count": 5,
+      "negative_count": 5,
+      "pos_conditions_complete": true,
+      "neg_conditions_complete": true,
+      "passed": true
+    },
+    {
+      "batch_id": "conf_task1_batch_09",
+      "stimulus_count": 10,
+      "distinct_scenes": 10,
+      "positive_count": 5,
+      "negative_count": 5,
+      "pos_conditions_complete": true,
+      "neg_conditions_complete": true,
+      "passed": true
+    },
+    {
+      "batch_id": "conf_task1_batch_10",
+      "stimulus_count": 10,
+      "distinct_scenes": 10,
+      "positive_count": 5,
+      "negative_count": 5,
+      "pos_conditions_complete": true,
+      "neg_conditions_complete": true,
+      "passed": true
+    },
+    {
+      "batch_id": "conf_task1_batch_11",
+      "stimulus_count": 10,
+      "distinct_scenes": 10,
+      "positive_count": 5,
+      "negative_count": 5,
+      "pos_conditions_complete": true,
+      "neg_conditions_complete": true,
+      "passed": true
+    },
+    {
+      "batch_id": "conf_task1_batch_12",
+      "stimulus_count": 10,
+      "distinct_scenes": 10,
+      "positive_count": 5,
+      "negative_count": 5,
+      "pos_conditions_complete": true,
+      "neg_conditions_complete": true,
+      "passed": true
+    },
+    {
+      "batch_id": "conf_task1_batch_13",
+      "stimulus_count": 10,
+      "distinct_scenes": 10,
+      "positive_count": 5,
+      "negative_count": 5,
+      "pos_conditions_complete": true,
+      "neg_conditions_complete": true,
+      "passed": true
+    },
+    {
+      "batch_id": "conf_task1_batch_14",
+      "stimulus_count": 10,
+      "distinct_scenes": 10,
+      "positive_count": 5,
+      "negative_count": 5,
+      "pos_conditions_complete": true,
+      "neg_conditions_complete": true,
+      "passed": true
+    },
+    {
+      "batch_id": "conf_task1_batch_15",
+      "stimulus_count": 10,
+      "distinct_scenes": 10,
+      "positive_count": 5,
+      "negative_count": 5,
+      "pos_conditions_complete": true,
+      "neg_conditions_complete": true,
+      "passed": true
+    },
+    {
+      "batch_id": "conf_task1_batch_16",
+      "stimulus_count": 10,
+      "distinct_scenes": 10,
+      "positive_count": 5,
+      "negative_count": 5,
+      "pos_conditions_complete": true,
+      "neg_conditions_complete": true,
+      "passed": true
+    },
+    {
+      "batch_id": "conf_task1_batch_17",
+      "stimulus_count": 10,
+      "distinct_scenes": 10,
+      "positive_count": 5,
+      "negative_count": 5,
+      "pos_conditions_complete": true,
+      "neg_conditions_complete": true,
+      "passed": true
+    },
+    {
+      "batch_id": "conf_task1_batch_18",
+      "stimulus_count": 10,
+      "distinct_scenes": 10,
+      "positive_count": 5,
+      "negative_count": 5,
+      "pos_conditions_complete": true,
+      "neg_conditions_complete": true,
+      "passed": true
+    },
+    {
+      "batch_id": "conf_task1_batch_19",
+      "stimulus_count": 10,
+      "distinct_scenes": 10,
+      "positive_count": 5,
+      "negative_count": 5,
+      "pos_conditions_complete": true,
+      "neg_conditions_complete": true,
+      "passed": true
+    },
+    {
+      "batch_id": "conf_task1_batch_20",
+      "stimulus_count": 10,
+      "distinct_scenes": 10,
+      "positive_count": 5,
+      "negative_count": 5,
+      "pos_conditions_complete": true,
+      "neg_conditions_complete": true,
+      "passed": true
+    },
+    {
+      "batch_id": "conf_task1_batch_21",
+      "stimulus_count": 10,
+      "distinct_scenes": 10,
+      "positive_count": 5,
+      "negative_count": 5,
+      "pos_conditions_complete": true,
+      "neg_conditions_complete": true,
+      "passed": true
+    },
+    {
+      "batch_id": "conf_task1_batch_22",
+      "stimulus_count": 10,
+      "distinct_scenes": 10,
+      "positive_count": 5,
+      "negative_count": 5,
+      "pos_conditions_complete": true,
+      "neg_conditions_complete": true,
+      "passed": true
+    },
+    {
+      "batch_id": "conf_task1_batch_23",
+      "stimulus_count": 10,
+      "distinct_scenes": 10,
+      "positive_count": 5,
+      "negative_count": 5,
+      "pos_conditions_complete": true,
+      "neg_conditions_complete": true,
+      "passed": true
+    },
+    {
+      "batch_id": "conf_task1_batch_24",
+      "stimulus_count": 10,
+      "distinct_scenes": 10,
+      "positive_count": 5,
+      "negative_count": 5,
+      "pos_conditions_complete": true,
+      "neg_conditions_complete": true,
+      "passed": true
+    }
+  ]
+}

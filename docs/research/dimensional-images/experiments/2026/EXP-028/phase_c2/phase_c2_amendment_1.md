@@ -27,9 +27,9 @@ The review ratified the pilot as technically successful, but established five ma
 ### Amendment 1.1: Exact 12:12 Left/Right Counterbalancing (Task 2)
 - **Previous state:** Independent random coin flip per scene (`rng.random() < 0.5`), which introduced unequal left/right distribution across conditions.
 - **Amended rule:** Deterministic orthogonal schedule guaranteeing exactly:
-  - Confirmatory: 12 positive-on-left (Choice A) and 12 positive-on-right (Choice B) per condition.
-  - Pilot: 4 positive-on-left and 4 positive-on-right per condition.
-  - Balanced across the 4 trajectory classes (3 A, 3 B per trajectory class).
+  - Confirmatory: 12 positive-on-left (Choice A) and 12 positive-on-right (Choice B) per condition ($N=24$ total pairs per condition).
+  - Pilot: 4 positive-on-left and 4 positive-on-right per condition ($N=8$ total pairs per condition).
+  - Trajectory Classes: Since the 24 confirmatory scenes partition into four classes of sizes 7, 6, 6, and 5, exact 3:3 integer division is impossible on odd classes; positions are balanced to the nearest integer (4:3 for 7, 3:3 for 6, 3:2 for 5), while condition totals remain strictly 12:12.
 
 ### Amendment 1.2: Identical Twin Catch Trials (Task 2)
 - **Previous state:** All Task 2 pairs contained an objective differential (`has_pulse: True` on one side), making "kein_Unterschied" an objectively incorrect choice in every pair.
@@ -54,10 +54,16 @@ The review ratified the pilot as technically successful, but established five ma
 - **Strict Parsing:** Word boundary matching prevents substring false positives (e.g. "unknown" will no longer match "no").
 - **Completeness & Duplicates:** Explicit assertions reject duplicate evaluations and verify that all expected stimuli are evaluated.
 - **Abstention Rule:** Abstentions ("unklar") count conservatively as non-hits in the denominator.
-- **Statistical Decision Criterion:** Confirmatory hypothesis testing requires:
-  1. Point estimate: $\Delta \text{Balanced Accuracy} \ge +10.0\%$ points for Condition B vs. Condition A.
-  2. Point estimate: $\Delta \text{Specificity} \ge -5.0\%$ points.
-  3. Statistical validation: Lower bound of 95% paired cluster-bootstrap confidence interval (grouped by 24 independent scenes, $B=10,000$) must satisfy $\text{CI}_{2.5\%} > 0.0\%$.
+- **Combined Statistical Decision Rule:** Confirmatory hypothesis testing requires:
+  1. Point estimate threshold: $\Delta \text{Balanced Accuracy} \ge +10.0\%$ points for Condition B vs. Condition A.
+  2. Safety boundary: $\Delta \text{Specificity} \ge -5.0\%$ points.
+  3. Paired cluster-bootstrap validation: Grouped by 24 independent scenes ($B=10,000$ iterations), the 95% confidence interval lower bound must strictly satisfy $\text{CI}_{2.5\%} > 0.0\%$ (confirming non-zero positive benefit beyond noise).
+
+### Amendment 1.6: Single-Stimulus Execution Isolation Protocol
+- **Strict Evaluator Blinding:** Evaluators receive only the anonymous stimulus ID, the isolated image file, and the neutral prompt. No metadata, no scene IDs, and no ground truth keys are reachable.
+- **Context Isolation:** While organizational batches structure the dispatch, each individual evaluation runs in a fresh, isolated model context. No cross-image comparison is possible within the model prompt for Task 1.
+- **Separation of Scoring:** Ground truth evaluation is strictly performed post-hoc by `run_exp028_c2_evaluator.py` after all responses are logged.
+
 
 ---
 

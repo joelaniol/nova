@@ -1,0 +1,76 @@
+{
+  "batch_id": "conf_task1_batch_17",
+  "neutral_prompt": "Untersuche f\u00fcr jedes Bild die dargestellte zeitliche Sequenz.\nIst eine kurzzeitige Helligkeits\u00e4nderung eines Objekts erkennbar, die anschlie\u00dfend wieder verschwindet?\nAntworte f\u00fcr jedes Bild mit 'ja', 'nein' oder 'unklar' und beschreibe kurz die sichtbare Grundlage deiner Einsch\u00e4tzung.",
+  "items": [
+    {
+      "stimulus_id": "stimulus_a576a6595a1b",
+      "relative_path": "stimuli/confirmatory/single/stimulus_a576a6595a1b.webp",
+      "condition": "A",
+      "format_guidance": "Das Bild ist ein 128x128 Visual Carrier mit 4 Quadranten (je 64x64):\n- Oben-Links: Basiszustand (Frame t=0)\n- Oben-Rechts: Temporale Kinematik (Rot=P0 Mittelwert, Gr\u00fcn=P2 Kr\u00fcmmung, Blau=h\u00f6here zeitliche Walsh-Moden)\n- Unten-Links: Chromatische Tr\u00e4gerschicht (Cb=P1 Trend, Cr=h\u00f6here zeitliche Walsh-Moden)\n- Unten-Rechts: Neutralgrau (128)",
+      "format_type": "Visual Carrier 128x128"
+    },
+    {
+      "stimulus_id": "stimulus_904b620484f7",
+      "relative_path": "stimuli/confirmatory/single/stimulus_904b620484f7.png",
+      "condition": "C",
+      "format_guidance": "Das Bild ist ein 128x128 Visual Carrier mit 4 Quadranten (je 64x64):\n- Oben-Links: Basiszustand (Frame t=0)\n- Oben-Rechts: Temporale Kinematik (Rot=P0 Mittelwert, Gr\u00fcn=P2 Kr\u00fcmmung, Blau=h\u00f6here zeitliche Walsh-Moden)\n- Unten-Links: Chromatische Tr\u00e4gerschicht (Cb=P1 Trend, Cr=h\u00f6here zeitliche Walsh-Moden)\n- Unten-Rechts: Neutralgrau (128)",
+      "format_type": "Visual Carrier 128x128"
+    },
+    {
+      "stimulus_id": "stimulus_7a5b386c2dce",
+      "relative_path": "stimuli/confirmatory/single/stimulus_7a5b386c2dce.png",
+      "condition": "D",
+      "format_guidance": "Das Bild ist ein 128x128 Visual Carrier mit 4 Quadranten (je 64x64):\n- Oben-Links: Basiszustand (Frame t=0)\n- Oben-Rechts: Temporale Kinematik (Rot=P0 Mittelwert, Gr\u00fcn=P2 Kr\u00fcmmung, Blau=h\u00f6here zeitliche Walsh-Moden)\n- Unten-Links: Chromatische Tr\u00e4gerschicht (Cb=P1 Trend, Cr=h\u00f6here zeitliche Walsh-Moden)\n- Unten-Rechts: Neutralgrau (128)",
+      "format_type": "Visual Carrier 128x128"
+    },
+    {
+      "stimulus_id": "stimulus_f1d9399e964a",
+      "relative_path": "stimuli/confirmatory/single/stimulus_f1d9399e964a.png",
+      "condition": "D",
+      "format_guidance": "Das Bild ist ein 128x128 Visual Carrier mit 4 Quadranten (je 64x64):\n- Oben-Links: Basiszustand (Frame t=0)\n- Oben-Rechts: Temporale Kinematik (Rot=P0 Mittelwert, Gr\u00fcn=P2 Kr\u00fcmmung, Blau=h\u00f6here zeitliche Walsh-Moden)\n- Unten-Links: Chromatische Tr\u00e4gerschicht (Cb=P1 Trend, Cr=h\u00f6here zeitliche Walsh-Moden)\n- Unten-Rechts: Neutralgrau (128)",
+      "format_type": "Visual Carrier 128x128"
+    },
+    {
+      "stimulus_id": "stimulus_a5855a2c124a",
+      "relative_path": "stimuli/confirmatory/single/stimulus_a5855a2c124a.webp",
+      "condition": "B",
+      "format_guidance": "Das Bild ist ein 128x128 Visual Carrier mit 4 Quadranten (je 64x64):\n- Oben-Links: Basiszustand (Frame t=0)\n- Oben-Rechts: Temporale Kinematik (Rot=P0 Mittelwert, Gr\u00fcn=P2 Kr\u00fcmmung, Blau=h\u00f6here zeitliche Walsh-Moden)\n- Unten-Links: Chromatische Tr\u00e4gerschicht (Cb=P1 Trend, Cr=h\u00f6here zeitliche Walsh-Moden)\n- Unten-Rechts: Neutralgrau (128)",
+      "format_type": "Visual Carrier 128x128"
+    },
+    {
+      "stimulus_id": "stimulus_6a9e287f6b6b",
+      "relative_path": "stimuli/confirmatory/single/stimulus_6a9e287f6b6b.webp",
+      "condition": "A",
+      "format_guidance": "Das Bild ist ein 128x128 Visual Carrier mit 4 Quadranten (je 64x64):\n- Oben-Links: Basiszustand (Frame t=0)\n- Oben-Rechts: Temporale Kinematik (Rot=P0 Mittelwert, Gr\u00fcn=P2 Kr\u00fcmmung, Blau=h\u00f6here zeitliche Walsh-Moden)\n- Unten-Links: Chromatische Tr\u00e4gerschicht (Cb=P1 Trend, Cr=h\u00f6here zeitliche Walsh-Moden)\n- Unten-Rechts: Neutralgrau (128)",
+      "format_type": "Visual Carrier 128x128"
+    },
+    {
+      "stimulus_id": "stimulus_044a15cdf987",
+      "relative_path": "stimuli/confirmatory/single/stimulus_044a15cdf987.webp",
+      "condition": "E",
+      "format_guidance": "Das Bild ist ein 512x512 4x4 Kontaktbogen aus 16 zeitlich aufeinanderfolgenden Videobildern.\nDie Zeit verl\u00e4uft zeilenweise von oben-links nach unten-rechts (Zeile 0 = Anfang, Zeile 3 = Ende).",
+      "format_type": "Kontaktbogen 512x512"
+    },
+    {
+      "stimulus_id": "stimulus_92367d36d9cc",
+      "relative_path": "stimuli/confirmatory/single/stimulus_92367d36d9cc.webp",
+      "condition": "B",
+      "format_guidance": "Das Bild ist ein 128x128 Visual Carrier mit 4 Quadranten (je 64x64):\n- Oben-Links: Basiszustand (Frame t=0)\n- Oben-Rechts: Temporale Kinematik (Rot=P0 Mittelwert, Gr\u00fcn=P2 Kr\u00fcmmung, Blau=h\u00f6here zeitliche Walsh-Moden)\n- Unten-Links: Chromatische Tr\u00e4gerschicht (Cb=P1 Trend, Cr=h\u00f6here zeitliche Walsh-Moden)\n- Unten-Rechts: Neutralgrau (128)",
+      "format_type": "Visual Carrier 128x128"
+    },
+    {
+      "stimulus_id": "stimulus_5aa29dbca2d3",
+      "relative_path": "stimuli/confirmatory/single/stimulus_5aa29dbca2d3.webp",
+      "condition": "E",
+      "format_guidance": "Das Bild ist ein 512x512 4x4 Kontaktbogen aus 16 zeitlich aufeinanderfolgenden Videobildern.\nDie Zeit verl\u00e4uft zeilenweise von oben-links nach unten-rechts (Zeile 0 = Anfang, Zeile 3 = Ende).",
+      "format_type": "Kontaktbogen 512x512"
+    },
+    {
+      "stimulus_id": "stimulus_2b801acae8bc",
+      "relative_path": "stimuli/confirmatory/single/stimulus_2b801acae8bc.png",
+      "condition": "C",
+      "format_guidance": "Das Bild ist ein 128x128 Visual Carrier mit 4 Quadranten (je 64x64):\n- Oben-Links: Basiszustand (Frame t=0)\n- Oben-Rechts: Temporale Kinematik (Rot=P0 Mittelwert, Gr\u00fcn=P2 Kr\u00fcmmung, Blau=h\u00f6here zeitliche Walsh-Moden)\n- Unten-Links: Chromatische Tr\u00e4gerschicht (Cb=P1 Trend, Cr=h\u00f6here zeitliche Walsh-Moden)\n- Unten-Rechts: Neutralgrau (128)",
+      "format_type": "Visual Carrier 128x128"
+    }
+  ]
+}

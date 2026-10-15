@@ -238,6 +238,23 @@ def generate_scene_pair(
     max_pulse_delta = int(np.max(np.abs(vid_pos.astype(int) - vid_neg.astype(int))))
     assert max_pulse_delta > 50, f"Pulse intensity too low: max delta={max_pulse_delta}"
 
+    # GRID512 pulse sampling covariate calculation
+    grid_sampled_indices = [int(i * 4) for i in range(16)]  # 0, 4, 8, ..., 60
+    p_len = pulse_window[1] - pulse_window[0]
+    p_mid = 0.5 * (pulse_window[0] + pulse_window[1])
+    pulse_indices = list(range(pulse_window[0], pulse_window[1] + 1))
+    sampled_pulse_frames = [f for f in pulse_indices if f in grid_sampled_indices]
+    
+    # Calculate exact pulse envelope attenuation on sampled grid frames
+    best_grid_envelope = 0.0
+    frame_envelopes = {}
+    for f in sampled_pulse_frames:
+        p_dist = abs(f - p_mid) / (0.5 * p_len + 0.1)
+        env = max(0.0, 1.0 - p_dist)
+        frame_envelopes[str(f)] = round(env, 4)
+        if env > best_grid_envelope:
+            best_grid_envelope = env
+
     ground_truth = {
         "scene_id": scene_config["scene_id"],
         "scene_set": scene_config["scene_set"],  # "pilot" or "confirmatory"
@@ -250,6 +267,15 @@ def generate_scene_pair(
         "pulse_duration_seconds": 0.25,
         "max_rendered_pulse_delta": max_pulse_delta,
         "ball_radius": ball_radius,
+        "grid512_sampling_covariate": {
+            "grid_sampled_frame_indices": grid_sampled_indices,
+            "pulse_frame_indices": pulse_indices,
+            "grid_captured_pulse_frames": sampled_pulse_frames,
+            "grid_captured_pulse_count": len(sampled_pulse_frames),
+            "grid_frame_envelope_fractions": frame_envelopes,
+            "grid_best_pulse_envelope_fraction": round(best_grid_envelope, 4),
+            "is_pulse_sampled_near_peak": bool(best_grid_envelope >= 0.5),
+        },
     }
 
     return vid_neg, vid_pos, ground_truth

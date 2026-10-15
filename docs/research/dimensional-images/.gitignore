@@ -39,9 +39,13 @@ examples/*
 
 # Stimuli & heavy experimental media
 experiments/**/stimuli/
-experiments/**/pilot/
-experiments/**/confirmatory/
-data/experiments/**/stimuli/
+data/experiments/
+data/carrier_v3_samples/
+data/stress_lab/
+data/*.png
+data/blindtest_pilot/**
+.nova/
+
 
 # IDE / OS
 .vscode/
