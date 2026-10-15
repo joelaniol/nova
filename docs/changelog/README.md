@@ -8,6 +8,7 @@ Only the newest release is offered for [download](https://github.com/joelaniol/n
 
 | Version | Date | Highlights |
 |---|---|---|
+| [1.0.0-alpha.21](v1.0.0-alpha.21.md) | *(Upcoming / in development)* | — |
 | [1.0.0-alpha.20](v1.0.0-alpha.20.md) | 2026-10-15 | .NET 10 (LTS) runtime, own setting for automatic downloads, agent tabs keep rendering in the background, approval dialogs safe against typing in other programs, SSH first-contact host-key dialog, safe SSH retries with operationId, cross-site frames in deep pages |
 | [1.0.0-alpha.19](v1.0.0-alpha.19.md) | 2026-10-14 | Interactive SSH pseudo-terminal (PTY) with VT screen engine and live watch window, streaming background SSH, granular connector permissions, automated chat reply detection, cross-origin iframe automation, external MCP hub tool allowlisting, SQLite notes database, live settings engine restart, rich notifications with source navigation |
 | [1.0.0-alpha.18](v1.0.0-alpha.18.md) | 2026-10-07 | New product name & look, Edge-style favorites panel, SQLite history & adaptive address bar, native permission dialogs, guided AI setup, expanded sandboxes, password vault, resumable SFTP/FTP background transfers, local audio/video transcription |

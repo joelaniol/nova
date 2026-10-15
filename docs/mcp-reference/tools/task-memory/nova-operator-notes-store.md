@@ -20,7 +20,7 @@ Stores or updates a persistent operator note with search tags and category.
 | `content` | `string` | Yes | — | — | The note content (user preference, workflow hint, environment info). |
 | `tags` | `array` of `string` | Yes | — | — | Keywords for matching (e.g. ["sandbox", "gpt", "pro"]). |
 | `category` | `string` | No | — | — | Optional category (e.g. 'environment', 'workflow', 'preference'). |
-| `source` | `string` | No | `"agent"` | `agent`, `user` | Who created this note: 'agent' or 'user'. |
+| `source` | `string` | No | `"agent"` | `agent`, `user` | Accepted for compatibility; a note stored through MCP is always recorded as 'agent'. To keep something the user said, write it into content. |
 | `id` | `string` | No | — | — | Optional: existing note ID to update instead of creating new. |
 | `sandboxId` | `string` | No | — | — | Optional sandbox letter-id (e.g. 'A', 'B') to bind this note to a specific sandbox. Omit for global note. Required together with sandboxRef. |
 | `sandboxRef` | `string` | No | — | — | Opaque PersistentUid token from nova.tabs / nova.sandbox_context / perceive.targetContext. Mandatory when sandboxId is set; protects against letter-id recycling races. Mismatch with current sandbox UID → -32602 stale_sandbox_reference. |

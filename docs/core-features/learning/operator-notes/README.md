@@ -109,7 +109,7 @@ Stores a new note or updates an existing note.
 | `content` | `string` | **Yes** | — | Note content text (max 10,000 characters). |
 | `tags` | `array[string]` | **Yes** | — | Keywords for search matching (1 to 20 tags; each max 100 characters). |
 | `category` | `string` | No | — | Optional classification (e.g., `'environment'`, `'workflow'`, `'preference'`). |
-| `source` | `string` | No | `"agent"` | Note author: `'agent'` or `'user'`. |
+| `source` | `string` | No | `"agent"` | Accepted for compatibility. From 1.0.0-alpha.21 (not released yet) a note stored through MCP is always recorded as `'agent'`; before that, `'user'` was accepted. |
 | `id` | `string` | No | — | Existing 32-hex note ID to update. If missing on disk, creates a new note and returns `action: "created_id_not_found"`. |
 | `sandboxId` | `string` | No | — | Sandbox letter handle (e.g., `'A'`, `'B'`). Omit for a global note. Mandatory with `sandboxRef`. |
 | `sandboxRef` | `string` | No | — | Persistent 32-hex unique identifier (`PersistentUid`) from `nova.tabs` or `nova.sandbox_context`. |
@@ -302,7 +302,7 @@ Each note entry adheres to the following record structure:
 
 * **ID Format:** 32-character hexadecimal GUID (`N` format). Legacy 8-character IDs from earlier releases remain valid for lookups.
 * **`sandboxUid`:** The immutable 32-hex `PersistentUid` of the associated sandbox, or `null` for global notes.
-* **`source`:** `'agent'` when created via MCP tools; `'user'` when created or edited by the human operator in the Settings UI.
+* **`source`:** `'agent'` when created via MCP tools; `'user'` when created or edited by the human operator in the Settings UI. From 1.0.0-alpha.21 (not released yet), an agent that updates a `'user'` note through `nova.operator_notes_store` first needs the user's confirmation in Nova; the note then stays `'user'`. Declined: `-32036`, nothing changes.
 
 ---
 

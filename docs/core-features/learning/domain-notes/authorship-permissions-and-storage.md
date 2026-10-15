@@ -28,6 +28,7 @@ classDiagram
 ### Core Authorship Invariants
 
 1. **Source Spoofing Prohibition:** All notes written or updated through the MCP tool handler (`nova.domain_note`) are enforced as `Source = Agent`. An agent cannot mark its own notes as written by the user.
+   From 1.0.0-alpha.21 (not released yet): when an agent sets its note to `warn` or `block`, or changes the text of such a note, Nova asks the user first. A confirmed note becomes the user's rule (`Source = User`); a declined write returns `-32036`. Lowering the level needs no confirmation. Agents see a note's author in every warning and MUST-read message.
 2. **Backward Compatibility Guarantee:** Notes authored before the introduction of the source field are automatically initialized as `Source = Agent` upon load, matching historical behavior.
 3. **Store Choke-Point Repeat Protection:** Even if an agent attempts an upsert on an existing user note without changing its text, the persistence store choke-point **strictly forbids agents from modifying `repeatMinutes` or `repeatToolCalls` on user-authored notes**. Only human operators using the graphical interface may tune repeat thresholds for user directives.
 

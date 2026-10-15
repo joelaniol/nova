@@ -42,31 +42,31 @@ If multiple visible elements match the selector and `strict: true` is passed, No
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
-| `activateIfNeeded` | `boolean` | No | `true` | — | For an explicit concrete inactive targetId, temporarily activate that Nova target before physical pointer dispatch. Defaults true. Omitted/'active' targets are never auto-retargeted, and Nova never foregrounds the app window. |
-| `restoreActiveTarget` | `boolean` | No | `true` | — | After automatic activation and an unambiguous non-navigation success, restore the previously active Nova target if no user or competing target switch occurred. Ignored when no automatic activation happened. |
-| `selector` | `string` | No | — | — | CSS selector. Supports ' >>> ' combinator to pierce Shadow DOM boundaries (e.g. 'my-component >>> .inner-button'). |
-| `frameId` | `string` | No | — | — | Optional frame ID for selector-based clicks: frames[].frameId from nova.perceive(deep=true). When set, Nova resolves the selector inside that iframe and dispatches the click at the translated top-document coordinates. Not supported together with ctaRef. A frame of another site (perceive opaqueFrames[].frameId) works too, unless the user turned off 'Let agents click and type in embedded content from other websites' (on by default); then the call is refused with reasonCode frame.cross_origin_interaction_off. Scaled, rotated or nested frames of another site return unsupported_frame_geometry. |
-| `button` | `string` | No | `"left"` | `left`, `middle`, `right` | Mouse button: 'left' (default), 'middle' (new tab), 'right' (context menu). |
-| `clickCount` | `integer` | No | `1` | 1–3 | Click count: 1=single click, 2=double click (select word), 3=triple click (select line). |
-| `timeoutMs` | `integer` | No | `10000` | 0–300000 | Max ms to wait for element to appear before failing. |
-| `autoDismissBlockers` | `boolean` | No | `false` | — | If true, explicitly auto-dismiss overlays/modals blocking the target element before clicking. Default false: use overlayDetected plus cmp_apply/dismiss_blockers for consent banners. |
-| `autoDismissMode` | `string` | No | `"conservative"` | `conservative`, `aggressive` | Blocker dismissal strategy. 'conservative': common banners only. 'aggressive': all overlay/fixed-position blockers. |
-| `pksMode` | `string` | No | `"match"` | `off`, `match`, `telemetry` | PKS phenomenon matching: 'off' suppresses, 'match' returns compact hints, 'telemetry' returns full PKS payload. |
-| `pksAdviceMode` | `string` | No | `"match"` | `off`, `match`, `telemetry` | Controls verbosity of pksAdvice in the response. |
-| `verify` | `string` | No | — | — | JS expression to evaluate after clicking. If provided, polls until truthy (confirms click had effect). Example: '!document.querySelector(".ad-showing")' or 'document.querySelector(".skip-btn") === null'. |
-| `verifyTimeout` | `integer` | No | `3000` | 0–30000 | Max ms to wait for verify expression to become truthy (default 3000). Only used when verify is set. |
-| `waitForNavigation` | `boolean` | No | `false` | — | If true, wait for URL change + page load after clicking. |
-| `navigationStrict` | `boolean` | No | `false` | — | If true (with waitForNavigation=true), ok is true only when click and navigation both succeed. |
-| `strict` | `boolean` | No | `false` | — | If true, click only when the selector matches exactly ONE visible element (like Playwright's strict mode, but hidden duplicates such as a collapsed mobile menu do not count). Several visible matches refuse with reasonCode selector.ambiguous and nothing is clicked; a selector whose uniqueness Nova cannot count (shadow-DOM chains) refuses with selector.uniqueness_unverified. matchCount/candidateCount say what was found. Default false keeps the usual behaviour: click the best-scoring visible match and warn. |
-| `waitForNavigationTimeoutMs` | `integer` | No | `5000` | 0–30000 | Max ms to wait for navigation (0-30000). Only used when waitForNavigation=true. |
-| `includeScreenshot` | `boolean` | No | `false` | — | If true and navigation completes, include a screenshot in the response. Screenshot delivery is an optional sidecar: if capture fails, this result stays authoritative and structuredContent.screenshotStatus/screenshotReasonCode/screenshotRetryable/screenshotError describe the capture-only failure - do not repeat the action to get the image. |
-| `screenshotPolicy` | `string` | No | `"smart"` | `smart`, `always`, `on_failure`, `on_partial_or_failure`, `off` | Capture policy when includeScreenshot=true. smart=partial/failure always + sampled success. |
-| `screenshotMaxWidth` | `integer` | No | — | — | Max screenshot width in pixels. |
-| `screenshotMaxHeight` | `integer` | No | — | — | Max screenshot height in pixels. |
-| `screenshotFormat` | `string` | No | `"png"` | `png`, `jpeg`, `auto` | Screenshot format. Use 'auto' to fall back to the tool-intent default. |
-| `screenshotQuality` | `integer` | No | `80` | 1–100 | JPEG quality (1-100). Only used when screenshotFormat is 'jpeg'. |
-| `ctaRef` | `integer` | No | — | — | CTA v3 handle reference (from perceive cta_detection_v3). If set, clicks by ref instead of selector. Requires ctaRev. |
-| `ctaRev` | `integer` | No | — | — | CTA revision from perceive response. Required when ctaRef is used. Stale refs return error. |
+| `activateIfNeeded` | `boolean` | No | `true` | — | For an explicit inactive targetId: briefly bring that tab to the front for the click (default true). Never retargets 'active', never foregrounds the window. |
+| `restoreActiveTarget` | `boolean` | No | `true` | — | After such an activation and a clear non-navigating success, give the user's previous tab back (default true). |
+| `selector` | `string` | No | — | — | CSS selector; ' >>> ' pierces shadow DOM (e.g. 'my-comp >>> .btn'). |
+| `frameId` | `string` | No | — | — | Click inside an iframe: frames[] or opaqueFrames[] frameId from nova.perceive(deep=true). Not with ctaRef. Other-site frames can be switched off by the user (frame.cross_origin_interaction_off); scaled/rotated/nested ones return unsupported_frame_geometry. |
+| `button` | `string` | No | `"left"` | `left`, `middle`, `right` | 'left' (default), 'middle' (new tab), 'right' (context menu). |
+| `clickCount` | `integer` | No | `1` | 1–3 | 1 single, 2 double (select word), 3 triple (select line). |
+| `timeoutMs` | `integer` | No | `10000` | 0–300000 | Max ms to wait for the element to appear. |
+| `autoDismissBlockers` | `boolean` | No | `false` | — | true: remove overlays blocking the element before clicking. Default false - prefer nova.cmp_apply / dismiss_blockers for consent banners. |
+| `autoDismissMode` | `string` | No | `"conservative"` | `conservative`, `aggressive` | 'conservative': common banners only. 'aggressive': any overlay/fixed blocker. |
+| `pksMode` | `string` | No | `"match"` | `off`, `match`, `telemetry` | PKS matching: off \| match (compact hints) \| telemetry (full). |
+| `pksAdviceMode` | `string` | No | `"match"` | `off`, `match`, `telemetry` | Detail of pksAdvice: off \| match \| telemetry. |
+| `verify` | `string` | No | — | — | JS expression polled after the click until truthy - proves the effect. E.g. 'document.querySelector(".modal") === null'. |
+| `verifyTimeout` | `integer` | No | `3000` | 0–30000 | Max ms to wait for verify (default 3000). |
+| `waitForNavigation` | `boolean` | No | `false` | — | Wait for URL change + page load after the click. |
+| `navigationStrict` | `boolean` | No | `false` | — | With waitForNavigation: ok only if the navigation happened too. |
+| `strict` | `boolean` | No | `false` | — | Click only if exactly one visible element matches; otherwise refuse (selector.ambiguous / selector.uniqueness_unverified), nothing clicked. Default: click best visible match and warn. |
+| `waitForNavigationTimeoutMs` | `integer` | No | `5000` | 0–30000 | Max ms to wait for navigation (0-30000). |
+| `includeScreenshot` | `boolean` | No | `false` | — | Add a screenshot after navigation. Optional sidecar: if only the capture fails (screenshotStatus/screenshotReasonCode), the click result still stands - do not repeat the click. |
+| `screenshotPolicy` | `string` | No | `"smart"` | `smart`, `always`, `on_failure`, `on_partial_or_failure`, `off` | With includeScreenshot: smart (failures always, successes sampled) \| always \| on_failure \| on_partial_or_failure \| off. |
+| `screenshotMaxWidth` | `integer` | No | — | — | Max screenshot width px. |
+| `screenshotMaxHeight` | `integer` | No | — | — | Max screenshot height px. |
+| `screenshotFormat` | `string` | No | `"png"` | `png`, `jpeg`, `auto` | png (default) \| jpeg \| auto. |
+| `screenshotQuality` | `integer` | No | `80` | 1–100 | JPEG quality 1-100. |
+| `ctaRef` | `integer` | No | — | — | CTA handle from nova.perceive; needs ctaRev. |
+| `ctaRev` | `integer` | No | — | — | CTA revision from the same perceive; stale refs error. |
 | `outputDetail` | `string` | No | `"compact"` | `compact`, `full`, `minimal` | Response verbosity. 'compact' (default): core fields only (status, nav summary, page state, side-effects). 'full': includes navEvidence, telemetry, diagnostics, dismiss details for debugging. 'minimal': lean envelope — only the core contract (ok/status/reasonCode/stage/retryable), actionDispatched/verified, page/target info, and never-suppressible safety warnings; strips pksAdvice, guardedCommit, fileInputRisk, popup/download flags and other inline telemetry. |
 | `transitionContract` | `object` | No | — | — | Closed-loop transition contract for guarded commit points. When provided, preconditions are verified before the click and postconditions are verified after. Required for commit-point actions like send, submit, login, and other state-changing clicks. Response includes 'guardedCommit' with dispatchStatus, verificationStatus, and retryAdvice. Every assertion bucket has the shape { all?, any?, forbidden? }, each a non-empty array of { factKey: string, operator: eq\|not_eq\|neq\|exists\|not_exists\|contains\|gt\|lt\|gte\|lte, expected?: any, frameId?: string }. Full schema and semantics: nova.reference_doc_read(docId='mcp'). |
 | `transitionContract.actionKind` | `string` | No | — | `dismiss_overlay`, `send_message`, `submit_form`, `select_option`, `custom` | Action classification for stability defaults. 'dismiss_overlay' tunes for blocker removal, 'send_message' for chat send actions, 'submit_form' for classic submits, 'select_option' for model/sandbox/style switches, 'custom' for caller-defined flows. |

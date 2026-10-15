@@ -19,7 +19,7 @@ Blocks until downloads reach a terminal state (completed, failed, or cancelled) 
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `id` | `string` | No | — | — | Optional: wait for exactly this download ID (from nova.downloads_list or a previous nova.downloads_wait). Mutually exclusive with sinceMs. |
 | `sinceMs` | `integer` | No | `10000` | 0–600000 | Optional: wait for downloads started within this many milliseconds before the call (0-600000, default 10000). Mutually exclusive with id. |
-| `timeoutMs` | `integer` | No | `60000` | 1000–300000 | Maximum time to wait in milliseconds (1000-300000, default 60000). On timeout the current state is returned with status='timeout' — never an error. |
+| `timeoutMs` | `integer` | No | `60000` | 1000–1800000 | Minimum 1000, default 60000. Max ms to wait (up to 1800000 = 30 min). Keep the default for quick checks and raise it only for long page work such as a build or render. When it runs out while the condition is simply not met yet, the result is not a failed call: ok=false, status='timeout', waitExpired=true, with the last observed state - calling the same wait again is safe. Wait again by download id: a fresh sinceMs window would no longer cover a download started earlier. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 

@@ -31,6 +31,7 @@ The [alpha status page](../../ALPHA.md) lists current limitations, including plu
 | [Closed-Loop System (CLS)](closed-loop-system-cls/README.md) | Expected state, action, checked outcome | `nova.goal_register`, `nova.run_sequence`, `nova.phenomenon_apply` |
 | [Agent Awareness Gates (AAG)](agent-awareness-gates-aag/README.md) | Checks that stop an agent from acting blind | `nova.guarded_*`, `nova.tab_claim`, `nova.task_instance_verify` |
 | [Tool Observation Bus (TOB)](tool-observation-bus-tob/README.md) | What the agent really did, recorded on Nova's side | `nova.task_instance_verify`, `nova.task_instance_progress`, `nova.task_instance_get` |
+| [Agent Security](agent-security/README.md) | Prompt injection and knowledge poisoning: content screening, stepped confirmations, authorship of stored knowledge | `nova.domain_note`, `nova.operator_notes_store`, confirmation dialog |
 
 ### Agent interface
 

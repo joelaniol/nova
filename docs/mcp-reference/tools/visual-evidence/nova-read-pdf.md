@@ -11,6 +11,8 @@
 
 `nova.read_pdf` reads the text of a PDF on disk, for example a file from `nova.downloads_list` (`filePath`) or one written by `nova.save_pdf` (`savedPath`). It returns the extracted text, the page count, the pages actually read and, with `includePages: true`, the text per page. It does not return document metadata such as title or author, and it does not run OCR: a scanned or image-only PDF returns `reasonCode: "read_pdf.no_extractable_text"`. Password-protected files return `read_pdf.encrypted`, a missing file `read_pdf.not_found`. Files in Nova's download folder and Exports folder can always be read; any other path needs the setting "Allow local files (file://)".
 
+From 1.0.0-alpha.21 (upcoming, not published yet) the answer also lists `pagesWithoutExtractableText`: pages without a text layer, for example scanned pages, even when other pages have text. For Markdown with page markers use [`nova.convert_to_markdown`](nova-convert-to-markdown.md).
+
 ---
 
 ## 2. Parameter Reference
@@ -64,6 +66,7 @@ The text block carries the extracted text itself.
     "pagesRead": [
       1
     ],
+    "pagesWithoutExtractableText": [],
     "text": "INVOICE #1042\nDate: 2026-09-30\nCustomer: Example GmbH\nTotal due: EUR 1,240.00",
     "totalChars": 77,
     "chars": 77,

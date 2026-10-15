@@ -852,14 +852,14 @@ Dieses Dokument dokumentiert alle wesentlichen Entscheidungen nach dem Schema:
 * **Kontext & Fragestellung:**
   Die Forschungsergebnisse zu *Dimensional Images (Visual Latent Transport)* sollten in das öffentliche Dokumentations-Repository von Nova (`joelaniol/nova`) unter `docs/research/dimensional-images/` überführt werden.
   Im lokalen Repository `NovaBrowser` existieren jedoch zeitgleich parallele, uncommitted Arbeiten an Media-Intelligence-Features und C#-Testständen.
-  Das Standard-Skript `tools\sync-public.ps1` spiegelt das gesamte Verzeichnis `public/` und bricht ab, wenn uncommitted Änderungen vorliegen.
+  Der Standard-Abgleich des privaten Entwicklungs-Repositorys spiegelt das gesamte Verzeichnis `public/` und bricht ab, wenn uncommitted Änderungen vorliegen.
   Joel erteilte die strikte Anweisung:
   *„wichtig hier noch klar festhalten wo der public folder ist zum hochschieben und ja du brauchst keinen nova release machen in dem fall NUR für diesen ordner hast du freigabe ohne build“*
   *„aber hier müssen die regeln sicher sein das nix anderes in nova angefasst wird ausser alles was in diesem neuem ordner sind nix anderes darf mit gesynct werden“*
 
 * **Entscheidung & Technische Spezifikation:**
   1. **Exklusive Schreib- und Sync-Zone:**
-     - Lokaler Pfad: `E:\-=Entwicklung=-\NovaBrowser\public\docs\research\dimensional-images\`
+     - Lokaler Pfad: `public/docs/research/dimensional-images/` im privaten Entwicklungs-Repository
      - Öffentlicher Pfad: `docs/research/dimensional-images/` auf `https://github.com/joelaniol/nova`
      - Keine andere Datei in `NovaBrowser` darf berührt, modifiziert oder gestagt werden.
   2. **Isolierter Sync-Prozess:**

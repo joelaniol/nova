@@ -8,7 +8,7 @@ Lossless cropped screenshots, pixel-by-pixel diffing, persistent baselines, and 
 ---
 
 <!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
-## Tool Inventory (7 Tools)
+## Tool Inventory (8 Tools)
 
 Capability bundles of these tools: `app_shell_recovery`, `browser_automation`, `device_emulation`, `form_submission`, `page_read_debug`, `system_tools`, `visual_evidence`.
 
@@ -16,6 +16,7 @@ Capability bundles of these tools: `app_shell_recovery`, `browser_automation`, `
 | :--- | :--- |
 | **[`nova.capture_app_screenshot`](nova-capture-app-screenshot.md)** | Captures the Nova app window (tabs, topbar, WebView content) — or, if another agent holds the active tab's claim, a read-only redacted shell view with page content masked out. |
 | **[`nova.capture_screenshot`](nova-capture-screenshot.md)** | Captures visual screenshot evidence of the active page, a specific DOM element, or a bounded pixel region, with support for cryptographic SHA-256 hashing, visual callout highlights, and token-saving delivery modes. |
+| **[`nova.convert_to_markdown`](nova-convert-to-markdown.md)** | Converts a local PDF into Markdown for an agent, with a marker per page and an honest account of what was read. |
 | **[`nova.read_pdf`](nova-read-pdf.md)** | Extracts the text of a local PDF file, optionally per page and for selected pages only. |
 | **[`nova.responsive_screenshots`](nova-responsive-screenshots.md)** | Sweeps multiple viewport widths one at a time, capturing a screenshot at each and restoring the tab's original viewport afterwards. |
 | **[`nova.save_pdf`](nova-save-pdf.md)** | Renders the active web page to a vector PDF document on disk via Chrome DevTools Protocol (`Page.printToPDF`), providing zero-token document archiving and export capabilities. |

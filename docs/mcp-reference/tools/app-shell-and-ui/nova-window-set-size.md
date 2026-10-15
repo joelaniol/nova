@@ -17,8 +17,8 @@
 <!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
-| `width` | `integer` | Yes | — | 200–10000 | Target window width in logical (DPI-aware) pixels. |
-| `height` | `integer` | Yes | — | 200–10000 | Target window height in logical (DPI-aware) pixels. |
+| `width` | `integer` | Yes | — | 200–10000 | Target window width in physical screen pixels - the unit nova.window_get_bounds reports (at 150 % Windows scaling, 1920 here is 1280 logical). |
+| `height` | `integer` | Yes | — | 200–10000 | Target window height in physical screen pixels - the unit nova.window_get_bounds reports. |
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
 Tool category: `normal` (standard risk class in Nova's agent permission settings).

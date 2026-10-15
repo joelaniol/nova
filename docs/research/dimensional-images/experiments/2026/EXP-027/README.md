@@ -40,7 +40,7 @@ In **EXP-027** wurde das Visual Latent Transport Verfahren (**E3-K12**) an einer
 ### B. Kryptografische Verblindung & Provenienz
 - Der Ordner `nur_auswertung/` mit der Ground Truth wurde vor der Evaluierung vollständig isoliert.
 - Allen 15 Stimuli wurden neutrale 12-stellige Hex-UUIDs zugewiesen (`stimulus_<uuid>.webp`).
-- Alle 15 Stimulus-Dateien sind im Ordner [`stimuli/`](stimuli/) archiviert und öffentlich einsehbar.
+- Die 15 Stimulus-Dateien liegen nicht im Repository (schwere Versuchsmedien werden nicht versioniert). Sie lassen sich mit [`build_exp027_stimuli.py`](../../../scripts/build_exp027_stimuli.py) reproduzieren und über die SHA-256-Prüfsummen in [`blinded_manifest.json`](blinded_manifest.json) bitgenau gegenprüfen.
 - Alle SHA-256 Prüfsummen wurden im kryptografischen Manifest `blinded_manifest.json` protokolliert.
 - Evaluatoren erhielten neutrale, inhaltsfreie Formatprompts (Carrier-Spezifikation vs. 4×4-Kontaktbogen-Spezifikation).
 - **Durchführung:** 3 unabhängige Testläufe $\times$ 15 Stimuli = **45 vollständige Blind-Evaluierungen** über 9 parallelisierte, isolierte Subagent-Instanzen (Google Antigravity Subagent Framework, interne Modellkennung `MODEL_PLACEHOLDER_M318`, multimodale Bildanalyse via `view_file`).
@@ -100,7 +100,7 @@ In Joels realer 3D-Szene hat die Kugel im $64 \times 64$-Raum einen Radius von l
 
 ## 5. Artefakte & Reproduzierbarkeit
 
-- **15 Verblindete Stimuli-Bilddateien ($21{,}4\,\text{KB}$ gesamt):** [`stimuli/`](stimuli/)
+- **15 Verblindete Stimuli-Bilddateien ($21{,}4\,\text{KB}$ gesamt):** nicht im Repository; reproduzierbar mit [`build_exp027_stimuli.py`](../../../scripts/build_exp027_stimuli.py), Prüfsummen in [`blinded_manifest.json`](blinded_manifest.json)
 - **Reproduzierbares Reanalyse-Skript:** [`run_posthoc_reanalysis.py`](run_posthoc_reanalysis.py)
 - **Evaluator-Provenienz & Vollständige Audit-Transkripte:** [`evaluator_provenance.json`](evaluator_provenance.json)
 - **Präregistriertes Protokoll:** [`protocol.json`](protocol.json)

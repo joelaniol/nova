@@ -418,7 +418,7 @@ Copyright (c) Logan Stromberg
 
 
 ----------------------------------------------------------------------
-PdfPig (PDF text extraction for nova.read_pdf)
+PdfPig (PDF text extraction and layout analysis for nova.read_pdf and nova.convert_to_markdown)
 License: Apache 2.0
 Source:  https://github.com/UglyToad/PdfPig
 ----------------------------------------------------------------------
