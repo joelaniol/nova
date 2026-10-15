@@ -75,7 +75,11 @@ Critical actions require the agent to state a reason, and Nova asks the user eve
 - An approval covers that one call only. "Allow for this session" is not offered.
 - Housekeeping stays unasked: scrolling, zoom, window size and tab management. Asking for those would stop the work without protecting anything.
 
-The confirmation dialog shows why it appeared, including the risk signals behind it. The user always decides.
+When a risk is active, the confirmation dialog says so in plain words at the top, apart from the action's ordinary risk group *(from alpha.21)*. The question changes from "is this action dangerous?" to "did you ask for it at all?":
+
+![Nova's confirmation dialog with the warning "Possible manipulation (prompt injection)" above an agent's request to open an unknown address](confirmation-injection-warning.png)
+
+The user always decides. If you deny, the agent is told that the action came after a suspected injection and must not be retried *(from alpha.21)*.
 
 ### 4. Authorship of stored knowledge
 

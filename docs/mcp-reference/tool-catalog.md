@@ -16,7 +16,7 @@ Every tool exposed by **Nova AI Workspace**, grouped by operational domain. Clic
 - [7. Knowledge & Phenomenological Store (PKS)](#7-knowledge--phenomenological-store-pks) (21)
 - [8. Credentials & Secure Vault](#8-credentials--secure-vault) (9)
 - [9. Terminal Workspaces & Headless CLI](#9-terminal-workspaces--headless-cli) (12)
-- [10. Downloads Management & Queue Control](#10-downloads-management--queue-control) (15)
+- [10. Downloads Management & Queue Control](#10-downloads-management--queue-control) (17)
 - [11. Desktop Notifications & Alerts](#11-desktop-notifications--alerts) (11)
 - [12. Device Emulation & Responsive Testing](#12-device-emulation--responsive-testing) (10)
 - [13. External MCP Servers & Secondary Tool Bridging](#13-external-mcp-servers--secondary-tool-bridging) (10)
@@ -165,7 +165,7 @@ Lossless visual captures and regression testing with bounded budgets.
 | **[`nova.save_pdf`](tools/visual-evidence/nova-save-pdf.md)** | `targetId?`, `savePath?`, `timeoutMs?`, `landscape?`, `printBackground?`, `displayHeaderFooter?`, `preferCSSPageSize?`, `generateTaggedPDF?`, `scale?`, `pageRanges?`, `paperWidth?`, `paperHeight?`, `marginTop?`, `marginBottom?`, `marginLeft?`, `marginRight?` | Renders the active web page to a vector PDF document on disk via Chrome DevTools Protocol (`Page.printToPDF`), providing zero-token document archiving and export capabilities. |
 | **[`nova.capture_app_screenshot`](tools/visual-evidence/nova-capture-app-screenshot.md)** | `agentId?`, `targetId?`, `maxWidth?`, `maxHeight?`, `screenshotMaxWidth?`, `screenshotMaxHeight?`, `format?`, `quality?`, `responseMode?` | Captures the Nova app window (tabs, topbar, WebView content) — or, if another agent holds the active tab's claim, a read-only redacted shell view with page content masked out. |
 | **[`nova.read_pdf`](tools/visual-evidence/nova-read-pdf.md)** | `path`, `pages?`, `maxChars?`, `includePages?` | Extracts the text of a local PDF file, optionally per page and for selected pages only. |
-| **[`nova.convert_to_markdown`](tools/visual-evidence/nova-convert-to-markdown.md)** | `path`, `pages?`, `outputMode?`, `outputPath?`, `maxChars?`, `renderPages?`, `includeFormValues?` | Converts a local PDF, Word document or HTML file into Markdown for an agent, with an honest account of what was read. |
+| **[`nova.convert_to_markdown`](tools/visual-evidence/nova-convert-to-markdown.md)** | `path`, `pages?`, `outputMode?`, `outputPath?`, `maxChars?`, `renderPages?`, `includeFormValues?` | Converts a local PDF, Word, HTML, CSV, JSON or text file into Markdown for an agent, with an honest account of what was read. |
 | **[`nova.responsive_screenshots`](tools/visual-evidence/nova-responsive-screenshots.md)** | `widths`, `targetId?`, `height?`, `deviceScaleFactor?`, `mobile?`, `fullPage?`, `format?`, `quality?` | Sweeps multiple viewport widths one at a time, capturing a screenshot at each and restoring the tab's original viewport afterwards. |
 
 ---
@@ -246,7 +246,9 @@ Download tracking, pause/resume, security prompt resolution, and directory manag
 | Tool Name | Parameters | Description |
 | :--- | :--- | :--- |
 | **[`nova.downloads_list`](tools/downloads/nova-downloads-list.md)** | `id?`, `status?`, `limit?`, `offset?` | Lists recent downloads tracked by the browser with status, progress, speed, and error categorization. |
-| **[`nova.downloads_wait`](tools/downloads/nova-downloads-wait.md)** | `id?`, `sinceMs?`, `timeoutMs?` | Blocks until downloads reach a terminal state (completed, failed, or cancelled) and returns disk file paths. |
+| **[`nova.downloads_wait`](tools/downloads/nova-downloads-wait.md)** | `id?`, `sinceMs?`, `timeoutMs?`, `resumable?` | Blocks until downloads reach a terminal state (completed, failed, or cancelled) and returns disk file paths. |
+| **[`nova.wait_continue`](tools/downloads/nova-wait-continue.md)** | `watchId`, `timeoutMs?` | Continues a wait that a wait tool started with `resumable=true`, keeping everything the wait already knew. |
+| **[`nova.wait_cancel`](tools/downloads/nova-wait-cancel.md)** | `watchId` | Ends a resumable wait that is no longer needed. |
 | **[`nova.downloads_cancel`](tools/downloads/nova-downloads-cancel.md)** | `id` | Cancels an active in-progress or queued download by ID. |
 | **[`nova.downloads_cancel_all`](tools/downloads/nova-downloads-cancel-all.md)** | *(none)* | Cancels every non-terminal download currently queued, in progress, or paused. |
 | **[`nova.downloads_pause`](tools/downloads/nova-downloads-pause.md)** | `id` | Pauses an active WebView2-native download by ID. |

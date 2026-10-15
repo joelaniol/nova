@@ -17,7 +17,7 @@ Looking for a tool by what it does rather than by area? The [tool catalog](../to
 | [DOM Perception & Semantic Extraction](dom-and-reading/README.md) | 20 | Token-efficient text extraction, structured landmark reading, typed DOM attributes, and multi-modal fusion perception. |
 | [Desktop Notifications & Alerts](notifications/README.md) | 11 | Native OS notification dispatch, unread inbox management, and per-origin notification permissions. |
 | [Device Emulation & Responsive Testing](device-emulation/README.md) | 10 | Mobile viewport simulation, touch event emulation, user agent overriding, and dark mode toggles. |
-| [Downloads Management & Queue Control](downloads/README.md) | 15 | Download tracking, pause/resume, security prompt resolution, and directory management. |
+| [Downloads Management & Queue Control](downloads/README.md) | 17 | Download tracking, pause/resume, security prompt resolution, and directory management. |
 | [Episodic Task Memory & Guidance](task-memory/README.md) | 34 | Task instance tracking, guidance logs, coverage scans, surface exploration, and operator domain notes. |
 | [External MCP Servers & Tool Bridging](external-mcp/README.md) | 10 | Registering, running, and dynamically calling secondary MCP servers through Nova's unified host. |
 | [Guarded Actions & Blocker Clearance](guarded-actions/README.md) | 6 | High-impact interaction macros with pre-flight safety gates, auth surface verification, and cookie banner dismissals. |
@@ -32,5 +32,5 @@ Looking for a tool by what it does rather than by area? The [tool catalog](../to
 | [Site Data, Fingerprinting & Sandboxes](site-data-and-identity/README.md) | 23 | Cookie jars, localStorage/sessionStorage, cache purging, browser fingerprint spoofing, and sandbox isolation. |
 | [Visual Evidence, Screenshots & Archiving](visual-evidence/README.md) | 8 | Lossless cropped screenshots, pixel-by-pixel diffing, persistent baselines, and print-to-PDF generation. |
 
-**457 tools in total.**
+**459 tools in total.**
 <!-- /generated:area-list -->

@@ -24,6 +24,8 @@ command = "C:\\Users\\YourName\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaB
 
 `YourName` is an example username. Use the actual command path supplied by Nova's wizard. Older installations may use `AppData\Local\NovaBrowser\bin`. In a TOML double-quoted string, `\\` represents one Windows path backslash.
 
+**Upcoming in v1.0.0-alpha.21 (not in a published release yet):** Nova also adds `tool_timeout_sec = 2400` to this entry. Codex otherwise stops every Nova tool call after 60 seconds, which cuts off longer waits such as a download or a page that is still building. If your entry already has a `tool_timeout_sec` value, Nova leaves your value as it is.
+
 Keep other Codex settings and server sections. Nova updates its connection without replacing the whole file. The standard bridge entry needs no arguments, URL or access token; the bridge handles Nova's local authentication.
 
 This is Nova's automatic write location. If you deliberately use a different Codex configuration location, configure that installation with the generated setup text and verify which file it loads. See [OpenAI's MCP configuration documentation](https://developers.openai.com/codex/mcp/) for Codex's configuration options.
