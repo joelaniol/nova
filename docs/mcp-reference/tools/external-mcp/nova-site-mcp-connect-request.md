@@ -67,12 +67,12 @@ This response has no `ok` field. The call returns as soon as the authorization U
 ## 4. Operational Best Practices
 
 * **PKCE Security:** Authorization code flows use RFC 7636 PKCE to protect tokens without storing client secrets.
-* **Open the URL, Then Poll:** Open `authorizationUrl` with [`nova.tab_new`](../browser-automation/nova-tab-new.md), then call [`nova.site_discovery_get`](../crawler-and-discovery/nova-site-discovery-get.md) to check whether consent completed.
-* **Dynamic Tool Bridging:** Once consent completes, Nova can auto-register the server; its tools then become callable via [`nova.external_tool_call`](../external-mcp/nova-external-tool-call.md).
+* **Open the URL, Then Poll:** Open `authorizationUrl` with [`nova.tab_new`](../browser-automation/nova-tab-new.md), then call [`nova.site_discovery_get`](nova-site-discovery-get.md) to check whether consent completed.
+* **Dynamic Tool Bridging:** Once consent completes, Nova can auto-register the server; its tools then become callable via [`nova.external_tool_call`](nova-external-tool-call.md).
 
 ---
 
 ## 5. Related Tools
 
 * [`nova.site_mcp_inspect`](nova-site-mcp-inspect.md)
-* [`nova.external_server_add`](../external-mcp/nova-external-server-add.md)
+* [`nova.external_server_add`](nova-external-server-add.md)

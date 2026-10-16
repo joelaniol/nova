@@ -88,7 +88,7 @@ This tool shares its response shape with [`nova.site_discovery_get`](nova-site-d
 ## 4. Operational Best Practices
 
 * **Proactive Discovery:** Run `nova.site_discovery_probe` upon first encountering a domain to check if direct MCP tools or llms.txt shortcuts are available.
-* **Bridge Direct Endpoints:** If `transportEndpoint` is discovered, connect it as an external secondary MCP server via [`nova.external_server_add`](../external-mcp/nova-external-server-add.md).
+* **Bridge Direct Endpoints:** If `transportEndpoint` is discovered, connect it as an external secondary MCP server via [`nova.external_server_add`](nova-external-server-add.md).
 * **Cache Awareness:** Probes are cached for 10 minutes unless `forceRefresh: true` is explicitly provided.
 
 ---
@@ -96,4 +96,4 @@ This tool shares its response shape with [`nova.site_discovery_get`](nova-site-d
 ## 5. Related Tools
 
 * [`nova.site_discovery_get`](nova-site-discovery-get.md) — Retrieve cached probe results.
-* [`nova.external_server_add`](../external-mcp/nova-external-server-add.md) — Connect discovered MCP servers.
+* [`nova.external_server_add`](nova-external-server-add.md) — Connect discovered MCP servers.

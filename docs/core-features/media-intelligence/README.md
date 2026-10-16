@@ -212,7 +212,7 @@ sequenceDiagram
 | **Capture** | [`nova.media_capture_status`](../../mcp-reference/tools/media-and-transcription/nova-media-capture-status.md) | Returns real-time recording metrics (`bytesWritten`, `elapsedMs`, track inventory, `limitHit`, `recorderLost`). |
 | **Capture** | [`nova.media_capture_stop`](../../mcp-reference/tools/media-and-transcription/nova-media-capture-stop.md) | Finalizes track headers, flushes buffers to disk, and returns verified file paths with `muxHint`. |
 | **Playback** | [`nova.media_status`](../../mcp-reference/tools/media-and-transcription/nova-media-status.md) | In-page playback diagnostics: currentTime, duration, readyState, classified pause cause, and YouTube ad status. |
-| **Documents** | [`nova.read_pdf`](../../mcp-reference/tools/visual-evidence/nova-read-pdf.md) | Extracts digital text from local PDF documents (`path`, `pages`, `maxChars`). |
+| **Documents** | [`nova.read_pdf`](../../mcp-reference/tools/files-and-documents/nova-read-pdf.md) | Extracts digital text from local PDF documents (`path`, `pages`, `maxChars`). |
 | **Documents** | [`nova.save_pdf`](../../mcp-reference/tools/visual-evidence/nova-save-pdf.md) | Generates vector PDF from webpage via Chromium print engine (`printBackground`, `landscape`, `scale`, `pageRanges`). |
 
 ---

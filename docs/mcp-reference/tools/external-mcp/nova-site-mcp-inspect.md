@@ -86,4 +86,4 @@ The `tools` list is shortened here; a real server can advertise more, up to the 
 ## 5. Related Tools
 
 * [`nova.site_mcp_connect_request`](nova-site-mcp-connect-request.md)
-* [`nova.site_discovery_probe`](../crawler-and-discovery/nova-site-discovery-probe.md)
+* [`nova.site_discovery_probe`](nova-site-discovery-probe.md)

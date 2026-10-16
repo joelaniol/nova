@@ -10,7 +10,7 @@
 
 `nova.read_text` strips HTML tags and returns formatted plain text representing visible content on the page, with whitespace preserved.
 
-With `format: "markdown"` it returns the page, or the element a `selector` names, as Markdown instead: headings, lists, tables, links and images as the page declares them, converted the same way [`nova.convert_to_markdown`](../visual-evidence/nova-convert-to-markdown.md) converts a saved HTML file. Links resolve against the page's address. The answer adds `sections` (every heading with its position in the whole Markdown; pass that position as `offset` to jump there), `structure` counts, `warnings`, `pageUrl` and `pageTitle`. Elements the browser does not show (hidden by their style, including a style sheet class, or by the `hidden` attribute) stay in the Markdown, and their text is also returned on its own in `hiddenText`, at most 2,000 characters. The page itself is not changed. Content inside shadow DOM and iframes is not included; `frameId` reads one frame. `maxChars`, `offset` and `continuationToken` work on the Markdown as they do on plain text.
+With `format: "markdown"` it returns the page, or the element a `selector` names, as Markdown instead: headings, lists, tables, links and images as the page declares them, converted the same way [`nova.convert_to_markdown`](../files-and-documents/nova-convert-to-markdown.md) converts a saved HTML file. Links resolve against the page's address. The answer adds `sections` (every heading with its position in the whole Markdown; pass that position as `offset` to jump there), `structure` counts, `warnings`, `pageUrl` and `pageTitle`. Elements the browser does not show (hidden by their style, including a style sheet class, or by the `hidden` attribute) stay in the Markdown, and their text is also returned on its own in `hiddenText`, at most 2,000 characters. The page itself is not changed. Content inside shadow DOM and iframes is not included; `frameId` reads one frame. `maxChars`, `offset` and `continuationToken` work on the Markdown as they do on plain text.
 
 ---
 
@@ -94,4 +94,4 @@ convenience). `matchCount` counts how many elements the selector matched; when i
 
 * [`nova.read_text_structured`](nova-read-text-structured.md)
 * [`nova.search_text`](nova-search-text.md)
-* [`nova.convert_to_markdown`](../visual-evidence/nova-convert-to-markdown.md) (files on disk)
+* [`nova.convert_to_markdown`](../files-and-documents/nova-convert-to-markdown.md) (files on disk)

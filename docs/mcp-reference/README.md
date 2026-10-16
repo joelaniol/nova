@@ -50,7 +50,7 @@ Bundles group the tools for one kind of task; a tool can be part of several bund
 | **6** | **`vault_auth`** | Log in with stored credentials without ever handling the plaintext password. | `vault`, `auth`, `credentials`, `login` | [`vault_list`](tools/vault-and-security/nova-vault-list.md), [`vault_get`](tools/vault-and-security/nova-vault-get.md), [`vault_set`](tools/vault-and-security/nova-vault-set.md), [`vault_prepare_fill`](tools/vault-and-security/nova-vault-prepare-fill.md), [`type_selector_secret`](tools/vault-and-security/nova-type-selector-secret.md), [`guarded_login`](tools/guarded-actions/nova-guarded-login.md) |
 | **7** | **`task_memory`** | Carry recurring or multi-session work forward: match, progress, complete, verify or abort a task. | `tasks`, `task memory`, `knowledge board` | [`goal_register`](tools/task-memory/nova-goal-register.md), [`task_match`](tools/task-memory/nova-task-match.md), [`task_instance_create`](tools/task-memory/nova-task-instance-create.md), [`task_instance_complete`](tools/task-memory/nova-task-instance-complete.md), [`board_contribute`](tools/task-memory/nova-board-contribute.md), [`coverage_scan`](tools/task-memory/nova-coverage-scan.md) |
 | **8** | **`crawler_ops`** | Cover many pages at once: crawl a site, verify a URL list, read a persistent URL index. | `crawler`, `crawl`, `site crawl` | [`crawl_start`](tools/crawler-and-discovery/nova-crawl-start.md), [`crawl_status`](tools/crawler-and-discovery/nova-crawl-status.md), [`crawl_results`](tools/crawler-and-discovery/nova-crawl-results.md), [`crawl_verify`](tools/crawler-and-discovery/nova-crawl-verify.md), [`site_urls`](tools/crawler-and-discovery/nova-site-urls.md), [`site_urls_report`](tools/crawler-and-discovery/nova-site-urls-report.md) |
-| **9** | **`surface_explorer`** | Find UI states no URL reaches: menus, drawers, and hidden SPA panels. | `explorer`, `surface`, `ui explorer` | [`explore_surface`](tools/task-memory/nova-explore-surface.md) |
+| **9** | **`surface_explorer`** | Find UI states no URL reaches: menus, drawers, and hidden SPA panels. | `explorer`, `surface`, `ui explorer` | [`explore_surface`](tools/crawler-and-discovery/nova-explore-surface.md) |
 | **10** | **`app_shell_recovery`** | Deal with Nova itself: connection setup and status, native dialogs, downloads panel, window, zoom, DevTools, app screenshots. | `app shell`, `recovery`, `native dialogs` | [`ui_get_state`](tools/app-shell-and-ui/nova-ui-get-state.md), [`ui_inspect_native_dialog`](tools/app-shell-and-ui/nova-ui-inspect-native-dialog.md), [`ui_confirm_native_dialog`](tools/app-shell-and-ui/nova-ui-confirm-native-dialog.md), [`downloads_*`](tools/downloads/README.md), [`window_*`](tools/app-shell-and-ui/README.md) |
 | **11** | **`system_tools`** | Nova's cross-cutting helpers: sandboxes, memory, notes, favorites, clipboard, approvals, permissions, cookie banners. | `system`, `convenience`, `clipboard` | [`sandbox_*`](tools/site-data-and-identity/README.md), [`memory_note`](tools/task-memory/nova-memory-note.md), [`memory_recall`](tools/task-memory/nova-memory-recall.md), [`domain_note`](tools/task-memory/nova-domain-note.md), [`permission_center_*`](tools/app-shell-and-ui/README.md), [`cmp_apply`](tools/guarded-actions/nova-cmp-apply.md) |
 | **12** | **`onboarding`** | Write Nova's MCP reference into a project and fetch bundled Nova subsystem docs. | `onboard`, `setup`, `agent onboarding` | [`install_onboarding`](tools/app-shell-and-ui/nova-install-onboarding.md), [`get_onboarding`](tools/app-shell-and-ui/nova-get-onboarding.md), [`reference_docs_list`](tools/app-shell-and-ui/nova-reference-docs-list.md), [`reference_doc_read`](tools/app-shell-and-ui/nova-reference-doc-read.md) |
@@ -161,6 +161,7 @@ These conventions recur across many tools. The parameter table on each [tool pag
   * [DOM Perception & Semantic Extraction](tools/dom-and-reading/README.md)
   * [Layout Quality, Geometry & Web Vitals](tools/layout-and-qa/README.md)
   * [Visual Evidence, Screenshots & Archiving](tools/visual-evidence/README.md)
+  * [Local Files, Documents & Archives](tools/files-and-documents/README.md)
   * [Credentials, Vault & DPAPI Secret Keystore](tools/vault-and-security/README.md)
   * [Phenomenological Knowledge Store & Self-Learning](tools/pks-and-learning/README.md)
   * [Guarded Actions & Blocker Clearance](tools/guarded-actions/README.md)
@@ -173,7 +174,7 @@ These conventions recur across many tools. The parameter table on each [tool pag
   * [Proxy Routing & Network Interception](tools/proxy-and-network/README.md)
   * [Desktop Notifications & Alerts](tools/notifications/README.md)
   * [Device Emulation & Responsive Testing](tools/device-emulation/README.md)
-  * [External MCP Servers & Tool Bridging](tools/external-mcp/README.md)
+  * [External MCP Servers & Site-Provided Automation](tools/external-mcp/README.md)
   * [Site Crawler & URL Discovery Index](tools/crawler-and-discovery/README.md)
   * [Episodic Task Memory & Guidance](tools/task-memory/README.md)
   * [App Shell, Dialogs & DevTools](tools/app-shell-and-ui/README.md)

@@ -12,24 +12,25 @@ Every tool exposed by **Nova AI Workspace**, grouped by operational domain. Clic
 - [3. Layout Quality & Measuring QA](#3-layout-quality--measuring-qa) (7)
 - [4. Input & Interaction](#4-input--interaction) (18)
 - [5. Guarded Actions & Blocker Clearance](#5-guarded-actions--blocker-clearance) (7)
-- [6. Visual Evidence & Screenshots](#6-visual-evidence--screenshots) (16)
-- [7. Knowledge & Phenomenological Store (PKS)](#7-knowledge--phenomenological-store-pks) (21)
-- [8. Credentials & Secure Vault](#8-credentials--secure-vault) (9)
-- [9. Terminal Workspaces & Headless CLI](#9-terminal-workspaces--headless-cli) (12)
-- [10. Downloads Management & Queue Control](#10-downloads-management--queue-control) (17)
-- [11. Desktop Notifications & Alerts](#11-desktop-notifications--alerts) (11)
-- [12. Device Emulation & Responsive Testing](#12-device-emulation--responsive-testing) (10)
-- [13. External MCP Servers & Secondary Tool Bridging](#13-external-mcp-servers--secondary-tool-bridging) (10)
-- [14. Proxy Routing & Network Interception](#14-proxy-routing--network-interception) (16)
-- [15. Site Crawler & URL Discovery Index](#15-site-crawler--url-discovery-index) (14)
-- [16. Session Tracing & DOM Event Recording](#16-session-tracing--dom-event-recording) (14)
-- [17. Scheduled Tasks, Cron & Workspaces](#17-scheduled-tasks-cron--workspaces) (25)
-- [18. Connectors, Mail & File Transfer](#18-connectors-mail--file-transfer) (53)
-- [19. Media Intelligence & Whisper Speech-to-Text](#19-media-intelligence--whisper-speech-to-text) (24)
-- [20. Site Data, Fingerprinting & Sandboxes](#20-site-data-fingerprinting--sandboxes) (23)
-- [21. Episodic Task Memory & Guidance](#21-episodic-task-memory--guidance) (34)
-- [22. App Shell, Dialogs & DevTools](#22-app-shell-dialogs--devtools) (62)
-- [23. Agent-Authored Plugins](#23-agent-authored-plugins) (22)
+- [6. Visual Evidence & Screenshots](#6-visual-evidence--screenshots) (6)
+- [7. Local Files, Documents & Archives](#7-local-files-documents--archives) (12)
+- [8. Knowledge & Phenomenological Store (PKS)](#8-knowledge--phenomenological-store-pks) (21)
+- [9. Credentials & Secure Vault](#9-credentials--secure-vault) (9)
+- [10. Terminal Workspaces & Headless CLI](#10-terminal-workspaces--headless-cli) (12)
+- [11. Downloads Management & Queue Control](#11-downloads-management--queue-control) (17)
+- [12. Desktop Notifications & Alerts](#12-desktop-notifications--alerts) (11)
+- [13. Device Emulation & Responsive Testing](#13-device-emulation--responsive-testing) (10)
+- [14. External MCP Servers & Site-Provided Automation](#14-external-mcp-servers--site-provided-automation) (14)
+- [15. Proxy Routing & Network Interception](#15-proxy-routing--network-interception) (16)
+- [16. Site Crawler & URL Discovery Index](#16-site-crawler--url-discovery-index) (13)
+- [17. Session Tracing & DOM Event Recording](#17-session-tracing--dom-event-recording) (14)
+- [18. Scheduled Tasks, Cron & Workspaces](#18-scheduled-tasks-cron--workspaces) (25)
+- [19. Connectors, Mail & File Transfer](#19-connectors-mail--file-transfer) (53)
+- [20. Media Intelligence & Whisper Speech-to-Text](#20-media-intelligence--whisper-speech-to-text) (24)
+- [21. Site Data, Fingerprinting & Sandboxes](#21-site-data-fingerprinting--sandboxes) (21)
+- [22. Episodic Task Memory & Guidance](#22-episodic-task-memory--guidance) (33)
+- [23. App Shell, Dialogs & DevTools](#23-app-shell-dialogs--devtools) (62)
+- [24. Agent-Authored Plugins](#24-agent-authored-plugins) (22)
 <!-- /generated:catalog-toc -->
 
 ---
@@ -143,13 +144,13 @@ High-impact macros that run safety pre-checks to prevent destructive loops or se
 
 | Tool Name | Parameters | Description |
 | :--- | :--- | :--- |
-| **[`nova.dismiss_blockers`](tools/browser-automation/nova-dismiss-blockers.md)** | `targetId?`, `mode?`, `maxPasses?`, `pressEscape?` | Identifies and removes click-blocking overlays, cookie consent banners, notification prompts, and modal backdrops. |
 | **[`nova.guarded_send_message`](tools/guarded-actions/nova-guarded-send-message.md)** | `targetId?`, `activateIfNeeded?`, `restoreActiveTarget?`, `selector?`, `frameId?`, `ctaRef?`, `ctaRev?`, `button?`, `clickCount?`, `timeoutMs?`, `autoDismissBlockers?`, `autoDismissMode?`, `pksMode?`, `pksAdviceMode?`, `verify?`, `verifyTimeout?`, `waitForNavigation?`, `navigationStrict?`, `waitForNavigationTimeoutMs?`, `includeScreenshot?`, `screenshotPolicy?`, `screenshotMaxWidth?`, `screenshotMaxHeight?`, `screenshotFormat?`, `screenshotQuality?`, `outputDetail?`, `transitionContract?`, `text?`, `message?`, `waitForReplyMs?` | High-level guarded macro for chat interfaces (ChatGPT, Claude.ai, Gemini, Slack, Teams): auto-discovers the composer, types text with read-back verification, resolves the send button, clicks it, and verifies delivery in a single atomic operation. |
 | **[`nova.guarded_submit_form`](tools/guarded-actions/nova-guarded-submit-form.md)** | `targetId?`, `activateIfNeeded?`, `restoreActiveTarget?`, `selector?`, `frameId?`, `ctaRef?`, `ctaRev?`, `button?`, `clickCount?`, `timeoutMs?`, `autoDismissBlockers?`, `autoDismissMode?`, `pksMode?`, `pksAdviceMode?`, `verify?`, `verifyTimeout?`, `waitForNavigation?`, `navigationStrict?`, `waitForNavigationTimeoutMs?`, `includeScreenshot?`, `screenshotPolicy?`, `screenshotMaxWidth?`, `screenshotMaxHeight?`, `screenshotFormat?`, `screenshotQuality?`, `outputDetail?`, `transitionContract?` | High-level guarded macro for form submissions, wrapping click dispatch in an automated transition contract to verify validation rules, prevent duplicate submissions, and confirm post-submit transitions. |
 | **[`nova.guarded_login`](tools/guarded-actions/nova-guarded-login.md)** | `targetId?`, `activateIfNeeded?`, `restoreActiveTarget?`, `selector?`, `frameId?`, `ctaRef?`, `ctaRev?`, `button?`, `clickCount?`, `timeoutMs?`, `autoDismissBlockers?`, `autoDismissMode?`, `pksMode?`, `pksAdviceMode?`, `verify?`, `verifyTimeout?`, `waitForNavigation?`, `navigationStrict?`, `waitForNavigationTimeoutMs?`, `includeScreenshot?`, `screenshotPolicy?`, `screenshotMaxWidth?`, `screenshotMaxHeight?`, `screenshotFormat?`, `screenshotQuality?`, `outputDetail?`, `transitionContract?` | High-level guarded macro for login form submissions, featuring integrated Auth Surface Detection (ASD) that distinguishes between authentication rejections and multi-factor (2FA/MFA) follow-up states. |
 | **[`nova.cmp_apply`](tools/guarded-actions/nova-cmp-apply.md)** | `targetId`, `agentId?`, `intent?`, `mode?` | Applies a typed privacy consent policy directly through recognized Consent Management Platform (CMP) vendor JavaScript APIs (OneTrust, Sourcepoint, Cookiebot), verifying consent vector state before and after execution. |
 | **[`nova.guarded_switch_model`](tools/guarded-actions/nova-guarded-switch-model.md)** | `targetId?`, `activateIfNeeded?`, `restoreActiveTarget?`, `selector?`, `frameId?`, `ctaRef?`, `ctaRev?`, `button?`, `clickCount?`, `timeoutMs?`, `autoDismissBlockers?`, `autoDismissMode?`, `pksMode?`, `pksAdviceMode?`, `verify?`, `verifyTimeout?`, `waitForNavigation?`, `navigationStrict?`, `waitForNavigationTimeoutMs?`, `includeScreenshot?`, `screenshotPolicy?`, `screenshotMaxWidth?`, `screenshotMaxHeight?`, `screenshotFormat?`, `screenshotQuality?`, `outputDetail?`, `transitionContract?` | Clicks a model entry in a web app's model menu and verifies that the selected model changed. |
 | **[`nova.guarded_switch_sandbox`](tools/guarded-actions/nova-guarded-switch-sandbox.md)** | `targetId?`, `activateIfNeeded?`, `restoreActiveTarget?`, `selector?`, `frameId?`, `ctaRef?`, `ctaRev?`, `button?`, `clickCount?`, `timeoutMs?`, `autoDismissBlockers?`, `autoDismissMode?`, `pksMode?`, `pksAdviceMode?`, `verify?`, `verifyTimeout?`, `waitForNavigation?`, `navigationStrict?`, `waitForNavigationTimeoutMs?`, `includeScreenshot?`, `screenshotPolicy?`, `screenshotMaxWidth?`, `screenshotMaxHeight?`, `screenshotFormat?`, `screenshotQuality?`, `outputDetail?`, `transitionContract?` | Clicks a workspace switcher entry in a web app and verifies that the workspace changed. |
+| **[`nova.dismiss_blockers`](tools/guarded-actions/nova-dismiss-blockers.md)** | `targetId?`, `mode?`, `maxPasses?`, `pressEscape?` | Identifies and removes click-blocking overlays, cookie consent banners, notification prompts, and modal backdrops. |
 
 ---
 
@@ -164,21 +165,33 @@ Lossless visual captures and regression testing with bounded budgets.
 | **[`nova.screenshot_baseline`](tools/visual-evidence/nova-screenshot-baseline.md)** | `op`, `targetId?`, `name?`, `scope?`, `fullPage?`, `threshold?`, `minRegionSize?`, `mask?`, `ignoreAntialiasing?`, `maxDiffRatio?` | Manages named, persistent visual baselines on disk and automates snapshot comparison, providing the equivalent of Playwright's `toHaveScreenshot()` for autonomous browser testing. |
 | **[`nova.save_pdf`](tools/visual-evidence/nova-save-pdf.md)** | `targetId?`, `savePath?`, `timeoutMs?`, `landscape?`, `printBackground?`, `displayHeaderFooter?`, `preferCSSPageSize?`, `generateTaggedPDF?`, `scale?`, `pageRanges?`, `paperWidth?`, `paperHeight?`, `marginTop?`, `marginBottom?`, `marginLeft?`, `marginRight?` | Renders the active web page to a vector PDF document on disk via Chrome DevTools Protocol (`Page.printToPDF`), providing zero-token document archiving and export capabilities. |
 | **[`nova.capture_app_screenshot`](tools/visual-evidence/nova-capture-app-screenshot.md)** | `agentId?`, `targetId?`, `maxWidth?`, `maxHeight?`, `screenshotMaxWidth?`, `screenshotMaxHeight?`, `format?`, `quality?`, `responseMode?` | Captures the Nova app window (tabs, topbar, WebView content) — or, if another agent holds the active tab's claim, a read-only redacted shell view with page content masked out. |
-| **[`nova.read_pdf`](tools/visual-evidence/nova-read-pdf.md)** | `path`, `pages?`, `maxChars?`, `includePages?` | Extracts the text of a local PDF file, optionally per page and for selected pages only. |
-| **[`nova.convert_to_markdown`](tools/visual-evidence/nova-convert-to-markdown.md)** | `path`, `pages?`, `outputMode?`, `outputPath?`, `maxChars?`, `renderPages?`, `includeFormValues?` | Converts a local PDF, Word, Excel, PowerPoint, HTML, CSV, JSON or text file into Markdown for an agent, with an honest account of what was read. |
-| **[`nova.data_inspect`](tools/visual-evidence/nova-data-inspect.md)** | `path`, `sheet?`, `sampleRows?`, `previewRows?`, `fullScan?`, `timeoutSeconds?` | Shows the columns, types and value ranges of a local CSV or Excel file, before your agent queries it. |
-| **[`nova.data_query`](tools/visual-evidence/nova-data-query.md)** | `path`, `sheet?`, `columns?`, `filters?`, `groupBy?`, `metrics?`, `orderBy?`, `limit?`, `timeoutSeconds?` | Filters, groups and totals a local CSV or Excel file and returns only the result rows. |
-| **[`nova.pdf_compose`](tools/visual-evidence/nova-pdf-compose.md)** | `sources`, `outputPath?` | Builds one new PDF from pages of local PDFs: merge files, keep or drop pages, change their order. |
-| **[`nova.pdf_split`](tools/visual-evidence/nova-pdf-split.md)** | `path`, `ranges`, `outputDir?` | Splits a local PDF into several new PDFs, one per page range. |
-| **[`nova.archive_inspect`](tools/visual-evidence/nova-archive-inspect.md)** | `path`, `maxEntries?` | Lists what a local ZIP or TAR archive holds, without unpacking it. |
-| **[`nova.archive_extract_status`](tools/visual-evidence/nova-archive-extract-status.md)** | `jobId`, `wait?` | Reports how far a background extraction of nova.archive_extract has come, or its result. |
-| **[`nova.archive_extract_stop`](tools/visual-evidence/nova-archive-extract-stop.md)** | `jobId` | Stops a running extraction of nova.archive_extract and removes what it had written. |
-| **[`nova.archive_extract`](tools/visual-evidence/nova-archive-extract.md)** | `path`, `destinationDir?`, `entries?`, `maxTotalBytes?`, `wait?` | Unpacks a local ZIP or TAR archive of any size, or chosen entries of it, into a new folder - safely, in the background. |
 | **[`nova.responsive_screenshots`](tools/visual-evidence/nova-responsive-screenshots.md)** | `widths`, `targetId?`, `height?`, `deviceScaleFactor?`, `mobile?`, `fullPage?`, `format?`, `quality?` | Sweeps multiple viewport widths one at a time, capturing a screenshot at each and restoring the tab's original viewport afterwards. |
 
 ---
 
-## 7. Knowledge & Phenomenological Store (PKS)
+## 7. Local Files, Documents & Archives
+
+Reading and reshaping files on disk: documents as Markdown, CSV/Excel tables with exact totals, PDF page composition, ZIP/TAR archives.
+
+| Tool Name | Parameters | Description |
+| :--- | :--- | :--- |
+| **[`nova.archive_extract`](tools/files-and-documents/nova-archive-extract.md)** | `path`, `destinationDir?`, `entries?`, `maxTotalBytes?`, `wait?` | Unpacks a local ZIP or TAR archive of any size, or chosen entries of it, into a new folder - safely, in the background. |
+| **[`nova.archive_extract_status`](tools/files-and-documents/nova-archive-extract-status.md)** | `jobId`, `wait?` | Reports how far a background extraction of nova.archive_extract has come, or its result. |
+| **[`nova.archive_extract_stop`](tools/files-and-documents/nova-archive-extract-stop.md)** | `jobId` | Stops a running extraction of nova.archive_extract and removes what it had written. |
+| **[`nova.archive_inspect`](tools/files-and-documents/nova-archive-inspect.md)** | `path`, `maxEntries?` | Lists what a local ZIP or TAR archive holds, without unpacking it. |
+| **[`nova.convert_to_markdown`](tools/files-and-documents/nova-convert-to-markdown.md)** | `path`, `pages?`, `outputMode?`, `outputPath?`, `maxChars?`, `renderPages?`, `includeFormValues?` | Converts a local PDF, Word, Excel, PowerPoint, HTML, CSV, JSON or text file into Markdown for an agent, with an honest account of what was read. |
+| **[`nova.data_inspect`](tools/files-and-documents/nova-data-inspect.md)** | `path`, `sheet?`, `sampleRows?`, `previewRows?`, `fullScan?`, `timeoutSeconds?` | Shows the columns, types and value ranges of a local CSV or Excel file, before your agent queries it. |
+| **[`nova.data_query`](tools/files-and-documents/nova-data-query.md)** | `path`, `sheet?`, `columns?`, `filters?`, `groupBy?`, `metrics?`, `orderBy?`, `limit?`, `timeoutSeconds?` | Filters, groups and totals a local CSV or Excel file and returns only the result rows. |
+| **[`nova.docx_create`](tools/files-and-documents/nova-docx-create.md)** | `markdown?`, `sourcePath?`, `title?`, `pageSize?`, `outputPath?` | Writes a Word document from Markdown, without Microsoft Office. |
+| **[`nova.pdf_compose`](tools/files-and-documents/nova-pdf-compose.md)** | `sources`, `outputPath?` | Builds one new PDF from pages of local PDFs: merge files, keep or drop pages, change their order. |
+| **[`nova.pdf_split`](tools/files-and-documents/nova-pdf-split.md)** | `path`, `ranges`, `outputDir?` | Splits a local PDF into several new PDFs, one per page range. |
+| **[`nova.read_pdf`](tools/files-and-documents/nova-read-pdf.md)** | `path`, `pages?`, `maxChars?`, `includePages?` | Extracts the text of a local PDF file, optionally per page and for selected pages only. |
+| **[`nova.xlsx_create`](tools/files-and-documents/nova-xlsx-create.md)** | `sheets?`, `sourcePath?`, `sheet?`, `sheetName?`, `autoFormat?`, `currencySymbol?`, `outputPath?` | Writes an Excel workbook from data or from a CSV file, without Microsoft Office. |
+
+---
+
+
+## 8. Knowledge & Phenomenological Store (PKS)
 
 Self-learning procedural memory for persistent fast-paths and domain notes.
 
@@ -208,7 +221,7 @@ Self-learning procedural memory for persistent fast-paths and domain notes.
 
 ---
 
-## 8. Credentials & Secure Vault
+## 9. Credentials & Secure Vault
 
 Form auto-fill without leaking plaintext secrets to the LLM context.
 
@@ -226,7 +239,7 @@ Form auto-fill without leaking plaintext secrets to the LLM context.
 
 ---
 
-## 9. Terminal Workspaces & Headless CLI
+## 10. Terminal Workspaces & Headless CLI
 
 Isolated pseudo-terminals (ConPTY), command execution streams, terminal dock control, and session persistence.
 
@@ -247,7 +260,7 @@ Isolated pseudo-terminals (ConPTY), command execution streams, terminal dock con
 
 ---
 
-## 10. Downloads Management & Queue Control
+## 11. Downloads Management & Queue Control
 
 Download tracking, pause/resume, security prompt resolution, and directory management.
 
@@ -273,7 +286,7 @@ Download tracking, pause/resume, security prompt resolution, and directory manag
 
 ---
 
-## 11. Desktop Notifications & Alerts
+## 12. Desktop Notifications & Alerts
 
 Native OS notification dispatch, unread inbox management, and per-origin notification permissions.
 
@@ -293,7 +306,7 @@ Native OS notification dispatch, unread inbox management, and per-origin notific
 
 ---
 
-## 12. Device Emulation & Responsive Testing
+## 13. Device Emulation & Responsive Testing
 
 Mobile viewport simulation, touch event emulation, user agent overriding, and dark mode toggles.
 
@@ -312,7 +325,7 @@ Mobile viewport simulation, touch event emulation, user agent overriding, and da
 
 ---
 
-## 13. External MCP Servers & Secondary Tool Bridging
+## 14. External MCP Servers & Site-Provided Automation
 
 Registering, running, and dynamically calling secondary MCP servers through Nova's unified host.
 
@@ -328,10 +341,14 @@ Registering, running, and dynamically calling secondary MCP servers through Nova
 | **[`nova.external_tools`](tools/external-mcp/nova-external-tools.md)** | `serverKey`, `includeSchema?`, `refresh?` | Lists all tools available on an external MCP server, with optional full inputSchema. |
 | **[`nova.external_tool_call`](tools/external-mcp/nova-external-tool-call.md)** | `serverKey`, `toolName`, `arguments?`, `timeoutMs?` | Invokes a specific tool on a connected external MCP server and returns the raw response. |
 | **[`nova.external_server_import`](tools/external-mcp/nova-external-server-import.md)** | `source`, `filePath?`, `serverName?`, `autoStart?` | Imports MCP server definitions from Claude Desktop, VS Code, Claude Code, or JSON config files. |
+| **[`nova.site_mcp_inspect`](tools/external-mcp/nova-site-mcp-inspect.md)** | `domain` | Inspects a discovered MCP server from cached discovery metadata (identity, transport, auth status). |
+| **[`nova.site_mcp_connect_request`](tools/external-mcp/nova-site-mcp-connect-request.md)** | `domain` | Requests an authenticated OAuth 2.1 connection to a website's discovered MCP server. |
+| **[`nova.site_discovery_get`](tools/external-mcp/nova-site-discovery-get.md)** | `domain` | Retrieves cached MCP and AI discovery probe results for a domain without network traffic. |
+| **[`nova.site_discovery_probe`](tools/external-mcp/nova-site-discovery-probe.md)** | `url`, `forceRefresh?` | Probes a website for modern AI and MCP discovery endpoints (llms.txt, /.well-known/mcp.json, A2A). |
 
 ---
 
-## 14. Proxy Routing & Network Interception
+## 15. Proxy Routing & Network Interception
 
 Proxy profile management, authentication, traffic redirection, and CDP network request/response interception.
 
@@ -356,7 +373,7 @@ Proxy profile management, authentication, traffic redirection, and CDP network r
 
 ---
 
-## 15. Site Crawler & URL Discovery Index
+## 16. Site Crawler & URL Discovery Index
 
 Broad-surface website crawling, URL indexing, sitemap verification, and discovery probes.
 
@@ -374,12 +391,11 @@ Broad-surface website crawling, URL indexing, sitemap verification, and discover
 | **[`nova.site_urls`](tools/crawler-and-discovery/nova-site-urls.md)** | `agentId?`, `domain?`, `scopeKey?`, `origin?`, `pathPrefix?`, `includeStale?`, `includeDead?`, `limit?` | Queries the persistent Site-URL-Index for known endpoints, utility scores, and route candidates. |
 | **[`nova.site_urls_report`](tools/crawler-and-discovery/nova-site-urls-report.md)** | `reports`, `agentId?` | Reports live navigation observations (new pages, 404s, redirects) to the Site-URL-Index. |
 | **[`nova.discovery_reset_scope`](tools/crawler-and-discovery/nova-discovery-reset-scope.md)** | `agentId?`, `domain?`, `scopeKey?`, `origin?` | Destructively clears all persisted crawl history, results, and URL indexes for a site scope. |
-| **[`nova.site_discovery_probe`](tools/crawler-and-discovery/nova-site-discovery-probe.md)** | `url`, `forceRefresh?` | Probes a website for modern AI and MCP discovery endpoints (llms.txt, /.well-known/mcp.json, A2A). |
-| **[`nova.site_discovery_get`](tools/crawler-and-discovery/nova-site-discovery-get.md)** | `domain` | Retrieves cached MCP and AI discovery probe results for a domain without network traffic. |
+| **[`nova.explore_surface`](tools/crawler-and-discovery/nova-explore-surface.md)** | `mode`, `targetId`, `executionSurface`, `guardProfile`, `agentId?`, `expectedUrl?`, `routeId?`, `stability?`, `discover?`, `activate?`, `close?`, `hover?` | Discovers interactive UI triggers (buttons, tabs, accordions) and activates them to reveal hidden DOM. |
 
 ---
 
-## 16. Session Tracing & DOM Event Recording
+## 17. Session Tracing & DOM Event Recording
 
 Network HAR capture, user interaction timelines, DOM change snapshots, and replay verification.
 
@@ -402,7 +418,7 @@ Network HAR capture, user interaction timelines, DOM change snapshots, and repla
 
 ---
 
-## 17. Scheduled Tasks, Cron & Workspaces
+## 18. Scheduled Tasks, Cron & Workspaces
 
 Background task automation, cron expressions, file-system watches, task workspaces, and execution logs.
 
@@ -436,7 +452,7 @@ Background task automation, cron expressions, file-system watches, task workspac
 
 ---
 
-## 18. Connectors, Mail & File Transfer
+## 19. Connectors, Mail & File Transfer
 
 IMAP/SMTP email client automation, EML exports, SFTP/FTP server operations, and credential access grants.
 
@@ -498,7 +514,7 @@ IMAP/SMTP email client automation, EML exports, SFTP/FTP server operations, and 
 
 ---
 
-## 19. Media Intelligence & Whisper Speech-to-Text
+## 20. Media Intelligence & Whisper Speech-to-Text
 
 In-browser audio/video recording, local OpenAI Whisper transcription, model management, and camera/mic permissions.
 
@@ -531,7 +547,7 @@ In-browser audio/video recording, local OpenAI Whisper transcription, model mana
 
 ---
 
-## 20. Site Data, Fingerprinting & Sandboxes
+## 21. Site Data, Fingerprinting & Sandboxes
 
 Cookie jars, localStorage/sessionStorage, cache purging, browser fingerprint spoofing, and sandbox isolation.
 
@@ -557,13 +573,11 @@ Cookie jars, localStorage/sessionStorage, cache purging, browser fingerprint spo
 | **[`nova.sandbox_create`](tools/site-data-and-identity/nova-sandbox-create.md)** | `name?`, `color?`, `startUrl?`, `purpose?`, `accountLabel?`, `aliases?`, `preferredFor?` | Creates a new isolated sandbox profile with dedicated storage, cookies, and cache. |
 | **[`nova.sandbox_update`](tools/site-data-and-identity/nova-sandbox-update.md)** | `sandboxId`, `name?`, `color?`, `startUrl?`, `purpose?`, `accountLabel?`, `aliases?`, `preferredFor?`, `isPaused?` | Updates configuration, display name, color tag, or purpose of an existing sandbox. |
 | **[`nova.sandbox_delete`](tools/site-data-and-identity/nova-sandbox-delete.md)** | `sandboxId`, `confirm` | Permanently removes a sandbox profile and deletes its storage, cookies, and cache. |
-| **[`nova.site_mcp_inspect`](tools/site-data-and-identity/nova-site-mcp-inspect.md)** | `domain` | Inspects a discovered MCP server from cached discovery metadata (identity, transport, auth status). |
-| **[`nova.site_mcp_connect_request`](tools/site-data-and-identity/nova-site-mcp-connect-request.md)** | `domain` | Requests an authenticated OAuth 2.1 connection to a website's discovered MCP server. |
 | **[`nova.site_permissions_reset_origin`](tools/site-data-and-identity/nova-site-permissions-reset-origin.md)** | `origin` | One-click reset of all stored permissions (media, notifications, geolocation) for an origin. |
 
 ---
 
-## 21. Episodic Task Memory & Guidance
+## 22. Episodic Task Memory & Guidance
 
 Task instance tracking, guidance logs, coverage scans, surface exploration, and operator domain notes.
 
@@ -576,7 +590,6 @@ Task instance tracking, guidance logs, coverage scans, surface exploration, and 
 | **[`nova.domain_note_ack`](tools/task-memory/nova-domain-note-ack.md)** | `domain`, `key`, `targetId?` | Explicitly acknowledges a MUST-read domain note block to unblock subsequent tool calls. |
 | **[`nova.domain_note_delete`](tools/task-memory/nova-domain-note-delete.md)** | `domain`, `key`, `scope?`, `sandboxId?`, `sandboxRef?` | Deletes a domain note by domain name and key. |
 | **[`nova.domain_notes_list`](tools/task-memory/nova-domain-notes-list.md)** | `domain`, `scope?`, `sandboxId?`, `sandboxRef?` | Lists all stored procedural notes and operator instructions for a specific domain. |
-| **[`nova.explore_surface`](tools/task-memory/nova-explore-surface.md)** | `mode`, `targetId`, `executionSurface`, `guardProfile`, `agentId?`, `expectedUrl?`, `routeId?`, `stability?`, `discover?`, `activate?`, `close?`, `hover?` | Discovers interactive UI triggers (buttons, tabs, accordions) and activates them to reveal hidden DOM. |
 | **[`nova.goal_register`](tools/task-memory/nova-goal-register.md)** | `op`, `targetId?`, `goalId?`, `summary?`, `mode?`, `preconditions?`, `preconditionsJson?`, `ownerAgentId?`, `ownerAgent?`, `sidecarSessionId?`, `ownerSession?`, `leaseMs?`, `leaseTimeoutMs?`, `steps?`, `includeSteps?`, `includeEvents?`, `eventsLimit?`, `state?`, `content?`, `source?` | Manages closed-loop task goals, verifying step advancement and milestone criteria. |
 | **[`nova.memory_add_candidate`](tools/task-memory/nova-memory-add-candidate.md)** | `targetId`, `component`, `claim`, `agentId?`, `status?`, `confidence?` | Proposes a lightweight candidate memory claim for the currently claimed task and tab. |
 | **[`nova.memory_forget`](tools/task-memory/nova-memory-forget.md)** | `domain?`, `memoryId?`, `memoryType?`, `all?` | Deletes browsing memories matching domain, memoryType, or text query filters. |
@@ -606,7 +619,7 @@ Task instance tracking, guidance logs, coverage scans, surface exploration, and 
 
 ---
 
-## 22. App Shell, Dialogs & DevTools
+## 23. App Shell, Dialogs & DevTools
 
 WinUI window controls, native OS dialog handling, DevTools panels, setup wizard, and onboarding injection.
 
@@ -677,7 +690,7 @@ WinUI window controls, native OS dialog handling, DevTools panels, setup wizard,
 
 ---
 
-## 23. Agent-Authored Plugins
+## 24. Agent-Authored Plugins
 
 Write, test, and ship agent-authored browser plugins that change how pages behave.
 

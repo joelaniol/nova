@@ -1,6 +1,6 @@
 # Site Crawler & URL Discovery Index
 
-Broad-surface website crawling, URL indexing, sitemap verification, and discovery probes.
+Broad-surface website crawling, URL indexing, sitemap verification, and exploration of UI states no URL reaches.
 
 * **Core Architecture Guide:** [Autonomous Crawler & URL Discovery](../../../core-features/crawler-and-discovery/crawler/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -8,9 +8,9 @@ Broad-surface website crawling, URL indexing, sitemap verification, and discover
 ---
 
 <!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
-## Tool Inventory (14 Tools)
+## Tool Inventory (13 Tools)
 
-Capability bundles of these tools: `crawler_ops`, `system_tools`.
+Capability bundles of these tools: `crawler_ops`, `surface_explorer`.
 
 | Tool | What it does |
 | :--- | :--- |
@@ -24,8 +24,7 @@ Capability bundles of these tools: `crawler_ops`, `system_tools`.
 | **[`nova.crawl_update`](nova-crawl-update.md)** | Dynamically modifies parameters (rate limits, filters, depth, pauses) of an active crawl mid-flight. |
 | **[`nova.crawl_verify`](nova-crawl-verify.md)** | Performs targeted, non-traversal verification and DOM extraction against a specific list of URLs. |
 | **[`nova.discovery_reset_scope`](nova-discovery-reset-scope.md)** | Destructively clears all persisted crawl history, results, and URL indexes for a site scope. |
-| **[`nova.site_discovery_get`](nova-site-discovery-get.md)** | Retrieves cached MCP and AI discovery probe results for a domain without network traffic. |
-| **[`nova.site_discovery_probe`](nova-site-discovery-probe.md)** | Probes a website for modern AI and MCP discovery endpoints (llms.txt, /.well-known/mcp.json, A2A). |
+| **[`nova.explore_surface`](nova-explore-surface.md)** | Discovers interactive UI triggers (buttons, tabs, accordions) and activates them to reveal hidden DOM. |
 | **[`nova.site_urls`](nova-site-urls.md)** | Queries the persistent Site-URL-Index for known endpoints, utility scores, and route candidates. |
 | **[`nova.site_urls_report`](nova-site-urls-report.md)** | Reports live navigation observations (new pages, 404s, redirects) to the Site-URL-Index. |
 <!-- /generated:tool-list -->

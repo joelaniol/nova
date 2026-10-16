@@ -171,7 +171,7 @@ For human operators, Nova embeds a native WinUI 3 PDF viewing surface directly i
 | Tool | Parameters | Output & Diagnostics |
 | :--- | :--- | :--- |
 | [`nova.save_pdf`](../../../mcp-reference/tools/visual-evidence/nova-save-pdf.md) | `targetId?`<br/>`savePath?`<br/>`printBackground?`<br/>`preferCSSPageSize?`<br/>`landscape?`<br/>`scale?`<br/>`paperWidth?`<br/>`paperHeight?`<br/>`marginTop?`<br/>`marginBottom?`<br/>`marginLeft?`<br/>`marginRight?`<br/>`pageRanges?`<br/>`displayHeaderFooter?`<br/>`generateTaggedPDF?` | `savedPath` (verified file path)<br/>`pages` (total count)<br/>`bytes` (file size)<br/>Renderer error classification |
-| [`nova.read_pdf`](../../../mcp-reference/tools/visual-evidence/nova-read-pdf.md) | `path`<br/>`pages?`<br/>`maxChars?`<br/>`includePages?` | `text` (extracted continuous text)<br/>`pageCount` (total document pages)<br/>`pagesRead` (array of read page indices)<br/>`truncated` (boolean)<br/>`reasonCode` (`read_pdf.no_extractable_text`, `read_pdf.encrypted`, etc.) |
+| [`nova.read_pdf`](../../../mcp-reference/tools/files-and-documents/nova-read-pdf.md) | `path`<br/>`pages?`<br/>`maxChars?`<br/>`includePages?` | `text` (extracted continuous text)<br/>`pageCount` (total document pages)<br/>`pagesRead` (array of read page indices)<br/>`truncated` (boolean)<br/>`reasonCode` (`read_pdf.no_extractable_text`, `read_pdf.encrypted`, etc.) |
 
 ---
 

@@ -61,7 +61,7 @@ Modern web applications present two fundamentally distinct challenges to autonom
 | **Key Targets** | HTML documents, blog posts, documentation pages, XML sitemaps. | Collapsible panels, accordions, modal dialogs, tab switchers, hover tooltips. |
 | **Safety Posture** | SSRF filtering, domain rate limiting, backoff, and circuit breaking. | Interception of popups, downloads, form submissions, and external navigation. |
 | **Persistence Unit** | Crawled pages, extracted text, link graphs, and canonical site URLs. | State transitions, trigger inventories, baseline DOMs, and visual diffs. |
-| **Primary Tool** | [`nova.crawl_start`](../../mcp-reference/tools/crawler-and-discovery/nova-crawl-start.md) | [`nova.explore_surface`](../../mcp-reference/tools/task-memory/nova-explore-surface.md) |
+| **Primary Tool** | [`nova.crawl_start`](../../mcp-reference/tools/crawler-and-discovery/nova-crawl-start.md) | [`nova.explore_surface`](../../mcp-reference/tools/crawler-and-discovery/nova-explore-surface.md) |
 
 A completed crawler traversal maps accessible URL routes across a domain, but does not execute interactive in-page controls to reveal dynamic DOM states. Conversely, an exhaustive Surface Explorer run catalogs every collapsible menu on a specific page, but does not follow outgoing hyper-links across the broader site. High-capability agents combine both mechanisms to achieve end-to-end site intelligence.
 
@@ -97,7 +97,7 @@ Maintains a persistent, cross-session routing atlas in SQLite:
 Inspects modern web origins for standardized AI documentation and remote agent protocols:
 * **AI Metadata Probing (`llms.txt`):** Automatically locates, fetches, and parses `llms.txt` and `llms-full.txt` files into structured markdown summaries and link catalogs.
 * **Remote MCP Server Discovery:** Probes for `/.well-known/mcp.json` and discovery response headers (`mcp-server`), locating remote Model Context Protocol endpoints.
-* **Zero-Execution Inspection:** Tools [`nova.site_discovery_probe`](../../mcp-reference/tools/crawler-and-discovery/nova-site-discovery-probe.md) and [`nova.site_mcp_inspect`](../../mcp-reference/tools/site-data-and-identity/nova-site-mcp-inspect.md) evaluate remote server cards and advertised tool schemas in an isolated inspect-only mode without executing untrusted remote code.
+* **Zero-Execution Inspection:** Tools [`nova.site_discovery_probe`](../../mcp-reference/tools/external-mcp/nova-site-discovery-probe.md) and [`nova.site_mcp_inspect`](../../mcp-reference/tools/external-mcp/nova-site-mcp-inspect.md) evaluate remote server cards and advertised tool schemas in an isolated inspect-only mode without executing untrusted remote code.
 
 ### 5. [History, Diffs, Targeted Verification & Link Analysis](diff-and-verification/README.md)
 Provides precision tools for historical comparison, deterministic auditing, and instant link extraction:
@@ -196,4 +196,4 @@ sequenceDiagram
 
 ---
 
-[All core features](../README.md) · [Crawler & Discovery MCP Tool Inventory](../../mcp-reference/tools/crawler-and-discovery/README.md) · [Surface Explorer Tool Reference](../../mcp-reference/tools/task-memory/nova-explore-surface.md)
+[All core features](../README.md) · [Crawler & Discovery MCP Tool Inventory](../../mcp-reference/tools/crawler-and-discovery/README.md) · [Surface Explorer Tool Reference](../../mcp-reference/tools/crawler-and-discovery/nova-explore-surface.md)

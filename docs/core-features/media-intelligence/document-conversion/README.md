@@ -5,7 +5,7 @@
 
 Nova turns documents on your computer into Markdown that your AI agent can read: PDFs, Word documents, Excel workbooks, PowerPoint presentations, HTML pages, EPUB e-books, CSV tables, JSON and plain text files. The conversion runs inside Nova. Nothing is uploaded, and you do not need Office, Python or any other program besides Nova.
 
-You do not operate this yourself. You ask your agent, and the agent uses the tool [`nova.convert_to_markdown`](../../../mcp-reference/tools/visual-evidence/nova-convert-to-markdown.md).
+You do not operate this yourself. You ask your agent, and the agent uses the tool [`nova.convert_to_markdown`](../../../mcp-reference/tools/files-and-documents/nova-convert-to-markdown.md).
 
 ---
 
@@ -38,17 +38,21 @@ PDF, Word, Excel, PowerPoint, HTML and EPUB files are recognised by their conten
 
 **Not supported:** old Office files (`.doc`, `.xls`, `.ppt`), password-protected Office files, copy-protected (DRM) e-books, other ZIP archives and images. Scanned PDFs without a text layer cannot be read either, because Nova does not run text recognition (OCR); the agent is told which pages are affected.
 
+### Creating Word and Excel files
+
+The other direction works too, without Microsoft Office. [`nova.docx_create`](../../../mcp-reference/tools/files-and-documents/nova-docx-create.md) writes a Word document from the Markdown your agent writes - headings, lists, tables and links included. [`nova.xlsx_create`](../../../mcp-reference/tools/files-and-documents/nova-xlsx-create.md) writes an Excel workbook from data or from a CSV file, with real numbers and dates, filter buttons and fitting column widths. Nothing is overwritten, and text from a file never turns into an Excel formula.
+
 ### Analysing tables
 
-For larger CSV exports and Excel sheets your agent does not need to read every row. [`nova.data_inspect`](../../../mcp-reference/tools/visual-evidence/nova-data-inspect.md) shows the columns, their types and value ranges; [`nova.data_query`](../../../mcp-reference/tools/visual-evidence/nova-data-query.md) filters, groups and totals the data and returns only the answer - for example the ten best-selling products of a month. The arithmetic runs on your computer and is exact; German and English number formats are both understood, and the answer says when values could not be read.
+For larger CSV exports and Excel sheets your agent does not need to read every row. [`nova.data_inspect`](../../../mcp-reference/tools/files-and-documents/nova-data-inspect.md) shows the columns, their types and value ranges; [`nova.data_query`](../../../mcp-reference/tools/files-and-documents/nova-data-query.md) filters, groups and totals the data and returns only the answer - for example the ten best-selling products of a month. The arithmetic runs on your computer and is exact; German and English number formats are both understood, and the answer says when values could not be read.
 
 ### Merging and splitting PDFs
 
-Your agent can also rearrange PDF pages without any other program. [`nova.pdf_compose`](../../../mcp-reference/tools/visual-evidence/nova-pdf-compose.md) builds a new PDF from pages of one or more files in the order you want - to merge invoices, drop a page or move one to the front. [`nova.pdf_split`](../../../mcp-reference/tools/visual-evidence/nova-pdf-split.md) cuts a PDF into several files by page range. Your original files stay as they are, and nothing is overwritten. Bookmarks, fillable form fields and digital signatures are not carried into the new files; the agent is told when a source had any.
+Your agent can also rearrange PDF pages without any other program. [`nova.pdf_compose`](../../../mcp-reference/tools/files-and-documents/nova-pdf-compose.md) builds a new PDF from pages of one or more files in the order you want - to merge invoices, drop a page or move one to the front. [`nova.pdf_split`](../../../mcp-reference/tools/files-and-documents/nova-pdf-split.md) cuts a PDF into several files by page range. Your original files stay as they are, and nothing is overwritten. Bookmarks, fillable form fields and digital signatures are not carried into the new files; the agent is told when a source had any.
 
 ### Archives and backups
 
-A downloaded ZIP file or a server backup as TAR or `.tar.gz` can be looked into and unpacked first. [`nova.archive_inspect`](../../../mcp-reference/tools/visual-evidence/nova-archive-inspect.md) lists what the archive holds without unpacking it. [`nova.archive_extract`](../../../mcp-reference/tools/visual-evidence/nova-archive-extract.md) unpacks it into a new folder in Nova's Exports folder, in the background and without a fixed size limit: it stops only before the drive runs out of space. It never overwrites a file and never writes entries that would land outside that folder. Your agent can then convert the unpacked documents.
+A downloaded ZIP file or a server backup as TAR or `.tar.gz` can be looked into and unpacked first. [`nova.archive_inspect`](../../../mcp-reference/tools/files-and-documents/nova-archive-inspect.md) lists what the archive holds without unpacking it. [`nova.archive_extract`](../../../mcp-reference/tools/files-and-documents/nova-archive-extract.md) unpacks it into a new folder in Nova's Exports folder, in the background and without a fixed size limit: it stops only before the drive runs out of space. It never overwrites a file and never writes entries that would land outside that folder. Your agent can then convert the unpacked documents.
 
 ### Pages open in a tab
 
@@ -69,4 +73,4 @@ A web page does not have to be saved first. Your agent can convert the page that
 
 ## For agents and developers
 
-Parameters, the full result structure, warnings and error codes are in the tool reference: [`nova.convert_to_markdown`](../../../mcp-reference/tools/visual-evidence/nova-convert-to-markdown.md). Related: [PDF Reading & Export](../pdf/README.md) for `nova.read_pdf` (exact PDF text) and `nova.save_pdf` (saving a web page as PDF).
+Parameters, the full result structure, warnings and error codes are in the tool reference: [`nova.convert_to_markdown`](../../../mcp-reference/tools/files-and-documents/nova-convert-to-markdown.md). Related: [PDF Reading & Export](../pdf/README.md) for `nova.read_pdf` (exact PDF text) and `nova.save_pdf` (saving a web page as PDF).

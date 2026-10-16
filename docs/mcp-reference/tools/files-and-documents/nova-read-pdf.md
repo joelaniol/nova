@@ -94,4 +94,4 @@ On a failure (`not_found`, `blocked`, `empty`, `error`) `ok` is `false`, `text` 
 
 ## 5. Related Tools
 
-* [`nova.save_pdf`](nova-save-pdf.md)
+* [`nova.save_pdf`](../visual-evidence/nova-save-pdf.md)

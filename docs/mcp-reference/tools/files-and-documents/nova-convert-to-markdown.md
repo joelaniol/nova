@@ -167,4 +167,4 @@ On a failure `ok` is `false`, `reasonCode` names the cause (`convert_to_markdown
 ## 5. Related Tools
 
 * [`nova.read_pdf`](nova-read-pdf.md)
-* [`nova.save_pdf`](nova-save-pdf.md)
+* [`nova.save_pdf`](../visual-evidence/nova-save-pdf.md)

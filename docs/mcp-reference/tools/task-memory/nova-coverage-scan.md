@@ -99,5 +99,5 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ## 5. Related Tools
 
-* [`nova.explore_surface`](nova-explore-surface.md)
+* [`nova.explore_surface`](../crawler-and-discovery/nova-explore-surface.md)
 * [`nova.task_instance_reconcile_coverage`](nova-task-instance-reconcile-coverage.md)

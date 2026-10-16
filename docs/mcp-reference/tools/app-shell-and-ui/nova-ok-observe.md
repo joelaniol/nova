@@ -94,4 +94,4 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 ## 5. Related Tools
 
 * [`nova.ok_signal_schema`](nova-ok-signal-schema.md)
-* [`nova.dismiss_blockers`](../browser-automation/nova-dismiss-blockers.md)
+* [`nova.dismiss_blockers`](../guarded-actions/nova-dismiss-blockers.md)

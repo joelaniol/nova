@@ -80,13 +80,13 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ## 5. Best Practices & Common Traps
 
-* **Use in Guarded Clicks:** You rarely need to call `nova.dismiss_blockers` manually before clicking. Simply pass `autoDismissBlockers: true` to [`nova.click_selector`](nova-click-selector.md), and Nova will invoke blocker dismissal automatically if a backdrop intercepts the click.
+* **Use in Guarded Clicks:** You rarely need to call `nova.dismiss_blockers` manually before clicking. Simply pass `autoDismissBlockers: true` to [`nova.click_selector`](../browser-automation/nova-click-selector.md), and Nova will invoke blocker dismissal automatically if a backdrop intercepts the click.
 * **Aggressive Mode Side Effects:** In `"aggressive"` mode, hiding root overlays may leave `overflow: hidden` on the HTML body. If scrolling feels locked afterwards, re-verify with `nova.scroll_smart`.
 
 ---
 
 ## See Also
 
-* [`nova.click_selector`](nova-click-selector.md) — Click elements with `autoDismissBlockers: true`.
-* [`nova.scroll_smart`](nova-scroll-smart.md) — Natural wheel scrolling.
+* [`nova.click_selector`](../browser-automation/nova-click-selector.md) — Click elements with `autoDismissBlockers: true`.
+* [`nova.scroll_smart`](../browser-automation/nova-scroll-smart.md) — Natural wheel scrolling.
 * [Core Feature: Closed-Loop System (CLS)](../../../core-features/closed-loop-system-cls/README.md)

@@ -16,7 +16,7 @@ Dismissing cookie consent dialogs through naive UI clicking is fragile: consent 
 * **User Choice Preservation:** For OneTrust and Cookiebot, if the pre-state already shows an explicit prior user accept of an optional category, Nova preserves it (`user_choice_preserved`) instead of overriding it with `RejectOptional`. TCF/Sourcepoint state cannot currently be decoded well enough to detect this, so that vendor always applies the requested intent.
 
 * **Cross-Origin Iframe Awareness:** For Sourcepoint, the `__tcfapi` function it relies on commonly lives in the top frame even when the consent UI itself renders inside a cross-origin iframe.
-* **Automatic Fallback:** If no recognized CMP adapter is detected (`failureCode: "no_adapter"`), agents fall back to visual blocker dismissal via [`nova.dismiss_blockers`](../browser-automation/nova-dismiss-blockers.md).
+* **Automatic Fallback:** If no recognized CMP adapter is detected (`failureCode: "no_adapter"`), agents fall back to visual blocker dismissal via [`nova.dismiss_blockers`](nova-dismiss-blockers.md).
 
 ---
 
@@ -122,6 +122,6 @@ A call with `intent.mode: "AcceptAll"` does not return a tool result at all; it 
 
 ## 5. Related Tools & Documentation
 
-* [`nova.dismiss_blockers`](../browser-automation/nova-dismiss-blockers.md) — Visual fallback for closing arbitrary overlay dialogs.
+* [`nova.dismiss_blockers`](nova-dismiss-blockers.md) — Visual fallback for closing arbitrary overlay dialogs.
 * [`nova.tab_claim`](../browser-automation/nova-tab-claim.md) — Lease a tab before applying consent mutations.
 * [Closed-Loop Systems Architecture](../../../core-features/closed-loop-system-cls/README.md) — Verification contracts and consent policy enforcement.

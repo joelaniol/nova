@@ -117,5 +117,5 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ## 5. Related Tools
 
-* [`nova.dismiss_blockers`](nova-dismiss-blockers.md)
+* [`nova.dismiss_blockers`](../guarded-actions/nova-dismiss-blockers.md)
 * [`nova.wait_for_selector`](nova-wait-for-selector.md)

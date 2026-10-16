@@ -218,7 +218,7 @@ Discovery probes strictly enforce `http://` and `https://` schemes. Probes to lo
 ### 3. The Zero Auto-Execution Invariant
 **Discovered remote MCP servers and their advertised tools are NEVER executed automatically.** 
 * `nova.site_mcp_inspect` is strictly read-only; it inspects schemas and descriptions without establishing persistent network connections or calling remote methods.
-* Connecting to a discovered remote MCP server requires explicit user approval and administrative configuration via Nova's External Server settings or [`nova.site_mcp_connect_request`](../../../mcp-reference/tools/site-data-and-identity/nova-site-mcp-connect-request.md).
+* Connecting to a discovered remote MCP server requires explicit user approval and administrative configuration via Nova's External Server settings or [`nova.site_mcp_connect_request`](../../../mcp-reference/tools/external-mcp/nova-site-mcp-connect-request.md).
 
 ---
 
@@ -229,9 +229,9 @@ Discovery probes strictly enforce `http://` and `https://` schemes. Probes to lo
 * [**Surface Explorer**](../surface-explorer/README.md) — Revealing dynamic in-page DOM states, modals, accordions, and hover menus.
 * [**Site URL Index & Live Reporting**](../site-url-index/README.md) — Persistent sitemap memory, URL canonicalization, and live navigation reporting.
 * [**Diffs & Verification**](../diff-and-verification/README.md) — Generational crawl diffs, fixed-list verification, and instant link extraction.
-* [**Site Discovery Probe Tool Reference**](../../../mcp-reference/tools/crawler-and-discovery/nova-site-discovery-probe.md) — Detailed parameters for `nova.site_discovery_probe`.
-* [**Site Discovery Get Tool Reference**](../../../mcp-reference/tools/crawler-and-discovery/nova-site-discovery-get.md) — Detailed parameters for `nova.site_discovery_get`.
-* [**Site MCP Inspect Tool Reference**](../../../mcp-reference/tools/site-data-and-identity/nova-site-mcp-inspect.md) — Inspecting remote MCP server capabilities.
+* [**Site Discovery Probe Tool Reference**](../../../mcp-reference/tools/external-mcp/nova-site-discovery-probe.md) — Detailed parameters for `nova.site_discovery_probe`.
+* [**Site Discovery Get Tool Reference**](../../../mcp-reference/tools/external-mcp/nova-site-discovery-get.md) — Detailed parameters for `nova.site_discovery_get`.
+* [**Site MCP Inspect Tool Reference**](../../../mcp-reference/tools/external-mcp/nova-site-mcp-inspect.md) — Inspecting remote MCP server capabilities.
 
 ---
 

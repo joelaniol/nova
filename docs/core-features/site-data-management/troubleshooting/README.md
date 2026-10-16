@@ -153,7 +153,7 @@ Users occasionally confuse profile loss with cookie expiration:
 * [Web Storage Architecture Guide](../web-storage/README.md): Bounded key inspection and request replay mapping.
 * [Cache & Cleanup Guide](../cache-and-cleanup/README.md): Invalidation categories and Vault isolation.
 * [Site Data Permissions & Audit](../permissions-and-audit/README.md): Authorization policies and audit log guarantees.
-* [CMP Apply Tool Reference](../../../mcp-reference/tools/guarded-actions/nova-cmp-apply.md) · [Dismiss Blockers](../../../mcp-reference/tools/browser-automation/nova-dismiss-blockers.md)
+* [CMP Apply Tool Reference](../../../mcp-reference/tools/guarded-actions/nova-cmp-apply.md) · [Dismiss Blockers](../../../mcp-reference/tools/guarded-actions/nova-dismiss-blockers.md)
 
 ---
 

@@ -8,7 +8,7 @@ Cookie jars, localStorage/sessionStorage, cache purging, browser fingerprint spo
 ---
 
 <!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
-## Tool Inventory (23 Tools)
+## Tool Inventory (21 Tools)
 
 Capability bundles of these tools: `browser_automation`, `fingerprint_protection`, `identity_management`, `site_data_management`, `system_tools`.
 
@@ -31,8 +31,6 @@ Capability bundles of these tools: `browser_automation`, `fingerprint_protection
 | **[`nova.sandbox_create`](nova-sandbox-create.md)** | Creates a new isolated sandbox profile with dedicated storage, cookies, and cache. |
 | **[`nova.sandbox_delete`](nova-sandbox-delete.md)** | Permanently removes a sandbox profile and deletes its storage, cookies, and cache. |
 | **[`nova.sandbox_update`](nova-sandbox-update.md)** | Updates configuration, display name, color tag, or purpose of an existing sandbox. |
-| **[`nova.site_mcp_connect_request`](nova-site-mcp-connect-request.md)** | Requests an authenticated OAuth 2.1 connection to a website's discovered MCP server. |
-| **[`nova.site_mcp_inspect`](nova-site-mcp-inspect.md)** | Inspects a discovered MCP server from cached discovery metadata (identity, transport, auth status). |
 | **[`nova.site_permissions_reset_origin`](nova-site-permissions-reset-origin.md)** | One-click reset of all stored permissions (media, notifications, geolocation) for an origin. |
 | **[`nova.storage_delete`](nova-storage-delete.md)** | Deletes a key from localStorage or sessionStorage for the target page. |
 | **[`nova.storage_inspect`](nova-storage-inspect.md)** | Reads localStorage or sessionStorage key-value pairs for the target page. |

@@ -209,7 +209,7 @@ erDiagram
 
 ## 7. Tool Contract Reference
 
-All surface exploration actions are executed through [`nova.explore_surface`](../../../mcp-reference/tools/task-memory/nova-explore-surface.md):
+All surface exploration actions are executed through [`nova.explore_surface`](../../../mcp-reference/tools/crawler-and-discovery/nova-explore-surface.md):
 
 ```json
 {
@@ -245,7 +245,7 @@ All surface exploration actions are executed through [`nova.explore_surface`](..
 * [**AI & MCP Discovery Probes**](../site-discovery-and-mcp/README.md) — Probing `llms.txt`, `/.well-known/mcp.json`, and remote server cards.
 * [**Diffs & Verification**](../diff-and-verification/README.md) — Generational crawl diffs, fixed-list verification, and instant link extraction.
 * [**Agent Awareness Gates (AAG)**](../../agent-awareness-gates-aag/README.md) — Preconditions and guardrails before agent operations.
-* [**Surface Explorer Tool Specification**](../../../mcp-reference/tools/task-memory/nova-explore-surface.md) — Full MCP tool reference with detailed request/response examples.
+* [**Surface Explorer Tool Specification**](../../../mcp-reference/tools/crawler-and-discovery/nova-explore-surface.md) — Full MCP tool reference with detailed request/response examples.
 
 ---
 

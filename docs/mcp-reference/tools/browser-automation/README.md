@@ -8,7 +8,7 @@ Page navigation, tab strip lifecycle management, physical clicks, humanized typi
 ---
 
 <!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
-## Tool Inventory (41 Tools)
+## Tool Inventory (40 Tools)
 
 Capability bundles of these tools: `browser_automation`, `form_submission`, `page_read_debug`, `visual_evidence`.
 
@@ -19,7 +19,6 @@ Capability bundles of these tools: `browser_automation`, `form_submission`, `pag
 | **[`nova.back`](nova-back.md)** | Navigates backward in browser history, with optional load/settlement waiting and a screenshot sidecar. |
 | **[`nova.choose_option`](nova-choose-option.md)** | Selects an option from a custom UI or standard dropdown by visible text or value. |
 | **[`nova.click_selector`](nova-click-selector.md)** | Executes a verified click on a DOM element matching a CSS selector or CTA handle, featuring deep Shadow-DOM piercing, backdrop dismissal, and postcondition verification. |
-| **[`nova.dismiss_blockers`](nova-dismiss-blockers.md)** | Identifies and removes click-blocking overlays, cookie consent banners, notification prompts, and modal backdrops. |
 | **[`nova.file_upload`](nova-file-upload.md)** | Attaches one or more local files directly to an HTML `<input type="file">` element via Chrome DevTools Protocol (CDP), bypassing native OS file picker dialogs. |
 | **[`nova.forward`](nova-forward.md)** | Navigates forward in browser history, with optional load/settlement waiting and a screenshot sidecar. |
 | **[`nova.history_get`](nova-history-get.md)** | Retrieves session navigation history entries, active index, and title metadata for a tab. |

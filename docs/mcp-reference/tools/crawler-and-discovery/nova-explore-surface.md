@@ -118,5 +118,5 @@ Tool category: `high_impact` (highest risk class; Nova's agent permission settin
 
 ## 5. Related Tools
 
-* [`nova.coverage_scan`](nova-coverage-scan.md)
+* [`nova.coverage_scan`](../task-memory/nova-coverage-scan.md)
 * [`nova.dom_extract`](../dom-and-reading/nova-dom-extract.md)

@@ -1,6 +1,6 @@
 # Episodic Task Memory & Guidance
 
-Task instance tracking, guidance logs, coverage scans, surface exploration, and operator domain notes.
+Task instance tracking, guidance logs, coverage scans, and operator domain notes.
 
 * **Core Architecture Guide:** [Core Features: etm-and-task-memory.md](../../../core-features/learning/episodic-task-memory-etm/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -8,9 +8,9 @@ Task instance tracking, guidance logs, coverage scans, surface exploration, and 
 ---
 
 <!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
-## Tool Inventory (34 Tools)
+## Tool Inventory (33 Tools)
 
-Capability bundles of these tools: `pks_learning`, `surface_explorer`, `system_tools`, `task_memory`.
+Capability bundles of these tools: `pks_learning`, `system_tools`, `task_memory`.
 
 | Tool | What it does |
 | :--- | :--- |
@@ -21,7 +21,6 @@ Capability bundles of these tools: `pks_learning`, `surface_explorer`, `system_t
 | **[`nova.domain_note_ack`](nova-domain-note-ack.md)** | Explicitly acknowledges a MUST-read domain note block to unblock subsequent tool calls. |
 | **[`nova.domain_note_delete`](nova-domain-note-delete.md)** | Deletes a domain note by domain name and key. |
 | **[`nova.domain_notes_list`](nova-domain-notes-list.md)** | Lists all stored procedural notes and operator instructions for a specific domain. |
-| **[`nova.explore_surface`](nova-explore-surface.md)** | Discovers interactive UI triggers (buttons, tabs, accordions) and activates them to reveal hidden DOM. |
 | **[`nova.goal_register`](nova-goal-register.md)** | Manages closed-loop task goals, verifying step advancement and milestone criteria. |
 | **[`nova.memory_add_candidate`](nova-memory-add-candidate.md)** | Proposes a lightweight candidate memory claim for the currently claimed task and tab. |
 | **[`nova.memory_forget`](nova-memory-forget.md)** | Deletes browsing memories matching domain, memoryType, or text query filters. |

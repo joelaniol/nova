@@ -1,6 +1,6 @@
-# External MCP Servers & Tool Bridging
+# External MCP Servers & Site-Provided Automation
 
-Registering, running, and dynamically calling secondary MCP servers through Nova's unified host.
+Registering, running, and dynamically calling secondary MCP servers through Nova's unified host, plus the probes that find the automation a website offers itself (MCP endpoints, agent cards, `llms.txt`).
 
 * **Core Architecture Guide:** [Core Features: plugins.md](../../../core-features/plugins/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -8,9 +8,9 @@ Registering, running, and dynamically calling secondary MCP servers through Nova
 ---
 
 <!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
-## Tool Inventory (10 Tools)
+## Tool Inventory (14 Tools)
 
-Capability bundles of these tools: `external_mcp`.
+Capability bundles of these tools: `external_mcp`, `system_tools`.
 
 | Tool | What it does |
 | :--- | :--- |
@@ -24,6 +24,10 @@ Capability bundles of these tools: `external_mcp`.
 | **[`nova.external_servers`](nova-external-servers.md)** | Lists all configured external MCP servers with runtime status, health, and tool count. |
 | **[`nova.external_tool_call`](nova-external-tool-call.md)** | Invokes a specific tool on a connected external MCP server and returns the raw response. |
 | **[`nova.external_tools`](nova-external-tools.md)** | Lists all tools available on an external MCP server, with optional full inputSchema. |
+| **[`nova.site_discovery_get`](nova-site-discovery-get.md)** | Retrieves cached MCP and AI discovery probe results for a domain without network traffic. |
+| **[`nova.site_discovery_probe`](nova-site-discovery-probe.md)** | Probes a website for modern AI and MCP discovery endpoints (llms.txt, /.well-known/mcp.json, A2A). |
+| **[`nova.site_mcp_connect_request`](nova-site-mcp-connect-request.md)** | Requests an authenticated OAuth 2.1 connection to a website's discovered MCP server. |
+| **[`nova.site_mcp_inspect`](nova-site-mcp-inspect.md)** | Inspects a discovered MCP server from cached discovery metadata (identity, transport, auth status). |
 <!-- /generated:tool-list -->
 
 ---
