@@ -41,7 +41,6 @@ The paths below are relative to that profile folder:
 │   ├── mcp\mcp-*.log                    # Agent transport log (MCP requests and responses)
 │   ├── actions\actions-*.jsonl          # One line per agent tool call: tool, source, duration, result
 │   └── Setup\*.log                      # One log per installation, update or repair
-├── CrashDumps\                          # Windows minidumps (*.dmp) after a native crash
 └── Dumps\                               # Diagnostic dumps created on request (nova.create_dump)
 ```
 
@@ -50,7 +49,7 @@ Many of these files and folders appear only after the feature was first used.
 > [!TIP]
 > In Nova, **Settings → Developer options → Logs** lists every log channel, and **Open log folder** opens the `Logs` folder in Explorer. Outside Nova, press `Win + R`, paste `%LOCALAPPDATA%\nova-cognitive\Nova` (or `%LOCALAPPDATA%\NovaBrowser`) and press Enter.
 
-**Crash dumps.** By default Nova registers itself with Windows Error Reporting on startup, so that a native crash of `NovaAIWorkspace.exe` leaves a minidump in `CrashDumps\` (up to five are kept). A crash-dump setup for Nova's process that someone else made in Windows is left unchanged.
+**Crash dumps.** The setup registers Nova with Windows Error Reporting, so that a native crash of `NovaAIWorkspace.exe` or of its terminal helper leaves a minidump in `%LOCALAPPDATA%\nova-cognitive\CrashDumps` (up to five per program are kept). The folder sits beside the profile folder, not inside it. A crash-dump setup for Nova's processes that someone else made in Windows is left unchanged. If the registration goes missing, Nova says so once at startup and offers a repair; if Windows Error Reporting itself is turned off on the computer, Nova says that instead.
 
 ---
 
