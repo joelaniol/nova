@@ -3,7 +3,7 @@
 > [!NOTE]
 > **Upcoming.** Document conversion arrives with 1.0.0-alpha.21, which is not published yet. Installed versions up to 1.0.0-alpha.20 do not have it.
 
-Nova turns documents on your computer into Markdown that your AI agent can read: PDFs, Word documents, Excel workbooks, PowerPoint presentations, HTML pages, CSV tables, JSON and plain text files. The conversion runs inside Nova. Nothing is uploaded, and you do not need Office, Python or any other program besides Nova.
+Nova turns documents on your computer into Markdown that your AI agent can read: PDFs, Word documents, Excel workbooks, PowerPoint presentations, HTML pages, EPUB e-books, CSV tables, JSON and plain text files. The conversion runs inside Nova. Nothing is uploaded, and you do not need Office, Python or any other program besides Nova.
 
 You do not operate this yourself. You ask your agent, and the agent uses the tool [`nova.convert_to_markdown`](../../../mcp-reference/tools/visual-evidence/nova-convert-to-markdown.md).
 
@@ -24,18 +24,31 @@ You do not operate this yourself. You ask your agent, and the agent uses the too
 
 | Format | Files | What your agent gets | Format name in results |
 | --- | --- | --- | --- |
-| PDF | `.pdf` | The text page by page in reading order, the document's own bookmarks as headings, links, form fields, tables and other text in columns as rows and cells, and on request an image of a page to compare against | `pdf` |
+| PDF | `.pdf` | The text page by page in reading order, the document's own bookmarks as headings, links, form fields, tables as Markdown tables where they can be read whole, other text in columns as rows and cells, and on request an image of a page to compare against | `pdf` |
 | Word | `.docx`, `.docm`, `.dotx` | Headings, lists and tables as the document defines them | `docx` |
 | Excel | `.xlsx`, `.xlsm`, `.xltx` | One table per sheet with the stored values; dates as dates | `xlsx` |
 | PowerPoint | `.pptx`, `.pptm`, `.ppsx`, `.potx` | One section per slide with its title, text, tables and speaker notes | `pptx` |
 | HTML | `.html`, `.htm`, `.xhtml` | Headings, lists, tables, links and images of the page | `html` |
+| E-book | `.epub` | The chapters in reading order with their headings, lists and tables, and the book's title and authors | `epub` |
 | CSV / TSV | `.csv`, `.tsv` | One table, including semicolon files from a German Excel | `csv` |
 | JSON | `.json` | The data, checked and neatly indented | `json` |
 | Plain text | `.txt`, `.text`, `.log` | The text unchanged | `text` |
 
-PDF, Word, Excel, PowerPoint and HTML files are recognised by their content, so a downloaded file with a wrong or missing extension is still read correctly.
+PDF, Word, Excel, PowerPoint, HTML and EPUB files are recognised by their content, so a downloaded file with a wrong or missing extension is still read correctly.
 
-**Not supported:** old Office files (`.doc`, `.xls`, `.ppt`), password-protected Office files, other ZIP archives and images. Scanned PDFs without a text layer cannot be read either, because Nova does not run text recognition (OCR); the agent is told which pages are affected.
+**Not supported:** old Office files (`.doc`, `.xls`, `.ppt`), password-protected Office files, copy-protected (DRM) e-books, other ZIP archives and images. Scanned PDFs without a text layer cannot be read either, because Nova does not run text recognition (OCR); the agent is told which pages are affected.
+
+### Analysing tables
+
+For larger CSV exports and Excel sheets your agent does not need to read every row. [`nova.data_inspect`](../../../mcp-reference/tools/visual-evidence/nova-data-inspect.md) shows the columns, their types and value ranges; [`nova.data_query`](../../../mcp-reference/tools/visual-evidence/nova-data-query.md) filters, groups and totals the data and returns only the answer - for example the ten best-selling products of a month. The arithmetic runs on your computer and is exact; German and English number formats are both understood, and the answer says when values could not be read.
+
+### Merging and splitting PDFs
+
+Your agent can also rearrange PDF pages without any other program. [`nova.pdf_compose`](../../../mcp-reference/tools/visual-evidence/nova-pdf-compose.md) builds a new PDF from pages of one or more files in the order you want - to merge invoices, drop a page or move one to the front. [`nova.pdf_split`](../../../mcp-reference/tools/visual-evidence/nova-pdf-split.md) cuts a PDF into several files by page range. Your original files stay as they are, and nothing is overwritten. Bookmarks, fillable form fields and digital signatures are not carried into the new files; the agent is told when a source had any.
+
+### Archives and backups
+
+A downloaded ZIP file or a server backup as TAR or `.tar.gz` can be looked into and unpacked first. [`nova.archive_inspect`](../../../mcp-reference/tools/visual-evidence/nova-archive-inspect.md) lists what the archive holds without unpacking it. [`nova.archive_extract`](../../../mcp-reference/tools/visual-evidence/nova-archive-extract.md) unpacks it into a new folder in Nova's Exports folder, in the background and without a fixed size limit: it stops only before the drive runs out of space. It never overwrites a file and never writes entries that would land outside that folder. Your agent can then convert the unpacked documents.
 
 ### Pages open in a tab
 

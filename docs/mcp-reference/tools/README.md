@@ -30,7 +30,7 @@ Looking for a tool by what it does rather than by area? The [tool catalog](../to
 | [Session Tracing & DOM Event Recording](session-recording/README.md) | 14 | Network HAR capture, user interaction timelines, DOM change snapshots, and replay verification. |
 | [Site Crawler & URL Discovery Index](crawler-and-discovery/README.md) | 14 | Broad-surface website crawling, URL indexing, sitemap verification, and discovery probes. |
 | [Site Data, Fingerprinting & Sandboxes](site-data-and-identity/README.md) | 23 | Cookie jars, localStorage/sessionStorage, cache purging, browser fingerprint spoofing, and sandbox isolation. |
-| [Visual Evidence, Screenshots & Archiving](visual-evidence/README.md) | 8 | Lossless cropped screenshots, pixel-by-pixel diffing, persistent baselines, and print-to-PDF generation. |
+| [Visual Evidence, Screenshots & Archiving](visual-evidence/README.md) | 16 | Lossless cropped screenshots, pixel-by-pixel diffing, persistent baselines, and print-to-PDF generation. |
 
-**459 tools in total.**
+**467 tools in total.**
 <!-- /generated:area-list -->

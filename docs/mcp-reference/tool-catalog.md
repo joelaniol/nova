@@ -12,7 +12,7 @@ Every tool exposed by **Nova AI Workspace**, grouped by operational domain. Clic
 - [3. Layout Quality & Measuring QA](#3-layout-quality--measuring-qa) (7)
 - [4. Input & Interaction](#4-input--interaction) (18)
 - [5. Guarded Actions & Blocker Clearance](#5-guarded-actions--blocker-clearance) (7)
-- [6. Visual Evidence & Screenshots](#6-visual-evidence--screenshots) (8)
+- [6. Visual Evidence & Screenshots](#6-visual-evidence--screenshots) (16)
 - [7. Knowledge & Phenomenological Store (PKS)](#7-knowledge--phenomenological-store-pks) (21)
 - [8. Credentials & Secure Vault](#8-credentials--secure-vault) (9)
 - [9. Terminal Workspaces & Headless CLI](#9-terminal-workspaces--headless-cli) (12)
@@ -166,6 +166,14 @@ Lossless visual captures and regression testing with bounded budgets.
 | **[`nova.capture_app_screenshot`](tools/visual-evidence/nova-capture-app-screenshot.md)** | `agentId?`, `targetId?`, `maxWidth?`, `maxHeight?`, `screenshotMaxWidth?`, `screenshotMaxHeight?`, `format?`, `quality?`, `responseMode?` | Captures the Nova app window (tabs, topbar, WebView content) — or, if another agent holds the active tab's claim, a read-only redacted shell view with page content masked out. |
 | **[`nova.read_pdf`](tools/visual-evidence/nova-read-pdf.md)** | `path`, `pages?`, `maxChars?`, `includePages?` | Extracts the text of a local PDF file, optionally per page and for selected pages only. |
 | **[`nova.convert_to_markdown`](tools/visual-evidence/nova-convert-to-markdown.md)** | `path`, `pages?`, `outputMode?`, `outputPath?`, `maxChars?`, `renderPages?`, `includeFormValues?` | Converts a local PDF, Word, Excel, PowerPoint, HTML, CSV, JSON or text file into Markdown for an agent, with an honest account of what was read. |
+| **[`nova.data_inspect`](tools/visual-evidence/nova-data-inspect.md)** | `path`, `sheet?`, `sampleRows?`, `previewRows?`, `fullScan?`, `timeoutSeconds?` | Shows the columns, types and value ranges of a local CSV or Excel file, before your agent queries it. |
+| **[`nova.data_query`](tools/visual-evidence/nova-data-query.md)** | `path`, `sheet?`, `columns?`, `filters?`, `groupBy?`, `metrics?`, `orderBy?`, `limit?`, `timeoutSeconds?` | Filters, groups and totals a local CSV or Excel file and returns only the result rows. |
+| **[`nova.pdf_compose`](tools/visual-evidence/nova-pdf-compose.md)** | `sources`, `outputPath?` | Builds one new PDF from pages of local PDFs: merge files, keep or drop pages, change their order. |
+| **[`nova.pdf_split`](tools/visual-evidence/nova-pdf-split.md)** | `path`, `ranges`, `outputDir?` | Splits a local PDF into several new PDFs, one per page range. |
+| **[`nova.archive_inspect`](tools/visual-evidence/nova-archive-inspect.md)** | `path`, `maxEntries?` | Lists what a local ZIP or TAR archive holds, without unpacking it. |
+| **[`nova.archive_extract_status`](tools/visual-evidence/nova-archive-extract-status.md)** | `jobId`, `wait?` | Reports how far a background extraction of nova.archive_extract has come, or its result. |
+| **[`nova.archive_extract_stop`](tools/visual-evidence/nova-archive-extract-stop.md)** | `jobId` | Stops a running extraction of nova.archive_extract and removes what it had written. |
+| **[`nova.archive_extract`](tools/visual-evidence/nova-archive-extract.md)** | `path`, `destinationDir?`, `entries?`, `maxTotalBytes?`, `wait?` | Unpacks a local ZIP or TAR archive of any size, or chosen entries of it, into a new folder - safely, in the background. |
 | **[`nova.responsive_screenshots`](tools/visual-evidence/nova-responsive-screenshots.md)** | `widths`, `targetId?`, `height?`, `deviceScaleFactor?`, `mobile?`, `fullPage?`, `format?`, `quality?` | Sweeps multiple viewport widths one at a time, capturing a screenshot at each and restoring the tab's original viewport afterwards. |
 
 ---
