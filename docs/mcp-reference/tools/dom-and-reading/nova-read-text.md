@@ -10,6 +10,8 @@
 
 `nova.read_text` strips HTML tags and returns formatted plain text representing visible content on the page, with whitespace preserved.
 
+With `format: "markdown"` it returns the page, or the element a `selector` names, as Markdown instead: headings, lists, tables, links and images as the page declares them, converted the same way [`nova.convert_to_markdown`](../visual-evidence/nova-convert-to-markdown.md) converts a saved HTML file. Links resolve against the page's address. The answer adds `sections` (every heading with its position in the whole Markdown; pass that position as `offset` to jump there), `structure` counts, `warnings`, `pageUrl` and `pageTitle`. Elements the browser does not show (hidden by their style, including a style sheet class, or by the `hidden` attribute) stay in the Markdown, and their text is also returned on its own in `hiddenText`, at most 2,000 characters. The page itself is not changed. Content inside shadow DOM and iframes is not included; `frameId` reads one frame. `maxChars`, `offset` and `continuationToken` work on the Markdown as they do on plain text.
+
 ---
 
 ## 2. Parameter Reference
@@ -23,6 +25,7 @@
 | `offset` | `integer` | No | — | 0–5000000 | Start reading at this character position. Unverified - use continuationToken when the page may have changed. Mutually exclusive with continuationToken. |
 | `continuationToken` | `string` | No | — | ≤ 512 characters | Token from a previous response's continuation block. Carries the next position plus a fingerprint of that document; a changed page is rejected with reasonCode='read.source_changed' instead of returning text from elsewhere. Mutually exclusive with offset. |
 | `frameId` | `string` | No | — | ≤ 128 characters | Read inside one iframe: frames[].frameId (same-origin) or opaqueFrames[].frameId (another site, read-only) from nova.perceive(deep=true). selector then applies inside that frame. |
+| `format` | `string` | No | `"text"` | `text`, `markdown` | 'text' (default): the visible text (innerText). 'markdown': the page or the selector's element as Markdown with its declared structure, plus sections, structure counts and hiddenText. |
 
 Capability bundles: `browser_automation`, `page_read_debug`.
 Tool category: `safe` (lowest risk class in Nova's agent permission settings).
@@ -83,6 +86,7 @@ convenience). `matchCount` counts how many elements the selector matched; when i
 ## 4. Operational Best Practices
 
 * **Fast Summarization:** Extract body text directly without parsing heavy DOM trees.
+* **Keep the structure:** Use `format: "markdown"` when headings, lists, tables or links matter, for example to save an article or compare a price table.
 
 ---
 
@@ -90,3 +94,4 @@ convenience). `matchCount` counts how many elements the selector matched; when i
 
 * [`nova.read_text_structured`](nova-read-text-structured.md)
 * [`nova.search_text`](nova-search-text.md)
+* [`nova.convert_to_markdown`](../visual-evidence/nova-convert-to-markdown.md) (files on disk)

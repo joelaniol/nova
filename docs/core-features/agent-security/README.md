@@ -82,6 +82,12 @@ When a risk is active, the confirmation dialog says so in plain words at the top
 
 The user always decides. If you deny, the agent is told that the action came after a suspected injection and must not be retried *(from alpha.21)*.
 
+**Trusting a site you know** *(from alpha.21)*. Some sites address the agent on purpose, for example your own ChatGPT conversation that reviews an agent's work. While such a site keeps triggering the warning, the dialog offers "Always trust *site* and allow". From then on, text from that site (and its subdomains) no longer counts as possible manipulation; every other safeguard stays. You can review and remove trusted sites under **Settings → AI & agents → Confirmations & audit → Trusted sites**.
+
+**Lasting approvals take ten seconds** *(from alpha.21)*. "Always allow", "Always trust this site" and permanently allowing website data access unlock only after a visible ten-second countdown, so nothing lasting is granted by a reflex click. "Allow once" and "Deny" work right away.
+
+**A suspicion belongs to the agent that read the text** *(from alpha.21)*. If several agents work in Nova at the same time, only the one that read the suspicious text is held back. Actions on the affected tab still ask, whichever agent sends them.
+
 ### 4. Authorship of stored knowledge
 
 Poisoning only lasts if a lie can be stored where later agents trust it. Nova keeps two kinds of lasting knowledge apart, and they earn trust in different ways.

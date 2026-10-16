@@ -16,6 +16,7 @@ You do not operate this yourself. You ask your agent, and the agent uses the too
 - "Summarise this presentation slide by slide, including the speaker notes."
 - "Turn this Word document into Markdown and save it next to it as a `.md` file."
 - "Check whether the contract PDF mentions a cancellation period. If the text looks garbled, look at the page image."
+- "Save the article that is open in my current tab as Markdown, with its headings and links."
 
 ---
 
@@ -23,7 +24,7 @@ You do not operate this yourself. You ask your agent, and the agent uses the too
 
 | Format | Files | What your agent gets | Format name in results |
 | --- | --- | --- | --- |
-| PDF | `.pdf` | The text page by page in reading order, the document's own bookmarks as headings, links, form fields, and on request an image of a page to compare against | `pdf` |
+| PDF | `.pdf` | The text page by page in reading order, the document's own bookmarks as headings, links, form fields, tables and other text in columns as rows and cells, and on request an image of a page to compare against | `pdf` |
 | Word | `.docx`, `.docm`, `.dotx` | Headings, lists and tables as the document defines them | `docx` |
 | Excel | `.xlsx`, `.xlsm`, `.xltx` | One table per sheet with the stored values; dates as dates | `xlsx` |
 | PowerPoint | `.pptx`, `.pptm`, `.ppsx`, `.potx` | One section per slide with its title, text, tables and speaker notes | `pptx` |
@@ -35,6 +36,10 @@ You do not operate this yourself. You ask your agent, and the agent uses the too
 PDF, Word, Excel, PowerPoint and HTML files are recognised by their content, so a downloaded file with a wrong or missing extension is still read correctly.
 
 **Not supported:** old Office files (`.doc`, `.xls`, `.ppt`), password-protected Office files, other ZIP archives and images. Scanned PDFs without a text layer cannot be read either, because Nova does not run text recognition (OCR); the agent is told which pages are affected.
+
+### Pages open in a tab
+
+A web page does not have to be saved first. Your agent can convert the page that is open in a tab, or just one part of it, with [`nova.read_text`](../../../mcp-reference/tools/dom-and-reading/nova-read-text.md) and `format: "markdown"`. This works like the HTML format above, with two differences: links point to the page's real address, and Nova sees which parts of the page the browser hides, even when a style sheet hides them.
 
 ---
 
