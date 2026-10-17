@@ -9,7 +9,7 @@
 
 ## 1. Overview
 
-`nova.install_onboarding` writes Nova's reference files into `.nova/` under `projectRoot` (`nova-mcp.quick.md`, `nova-mcp.md` and the connector references under `.nova/tools/`) and adds or replaces a marked Nova block in the project's existing `CLAUDE.md`, `AGENTS.md` or `GEMINI.md`. If none of these exists, it creates all three — `CLAUDE.md` (Claude Code), `AGENTS.md` (Codex and other agents following that convention) and `GEMINI.md` (Gemini CLI, Antigravity) — each containing only that block, so whichever agent works in the project finds it. A project that already has one of them gets no additional files. Nova never writes agent permission files such as `.claude/settings.json`.
+`nova.install_onboarding` writes Nova's reference files into `.nova/` under `projectRoot` (the router `README.md`, one `tools/<area>.md` per tool area, the `guide/<topic>.md` guides and the generated connector schemas `tools/mail.md`, `tools/sftp.md`, `tools/ftp.md`; the 4.x files `nova-mcp.quick.md` and `nova-mcp.md` are removed) and adds or replaces a marked Nova block in the project's existing `CLAUDE.md`, `AGENTS.md` or `GEMINI.md`. If none of these exists, it creates all three — `CLAUDE.md` (Claude Code), `AGENTS.md` (Codex and other agents following that convention) and `GEMINI.md` (Gemini CLI, Antigravity) — each containing only that block, so whichever agent works in the project finds it. A project that already has one of them gets no additional files. Nova never writes agent permission files such as `.claude/settings.json`.
 
 The tool is available only while agent self-onboarding is enabled in Nova's settings. A directory that Nova has not onboarded before needs `confirmNewLocation: true`; without it the call writes nothing and returns `status: "confirmation_required"` with the exact call to repeat.
 
@@ -57,8 +57,8 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
     "projectRoot": "C:\\Projects\\WebWorkflow",
     "version": "4.40.0",
     "filesWritten": [
-      { "path": ".nova\\nova-mcp.quick.md", "outcome": "created", "error": null },
-      { "path": ".nova\\nova-mcp.md", "outcome": "created", "error": null },
+      { "path": ".nova/README.md", "outcome": "created", "error": null },
+      { "path": ".nova/tools/browser-automation.md", "outcome": "created", "error": null },
       { "path": ".nova/tools/mail.md", "outcome": "created", "error": null },
       { "path": ".nova/tools/sftp.md", "outcome": "created", "error": null },
       { "path": ".nova/tools/ftp.md", "outcome": "created", "error": null },

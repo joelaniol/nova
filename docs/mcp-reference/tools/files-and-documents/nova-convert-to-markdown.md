@@ -26,7 +26,7 @@
 | JSON | `.json` | name | `json` | Checked and printed indented in a code block |
 | Plain text | `.txt`, `.text`, `.log` | name | `text` | Unchanged in a code block |
 
-Not converted: legacy Office files (`.doc`, `.xls`, `.ppt`), password-protected Office files (`reasonCode: "convert_to_markdown.encrypted"`), other ZIP archives, images, and the scanned pages of a PDF that has no text layer, since Nova does not run OCR. Macros in Office files are never run.
+Not converted: legacy Office files (`.doc`, `.xls`, `.ppt`), password-protected Office files (`reasonCode: "convert_to_markdown.encrypted"`), other ZIP archives, images, and the scanned pages of a PDF that has no text layer; those are read by [`nova.ocr_read`](nova-ocr-read.md). Macros in Office files are never run.
 
 `nova.convert_to_markdown` turns a document on disk into Markdown, locally and without any extra software. Formats with a signature of their own (PDF, Word, Excel, PowerPoint, HTML) are recognised by the file's content, so a renamed download is still read correctly; CSV, JSON and text files by their name.
 
@@ -40,7 +40,7 @@ When a page still comes out torn into many small pieces, `pageInfo[].structure.f
 
 Tables in a PDF are not real tables in the file, only text placed in columns, and the layout analysis reads them cell by cell: in the Markdown, an amount can end up away from its label. So for every page, `pageInfo[].alignedTextRegions` lists the text that stands in aligned columns, such as an invoice's line items or a form's labels and values. Each region has `rows` of `cells` with the original text, their position and a `column` number counted from the left (`null` when only one row uses that column), so a header and the amounts below it carry the same number. When a region's cells hold exactly the text of the blocks it covers, the Markdown shows it as a table in their place (`inMarkdown: true`). Its header row stays empty, because a PDF does not say which row is a header, and a line that continues a cell is a row of its own. A table that runs over a page break is found once per page; the parts point at each other with `continuesOnPage` and `continuesFromPage`, and `repeatsHeaderRow` marks a header row the next page repeats. Nova does not invent column names. Regions that cannot be printed whole stay as separate blocks in the Markdown, and the warning `table_structure_not_preserved` names their pages.
 
-The answer says what it holds. `truncated: true` means the returned Markdown is cut; `scanComplete: false` means not every selected page was read. `pagesWithoutExtractableText` lists pages without a text layer, such as scanned pages: Nova does not run OCR, so these are unreadable here, not blank. `sourcePages` gives each page's position in the Markdown.
+The answer says what it holds. `truncated: true` means the returned Markdown is cut; `scanComplete: false` means not every selected page was read. `pagesWithoutExtractableText` lists pages without a text layer, such as scanned pages: they are unreadable here, not blank, and [`nova.ocr_read`](nova-ocr-read.md) reads them. `sourcePages` gives each page's position in the Markdown.
 
 ### Word documents and HTML files
 

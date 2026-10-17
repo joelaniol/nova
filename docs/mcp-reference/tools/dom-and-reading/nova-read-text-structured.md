@@ -71,6 +71,8 @@ a more precise `messageSelector`.
 | `maxChars` | `integer` | No | `50000` | 1000–200000 | Conversation only: total returned message text/role-value/author/timestamp character budget, excluding fixed JSON structure. Message text also respects maxCharsPerRegion. |
 | `replyWatchId` | `string` | No | — | ≤ 64 characters | Conversation only: continue waiting on the reply of a message sent with nova.guarded_send_message(waitForReplyMs) - the reply.watchId from that result. Returns reply.state (done \| settled \| running \| error \| lost \| scope_changed \| reopened) plus the reply text; read-only, never sends. Unknown or expired ids (15 minutes without reads) fail with reasonCode reply.watch_unknown instead of reading some other conversation. |
 | `waitMs` | `integer` | No | `30000` | 0–1800000 | With replyWatchId: how long to wait for the reply to end before returning running. 0 reads the current state once. |
+| `messageIndex` | `integer` | No | — | -1–1999 | Conversation only: read just this rendered message - the messages[].index of an earlier read, or -1 for the newest. A message whose text was cut carries nextTextOffset, and the result's continuation names the newest cut message as { messageIndex, textOffset }. |
+| `textOffset` | `integer` | No | — | ≥ 0 | Conversation only, requires messageIndex: start reading that message's text at this character offset - the nextTextOffset or continuation.textOffset of the previous read. Text still respects maxCharsPerRegion and maxChars. |
 
 Capability bundles: `browser_automation`, `page_read_debug`.
 Tool category: `safe` (lowest risk class in Nova's agent permission settings).

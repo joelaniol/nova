@@ -44,6 +44,8 @@ The other direction works too, without Microsoft Office. [`nova.docx_create`](..
 
 ### Analysing tables
 
+Scanned letters, photographed receipts and image-only PDFs have no text of their own. [`nova.ocr_read`](../../../mcp-reference/tools/files-and-documents/nova-ocr-read.md) reads them by text recognition on your computer, with two engines Nova ships: one for clean printed pages and one for receipts, forms, photos and faded scans. For every page your agent is told how reliable the result is and what to try next, so it does not take a misread amount at face value.
+
 For larger CSV exports and Excel sheets your agent does not need to read every row. [`nova.data_inspect`](../../../mcp-reference/tools/files-and-documents/nova-data-inspect.md) shows the columns, their types and value ranges; [`nova.data_query`](../../../mcp-reference/tools/files-and-documents/nova-data-query.md) filters, groups and totals the data and returns only the answer - for example the ten best-selling products of a month. The arithmetic runs on your computer and is exact; German and English number formats are both understood, and the answer says when values could not be read.
 
 ### Merging and splitting PDFs

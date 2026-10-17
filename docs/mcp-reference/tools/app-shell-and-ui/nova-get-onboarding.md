@@ -76,8 +76,9 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
     ],
     "bundles": ["browser_automation", "page_read_debug", "..."],
     "files": [
-      { "path": ".nova/nova-mcp.quick.md", "content": "...", "sha256": "..." },
-      { "path": ".nova/nova-mcp.md", "content": "...", "sha256": "..." }
+      { "path": ".nova/README.md", "kind": "router", "content": "...", "sha256": "..." },
+      { "path": ".nova/tools/browser-automation.md", "kind": "area", "content": "...", "sha256": "..." },
+      { "path": ".nova/guide/recovery.md", "kind": "guide", "content": "...", "sha256": "..." }
     ]
   }
 }

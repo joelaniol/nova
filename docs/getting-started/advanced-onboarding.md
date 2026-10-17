@@ -22,7 +22,7 @@ The reference files go into that folder's `.nova/` subfolder, and the Nova marke
 
 ## Check what changed
 
-Nova writes its own reference files under `.nova/`, including `nova-mcp.quick.md` and `nova-mcp.md`, and marked Nova sections in the supported project instruction files. Existing instructions outside those sections are preserved.
+Nova writes its own reference files under `.nova/`, a router (`README.md`), one file per tool area (`tools/<area>.md`), cross-area guides (`guide/<topic>.md`) and the generated connector schemas, and marked Nova sections in the supported project instruction files. Existing instructions outside those sections are preserved.
 
 Ask the agent to show you the changed paths. Onboarding should not create or edit your agent client's permission configuration. Tool approvals in Claude, Codex or another client remain a separate decision.
 

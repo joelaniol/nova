@@ -13,7 +13,7 @@ Every tool exposed by **Nova AI Workspace**, grouped by operational domain. Clic
 - [4. Input & Interaction](#4-input--interaction) (18)
 - [5. Guarded Actions & Blocker Clearance](#5-guarded-actions--blocker-clearance) (7)
 - [6. Visual Evidence & Screenshots](#6-visual-evidence--screenshots) (6)
-- [7. Local Files, Documents & Archives](#7-local-files-documents--archives) (12)
+- [7. Local Files, Documents & Archives](#7-local-files-documents--archives) (13)
 - [8. Knowledge & Phenomenological Store (PKS)](#8-knowledge--phenomenological-store-pks) (21)
 - [9. Credentials & Secure Vault](#9-credentials--secure-vault) (9)
 - [10. Terminal Workspaces & Headless CLI](#10-terminal-workspaces--headless-cli) (12)
@@ -72,7 +72,7 @@ Token-efficient data extraction without requesting raw HTML blobs or full-screen
 
 | Tool Name | Parameters | Description |
 | :--- | :--- | :--- |
-| **[`nova.read_text_structured`](tools/dom-and-reading/nova-read-text-structured.md)** | `targetId?`, `selector?`, `maxCharsPerRegion?`, `mode?`, `messageSelector?`, `textSelector?`, `authorSelector?`, `timestampSelector?`, `roleAttribute?`, `maxMessages?`, `maxChars?`, `replyWatchId?`, `waitMs?` | Extracts visible page text organized by semantic HTML landmark regions (`header`, `nav`, `main`, `aside`, `footer`, and `modals`), eliminating monolithic text dumps and saving LLM context tokens. |
+| **[`nova.read_text_structured`](tools/dom-and-reading/nova-read-text-structured.md)** | `targetId?`, `selector?`, `maxCharsPerRegion?`, `mode?`, `messageSelector?`, `textSelector?`, `authorSelector?`, `timestampSelector?`, `roleAttribute?`, `maxMessages?`, `maxChars?`, `replyWatchId?`, `waitMs?`, `messageIndex?`, `textOffset?` | Extracts visible page text organized by semantic HTML landmark regions (`header`, `nav`, `main`, `aside`, `footer`, and `modals`), eliminating monolithic text dumps and saving LLM context tokens. |
 | **[`nova.read_dom`](tools/dom-and-reading/nova-read-dom.md)** | `targetId?`, `maxChars?` | Reads a sanitized snapshot of the document's outer HTML from a tab, bounded by a configurable character cap and mirrored in structured content. |
 | **[`nova.dom_extract`](tools/dom-and-reading/nova-dom-extract.md)** | `selector`, `properties`, `targetId?`, `maxItems?`, `maxChars?` | Extracts a bounded set of fixed, strongly-typed DOM properties and bounding geometry for all elements matching a CSS selector, without executing arbitrary JavaScript. |
 | **[`nova.extract_table`](tools/dom-and-reading/nova-extract-table.md)** | `targetId?`, `selector?`, `maxTables?`, `maxRows?`, `maxCols?`, `maxCellChars?` | Extracts HTML `<table>` elements into structured JSON objects containing column headers (`headers[]`) and data rows (`rows[][]`), eliminating manual DOM looping and complex JavaScript evaluation. |
@@ -183,6 +183,7 @@ Reading and reshaping files on disk: documents as Markdown, CSV/Excel tables wit
 | **[`nova.data_inspect`](tools/files-and-documents/nova-data-inspect.md)** | `path`, `sheet?`, `sampleRows?`, `previewRows?`, `fullScan?`, `timeoutSeconds?` | Shows the columns, types and value ranges of a local CSV or Excel file, before your agent queries it. |
 | **[`nova.data_query`](tools/files-and-documents/nova-data-query.md)** | `path`, `sheet?`, `columns?`, `filters?`, `groupBy?`, `metrics?`, `orderBy?`, `limit?`, `timeoutSeconds?` | Filters, groups and totals a local CSV or Excel file and returns only the result rows. |
 | **[`nova.docx_create`](tools/files-and-documents/nova-docx-create.md)** | `markdown?`, `sourcePath?`, `title?`, `pageSize?`, `outputPath?` | Writes a Word document from Markdown, without Microsoft Office. |
+| **[`nova.ocr_read`](tools/files-and-documents/nova-ocr-read.md)** | `path`, `pages?`, `engine?`, `maxChars?`, `timeoutSeconds?` | Reads the text of a scanned PDF or an image by text recognition, locally and offline, and says per page how far it can be trusted. |
 | **[`nova.pdf_compose`](tools/files-and-documents/nova-pdf-compose.md)** | `sources`, `outputPath?` | Builds one new PDF from pages of local PDFs: merge files, keep or drop pages, change their order. |
 | **[`nova.pdf_split`](tools/files-and-documents/nova-pdf-split.md)** | `path`, `ranges`, `outputDir?` | Splits a local PDF into several new PDFs, one per page range. |
 | **[`nova.read_pdf`](tools/files-and-documents/nova-read-pdf.md)** | `path`, `pages?`, `maxChars?`, `includePages?` | Extracts the text of a local PDF file, optionally per page and for selected pages only. |
