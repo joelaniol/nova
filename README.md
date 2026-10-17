@@ -222,8 +222,8 @@ Weiter: **[Installation auf Deutsch](docs/getting-started/installation.md#nova-a
 
 </div>
 
-> **Never a subscription.**  
-> Nova AI Workspace will never have a subscription model.
+> **Never a software subscription.**  
+> Nova AI Workspace will never require a software subscription. You buy the license once, and it stays valid permanently. If you want to support independent development voluntarily, you can additionally take out a Patreon membership that you can cancel at any time.
 >
 > **Always free for those who need it.**  
 > Nova will always be free for people without income, people facing disadvantage, and students.
@@ -261,8 +261,8 @@ This also excludes business use by providers of software, AI, or data-analysis s
 
 Hilfreiche Technologie sollte Türen öffnen — unabhängig vom Einkommen oder den Lebensumständen.
 
-> **Niemals ein Abo.**  
-> Nova AI Workspace wird niemals ein Abo-Modell haben.
+> **Niemals ein Software-Abo.**  
+> Nova AI Workspace wird niemals ein Software-Abo benötigen. Die Lizenz wird einmalig gekauft und bleibt dauerhaft gültig. Wer die unabhängige Entwicklung freiwillig unterstützen möchte, kann zusätzlich eine jederzeit kündbare Patreon-Mitgliedschaft abschließen.
 >
 > **Immer kostenlos für diejenigen, die es brauchen.**  
 > Nova wird für Menschen ohne Einkommen, benachteiligte Menschen sowie Studierende immer kostenlos sein.
