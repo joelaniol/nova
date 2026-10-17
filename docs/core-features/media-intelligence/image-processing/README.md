@@ -32,7 +32,7 @@ flowchart TD
 
     subgraph PrivacyCommit["4. Privacy Sanitization & Atomic Commit"]
         ThumbOverwrite["Thumbnail Byte Overwrite\n(Prevents Leaked Full-Image Previews)"]
-        MetaStrip["Metadata Sanitization\n(stripMetadata: true removes GPS/EXIF/XMP)"]
+        MetaStrip["Metadata Sanitization\n(removeMetadata: privacy / bloat / groups,\nstripMetadata: everything)"]
         PartFile["Temporary Part File (.part)\n(Decode Verification & Dimension Assertion)"]
         FinalImage["Final Sanitized Image Asset\n(Never Overwrites Existing Files)"]
     end
@@ -79,7 +79,7 @@ Autonomous agents frequently struggle with image processing because raw filesyst
    * Reports presence of camera parameters (`exif`), geolocation data (`gps`), embedded thumbnails (`exifThumbnail`), digital asset management tags (`xmp`), color management profiles (`colorProfile`), horizontal/vertical DPI (`dpiX`, `dpiY`), and comment blocks (`textComments`).
 4. **Actionable Agent Hints (`hints[]`):**
    * Translates raw metadata facts into explicit operational recommendations:
-     * *Privacy Alert:* *"The image carries a GPS position (where it was taken). Before sharing or uploading it, write a copy without it: nova.image_transform with stripMetadata=true."*
+     * *Privacy Alert:* *"The image carries a GPS position (where it was taken). Before sharing or uploading it, write a copy without them: nova.image_transform with removeMetadata=['privacy'] (keeps camera, exposure and date; stripMetadata=true removes everything)."*
      * *Token Efficiency Alert:* *"The image is very large (4032x3024). Resizing it with nova.image_transform saves context tokens."*
      * *Animation Warning:* *"The file contains multiple animation frames. A transformed copy will retain only the first frame."*
 
@@ -137,7 +137,7 @@ When photos taken with digital cameras or smartphones are cropped, standard soft
 Nova eliminates this vulnerability:
 * In `nova.image_transform`, embedded thumbnail bytes are actively overwritten and destroyed in memory before writing the output file.
 * The EXIF orientation tag is reset to $1$ because pixels are already physically transformed upright.
-* When metadata is retained and the file contains coordinates, Nova emits an explicit warning: `warnings: ["gps_kept"]`. Setting `stripMetadata: true` strips all EXIF, GPS, and XMP blocks completely.
+* When metadata is retained and the file contains coordinates, Nova emits an explicit warning: `warnings: ["gps_kept"]`. `removeMetadata: ["privacy"]` removes GPS, names, serial numbers, software, free text, maker notes and XMP and keeps camera, exposure and date; `removeMetadata: ["bloat"]` drops only the bulk (maker notes, XMP edit history, software tags); single groups such as `location` work too, and `metadataRemoved` lists what went. Setting `stripMetadata: true` strips all EXIF, GPS, and XMP blocks completely.
 
 ### 4. Two-Phase Commit & No-Overwrite Guarantee
 
@@ -164,7 +164,7 @@ sequenceDiagram
     Nova-->>Agent: { width: 4032, height: 3024, orientation: 6, metadata: { gps: true, exif: true }, hints: ["GPS present..."] }
     
     Note over Agent: Agent verifies GPS is present and dimensions need downscaling
-    Agent->>Nova: nova.image_transform(path="C:/Downloads/IMG_9102.JPG", resize: { width: 1600 }, format: "webp", quality: 85, stripMetadata: true)
+    Agent->>Nova: nova.image_transform(path="C:/Downloads/IMG_9102.JPG", resize: { width: 1600 }, format: "webp", quality: 85, removeMetadata: ["privacy"])
     Nova->>Disk: Writes sanitized 1600x1200 WebP (thumbnail cleared, GPS removed)
     Nova-->>Agent: { ok: true, outputPath: "C:/.../Exports/Images/IMG_9102-20261017-101500.webp", size: 148220 }
     Agent-->>User: "Sanitized WebP created (148 KB). Geolocation removed, dimensions adjusted to 1600x1200."
@@ -194,7 +194,7 @@ When an image contains text (e.g. an infobox or diagram snippet):
 | [`nova.image_info`](../../../mcp-reference/tools/files-and-documents/nova-image-info.md) | `page_read_debug` | Pre-flight metadata, orientation, geometry and security inspection | `path` |
 | [`nova.barcode_generate`](../../../mcp-reference/tools/files-and-documents/nova-barcode-generate.md) | `page_read_debug` | QR code or barcode as a verified PNG/SVG file | `content`, `type?`, `format?`, `width?`, `height?`, `errorCorrection?`, `includeText?`, `outputPath?` |
 | [`nova.barcode_decode`](../../../mcp-reference/tools/files-and-documents/nova-barcode-decode.md) | `page_read_debug` | Reads QR codes and barcodes from an image | `path`, `multiple?`, `formats?` |
-| [`nova.image_transform`](../../../mcp-reference/tools/files-and-documents/nova-image-transform.md) | `page_read_debug` | Deterministic cropping, resizing, conversion, and metadata sanitization | `path`, `outputPath?`, `format?`, `crop?`, `rotate?`, `flip?`, `resize?`, `quality?`, `stripMetadata?` |
+| [`nova.image_transform`](../../../mcp-reference/tools/files-and-documents/nova-image-transform.md) | `page_read_debug` | Deterministic cropping, resizing, conversion, and metadata sanitization | `path`, `outputPath?`, `format?`, `crop?`, `rotate?`, `flip?`, `resize?`, `quality?`, `stripMetadata?`, `removeMetadata?` |
 
 ---
 

@@ -21,7 +21,9 @@ Searches mail metadata across the IMAP server and local encrypted search archive
 | `profileId` | `string` | Yes | — | — | Mail connector id (from nova.connector_list). |
 | `folder` | `string` | No | — | ≤ 1024 characters | Optional exact folder fullName. Omit to search selectable personal folders (bounded to 200 folders). |
 | `query` | `any` | Yes | — | — | Optional IMAP filters combined with AND. Runtime compatibility also accepts one string as the full-text filter. IMAP date search is calendar-day granular. |
-| `limit` | `integer` | No | `50` | 1–200 | Maximum messages returned across all searched folders, 1..200. |
+| `limit` | `integer` | No | `50` | 1–200 | Maximum messages per page across all searched folders, 1..200. |
+| `cursor` | `string` | No | — | ≤ 4096 characters | Optional nextCursor of the previous page. Only valid with the same profileId, folder, query and thread (else mail_cursor_invalid); omit for the first page. |
+| `thread` | `string` | No | — | ≤ 1000 characters | Optional Message-ID, with or without angle brackets: only the message carrying it and every message whose In-Reply-To or References names it (exact, not a substring), across all searched folders including Sent. With thread, query may be {} . Use a message's first references entry to get its whole conversation. Archive copies saved before thread headers were recorded do not match. |
 | `unattended` | `boolean` | No | `false` | — | Optional fail-closed hint for a non-interactive caller. Host-attested scheduled-task sessions are unattended even when omitted and can never be made interactive by this field. |
 | `allowInsecure` | `boolean` | No | `false` | — | Required as true only when this account's IMAP endpoint explicitly uses plaintext or disabled certificate validation, and only after the user enabled insecure connector connections in Settings. |
 

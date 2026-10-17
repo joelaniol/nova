@@ -12,11 +12,11 @@
 > [!NOTE]
 > **Upcoming.** This tool arrives with 1.0.0-alpha.21, which is not published yet.
 
-`nova.image_info` tells your agent what an image file is before it works with it: the format, the width and height as the picture is shown, whether it is animated, whether it has a transparency channel, its colour space, and which metadata it carries. Metadata covers camera data (EXIF), a GPS position, a preview image inside EXIF, XMP, a colour profile, text comments and the stated resolution. It also returns what the file states, without any extra program: when the photo was taken, camera and lens, exposure, the GPS position in decimal degrees, software, artist and copyright, and text comments such as the prompt an image generator stored. Nothing in the file is changed, and nothing is uploaded.
+`nova.image_info` tells your agent what an image file is before it works with it: the format, the width and height as the picture is shown, whether it is animated, whether it has a transparency channel, its colour space, and which metadata it carries. Metadata covers camera data (EXIF), a GPS position, a preview image inside EXIF, XMP, a colour profile, text comments and the stated resolution. It also returns what the file states, without any extra program: when the photo was taken, camera and lens, exposure, the GPS position in decimal degrees, software, artist and copyright, personal fields such as the camera owner, serial numbers and the computer name, how much each metadata block weighs, and text comments such as the prompt an image generator stored. Nothing in the file is changed, and nothing is uploaded.
 
 Phone photos are often stored turned and only shown upright because of a note in the file (the EXIF orientation). Nova reports the size as the picture is shown, and the stored size and the orientation separately.
 
-`hints` turns the facts into next steps. Examples: the photo carries a GPS position, so write a copy without it before sharing; the image is very large, so a smaller copy is cheaper to look at; the file is animated, and a transformed copy keeps only the first frame.
+`hints` turns the facts into next steps. Examples: the photo carries a GPS position or personal fields, so write a copy without them before sharing; its metadata is heavy, so a copy without the bulk is smaller; the image is very large, so a smaller copy is cheaper to look at; the file is animated, and a transformed copy keeps only the first frame.
 
 Supported: PNG, JPEG, WebP, GIF, BMP, ICO and TIFF; HEIC and JPEG XR only where Windows has the codec. Files in Nova's download and Exports folders can always be read; other paths need "Allow local files (file://)".
 
@@ -60,10 +60,10 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
     "frames": 1,
     "alphaChannel": false,
     "colorSpace": "sRGB",
-    "metadata": { "exif": true, "gps": true, "exifThumbnail": true, "xmp": false, "colorProfile": true, "textComments": 0, "dpiX": 72, "dpiY": 72 },
+    "metadata": { "exif": true, "gps": true, "exifThumbnail": true, "xmp": false, "colorProfile": true, "textComments": 0, "exifBytes": 12480, "xmpBytes": 0, "makerNotesBytes": 9216, "photoshopBytes": 0, "xmpEditHistory": false, "xmpRights": false, "xmpDocumentAncestors": 0, "dpiX": 72, "dpiY": 72 },
     "exifValues": { "taken": "2026-08-14T18:42:07+02:00", "cameraMake": "Apple", "cameraModel": "iPhone 15", "exposureTime": "1/120 s", "fNumber": 1.6, "iso": 64, "gpsLatitude": 47.42345, "gpsLongitude": 10.98512, "gpsAltitudeM": 2962.4 },
     "hints": [
-      "The image carries a GPS position (where it was taken). Before sharing or uploading it, write a copy without it: nova.image_transform with stripMetadata=true."
+      "The image carries a GPS position (where it was taken). Before sharing or uploading it, write a copy without them: nova.image_transform with removeMetadata=['privacy'] (keeps camera, exposure and date; stripMetadata=true removes everything)."
     ]
   }
 }

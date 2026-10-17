@@ -11,7 +11,7 @@ Keep accounts separate and let Nova remember useful website workflows.
 
 Windows 10 / 11 · Works with Claude Code, Codex and other MCP clients · Free during alpha · No Nova account required · [Proprietary license](LICENSE)
 
-**[Download](#-get-started--no-nova-account-needed) · [Try the demo](#-your-first-verified-task) · [How it works](#-what-is-nova-ai-workspace) · [Documentation](#-complete-documentation-index) · [Deutsch](#nova-ai-workspace-deutsch)**
+**[Download](https://github.com/joelaniol/nova/releases) · [Try the demo](#-your-first-verified-task) · [How it works](#-what-is-nova-ai-workspace) · [Documentation](#-complete-documentation-index) · [Deutsch](#nova-ai-workspace-deutsch)**
 
 [![Platform](https://img.shields.io/badge/Windows-10%20%7C%2011%20(x64)-0078D4?logo=windows&logoColor=white)](docs/getting-started/installation.md#1-system-requirements)
 [![Status: Alpha](https://img.shields.io/badge/status-alpha-orange)](ALPHA.md)
@@ -26,7 +26,7 @@ Nova AI Workspace gives your AI agent a real browser workspace on Windows, with 
 
 * **See the work:** an optional on-screen cursor labelled "AI" shows where the agent acts, with an optional card for the current and next step.
 * **Take control:** a tab an agent is working in says so; click it and confirm **Take over**. **Emergency stop** in the main menu halts agent activity in Nova, releases agent-controlled tabs and pauses terminal sessions; it does not close your AI program. Typing or moving the mouse does not pause the agent by itself.
-* **Reuse experience:** procedures that worked on a website are stored and checked again on later visits before they are used.
+* **Reuse experience:** Nova can store useful website procedures, retrieve them on later visits and check whether they still apply. Automatic reuse depends on their verification and trust state.
 
 ---
 
