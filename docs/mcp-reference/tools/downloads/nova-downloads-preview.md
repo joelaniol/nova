@@ -69,6 +69,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ## See Also
 
+* [Download Security Gates, Policy Enforcement & Preview Sandboxing](../../../core-features/downloads/security-and-policy/README.md) — Safe preview formats, HTML/SVG sandboxing, and security policies.
 * [`nova.downloads_wait`](nova-downloads-wait.md) - Wait for download completion.
 * [`nova.downloads_open_file`](nova-downloads-open-file.md) - Open with native OS app.
 * [Downloads Management Category](README.md)

@@ -75,6 +75,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ## See Also
 
+* [Device Presets, Viewport Metrics & Touch Simulation](../../../core-features/device-emulation/device-presets-and-metrics/README.md) — 70+ built-in device presets, DPR scaling, and touch capabilities.
 * [`nova.emulation_set_device_metrics`](nova-emulation-set-device-metrics.md) - Configure custom dimensions.
 * [`nova.emulation_clear_device_metrics`](nova-emulation-clear-device-metrics.md) - Revert to normal viewport.
 * [`nova.emulation_set_touch`](nova-emulation-set-touch.md) - Toggle touch input.

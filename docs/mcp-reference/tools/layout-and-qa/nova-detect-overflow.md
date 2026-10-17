@@ -120,6 +120,7 @@ The scan examines at most 8000 elements; a larger subtree sets `truncated: true`
 
 ## 7. Related Tools & Documentation
 
+* [Layout Geometry, Overflow Detection & Computed Styling](../../../core-features/layout-and-web-vitals/layout-geometry-and-overflow/README.md) — Architectural overview, vertical asymmetry rationale, and constraining ancestors.
 * [`nova.measure_elements`](nova-measure-elements.md) — Measure constraining ancestor widths and `usedWidthRatio`.
 * [`nova.get_computed_style`](nova-get-computed-style.md) — Inspect CSS `overflow`, `white-space`, and `max-width` rules.
 * [`nova.audit_accessibility`](nova-audit-accessibility.md) — Check for touch-target sizes and contrast issues.

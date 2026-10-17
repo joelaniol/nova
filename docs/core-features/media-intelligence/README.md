@@ -30,7 +30,11 @@ flowchart TD
         CaptureTools["nova.media_capture_*\n(start, status, stop)"]
         PermTools["nova.media_permission_*\n(list, get, set, clear_session)"]
         AuditTools["nova.media_activity_*\n(status, audit, delta, stop_all)"]
-        DocTools["nova.read_pdf\nnova.save_pdf\nnova.convert_to_markdown"]
+        ImageTools["nova.image_info\nnova.image_transform"]
+        DocTools["nova.read_pdf / nova.save_pdf\nnova.pdf_compose / nova.pdf_split\nnova.convert_to_markdown\nnova.docx_create / nova.xlsx_create"]
+        DataTools["nova.data_inspect\nnova.data_query"]
+        ArchiveTools["nova.archive_inspect\nnova.archive_extract*"]
+        OcrTools["nova.ocr_read"]
         TranscribeTools["nova.media_transcribe_*\n(start, status, stop, models)"]
     end
 
@@ -40,6 +44,8 @@ flowchart TD
         CPUGate["CPU Vector Gate\n(AVX2, AVX, FMA Hardware Check)"]
         WhisperCore["whisper.cpp Inference Engine\n(Pinned GGML Models)"]
         SegmentStreamer["JSON Frame Streamer\n(stdout Frames, stderr Diagnostics)"]
+        SkiaEngine["SkiaSharp Image Engine\n(Transforms, Bomb Guard, Thumbnail Overwrite)"]
+        OcrRuntimes["Dual OCR Engines\n(Tesseract 5 + PaddleOCR PP-OCRv5)"]
     end
 
     HTML5Media --> PlaybackInspect --> MediaStatusTool
@@ -50,9 +56,14 @@ flowchart TD
     WebPageDOM --> PrintEngine --> DocTools
     DocTools --> PdfPigParser
 
+    ImageTools --> SkiaEngine
+    OcrTools --> OcrRuntimes
+    DataTools & ArchiveTools --> Layer3
+
     CaptureTools -.->|Flushes native track files| OutriderProcess
     TranscribeTools <-->|Named Pipe / Process Protocol| OutriderProcess
     OutriderProcess --> CPUGate --> WMFDecoder --> WhisperCore --> SegmentStreamer
+    OutriderProcess --> SkiaEngine & OcrRuntimes
     ImageViewer -.->|WinUI 3 Shell Modal| Layer2
 ```
 
@@ -63,12 +74,16 @@ flowchart TD
 | Subsystem | Scope & Technical Capabilities | Primary Operations & Tools |
 | :--- | :--- | :--- |
 | **[Speech Transcription](transcription/README.md)** | 100% on-device speech-to-text recognition executing in an isolated native helper process. Pinned GGML quantized models, hardware instruction set verification (AVX2/FMA), Windows Media Foundation audio decoding, and acoustic coverage analysis. | `nova.media_transcribe_start`<br/>`nova.media_transcribe_status`<br/>`nova.media_transcribe_stop`<br/>`nova.media_transcribe_models`<br/>`nova.media_transcribe_model_install`<br/>`nova.media_transcribe_model_remove`<br/>`nova.media_file_info` |
+| **[Local Image Intelligence & Processing](image-processing/README.md)** | 100% local image inspection and deterministic transformation. Pre-flight meta-tool audit (`nova.image_info`) of visual vs. stored geometry, EXIF orientation, GPS location, and embedded previews with actionable hints. Six-stage transformation engine (`nova.image_transform`) with native WebP, thumbnail byte overwrite, and decompression bomb protection. | `nova.image_info`<br/>`nova.image_transform` |
+| **[Offline Optical Character Recognition (OCR)](ocr/README.md)** | On-device dual-engine text recognition (Tesseract 5 + PaddleOCR PP-OCRv5) for scanned PDFs, receipts, and photos. Outrider process isolation, dynamic autocontrast, receipt line assembly, confidence arbitration, and structured agent advice. | `nova.ocr_read` |
+| **[Tabular Data Analysis & Streaming Queries](data-analysis/README.md)** | High-performance streaming inspection and SQL-like queries for CSV, TSV, and Excel files without full RAM loading. Column type inference, automatic German/English number format detection, grouping, and exact decimal arithmetic. | `nova.data_inspect`<br/>`nova.data_query` |
+| **[PDF Reading, Export & Page Operations](pdf/README.md)** | Comprehensive PDF document lifecycle: programmatic digital text extraction (`nova.read_pdf`), crash-safe untagged webpage print-to-PDF (`nova.save_pdf`), custom page subset merging (`nova.pdf_compose`), and page range partitioning (`nova.pdf_split`). | `nova.read_pdf`<br/>`nova.save_pdf`<br/>`nova.pdf_compose`<br/>`nova.pdf_split` |
+| **[Archive Inspection & Secure Extraction](archives/README.md)** | Safe inspection and background extraction of ZIP, TAR, and `.tar.gz` archives. Zip-Slip traversal defense, background job tracking, continuous disk quota monitoring (2 GB reserve), and atomic transactional rollback. | `nova.archive_inspect`<br/>`nova.archive_extract`<br/>`nova.archive_extract_status`<br/>`nova.archive_extract_stop` |
+| **[Document Conversion & Office Generation](document-conversion/README.md)** | Local conversion of PDF, Word, Excel, PowerPoint, HTML, EPUB, CSV, JSON, and text into Markdown for LLMs with truth-to-document layout heuristics and hidden content extraction (`hiddenText`). Native Word (`.docx`) and Excel (`.xlsx`) generation without Microsoft Office. | `nova.convert_to_markdown`<br/>`nova.docx_create`<br/>`nova.xlsx_create` |
+| **[Image Viewer](image-viewer/README.md)** | Hardware-accelerated WinUI 3 lightbox viewer for high-resolution inspection of web images with kinetic 2D panning, dynamic zoom limits, and a floating picture-in-picture mini-map navigator. | In-app GUI action ("Magnify image") |
 | **[Media Devices & Permissions](devices-and-permissions/README.md)** | Multi-layered governance over camera, microphone, speaker, and screen-sharing access. Persistent per-origin rules, ephemeral session grants, live stream monitoring, emergency kill-switches, and WebRTC hardware diagnostics. | `nova.media_permissions_list`<br/>`nova.media_permission_get`<br/>`nova.media_permission_set`<br/>`nova.media_permissions_clear_session_grants`<br/>`nova.media_activity_status`<br/>`nova.media_activity_audit`<br/>`nova.media_activity_delta`<br/>`nova.media_stop_all`<br/>`nova.site_permissions_reset_origin`<br/>`nova.media_device_preferences_list`<br/>`nova.hardware_diagnostics_start`<br/>`nova.hardware_diagnostics_state`<br/>`nova.hardware_diagnostics_stop` |
 | **[Media Capture](media-capture/README.md)** | In-page stream recording intercepting live media directly from Media Source Extensions (MSE) and Web Audio API graphs into local native track files without external transcoders. | `nova.media_capture_start`<br/>`nova.media_capture_status`<br/>`nova.media_capture_stop` |
 | **[Media Playback Inspection](media-playback/README.md)** | Real-time diagnostics of in-page `<video>` and `<audio>` elements: playback state, current position, buffer health, network readiness, YouTube video ad detection, and classified pause root causes. | `nova.media_status` |
-| **[Document Conversion](document-conversion/README.md)** | Local conversion of PDF, Word, Excel, PowerPoint, HTML, CSV, JSON and text files into Markdown for AI agents: structure only where the document defines it, stored values instead of calculated formulas, hidden content included and named, nothing uploaded. | `nova.convert_to_markdown` |
-| **[PDF Reading & Export](pdf/README.md)** | Programmatic digital text extraction from local PDF documents and pixel-accurate print-to-PDF export from active webpages using Chromium's print engine with crash-safe untagged rendering. | `nova.read_pdf`<br/>`nova.save_pdf` |
-| **[Image Viewer](image-viewer/README.md)** | Hardware-accelerated WinUI 3 lightbox viewer for high-resolution inspection of web images with kinetic 2D panning, dynamic zoom limits, and a floating picture-in-picture mini-map navigator. | In-app GUI action ("Magnify image") |
 
 ---
 
@@ -214,11 +229,30 @@ sequenceDiagram
 | **Playback** | [`nova.media_status`](../../mcp-reference/tools/media-and-transcription/nova-media-status.md) | In-page playback diagnostics: currentTime, duration, readyState, classified pause cause, and YouTube ad status. |
 | **Documents** | [`nova.read_pdf`](../../mcp-reference/tools/files-and-documents/nova-read-pdf.md) | Extracts digital text from local PDF documents (`path`, `pages`, `maxChars`). |
 | **Documents** | [`nova.save_pdf`](../../mcp-reference/tools/visual-evidence/nova-save-pdf.md) | Generates vector PDF from webpage via Chromium print engine (`printBackground`, `landscape`, `scale`, `pageRanges`). |
+| **Documents** | [`nova.pdf_compose`](../../mcp-reference/tools/files-and-documents/nova-pdf-compose.md) | Assembles one new PDF from pages across one or more local PDFs (`sources`, `outputPath`). |
+| **Documents** | [`nova.pdf_split`](../../mcp-reference/tools/files-and-documents/nova-pdf-split.md) | Partitions a local PDF into multiple separate documents based on page ranges (`path`, `ranges`, `outputDir`). |
+| **Documents** | [`nova.convert_to_markdown`](../../mcp-reference/tools/files-and-documents/nova-convert-to-markdown.md) | Converts local PDF, Word, Excel, PowerPoint, HTML, EPUB, CSV, JSON, and text into Markdown (`path`, `outputMode`, `renderPages`). |
+| **Documents** | [`nova.docx_create`](../../mcp-reference/tools/files-and-documents/nova-docx-create.md) | Generates native Microsoft Word documents from Markdown without Office (`markdown`, `title`, `pageSize`, `outputPath`). |
+| **Documents** | [`nova.xlsx_create`](../../mcp-reference/tools/files-and-documents/nova-xlsx-create.md) | Generates native Microsoft Excel workbooks from tabular data or CSV without Office (`sheets`, `autoFormat`, `outputPath`). |
+| **Images** | [`nova.image_info`](../../mcp-reference/tools/files-and-documents/nova-image-info.md) | Pre-flight image meta-tool auditing format, displayed vs. stored geometry, EXIF orientation, GPS location, alpha, and hints (`path`). |
+| **Images** | [`nova.image_transform`](../../mcp-reference/tools/files-and-documents/nova-image-transform.md) | Local deterministic cropping, rotating, flipping, resizing, conversion, and metadata stripping (`path`, `crop`, `resize`, `format`). |
+| **OCR** | [`nova.ocr_read`](../../mcp-reference/tools/files-and-documents/nova-ocr-read.md) | 100% offline dual-engine text recognition (Tesseract + PaddleOCR) for scanned PDFs and photos (`path`, `pages`, `engine`). |
+| **Data & Tables** | [`nova.data_inspect`](../../mcp-reference/tools/files-and-documents/nova-data-inspect.md) | Streaming schema inspection, data type profiling, and range detection for CSV and Excel files (`path`, `sampleRows`). |
+| **Data & Tables** | [`nova.data_query`](../../mcp-reference/tools/files-and-documents/nova-data-query.md) | Streaming predicate filtering, grouping, and exact decimal aggregations for CSV and Excel files (`path`, `filters`, `groupBy`, `metrics`). |
+| **Archives** | [`nova.archive_inspect`](../../mcp-reference/tools/files-and-documents/nova-archive-inspect.md) | Non-extracting manifest audit of ZIP, TAR, and `.tar.gz` archives with vulnerability detection (`path`, `maxEntries`). |
+| **Archives** | [`nova.archive_extract`](../../mcp-reference/tools/files-and-documents/nova-archive-extract.md) | Secure background archive extraction with Zip-Slip defense and continuous disk space quota monitoring (`path`, `wait`). |
+| **Archives** | [`nova.archive_extract_status`](../../mcp-reference/tools/files-and-documents/nova-archive-extract-status.md) | Real-time progress and extraction metrics for active background archive jobs (`jobId`, `wait`). |
+| **Archives** | [`nova.archive_extract_stop`](../../mcp-reference/tools/files-and-documents/nova-archive-extract-stop.md) | Instantly aborts active archive extraction and executes transactional disk rollback (`jobId`). |
 
 ---
 
 ## Related Systems
 
+* **[Local Image Processing](image-processing/README.md)**: Deep dive into the image meta-tool (`nova.image_info`), 6-stage transformation pipeline, and anti-leak thumbnail overwrite.
+* **[Offline OCR](ocr/README.md)**: Deep dive into the dual-engine recognition pipeline (Tesseract + PaddleOCR), autocontrast, receipt assembly, and agent guidance.
+* **[Tabular Data Analysis](data-analysis/README.md)**: Deep dive into streaming query execution, constant memory footprint, and exact decimal precision.
+* **[Archive Operations](archives/README.md)**: Deep dive into background archive extraction, disk quotas, and Zip-Slip vulnerability prevention.
+* **[PDF Reading, Export & Page Operations](pdf/README.md)**: Deep dive into print-to-PDF crash guards, digital extraction, and PDF composition/splitting.
 * **[Session Recording](../session-recording/README.md)**: Records DOM mutations and network packets for browser session debugging and replay. Completely distinct from multimedia stream capture.
 * **[Evidence Verification Mode (EVM)](../../research/evidence-verification-mode-evm/README.md)**: Multimodal visual inspection, bounding box analysis, and screenshot capture for verifying visual webpage states.
 * **[Connectors Subsystem](../connectors/README.md)**: Dispatches exported PDFs, local transcripts, and audio recordings across external enterprise endpoints (Mail, SFTP, FTP).
@@ -226,4 +260,4 @@ sequenceDiagram
 
 ---
 
-[All core features](../README.md) · [Media & Transcription Tool Reference](../../mcp-reference/tools/media-and-transcription/README.md) · [Visual Evidence Tool Reference](../../mcp-reference/tools/visual-evidence/README.md) · [Outrider Architecture](../../components/outrider/README.md)
+[All core features](../README.md) · [Local Files & Documents Reference](../../mcp-reference/tools/files-and-documents/README.md) · [Media & Transcription Tool Reference](../../mcp-reference/tools/media-and-transcription/README.md) · [Visual Evidence Tool Reference](../../mcp-reference/tools/visual-evidence/README.md) · [Outrider Architecture](../../components/outrider/README.md)

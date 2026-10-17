@@ -143,3 +143,5 @@ to inspect grid-based layouts instead. A table that exceeds `maxRows` is likewis
 * [`nova.dom_extract`](nova-dom-extract.md) — Extract arbitrary grid elements and custom list items.
 * [`nova.read_text_structured`](nova-read-text-structured.md) — Extract page text grouped by landmarks.
 * [`nova.search_text`](nova-search-text.md) — Find specific text entries within tables.
+* [DOM Perception & Structured Reading Overview](../../../core-features/dom-perception/README.md) — Core architecture overview of Nova's 3-layer perception stack.
+* [Semantic Landmark Reading & Tabular Extraction](../../../core-features/dom-perception/semantic-reading/README.md) — Deep dive into table parsing, cell alignment, and landmark reading.

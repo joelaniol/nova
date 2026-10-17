@@ -73,6 +73,7 @@ With `decision: "keep"` the result reports `status: "kept"`.
 
 ---
 
-## 5. Related Tools
+## 5. Related Tools & Documentation
 
+* [Download Security Gates, Policy Enforcement & Preview Sandboxing](../../../core-features/downloads/security-and-policy/README.md) — Executable blocklists, unattended fail-closed policy, and audit logging.
 * [`nova.downloads_wait`](../downloads/nova-downloads-wait.md)

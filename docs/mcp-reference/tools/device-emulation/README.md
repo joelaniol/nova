@@ -2,7 +2,7 @@
 
 Mobile viewport simulation, touch event emulation, user agent overriding, and dark mode toggles.
 
-* **Core Architecture Guide:** [Fingerprint Protection & Browser Identity](../../../core-features/privacy/fingerprint-and-identity/README.md)
+* **Core Architecture Guide:** [Device Emulation & Responsive Testing](../../../core-features/device-emulation/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

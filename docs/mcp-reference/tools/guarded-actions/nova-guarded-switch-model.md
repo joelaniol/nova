@@ -107,7 +107,9 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## 5. Related Tools
+## 5. Related Tools & Documentation
 
-* [`nova.guarded_send_message`](nova-guarded-send-message.md)
-* [`nova.guarded_switch_sandbox`](nova-guarded-switch-sandbox.md)
+* [`nova.guarded_send_message`](nova-guarded-send-message.md) — Guarded message dispatch for chat interfaces.
+* [`nova.guarded_switch_sandbox`](nova-guarded-switch-sandbox.md) — Guarded workspace and tenant switcher.
+* [Guarded Interactions & Form Automation Overview](../../../core-features/guarded-interactions/README.md) — Architecture overview of high-level guarded macros.
+* [Transactional Form Submissions & Auth Surface Integration](../../../core-features/guarded-interactions/form-submission/README.md) — Deep dive into model and workspace switcher verification.

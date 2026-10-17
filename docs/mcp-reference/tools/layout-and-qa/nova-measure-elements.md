@@ -169,6 +169,7 @@ A miss or unparsable selector is reported as its own entry (`found: false`, `rea
 
 ## 7. Related Tools & Documentation
 
+* [Layout Geometry, Overflow Detection & Computed Styling](../../../core-features/layout-and-web-vitals/layout-geometry-and-overflow/README.md) — Constraining ancestors, width ratios, and multi-selector geometry.
 * [`nova.detect_overflow`](nova-detect-overflow.md) — Scan the whole page for clipped text and bleeding containers.
 * [`nova.get_computed_style`](nova-get-computed-style.md) — Inspect full CSS styling and box models.
 * [`nova.audit_accessibility`](nova-audit-accessibility.md) — Validate touch target sizes and visual contrast.

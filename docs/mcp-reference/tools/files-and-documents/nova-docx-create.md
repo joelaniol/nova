@@ -14,7 +14,7 @@
 
 `nova.docx_create` turns Markdown - the format agents write anyway - into a real Word file (`.docx`). Headings become Word heading styles, so the navigation pane and a table of contents work; bold, italic, strikethrough and code are kept; links become clickable Word links; bullet and numbered lists keep their nesting; quotes, code blocks and tables (with a header row that repeats on every page) are laid out as Word expects. An optional `title` sets the document title, `pageSize` chooses A4 or Letter.
 
-Nova writes the file itself, so nothing else needs to be installed. Images in the Markdown are not embedded yet - their description stays in the text - and raw HTML is kept as plain text; the answer says when either happened.
+Nova writes the file itself, so nothing else needs to be installed. Images in the Markdown, such as a chart from [`nova.chart_create`](nova-chart-create.md), are embedded when they are local PNG, JPEG, GIF or BMP files. They keep their proportions and are scaled down to fit the page. Images from the web are not downloaded. An image that cannot be embedded keeps its description in the text, and the answer names it with the reason. Raw HTML is kept as plain text.
 
 Without `outputPath` the document goes into Nova's Exports folder; a path of your own choice needs the setting "Allow local files (file://)". An existing file is never overwritten. Before the file gets its name, Nova reads it back once to make sure it opens. Because the tool writes a file, it follows your confirmation setting for saving data permanently.
 

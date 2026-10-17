@@ -8,7 +8,8 @@ Moves up to 200 messages from one mail account to an exact IMAP destination fold
 
 `nova.mail_move` moves up to 200 messages from one mail account to one exact IMAP folder. Requires the account's `organize` capability and Nova's independent MutatingRemote confirmation policy. Native IMAP MOVE support is required; without it the call is rejected before dispatch rather than falling back to a copy/delete/expunge sequence. Every input handle gets its own ordered result (`changed`/`already_done`/`not_found`); if the server accepted the move but did not confirm a destination UID, that item reports `changed: null, actionDispatched: true, reasonCode: "connector_remote_state_indeterminate"` — do not auto-retry, list the destination folder first.
 
-* **Core Architecture Guide:** [Mail: IMAP & SMTP](../../../core-features/connectors/mail/README.md)
+* **Core Architecture Guide:** [Reading, Mailbox Organization & Attachment Safety](../../../core-features/connectors/mail/reading-organizing-and-attachments/README.md)
+* **Subsystem Overview:** [Mail: IMAP & SMTP](../../../core-features/connectors/mail/README.md)
 
 ---
 

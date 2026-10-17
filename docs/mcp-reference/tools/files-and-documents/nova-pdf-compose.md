@@ -2,7 +2,7 @@
 
 > **Builds one new PDF from pages of local PDFs: merge files, keep or drop pages, change their order.**
 
-* **Core Feature Guide:** [Document Conversion](../../../core-features/media-intelligence/document-conversion/README.md)
+* **Core Feature Guide:** [PDF Reading, Export & Page Operations](../../../core-features/media-intelligence/pdf/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

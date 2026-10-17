@@ -123,5 +123,8 @@ A call with `intent.mode: "AcceptAll"` does not return a tool result at all; it 
 ## 5. Related Tools & Documentation
 
 * [`nova.dismiss_blockers`](nova-dismiss-blockers.md) — Visual fallback for closing arbitrary overlay dialogs.
+* [Consent Management Architecture Overview](../../../core-features/consent-management/README.md) — Core architecture overview of Nova's privacy and blocker subsystem.
+* [Programmatic CMP Vendor API Engine](../../../core-features/consent-management/cmp-engine/README.md) — Deep dive into the 8-step pipeline, vendor protocols, and state vector verification.
+* [3-Stage Hijack & Dark Pattern Defense](../../../core-features/consent-management/hijack-protection/README.md) — Polarity scoring, sibling contrast, and cross-origin iframe boundaries.
 * [`nova.tab_claim`](../browser-automation/nova-tab-claim.md) — Lease a tab before applying consent mutations.
 * [Closed-Loop Systems Architecture](../../../core-features/closed-loop-system-cls/README.md) — Verification contracts and consent policy enforcement.

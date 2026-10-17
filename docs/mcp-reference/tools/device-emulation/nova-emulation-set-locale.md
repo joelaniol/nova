@@ -80,6 +80,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ## See Also
 
+* [Locale, Timezone & Geolocation Simulation](../../../core-features/device-emulation/locale-timezone-and-geolocation/README.md) — Dual-lever Accept-Language spoofing, timezone offsets, and coordinate overriding.
 * [`nova.emulation_clear_locale`](nova-emulation-clear-locale.md) - Clear locale and geo overrides.
 * [Device Emulation Category](README.md)
 * [MCP Tool Catalog](../../tool-catalog.md)

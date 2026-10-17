@@ -13,7 +13,7 @@ Every tool exposed by **Nova AI Workspace**, grouped by operational domain. Clic
 - [4. Input & Interaction](#4-input--interaction) (18)
 - [5. Guarded Actions & Blocker Clearance](#5-guarded-actions--blocker-clearance) (7)
 - [6. Visual Evidence & Screenshots](#6-visual-evidence--screenshots) (6)
-- [7. Local Files, Documents & Archives](#7-local-files-documents--archives) (13)
+- [7. Local Files, Documents & Archives](#7-local-files-documents--archives) (18)
 - [8. Knowledge & Phenomenological Store (PKS)](#8-knowledge--phenomenological-store-pks) (21)
 - [9. Credentials & Secure Vault](#9-credentials--secure-vault) (9)
 - [10. Terminal Workspaces & Headless CLI](#10-terminal-workspaces--headless-cli) (12)
@@ -179,10 +179,15 @@ Reading and reshaping files on disk: documents as Markdown, CSV/Excel tables wit
 | **[`nova.archive_extract_status`](tools/files-and-documents/nova-archive-extract-status.md)** | `jobId`, `wait?` | Reports how far a background extraction of nova.archive_extract has come, or its result. |
 | **[`nova.archive_extract_stop`](tools/files-and-documents/nova-archive-extract-stop.md)** | `jobId` | Stops a running extraction of nova.archive_extract and removes what it had written. |
 | **[`nova.archive_inspect`](tools/files-and-documents/nova-archive-inspect.md)** | `path`, `maxEntries?` | Lists what a local ZIP or TAR archive holds, without unpacking it. |
+| **[`nova.barcode_decode`](tools/files-and-documents/nova-barcode-decode.md)** | `path`, `multiple?`, `formats?` | Reads QR codes and barcodes from a photo, screenshot or scan, and never opens what it finds. |
+| **[`nova.barcode_generate`](tools/files-and-documents/nova-barcode-generate.md)** | `content`, `type?`, `format?`, `outputPath?`, `width?`, `height?`, `errorCorrection?`, `includeText?` | Creates a QR code or barcode as a PNG or SVG file, crisp and checked by reading it back. |
+| **[`nova.chart_create`](tools/files-and-documents/nova-chart-create.md)** | `type`, `data?`, `sourcePath?`, `sheet?`, `xKey?`, `yKey?`, `series?`, `title?`, `xLabel?`, `yLabel?`, `width?`, `height?`, `theme?`, `format?`, `outputPath?` | Draws a column, bar, line, area, scatter, pie or donut chart from rows of data and saves it as a PNG or SVG file. |
 | **[`nova.convert_to_markdown`](tools/files-and-documents/nova-convert-to-markdown.md)** | `path`, `pages?`, `outputMode?`, `outputPath?`, `maxChars?`, `renderPages?`, `includeFormValues?` | Converts a local PDF, Word, Excel, PowerPoint, HTML, CSV, JSON or text file into Markdown for an agent, with an honest account of what was read. |
 | **[`nova.data_inspect`](tools/files-and-documents/nova-data-inspect.md)** | `path`, `sheet?`, `sampleRows?`, `previewRows?`, `fullScan?`, `timeoutSeconds?` | Shows the columns, types and value ranges of a local CSV or Excel file, before your agent queries it. |
 | **[`nova.data_query`](tools/files-and-documents/nova-data-query.md)** | `path`, `sheet?`, `columns?`, `filters?`, `groupBy?`, `metrics?`, `orderBy?`, `limit?`, `timeoutSeconds?` | Filters, groups and totals a local CSV or Excel file and returns only the result rows. |
 | **[`nova.docx_create`](tools/files-and-documents/nova-docx-create.md)** | `markdown?`, `sourcePath?`, `title?`, `pageSize?`, `outputPath?` | Writes a Word document from Markdown, without Microsoft Office. |
+| **[`nova.image_info`](tools/files-and-documents/nova-image-info.md)** | `path` | Describes a local image file: format, size as shown, animation, transparency and which metadata it carries, with hints for the next step. |
+| **[`nova.image_transform`](tools/files-and-documents/nova-image-transform.md)** | `path`, `outputPath?`, `format?`, `crop?`, `rotate?`, `flip?`, `resize?`, `quality?`, `stripMetadata?` | Writes a changed copy of a local image: crop, rotate, flip, resize, convert or remove metadata. The original stays untouched. |
 | **[`nova.ocr_read`](tools/files-and-documents/nova-ocr-read.md)** | `path`, `pages?`, `engine?`, `maxChars?`, `timeoutSeconds?` | Reads the text of a scanned PDF or an image by text recognition, locally and offline, and says per page how far it can be trusted. |
 | **[`nova.pdf_compose`](tools/files-and-documents/nova-pdf-compose.md)** | `sources`, `outputPath?` | Builds one new PDF from pages of local PDFs: merge files, keep or drop pages, change their order. |
 | **[`nova.pdf_split`](tools/files-and-documents/nova-pdf-split.md)** | `path`, `ranges`, `outputDir?` | Splits a local PDF into several new PDFs, one per page range. |

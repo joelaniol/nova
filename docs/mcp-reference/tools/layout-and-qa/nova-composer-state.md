@@ -106,8 +106,9 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ---
 
-## 5. Related Tools
+## 5. Related Tools & Documentation
 
+* [Layout Geometry, Overflow Detection & Computed Styling](../../../core-features/layout-and-web-vitals/layout-geometry-and-overflow/README.md) — Tri-state attachment detection and send control inspection.
 * [`nova.guarded_send_message`](../guarded-actions/nova-guarded-send-message.md) — Sends through the same composer resolver this tool reads.
 * [`nova.type_selector`](../browser-automation/nova-type-selector.md)
 * [`nova.measure_elements`](nova-measure-elements.md)

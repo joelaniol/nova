@@ -108,6 +108,7 @@ off.
 
 ## See Also
 
+* [Download Lifecycle, Queue Control & Parked WebViews](../../../core-features/downloads/lifecycle-and-queue/README.md) — State machine, parked WebViews, and SQLite persistence.
 * [`nova.downloads_wait`](nova-downloads-wait.md) - Block until downloads reach terminal state.
 * [`nova.downloads_pause`](nova-downloads-pause.md) - Pause active transfer.
 * [`nova.downloads_open_file`](nova-downloads-open-file.md) - Open completed file.

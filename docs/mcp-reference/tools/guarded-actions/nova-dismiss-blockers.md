@@ -24,7 +24,7 @@ Autonomously operating agents are frequently halted by popups, promotional modal
 4. **Aggressive hide:** Only in `mode: "aggressive"`, remaining overlay roots get `display: none !important` set directly on their style, tagged internally as an `aggressive_overlay_hide` action.
 
 ### B. CMP Cookie Banner Resolution
-If a cookie consent banner belongs to a known vendor (OneTrust, Cookiebot, Klaro, Didomi), prefer calling [`nova.cmp_apply`](../../../core-features/closed-loop-system-cls/README.md) first to reject optional cookies cleanly. If `cmp_apply` reports `failureCode: "no_adapter"`, fall back to `nova.dismiss_blockers`.
+If a cookie consent banner belongs to a known vendor (OneTrust, Sourcepoint / TCF v2, Cookiebot), prefer calling [`nova.cmp_apply`](nova-cmp-apply.md) first to reject optional cookies programmatically (see the [Consent Management Guide](../../../core-features/consent-management/README.md)). If `cmp_apply` reports `failureCode: "no_adapter"`, fall back to `nova.dismiss_blockers`.
 
 ---
 
@@ -87,6 +87,8 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ## See Also
 
+* [`nova.cmp_apply`](nova-cmp-apply.md) — Programmatic vendor API dispatch for recognized CMPs.
 * [`nova.click_selector`](../browser-automation/nova-click-selector.md) — Click elements with `autoDismissBlockers: true`.
-* [`nova.scroll_smart`](../browser-automation/nova-scroll-smart.md) — Natural wheel scrolling.
-* [Core Feature: Closed-Loop System (CLS)](../../../core-features/closed-loop-system-cls/README.md)
+* [`nova.scroll_smart`](../browser-automation/nova-scroll-smart.md) — Natural wheel scrolling with scroll-lock resilience.
+* [Consent Management & Blocker Clearance Architecture](../../../core-features/consent-management/README.md) — High-level architecture overview.
+* [Blocker & Overlay Remediation Architecture](../../../core-features/consent-management/blocker-dismissal/README.md) — Deep dive into multi-pass heuristics and scroll recovery.

@@ -10,7 +10,8 @@ Sends an email with optional HTML body, CC/BCC, priority, and attachments via SM
 
 **Preview first:** the same call with `dryRun: true` sends nothing, asks nothing and changes no mailbox. It returns the mail exactly as it would go out (final text including the account signature, headers, attachments with sizes, the size as sent) plus `readyToSend`, the `blockers` that would stop the send and the confirmations the real send would show. Attachment path errors fail the preview just as they would fail the send.
 
-* **Core Architecture Guide:** [Mail: IMAP & SMTP](../../../core-features/connectors/mail/README.md)
+* **Core Architecture Guide:** [Message Composition, Outbound Delivery & Rate Limits](../../../core-features/connectors/mail/composition-sending-and-rate-limits/README.md)
+* **Subsystem Overview:** [Mail: IMAP & SMTP](../../../core-features/connectors/mail/README.md)
 
 ---
 

@@ -2,7 +2,7 @@
 
 > **Stops a running extraction of nova.archive_extract and removes what it had written.**
 
-* **Core Feature Guide:** [Document Conversion](../../../core-features/media-intelligence/document-conversion/README.md)
+* **Core Feature Guide:** [Archive Inspection & Secure Extraction](../../../core-features/media-intelligence/archives/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

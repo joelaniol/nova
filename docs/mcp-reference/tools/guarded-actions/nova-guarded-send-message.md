@@ -129,7 +129,11 @@ These are reported as a failed action outcome (not an invalid-params error).
 
 ## 6. Related Tools & Documentation
 
+* [`nova.read_text_structured`](../dom-and-reading/nova-read-text-structured.md) — Continue observing long replies via `replyWatchId`.
+* [`nova.guarded_submit_form`](nova-guarded-submit-form.md) — Guarded form submissions.
 * [`nova.click_selector`](../browser-automation/nova-click-selector.md) — Low-level single-element click execution.
 * [`nova.type_selector`](../browser-automation/nova-type-selector.md) — Low-level text input typing.
-* [`nova.guarded_submit_form`](nova-guarded-submit-form.md) — Guarded form submissions.
+* [Guarded Interactions & Form Automation Overview](../../../core-features/guarded-interactions/README.md) — Architecture overview of high-level guarded macros.
+* [Autonomous Chat Engine & Reply Watch](../../../core-features/guarded-interactions/chat-macro/README.md) — Deep dive into composer discovery, type-first wake-up, and stream reducer.
+* [Closed-Loop Transition Contracts](../../../core-features/guarded-interactions/transition-contracts/README.md) — Anatomy of preconditions, postconditions, and idempotency safeguards.
 * [Agent Awareness Gates (AAG)](../../../core-features/agent-awareness-gates-aag/README.md) — Pre-action and post-action verification contracts.

@@ -2,7 +2,7 @@
 
 > **Reads the text of a scanned PDF or an image by text recognition, locally and offline, and says per page how far it can be trusted.**
 
-* **Core Feature Guide:** [Document Conversion](../../../core-features/media-intelligence/document-conversion/README.md)
+* **Core Feature Guide:** [Offline Optical Character Recognition (OCR)](../../../core-features/media-intelligence/ocr/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

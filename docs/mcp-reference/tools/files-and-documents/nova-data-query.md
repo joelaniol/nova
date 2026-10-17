@@ -2,7 +2,7 @@
 
 > **Filters, groups and totals a local CSV or Excel file and returns only the result rows.**
 
-* **Core Feature Guide:** [Document Conversion](../../../core-features/media-intelligence/document-conversion/README.md)
+* **Core Feature Guide:** [Tabular Data Analysis & Streaming Queries](../../../core-features/media-intelligence/data-analysis/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

@@ -78,6 +78,7 @@ had these settings."` instead of an error — it is not treated as a failure.
 
 ## See Also
 
+* [Device Presets, Viewport Metrics & Touch Simulation](../../../core-features/device-emulation/device-presets-and-metrics/README.md) — 70+ built-in device presets, DPR scaling, touch capabilities, and viewport framing.
 * [`nova.emulation_set_device_metrics`](nova-emulation-set-device-metrics.md) - Set viewport dimensions.
 * [Device Emulation Category](README.md)
 * [MCP Tool Catalog](../../tool-catalog.md)

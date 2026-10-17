@@ -179,3 +179,6 @@ error: it comes back as a region (or the `scope`/`body` fallback) with an empty 
 * [`nova.dom_extract`](nova-dom-extract.md) — Extract specific typed attributes and bounding boxes.
 * [`nova.extract_table`](nova-extract-table.md) — Parse tabular data into structured JSON rows.
 * [`nova.search_text`](nova-search-text.md) — Find specific text strings and obtain their selectors.
+* [`nova.perceive`](nova-perceive.md) — Coordinated multimodal perception and visual evidence.
+* [DOM Perception & Structured Reading Overview](../../../core-features/dom-perception/README.md) — Core architecture overview of Nova's 3-layer perception stack.
+* [Semantic Landmark Reading & Tabular Extraction](../../../core-features/dom-perception/semantic-reading/README.md) — Deep dive into landmark partitioning, conversation feeds, and table extraction.

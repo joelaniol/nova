@@ -4,20 +4,17 @@
 
 <div align="center">
 
-### **Built for what's next.**
+### Your AI agent can use a browser. That doesn't mean you have to give up control.
 
-**The Autonomous AI Browser & Cognitive Runtime for Windows**  
-*Built for Human Operators and AI Coding Assistants*
+Watch your agent work in real, signed-in browser tabs. Take over when needed.  
+Keep accounts separate and let Nova remember useful website workflows.
+
+Windows 10 / 11 · Works with Claude Code, Codex and other MCP clients · Free during alpha · No Nova account required · [Proprietary license](LICENSE)
+
+**[Download](#-get-started--no-nova-account-needed) · [Try the demo](#-your-first-verified-task) · [How it works](#-what-is-nova-ai-workspace) · [Documentation](#-complete-documentation-index) · [Deutsch](#nova-ai-workspace-deutsch)**
 
 [![Platform](https://img.shields.io/badge/Windows-10%20%7C%2011%20(x64)-0078D4?logo=windows&logoColor=white)](docs/getting-started/installation.md#1-system-requirements)
 [![Status: Alpha](https://img.shields.io/badge/status-alpha-orange)](ALPHA.md)
-[![Tools](https://img.shields.io/badge/MCP-Tool%20Catalog-success)](docs/mcp-reference/tool-catalog.md)
-[![Made with love ❤️](https://img.shields.io/badge/Made%20with-love%20%E2%9D%A4%EF%B8%8F-d6336c)](#ethics--my-promise)
-[![Changelog](https://img.shields.io/badge/Changelog-Release%20notes-2ea44f)](docs/changelog/)
-
-**[Download & install](docs/getting-started/installation.md#2-download-and-install) · [Connect your AI program](docs/getting-started/quickstart.md) · [Deutsch](#nova-ai-workspace-deutsch) · [Get help](docs/troubleshooting/README.md)**
-
-[User Guide](docs/user-guide/README.md) · [Core Features](docs/core-features/README.md) · [Tool Catalog](docs/mcp-reference/tool-catalog.md) · [Changelog](docs/changelog/README.md)
 
 </div>
 
@@ -25,14 +22,11 @@
 
 ## 🌟 What is Nova AI Workspace?
 
-**Nova AI Workspace** is a Windows browser workspace where you and your connected AI program work in the same logged-in tabs. Ask your agent to browse, inspect a page, compare information or complete a task, and watch its browser actions in Nova.
+Nova AI Workspace gives your AI agent a real browser workspace on Windows, with tabs you can see and use yourself. Connect Claude Code, Codex or another MCP client. Let it browse, inspect pages and complete tasks in Nova while you watch, take over individual tabs or stop it. Nova also keeps browser sessions separate, gives agents tools to check results and stores website procedures that are checked again when a page changes.
 
-Nova brings browser interaction, persistent procedural knowledge, outcome verification and human handoffs into the workspace you use every day. The [Experience loop demo](demos/README.md) makes that combination tangible, including what happens when a previously useful recipe no longer fits the page.
-
-The **Dual-Operator Model** connects the person and the agent:
-* **Shared Context:** You and your AI agent (Anthropic Claude Code, OpenAI Codex, Google Antigravity, or custom agents) share the same browser window, authenticated sessions, and tab strip.
-* **AI Visualization:** Watch your agent navigate, click and fill forms in real time. An optional on-screen cursor labelled "AI" shows where the agent acts, with an optional card for the current and next step.
-* **You Stay in Control:** A tab an agent is working in says so; click it and confirm **Take over** to end the agent's control of that tab. **Emergency stop** in the main menu interrupts all agents at once. Typing or moving the mouse does not pause the agent by itself.
+* **See the work:** an optional on-screen cursor labelled "AI" shows where the agent acts, with an optional card for the current and next step.
+* **Take control:** a tab an agent is working in says so; click it and confirm **Take over**. **Emergency stop** in the main menu halts agent activity in Nova, releases agent-controlled tabs and pauses terminal sessions; it does not close your AI program. Typing or moving the mouse does not pause the agent by itself.
+* **Reuse experience:** procedures that worked on a website are stored and checked again on later visits before they are used.
 
 ---
 
@@ -40,65 +34,48 @@ The **Dual-Operator Model** connects the person and the agent:
 
 You need **Windows 10 / 11 (x64)** and an installed AI program such as Claude Code, Claude Desktop, Codex or Antigravity. Your conversation stays in that program; Nova provides the browser workspace. Your AI program may require its own account or subscription.
 
-1. **[Download Setup from Releases](https://github.com/joelaniol/nova/releases)** — under **Assets**, choose the Windows x64 file ending in `-Setup-<version>.exe`. The other assets are an MCP bridge bundle (`.mcpb`) and a checksum (`.sha256`); neither installs Nova.
-2. **Activate.** No account required — the setup comes with the shared alpha license already filled in.
-3. **[Connect your AI program](docs/getting-started/quickstart.md).** Nova detects supported AI programs. Follow **Easy setup**, click **Connect** if offered, and restart your AI program. Then ask: **"Use Nova to research the current Microsoft Edge WebView2 release notes on Microsoft's official website. Open the relevant pages, summarize three recent changes, and give me source links and release dates."**
-
-Installation details: [requirements and setup](docs/getting-started/installation.md). Looking for the trial key? → **[Alpha Trial License](docs/getting-started/trial-license.md)**
+1. **[Download Nova](https://github.com/joelaniol/nova/releases):** under **Assets**, choose the Windows x64 installer `NovaAIWorkspace-x64-Setup-<version>.exe`. The matching `.sha256` file is for checksum verification, not installation.
+2. **Activate.** On first launch the public alpha trial details are prefilled in the activation window; choose **Sign in**. No Nova registration is needed.
+3. **[Connect your AI program](docs/getting-started/quickstart.md).** Nova detects supported AI programs. Follow **Easy setup**, click **Connect** if offered, and restart your AI program. The quickstart has a short test task; then try [your first verified task](#-your-first-verified-task).
 
 > [!NOTE]
-> Windows SmartScreen may show **"Windows protected your PC"**. See the [installation notes](docs/getting-started/installation.md) before continuing with **"More info" → "Run anyway"**.
+> **Windows SmartScreen:** early alpha builds may show **"Windows protected your PC"**. Before you continue, make sure you downloaded the installer from this repository's release page; you can compare its SHA-256 checksum with the matching `.sha256` file ([how](docs/getting-started/installation.md#2-download-and-install)). Then choose **"More info" → "Run anyway"**.
+
+**Privacy at a glance:** Nova stores your browser profiles, cookies and workspace data locally. License activation and renewal contact Nova's server. Optional crash reports, which you review before sending, may include open-tab URLs (without query parameters) and sandbox names. Online search suggestions send typed text to your selected search provider unless you turn them off. Update checks and some optional features contact third-party services. Content your AI agent reads through Nova may reach its AI provider. [Full privacy details](PRIVACY.md#connections-to-other-services)
+
+Installation details: [requirements and setup](docs/getting-started/installation.md). Looking for the trial key? → **[Alpha Trial License](docs/getting-started/trial-license.md)**
 
 > [!WARNING]
 > **ALPHA SOFTWARE — REVIEW THE TECHNICAL RISKS.** Nova is in active alpha development. Bugs, crashes, data loss and breaking changes may occur. Read the [technical risk notice](DISCLAIMER.md), [Acceptable Use Policy](ACCEPTABLE-USE.md), [Privacy Policy](PRIVACY.md), and [license documents](EULA.md). The applicable agreed contract and mandatory statutory rights govern; reading this page or installing an update does not by itself accept new contractual terms. · [Alpha status & known issues →](ALPHA.md)
 
 ---
 
-## 🔬 Try Nova with an Interactive Demo
+## ✅ Your First Verified Task
 
-The [interactive demo](demos/README.md) starts with an **Experience loop**: encounter a recurring notice, retrieve the experience on a return visit, handle a changed page, and verify an actual saved result. Eight smaller browser exercises are also included.
+An agent that clicks **Save** has not saved anything yet. This first exercise shows browser interaction, human handoff and result verification. [Download the demo files](https://github.com/joelaniol/nova/archive/refs/heads/main.zip), extract them and open `demos/lab.html` in Nova. In the **Experience loop** section, select **First visit** and ask your connected agent:
 
-Download the repository and follow the guide to open the demo on a local HTTP address. Ask your connected agent:
+> Use Nova's connected MCP tools to work in the demo tab already open in Nova. Clear the release notice and save the sample draft. Verify the actual saved result instead of assuming the click succeeded. If confirmation is required, ask me to perform it myself. Then report the evidence.
 
-> Clear the release notice and save the sample draft. Check the actual saved result, ask me to confirm when needed, and record the verified notice-handling experience in Nova. Show me what was stored and its current learning level.
+Expected demo outcome: the first save deliberately leaves **Saved drafts** at **0**. Your agent should notice it and ask you; you click **I confirm this demo draft** yourself. The agent saves again and checks the page: **Saved drafts: 1**, with a receipt. All records are simulated, and the page makes no network requests of its own.
 
-The first save request deliberately leaves the draft unsaved. Later, **Site changed** invalidates the original dismissal selector. Look for real knowledge and verification evidence from Nova alongside the page's counters. All records are simulated; this is a workflow demonstration, not a performance benchmark.
-
-[Open the demo guide →](demos/README.md) · [Deutsche Anleitung](demos/README.de.md)
+Persistent website learning needs the local HTTP setup in the demo guide; the full demo continues there with a return visit and a changed page. [Open the demo guide →](demos/README.md) · [Deutsche Anleitung](demos/README.de.md)
 
 ---
 
 ## 🚀 Key Highlights & Capabilities
 
-### ⚡ Deep Model Context Protocol (MCP) Tools
-Agents can inspect DOM trees, measure element layout, compare screenshots against baselines, download files, run background crawlers, record and transcribe page audio, and manage tabs. The tools are grouped into 25 capability bundles that an agent loads as needed.
-* Explore the complete [MCP Tool Catalog](docs/mcp-reference/tool-catalog.md).
-
-### 🛡️ Multi-Sandbox Tab Strip (Zero Cookie Bleed)
-Run multiple enterprise identities, staging environments, and personal accounts in a single browser window. Each sandbox maintains a completely isolated cookie jar, local storage, and cache directory, visually distinguished by color-coded tab accents.
-* Read the [Sandboxes & Profile Isolation Guide](docs/user-guide/identity-and-security/sandboxes-and-profiles.md).
-
-### 💻 Integrated ConPTY Terminal Dock
-A Windows pseudo-console (ConPTY) dock inside the Nova window. It starts PowerShell 7 when it is installed and Windows PowerShell otherwise. Run commands, start dev servers or use git next to the page you are working on.
-* Read the [Terminal Dock Guide](docs/user-guide/tools/terminal.md).
-
-### 👁️ AI Visualization & Staying in Control
-See what an agent is doing: the optional "AI" cursor marks where it acts, and a tab under agent control is marked as such. If an agent reaches a payment checkout or a 2FA screen, you can take over the tab, solve it yourself and hand the work back. **Emergency stop** in the main menu interrupts all agents.
-* Read the [AI Visualization & Staying in Control guide](docs/user-guide/agents/watching-agent-work.md).
-
-### 🔒 Password Vault & Secret References (`SecretRef`)
-Agents can sign in with stored passwords without the plaintext passing through the AI model. Nova keeps vault entries encrypted with Windows DPAPI for your user account and fills them into the login form or HTTP sign-in itself. API keys go into a secret store whose management tools do not return their values. Authorized terminal programs receive them as environment variables and can read or output them; the destination website also receives a filled password.
-* Read the [Password Vault & Secret Injection](docs/core-features/privacy/vault-and-secrets/README.md).
-
-### 🎙️ Local Whisper Speech Transcription (Offline & Private)
-Transcribe audio and video locally with Whisper speech models. Recognition runs in the separate Outrider helper process; the models are downloaded once and then work offline.
-* Read the [Speech Transcription guide](docs/core-features/media-intelligence/transcription/README.md).
+* **Staying in control:** take over a tab at a payment checkout or 2FA screen, solve it yourself and hand it back; **Emergency stop** halts agent activity in Nova. → [Guide](docs/user-guide/agents/watching-agent-work.md)
+* **Separate sandboxes:** work, staging and personal accounts in one window, each with its own cookies, storage and cache, marked by tab colour. → [Guide](docs/user-guide/identity-and-security/sandboxes-and-profiles.md)
+* **Stored passwords stay out of agent responses:** Nova fills vault passwords into login forms itself instead of returning them to the agent; they are protected with Windows DPAPI. API keys you authorize go to terminal programs as environment variables, which those programs can read. → [Guide](docs/core-features/privacy/vault-and-secrets/README.md)
+* **Browser tools for agents:** inspect pages, measure layout, compare screenshots, download files, crawl, manage tabs, grouped into bundles an agent loads as needed. → [Tool Catalog](docs/mcp-reference/tool-catalog.md)
+* **Terminal dock:** PowerShell next to the page you are working on. → [Guide](docs/user-guide/tools/terminal.md)
+* **Local speech transcription:** Whisper models run offline on your PC. → [Guide](docs/core-features/media-intelligence/transcription/README.md)
 
 ---
 
-## 🧠 Cognitive Architecture: Beyond Generic Memory
+## 🧠 How Nova Goes Beyond Browser Automation
 
-Traditional agent tools provide raw browser automation commands. Nova surrounds the AI model with an integrated cognitive runtime directly in the browser:
+Clicking a button is only part of an agent's job. Nova also gives agents tools to check whether the intended result happened, keeps useful website procedures between sessions and checks them again when a page changes. The components below explain how.
 
 | Cognitive Function | What Nova Contributes | Architecture Guide | Video Demo |
 | :--- | :--- | :--- | :---: |
@@ -168,7 +145,7 @@ Explore the comprehensive documentation for operators, developers, and AI agents
 
 ## 🔒 Privacy, Security & Data Sovereignty
 
-* **Local Execution:** Nova AI Workspace runs on your Windows machine and keeps its data in your profile folder. It collects no usage analytics and does not send your browsing, cookies or tab contents to its own server; it contacts `nova-cognitive.com` only for license activation, renewal and opt-in crash reports. What your AI program reads through Nova goes to that program's provider. Details: [Privacy Policy](PRIVACY.md).
+* **Local Execution:** Nova AI Workspace runs on your Windows machine and keeps its data in your profile folder. It collects no usage analytics. Which connections it makes (license server, optional crash reports, search suggestions, update checks, optional features) and what your AI provider receives is listed under [Privacy at a glance](#-get-started--no-nova-account-needed) and in the [Privacy Policy](PRIVACY.md#connections-to-other-services).
 * **Encrypted Storage:** Vault passwords, stored secrets and the MCP access token are encrypted with the Windows Data Protection API (DPAPI) for your user account; session recordings are encrypted with AES-GCM under a DPAPI-protected key.
 * **Supervised Outrider Process:** Native hardware access and audio parsing are quarantined in a dedicated child process with hard timeouts and watchdog supervision.
 
@@ -177,19 +154,32 @@ Explore the comprehensive documentation for operators, developers, and AI agents
 <a name="nova-ai-workspace-deutsch"></a>
 ## 🇩🇪 Nova AI Workspace (Deutsch)
 
-**Der lokale KI-Browser & die kognitive Laufzeitumgebung für Windows.**  
-Echte Browsersitzungen · ConPTY-Terminal · Wissensspeicher · Scheduler · [MCP-Werkzeugkatalog](docs/mcp-reference/tool-catalog.md) — lokal, transparent und auditierbar.
+**Dein KI-Agent kann einen Browser bedienen. Deshalb musst du die Kontrolle nicht abgeben.**  
+Sieh deinem Agenten in echten, angemeldeten Browser-Tabs bei der Arbeit zu. Übernimm, wenn nötig. Halte Konten getrennt und lass Nova sich nützliche Abläufe auf Websites merken.
+
+Windows 10 / 11 · Für Claude Code, Codex und andere MCP-Programme · Kostenlos während der Alpha · Kein Nova-Konto nötig · [Proprietäre Lizenz](LICENSE)
 
 ### Schnellstart in 3 Schritten
 Du brauchst **Windows 10 / 11 (x64)** und ein installiertes KI-Programm wie Claude Code, Claude Desktop, Codex oder Antigravity. Dein Gespräch bleibt dort; Nova stellt den Browser-Arbeitsplatz bereit. Das KI-Programm kann ein eigenes Konto oder Abo benötigen.
 
-1. **[Setup herunterladen](https://github.com/joelaniol/nova/releases)**: Unter **Assets** die Datei mit der Endung `-Setup-<version>.exe` wählen. Die anderen Dateien sind ein MCP-Verbindungspaket (`.mcpb`) und eine Prüfsumme (`.sha256`); beide installieren Nova nicht.
-2. **Aktivieren:** Kein Konto nötig, das Setup bringt den Alpha-Testzugang schon ausgefüllt mit.
-3. **[KI-Programm verbinden](docs/getting-started/quickstart.md):** Nova erkennt unterstützte KI-Programme. Folge der einfachen Einrichtung, klicke bei Bedarf **Verbinden** und starte dein KI-Programm neu. Sage dann: **„Recherchiere mit Nova die aktuellen Microsoft-Edge-WebView2-Versionshinweise auf Microsofts offizieller Website. Öffne die relevanten Seiten, fasse drei aktuelle Änderungen zusammen und gib mir Quellenlinks und Veröffentlichungsdaten.“**
+1. **[Nova herunterladen](https://github.com/joelaniol/nova/releases):** Unter **Assets** den Windows-x64-Installer `NovaAIWorkspace-x64-Setup-<version>.exe` wählen. Die passende `.sha256`-Datei dient der Prüfsummen-Kontrolle, nicht der Installation.
+2. **Aktivieren:** Beim ersten Start ist das Aktivierungsfenster mit dem öffentlichen Alpha-Testzugang vorausgefüllt; **Anmelden** wählen. Eine Nova-Registrierung ist nicht nötig.
+3. **[KI-Programm verbinden](docs/getting-started/quickstart.md):** Nova erkennt unterstützte KI-Programme. Folge der einfachen Einrichtung, klicke bei Bedarf **Verbinden** und starte dein KI-Programm neu.
+
+**Windows SmartScreen:** Frühe Alpha-Versionen können **„Der Computer wurde durch Windows geschützt“** zeigen. Prüfe vorher, dass du den Installer von der Release-Seite dieses Repositorys geladen hast; seine SHA-256-Prüfsumme kannst du mit der passenden `.sha256`-Datei vergleichen ([so geht's](docs/getting-started/installation.md#installation)). Dann **„Weitere Informationen“ → „Trotzdem ausführen“**.
+
+**Datenschutz auf einen Blick:** Nova speichert Browserprofile, Cookies und Arbeitsdaten lokal. Lizenzaktivierung und Verlängerung kontaktieren Novas Server. Optionale Absturzberichte, die du vor dem Senden ansiehst, können URLs offener Tabs (ohne Query-Parameter) und Sandbox-Namen enthalten. Online-Suchvorschläge schicken getippten Text an deine gewählte Suchmaschine, solange du sie nicht abschaltest. Update-Prüfung und einige optionale Funktionen kontaktieren Dienste Dritter. Was dein KI-Agent über Nova liest, kann bei dessen KI-Anbieter landen. [Alle Details](PRIVACY.md#verbindungen-zu-anderen-diensten)
+
+### Deine erste geprüfte Aufgabe
+Ein Agent, der auf **Speichern** klickt, hat noch nichts gespeichert. Diese erste Übung zeigt Browserbedienung, Übergabe an dich und Ergebnisprüfung: [Demo-Dateien herunterladen](https://github.com/joelaniol/nova/archive/refs/heads/main.zip), entpacken und `demos/lab.html` in Nova öffnen. Im Abschnitt **Experience loop** **First visit** wählen und deinem Agenten sagen:
+
+> Nutze Novas verbundene MCP-Werkzeuge im Demo-Tab, der schon in Nova offen ist. Räume den Release-Hinweis weg und speichere den Beispielentwurf. Prüfe das tatsächlich gespeicherte Ergebnis, statt anzunehmen, dass der Klick gewirkt hat. Ist eine Bestätigung nötig, bitte mich, sie selbst auszuführen. Berichte dann die Belege.
+
+Erwartetes Ergebnis der Demo: Der erste Speicherversuch lässt **Saved drafts** absichtlich auf **0**. Dein Agent sollte das bemerken und dich fragen; du klickst selbst **I confirm this demo draft**. Der Agent speichert erneut und prüft: **Saved drafts: 1** mit Beleg. Alle Daten sind simuliert. Dauerhaftes Lernen braucht die lokale HTTP-Einrichtung aus der [Demo-Anleitung](demos/README.de.md), dort geht es mit Wiederbesuch und geänderter Seite weiter.
 
 Testschlüssel gesucht? → **[Alpha-Testlizenz](docs/getting-started/trial-license.md#alpha-testlizenz)**
 
-Weiter: **[Installation auf Deutsch](docs/getting-started/installation.md#nova-ai-workspace-installieren)** · [Erste Aufgabe (Englisch)](docs/getting-started/quickstart.md) · [Hilfe (Englisch)](docs/troubleshooting/README.md) · [Demo auf Deutsch](demos/README.de.md).
+Weiter: **[Installation auf Deutsch](docs/getting-started/installation.md#nova-ai-workspace-installieren)** · [Erste Schritte (Englisch)](docs/getting-started/quickstart.md) · [Hilfe (Englisch)](docs/troubleshooting/README.md).
 
 ---
 

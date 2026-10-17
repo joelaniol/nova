@@ -116,6 +116,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ## 7. Related Tools & Documentation
 
+* [Layout Geometry, Overflow Detection & Computed Styling](../../../core-features/layout-and-web-vitals/layout-geometry-and-overflow/README.md) — Authoritative CSS extraction and box models.
 * [`nova.measure_elements`](nova-measure-elements.md) — Batch geometry and container width measurements.
 * [`nova.detect_overflow`](nova-detect-overflow.md) — Automated scan for visual clipping.
 * [`nova.audit_accessibility`](nova-audit-accessibility.md) — Contrast and target size compliance.

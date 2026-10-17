@@ -116,4 +116,6 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 * [`nova.vault_prepare_fill`](../vault-and-security/nova-vault-prepare-fill.md) — Request single-use fill token for stored passwords.
 * [`nova.type_selector_secret`](../vault-and-security/nova-type-selector-secret.md) — Inject vault password into login input field.
 * [`nova.guarded_submit_form`](nova-guarded-submit-form.md) — Generic form submit macro.
+* [Guarded Interactions & Form Automation Overview](../../../core-features/guarded-interactions/README.md) — Architecture overview of high-level guarded macros.
+* [Transactional Form Submissions & Auth Surface Integration](../../../core-features/guarded-interactions/form-submission/README.md) — Deep dive into client-side validation and 2FA/MFA challenge branching.
 * [Auth Surface Detection (ASD)](../../../core-features/auth-surface-detection-asd/README.md) — Architectural overview of Nova's login and session tracking.

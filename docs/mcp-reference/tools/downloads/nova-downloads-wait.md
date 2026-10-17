@@ -102,6 +102,7 @@ returned.
 
 ## See Also
 
+* [Download Wait Synchronization & Deterministic Join Points](../../../core-features/downloads/wait-and-synchronization/README.md) — Architecture, anchored windows, and batch arrival grace.
 * [`nova.downloads_list`](nova-downloads-list.md) - List active and historical downloads.
 * [`nova.downloads_preview`](nova-downloads-preview.md) - Preview completed file in tab.
 * [`nova.downloads_open_folder`](nova-downloads-open-folder.md) - Reveal in Windows Explorer.

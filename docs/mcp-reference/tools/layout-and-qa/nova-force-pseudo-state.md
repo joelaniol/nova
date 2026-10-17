@@ -81,7 +81,8 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## 5. Related Tools
+## 5. Related Tools & Documentation
 
-* [`nova.get_computed_style`](nova-get-computed-style.md)
-* [`nova.measure_elements`](nova-measure-elements.md)
+* [Layout Geometry, Overflow Detection & Computed Styling](../../../core-features/layout-and-web-vitals/layout-geometry-and-overflow/README.md) — CDP state forcing mechanics and event lifecycle.
+* [`nova.get_computed_style`](nova-get-computed-style.md) — Inspect computed styles for forced states.
+* [`nova.measure_elements`](nova-measure-elements.md) — Measure bounding rectangles across multiple elements.

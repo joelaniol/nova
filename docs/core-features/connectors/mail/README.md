@@ -34,6 +34,19 @@ flowchart TD
 
 ---
 
+## Dedicated Subsystem Architecture Guides
+
+For in-depth protocol mechanics, security policies, error codes, and step-by-step agent recipes, explore the specialized subsystem guides:
+
+| Architecture Guide | Scope & Focus | Primary Tools |
+| :--- | :--- | :--- |
+| **[Mailbox Navigation, Pagination & Search](mailbox-navigation-and-search/README.md)** | Hierarchical folder discovery, cursor-based message pagination (up to 200 items), and structured server-side IMAP search compilation. | `nova.mail_folders`, `nova.mail_folder_create`, `nova.mail_list`, `nova.mail_search` |
+| **[Reading, Mailbox Organization & Attachment Safety](reading-organizing-and-attachments/README.md)** | Full MIME body inspection, HTML sanitization, flag triage (`seen`, `flagged`, `answered`), folder relocation, and automated `.isolated` attachment quarantine. | `nova.mail_read`, `nova.mail_mark`, `nova.mail_move`, `nova.mail_delete`, `nova.mail_attachment_save` |
+| **[Message Composition, Outbound Delivery & Rate Limits](composition-sending-and-rate-limits/README.md)** | Draft staging, signature store injection, SMTP transmission, conversation threading (`In-Reply-To`), recipient allow-lists, and rolling hourly flood brakes. | `nova.mail_draft_create`, `nova.mail_send` |
+| **[Local Mail Archive & Background Backups](local-archive-and-backups/README.md)** | Asynchronous multi-part ZIP backups with 16 MB chunking, encrypted local SQLite/AES-256-GCM catalog, DPAPI master keys, and forensic `.eml` exports. | `nova.mail_backup_start`, `nova.mail_backup_status`, `nova.mail_backup_stop`, `nova.mail_export_eml` |
+
+---
+
 ## Dual-Endpoint Configuration & Transport Security
 
 Each mail connector profile configures two distinct endpoints sharing a single logical account:

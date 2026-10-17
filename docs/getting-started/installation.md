@@ -20,7 +20,11 @@ You do not need to install .NET: Nova ships with its own runtime. The setup inst
 
 ## 2. Download and Install
 
-1. Open [Releases](https://github.com/joelaniol/nova/releases) and download the **Windows x64 setup (.exe)** under **Assets**. Its name ends in `-Setup-<version>.exe`. The `.mcpb` and `.sha256` attachments do not install Nova.
+1. Open [Releases](https://github.com/joelaniol/nova/releases) and download the **Windows x64 setup (.exe)** under **Assets**. It is named `NovaAIWorkspace-x64-Setup-<version>.exe`. The matching `.sha256` file is for checksum verification, not installation. To compare the two, run this in PowerShell in your download folder; it prints `True` when the file matches the published checksum:
+
+   ```powershell
+   (Get-FileHash .\NovaAIWorkspace-x64-Setup-<version>.exe).Hash -eq ((Get-Content -Raw .\NovaAIWorkspace-x64-Setup-<version>.exe.sha256).Trim() -split '\s+')[0]
+   ```
 2. Run the setup. It asks for administrator rights because it installs for all users into
    `C:\Program Files\Nova AI Workspace`.
 3. Follow the wizard. It creates a Start menu entry and, if you tick the box, a desktop shortcut.
@@ -64,7 +68,11 @@ If installation or connection fails, use [Troubleshooting](../troubleshooting/RE
 
 ## Installation
 
-1. Unter [Releases](https://github.com/joelaniol/nova/releases) das **Windows-x64-Setup (.exe)** bei **Assets** herunterladen. Der Name endet auf `-Setup-<version>.exe`. Die Anhänge `.mcpb` und `.sha256` installieren Nova nicht.
+1. Unter [Releases](https://github.com/joelaniol/nova/releases) das **Windows-x64-Setup (.exe)** bei **Assets** herunterladen. Es heißt `NovaAIWorkspace-x64-Setup-<version>.exe`. Die passende `.sha256`-Datei dient der Prüfsummen-Kontrolle, nicht der Installation. Zum Vergleich in PowerShell im Download-Ordner ausführen; bei passender Datei erscheint `True`:
+
+   ```powershell
+   (Get-FileHash .\NovaAIWorkspace-x64-Setup-<version>.exe).Hash -eq ((Get-Content -Raw .\NovaAIWorkspace-x64-Setup-<version>.exe.sha256).Trim() -split '\s+')[0]
+   ```
 2. Setup starten. Es fragt nach Administratorrechten, weil es für alle Nutzer nach
    `C:\Program Files\Nova AI Workspace` installiert.
 3. Dem Assistenten folgen. Er legt einen Startmenü-Eintrag an und auf Wunsch eine

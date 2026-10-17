@@ -1,78 +1,105 @@
-# Document Conversion (Markdown)
+# Document Conversion & Office Generation Architecture
+
+Nova provides a local document transformation and generation engine. It enables autonomous AI agents to convert diverse local document formats into structured Markdown (`nova.convert_to_markdown`) and generate native Microsoft Word (`nova.docx_create`) and Excel (`nova.xlsx_create`) files directly on the operator's computer without Microsoft Office, Python runtimes, or external cloud dependencies.
 
 > [!NOTE]
-> **Upcoming.** Document conversion arrives with 1.0.0-alpha.21, which is not published yet. Installed versions up to 1.0.0-alpha.20 do not have it.
-
-Nova turns documents on your computer into Markdown that your AI agent can read: PDFs, Word documents, Excel workbooks, PowerPoint presentations, HTML pages, EPUB e-books, CSV tables, JSON and plain text files. The conversion runs inside Nova. Nothing is uploaded, and you do not need Office, Python or any other program besides Nova.
-
-You do not operate this yourself. You ask your agent, and the agent uses the tool [`nova.convert_to_markdown`](../../../mcp-reference/tools/files-and-documents/nova-convert-to-markdown.md).
+> **Upcoming.** Document conversion and Office file creation arrive with 1.0.0-alpha.21, which is not published yet. Installed versions up to 1.0.0-alpha.20 do not have them.
 
 ---
 
-## What you can ask your agent
+## Specialized File & Media Subsystems
 
-- "Read the invoice I just downloaded and list every amount with its date."
-- "Convert the Excel file in my Downloads folder and tell me which sheet holds the yearly totals."
-- "Summarise this presentation slide by slide, including the speaker notes."
-- "Turn this Word document into Markdown and save it next to it as a `.md` file."
-- "Check whether the contract PDF mentions a cancellation period. If the text looks garbled, look at the page image."
-- "Save the article that is open in my current tab as Markdown, with its headings and links."
+Nova provides dedicated, granular subsystems for different file types and data tasks. If your task goes beyond document-to-Markdown conversion or Office creation, see:
 
----
-
-## Supported formats
-
-| Format | Files | What your agent gets | Format name in results |
-| --- | --- | --- | --- |
-| PDF | `.pdf` | The text page by page in reading order, the document's own bookmarks as headings, links, form fields, tables as Markdown tables where they can be read whole, other text in columns as rows and cells, and on request an image of a page to compare against | `pdf` |
-| Word | `.docx`, `.docm`, `.dotx` | Headings, lists and tables as the document defines them | `docx` |
-| Excel | `.xlsx`, `.xlsm`, `.xltx` | One table per sheet with the stored values; dates as dates | `xlsx` |
-| PowerPoint | `.pptx`, `.pptm`, `.ppsx`, `.potx` | One section per slide with its title, text, tables and speaker notes | `pptx` |
-| HTML | `.html`, `.htm`, `.xhtml` | Headings, lists, tables, links and images of the page | `html` |
-| E-book | `.epub` | The chapters in reading order with their headings, lists and tables, and the book's title and authors | `epub` |
-| CSV / TSV | `.csv`, `.tsv` | One table, including semicolon files from a German Excel | `csv` |
-| JSON | `.json` | The data, checked and neatly indented | `json` |
-| Plain text | `.txt`, `.text`, `.log` | The text unchanged | `text` |
-
-PDF, Word, Excel, PowerPoint, HTML and EPUB files are recognised by their content, so a downloaded file with a wrong or missing extension is still read correctly.
-
-**Not supported:** old Office files (`.doc`, `.xls`, `.ppt`), password-protected Office files, copy-protected (DRM) e-books, other ZIP archives and images. Scanned PDFs without a text layer cannot be read either, because Nova does not run text recognition (OCR); the agent is told which pages are affected.
-
-### Creating Word and Excel files
-
-The other direction works too, without Microsoft Office. [`nova.docx_create`](../../../mcp-reference/tools/files-and-documents/nova-docx-create.md) writes a Word document from the Markdown your agent writes - headings, lists, tables and links included. [`nova.xlsx_create`](../../../mcp-reference/tools/files-and-documents/nova-xlsx-create.md) writes an Excel workbook from data or from a CSV file, with real numbers and dates, filter buttons and fitting column widths. Nothing is overwritten, and text from a file never turns into an Excel formula.
-
-### Analysing tables
-
-Scanned letters, photographed receipts and image-only PDFs have no text of their own. [`nova.ocr_read`](../../../mcp-reference/tools/files-and-documents/nova-ocr-read.md) reads them by text recognition on your computer, with two engines Nova ships: one for clean printed pages and one for receipts, forms, photos and faded scans. For every page your agent is told how reliable the result is and what to try next, so it does not take a misread amount at face value.
-
-For larger CSV exports and Excel sheets your agent does not need to read every row. [`nova.data_inspect`](../../../mcp-reference/tools/files-and-documents/nova-data-inspect.md) shows the columns, their types and value ranges; [`nova.data_query`](../../../mcp-reference/tools/files-and-documents/nova-data-query.md) filters, groups and totals the data and returns only the answer - for example the ten best-selling products of a month. The arithmetic runs on your computer and is exact; German and English number formats are both understood, and the answer says when values could not be read.
-
-### Merging and splitting PDFs
-
-Your agent can also rearrange PDF pages without any other program. [`nova.pdf_compose`](../../../mcp-reference/tools/files-and-documents/nova-pdf-compose.md) builds a new PDF from pages of one or more files in the order you want - to merge invoices, drop a page or move one to the front. [`nova.pdf_split`](../../../mcp-reference/tools/files-and-documents/nova-pdf-split.md) cuts a PDF into several files by page range. Your original files stay as they are, and nothing is overwritten. Bookmarks, fillable form fields and digital signatures are not carried into the new files; the agent is told when a source had any.
-
-### Archives and backups
-
-A downloaded ZIP file or a server backup as TAR or `.tar.gz` can be looked into and unpacked first. [`nova.archive_inspect`](../../../mcp-reference/tools/files-and-documents/nova-archive-inspect.md) lists what the archive holds without unpacking it. [`nova.archive_extract`](../../../mcp-reference/tools/files-and-documents/nova-archive-extract.md) unpacks it into a new folder in Nova's Exports folder, in the background and without a fixed size limit: it stops only before the drive runs out of space. It never overwrites a file and never writes entries that would land outside that folder. Your agent can then convert the unpacked documents.
-
-### Pages open in a tab
-
-A web page does not have to be saved first. Your agent can convert the page that is open in a tab, or just one part of it, with [`nova.read_text`](../../../mcp-reference/tools/dom-and-reading/nova-read-text.md) and `format: "markdown"`. This works like the HTML format above, with two differences: links point to the page's real address, and Nova sees which parts of the page the browser hides, even when a style sheet hides them.
+| Task / Media Type | Specialized Subsystem Guide | MCP Tools |
+| :--- | :--- | :--- |
+| **Local Images** | [Local Image Intelligence & Processing](../image-processing/README.md) | `nova.image_info`<br/>`nova.image_transform` |
+| **QR Codes & Barcodes** | [Local Image Intelligence & Processing](../image-processing/README.md#5-qr-codes--barcodes) | `nova.barcode_generate`<br/>`nova.barcode_decode` |
+| **Scans, Receipts & Photos** | [Offline Optical Character Recognition (OCR)](../ocr/README.md) | `nova.ocr_read` |
+| **Tabular Data & Queries** | [Tabular Data Analysis & Streaming Queries](../data-analysis/README.md) | `nova.data_inspect`<br/>`nova.data_query` |
+| **PDF Page Manipulation** | [PDF Reading, Export & Page Operations](../pdf/README.md) | `nova.pdf_compose`<br/>`nova.pdf_split`<br/>`nova.read_pdf`<br/>`nova.save_pdf` |
+| **Archives & Backups** | [Archive Inspection & Secure Extraction](../archives/README.md) | `nova.archive_inspect`<br/>`nova.archive_extract*` |
 
 ---
 
-## Good to know
+## 1. What You Can Ask Your Agent
 
-- **Nothing is invented.** Headings, lists and tables appear only where the document itself defines them. Bold text does not become a heading, and Nova never corrects a wrong letter in a scanned PDF's text; it marks pages that are worth checking against the page image instead.
-- **Formulas and macros are never run.** For Excel, the agent sees the results that were saved with the file.
-- **Hidden content is included and named.** Hidden text in Word and HTML, text a PDF never draws on the page, hidden sheets, rows and columns in Excel and hidden slides and shapes in PowerPoint are part of the result. The agent is told that they are hidden and also gets that text on its own, so it can see at a glance what the file contains but does not show.
-- **Document content is data, not instructions.** Every result is marked as untrusted document content, so your agent treats text in a file as something to read, not as a command.
-- **Large documents** can be written to a `.md` file instead of being returned in one answer. Files up to 50 MB are accepted; very large Excel sheets are shortened and the agent is told so.
-- **Which folders Nova may read:** files in Nova's download folder and its Exports folder are always readable. For files anywhere else, and for saving the result to a folder of your choice, enable "Allow local files (file://)" in Nova's settings.
+* "Read the contract I just downloaded and list every clause regarding cancellation."
+* "Convert the quarterly sales presentation slide by slide, including speaker notes."
+* "Turn this Word document into Markdown and save it as a `.md` file in my project folder."
+* "Check whether the financial PDF mentions currency adjustments. If the text layout is fragmented, inspect the rendered page image."
+* "Create an executive summary Word document (`.docx`) from your analysis with styled headings and tables."
+* "Export these query results into an Excel spreadsheet (`.xlsx`) with formatted headers, auto-fitting column widths, and filter buttons."
 
 ---
 
-## For agents and developers
+## 2. Supported Conversion Formats (`nova.convert_to_markdown`)
 
-Parameters, the full result structure, warnings and error codes are in the tool reference: [`nova.convert_to_markdown`](../../../mcp-reference/tools/files-and-documents/nova-convert-to-markdown.md). Related: [PDF Reading & Export](../pdf/README.md) for `nova.read_pdf` (exact PDF text) and `nova.save_pdf` (saving a web page as PDF).
+| Format | Extensions | Recognition Mechanism | Extracted Structural Traits | Format Identifier |
+| :--- | :--- | :--- | :--- | :--- |
+| **PDF** | `.pdf` | Magic Bytes (`%PDF-`) | Reading order reconstruction (RecursiveXYCut), document outline bookmarks as headings, AcroForm fields, Markdown tables, column alignment, page-selective rendering (`renderPages`) | `pdf` |
+| **Word** | `.docx`, `.docm`, `.dotx` | Magic Bytes (ZIP + `word/`) | Semantic headings (`heading 1`–`6`, `Title`), nested numbered and bulleted lists, tables with cell spans, footnotes and endnotes, tracked revisions (`w:ins` kept, `w:del` omitted) | `docx` |
+| **Excel** | `.xlsx`, `.xlsm`, `.xltx` | Magic Bytes (ZIP + `xl/`) | One Markdown table per worksheet, stored cell values, ISO-formatted dates, hidden sheets/rows/columns counted and extracted | `xlsx` |
+| **PowerPoint** | `.pptx`, `.pptm`, `.ppsx` | Magic Bytes (ZIP + `ppt/`) | One section per slide (`## Slide N: <Title>`), shapes in presentation order, speaker notes as blockquotes (`**Notes:**`), tables | `pptx` |
+| **HTML** | `.html`, `.htm`, `.xhtml` | Content signature or name | Headings (`h1`–`h6`), lists, tables (`colspan`), code blocks with language tags, blockquotes, inline formatting, link resolution against `<base href>` | `html` |
+| **EPUB** | `.epub` | Magic Bytes (`mimetype`) | Chapters in package spine reading order, embedded XHTML chapters converted via HTML rules, Dublin Core book metadata | `epub` |
+| **CSV / TSV** | `.csv`, `.tsv` | Extension & delimiter probe | Formatted Markdown table, automatic delimiter detection (comma, semicolon, tab, pipe), RFC 4180 quoting | `csv` |
+| **JSON** | `.json` | Extension & syntax parser | Neatly indented and validated JSON code block | `json` |
+| **Plain Text** | `.txt`, `.text`, `.log` | Extension | Verbatim text within code block with normalized line endings | `text` |
+
+PDF, Word, Excel, PowerPoint, HTML, and EPUB files are recognized by **content magic bytes**, ensuring files with misleading, incorrect, or omitted extensions are correctly decoded.
+
+> [!NOTE]
+> `nova.convert_to_markdown` processes digital document streams. Scanned image-only PDFs or photographs lacking a digital text layer should be routed to [Offline OCR (`nova.ocr_read`)](../ocr/README.md).
+
+---
+
+## 3. Structural Fidelity & Verification Features
+
+### Truthful Document Layouts
+* **No Speculative Formatting:** Headings and lists appear only where the document explicitly defines them in its style sheet or outline tree. Visual styling such as bold text is never promoted to a heading.
+* **Layout Fallback Notifications:** In complex PDF layouts, if reading order heuristics require fallback, Nova emits structured warnings (`layout_fallback_used`, `table_structure_not_preserved`).
+* **Visual Page Verification (`renderPages`):** For ambiguous PDF pages, agents can request up to 3 rendered JPEG page images in memory to visually verify fragmented forms or misaligned columns against what a human would see.
+
+### Hidden Content Discovery (`hiddenText`)
+Adversarial documents and prompt injection attacks often hide text from human viewers while exposing it to AI scrapers. Nova explicitly surfaces hidden content across formats:
+* **Word & HTML:** Extracted from elements styled with `display: none`, `visibility: hidden`, `hidden`, or Word `w:vanish`.
+* **Excel:** Identifies hidden worksheets, hidden rows, and hidden columns.
+* **PowerPoint:** Identifies hidden slides and hidden shapes.
+* **PDF:** Surfaces non-painting glyphs (rendering modes `Neither`/`NeitherClip`) and text placed outside page crop boxes.
+* All hidden strings are returned in structured field `hiddenText` alongside standard Markdown.
+
+### Untrusted Content Invariant
+Every response carries `contentTrust: "untrusted_document"`. AI agents are instructed by schema descriptions to treat document text strictly as passive data rather than executable instructions.
+
+---
+
+## 4. Creating Word and Excel Documents
+
+Nova includes built-in native writers for Microsoft Office documents:
+
+### Word Document Creation (`nova.docx_create`)
+* Generates standard `.docx` files directly from agent-generated Markdown.
+* Formats native Word heading styles, bold/italic/strikethrough text, bulleted lists, numbered lists (preserving start indices), blockquotes, code blocks, and pipe tables with repeated bold header rows.
+* Supports paper dimensions (`A4` or `Letter`) and metadata titles.
+* Executes with zero dependency on Microsoft Office or heavy third-party SDKs.
+
+### Excel Workbook Creation (`nova.xlsx_create`)
+* Generates native `.xlsx` workbooks from structured JSON table data or from local CSV/TSV sources.
+* Supports typed column formats: `general`, `text`, `integer`, `decimal`, `currency`, `percent`, `date`, `datetime`.
+* Auto-formatting: Automatically configures frozen header rows, auto-filter dropdowns, and calculates proportional column widths based on cell content.
+* Formula Safety Invariant: Raw text beginning with `=` is preserved as an inline string, completely preventing formula injection attacks. Formulas are only written when explicitly declared in a `{ formula: "..." }` cell descriptor.
+
+---
+
+## Tool Reference Matrix
+
+| Tool | Capability Bundle | Primary Role | Key Parameters |
+| :--- | :--- | :--- | :--- |
+| [`nova.convert_to_markdown`](../../../mcp-reference/tools/files-and-documents/nova-convert-to-markdown.md) | `page_read_debug` | Converts local documents, spreadsheets, slides, and tables into structured Markdown | `path`, `pages?`, `outputMode?`, `outputPath?`, `maxChars?`, `renderPages?`, `includeFormValues?` |
+| [`nova.docx_create`](../../../mcp-reference/tools/files-and-documents/nova-docx-create.md) | `page_read_debug` | Generates a native Microsoft Word document from Markdown | `markdown?`, `sourcePath?`, `title?`, `pageSize?`, `outputPath?` |
+| [`nova.xlsx_create`](../../../mcp-reference/tools/files-and-documents/nova-xlsx-create.md) | `page_read_debug` | Generates a native Microsoft Excel workbook from tabular data or CSV | `sheets?`, `sourcePath?`, `sheet?`, `sheetName?`, `autoFormat?`, `currencySymbol?`, `outputPath?` |
+
+---
+
+[Media Intelligence overview](../README.md) · [Local Image Processing](../image-processing/README.md) · [Offline OCR](../ocr/README.md) · [Tabular Data Analysis](../data-analysis/README.md) · [PDF Reading, Export & Page Operations](../pdf/README.md) · [Archive Inspection & Extraction](../archives/README.md) · [All core features](../../README.md)

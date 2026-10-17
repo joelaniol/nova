@@ -147,6 +147,7 @@ Each scan examines at most 8000 elements (`scanned` reports how many were actual
 
 ## 7. Related Tools & Documentation
 
+* [Automated Accessibility (a11y) & WCAG Compliance Engine](../../../core-features/layout-and-web-vitals/accessibility-audit/README.md) — Architecture and calculation rules.
 * [`nova.detect_overflow`](nova-detect-overflow.md) — Identify visual clipping and container spillages.
 * [`nova.get_computed_style`](nova-get-computed-style.md) — Read exact color and font size values.
 * [`nova.measure_elements`](nova-measure-elements.md) — Measure bounding boxes and layout constraints.

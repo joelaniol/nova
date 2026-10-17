@@ -115,21 +115,22 @@ Operators can save magnified images directly to the host filesystem:
 
 ---
 
-## 5. Human Inspection vs. Agent Evidence
+## 5. Human Inspection vs. Agent Processing & Evidence
 
-Nova maintains a strict boundary between interactive human image viewing and automated agent visual inspection:
+Nova maintains clear architectural boundaries between interactive human image viewing, programmatic local image processing, and automated browser visual evidence:
 
-| Architectural Trait | Native WinUI 3 Image Viewer | Evidence Verification Mode (EVM) & MCP Tools |
-| :--- | :--- | :--- |
-| **Primary Actor** | **Human Operator** | **Autonomous AI Agent** |
-| **User Interface** | Hardware-accelerated desktop GUI modal overlay | JSON-RPC MCP Tools (`nova.capture_screenshot`, element screenshots) |
-| **Interaction Model** | Mouse wheel zoom, kinetic drag, mini-map PiP | Viewport bounding boxes, clip coordinates, base64 data budgets |
-| **Verification Purpose** | Manual inspection of visual schematics, artwork, receipts | Multimodal visual regression, LLM perception, visual hash assertions |
-| **Execution Context** | Runs inside isolated WinUI 3 shell overlay | Operates across DevTools CDP `Page.captureScreenshot` protocol |
-| **Persistence** | Interactive OS save dialog | Structured disk reference or inline base64 token budgets |
+| Architectural Trait | Native WinUI 3 Image Viewer | Local Image Processing (MCP) | Evidence Verification Mode (EVM) |
+| :--- | :--- | :--- | :--- |
+| **Primary Actor** | **Human Operator** | **Autonomous AI Agent** | **Autonomous AI Agent** |
+| **User Interface** | Hardware-accelerated desktop GUI modal overlay | Headless JSON-RPC MCP Tools | JSON-RPC MCP Tools |
+| **Primary Tools** | In-app context menu ("Magnify image") | `nova.image_info`<br/>`nova.image_transform` | `nova.capture_screenshot`<br/>`nova.get_element_rect` |
+| **Interaction Model** | Mouse wheel zoom, kinetic drag, mini-map PiP | Structured parameters (crop, rotate, resize, convert) | Viewport bounding boxes, clip coordinates, base64 data budgets |
+| **Operational Purpose** | Manual inspection of visual schematics, artwork, receipts | Programmatic inspection, sanitization, and transformation of local files | Multimodal visual regression, LLM perception, visual hash assertions |
+| **Execution Context** | Runs inside isolated WinUI 3 shell overlay | Operates inside isolated Outrider helper process (SkiaSharp) | Operates across DevTools CDP `Page.captureScreenshot` protocol |
+| **Persistence** | Interactive OS save dialog | Reference-based local disk commit (part-file verified) | Structured disk reference or inline base64 token budgets |
 
-For automated visual evidence capture, consult [Evidence Verification Mode (EVM)](../../../research/evidence-verification-mode-evm/README.md). For programmatic document text analysis, consult [PDF Reading & Export](../pdf/README.md).
+For programmatic local image processing and metadata inspection, consult [Local Image Processing](../image-processing/README.md). For automated visual evidence capture of live web pages, consult [Evidence Verification Mode (EVM)](../../../research/evidence-verification-mode-evm/README.md). For programmatic document text analysis, consult [PDF Reading, Export & Page Operations](../pdf/README.md).
 
 ---
 
-[Media Intelligence overview](../README.md) · [PDF Reading & Export](../pdf/README.md) · [Visual Evidence Tools](../../../mcp-reference/tools/visual-evidence/README.md) · [All core features](../../README.md)
+[Media Intelligence overview](../README.md) · [Local Image Processing](../image-processing/README.md) · [PDF Reading, Export & Page Operations](../pdf/README.md) · [Visual Evidence Tools](../../../mcp-reference/tools/visual-evidence/README.md) · [All core features](../../README.md)

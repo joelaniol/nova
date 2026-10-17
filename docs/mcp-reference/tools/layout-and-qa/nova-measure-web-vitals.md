@@ -110,6 +110,7 @@ There is no overall/aggregate `rating` — read the per-metric values under `rat
 
 ## 7. Related Tools & Documentation
 
+* [Real-User Core Web Vitals & Performance Gating](../../../core-features/layout-and-web-vitals/core-web-vitals/README.md) — Two-phase observer architecture and rating thresholds.
 * [`nova.detect_overflow`](nova-detect-overflow.md) — Identify visual overflow and layout shifts.
 * [`nova.measure_elements`](nova-measure-elements.md) — Measure bounding rectangles across multiple elements.
 * [`nova.audit_accessibility`](nova-audit-accessibility.md) — Run WCAG accessibility audits.

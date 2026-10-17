@@ -649,3 +649,34 @@ SHALL THE COPYRIGHT HOLDERS OR ANYONE DISTRIBUTING THE SOFTWARE BE LIABLE
 FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
+
+----------------------------------------------------------------------
+ZXing.Net (QR code and barcode encoding and reading for nova.barcode_generate and nova.barcode_decode)
+License: Apache 2.0
+Source:  https://github.com/micjahn/ZXing.Net
+----------------------------------------------------------------------
+
+Copyright Michael Jahn and the ZXing authors (port of ZXing, Copyright ZXing authors)
+
+(Same Apache License 2.0 text as above.)
+
+----------------------------------------------------------------------
+ScottPlot (chart drawing for nova.chart_create)
+License: MIT
+Source:  https://github.com/ScottPlot/ScottPlot
+----------------------------------------------------------------------
+
+Copyright (c) Scott Harden / Harden Technologies, LLC
+
+(Same MIT license text as above.)
+
+----------------------------------------------------------------------
+HarfBuzzSharp and HarfBuzz (text shaping for the charts; native, shipped via SkiaSharp.HarfBuzz)
+License: MIT
+Source:  https://github.com/mono/SkiaSharp  https://github.com/harfbuzz/harfbuzz
+----------------------------------------------------------------------
+
+Copyright (c) 2015-2016 Xamarin, Inc. / Copyright (c) 2017-2018 Microsoft Corporation (HarfBuzzSharp)
+Copyright (c) HarfBuzz authors (HarfBuzz, "Old MIT" license)
+
+(Same MIT license text as above.)

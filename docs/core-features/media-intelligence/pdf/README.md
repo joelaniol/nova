@@ -1,11 +1,11 @@
-# PDF Reading & Export Architecture
+# PDF Reading, Export & Page Operations Architecture
 
-Nova provides comprehensive document intelligence through two complementary PDF operations: extracting structured digital text from existing PDF files on disk (`nova.read_pdf`) and generating pixel-accurate vector PDF documents from active web pages using Chromium's DevTools print engine (`nova.save_pdf`).
+Nova provides comprehensive PDF document intelligence through four complementary operations: extracting structured digital text from existing PDF files on disk (`nova.read_pdf`), generating pixel-accurate vector PDF documents from active web pages using Chromium's DevTools print engine (`nova.save_pdf`), assembling custom documents from page subsets (`nova.pdf_compose`), and partitioning documents into separate files (`nova.pdf_split`).
 
 It bridges automated document processing for AI agents with a native, hardware-accelerated WinUI 3 PDF viewing surface for human operators.
 
 > [!TIP]
-> To read a PDF as structured Markdown - with page markers, headings from its bookmarks, links and page images for checking - and to read Word, Excel, PowerPoint and other files the same way, see [Document Conversion](../document-conversion/README.md). `nova.read_pdf` stays the tool for the exact text of a PDF.
+> To read a PDF as structured Markdown - with page markers, headings from its bookmarks, links, and page images for checking - and to read Word, Excel, PowerPoint, and other files the same way, see [Document Conversion](../document-conversion/README.md). `nova.read_pdf` stays the tool for the exact continuous text of a PDF. For scanned bitmaps without a digital text layer, see [Offline OCR](../ocr/README.md).
 
 ```mermaid
 flowchart TD
@@ -25,7 +25,14 @@ flowchart TD
         PathResult["Verified Disk Path Return\n(Zero Base64 Context Bloat)"]
     end
 
-    subgraph ViewerPath["3. Embedded WinUI 3 Human Viewer"]
+    subgraph PageOpsPath["3. PDF Composition & Splitting (nova.pdf_compose & nova.pdf_split)"]
+        SourcePdfs["One or More Source PDFs\n(sources: [{path, pages}])"]
+        DocBuilder["PdfDocumentBuilder Engine\n(AddPage Sequencing & In-Memory Verification)"]
+        PartCommit["Atomic Part-File Commit\n(Zero Overwrites, Source Files Immutable)"]
+        NewPdfs["Composed or Partitioned PDF Assets\n(Preserves Vector Paths, Fonts, Images)"]
+    end
+
+    subgraph ViewerPath["4. Embedded WinUI 3 Human Viewer"]
         NativeViewer["Native WinUI 3 PDF Viewer Toolbar"]
         RenderSurface["Hardware-Accelerated PDF Page Surface"]
         KeyHook["Keyboard & Zoom Hooks (PgUp, PgDn, Ctrl+Wheel)"]
@@ -33,6 +40,7 @@ flowchart TD
 
     LocalFile --> RangeFilter --> PdfPigParser --> TokenBudget --> StructuredText
     ActiveDOM --> CrashGuard --> CDPPrint --> DiskWriter --> PathResult
+    SourcePdfs --> DocBuilder --> PartCommit --> NewPdfs
     LocalFile -.-> NativeViewer --> RenderSurface --> KeyHook
 ```
 
@@ -125,39 +133,85 @@ To protect LLM context windows from overflowing when processing large legal fili
 
 ### Diagnostic Codes & Outcomes
 
-`nova.read_pdf` provides clear diagnostic classification for document parsing issues:
-
 | Result Code | Status | Meaning & Recommended Agent Action |
 | :--- | :--- | :--- |
 | **`ok`** | `"ok"` | Extraction succeeded. Returns `text`, `pageCount`, and `pagesRead` array. |
 | **`read_pdf.not_found`** | `"not_found"` | File does not exist at the specified path. Check download progress via `nova.downloads_wait` before reading. |
 | **`read_pdf.encrypted`** | `"blocked"` | The document is protected by an owner or user password. Nova does not store or prompt for PDF passwords. |
-| **`read_pdf.no_extractable_text`** | `"empty"` | The document parsed successfully, but contains zero digital text streams. The document is a rasterized scan or flattened bitmap. Requires an OCR pipeline. |
+| **`read_pdf.no_extractable_text`** | `"empty"` | The document parsed successfully, but contains zero digital text streams. The document is a rasterized scan or flattened bitmap. Use [Offline OCR (`nova.ocr_read`)](../ocr/README.md) to read it. |
 | **`read_pdf.unreadable`** | `"error"` | File header or structure is corrupted, incomplete, or not a valid PDF. |
 
 > [!NOTE]
-> `nova.read_pdf` is a pure digital text extractor. It does not perform Optical Character Recognition (OCR) on scanned bitmaps. For visual inspection of scanned PDFs, render the document and use Nova's screenshot or visual evidence tools.
+> `nova.read_pdf` is a pure digital text extractor. It does not perform Optical Character Recognition (OCR) on scanned bitmaps. For scanned PDFs or photographic documents without a text layer, use [Offline OCR (`nova.ocr_read`)](../ocr/README.md).
 
 ---
 
-## 3. Filesystem Sandboxing & Policy Gating
+## 3. PDF Page Composition & Splitting (`nova.pdf_compose` & `nova.pdf_split`)
+
+> [!NOTE]
+> **Upcoming.** Native PDF composition and splitting arrive with 1.0.0-alpha.21, which is not published yet. Installed versions up to 1.0.0-alpha.20 do not have them.
+
+Agents frequently need to reorganize PDF files: combine multiple monthly invoices into a single report, remove unnecessary cover pages, or extract specific page ranges for external submission. Nova handles these operations locally using its integrated PDF page engine:
+
+### Composing Documents (`nova.pdf_compose`)
+* **Flexible Page Sequencing:** Assembles a new PDF from pages of one or more source files in exact requested sequence:
+  ```json
+  {
+    "name": "nova_pdf_compose",
+    "arguments": {
+      "sources": [
+        { "path": "C:\\Docs\\Cover.pdf", "pages": "1" },
+        { "path": "C:\\Docs\\Report.pdf", "pages": "2-5" },
+        { "path": "C:\\Docs\\Appendix.pdf" }
+      ]
+    }
+  }
+  ```
+* Pages can be reordered, repeated, or omitted.
+* High fidelity: Preserves original font programs, vector paths, high-resolution bitmap assets, and interactive link annotations.
+* Transparency on dynamic elements: Bookmarks, fillable AcroForm fields, and digital signatures are not carried into merged files; Nova issues structured warnings (`bookmarks_not_kept`, `form_fields_not_kept`, `signatures_not_kept`) so agents understand the outcome.
+
+### Splitting Documents (`nova.pdf_split`)
+* Partitions a multi-page PDF into discrete files based on specified page ranges:
+  ```json
+  {
+    "name": "nova_pdf_split",
+    "arguments": {
+      "path": "C:\\Docs\\QuarterlyBilling.pdf",
+      "ranges": ["1-3", "4-7", "8-12"]
+    }
+  }
+  ```
+* Generates sequentially numbered files (`QuarterlyBilling_part01.pdf`, `QuarterlyBilling_part02.pdf`, etc.) in the destination directory.
+
+### Atomic Verification & Integrity Guarantees
+1. Nova builds the new document entirely in memory via `PdfDocumentBuilder`.
+2. It writes to a temporary `.part` file in the destination folder.
+3. It re-opens the generated file from disk and verifies that the written page count matches the requested page count.
+4. Only upon successful verification is the file atomically committed to its final name.
+5. If an error occurs, all partial files generated during that call are removed immediately.
+6. Existing files are never overwritten (`output_exists`). Source files remain strictly read-only and immutable.
+
+---
+
+## 4. Filesystem Sandboxing & Policy Gating
 
 Access to local PDF files is governed by Nova's path security policy:
 
 * **Automatic Consent:** PDF files residing in Nova's default `Downloads` and `Exports` directories are accessible immediately without friction.
-* **Custom Paths & Hard Drive Access:** Reading files from arbitrary local paths or exporting to a custom `savePath` requires the user setting **"Allow local files (file://)"**. If disabled, requests fail immediately with:
+* **Custom Paths & Hard Drive Access:** Reading files from arbitrary local paths or exporting to a custom `savePath` or `outputPath` requires the user setting **"Allow local files (file://)"**. If disabled, requests fail immediately with:
   ```json
   {
     "code": -32035,
-    "message": "Tool 'nova.save_pdf' blocked by policy: saving to a custom savePath requires local file access.",
+    "message": "Tool blocked by policy: accessing a custom path requires local file access.",
     "data": { "reasonCode": "mcp.file_access_disabled" }
   }
   ```
-* **Early Path Validation:** `nova.save_pdf` validates and gates custom destination paths **before** executing the render pipeline, ensuring invalid paths fail fast before consuming CPU and layout compute.
+* **Early Path Validation:** Tools validate destination paths before executing render or composition pipelines, ensuring invalid paths fail fast before consuming CPU and layout compute.
 
 ---
 
-## 4. Embedded WinUI 3 PDF Viewer
+## 5. Embedded WinUI 3 PDF Viewer
 
 For human operators, Nova embeds a native WinUI 3 PDF viewing surface directly inside browser tabs:
 * **Hardware-Accelerated Zooming:** Smooth page zooming managed via `PdfViewerZoom`.
@@ -166,13 +220,15 @@ For human operators, Nova embeds a native WinUI 3 PDF viewing surface directly i
 
 ---
 
-## Tool Reference
+## Tool Reference Matrix
 
-| Tool | Parameters | Output & Diagnostics |
-| :--- | :--- | :--- |
-| [`nova.save_pdf`](../../../mcp-reference/tools/visual-evidence/nova-save-pdf.md) | `targetId?`<br/>`savePath?`<br/>`printBackground?`<br/>`preferCSSPageSize?`<br/>`landscape?`<br/>`scale?`<br/>`paperWidth?`<br/>`paperHeight?`<br/>`marginTop?`<br/>`marginBottom?`<br/>`marginLeft?`<br/>`marginRight?`<br/>`pageRanges?`<br/>`displayHeaderFooter?`<br/>`generateTaggedPDF?` | `savedPath` (verified file path)<br/>`pages` (total count)<br/>`bytes` (file size)<br/>Renderer error classification |
-| [`nova.read_pdf`](../../../mcp-reference/tools/files-and-documents/nova-read-pdf.md) | `path`<br/>`pages?`<br/>`maxChars?`<br/>`includePages?` | `text` (extracted continuous text)<br/>`pageCount` (total document pages)<br/>`pagesRead` (array of read page indices)<br/>`truncated` (boolean)<br/>`reasonCode` (`read_pdf.no_extractable_text`, `read_pdf.encrypted`, etc.) |
+| Tool | Capability Bundle | Primary Role | Key Parameters |
+| :--- | :--- | :--- | :--- |
+| [`nova.save_pdf`](../../../mcp-reference/tools/visual-evidence/nova-save-pdf.md) | `visual_evidence` | Vector PDF print export from active browser tabs | `targetId?`, `savePath?`, `printBackground?`, `preferCSSPageSize?`, `landscape?`, `scale?`, `pageRanges?` |
+| [`nova.read_pdf`](../../../mcp-reference/tools/files-and-documents/nova-read-pdf.md) | `page_read_debug`, `visual_evidence` | Exact digital text extraction and token-bounded reading | `path`, `pages?`, `maxChars?`, `includePages?` |
+| [`nova.pdf_compose`](../../../mcp-reference/tools/files-and-documents/nova-pdf-compose.md) | `page_read_debug` | Assembles a new PDF from page subsets of one or more local PDFs | `sources`, `outputPath?` |
+| [`nova.pdf_split`](../../../mcp-reference/tools/files-and-documents/nova-pdf-split.md) | `page_read_debug` | Partitions a PDF into multiple documents by page ranges | `path`, `ranges`, `outputDir?` |
 
 ---
 
-[Media Intelligence overview](../README.md) · [Image Viewer](../image-viewer/README.md) · [Visual Evidence Tools](../../../mcp-reference/tools/visual-evidence/README.md) · [Connectors Subsystem](../../connectors/README.md) · [All core features](../../README.md)
+[Media Intelligence overview](../README.md) · [WinUI 3 Image Viewer](../image-viewer/README.md) · [Offline OCR](../ocr/README.md) · [Local Image Processing](../image-processing/README.md) · [Document Conversion](../document-conversion/README.md) · [All core features](../../README.md)

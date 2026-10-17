@@ -2,7 +2,7 @@
 
 > **Unpacks a local ZIP or TAR archive of any size, or chosen entries of it, into a new folder - safely, in the background.**
 
-* **Core Feature Guide:** [Document Conversion](../../../core-features/media-intelligence/document-conversion/README.md)
+* **Core Feature Guide:** [Archive Inspection & Secure Extraction](../../../core-features/media-intelligence/archives/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

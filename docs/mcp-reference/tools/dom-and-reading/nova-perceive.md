@@ -209,6 +209,9 @@ only — `ctaRef` and `score` are `cta_detection_v3`-only fields, not part of `s
 ## 8. Related Tools & Documentation
 
 * [`nova.read_text_structured`](nova-read-text-structured.md) — Extract text grouped by semantic landmarks.
+* [`nova.perceive_snapshot_query`](nova-perceive-snapshot-query.md) — Query cached perception snapshots offline without re-rendering.
 * [`nova.click_selector`](../browser-automation/nova-click-selector.md) — Click CTAs discovered by `perceive`.
 * [`nova.capture_screenshot`](../visual-evidence/nova-capture-screenshot.md) — Standalone full-resolution or cropped screenshot captures.
-* [Automated Actions Guide (AAG)](../../../core-features/agent-awareness-gates-aag/README.md) — In-depth guide to perception and settlement cycles.
+* [DOM Perception & Structured Reading Overview](../../../core-features/dom-perception/README.md) — Core architecture overview of Nova's 3-layer perception stack.
+* [Multimodal Fusion Perception Architecture](../../../core-features/dom-perception/multimodal-perception/README.md) — Deep dive into the 6 perception modes, bidirectional fold accounting, CTA delta-sync, and skew synchronization.
+* [Agent Awareness Gates (AAG)](../../../core-features/agent-awareness-gates-aag/README.md) — Preemptive safety gates and perception preconditions.
