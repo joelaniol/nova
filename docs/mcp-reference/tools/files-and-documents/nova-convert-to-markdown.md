@@ -26,7 +26,7 @@
 | JSON | `.json` | name | `json` | Checked and printed indented in a code block |
 | Plain text | `.txt`, `.text`, `.log` | name | `text` | Unchanged in a code block |
 
-Not converted: legacy Office files (`.doc`, `.xls`, `.ppt`), password-protected Office files (`reasonCode: "convert_to_markdown.encrypted"`), other ZIP archives, images, and the scanned pages of a PDF that has no text layer; those are read by [`nova.ocr_read`](nova-ocr-read.md). Macros in Office files are never run.
+Not converted: legacy Office files (`.doc`, `.xls`, `.ppt`), password-protected Office files (`reasonCode: "convert_to_markdown.encrypted"`), other ZIP archives and images; images are read by [`nova.ocr_read`](nova-ocr-read.md). Macros in Office files are never run.
 
 `nova.convert_to_markdown` turns a document on disk into Markdown, locally and without any extra software. Formats with a signature of their own (PDF, Word, Excel, PowerPoint, HTML) are recognised by the file's content, so a renamed download is still read correctly; CSV, JSON and text files by their name.
 
@@ -40,7 +40,11 @@ When a page still comes out torn into many small pieces, `pageInfo[].structure.f
 
 Tables in a PDF are not real tables in the file, only text placed in columns, and the layout analysis reads them cell by cell: in the Markdown, an amount can end up away from its label. So for every page, `pageInfo[].alignedTextRegions` lists the text that stands in aligned columns, such as an invoice's line items or a form's labels and values. Each region has `rows` of `cells` with the original text, their position and a `column` number counted from the left (`null` when only one row uses that column), so a header and the amounts below it carry the same number. When a region's cells hold exactly the text of the blocks it covers, the Markdown shows it as a table in their place (`inMarkdown: true`). Its header row stays empty, because a PDF does not say which row is a header, and a line that continues a cell is a row of its own. A table that runs over a page break is found once per page; the parts point at each other with `continuesOnPage` and `continuesFromPage`, and `repeatsHeaderRow` marks a header row the next page repeats. Nova does not invent column names. Regions that cannot be printed whole stay as separate blocks in the Markdown, and the warning `table_structure_not_preserved` names their pages.
 
-The answer says what it holds. `truncated: true` means the returned Markdown is cut; `scanComplete: false` means not every selected page was read. `pagesWithoutExtractableText` lists pages without a text layer, such as scanned pages: they are unreadable here, not blank, and [`nova.ocr_read`](nova-ocr-read.md) reads them. `sourcePages` gives each page's position in the Markdown.
+The answer says what it holds. `truncated: true` means the returned Markdown is cut; `scanComplete: false` means not every selected page was read. `pagesWithoutExtractableText` lists pages without a text layer, such as scanned pages. `sourcePages` gives each page's position in the Markdown.
+
+**Scanned pages are read too.** With `ocr: "auto"` (the default) Nova recognises the pages without a text layer on your computer, with the same engines as [`nova.ocr_read`](nova-ocr-read.md), and puts their text where the empty page would be. Each such page carries a line under its marker, `> [Nova OCR: text recognised from the page image (engine, quality ...)]`, so whoever reads the Markdown file later still knows the text was recognised and can hold misread characters. `ocr` in the answer lists each recognised page with engine, quality and a hint, plus advice on which pages to compare. `ocr: "force"` recognises every page, for a PDF whose text layer is broken or invisible; `ocr: "off"` leaves scanned pages empty.
+
+Recognition takes 2 to 12 seconds a page, so it runs in the background. The call waits up to `wait` seconds (default 45). A short document is done by then; for a long scan the answer is `status: "running"` with a `jobId`, and [`nova.ocr_status`](nova-ocr-status.md) returns the finished result. An inline answer stops recognising once `maxChars` is reached and names the pages left out (warning `ocr_incomplete`); `outputMode: "file"` recognises every page.
 
 ### Word documents and HTML files
 
@@ -82,6 +86,8 @@ With `outputMode: "file"` the whole document is written to a `.md` file and the 
 | `maxChars` | `integer` | No | `30000` | 1000–200000 | Most characters of markdown returned inline (1000-200000, default 30000). Does not limit the file in outputMode 'file'/'both'. |
 | `renderPages` | `string` | No | — | — | PDF only. Also return these pages as JPEG images (1-based, e.g. '1' or '2-3'; at most 3 pages, about 900 px wide), rendered in memory and never saved to disk. Use it for the pages in pagesForVisualReview, or whenever the text matters enough to check it against what the page shows - a wrong letter in a scanner's text layer is only visible there. |
 | `includeFormValues` | `boolean` | No | `false` | — | PDF only. Also return the values of AcroForm fields (form.fields[].value). Off by default: forms often hold addresses, account numbers and similar personal data; without it the fields are listed with name, type, page, readOnly and required only. |
+| `ocr` | `string` | No | `"auto"` | `auto`, `off`, `force` | PDF only. auto = recognise the pages without a text layer by OCR; force = recognise every page (broken or invisible text layer); off = no OCR, scanned pages stay empty. |
+| `wait` | `integer` | No | `45` | 0–540 | Only when pages are recognised: seconds this call waits for the result before returning a jobId for nova.ocr_status. |
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 Tool category: `normal` (standard risk class in Nova's agent permission settings).
@@ -159,7 +165,7 @@ On a failure `ok` is `false`, `reasonCode` names the cause (`convert_to_markdown
 ## 4. Operational Best Practices
 
 * **Long documents:** An inline call stops reading once `maxChars` is reached, so `scanComplete` turns `false`. Use `outputMode: "file"` for the whole document, or convert a page range with `pages`.
-* **Scanned pages:** Check `pagesWithoutExtractableText` before relying on the Markdown; those pages carry no text Nova can read.
+* **Scanned pages:** Their text is recognised, not read from the file. Check names, numbers and amounts on pages whose quality in `ocr` is not `good`, or compare both engines with `nova.ocr_read` and `engine: "both"`.
 * **Citing a page:** Use `sourcePages` to map a passage back to its PDF page; the offsets point into the file when one was written.
 
 ---

@@ -1,6 +1,6 @@
 # Acceptable Use Policy / Nutzungsrichtlinie
 
-*Last updated: October 12, 2026*
+*Last updated: October 17, 2026*
 
 ---
 
@@ -54,6 +54,7 @@ You may **not** use Nova AI Workspace to:
 - **Traffic manipulation against services you do not operate** — use request interception, modification or failure injection to bypass payment, licensing, quotas, client-side validation, consent dialogs or security controls of a service you neither operate nor are authorized to test
 - **Replaying requests without authorization** — resend recorded requests, including under a session Nova can reuse, against a service that has not authorized it. That Nova is technically able to reuse your session is not permission from the service
 - **Recording other people's data** — capture request or response bodies containing other people's personal data, credentials or tokens without a legal basis. If such data is captured, keeping it out of logs and agent transcripts and deleting it is your responsibility; Nova's `redact` option exists for this
+- **Recording people without a legal basis** — use screen recording to record video calls, meetings or other people shown on a page without their consent or another legal basis. Nova silences the sound while a page uses the microphone, but the picture of a call and its participants is still recorded
 - **Illegal commerce** — facilitate transactions involving illegal goods or services
 
 ### Your Responsibility
@@ -121,6 +122,7 @@ Du darfst Nova AI Workspace **nicht** verwenden für:
 - **Credential-Missbrauch** — Nutzung von Novas Vault oder MCP-Tools zum Testen gestohlener Zugangsdaten oder für Credential-Stuffing-Angriffe
 - **Manipulation des Verkehrs fremder Dienste** — Nutzung von Abfangen, Verändern oder absichtlichem Scheiternlassen von Anfragen, um Bezahlung, Lizenzierung, Kontingente, clientseitige Prüfungen, Zustimmungsdialoge oder Sicherheitsmechanismen eines Dienstes zu umgehen, den du weder betreibst noch zu testen befugt bist
 - **Erneutes Senden ohne Befugnis** — aufgezeichnete Anfragen erneut senden, auch unter einer Sitzung, die Nova wiederverwenden kann, gegen einen Dienst, der das nicht genehmigt hat. Dass Nova deine Sitzung technisch wiederverwenden kann, ist keine Erlaubnis des Dienstes
+- **Aufnehmen von Personen ohne Rechtsgrundlage** — Bildschirmaufnahmen von Videoanrufen, Besprechungen oder anderen Personen auf einer Seite ohne deren Einwilligung oder eine andere Rechtsgrundlage. Nova schaltet den Ton stumm, solange eine Seite das Mikrofon nutzt; das Bild eines Gesprächs und seiner Teilnehmer wird trotzdem aufgenommen
 - **Aufzeichnen fremder Daten** — Erfassen von Anfrage- oder Antwortinhalten mit personenbezogenen Daten, Zugangsdaten oder Tokens anderer Personen ohne Rechtsgrundlage. Werden solche Daten erfasst, liegt es bei dir, sie aus Protokollen und Agenten-Transcripts herauszuhalten und zu löschen; Novas `redact`-Option ist dafür da
 - **Illegaler Handel** — Erleichterung von Transaktionen mit illegalen Gütern oder Dienstleistungen
 

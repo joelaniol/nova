@@ -418,6 +418,39 @@ Copyright (c) Logan Stromberg
 
 
 ----------------------------------------------------------------------
+Vortice.Windows: Vortice.Direct3D11, Vortice.DXGI, Vortice.DirectX, Vortice.MediaFoundation (screen recording in Nova Outrider)
+License: MIT
+Source:  https://github.com/amerkoleci/Vortice.Windows
+----------------------------------------------------------------------
+
+Copyright (c) Amer Koleci and Contributors
+
+(Same MIT license text as above.)
+
+
+----------------------------------------------------------------------
+Vortice.Mathematics (screen recording in Nova Outrider)
+License: MIT
+Source:  https://github.com/amerkoleci/Vortice.Mathematics
+----------------------------------------------------------------------
+
+Copyright (c) Amer Koleci and Contributors
+
+(Same MIT license text as above.)
+
+
+----------------------------------------------------------------------
+SharpGen.Runtime, SharpGen.Runtime.COM (COM interop runtime used by Vortice)
+License: MIT
+Source:  https://github.com/SharpGenTools/SharpGenTools
+----------------------------------------------------------------------
+
+(c) 2010-2017 Alexandre Mutel, 2017-2023 Jeremy Koritzinsky, 2023-2024 Amer Koleci
+
+(Same MIT license text as above.)
+
+
+----------------------------------------------------------------------
 Markdig (Markdown parsing for nova.docx_create)
 License: BSD 2-Clause
 Source:  https://github.com/xoofx/markdig

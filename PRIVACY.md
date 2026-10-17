@@ -1,6 +1,6 @@
 # Privacy Policy / Datenschutzerklärung
 
-*Last updated: October 16, 2026*
+*Last updated: October 17, 2026*
 
 ---
 
@@ -185,6 +185,27 @@ intercept them. This is off until you ask for it, and it changes nothing about w
   Use it when the traffic is not yours to share
 - **An interception rule is visible and temporary** — the toolbar shows it while it is armed, it is
   bound to one tab and a URL scope, and it expires on its own
+
+### Screen Recordings
+
+An agent can ask Nova to record a video of Nova's window (`nova.screen_record_start`), for example to
+show a bug as it happens. This runs only when an agent starts it, and you see and control it:
+
+- **What is recorded:** Nova's own window - tabs, address bar, the page in view and Nova's dialogs -
+  and, unless the agent switches it off, the sound of Nova's pages. Other programs' windows and sound
+  are never recorded. If you leave the mouse pointer over Nova, it is in the picture
+- **Calls are not recorded with sound:** while a page in Nova uses your microphone, the sound of the
+  recording is silenced; the picture continues
+- **You see it and can stop it:** a red light pulses on the tab in view, in the toolbar and on Nova's
+  taskbar button, and the toolbar button stops the recording. Minimizing Nova pauses it and, if Nova
+  stays minimized, ends it
+- **It stays on your machine:** the video is written to Nova's Exports folder
+  (`ScreenRecordings`), or to a folder the agent names if you allowed local file access. Nova sends
+  nothing of it to `nova-cognitive.com` and does not delete it automatically; delete it when you no
+  longer need it
+- **The agent receives the file's location and a quality check, not the video.** If the agent then
+  opens or uploads the file, it reaches that agent's provider like any other part of the
+  conversation - see "Third-Party AI Providers" above
 
 ### TLS Inspection
 
@@ -413,6 +434,28 @@ deine Daten gehen:
   URLs. Nutze es, wenn der Verkehr nicht dir gehört
 - **Eine Abfang-Regel ist sichtbar und vorübergehend** — die Symbolleiste zeigt sie, solange sie
   scharf ist, sie ist an einen Tab und einen URL-Bereich gebunden, und sie läuft von selbst ab
+
+### Bildschirmaufnahmen
+
+Ein Agent kann Nova bitten, ein Video von Novas Fenster aufzunehmen (`nova.screen_record_start`),
+etwa um einen Fehler im Ablauf zu zeigen. Das läuft nur, wenn ein Agent es startet, und du siehst
+und steuerst es:
+
+- **Was aufgenommen wird:** Novas eigenes Fenster - Tabs, Adressleiste, die sichtbare Seite und Novas
+  Dialoge - und, sofern der Agent es nicht abschaltet, der Ton von Novas Seiten. Fenster und Ton
+  anderer Programme werden nie aufgenommen. Steht dein Mauszeiger über Nova, ist er im Bild
+- **Gespräche werden nicht mit Ton aufgenommen:** Solange eine Seite in Nova dein Mikrofon nutzt,
+  ist der Ton der Aufnahme stumm; das Bild läuft weiter
+- **Du siehst es und kannst es beenden:** Ein rotes Licht pulsiert im sichtbaren Tab, in der
+  Symbolleiste und auf Novas Taskleistensymbol, und der Symbolleisten-Knopf beendet die Aufnahme.
+  Minimierst du Nova, pausiert sie, und bleibt Nova minimiert, endet sie
+- **Sie bleibt auf deinem Rechner:** Das Video landet in Novas Exportordner (`ScreenRecordings`)
+  oder in einem Ordner, den der Agent nennt, wenn du lokalen Dateizugriff erlaubt hast. Nova sendet
+  nichts davon an `nova-cognitive.com` und löscht es nicht automatisch; lösche es, wenn du es nicht
+  mehr brauchst
+- **Der Agent bekommt den Speicherort und eine Qualitätsprüfung, nicht das Video.** Öffnet oder lädt
+  der Agent die Datei danach, erreicht sie seinen Anbieter wie jeder andere Teil des Gesprächs -
+  siehe „Drittanbieter-KI-Provider" weiter oben
 
 ### TLS-Prüfung
 

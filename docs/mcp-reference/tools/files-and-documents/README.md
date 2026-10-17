@@ -14,7 +14,7 @@ Reading and reshaping files that already lie on disk: PDF, Word, Excel, PowerPoi
 ---
 
 <!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
-## Tool Inventory (18 Tools)
+## Tool Inventory (20 Tools)
 
 Capability bundles of these tools: `page_read_debug`, `visual_evidence`.
 
@@ -34,6 +34,8 @@ Capability bundles of these tools: `page_read_debug`, `visual_evidence`.
 | **[`nova.image_info`](nova-image-info.md)** | Describes a local image file: format, size as shown, animation, transparency and which metadata it carries, with hints for the next step. |
 | **[`nova.image_transform`](nova-image-transform.md)** | Writes a changed copy of a local image: crop, rotate, flip, resize, convert or remove metadata. The original stays untouched. |
 | **[`nova.ocr_read`](nova-ocr-read.md)** | Reads the text of a scanned PDF or an image by text recognition, locally and offline, and says per page how far it can be trusted. |
+| **[`nova.ocr_status`](nova-ocr-status.md)** | Reads an OCR job: its progress while it runs, the finished result once it is done. |
+| **[`nova.ocr_stop`](nova-ocr-stop.md)** | Stops a running OCR job and keeps the pages read so far. |
 | **[`nova.pdf_compose`](nova-pdf-compose.md)** | Builds one new PDF from pages of local PDFs: merge files, keep or drop pages, change their order. |
 | **[`nova.pdf_split`](nova-pdf-split.md)** | Splits a local PDF into several new PDFs, one per page range. |
 | **[`nova.read_pdf`](nova-read-pdf.md)** | Extracts the text of a local PDF file, optionally per page and for selected pages only. |

@@ -107,6 +107,11 @@ The top-level response aggregates operational recommendations for the agent's ne
 * Lists pages that had low confidence and would benefit from `engine: "both"` comparison.
 * Lists missing or truncated pages when a document exceeded `maxChars`.
 
+### Long Scans Run in the Background
+A page takes 2 to 12 seconds, so an 80-page scan takes minutes - longer than most agent programs wait for a single call. `nova.ocr_read` and `nova.convert_to_markdown` therefore start a job and wait at most `wait` seconds (default 45). A short document is finished by then and the answer looks as usual; otherwise it is `status: "running"` with a `jobId` and the pages read so far. `nova.ocr_status(jobId, wait)` returns the finished result, `nova.ocr_stop(jobId)` ends the job and keeps what was read. One recognition runs at a time; a second job waits its turn (`state: "queued"`).
+
+`nova.convert_to_markdown` uses the same engines for the scanned pages of a PDF (`ocr: "auto"`, the default): their text takes the place of the empty page, under a line `> [Nova OCR: ...]` that names the engine and quality, so a later reader of the Markdown knows the text was recognised.
+
 ---
 
 ## 4. Native Process Isolation & Security Invariants
