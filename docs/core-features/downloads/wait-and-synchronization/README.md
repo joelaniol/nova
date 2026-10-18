@@ -48,7 +48,16 @@ sequenceDiagram
 
 ---
 
-## 2. Modes of Operation: Single ID vs. Anchored Lookback
+## 2. Dedicated Architecture Sub-Guides
+
+| Guide | Description | Primary Topics |
+| :--- | :--- | :--- |
+| **[Deterministic Join Points & Anchored Windows](deterministic-join-points-and-lookback-windows/README.md)** | Eliminating heuristic sleeps, the Anchored Window Invariant (`UtcNow - sinceMs`), 100ms polling, and terminal state evaluation. | Fixed anchor, 100ms polling, single ID vs lookback |
+| **[Batch Grace Periods & Resumable Watches](batch-grace-periods-and-resumable-watches/README.md)** | 400ms multi-file late-arrival grace window, high-signal paused/blocked early-exits, and resumable watch continuations. | 400ms grace, paused early-exit, `nova.wait_continue` |
+
+---
+
+## 3. Modes of Operation: Single ID vs. Anchored Lookback
 
 `nova.downloads_wait` operates in one of two distinct modes:
 
@@ -76,7 +85,7 @@ Used immediately after an agent triggers a download via a click, form submit, or
 
 ---
 
-## 3. High-Signal Termination Rules
+## 4. High-Signal Termination Rules
 
 `nova.downloads_wait` avoids burning timeouts through intelligent state detection:
 
@@ -120,7 +129,7 @@ If a website attempts to download multiple files automatically and the browser b
 
 ---
 
-## 4. Resumable Waits (`resumable: true`)
+## 5. Resumable Waits (`resumable: true`)
 
 Large file downloads (such as OS images or large datasets) often exceed standard MCP tool call timeouts (e.g. 60 seconds). To handle this gracefully without losing state:
 
@@ -148,7 +157,7 @@ sequenceDiagram
 
 ---
 
-## 5. Parameter Reference & Schema
+## 6. Parameter Reference & Schema
 
 The wait tool is invoked via [`nova.downloads_wait`](../../../mcp-reference/tools/downloads/nova-downloads-wait.md):
 
@@ -191,7 +200,7 @@ The wait tool is invoked via [`nova.downloads_wait`](../../../mcp-reference/tool
 
 ---
 
-## 6. Practical Agent Recipes
+## 7. Practical Agent Recipes
 
 ### Recipe 1: Click and Synchronize
 Trigger a download and wait for the file to be ready on disk:
@@ -224,10 +233,13 @@ For large archive downloads:
 
 ---
 
-## 7. Related Tools & Documentation
+## 8. Related Tools & Documentation
 
+* [Deterministic Join Points & Anchored Windows](deterministic-join-points-and-lookback-windows/README.md): Call-time cutoff anchoring and polling loop mechanics.
+* [Batch Grace Periods & Resumable Watches](batch-grace-periods-and-resumable-watches/README.md): 400ms batch buffer, early-exit heuristics, and resumable watch continuation.
+* [Lifecycle, Queue & Parked WebViews](../lifecycle-and-queue/README.md): Stream mechanics and tab closure parking.
+* [Security Gates & Policy Enforcement](../security-and-policy/README.md): Executable and UNC path protection.
 * [`nova.downloads_wait` Tool Reference](../../../mcp-reference/tools/downloads/nova-downloads-wait.md)
 * [`nova.wait_continue` Tool Reference](../../../mcp-reference/tools/downloads/nova-wait-continue.md)
 * [`nova.wait_cancel` Tool Reference](../../../mcp-reference/tools/downloads/nova-wait-cancel.md)
-* [Lifecycle, Queue & Parked WebViews](../lifecycle-and-queue/README.md)
-* [Security Gates & Policy Enforcement](../security-and-policy/README.md)
+* [Downloads Master Hub](../README.md): Master subsystem architectural catalog.

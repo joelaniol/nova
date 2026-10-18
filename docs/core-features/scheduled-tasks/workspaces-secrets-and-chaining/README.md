@@ -6,195 +6,77 @@ Nova AI Workspace provides an integrated data plane for scheduled tasks, combini
 
 ---
 
-## 1. Architectural Data Plane Overview
+## 1. Domain Architecture & Subguides
 
-The following diagram illustrates how task workspaces, credentials, variables, and chaining interact during a scheduled task run:
+The Workspaces, Secrets & Chaining subsystem is divided into two specialized technical guides:
+
+```
++-----------------------------------------------------------------------------------+
+|                     WORKSPACES, SECRETS & CHAINING DOMAIN                         |
++-----------------------------------------------------------------------------------+
+| 1. Workspace Storage & File Boundaries  | shared/ root, inbox/ and outbox/        |
+|                                         | mailboxes, 1 MiB text limit, soft-caps. |
++-----------------------------------------+-----------------------------------------+
+| 2. Encrypted Secrets & Chaining         | DPAPI task secrets, 64 KB variables,    |
+|                                         | conditional chaining, cycle detection.  |
++-----------------------------------------------------------------------------------+
+```
+
+| Guide | Focus Area | Core Architectural Concepts |
+| :--- | :--- | :--- |
+| **[Workspace Storage & File Boundaries](workspace-storage-and-file-boundaries/README.md)** | Workspace File Management | Dedicated terminal workspace binding (`workspaceId`), directory structure (`shared/`, `inbox/`, `outbox/`), 1 MiB UTF-8 file reading and writing ceiling, binary file suppression, and automated 14-day soft-cap mailbox retention. |
+| **[Encrypted Secrets, Variables & Chaining](encrypted-secrets-variables-and-chaining/README.md)** | State, Credentials & Pipelines | Windows DPAPI task credential encryption, in-memory `{SECRET:key}` substitution, persistent 64 KB SQLite state variables (`{VAR:key}`), conditional downstream task triggering (`triggerNextTaskId`, `triggerOnStatus`), cycle detection, and max depth limit of 5. |
+
+---
+
+## 2. Integrated Data Plane Topology
+
+The data plane coordinates credential decryption, variable substitution, and downstream task dispatch during a scheduled run:
 
 ```mermaid
 flowchart TD
-    subgraph TaskWorkspacePlane ["Task Workspace Storage (Local Disk)"]
-        SharedDir["shared/ Root (Durable Files)<br/>• Artifacts, reports, databases"]
-        InboxDir["shared/inbox/ (Transient Inbound)<br/>• Deposited CSVs, scraped files"]
-        OutboxDir["shared/outbox/ (Transient Outbound)<br/>• Cleaned by soft-cap retention"]
+    subgraph StorageLayer ["Encrypted Storage & State Database"]
+        DPAPISecrets["Windows DPAPI Vault<br/>• Encrypted secrets (API keys, tokens)<br/>• Decrypted strictly at run launch"]
+        StateVars["SQLite Variable Store (scheduled-tasks.db)<br/>• Key-value pairs (up to 64 KB)<br/>• Persists cursors & timestamps across runs"]
     end
 
-    subgraph StateAndSecrets ["State & Credential Storage (SQLite / DPAPI)"]
-        DPAPISecrets["Encrypted Secrets (DPAPI Vault)<br/>• Read by keyname only<br/>• Decrypted only at run launch"]
-        StateVars["Persistent Variables (SQLite)<br/>• Up to 64 KB per variable<br/>• Stores cursors, IDs, timestamps"]
+    subgraph SubstitutionEngine ["Template Substitution Engine"]
+        SecretSub["Substitute {SECRET:key}<br/>into Prompts, Arguments, Headers"]
+        VarSub["Substitute {VAR:key}<br/>into Prompts and Arguments"]
     end
 
-    subgraph RunExecution ["Task Execution Boundary"]
-        ActiveRun["Active Executor Run (RunId)"]
-        EnvInjection["Inject Secrets as $env:KEY"]
-        TemplateSub["Substitute {SECRET:key} and {VAR:key}"]
-        StructuredResult["Structured JSON Result Output"]
+    subgraph ActiveRunBoundary ["Task Execution Boundary"]
+        Executor["Active Runner (Claude, Shell, Webhook)"]
+        OutputJson["Structured JSON Result Output"]
     end
 
-    subgraph ChainingEngine ["Pipeline Chaining Engine"]
-        NextTask["Trigger Downstream Task (triggerNextTaskId)<br/>• Evaluates triggerOnStatus<br/>• Evaluates triggerConditionKey<br/>• Max Chain Depth: 5 Tasks"]
+    subgraph PipelineChaining ["Conditional Pipeline Chaining Engine"]
+        NextTaskCheck{"Evaluate triggerNextTaskId<br/>• triggerOnStatus matches?<br/>• triggerConditionKey matches?"}
+        TriggerDownstream["Dispatch Downstream Task Run<br/>(Max Chain Depth: 5)"]
     end
 
-    DPAPISecrets --> EnvInjection --> ActiveRun
-    DPAPISecrets --> TemplateSub --> ActiveRun
-    StateVars --> TemplateSub
-    StateVars <--> ActiveRun
-
-    SharedDir <--> ActiveRun
-    InboxDir --> ActiveRun
-    ActiveRun --> OutboxDir
-
-    ActiveRun --> StructuredResult
-    StructuredResult --> NextTask
+    DPAPISecrets --> SecretSub --> Executor
+    StateVars --> VarSub --> Executor
+    Executor --> OutputJson
+    OutputJson --> NextTaskCheck
+    NextTaskCheck -->|"Conditions Satisfied"| TriggerDownstream
 ```
 
 ---
 
-## 2. Dedicated Task Workspaces
+## 3. Data Plane Safety Contracts
 
-Every scheduled task is bound to a dedicated terminal workspace (`workspaceId`). This bridges background automation directly into Nova's interactive development tools:
-
-* **Interactive Exploration:** A task's workspace can be inspected and managed in Nova's [Terminal Dock](../../terminal-workspaces/README.md).
-* **The `shared/` Directory:** Durable storage for files generated or consumed by the task.
-
-### Workspace File MCP Tools
-Agents interact with workspace files programmatically without needing raw shell access:
-
-| Tool Name | Action & Constraints |
-| :--- | :--- |
-| [`nova.scheduled_task_workspace`](../../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-workspace.md) | Returns workspace root metadata, disk path, and folder status. |
-| [`nova.scheduled_task_workspace_list`](../../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-workspace-list.md) | Lists all files and subdirectories within the task's `shared/` folder. |
-| [`nova.scheduled_task_workspace_read`](../../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-workspace-read.md) | Reads text content from a specified file within `shared/`. |
-| [`nova.scheduled_task_workspace_write`](../../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-workspace-write.md) | Writes text content to a file in `shared/`. Strictly enforces a **1 MiB limit in UTF-8 bytes**. |
-
-### Transient Mailboxes (`inbox/` and `outbox/`)
-To support high-frequency file deposits without exhausting disk storage:
-* `shared/inbox/` and `shared/outbox/` are treated as **transient mailboxes**.
-* Nova enforces automatic soft-cap retention cleanup on transient mailbox folders, purging stale files while keeping durable files in `shared/` intact.
+1. **The 1 MiB File Ceiling:** All file reads and writes via MCP workspace tools strictly enforce a 1,048,576 byte ceiling, preventing multi-megabyte payloads from stalling agent context windows.
+2. **Volatile Secret Injections:** Secrets are decrypted into short-lived in-memory buffers immediately prior to process creation and injected as environment variables or headers, leaving zero plaintext traces on disk.
+3. **Pipeline Chaining Limits:** Multi-task pipelines enforce a hard limit of 5 sequential tasks with runtime cycle detection, eliminating infinite execution loops.
 
 ---
 
-## 3. Encrypted Secrets (DPAPI Vault)
+## 4. Related Architecture Guides
 
-Background tasks frequently require access to sensitive credentials—such as database connection strings, GitHub personal access tokens, or API secret keys. Hard-coding secrets into task prompts or shell scripts creates severe security risks.
-
-Nova encrypts task secrets using the **Windows Data Protection API (DPAPI)**, binding decryption keys strictly to the active Windows user account.
-
-### Setting and Listing Secrets
-```json
-{
-  "name": "nova_scheduled_task_secret_set",
-  "arguments": {
-    "taskId": "task-7b2c91a0",
-    "key": "SLACK_WEBHOOK_URL",
-    "value": "https://hooks.slack.com/services/T00/B00/XXXX"
-  }
-}
-```
-
-* **Zero-Leak Auditing:** Calling [`nova.scheduled_task_secret_list`](../../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-secret-list.md) returns only secret key names (`["SLACK_WEBHOOK_URL"]`). Secret values are **never returned over MCP**, preventing credentials from entering conversation memory transcripts or tool logs.
-* **Deletion:** Secrets can be removed via `nova.scheduled_task_secret_delete`.
-
-### Delivery Channels: Environment vs. Placeholder Injection
-Nova injects secrets into task runners through two secure mechanisms:
-
-1. **Process Environment Variables (Recommended):**
-   * Supported by `Shell` and `CustomCommand` executors.
-   * Decrypted at run launch and provided directly as process environment variables (e.g. `$env:SLACK_WEBHOOK_URL`).
-   * **Security Advantage:** Environment variables are not visible in Windows command-line process arguments (e.g. via Task Manager or Sysinternals Process Explorer).
-2. **Template Token Substitution:**
-   * In `CustomCommand` argument templates or `HttpWebhook` headers, tokens matching `{SECRET:keyname}` are substituted with decrypted values immediately prior to request dispatch.
-   * *Example:* `Authorization: Bearer {SECRET:API_KEY}`.
-
----
-
-## 4. Persistent Key-Value Variables (`nova.scheduled_task_var_*`)
-
-Tasks often need to remember state between runs—such as the timestamp of the last processed database record, a pagination cursor, or a deduplication list:
-
-```json
-{
-  "name": "nova_scheduled_task_var_set",
-  "arguments": {
-    "taskId": "task-7b2c91a0",
-    "key": "last_sync_timestamp",
-    "value": "2026-10-10T08:00:00Z"
-  }
-}
-```
-
-* **Storage Capacity:** Supports up to **64 KB per variable value**.
-* **Variable Tools:**
-  * [`nova.scheduled_task_var_set`](../../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-var-set.md): Stores or updates a key-value pair.
-  * [`nova.scheduled_task_var_get`](../../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-var-get.md): Retrieves the complete value for a specific key.
-  * [`nova.scheduled_task_var_list`](../../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-var-list.md): Lists all keys with value previews.
-  * [`nova.scheduled_task_var_delete`](../../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-var-delete.md): Deletes a stored variable.
-* **Argument Substitution:** Tokens matching `{VAR:keyname}` in `CustomCommand` argument templates are populated from stored variables.
-
----
-
-## 5. Pipeline Chaining & Workflow Orchestration
-
-For complex, multi-stage workflows, scheduled tasks can trigger downstream tasks upon completion:
-
-```mermaid
-sequenceDiagram
-    autonumber
-    participant Engine as Nova Scheduler
-    participant TaskA as Task A: Ingest Data
-    participant TaskB as Task B: Generate Report
-    participant DB as scheduled-tasks.db
-
-    Engine->>TaskA: Launch Task A (Scheduled Trigger)
-    TaskA->>TaskA: Process records, output structured JSON
-    TaskA-->>Engine: Completed with { "has_new_records": true, "count": 42 }
-    
-    Engine->>DB: Check Task A Chaining Configuration
-    DB-->>Engine: triggerNextTaskId: "Task-B"<br/>triggerConditionKey: "has_new_records"
-    
-    Engine->>Engine: Evaluate condition: structured_result["has_new_records"] == true
-    Engine->>TaskB: Launch Task B (Manual / Chain Trigger)
-    TaskB-->>Engine: Completed
-```
-
-### Chaining Configuration Fields
-* **`triggerNextTaskId`:** The unique ID of the downstream task to execute.
-* **`triggerOnStatus`:**
-  * `"Completed"` (Default): Fires only if the current run exits successfully with status `Completed`.
-  * `"Any"`: Fires regardless of run outcome (e.g. for error alert or cleanup tasks).
-* **`triggerConditionKey`:**
-  * An optional JSON key to evaluate within the run's `structured_result`.
-  * If specified (e.g. `"has_new_records"` or `"anomaly_detected"`), the chained task fires only if the structured JSON contains a truthy value for that key.
-* **Chain Depth Guard:** To prevent accidental infinite recursion or circular loops, Nova enforces a hard **maximum chain depth of 5 tasks**.
-
----
-
-## 6. Task Portability & Templates
-
-### Built-in Templates (`nova.scheduled_task_templates`)
-Nova includes ready-to-use blueprints for common operational workflows:
-* **Website Status & Health Check:** Periodically pings URLs and audits response latency.
-* **SEO & Metadata Audit:** Crawls key pages and evaluates meta tags and structured data.
-* **Database Backup Verification:** Validates backup archive integrity and timestamps.
-* **Weekly Summary Report:** Compiles analytical metrics and emails executive summaries.
-* **Temporary Data Cleanup:** Purges old cache and export files from local folders.
-
-### Export & Import (`nova.scheduled_task_export` / `_import`)
-Tasks can be exported and transferred between developer workspaces or environments:
-* **`nova.scheduled_task_export`:** Exports task definitions as portable JSON. **Crucial Security Boundary:** Secret values and historical run logs are **strictly excluded** from export payloads.
-* **`nova.scheduled_task_import`:** Imports task definitions from JSON, assigning fresh, unique task IDs and initializing clean workspaces.
-
----
-
-## 7. Related References
-
-* [Scheduled Tasks Master Hub](../README.md): Subsystem overview, tool matrix, and architecture diagrams.
-* [Schedules, Triggers & Concurrency](../scheduling-and-triggers/README.md): Cron expressions, intervals, file watches, and catch-up policies.
-* [Task Executors & Autonomy Modes](../executors-and-autonomy/README.md): Runner lanes (`ClaudeCode`, `CodexCli`, `Shell`, `CustomCommand`, `HttpWebhook`) and budget governance.
-* [Terminal Workspaces](../../terminal-workspaces/README.md): Interactive terminal dock and project workspaces.
-* [Vault & DPAPI Credentials](../../privacy/vault-and-secrets/README.md): System-wide credential encryption.
-* [Scheduled Task Workspace Write Reference](../../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-workspace-write.md)
-* [Scheduled Task Secret Set Reference](../../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-secret-set.md)
-
----
-
-[Scheduled Tasks Overview](../README.md) · [All core features](../../README.md)
+* [Workspace Storage & File Boundaries](workspace-storage-and-file-boundaries/README.md): Mailbox folders (`inbox/`, `outbox/`) and file size limits.
+* [Encrypted Secrets, Variables & Chaining](encrypted-secrets-variables-and-chaining/README.md): DPAPI secrets, variables, and multi-task pipelines.
+* [Scheduled Tasks Engine Hub](../README.md): Master hub, architecture control planes, and complete MCP tool matrix.
+* [Schedules, Triggers & Concurrency](../scheduling-and-triggers/README.md): Temporal cron schedules and filesystem directory watching.
+* [Task Executors & Autonomy Modes](../executors-and-autonomy/README.md): Execution lanes and budget limits.
+* [Workspace Read Reference](../../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-workspace-read.md) · [Secret Set Reference](../../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-secret-set.md)

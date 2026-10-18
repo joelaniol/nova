@@ -50,7 +50,16 @@ flowchart TD
 
 ---
 
-## 2. Anatomy of a Win32 Native Dialog
+## 2. Dedicated Architecture Sub-Guides
+
+| Guide | Description | Primary Topics |
+| :--- | :--- | :--- |
+| **[Win32 Dialog Discovery & Heuristics](win32-dialog-discovery-and-control-heuristics/README.md)** | Common Item Dialog (`IFileDialog`) discovery, spatial edit heuristics, bilingual button matching, and non-blocking Win32 messaging. | `#32770`, Edit/IDOK discovery, 16 KB path limits, 1.5s timeout |
+| **[DOM File Upload Bypass & In-App Modals](dom-file-upload-bypass-and-in-app-dialogs/README.md)** | Direct file injection via `nova.file_upload`, the bypass decision matrix, and WinUI 3 `ContentDialog` visual tree traversal. | CDP `DOM.setFileInputFiles`, in-app dialogs, 200-char prompt injection guard |
+
+---
+
+## 3. Anatomy of a Win32 Native Dialog
 
 Nova discovers and manipulates native dialogs through its low-level window inspection subsystem. When a native dialog is active, Nova identifies its child controls using structural heuristics:
 
@@ -78,7 +87,7 @@ Nova discovers and manipulates native dialogs through its low-level window inspe
 
 ---
 
-## 3. The Native Dialog Automation Pipeline
+## 4. The Native Dialog Automation Pipeline
 
 When a native file picker or shell dialog appears, agents resolve it using a 4-step pipeline:
 
@@ -193,7 +202,7 @@ Dispatches `WM_COMMAND` with `IDCANCEL` (2) to close the modal window.
 
 ---
 
-## 4. The DOM Bypass Alternative: `nova.file_upload`
+## 5. The DOM Bypass Alternative: `nova.file_upload`
 
 While `nova.ui_inspect_native_dialog` interacts with real Windows Shell pickers, many file uploads can be handled much faster and more reliably by bypassing the native picker entirely.
 
@@ -221,7 +230,7 @@ While `nova.ui_inspect_native_dialog` interacts with real Windows Shell pickers,
 
 ---
 
-## 5. WinUI 3 In-App Dialog Automation (`in_app_dialog`)
+## 6. WinUI 3 In-App Dialog Automation (`in_app_dialog`)
 
 Not all modal dialogs in Nova are Win32 `#32770` windows. Nova's own application dialogs (such as connection wizards, settings confirmations, and onboarding prompts) are rendered using WinUI 3 `ContentDialog` controls inside the XAML visual tree.
 
@@ -248,7 +257,7 @@ If an agent calls `nova.ui_confirm_native_dialog` without `button` on an in-app 
 
 ---
 
-## 6. Deadlock Prevention & Timeout Boundaries
+## 7. Deadlock Prevention & Timeout Boundaries
 
 Modal dialog automation carries severe risks of system deadlocks if an unresponsive window traps the automation thread. Nova enforces three critical safety boundaries:
 
@@ -263,8 +272,10 @@ Modal dialog automation carries severe risks of system deadlocks if an unrespons
 
 ---
 
-## 7. Related References
+## 8. Related References
 
+* [Win32 Dialog Discovery & Heuristics](win32-dialog-discovery-and-control-heuristics/README.md): Operating system dialog identification, child control heuristics, and 1.5s non-blocking messaging.
+* [DOM File Upload Bypass & In-App Modals](dom-file-upload-bypass-and-in-app-dialogs/README.md): Direct file injection via `nova.file_upload` and WinUI 3 dialog control.
 * [Native Dialogs & UI Prompts Master Hub](../README.md): Primary architecture, classification, and tool matrix.
 * [Security & Platform Prompts](../security-and-platform-prompts/README.md): Resolving HTTP auth, certificate warnings, permissions, and tab restore.
 * [JavaScript Dialog Interception](../javascript-dialog-interception/README.md): Automatic dismissal of in-page `alert`, `confirm`, and `prompt` boxes.

@@ -1,20 +1,37 @@
 # Locale, Timezone & Geolocation Emulation
 
-> **Testing internationalization, localized content, and regional behaviors — Accept-Language injection, timezone offsets, GPS coordinate spoofing, and ICU runtime boundaries.**
+> [!NOTE]
+> Testing modern web applications requires verifying localized copy, Right-to-Left (RTL) reading layouts, regional currency formatting, timezone-sensitive appointment booking, and geofenced features. Nova AI Workspace provides **per-tab internationalization and geographic simulation** via [`nova.emulation_set_locale`](../../../mcp-reference/tools/device-emulation/nova-emulation-set-locale.md) and [`nova.emulation_clear_locale`](../../../mcp-reference/tools/device-emulation/nova-emulation-clear-locale.md), eliminating the need for regional VPN tunnels or operating system reconfiguration.
 
 ---
 
-## 1. Overview & Architectural Vision
+## 1. Executive Summary & Core Mission
 
-Modern web applications adapt their content, layouts, and business logic based on user locale and geography:
-* **Localization & Translation:** Server-side frameworks read the `Accept-Language` header to deliver localized HTML, while client-side libraries inspect `navigator.language` to switch copy.
-* **Bi-directional & RTL Layouts:** Languages like Arabic (`ar-SA`) and Hebrew (`he-IL`) flip the entire layout into Right-to-Left (RTL) mode, reversing flexbox directions, margins, and icons.
-* **Timezone-Sensitive Scheduling:** Booking widgets, flight calendars, and webinar tools evaluate client timezones via `Intl.DateTimeFormat().resolvedOptions().timeZone` to display local times.
-* **Geolocation & Geofencing:** Store locators, weather widgets, and regional compliance gates query the HTML5 Geolocation API (`navigator.geolocation.getCurrentPosition`).
+Standard browser automation frameworks face severe hurdles when validating international web applications:
+* Overriding only the HTTP `Accept-Language` header leaves client-side DOM properties (`navigator.language`) in English, causing hydration errors.
+* Timezone-sensitive scheduling tools calculate dates using the host machine's local clock, making overseas appointment testing difficult.
+* Geolocation prompts either block autonomous execution or require mock GPS injection.
 
-Testing these behaviors previously required routing traffic through physical regional VPNs or changing host operating system timezones and locales.
+Nova's Localization Subsystem provides:
+1. **Dual-Lever Language Delivery:** Simultaneously drives the HTTP `Accept-Language` header and client-side `navigator.language` / `navigator.languages` properties.
+2. **Instant Timezone Shifting:** Reconfigures JavaScript `Intl` and `Date` offsets immediately without requiring a page reload.
+3. **HTML5 Geolocation Spoofing:** Injects simulated latitude, longitude, and accuracy coordinates while transparently fulfilling location permission checks.
+4. **RTL Layout Verification:** Enables comprehensive Right-to-Left layout testing for Arabic, Hebrew, and Persian scripts.
 
-Nova provides **`nova.emulation_set_locale`** and **`nova.emulation_clear_locale`**, enabling autonomous agents to emulate specific languages, timezones, and geographic coordinates on individual browser tabs without modifying the host machine or restarting the browser process.
+---
+
+## 2. Comprehensive Documentation Index
+
+The Locale, Timezone & Geolocation subsystem is detailed across specialized subguides:
+
+| Architecture Guide | Focus Areas & Technical Invariants | Primary Components |
+| :--- | :--- | :--- |
+| **[Language, Locale & RTL Simulation](language-and-rtl-simulation/README.md)** | Content negotiation vs. client-side DOM localization, the dual-lever locale mechanism (`Network.setUserAgentOverride` + `Emulation.setLocaleOverride`), the ICU process boundary, Right-to-Left (RTL) layout verification, and logical property audits. | `nova.emulation_set_locale`<br>`DualLeverLocale`<br>`AcceptLanguage`<br>`navigator.language`<br>`RTLLayoutVerification` |
+| **[Timezone & Geolocation Overrides](timezone-and-geolocation-overrides/README.md)** | IANA Timezone ID overrides, JavaScript `Intl` and `Date.getTimezoneOffset` behavior, HTML5 Geolocation API spoofing (`latitude`, `longitude`, `accuracy`), coordinate pair invariants, and regional testing recipes. | `nova.emulation_set_locale`<br>`nova.emulation_clear_locale`<br>`TimezoneOverride`<br>`GeolocationOverride`<br>`CoordinatePairInvariant` |
+
+---
+
+## 3. High-Level Localization Pipeline
 
 ```mermaid
 flowchart TD
@@ -32,7 +49,7 @@ flowchart TD
     subgraph PageContext["Target Page Context"]
         P1["navigator.language = 'de-DE'<br/>HTTP Header: Accept-Language: de-DE"]
         P2["Intl Timezone: 'Europe/Berlin'<br/>new Date().getTimezoneOffset()"]
-        P3["navigator.geolocation.getCurrentPosition() -> Berlin"]
+        P3["navigator.geolocation.getCurrentPosition() -> Berlin Coordinates"]
     end
 
     A --> DualLeverEngine
@@ -44,155 +61,20 @@ flowchart TD
 
 ---
 
-## 2. The Three Localization & Geographic Axes
+## 4. Key Architectural Invariants
 
-`nova.emulation_set_locale` accepts one, two, or all three axes in a single call:
-
-```mermaid
-graph TD
-    subgraph Axes["Independent Emulation Axes"]
-        A1["<b>1. Language & Locale</b><br/><code>locale: 'ja-JP'</code><br/>Updates navigator.language & Accept-Language"]
-        A2["<b>2. Timezone ID</b><br/><code>timezone: 'Asia/Tokyo'</code><br/>Updates Date & Intl timezone resolution"]
-        A3["<b>3. Geolocation Coordinates</b><br/><code>latitude: 35.6762, longitude: 139.6503</code><br/>Overrides HTML5 Geolocation API"]
-    end
-```
-
-### 1. Locale (`locale`)
-Sets the language and regional formatting token (e.g. `"en-US"`, `"de-DE"`, `"fr-FR"`, `"ja-JP"`, `"ar-SA"`).
-* Informs server-side content negotiation via the `Accept-Language` HTTP header.
-* Sets client-side JavaScript properties: `navigator.language` and `navigator.languages`.
-
-### 2. Timezone (`timezone`)
-Sets the IANA timezone identifier (e.g. `"America/New_York"`, `"Europe/Berlin"`, `"Asia/Tokyo"`, `"UTC"`).
-* Directly modifies `Intl.DateTimeFormat().resolvedOptions().timeZone`.
-* Adjusts JavaScript date calculation offsets (`new Date().getTimezoneOffset()`).
-
-### 3. Geolocation (`latitude`, `longitude`, `accuracy`)
-Injects simulated GPS coordinates.
-* **Coordinate Validation:** `latitude` must be between $-90$ and $90$; `longitude` must be between $-180$ and $180$.
-* **Coordinate Pair Invariant:** Latitude and longitude must be provided together. Supplying one without the other returns error `-32602`.
-* `accuracy`: Optional accuracy radius in meters (defaults to 100m).
+* **Dual-Lever Necessity:** Calling `Emulation.setLocaleOverride` alone is a known no-op in Microsoft WebView2. Nova couples this with `Network.setUserAgentOverride` to reliably drive both server-side content negotiation and client-side JavaScript property reads.
+* **Coordinate Pair Requirement:** `latitude` and `longitude` must always be supplied together. Omitting one returns parameter error `-32602`.
+* **Zero Host Alteration:** All overrides are scoped strictly to the target browser tab. The host operating system's locale, timezone, and GPS settings remain completely untouched.
+* **Clean Baseline Restoration:** Calling `nova.emulation_clear_locale` restores the exact pre-override `navigator.languages` array captured during initial tab attachment.
 
 ---
 
-## 3. Technical Implementation: The Dual-Lever Locale Mechanism
+## Related Documentation
 
-In Microsoft WebView2 and Chromium, overriding the browser's language at runtime involves a known architectural constraint:
-
-> [!NOTE]
-> Calling `Emulation.setLocaleOverride` alone is a verified no-op in WebView2. It changes neither `navigator.language` nor the HTTP `Accept-Language` header.
-
-To ensure reliable locale emulation, Nova uses a **dual-lever strategy**:
-1. **Lever 1 (HTTP & DOM Engine):** Nova reads the tab's current effective User-Agent and reasserts it with the emulated `Accept-Language` parameter via `Emulation.setUserAgentOverride`. This is the authoritative Chromium mechanism that successfully drives:
-   - `navigator.language` (e.g. `"ja-JP"`)
-   - `navigator.languages` (e.g. `["ja-JP", "ja"]`)
-   - The outbound `Accept-Language` HTTP header on all network requests.
-2. **Lever 2 (Forward Compatibility):** Nova also dispatches `Emulation.setLocaleOverride` so that future Chromium servicing updates that activate this API are immediately supported.
-
-### The ICU Process Boundary
-Chromium fixes its default ICU (International Components for Unicode) formatting locale once at process launch via the command-line switch `--lang`. Because WebView2 is a shared multi-process runtime that cannot be restarted per tab, **native C++ number and date formatting via `Intl` defaults reflect the host process launch language**. However, web applications determine localized text, currencies, and layout direction through `navigator.language` and `Accept-Language`, which Nova overrides completely.
-
----
-
-## 4. Parameter Reference & Schema
-
-The tool is invoked via [`nova.emulation_set_locale`](../../../mcp-reference/tools/device-emulation/nova-emulation-set-locale.md):
-
-| Parameter | Type | Required | Range / Format | Description |
-| :--- | :--- | :---: | :--- | :--- |
-| `targetId` | `string` | No | `"active"` | Target tab identifier from `nova.tabs`. |
-| `locale` | `string` | No | BCP 47 (e.g. `"de-DE"`) | Language and region code. |
-| `timezone` | `string` | No | IANA ID (e.g. `"Europe/Berlin"`) | Timezone identifier. |
-| `latitude` | `number` | No | -90.0 to 90.0 | Latitude coordinate in degrees. Requires `longitude`. |
-| `longitude`| `number` | No | -180.0 to 180.0 | Longitude coordinate in degrees. Requires `latitude`. |
-| `accuracy` | `number` | No | Positive number | Geolocation accuracy in meters (default: 100). |
-
-> [!IMPORTANT]
-> `nova.emulation_set_locale` requires at least one of `locale`, `timezone`, or `latitude`+`longitude`. Setting none returns error `-32602`. To reset, use `nova.emulation_clear_locale`.
-
----
-
-## 5. Clean Restoration (`nova.emulation_clear_locale`)
-
-When an agent finishes testing a regional workflow, calling `nova.emulation_clear_locale` cleanly restores the tab's original settings:
-1. Re-asserts the original pre-override `navigator.languages` list that Nova captured prior to the first override.
-2. Clears the timezone override by sending `timezoneId: ""` to CDP.
-3. Clears geolocation coordinates via `Emulation.clearGeolocationOverride`.
-
-```json
-// nova.emulation_clear_locale
-{}
-```
-
-Response:
-```json
-{
-  "content": [
-    {
-      "type": "text",
-      "text": "Locale, timezone, and geolocation overrides cleared: reverted to host system settings."
-    }
-  ],
-  "structuredContent": {
-    "targetId": "tab-1",
-    "cleared": {
-      "locale": true,
-      "timezone": true,
-      "geolocation": true
-    }
-  }
-}
-```
-
----
-
-## 6. Practical Agent Recipes
-
-### Recipe 1: Right-to-Left (RTL) Layout Verification
-Verify that an Arabic locale properly activates RTL layouts:
-
-1. Set Arabic locale:
-   ```json
-   // nova.emulation_set_locale
-   { "locale": "ar-SA" }
-   ```
-2. Reload page to trigger server-side content negotiation:
-   ```json
-   // nova.reload
-   {}
-   ```
-3. Inspect document direction:
-   ```json
-   // nova.get_computed_style
-   { "selector": "html", "properties": ["direction"] }
-   ```
-   Assert that `requested.direction === "rtl"`.
-4. Scan for broken layout or clipping:
-   ```json
-   // nova.detect_overflow
-   { "selector": "body" }
-   ```
-
-### Recipe 2: Geofenced Store Locator Test
-Verify that a retail store locator centers on Tokyo, Japan:
-
-```json
-// nova.emulation_set_locale
-{
-  "locale": "ja-JP",
-  "timezone": "Asia/Tokyo",
-  "latitude": 35.6762,
-  "longitude": 139.6503,
-  "accuracy": 50
-}
-```
-
----
-
-## 7. Related Tools & Documentation
-
-* [`nova.emulation_set_locale` Tool Reference](../../../mcp-reference/tools/device-emulation/nova-emulation-set-locale.md)
-* [`nova.emulation_clear_locale` Tool Reference](../../../mcp-reference/tools/device-emulation/nova-emulation-clear-locale.md)
+* [Language, Locale & RTL Simulation Subguide](language-and-rtl-simulation/README.md)
+* [Timezone & Geolocation Overrides Subguide](timezone-and-geolocation-overrides/README.md)
+* [Parent: Device Emulation Architecture Overview](../README.md)
 * [Device Presets, Viewport Metrics & Touch](../device-presets-and-metrics/README.md)
 * [CSS Media Features, Dark Mode & Themes](../media-features-and-themes/README.md)
-* [Fingerprint Protection & Privacy](../../privacy/README.md)
+* [Tool Reference: `nova.emulation_set_locale`](../../../mcp-reference/tools/device-emulation/nova-emulation-set-locale.md)

@@ -101,11 +101,31 @@ Dissects physical container mechanics to find bugs invisible to human review:
 
 ## 3. Dedicated Architectural Guides
 
-| Guide | Description | Primary Tools |
-| :--- | :--- | :--- |
-| **[Automated Accessibility (a11y) Engine](accessibility-audit/README.md)** | WCAG 2.1/2.2 contrast mathematics, ancestor background walking, interactive target sizing, label resolution, and renderer protection caps. | [`nova.audit_accessibility`](../../mcp-reference/tools/layout-and-qa/nova-audit-accessibility.md) |
-| **[Real-User Core Web Vitals](core-web-vitals/README.md)** | Two-phase `PerformanceObserver` probe, buffered metrics, LCP/CLS/INP/FCP rating thresholds, and windowed reset semantics. | [`nova.measure_web_vitals`](../../mcp-reference/tools/layout-and-qa/nova-measure-web-vitals.md) |
-| **[Layout Geometry & Overflow Detection](layout-geometry-and-overflow/README.md)** | Text clipping vs. horizontal overflow, intentional vertical asymmetry, viewport bleed overhang, constraining ancestors, and CDP pseudo-states. | [`nova.detect_overflow`](../../mcp-reference/tools/layout-and-qa/nova-detect-overflow.md), [`nova.measure_elements`](../../mcp-reference/tools/layout-and-qa/nova-measure-elements.md), [`nova.get_computed_style`](../../mcp-reference/tools/layout-and-qa/nova-get-computed-style.md), [`nova.force_pseudo_state`](../../mcp-reference/tools/layout-and-qa/nova-force-pseudo-state.md), [`nova.composer_state`](../../mcp-reference/tools/layout-and-qa/nova-composer-state.md) |
+The layout quality, accessibility, and performance architecture is decomposed into three core architectural domains and six fine-grained implementation sub-guides:
+
+### Domain 1: Automated Accessibility (a11y) & WCAG Compliance Engine
+* **[Automated Accessibility (a11y) Engine Hub](accessibility-audit/README.md):**
+  WCAG 2.1/2.2 contrast mathematics, ancestor background walking, interactive target sizing, label resolution, and renderer protection caps.
+  * **[In-Engine WCAG Rules & Contrast](accessibility-audit/axe-core-engine-and-wcag-rules/README.md):**
+    Native in-engine audit vs script injection, relative luminance formulas, ancestor background resolution, and 8,000-node safety caps.
+  * **[Audit Reporting & Color Contrast](accessibility-audit/audit-reporting-and-color-contrast/README.md):**
+    Target sizing geometry (24px/44px), accessible name and form label resolution (`CSS.escape`), advisory contrast boundaries, and response schemas.
+
+### Domain 2: Real-User Core Web Vitals & Performance Gating
+* **[Real-User Core Web Vitals Hub](core-web-vitals/README.md):**
+  Two-phase `PerformanceObserver` probe, buffered metrics, LCP/CLS/INP/FCP rating thresholds, and windowed reset semantics.
+  * **[PerformanceObserver & Synthetic Instrumentation](core-web-vitals/performance-observer-and-synthetic-instrumentation/README.md):**
+    Two-phase probe architecture, buffered observers (`layout-shift`, `largest-contentful-paint`, `event`), and async host delays.
+  * **[Diagnostic Attribution & Threshold Gates](core-web-vitals/diagnostic-attribution-and-threshold-gates/README.md):**
+    Official rating thresholds, windowed vs cumulative reset semantics, layout shift attribution, and CI/CD quality gates.
+
+### Domain 3: Layout Geometry, Overflow Detection & Computed Styling
+* **[Layout Geometry & Overflow Detection Hub](layout-geometry-and-overflow/README.md):**
+  Text clipping vs. horizontal overflow, intentional vertical asymmetry, viewport bleed overhang, constraining ancestors, and CDP pseudo-states.
+  * **[Bounding Rectangles & Constraining Ancestors](layout-geometry-and-overflow/bounding-client-rect-and-box-model-metrics/README.md):**
+    Multi-selector geometric analysis, Three Widths container constraints, passive measurement, and authoritative computed styles.
+  * **[Overflow Detection & Pseudo-State Inspection](layout-geometry-and-overflow/overflow-detection-and-pseudo-state-inspection/README.md):**
+    Horizontal spillage, intentional vertical asymmetry rationale, viewport bleed, CDP pseudo-state simulation, and composer readiness.
 
 ---
 

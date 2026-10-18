@@ -48,7 +48,16 @@ By asserting `args.Handled = true`, Nova suppresses default WebView2 popups and 
 
 ---
 
-## 2. Origin-Based Permission State Machine
+## 2. Dedicated Architecture Sub-Guides
+
+| Guide | Description | Primary Topics |
+| :--- | :--- | :--- |
+| **[W3C Web Notifications & DOM Lifecycle](w3c-notifications-and-dom-lifecycle/README.md)** | WebView2 event interception, `args.Handled = true`, COM lifecycle mapping, and tag deduplication. | `CoreWebView2.NotificationReceived`, `ReportShown`, `ReportClicked`, W3C tags |
+| **[Origin Permissions & Private Tab Isolation](origin-permissions-and-private-tab-isolation/README.md)** | Tri-state permission rules, URI canonicalization, volatile private tab caches, and agent MCP control. | Tri-state policy, memory isolation, `nova.notifications_permission_set` |
+
+---
+
+## 3. Origin-Based Permission State Machine
 
 Notifications requested by web pages are governed by an origin-based permission model:
 
@@ -81,7 +90,7 @@ stateDiagram-v2
 
 ---
 
-## 3. Privacy Boundaries & Ephemeral Private Tabs
+## 4. Privacy Boundaries & Ephemeral Private Tabs
 
 To preserve complete confidentiality during private browsing sessions, Nova enforces strict storage boundaries:
 
@@ -102,7 +111,7 @@ flowchart TD
 
 ---
 
-## 4. DOM Lifecycle Callbacks & COM Interop
+## 5. DOM Lifecycle Callbacks & COM Interop
 
 The W3C Web Notifications standard requires that user interactions (clicks and closes) trigger JavaScript event callbacks on the client webpage. Nova bridges desktop actions back to the web runtime via COM interfaces:
 
@@ -137,7 +146,7 @@ flowchart LR
 
 ---
 
-## 5. Tag-Based Upsert & Replacement Semantics
+## 6. Tag-Based Upsert & Replacement Semantics
 
 Websites frequently update ongoing alerts (e.g. music playback tracks, sports scores, progress bars) by providing a `tag` property. Nova adheres strictly to W3C tag replacement semantics:
 
@@ -159,7 +168,7 @@ flowchart TD
 
 ---
 
-## 6. Programmatic MCP Permission Control
+## 7. Programmatic MCP Permission Control
 
 Autonomous AI agents can audit and configure website notification permissions programmatically using Nova's dedicated MCP tools:
 
@@ -180,8 +189,10 @@ Autonomous AI agents can audit and configure website notification permissions pr
 
 ---
 
-## Related Documentation
+## 8. Related Documentation
 
-* **[Desktop Notifications Overview](../README.md)** — Master three-source topology and parity principles.
+* **[W3C Web Notifications & DOM Lifecycle Sub-Guide](w3c-notifications-and-dom-lifecycle/README.md)** — Detailed DOM callback mechanisms, COM references, and tag replacements.
+* **[Origin Permissions & Private Tab Isolation Sub-Guide](origin-permissions-and-private-tab-isolation/README.md)** — Tri-state policy rules, memory isolation, and MCP configuration.
+* **[Desktop Notifications Master Overview](../README.md)** — Master three-source topology and parity principles.
 * **[Inbox Storage & Channel Worker Architecture](../inbox-and-storage/README.md)** — SQLite database schema and lock-free write queues.
 * **[Windows Toasts & Deep-Link Activation Router](../windows-toasts-and-activation/README.md)** — Windows App SDK integration and deep-link routing.

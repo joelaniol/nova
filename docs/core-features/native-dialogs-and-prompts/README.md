@@ -46,15 +46,21 @@ flowchart TD
 
 ---
 
-## 2. In-Depth Subsystems & Architecture Guides
+## 2. Dedicated Architecture Sub-Guides
 
-Explore each dedicated subsystem within the Native Dialogs & UI Prompts suite:
+The Native Dialogs & UI Prompts architecture is structured into three operational planes, detailed across six specialized guides:
 
-| Subsystem Guide | Primary Focus | Key Architectural Scope & Enforcements |
-| :--- | :--- | :--- |
-| [Windows File Dialogs & OS Pickers](file-dialogs-and-os-pickers/README.md) | Win32 `#32770` & In-App Dialogs | Common Item Dialogs (`IFileDialog`), child control discovery (Edit, ComboBoxEx32, IDOK, IDCANCEL), bilingual button matching, non-blocking Win32 messaging, and the `nova.file_upload` DOM bypass route. |
-| [Security & Browser Platform Prompts](security-and-platform-prompts/README.md) | Platform Trust Boundaries | The six dedicated resolvers: HTTP Basic/Digest authentication with DPAPI Vault integration, SSL/TLS certificate overrides, enterprise mTLS selection, device permissions, download SmartScreen warnings, and tab restoration. |
-| [JavaScript Dialog Interception](javascript-dialog-interception/README.md) | Synchronous In-Page Modals | The V8 execution freeze problem, WebView2 `ScriptDialogOpening` interception pipeline, agent auto-dismissal vs interactive user mode, the `beforeunload` navigation trap, and the critical verification rule: *Dismissal is not approval*. |
+### Plane A: [JavaScript Modal Dialog Interception](javascript-dialog-interception/README.md)
+* **[V8 Thread Unblocking & Auto-Dismissal](javascript-dialog-interception/v8-thread-unblocking-and-auto-dismissal/README.md):** Eliminating CDP deadlocks, sub-2ms host dismissal, primitive resolution defaults (`alert` OK, `confirm` false, `prompt` null), and the verification rule (*Dismissal is not approval*).
+* **[BeforeUnload & Navigation Lifecycle](javascript-dialog-interception/beforeunload-and-navigation-lifecycle/README.md):** Bypassing `window.onbeforeunload` navigation traps, programmatic navigation flags (`ProgrammaticNavigationActive`), and zero-zombie-process guarantees.
+
+### Plane B: [Windows File Dialogs & OS Pickers](file-dialogs-and-os-pickers/README.md)
+* **[Win32 Dialog Discovery & Heuristics](file-dialogs-and-os-pickers/win32-dialog-discovery-and-control-heuristics/README.md):** Common Item Dialog (`IFileDialog`) discovery, spatial edit heuristics, bilingual button matching (EN/DE), 16 KB path limits, and 1.5s non-blocking Win32 messaging (`SMTO_ABORTIFHUNG`).
+* **[DOM File Upload Bypass & In-App Modals](file-dialogs-and-os-pickers/dom-file-upload-bypass-and-in-app-dialogs/README.md):** Direct file injection via `nova.file_upload` (`DOM.setFileInputFiles`), upload decision matrix, WinUI 3 `ContentDialog` visual tree traversal, and 200-character prompt injection guards.
+
+### Plane C: [Security & Platform Prompts](security-and-platform-prompts/README.md)
+* **[HTTP Auth & Certificate Exception Resolvers](security-and-platform-prompts/http-auth-and-certificate-exception-resolvers/README.md):** Resolving HTTP 401 challenges with zero-leak DPAPI credentials (`use_vault`), session-scoped TLS exceptions (`proceed`), and enterprise mTLS client certificate matching (`CurrentUser\My`).
+* **[Sensor Permissions, Download Warnings & Recovery](security-and-platform-prompts/sensor-permissions-download-warnings-and-recovery/README.md):** HTML5 device sensor grants (`allow`/`deny`), executable download SmartScreen overrides (`keep`/`discard`), and startup tab crash recovery orchestration (`restore`).
 
 ---
 

@@ -110,21 +110,25 @@ Both `preconditions` and `postconditions` organize assertion rules into logical 
 
 * **Conjunction (`all`):** Every assertion in the list must evaluate to `true`. Commonly used in preconditions:
   ```json
-  "preconditions": {
-    "all": [
-      { "factKey": "form.fields.valid", "operator": "eq", "expected": true },
-      { "factKey": "button.disabled", "operator": "eq", "expected": false }
-    ]
+  {
+    "preconditions": {
+      "all": [
+        { "factKey": "form.fields.valid", "operator": "eq", "expected": true },
+        { "factKey": "button.disabled", "operator": "eq", "expected": false }
+      ]
+    }
   }
   ```
 * **Disjunction (`any`):** At least one assertion in the list must evaluate to `true`. Commonly used in success postconditions where multiple indicators signify completion:
   ```json
-  "postconditions": {
-    "success": {
-      "any": [
-        { "factKey": "url.changed", "operator": "eq", "expected": true },
-        { "factKey": "dom.element.exists", "operator": "exists", "selector": ".confirmation-toast" }
-      ]
+  {
+    "postconditions": {
+      "success": {
+        "any": [
+          { "factKey": "url.changed", "operator": "eq", "expected": true },
+          { "factKey": "dom.element.exists", "operator": "exists", "selector": ".confirmation-toast" }
+        ]
+      }
     }
   }
   ```

@@ -2,44 +2,65 @@
 
 Nova's Session Recording engine enforces fine-grained data segregation by partitioning captured telemetry into **12 distinct stream files**. Recording depth is governed by a formal taxonomy of **15 permission classes**, allowing agents and security policies to balance forensic detail against privacy boundaries.
 
-This guide details the complete stream catalog, permission class taxonomy across development Waves R1–R4, default safety configurations, Brotli compression mechanics, and mid-stream revocation rules.
+This guide provides the architectural overview of the stream segregation model, permission taxonomy across Waves R1–R4, and navigational links to the specialized subguides.
 
 ---
 
-## 1. The Twelve Encrypted Stream Files
+## 1. Domain Architecture & Subguides
 
-When a recording is active, Nova writes incoming events into categorized JSONL (JSON Lines) streams. Each file is encrypted independently using AES-256-GCM. Depending on the granted permission classes, a recording produces a subset of the following streams:
+The Streams & Permission Classes subsystem is divided into two specialized technical guides:
 
-| Stream Filename | Primary Content | Sensitivity | Triggering Permission Class |
-| :--- | :--- | :--- | :--- |
-| **`network.cdp.jsonl`** | HTTP/HTTPS request and response metadata, URLs, methods, status codes, and headers. | Metadata / Content | `metadata` (bodies require `request_bodies` / `response_bodies`) |
-| **`console.jsonl`** | JavaScript console log messages (`console.log`, `warn`, `error`, `info`, `dir`). | Metadata | `metadata` |
-| **`errors.jsonl`** | Unhandled runtime exceptions, rejected promises, script load failures. | Metadata | `metadata` |
-| **`lifecycle.jsonl`** | Document navigation events (`DOMContentLoaded`, `load`) and in-stream gap markers. | Metadata | `metadata` |
-| **`interactions.jsonl`** | Timeline of agent inputs (`interactions_mcp`) and native user keyboard/mouse events. | Metadata / Content | `interactions_mcp`, `interactions_native` |
-| **`dom-snapshots.jsonl`** | Indexed DOM snapshots capturing outerHTML and CSS selector ancestry. | Content | `dom_snapshots` |
-| **`security-violations.jsonl`** | Content Security Policy (CSP) violations, Mixed Content blocks, TLS alerts. | Metadata | `metadata` |
-| **`performance.jsonl`** | PerformanceObserver navigation metrics and user timing marks. | Metadata | `performance_marks` |
-| **`workers.jsonl`** | Web Worker and Service Worker lifecycle, registration, and communication events. | Content | `worker_messages` |
-| **`indexeddb-ops.jsonl`** | Transaction metadata, object store queries, operation types, and hashed keys. | Metadata | `metadata` |
-| **`websocket-payloads.jsonl`** | Inbound and outbound WebSocket text frames. | Content | `websocket_payloads` |
-| **`indexeddb-values.jsonl`** | Unmasked database record payloads (strictly quota-capped). | Secret-Bearing | `indexeddb_values` |
-| **`dom-mutations.jsonl`** | Continuous, rrweb-compatible DOM tree mutation deltas (Brotli-compressed). | Content | `dom_mutations` |
+```
++-----------------------------------------------------------------------------------+
+|                     STREAMS & PERMISSION CLASSES DOMAIN                           |
++-----------------------------------------------------------------------------------+
+| 1. Stream Catalog & Mutation Compression | The 12 stream formats, JSONL framing,  |
+|                                          | Brotli DOM mutations, sidecar streams. |
++------------------------------------------+----------------------------------------+
+| 2. Permission Taxonomy & Revocation      | 15 permission classes across Waves R1-4|
+|                                          | sensitivity tiers, dynamic revocation. |
++-----------------------------------------------------------------------------------+
+```
 
-> [!NOTE]
-> Streams like `websocket-payloads.jsonl`, `indexeddb-values.jsonl`, and `dom-mutations.jsonl` are **V2 opt-in sidecars**. If a recording was initiated without granting their matching classes, these files are not created. When queried, Nova returns a capability response stating the stream was not captured—never a misleading empty success.
+| Guide | Focus Area | Core Architectural Concepts |
+| :--- | :--- | :--- |
+| **[Stream Catalog & Mutation Compression](stream-catalog-and-compression/README.md)** | Stream Files & Payloads | Deep catalog of all 12 stream files (`network.cdp.jsonl`, `console.jsonl`, `interactions.jsonl`, etc.), JSONL data schemas, Level 6 streaming Brotli compression for DOM mutations, payload size caps, and V2 opt-in sidecar semantics. |
+| **[Permission Taxonomy & Revocation Mechanics](permission-taxonomy-and-revocation/README.md)** | Granular Access Governance | Complete taxonomy of the 15 permission classes across development Waves R1–R4, sensitivity tiers (Metadata, Content, Secret-Bearing), default safe policies, dynamic `PermissionClassRegistry` evaluation, and mid-stream revocation sequences. |
 
 ---
 
-## 2. Permission Class Taxonomy
+## 2. Overview of the Twelve Stream Files
 
-Nova organizes permission classes across four development waves and four strict sensitivity categories:
+Each stream file is encrypted independently using AES-256-GCM. Depending on the granted permission classes, an active recording produces a targeted subset of streams:
+
+```
+<recording-id>/
+├── network.cdp.jsonl          # HTTP requests, responses, headers, and timing
+├── console.jsonl              # Standard console log, warn, error, debug entries
+├── errors.jsonl               # Unhandled JavaScript exceptions and promise rejections
+├── lifecycle.jsonl            # Navigation milestones and in-stream gap markers
+├── interactions.jsonl         # Agent and user click/key/input sequences
+├── dom-snapshots.jsonl        # Standalone HTML snapshots and selector ancestry
+├── security-violations.jsonl  # CSP violations, mixed content, TLS alerts
+├── performance.jsonl          # PerformanceObserver timing marks and web vitals
+├── workers.jsonl              # Web Worker and Service Worker lifecycle events
+├── indexeddb-ops.jsonl        # IndexedDB transaction and query metadata
+├── websocket-payloads.jsonl   # Opt-in WebSocket text frames
+├── indexeddb-values.jsonl     # Opt-in secret-bearing IDB record values
+└── dom-mutations.jsonl        # Opt-in Brotli-compressed rrweb mutation stream
+```
+
+---
+
+## 3. Permission Class Taxonomy Summary
+
+Nova organizes permission classes into four development waves and three strict sensitivity tiers:
 
 ```mermaid
 flowchart TD
-    subgraph Waves ["Permission Class Development Waves"]
+    subgraph Waves ["Permission Development Waves"]
         WImplicit["Implicit Wave (Auto-Granted)<br/>• metadata<br/>• interactions_mcp"]
-        WR2["Wave R2 (Bodies & Storage)<br/>• headers_sensitive<br/>• network_timing_detail<br/>• request_bodies<br/>• response_bodies<br/>• storage_values"]
+        WR2["Wave R2 (Bodies & Timing)<br/>• headers_sensitive<br/>• network_timing_detail<br/>• request_bodies<br/>• response_bodies<br/>• storage_values"]
         WR3["Wave R3 (Forensics & Sidecars)<br/>• performance_marks<br/>• worker_messages<br/>• interactions_native<br/>• dom_snapshots<br/>• websocket_payloads<br/>• dom_mutations<br/>• indexeddb_values [Secret-Bearing]"]
         WR4["Wave R4 (Conditional & Reserved)<br/>• streaming_bodies [Conditional]<br/>• fetch_interception [Reserved Non-Grantable]"]
     end
@@ -48,99 +69,32 @@ flowchart TD
         S1["Metadata: Low risk, no user secrets"]
         S2["Content: Application payloads, DOM, headers"]
         S3["Secret-Bearing: Raw DB values, auth credentials"]
-        S4["Active-Interception: Reserved for active replay"]
     end
 
-    WImplicit -.-> S1
-    WR2 -.-> S1
-    WR2 -.-> S2
-    WR3 -.-> S1
-    WR3 -.-> S2
-    WR3 -.-> S3
-    WR4 -.-> S2
-    WR4 -.-> S4
+    WImplicit --> S1
+    WR2 --> S1
+    WR2 --> S2
+    WR3 --> S2
+    WR3 --> S3
+    WR4 --> S2
 ```
 
-### Complete Class Registry Matrix
+---
 
-| Permission Class | Development Wave | Sensitivity Tier | Grantable | Description & Operational Impact |
-| :--- | :---: | :--- | :---: | :--- |
-| **`metadata`** | Implicit | Metadata | Yes | Core CDP network metadata, console logs, errors, lifecycle, and IndexedDB op metadata. Always granted. |
-| **`interactions_mcp`** | Implicit | Metadata | Yes | Logs agent-driven interactions dispatched via MCP tools (`nova.click_selector`, etc.). Always granted. |
-| **`headers_sensitive`** | R2 | Content | Yes | Allows capturing sensitive headers (`Authorization`, `Cookie`). Subject to redaction rules. |
-| **`network_timing_detail`** | R2 | Metadata | Yes | High-precision DNS, SSL handshake, connect, TTFB, and response timing breakdowns. |
-| **`request_bodies`** | R2 | Content | Yes | Captures HTTP POST/PUT/PATCH request payloads. Gzip/text payloads are decompressed. |
-| **`response_bodies`** | R2 | Content | Yes | Captures server HTTP response bodies. Filtered against binary MIME types and size caps. |
-| **`storage_values`** | R2 | Content | Yes | Captures initial snapshots and mutations of `localStorage` and `sessionStorage`. |
-| **`performance_marks`** | R3 | Metadata | Yes | Captures PerformanceObserver resource metrics and custom user timing marks. |
-| **`worker_messages`** | R3 | Content | Yes | Captures messages posted between window contexts and Web Workers / Service Workers. |
-| **`interactions_native`** | R3 | Content | Yes | Injects listeners to capture real mouse clicks, keyboard presses, and scrolling from the user. |
-| **`dom_snapshots`** | R3 | Content | Yes | Enables automated and on-demand DOM tree snapshots (~256 KB cap per snapshot). |
-| **`websocket_payloads`** | R3 | Content | Yes | Captures text frames transmitted over WebSocket connections. Binary frames emit metadata only. |
-| **`indexeddb_values`** | R3 | **Secret-Bearing** | Yes | **The only secret-bearing class in V2.** Captures deserialized IndexedDB record payloads. Subject to strict quotas. |
-| **`dom_mutations`** | R3 | Content | Yes | Enables rrweb-compatible continuous DOM mutation logging. Brotli-compressed host-side. |
-| **`streaming_bodies`** | R4 | Content | Yes (Conditional) | Captures chunked HTTP streaming responses. Gated by feature toggle (default off). |
-| **`fetch_interception`** | R4 | Active-Interception | **No** | **Reserved non-grantable.** Reserved for future active replay modes. Requests return an explicit refusal. |
+## 4. Key Operational Invariants
+
+1. **Explicit Capability Responses for Sidecars:** If an agent queries a sidecar stream (such as `websocket-payloads.jsonl` or `indexeddb-values.jsonl`) that was not enabled for the recording, Nova returns an explicit capability error stating that the stream was not recorded—never a misleading empty array.
+2. **Deterministic Payload Caps:** When a payload exceeds its configured size limit (e.g., 2 MB for HTTP response bodies or 64 KB for WebSocket frames), the recorder emits a typed `MetadataOnlyRecord` containing byte count and SHA-256 hash without storing raw content.
+3. **Mid-Stream Revocation Safety:** Revoking a permission class mid-session permanently severs capture for that stream without deleting previously encrypted records.
 
 ---
 
-## 3. The Default Safe Configuration
+## 5. Related Architecture Guides
 
-When an agent invokes `nova.session_record_start` without providing the optional `permissionClasses` array, Nova applies the **Default Safe Set**:
-
-$$\text{Default Granted Classes} = [\text{"metadata"}, \text{"interactions\_mcp"}, \text{"dom\_snapshots"}]$$
-
-### Security Guarantees of the Default Set
-* **Zero Body Capture:** Request and response bodies are **completely omitted**.
-* **Zero Storage Values:** Web Storage and IndexedDB values are not captured.
-* **Zero Native Input Interception:** User keystrokes are not monitored; only agent tool actions are logged.
-* **Safe Context Verification:** Grants sufficient visibility into HTTP status codes, console errors, and DOM snapshots to troubleshoot workflows without exposing user authentication secrets.
-
----
-
-## 4. Special Stream Mechanics
-
-### 1. `dom-mutations.jsonl`: rrweb & Brotli Compression
-DOM mutations can generate tens of thousands of fine-grained tree alterations per minute. To preserve disk space and I/O bandwidth:
-* Nova evaluates a lightweight `MutationObserver` on the top-level document window.
-* Mutations are structured in an industry-standard, rrweb-compatible event format.
-* **Brotli Pre-Compression:** Mutation chunks are compressed using Brotli (`System.IO.Compression.BrotliStream`) host-side **before** AES-256-GCM line encryption.
-* Reading this stream via [`nova.session_record_events`](../../../mcp-reference/tools/session-recording/nova-session-record-events.md) transparently decrypts and decompresses the payload for client consumption.
-
-### 2. `indexeddb-values.jsonl`: Quotas & The Secret-Bearing Boundary
-Because IndexedDB databases frequently store offline authorization tokens, private keys, or encrypted caches:
-* `indexeddb_values` is categorized as **`secret-bearing-content`**.
-* The Nova user interface requires explicit user confirmation before this class can be enabled.
-* **Strict In-Recording Quotas:** To prevent database dumps from consuming storage, this stream enforces a tighter per-recording byte quota. If an object store transaction exceeds the quota, Nova emits a `MetadataOnlyRecord` with reason code `indexeddb_value_quota_exceeded`.
-
-### 3. `fetch_interception`: The Reserved Non-Grantable Invariant
-If an agent attempts to pass `fetch_interception` in `permissionClasses`:
-* Nova rejects the grant immediately.
-* Returns JSON-RPC error `-32002` with error code `permission_request_denied_reserved_active_mode` and property `reservedFor: "v3_active_replay_mode"`.
-* Session recording is strictly a **passive observation** mechanism; active request interception belongs to [Network Interception](../../network/network-interception/README.md).
-
----
-
-## 5. Mid-Recording Permission Revocation
-
-Nova allows users and policies to revoke active permission classes while a recording is in progress:
-
-1. When a class is revoked (e.g. revoking `response_bodies` via Nova's settings):
-2. Nova injects a `GapMarkerKind.PermissionRevoked` entry into `lifecycle.jsonl` noting the class and timestamp.
-3. The recording pipeline immediately unhooks the associated CDP or page observers.
-4. **Persistent Sealing:** All subsequent events in that stream are dropped. The recording's `manifest.json` is updated to reflect the revoked status.
-5. In downstream read tools (`nova.session_record_events` or `nova.session_record_export`), revoked streams are withheld from output, guaranteeing that permission retraction is honored post-capture.
-
----
-
-## 6. Related References
-
-* [Session Recording Hub](../README.md): Primary overview, lifecycle constraints, and tool matrix.
-* [Architecture & Capture Pipeline](../architecture-and-pipeline/README.md): Ingestion pipeline, bounded queue, and gap markers.
-* [Encryption & Redaction Pipeline](../encryption-and-redaction/README.md): Cryptographic storage, DPAPI envelope keys, and sanitization rules.
-* [Querying & Time-Travel Debugging](../query-and-time-travel/README.md): Step-by-step query recipes for network, console, and DOM streams.
-* [Record Events Tool Reference](../../../mcp-reference/tools/session-recording/nova-session-record-events.md)
-
----
-
-[Session Recording Hub](../README.md)
+* [Stream Catalog & Mutation Compression](stream-catalog-and-compression/README.md): Detailed schemas, JSONL framing, and Brotli compression.
+* [Permission Taxonomy & Revocation Mechanics](permission-taxonomy-and-revocation/README.md): Full class taxonomy, waves, and negotiation recipes.
+* [Session Recording Hub](../README.md): Master hub, operational limits, and complete MCP tool matrix.
+* [Architecture & Capture Pipeline](../architecture-and-pipeline/README.md): Ingestion engine, bounded queue, and safety seam guards.
+* [Encryption & Redaction Pipeline](../encryption-and-redaction/README.md): AES-256-GCM envelope encryption, DPAPI keys, and secret sanitization.
+* [Querying & Time-Travel Debugging](../query-and-time-travel/README.md): Interrogating network streams, console logs, and DOM snapshots post-mortem.
+* [Record Events Tool Reference](../../../mcp-reference/tools/session-recording/nova-session-record-events.md) · [Start Recording Tool Reference](../../../mcp-reference/tools/session-recording/nova-session-record-start.md)

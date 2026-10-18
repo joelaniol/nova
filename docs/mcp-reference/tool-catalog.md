@@ -656,7 +656,7 @@ WinUI window controls, native OS dialog handling, DevTools panels, setup wizard,
 | **[`nova.create_dump`](tools/app-shell-and-ui/nova-create-dump.md)** | `targetId?`, `mode?` | Writes a diagnostic dump of a browser tab (screenshot, DOM, page info, and in full mode MHTML and resources) to a folder on disk. |
 | **[`nova.devtools_open`](tools/app-shell-and-ui/nova-devtools-open.md)** | `targetId?`, `mode?` | Opens the Chromium DevTools inspection window for a specified browser tab. |
 | **[`nova.devtools_select_panel`](tools/app-shell-and-ui/nova-devtools-select-panel.md)** | `panel`, `targetId?` | Dispatches the keyboard shortcut for a DevTools panel (Console, Elements, Network, Sources, ...) in an already-open DevTools window. |
-| **[`nova.favorites_add`](tools/app-shell-and-ui/nova-favorites-add.md)** | `url`, `title?`, `folderId?` | Adds a URL to the browser favorites collection with optional title and target folder. |
+| **[`nova.favorites_add`](tools/app-shell-and-ui/nova-favorites-add.md)** | `url`, `title?`, `folderId?`, `pinToNewTab?` | Adds a URL to the browser favorites collection with optional title and target folder. |
 | **[`nova.favorites_list`](tools/app-shell-and-ui/nova-favorites-list.md)** | `query?`, `folderId?`, `maxResults?` | Lists all saved browser favorites. |
 | **[`nova.history_search`](tools/app-shell-and-ui/nova-history-search.md)** | `query?`, `maxResults?`, `cursor?` | Searches the browsing history. |
 | **[`nova.favorites_move`](tools/app-shell-and-ui/nova-favorites-move.md)** | `id?`, `url?`, `folderId?` | Moves a bookmark favorite into a different folder or to the root collection. |

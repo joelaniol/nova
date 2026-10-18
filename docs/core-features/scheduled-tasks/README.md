@@ -69,15 +69,24 @@ flowchart TD
 
 ---
 
-## 2. In-Depth Subsystems & Architecture Guides
+## 2. Documentation Suite Index
 
-Explore each specialized subsystem within the Scheduled Tasks suite:
+Explore the complete modular documentation suite across the three scheduled tasks domains:
 
-| Subsystem Guide | Primary Focus | Key Architectural Scope & Enforcements |
-| :--- | :--- | :--- |
-| [Schedules, Triggers & Concurrency](scheduling-and-triggers/README.md) | Temporal & Event Triggers | Human-readable cron syntax (`daily HH:MM`, `weekdays`, `hourly`, `every Nh`), IANA/Windows time zone resolution, fixed intervals, filesystem directory watching with 2-second debounce, 24-hour downtime catch-up recovery, and automatic circuit breakers. |
-| [Task Executors & Autonomy Modes](executors-and-autonomy/README.md) | Execution Engines & Governance | The five execution lanes (`ClaudeCode`, `CodexCli`, `Shell`, `CustomCommand`, `HttpWebhook`), `Safe` vs. `Unsafe` autonomy modes, turn limits, per-run budget caps ($1 default), cumulative lifetime budget caps, and run lifecycle state auditing. |
-| [Workspaces, Secrets & Chaining](workspaces-secrets-and-chaining/README.md) | Data Plane & Orchestration | Terminal workspace integration, `shared/` directory management with 1 MiB UTF-8 byte boundary, transient mailboxes (`inbox/`, `outbox/`), DPAPI secret encryption, 64 KB persistent variables, conditional JSON pipeline chaining, and task templates. |
+### Domain 1: Schedules, Triggers & Concurrency
+* **[Schedules, Triggers & Concurrency Hub](scheduling-and-triggers/README.md)**: Temporal dispatch loop, trigger modalities, and resilience gates.
+  * **[Cron Syntax & Temporal Dispatch](scheduling-and-triggers/cron-syntax-and-temporal-dispatch/README.md)**: Human-readable cron patterns (`daily HH:MM`, `weekdays`, `weekly`, `hourly`, `every Nh`), standard 5-field UNIX cron fallback, IANA and Windows time zone resolution, daylight saving time (DST) leap reconciliation, fixed interval loops (minimum 60s), and 1-second scheduler ticks.
+  * **[Filesystem Watch & Resilience Gates](scheduling-and-triggers/filesystem-watch-and-resilience-gates/README.md)**: Real-time filesystem directory monitoring (`watchPath`), 2-second trailing write debounce, 24-hour downtime catch-up recovery (`catchUpMissed`), concurrency governance (`Skip` vs `Replace`), and automated circuit breakers (`maxConsecutiveFailures`).
+
+### Domain 2: Task Executors & Autonomy Modes
+* **[Task Executors & Autonomy Modes Hub](executors-and-autonomy/README.md)**: Runner lanes, privilege policies, and financial limits.
+  * **[Execution Lanes & Agent Harnesses](executors-and-autonomy/execution-lanes-and-agent-harnesses/README.md)**: The five execution lanes (`ClaudeCode`, `CodexCli`, `Shell`, `CustomCommand`, `HttpWebhook`), Nova MCP access via `--allowedTools "mcp__nova__*"`, environment variable secret injection, shell blocking security invariants, and real-time output capture into SQLite.
+  * **[Autonomy Modes & Budget Governance](executors-and-autonomy/autonomy-modes-and-budget-governance/README.md)**: Privilege separation (`Safe` vs `Unsafe`), the administrative `allowWorkflowFanout` gate, per-run financial budget limits (`maxBudgetUsd`), cumulative lifetime spending caps (`maxCumulativeCostUsd`), `--max-turns` limits, and the run lifecycle state machine.
+
+### Domain 3: Workspaces, Secrets & Chaining
+* **[Workspaces, Secrets & Chaining Hub](workspaces-secrets-and-chaining/README.md)**: Data plane, encrypted secrets, state variables, and multi-task pipelines.
+  * **[Workspace Storage & File Boundaries](workspaces-secrets-and-chaining/workspace-storage-and-file-boundaries/README.md)**: Dedicated terminal workspace binding (`workspaceId`), directory structure (`shared/`, `inbox/`, `outbox/`), 1 MiB UTF-8 file reading and writing ceiling, binary file suppression, and automated 14-day soft-cap mailbox retention.
+  * **[Encrypted Secrets, Variables & Chaining](workspaces-secrets-and-chaining/encrypted-secrets-variables-and-chaining/README.md)**: Windows DPAPI task credential encryption, in-memory `{SECRET:key}` substitution, persistent 64 KB SQLite state variables (`{VAR:key}`), conditional downstream task triggering (`triggerNextTaskId`, `triggerOnStatus`), cycle detection, and max depth limit of 5.
 
 ---
 
@@ -98,20 +107,21 @@ Nova structures scheduled operations across four distinct architectural pillars:
 |                             | strict Safe/Unsafe autonomy mode enforcement.       |
 +-----------------------------+-----------------------------------------------------+
 | 3. Workspaces & Secrets     | Local file isolation in shared/, Windows DPAPI-     |
-|                             | encrypted credentials, and 64 KB state variables.   |
+|                             | encrypted secrets, 64 KB persistent variables, and  |
+|                             | a 1 MiB UTF-8 file boundary ceiling.                |
 +-----------------------------+-----------------------------------------------------+
-| 4. Governance & Pipelines   | Multi-task chaining (triggerNextTaskId), circuit    |
-|                             | breakers, per-run dollar limits, and lifetime caps. |
+| 4. Pipeline Chaining        | Multi-stage task execution with status filters,     |
+|                             | JSON output assertions, and max depth 5 bounds.     |
 +-----------------------------------------------------------------------------------+
 ```
 
 ---
 
-## 4. MCP Scheduled Tasks Tool Matrix
+## 4. MCP Tool Capability Matrix
 
-All tools belong to the `scheduled_tasks` capability bundle:
+Agents configure and monitor background automation through the `scheduled_tasks` tool bundle:
 
-| MCP Tool Name | Subsystem | Action & Operational Scope |
+| Tool Name | Subsystem | Primary Function |
 | :--- | :--- | :--- |
 | [`nova.scheduled_task_create`](../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-create.md) | Definition | Creates a new scheduled task (schedule, prompt, executor, limits, workspace). |
 | [`nova.scheduled_task_update`](../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-update.md) | Definition | Modifies properties, schedules, prompts, or limits of an existing task. |
@@ -126,65 +136,36 @@ All tools belong to the `scheduled_tasks` capability bundle:
 | [`nova.scheduled_task_runs`](../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-runs.md) | History | Queries historical execution runs, statuses, durations, and costs. |
 | [`nova.scheduled_task_run_output`](../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-run-output.md) | History | Retrieves stdout, stderr tail, and structured JSON results for a specific run. |
 | [`nova.scheduled_task_workspace`](../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-workspace.md) | Workspace | Returns disk location and status of the task's bound terminal workspace. |
-| [`nova.scheduled_task_workspace_list`](../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-workspace-list.md) | Workspace | Lists files and directories in the task workspace's `shared/` directory. |
-| [`nova.scheduled_task_workspace_read`](../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-workspace-read.md) | Workspace | Reads file content from the task workspace's `shared/` directory. |
-| [`nova.scheduled_task_workspace_write`](../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-workspace-write.md) | Workspace | Writes content to a file in `shared/` (enforces 1 MiB UTF-8 byte boundary). |
-| [`nova.scheduled_task_secret_set`](../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-secret-set.md) | Secrets | Encrypts and stores a credential via Windows DPAPI for the task. |
-| [`nova.scheduled_task_secret_list`](../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-secret-list.md) | Secrets | Lists secret key names (raw values are never returned over MCP). |
-| [`nova.scheduled_task_var_set`](../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-var-set.md) | Variables | Stores a persistent key-value state variable (up to 64 KB per value). |
-| [`nova.scheduled_task_var_get`](../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-var-get.md) | Variables | Retrieves the full value of a persistent state variable. |
-| [`nova.scheduled_task_var_list`](../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-var-list.md) | Variables | Lists all state variables for a task with value previews. |
-| [`nova.scheduled_task_var_delete`](../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-var-delete.md) | Variables | Deletes a persistent state variable from the task. |
-| [`nova.scheduled_task_export`](../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-export.md) | Portability | Exports task definitions as portable JSON (excluding secrets and history). |
-| [`nova.scheduled_task_import`](../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-import.md) | Portability | Imports tasks from JSON, creating fresh task IDs and isolated workspaces. |
-| [`nova.scheduled_task_templates`](../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-templates.md) | Portability | Lists built-in templates (health checks, SEO audits, backup verification). |
+| [`nova.scheduled_task_workspace_list`](../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-workspace-list.md) | Workspace | Lists files and directories residing in the task's workspace. |
+| [`nova.scheduled_task_workspace_read`](../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-workspace-read.md) | Workspace | Reads a UTF-8 text file from the workspace (capped at 1 MiB). |
+| [`nova.scheduled_task_workspace_write`](../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-workspace-write.md) | Workspace | Writes or updates a file in the workspace (capped at 1 MiB). |
+| [`nova.scheduled_task_secret_set`](../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-secret-set.md) | Secrets | Encrypts and binds a named secret to a task definition via Windows DPAPI. |
+| [`nova.scheduled_task_secret_list`](../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-secret-list.md) | Secrets | Lists names of all secrets bound to a task (omits secret values). |
+| [`nova.scheduled_task_var_set`](../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-var-set.md) | Variables | Sets a persistent key-value state variable for a task (up to 64 KB). |
+| [`nova.scheduled_task_var_get`](../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-var-get.md) | Variables | Reads the current value of a persistent state variable. |
+| [`nova.scheduled_task_var_list`](../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-var-list.md) | Variables | Lists all persistent variables and values associated with a task. |
+| [`nova.scheduled_task_var_delete`](../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-var-delete.md) | Variables | Deletes a persistent variable from a task. |
+| [`nova.scheduled_task_templates`](../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-templates.md) | Templates | Returns built-in task templates for common automation scenarios. |
+| [`nova.scheduled_task_export`](../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-export.md) | Portability | Exports complete task definitions to a portable JSON bundle. |
+| [`nova.scheduled_task_import`](../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-import.md) | Portability | Imports and registers a task bundle from a JSON definition. |
 
 ---
 
-## 5. Decision Matrix: Selecting the Right Task Executor
+## 5. Security, Budget & Safety Invariants
 
-| Automation Objective | Recommended Executor | Autonomy Mode | Key Configuration Parameters |
-| :--- | :--- | :--- | :--- |
-| **Complex web research, analysis & multi-step scraping** | `ClaudeCode` | `Safe` | `mcpAccess: true`, `maxBudgetUsd: 2.0`, `maxTurns: 30` |
-| **Headless code repository generation & refactoring** | `CodexCli` | `Safe` | `workingDirectory: "C:\\Repos\\Project"` |
-| **Windows administration, file cleanup & local diagnostics** | `Shell` | Not applicable | Prompt contains valid PowerShell; requires Shell setting enabled. |
-| **Calling custom CLI tools, Python scripts or Go binaries** | `CustomCommand` | Not applicable | `command: "python"`, `argsTemplate: "script.py {VAR:cursor}"` |
-| **Pinging status endpoints or dispatching webhook alerts** | `HttpWebhook` | Not applicable | Endpoint URL, payload JSON, `Authorization: Bearer {SECRET:token}` |
+1. **The Circuit Breaker:** Tasks that fail consecutively $N$ times (default: 3) trip an automated circuit breaker, transitioning to `disabled_circuit_breaker` to prevent runaway spending on broken scripts.
+2. **Financial Hard Stop:** When `--max-budget-usd` is reached on a Claude Code run, Nova terminates the run immediately. Tasks exceeding cumulative lifetime caps are disabled.
+3. **Privilege Separation:** Shell interpreters (`powershell.exe`, `cmd.exe`) are blocked in `CustomCommand`. Scripts must use the administrative policy-guarded `Shell` lane.
+4. **Memory Decoupling:** Decrypted secrets exist in memory only during the active process launch phase, never stored unencrypted in SQLite or transcript files.
 
 ---
 
-## 6. Safety, Power & Boundary Invariants
+## 6. Related Architecture Guides
 
-Nova enforces strict architectural safeguards to ensure background automation remains secure, bounded, and resource-efficient:
-
-1. **Windows Power Assertions:**
-   * While scheduled tasks are actively executing, Nova requests Windows power assertions (`SetThreadExecutionState`) to prevent the host machine from entering standby sleep mid-task. Standby is restored once all runs complete.
-2. **The Shell Executor Gate:**
-   * Running PowerShell scripts via `Shell` requires explicit opt-in in application settings (`AppSettings.ShellTaskExecutorEnabled`).
-   * `CustomCommand` strictly blocks `powershell.exe` and `cmd.exe` to enforce this policy boundary.
-3. **The Unsafe Mode Hard Gate:**
-   * Executing AI agents in `Unsafe` mode (`--dangerously-skip-permissions`) is refused unless `"scheduledTaskUnsafeModeEnabled": true` is added directly to `settings.json`.
-4. **Circuit Breaker Protection:**
-   * If a task fails repeatedly (`consecutiveFailures >= maxConsecutiveFailures`), the scheduler trips the circuit breaker and pauses the task, preventing runaway error loops.
-5. **DPAPI Credential Isolation:**
-   * Secret values are stored with Windows DPAPI encryption and never appear in MCP tool outputs, server logs, or export payloads.
-6. **Workspace Write Size Boundaries:**
-   * Workspace write operations via `nova.scheduled_task_workspace_write` enforce a strict **1 MiB limit in UTF-8 bytes**, protecting host memory.
-
----
-
-## 7. Related References
-
-### Subsystem Architecture Guides
-* [Schedules, Triggers & Concurrency](scheduling-and-triggers/README.md): Detailed cron syntax, time zones, file watching, and catch-up policies.
-* [Task Executors & Autonomy Modes](executors-and-autonomy/README.md): Deep dive into all five execution lanes, budget caps, and run states.
-* [Workspaces, Secrets & Chaining](workspaces-secrets-and-chaining/README.md): Workspaces, DPAPI vaults, 64 KB variables, and multi-task pipelines.
-
-### Related Core Features & Tools
-* [Terminal Workspaces](../terminal-workspaces/README.md): Managing project directories and interactive terminal docks.
-* [Task Memory & Profiles (ETM)](../learning/episodic-task-memory-etm/README.md): Linking scheduled tasks to task profiles.
-* [Password Vault & DPAPI Credentials](../privacy/vault-and-secrets/README.md): System-wide credential storage architecture.
-* [Scheduled Task MCP Tool Reference](../../mcp-reference/tools/scheduled-tasks/README.md): JSON-RPC schemas and parameters for all 25 tools.
+* [Terminal Workspaces Architecture](../terminal-workspaces/README.md): Interactive ConPTY terminal dock integration and command execution.
+* [Privacy & Vault Architecture](../privacy/README.md): DPAPI storage backing system credentials.
+* [Session Recording Architecture](../session-recording/README.md): Recording background browser runs for time-travel forensics.
+* [Create Task Reference](../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-create.md) · [Templates Reference](../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-templates.md)
 
 ---
 

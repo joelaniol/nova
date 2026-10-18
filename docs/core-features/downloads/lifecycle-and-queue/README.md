@@ -48,7 +48,16 @@ flowchart TD
 
 ---
 
-## 2. The Download State Machine
+## 2. Dedicated Architecture Sub-Guides
+
+| Guide | Description | Primary Topics |
+| :--- | :--- | :--- |
+| **[Dual-Engine Transfers & Parked WebViews](dual-engine-transfers-and-parked-webviews/README.md)** | Native Chromium stream handling vs. managed HTTP fallback, tab-closure retention pool, and socket stall detection. | Parked WebViews, `_downloadParkedWebViews`, stall heuristics |
+| **[SQLite Persistence & Queue Orchestration](sqlite-persistence-and-queue-orchestration/README.md)** | Durable `DownloadDb` schema, in-memory throughput moving averages, and programmatic queue operations. | SQLite schema, `nova.downloads_pause`, bulk queue tools |
+
+---
+
+## 3. The Download State Machine
 
 Every download tracked by Nova transitions through a defined set of lifecycle states:
 
@@ -83,7 +92,7 @@ stateDiagram-v2
 
 ---
 
-## 3. Parked WebViews: Tab-Close Resilience
+## 4. Parked WebViews: Tab-Close Resilience
 
 A critical challenge in modern browser automation is the **tab closure hazard**:
 
@@ -126,7 +135,7 @@ sequenceDiagram
 
 ---
 
-## 4. Persistent Bookkeeping: SQLite vs. Ephemeral Metrics
+## 5. Persistent Bookkeeping: SQLite vs. Ephemeral Metrics
 
 Nova separates persistent historical records from real-time ephemeral metrics in `DownloadInfo`:
 
@@ -148,7 +157,7 @@ Because speed and ETA become stale the moment the browser restarts, they are com
 
 ---
 
-## 5. Queue Control & Batch Management
+## 6. Queue Control & Batch Management
 
 Nova provides fine-grained control over individual downloads and the entire transfer queue:
 
@@ -189,7 +198,7 @@ graph TD
 
 ---
 
-## 6. Practical Agent Recipes
+## 7. Practical Agent Recipes
 
 ### Recipe 1: Inspecting the Active Download Queue
 Retrieve the status of all active and recent downloads:
@@ -238,9 +247,11 @@ If an autonomous agent needs to perform an urgent, bandwidth-intensive API call:
 
 ---
 
-## 7. Related Tools & Documentation
+## 8. Related Tools & Documentation
 
-* [Downloads Management & Queue Control Reference](../../../mcp-reference/tools/downloads/README.md)
-* [Wait Synchronization & Join Points](../wait-and-synchronization/README.md)
-* [Security Gates & Policy Enforcement](../security-and-policy/README.md)
-* [Downloads Overview Guide](../README.md)
+* [Dual-Engine Transfers & Parked WebViews](dual-engine-transfers-and-parked-webviews/README.md): Deep dive into stream engines, tab-close retention, and stall heuristics.
+* [SQLite Persistence & Queue Control](sqlite-persistence-and-queue-orchestration/README.md): Persistent `DownloadDb` schema and queue management tools.
+* [Wait Synchronization & Join Points](../wait-and-synchronization/README.md): Deterministic agent wait synchronization.
+* [Security Gates & Policy Enforcement](../security-and-policy/README.md): Executable and UNC path protection.
+* [Downloads Management MCP Tool Group](../../../mcp-reference/tools/downloads/README.md): Complete MCP downloads reference.
+* [Downloads Master Hub](../README.md): Master subsystem architectural catalog.

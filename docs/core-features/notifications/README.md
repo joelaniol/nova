@@ -209,12 +209,31 @@ All notification capabilities are exposed to AI agents via the `notifications` c
 
 ## 8. Subsystem Deep-Dive Guides
 
-* **[Inbox Storage & Channel Worker Architecture](inbox-and-storage/README.md):**
-  SQLite schema design, channel-based non-blocking persistence queues, WinUI 3 Notification Center sidebar, and unread counter synchronization.
-* **[Windows Toasts & Deep-Link Activation Router](windows-toasts-and-activation/README.md):**
+The notifications architecture is decomposed into three core architectural domains and six fine-grained implementation sub-guides:
+
+### Domain 1: Windows Toasts & Deep-Link Activation Router
+* **[Windows Toasts & Deep-Link Activation Router Hub](windows-toasts-and-activation/README.md):**
   Unpackaged WinUI 3 Windows App SDK integration, toast layout templates, Focus Assist escalation, and multi-sandbox click routing.
-* **[W3C Web Permissions & Lifecycle Handshake](web-permissions-and-lifecycle/README.md):**
+  * **[Unpackaged WinRT & Toast Templates](windows-toasts-and-activation/unpackaged-winrt-and-toast-templates/README.md):**
+    Windows App SDK registration, AUMID/CLSID setup, cold-boot queueing, and rich XML visual template construction.
+  * **[Focus Assist & Deep-Link Routing](windows-toasts-and-activation/focus-assist-and-deep-link-routing/README.md):**
+    Breakthrough escalation (`Urgent = true`), activation argument protocols, and multi-sandbox deep-link routing.
+
+### Domain 2: W3C Web Permissions & Notification Lifecycle Handshake
+* **[W3C Web Permissions & Lifecycle Handshake Hub](web-permissions-and-lifecycle/README.md):**
   WebView2 `NotificationReceived` interception, tag-based upsert mechanics, DOM lifecycle callbacks (`ReportClicked`/`ReportClosed`), and private tab isolation.
+  * **[W3C Web Notifications & DOM Lifecycle](web-permissions-and-lifecycle/w3c-notifications-and-dom-lifecycle/README.md):**
+    WebView2 event interception, `args.Handled = true`, COM lifecycle mapping, and tag deduplication.
+  * **[Origin Permissions & Private Tab Isolation](web-permissions-and-lifecycle/origin-permissions-and-private-tab-isolation/README.md):**
+    Tri-state permission rules, URI canonicalization, volatile private tab caches, and agent MCP control.
+
+### Domain 3: Notification Inbox Storage & Channel Worker Architecture
+* **[Inbox Storage & Channel Worker Architecture Hub](inbox-and-storage/README.md):**
+  SQLite schema design, channel-based non-blocking persistence queues, WinUI 3 Notification Center sidebar, and unread counter synchronization.
+  * **[SQLite Schema & Channel Worker](inbox-and-storage/sqlite-schema-and-channel-worker/README.md):**
+    `notifications.db` schema, partial indexes, `System.Threading.Channels` queue, and micro-batch writes.
+  * **[Query Facades, Badge Metrics & Retention](inbox-and-storage/query-facades-badge-metrics-and-retention/README.md):**
+    `NotificationStore` facade, optimistic badge synchronization, slide-out drawer, and 30-day retention.
 
 ---
 

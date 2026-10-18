@@ -34,7 +34,16 @@ flowchart TD
 
 ---
 
-## 2. Nova's Dual-Mode Interception Pipeline
+## 2. Dedicated Architecture Sub-Guides
+
+| Guide | Description | Primary Topics |
+| :--- | :--- | :--- |
+| **[V8 Thread Unblocking & Auto-Dismissal](v8-thread-unblocking-and-auto-dismissal/README.md)** | Eliminating CDP deadlocks, sub-2ms host dismissal, primitive resolution defaults, and the verification rule. | Host interception, `ScriptDialogOpening`, `confirm` default false |
+| **[BeforeUnload & Navigation Lifecycle](beforeunload-and-navigation-lifecycle/README.md)** | Bypassing `window.onbeforeunload` navigation traps, programmatic navigation flags, and zero-zombie-process guarantees. | `ProgrammaticNavigationActive`, tab teardown, form dirty checks |
+
+---
+
+## 3. Nova's Dual-Mode Interception Pipeline
 
 Nova intercepts the `CoreWebView2.ScriptDialogOpening` event directly within the host application before the dialog can manifest as a desktop modal:
 
@@ -59,7 +68,7 @@ Nova intercepts the `CoreWebView2.ScriptDialogOpening` event directly within the
 
 ---
 
-## 3. The Golden Verification Rule: Dismissal is Not Approval
+## 4. The Golden Verification Rule: Dismissal is Not Approval
 
 A frequent point of failure in autonomous AI agents is assuming that resolving a dialog means the intended task was successful:
 
@@ -75,7 +84,7 @@ Autonomous agents must follow this rigorous verification checklist:
 
 ---
 
-## 4. The `beforeunload` Navigation Trap
+## 5. The `beforeunload` Navigation Trap
 
 Web applications frequently attach event handlers to `window.onbeforeunload` to prevent accidental navigation loss when a form contains unsaved changes:
 
@@ -94,7 +103,7 @@ In naive automation tools, attempting to close a tab or navigate to a new URL tr
 
 ---
 
-## 5. Architectural Comparison: Page Dialogs vs. Native Dialogs
+## 6. Architectural Comparison: Page Dialogs vs. Native Dialogs
 
 To ensure agents apply the correct diagnostic and resolution tools, Nova categorizes dialogs across three distinct architectural planes:
 
@@ -109,8 +118,10 @@ To ensure agents apply the correct diagnostic and resolution tools, Nova categor
 
 ---
 
-## 6. Related References
+## 7. Related References
 
+* [V8 Thread Unblocking & Auto-Dismissal](v8-thread-unblocking-and-auto-dismissal/README.md): Eliminating CDP deadlocks and sub-2ms dismissal rules.
+* [BeforeUnload & Navigation Lifecycle](beforeunload-and-navigation-lifecycle/README.md): Bypassing navigation traps and zero-zombie teardown.
 * [Native Dialogs & UI Prompts Master Hub](../README.md): Master classification and tool matrix.
 * [File Dialogs & OS Pickers](../file-dialogs-and-os-pickers/README.md): Automating Win32 file open/save dialogs.
 * [Security & Platform Prompts](../security-and-platform-prompts/README.md): Resolving HTTP auth, certificate warnings, permissions, and tab restore.

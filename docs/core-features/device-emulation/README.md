@@ -94,39 +94,45 @@ graph LR
     end
 ```
 
-### 1. Viewport Geometry & Device Presets
-* **`nova.emulation_use_device`:** Applies complete device profiles (viewport, DPR, mobile layout, touch points, and user-agent string) in a single atomic call using Playwright-standard device names (`"iPhone 15"`, `"Pixel 8"`, `"iPad Pro 11"`, `"Desktop Chrome"`).
-* **`nova.emulation_set_device_metrics`:** Configures custom responsive dimensions, custom DPR (1.0 to 8.0), and mobile layout behavior.
-* **`nova.emulation_clear_device_metrics`:** Restores standard window-sized rendering.
-
-### 2. Touch Simulation
-* **`nova.emulation_set_touch`:** Injects synthetic touch capabilities into the page. When enabled, Chromium emits standard W3C Touch Events (`touchstart`, `touchmove`, `touchend`) alongside mouse events, enabling testing of mobile swipe gestures and touch menus.
-
-### 3. Media Features & Theme Emulation
-* **`nova.emulation_set_media`:** Controls CSS `@media` queries without changing operating system settings:
-  - `prefers-color-scheme`: Verify dark mode vs. light mode color palettes and contrast.
-  - `prefers-reduced-motion`: Verify that vestibular motion triggers (parallax, autoplay animations) are suppressed.
-  - `forced-colors`: Audit high-contrast mode compliance.
-  - `media: "print"`: Inspect print stylesheets and PDF rendering output.
-* **Additive State Merge:** Unlike raw CDP calls (which overwrite all media features), Nova merges newly specified features over active ones, preserving multi-feature testing states.
-* **`nova.emulation_clear_media`:** Resets all media features to the host environment defaults.
-
-### 4. Localization, Timezone & Geolocation
-* **`nova.emulation_set_locale`:** Simulates international browsing contexts across three independent levers:
-  - Language: Sets `Accept-Language` headers and `navigator.language` to test localized strings and RTL layouts.
-  - Timezone: Sets `timezoneId` (e.g. `"Europe/Berlin"`, `"America/New_York"`) to test date formatting and scheduling widgets.
-  - Geolocation: Injects simulated GPS coordinates (`latitude`, `longitude`, `accuracy`) for map navigation and store locators.
-* **`nova.emulation_clear_locale`:** Restores original host language and system coordinates.
-
 ---
 
-## 3. Dedicated Architectural Guides
+## 3. Comprehensive Documentation Index
 
-| Guide | Description | Primary MCP Tools |
+The Device Emulation architecture is organized into three primary domains and six specialized deep-dive architecture subguides:
+
+```
+device-emulation/
+├── README.md                                                       # Master Architectural Hub
+├── device-presets-and-metrics/                                     # Domain 1: Device Presets, Viewport Metrics & Touch
+│   ├── README.md                                                   # Domain Hub
+│   ├── preset-catalog-and-viewport-metrics/
+│   │   └── README.md                                               # 70+ presets, DPR scaling, mobile layout, viewport framing
+│   └── touch-simulation-and-gestures/
+│       └── README.md                                               # Touch event pipeline, touch cursor overlay, OOPIF mirroring
+├── locale-timezone-and-geolocation/                                # Domain 2: Locale, Timezone & Geolocation
+│   ├── README.md                                                   # Domain Hub
+│   ├── language-and-rtl-simulation/
+│   │   └── README.md                                               # Dual-lever locale mechanism, ICU boundary, RTL layout audits
+│   └── timezone-and-geolocation-overrides/
+│       └── README.md                                               # IANA timezones, Date offsets, HTML5 GPS coordinate spoofing
+└── media-features-and-themes/                                      # Domain 3: CSS Media Features, Dark Mode & Themes
+    ├── README.md                                                   # Domain Hub
+    ├── color-schemes-and-accessibility/
+    │   └── README.md                                               # Additive state merge, dark mode contrast, reduced motion
+    └── print-media-and-pdf-synthesis/
+        └── README.md                                               # Screen vs. print media, @media print preview, save_pdf
+```
+
+### Complete Guide Reference Table
+
+| Domain Area | Specialized Architecture Guide | Key Focus Areas & Technical Invariants |
 | :--- | :--- | :--- |
-| **[Device Presets, Metrics & Touch](device-presets-and-metrics/README.md)** | Over 70+ built-in presets (iPhone, Pixel, Galaxy, Tablets, Desktops), logical CSS pixels vs. physical DPR, mobile layout flag, touch event simulation, and host viewport frame rendering. | [`nova.emulation_use_device`](../../mcp-reference/tools/device-emulation/nova-emulation-use-device.md), [`nova.emulation_set_device_metrics`](../../mcp-reference/tools/device-emulation/nova-emulation-set-device-metrics.md), [`nova.emulation_clear_device_metrics`](../../mcp-reference/tools/device-emulation/nova-emulation-clear-device-metrics.md), [`nova.emulation_set_touch`](../../mcp-reference/tools/device-emulation/nova-emulation-set-touch.md), [`nova.emulation_set_viewport_frame`](../../mcp-reference/tools/device-emulation/nova-emulation-set-viewport-frame.md) |
-| **[Media Features, Dark Mode & Themes](media-features-and-themes/README.md)** | CSS `@media` emulation, additive feature merging, dark/light theme switching, reduced motion, forced colors, and print media verification. | [`nova.emulation_set_media`](../../mcp-reference/tools/device-emulation/nova-emulation-set-media.md), [`nova.emulation_clear_media`](../../mcp-reference/tools/device-emulation/nova-emulation-clear-media.md) |
-| **[Locale, Timezone & Geolocation](locale-timezone-and-geolocation/README.md)** | Localization testing, RTL layout simulation, dual-lever Accept-Language implementation, timezone overrides, geolocation coordinates, and ICU process boundaries. | [`nova.emulation_set_locale`](../../mcp-reference/tools/device-emulation/nova-emulation-set-locale.md), [`nova.emulation_clear_locale`](../../mcp-reference/tools/device-emulation/nova-emulation-clear-locale.md) |
+| **Device Presets & Metrics**<br>([Domain Hub](device-presets-and-metrics/README.md)) | **[Preset Catalog & Viewport Metrics](device-presets-and-metrics/preset-catalog-and-viewport-metrics/README.md)** | Over 70+ Playwright-compatible presets (iPhones, Pixels, Galaxy, Tablets, 4K Desktops), tolerant canonical matching, logical CSS pixels vs. physical DPR, mobile layout flag, Chromium engine identity invariants (`engineIdentityMismatch`), and host viewport framing outlines. |
+| | **[Touch Simulation & Gestures](device-presets-and-metrics/touch-simulation-and-gestures/README.md)** | Synthetic touch capabilities (`Emulation.setTouchEmulationEnabled`), W3C touch event pipeline (`touchstart`, `touchend`), feature detection (`'ontouchstart' in window`), visual touch cursor overlays (`EmulationTouchCursor`), mouse-as-touch translation, and OOPIF touch mirroring. |
+| **Locale, Timezone & Geo**<br>([Domain Hub](locale-timezone-and-geolocation/README.md)) | **[Language, Locale & RTL Simulation](locale-timezone-and-geolocation/language-and-rtl-simulation/README.md)** | Content negotiation vs. client-side DOM localization, the dual-lever locale mechanism (`Network.setUserAgentOverride` + `Emulation.setLocaleOverride`), the ICU process boundary, Right-to-Left (RTL) layout verification, and logical property audits. |
+| | **[Timezone & Geolocation Overrides](locale-timezone-and-geolocation/timezone-and-geolocation-overrides/README.md)** | IANA Timezone ID overrides, JavaScript `Intl` and `Date.getTimezoneOffset` behavior, HTML5 Geolocation API spoofing (`latitude`, `longitude`, `accuracy`), coordinate pair invariants, and regional testing recipes. |
+| **Media Features & Themes**<br>([Domain Hub](media-features-and-themes/README.md)) | **[Color Schemes & Accessibility](media-features-and-themes/color-schemes-and-accessibility/README.md)** | CSS Media Queries Level 5, the additive state merge contract, dark mode contrast auditing (WCAG 2.2 AA $4.5:1$), vestibular motion safety (`prefers-reduced-motion: reduce`), and Windows High Contrast Mode (`forced-colors: active`). |
+| | **[Print Media & PDF Synthesis](media-features-and-themes/print-media-and-pdf-synthesis/README.md)** | Screen vs. print media layout models, live DOM `@media print` transformation, header/footer suppression, print layout overflow detection, high-fidelity vector PDF generation (`nova.save_pdf`), and screen mode restoration. |
 
 ---
 

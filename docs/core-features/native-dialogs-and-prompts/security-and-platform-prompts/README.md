@@ -54,7 +54,16 @@ When a prompt is active, agents discover it through two primary channels:
 
 ---
 
-## 2. The Six Dedicated Platform Resolvers
+## 2. Dedicated Architecture Sub-Guides
+
+| Guide | Description | Primary Topics |
+| :--- | :--- | :--- |
+| **[HTTP Auth & Certificate Exception Resolvers](http-auth-and-certificate-exception-resolvers/README.md)** | Resolving HTTP 401 challenges with zero-leak DPAPI credentials, session-scoped TLS exceptions, and enterprise mTLS. | `ui_auth_prompt_resolve`, DPAPI Vault, `ui_certificate_prompt_resolve`, mTLS |
+| **[Sensor Permissions, Download Warnings & Recovery](sensor-permissions-download-warnings-and-recovery/README.md)** | HTML5 device sensor grants, executable download warnings, and startup tab crash recovery orchestration. | `ui_permission_prompt_resolve`, `ui_download_security_prompt_resolve`, `ui_restore_tabs_prompt_resolve` |
+
+---
+
+## 3. The Six Dedicated Platform Resolvers
 
 ```
 +-----------------------------------------------------------------------------------+
@@ -77,7 +86,7 @@ When a prompt is active, agents discover it through two primary channels:
 
 ---
 
-## 3. Deep Dive: HTTP Authentication (`nova.ui_auth_prompt_resolve`)
+## 4. Deep Dive: HTTP Authentication (`nova.ui_auth_prompt_resolve`)
 
 When a web server or proxy returns an HTTP 401 response with a `WWW-Authenticate` header (RFC 7617 Basic or RFC 7616 Digest), the browser displays an authentication challenge modal.
 
@@ -118,7 +127,7 @@ sequenceDiagram
 
 ---
 
-## 4. Deep Dive: SSL/TLS Certificate Prompts (`nova.ui_certificate_prompt_resolve`)
+## 5. Deep Dive: SSL/TLS Certificate Prompts (`nova.ui_certificate_prompt_resolve`)
 
 When WebView2 navigates to a website whose SSL/TLS certificate fails validation (e.g. self-signed certificates in staging environments, expired certificates, or missing intermediate CAs), the browser displays an invalid certificate warning screen.
 
@@ -141,7 +150,7 @@ When WebView2 navigates to a website whose SSL/TLS certificate fails validation 
 
 ---
 
-## 5. Deep Dive: Client Certificates & mTLS (`nova.ui_client_certificate_prompt_resolve`)
+## 6. Deep Dive: Client Certificates & mTLS (`nova.ui_client_certificate_prompt_resolve`)
 
 In enterprise zero-trust networks, servers demand Mutual TLS (mTLS) authentication by requesting a client certificate during the TLS handshake.
 
@@ -160,7 +169,7 @@ In enterprise zero-trust networks, servers demand Mutual TLS (mTLS) authenticati
 
 ---
 
-## 6. Deep Dive: Hardware & Sensor Permissions (`nova.ui_permission_prompt_resolve`)
+## 7. Deep Dive: Hardware & Sensor Permissions (`nova.ui_permission_prompt_resolve`)
 
 HTML5 Device APIs require explicit user consent before a webpage can access physical sensors or private capabilities:
 
@@ -185,7 +194,7 @@ HTML5 Device APIs require explicit user consent before a webpage can access phys
 
 ---
 
-## 7. Deep Dive: Download Security & Tab Restoration
+## 8. Deep Dive: Download Security & Tab Restoration
 
 ### Download Security Prompts (`nova.ui_download_security_prompt_resolve`)
 When downloading executable binaries (`.exe`, `.msi`, `.bat`, `.ps1`) or files from unverified web origins, Windows SmartScreen and Chromium security filters display a download warning prompt:
@@ -223,8 +232,10 @@ Following a browser restart, application crash, or developer rebuild, Nova promp
 
 ---
 
-## 8. Related References
+## 9. Related References
 
+* [HTTP Auth & Certificate Exception Resolvers](http-auth-and-certificate-exception-resolvers/README.md): Resolving HTTP 401 challenges, TLS exceptions, and mTLS handshakes.
+* [Sensor Permissions, Download Warnings & Recovery](sensor-permissions-download-warnings-and-recovery/README.md): HTML5 sensor permissions, executable download warnings, and startup tab crash recovery.
 * [Native Dialogs & UI Prompts Master Hub](../README.md): Classification of all native dialog planes.
 * [File Dialogs & OS Pickers](../file-dialogs-and-os-pickers/README.md): Win32 file open/save dialog automation.
 * [JavaScript Dialog Interception](../javascript-dialog-interception/README.md): Handling in-page `alert`, `confirm`, and `prompt` boxes.

@@ -143,7 +143,7 @@ Nova provides a robust two-phase pattern:
 │                   Asynchronous Continuation Flow                       │
 └──────────────────────────────────┬─────────────────────────────────────┘
                                    │
-              Agent calls nova.guarded_send_message(waitMs=15000)
+              Agent calls nova.guarded_send_message(waitForReplyMs=15000)
                                    ▼
               15s elapsed: Model still generating tokens
               Returns: { "ok": true, "reply": { "watchId": "rw-123", "state": "running" } }

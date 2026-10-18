@@ -45,7 +45,7 @@ sequenceDiagram
     participant Nova as Nova Diagnostic Coordinator
     participant Hardware as Physical Hardware Device
 
-    Agent->>Nova: nova.hardware_diagnostics_start(kind="camera")
+    Agent->>Nova: nova.hardware_diagnostics_start(kind="video")
     Nova->>Hardware: Acquires Isolated Video Stream
     Nova-->>Agent: { status: "running", targetId: "diag_cam_1", deviceName: "Logitech Brio 4K" }
 

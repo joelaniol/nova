@@ -226,6 +226,9 @@ Nova does not collect usage analytics or track your browsing behavior. License a
 
 We will be fully transparent about every sponsorship: who supports Nova, what financial or other support they provide, what they receive in return, and any conditions or conflicts of interest. Sponsorship will never override these promises.
 
+> **A tile from the heart.**<br>
+> A fresh Nova shows a Make-A-Wish shortcut on the New Tab page. It is not sponsored and Nova earns nothing from it: no payment, no referral parameter, no click counting. Remove it with a right-click if you like. [Why it is there](docs/make-a-wish.md) · [Deutsch](docs/make-a-wish.md#deutsch)
+
 > **Built to help people.**<br>
 > We do not tolerate misuse that harms others. We use clear rules and safeguards and take action against misuse within our capabilities.
 

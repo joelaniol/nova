@@ -35,9 +35,18 @@ flowchart TD
 
 ---
 
-## 2. The Three Check Families
+## 2. Dedicated Architecture Sub-Guides
 
-### 2.1. Relative Luminance Color Contrast (`includeContrast: true`)
+| Guide | Description | Primary Topics |
+| :--- | :--- | :--- |
+| **[In-Engine WCAG Rules & Contrast](axe-core-engine-and-wcag-rules/README.md)** | Native in-engine audit vs script injection, relative luminance formulas, ancestor background resolution, and 8,000-node safety caps. | Relative luminance, sRGB, `-32004` error handling, 8,000 node cap |
+| **[Audit Reporting & Color Contrast](audit-reporting-and-color-contrast/README.md)** | Target sizing geometry (24px/44px), accessible name and form label resolution (`CSS.escape`), advisory contrast boundaries, and response schemas. | Target size SC 2.5.8, form labels, `missing-alt`, `empty-control` |
+
+---
+
+## 3. The Three Check Families
+
+### 3.1. Relative Luminance Color Contrast (`includeContrast: true`)
 
 The contrast auditor verifies that text elements maintain sufficient visual separation from their underlying background in accordance with WCAG 2.2 Success Criterion 1.4.3 (Contrast Minimum, Level AA).
 
@@ -66,7 +75,7 @@ Because text elements frequently have a transparent background (`rgba(0, 0, 0, 0
 
 ---
 
-### 2.2. Interactive Target Sizing (`includeTargetSize: true`)
+### 3.2. Interactive Target Sizing (`includeTargetSize: true`)
 
 Touch and click targets that are too small lead to misclicks, especially on mobile devices or touchscreens. The target sizing auditor evaluates rendered physical dimensions (`getBoundingClientRect()`) for all interactive elements:
 * Native links: `<a href="...">`
@@ -82,7 +91,7 @@ If either the rendered `width` or `height` falls below `minTargetSize`, the elem
 
 ---
 
-### 2.3. Accessible Names & Labels (`includeLabels: true`)
+### 3.3. Accessible Names & Labels (`includeLabels: true`)
 
 Screen readers and accessibility services rely on programmatic labels to convey the purpose of UI elements:
 
@@ -110,7 +119,7 @@ graph TD
 
 ---
 
-## 3. Renderer Protection & Performance Safety
+## 4. Renderer Protection & Performance Safety
 
 Auditing large web applications with tens of thousands of DOM elements poses a significant risk of **forced layout thrashing**:
 * Inspecting `getComputedStyle()` forces the browser layout engine to synchronously recalculate CSS styles.
@@ -123,7 +132,7 @@ To protect the host process and target tab from freezing, Nova implements strict
 
 ---
 
-## 4. MCP Tool Parameter Reference
+## 5. MCP Tool Parameter Reference
 
 The audit engine is invoked via [`nova.audit_accessibility`](../../../mcp-reference/tools/layout-and-qa/nova-audit-accessibility.md):
 
@@ -142,7 +151,7 @@ The audit engine is invoked via [`nova.audit_accessibility`](../../../mcp-refere
 
 ---
 
-## 5. Structured Output Schema
+## 6. Structured Output Schema
 
 The tool returns a structured JSON payload containing summary statistics and detailed issue records:
 
@@ -210,7 +219,7 @@ The tool returns a structured JSON payload containing summary statistics and det
 
 ---
 
-## 6. Practical Agent Workflows & Recipes
+## 7. Practical Agent Workflows & Recipes
 
 ### Recipe 1: Pre-Commit Component Audit
 Before completing a UI feature or approving a PR, an agent audits the newly created component:
@@ -266,9 +275,11 @@ To ensure a theme switch does not introduce unreadable text:
 
 ---
 
-## 7. Related Tools & Documentation
+## 8. Related Tools & Documentation
 
-* [`nova.audit_accessibility` Tool Reference](../../../mcp-reference/tools/layout-and-qa/nova-audit-accessibility.md)
-* [Real-User Core Web Vitals](../core-web-vitals/README.md)
-* [Layout Geometry & Overflow Detection](../layout-geometry-and-overflow/README.md)
-* [DOM Perception & Structured Reading](../../dom-perception/README.md)
+* **[In-Engine WCAG Rules & Contrast Sub-Guide](axe-core-engine-and-wcag-rules/README.md)** — Native audit architecture, relative luminance mathematics, and 8,000-node caps.
+* **[Audit Reporting & Color Contrast Sub-Guide](audit-reporting-and-color-contrast/README.md)** — Tap target dimensions, accessible names, and output schema.
+* **[`nova.audit_accessibility` Tool Reference](../../../mcp-reference/tools/layout-and-qa/nova-audit-accessibility.md)** — Full parameter and result specification.
+* **[Real-User Core Web Vitals](../core-web-vitals/README.md)** — In-engine performance telemetry and ratings.
+* **[Layout Geometry & Overflow Detection](../layout-geometry-and-overflow/README.md)** — Deep container and overflow analysis.
+* **[DOM Perception & Structured Reading](../../dom-perception/README.md)** — Semantic DOM reading.

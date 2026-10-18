@@ -20,6 +20,7 @@
 | `url` | `string` | Yes | — | — | Absolute URL (http/https). If scheme is missing, https:// is assumed. |
 | `title` | `string` | No | — | — | Optional custom title. |
 | `folderId` | `string` | No | — | — | Optional bookmark folder id (see nova.bookmarks_folders_list). New favorites with null/omitted folderId land at root; existing favorites keep their current folder when folderId is null/omitted. Use nova.favorites_move to move to root explicitly. |
+| `pinToNewTab` | `boolean` | No | `false` | — | Also pin the favorite as a shortcut tile on the New Tab page (the tiles below the search box). Unpinning is done by the user from the tile's context menu. |
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 Tool category: `normal` (standard risk class in Nova's agent permission settings).

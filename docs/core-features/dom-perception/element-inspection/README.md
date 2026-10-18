@@ -1,11 +1,11 @@
 # Deep Element Traversal, Geometry & Shadow Boundaries
 
 > [!NOTE]
-> Modern enterprise portals—such as Salesforce Lightning, ServiceNow, Workday, and interfaces built with Lit or Web Components—encapsulate their internal UI within Shadow DOM trees. Standard DOM queries stop at the host element, leaving autonomous agents unable to inspect focused inputs or extract component properties. Nova AI Workspace resolves this through deep Shadow-Root traversal, native read-only property extraction (`nova.dom_extract`), and spatial coordinate metrics.
+> Modern enterprise portals—such as Salesforce Lightning, ServiceNow, Workday, and interfaces built with Lit, Shoelace, or Web Components—encapsulate their internal UI within Shadow DOM trees. Standard DOM queries stop at the host element, leaving autonomous agents unable to inspect focused inputs or extract component properties. Nova AI Workspace resolves this through deep Shadow-Root traversal, native read-only property extraction ([`nova.dom_extract`](../../../mcp-reference/tools/dom-and-reading/nova-dom-extract.md)), visual text searching ([`nova.search_text`](../../../mcp-reference/tools/dom-and-reading/nova-search-text.md)), and spatial coordinate metrics ([`nova.get_element_rect`](../../../mcp-reference/tools/dom-and-reading/nova-get-element-rect.md)).
 
 ---
 
-## 1. The Shadow DOM Encapsulation Barrier
+## 1. Overview & Architectural Role
 
 When an element resides inside an open Shadow Root:
 1. `document.querySelector('input.form-control')` returns `null` because standard selectors cannot penetrate shadow boundaries.
@@ -47,146 +47,49 @@ flowchart TD
 
 ---
 
-## 2. Innermost Focus Resolution (`nova.get_active_element_deep`)
+## 2. Comprehensive Documentation Index
 
-When an agent needs to verify where text input will be delivered, standard browser APIs fail in component architectures:
+For exhaustive technical implementations, property definitions, and coordinate calculation algorithms, consult the specialized architecture guides:
 
-* Standard `document.activeElement`: Returns `<my-text-editor>` (the custom element wrapper).
-* `nova.get_active_element_deep`: Recursively traverses:
-  ```
-  document.activeElement
-    └── .shadowRoot.activeElement
-          └── .shadowRoot.activeElement (Innermost <textarea>)
-  ```
-
-### Sample Response:
-```json
-{
-  "targetId": "tab-101",
-  "result": {
-    "ok": true,
-    "focused": true,
-    "tagName": "TEXTAREA",
-    "id": "composer-input",
-    "className": "ProseMirror focused",
-    "role": "textbox",
-    "ariaLabel": "Send a message...",
-    "shadowChain": ["chat-workspace", "message-composer", "rich-editor"],
-    "rect": {
-      "x": 320,
-      "y": 740,
-      "width": 800,
-      "height": 120
-    }
-  }
-}
+```
+public/docs/core-features/dom-perception/element-inspection/
+├── README.md                                 # This domain hub
+├── shadow-dom-and-deep-focus/
+│   └── README.md                             # Shadow DOM piercing, get_active_element_deep, >>> combinator, 16 typed properties
+└── geometry-and-visual-search/
+    └── README.md                             # nova.search_text, get_element_rect center points, and get_layout_metrics
 ```
 
-The returned `shadowChain` informs the agent of the exact nesting hierarchy, while `rect` provides absolute viewport coordinates for click dispatch.
-
----
-
-## 3. Safe Strongly-Typed Extraction (`nova.dom_extract`)
-
-When inspecting hundreds of elements (such as product links in a catalog or table rows in an admin console), evaluating arbitrary JavaScript snippets via `nova.eval` is slow and unsafe.
-
-`nova.dom_extract` executes a native, read-only extraction pipeline over all elements matching a CSS selector without invoking arbitrary code:
-
-```json
-{
-  "targetId": "tab-101",
-  "selector": "div.product-grid >>> a.product-link",
-  "properties": ["text", "href", "rect", "ariaLabel"],
-  "maxItems": 50,
-  "visibleOnly": true
-}
-```
-
-### The 16 Extractable Properties:
-
-| Property | Type | Description |
+| Architecture Guide | Focus & Key Concepts | Primary Components |
 | :--- | :--- | :--- |
-| `text` | `string` | Trimmed visible inner text of the element. |
-| `value` | `string` | Current form value (for `<input>`, `<textarea>`, `<select>`). |
-| `checked` | `boolean` | Checked status for checkboxes and radio buttons. |
-| `selected` | `boolean` | Selected state for `<option>` items. |
-| `disabled` | `boolean` | Whether the interactive element is disabled. |
-| `href` | `string` | Resolved absolute hyperlink destination for `<a>` tags. |
-| `src` | `string` | Resolved URL for `<img>`, `<video>`, `<audio>`, or `<iframe>`. |
-| `title` | `string` | HTML `title` tooltip attribute. |
-| `ariaLabel` | `string` | Computed accessible name or `aria-label` attribute. |
-| `role` | `string` | Explicit ARIA role (e.g. `button`, `combobox`, `tab`). |
-| `tagName` | `string` | Uppercase HTML tag name (`BUTTON`, `INPUT`, `A`). |
-| `id` | `string` | Element's unique `id` attribute. |
-| `className` | `string` | Raw CSS class string. |
-| `rect` | `object` | Bounding client coordinates (`x`, `y`, `width`, `height`). |
-| `dataset` | `object` | Parsed `data-*` attribute key-value pairs. |
-| `placeholder` | `string` | Placeholder text for input controls. |
-
-### Protection Invariants:
-* **Zero Script Execution:** Executes entirely via browser-native DOM traversal without evaluating strings in the page context.
-* **CSP Immune:** Functions normally on banking and healthcare portals with strict `Content-Security-Policy: script-src 'none'` headers.
-* **Bounded Output:** Enforces `maxItems` and `maxChars` limits to prevent LLM context exhaustion.
+| **[Shadow DOM Piercing & Deep Focus Resolution](shadow-dom-and-deep-focus/README.md)** | Piercing open Shadow Roots, innermost focus discovery (`nova.get_active_element_deep`), `shadowChain` hierarchy, the ` >>> ` combinator across selectors, and safe strongly-typed native property extraction (`nova.dom_extract`) across 16 properties without JS execution. | `McpServer.DomExtract`<br>`DeepActiveElementResolver`<br>`ShadowCombinator`<br>`nova.get_active_element_deep` |
+| **[Geometry, Viewport Metrics & Visual Text Search](geometry-and-visual-search/README.md)** | Visual text search in live DOM (`nova.search_text`), selector synthesis with Shadow DOM paths, exact element bounding client geometry (`nova.get_element_rect`), automated center coordinate calculation, and layout/visual viewport metrics (`nova.get_layout_metrics`). | `nova.search_text`<br>`nova.get_element_rect`<br>`nova.get_layout_metrics`<br>`ViewportMetrics` |
 
 ---
 
-## 4. Visual Text Search & Traversal Paths (`nova.search_text`)
+## 3. Core Operational Invariants for Autonomous Agents
 
-When an agent needs to locate an element based on visible human-readable text (such as finding where *"Upgrade Plan"* or *"Confirm Booking"* appears on a busy page), manual DOM inspection requires multiple trial-and-error round-trips.
+When inspecting elements and measuring spatial geometry, agents should adhere to the following principles:
 
-[`nova.search_text`](../../../mcp-reference/tools/dom-and-reading/nova-search-text.md) searches the live DOM for visible text occurrences and returns actionable interaction data:
-
-```json
-{
-  "targetId": "tab-101",
-  "text": "Upgrade Plan",
-  "exactMatch": true,
-  "visibleOnly": true
-}
-```
-
-### Returned Match Details:
-* **Actionable CSS Selector:** Synthesizes a stable, robust CSS selector targeting the matched element.
-* **Shadow Traversal Path:** If the text is encapsulated inside Web Components, returns the exact ` >>> ` path required to target it.
-* **Bounding Client Rectangle (`rect`):** Immediate pixel coordinates for mouse hover or click operations.
-* **Visibility Status:** Confirms whether the text is currently in the visible viewport, scrolled out of view, or occluded by an overlay.
-
----
-
-## 5. Spatial Coordinates & Viewport Metrics
-
-Autonomous browser interaction requires precise understanding of viewport scaling, device pixel ratios, and document boundaries:
-
-### A. Element Bounding Geometry (`nova.get_element_rect`)
-Returns the exact pixel bounding box relative to the client viewport:
-```json
-{
-  "x": 150.5,
-  "y": 320.0,
-  "width": 240.0,
-  "height": 48.0,
-  "top": 320.0,
-  "right": 390.5,
-  "bottom": 368.0,
-  "left": 150.5
-}
-```
-Nova automatically calculates the center coordinate (`x + width/2`, `y + height/2`) for dispatching humanized mouse gestures via `nova.input_click` and `nova.input_drag_humanized`.
-
-### B. Layout Metrics (`nova.get_layout_metrics`)
-Returns authoritative viewport dimensions and scroll positions:
-* **Layout Viewport:** The standard document viewport dimensions (`clientWidth`, `clientHeight`).
-* **Visual Viewport:** Captures mobile pinch-to-zoom offsets and page zoom scale factors (`pageScaleFactor`).
-* **Scrollable Content Size:** Total scrollable width and height of the document, allowing agents to accurately calculate scroll percentages before executing `nova.scroll_smart`.
+1. **Verify Innermost Focus Prior to Typing:**
+   In component-based editors (ProseMirror, Lexical, Monaco, or custom Web Components), always invoke [`nova.get_active_element_deep`](../../../mcp-reference/tools/dom-and-reading/nova-get-active-element-deep.md) to confirm that the real `<textarea>` or `contenteditable` node is focused before sending keystrokes.
+2. **Use `nova.dom_extract` Instead of Script Evaluation:**
+   Never use `nova.eval` to iterate through DOM elements or read properties. `nova.dom_extract` runs natively on the host, respects CSP `script-src 'none'` headers, and returns strongly-typed results in a fraction of the time.
+3. **Calculate Clicks from Exact Bounding Centers:**
+   When performing physical pointer clicks via mouse coordinates, query [`nova.get_element_rect`](../../../mcp-reference/tools/dom-and-reading/nova-get-element-rect.md) to retrieve the pre-computed `center.x` and `center.y` coordinates, ensuring pointer events land securely within the element hitbox.
 
 ---
 
 ## Related Documentation
 
 * [DOM Perception & Structured Reading Overview](../README.md)
+* [Shadow DOM Piercing & Deep Focus Resolution](shadow-dom-and-deep-focus/README.md)
+* [Geometry, Viewport Metrics & Visual Text Search](geometry-and-visual-search/README.md)
 * [Multimodal Fusion Perception Architecture](../multimodal-perception/README.md)
 * [Semantic Landmark Reading & Tabular Extraction](../semantic-reading/README.md)
 * [Browser Interaction Architecture](../../browser-interaction/README.md)
 * [Tool Reference: `nova.dom_extract`](../../../mcp-reference/tools/dom-and-reading/nova-dom-extract.md)
 * [Tool Reference: `nova.get_active_element_deep`](../../../mcp-reference/tools/dom-and-reading/nova-get-active-element-deep.md)
 * [Tool Reference: `nova.search_text`](../../../mcp-reference/tools/dom-and-reading/nova-search-text.md)
+* [Tool Reference: `nova.get_element_rect`](../../../mcp-reference/tools/dom-and-reading/nova-get-element-rect.md)
+* [Tool Reference: `nova.get_layout_metrics`](../../../mcp-reference/tools/dom-and-reading/nova-get-layout-metrics.md)

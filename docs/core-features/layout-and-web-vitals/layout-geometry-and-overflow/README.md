@@ -27,7 +27,16 @@ Nova provides a suite of specialized geometric inspection tools that analyze the
 
 ---
 
-## 2. Overflow & Layout Bug Detection (`nova.detect_overflow`)
+## 2. Dedicated Architecture Sub-Guides
+
+| Guide | Description | Primary Topics |
+| :--- | :--- | :--- |
+| **[Bounding Rectangles & Constraining Ancestors](bounding-client-rect-and-box-model-metrics/README.md)** | Multi-selector geometric analysis, Three Widths container constraints, passive measurement, and authoritative computed styles. | Three Widths, constraining ancestors, `nova.measure_elements`, `nova.get_computed_style` |
+| **[Overflow Detection & Pseudo-State Inspection](overflow-detection-and-pseudo-state-inspection/README.md)** | Horizontal spillage, intentional vertical asymmetry rationale, viewport bleed, CDP pseudo-state simulation, and composer readiness. | `nova.detect_overflow`, vertical asymmetry, `CSS.forcePseudoState`, `nova.composer_state` |
+
+---
+
+## 3. Overflow & Layout Bug Detection (`nova.detect_overflow`)
 
 The overflow detection engine inspects rendered DOM nodes (capped at 8,000 nodes for renderer safety) to identify structural clipping and boundary spillages.
 
@@ -57,7 +66,7 @@ A key design principle of `nova.detect_overflow` is its **asymmetric handling of
 
 ---
 
-## 3. Multi-Selector Measurement & Constraining Ancestors (`nova.measure_elements`)
+## 4. Multi-Selector Measurement & Constraining Ancestors (`nova.measure_elements`)
 
 When diagnosing responsive bugs inside complex multi-column layouts, single-element bounding boxes fail to tell the whole story. An element might appear broken not because its own styling is faulty, but because a parent container restricts its available space.
 
@@ -91,7 +100,7 @@ The probe walks upward through `parentElement` nodes. It ignores ancestors with 
 
 ---
 
-## 4. Authoritative Computed Styling (`nova.get_computed_style`)
+## 5. Authoritative Computed Styling (`nova.get_computed_style`)
 
 Extracting CSS properties via `page.evaluate("getComputedStyle(...)")` is verbose, error-prone, and exposes the agent to JavaScript evaluation security concerns.
 
@@ -107,7 +116,7 @@ If the target selector does not exist in the DOM, the tool returns an explicit e
 
 ---
 
-## 5. Deterministic Pseudo-State Forcing (`nova.force_pseudo_state`)
+## 6. Deterministic Pseudo-State Forcing (`nova.force_pseudo_state`)
 
 Testing responsive states like hover, focus, and active with a synthetic mouse pointer (`nova.input_move`) introduces significant limitations:
 
@@ -134,7 +143,7 @@ flowchart LR
 
 ---
 
-## 6. Chat Composer State Inspection (`nova.composer_state`)
+## 7. Chat Composer State Inspection (`nova.composer_state`)
 
 When an agent interacts with web-based chat interfaces (e.g. ChatGPT, Claude, internal LLM portals), determining whether a message or attachment is ready to send is non-trivial. Text in the input might be present, but has the file upload finished? Is the send button enabled?
 
@@ -166,7 +175,7 @@ Inspects the specified `sendSelector`:
 
 ---
 
-## 7. Practical Agent Recipes
+## 8. Practical Agent Recipes
 
 ### Recipe 1: Automated Layout Smoke Test
 Run an immediate check after loading a page to verify responsive integrity:
@@ -215,12 +224,14 @@ Capture a button's hover styling without the mouse cursor in the image:
 
 ---
 
-## 8. Related Tools & Documentation
+## 9. Related Tools & Documentation
 
-* [`nova.detect_overflow` Tool Reference](../../../mcp-reference/tools/layout-and-qa/nova-detect-overflow.md)
-* [`nova.measure_elements` Tool Reference](../../../mcp-reference/tools/layout-and-qa/nova-measure-elements.md)
-* [`nova.get_computed_style` Tool Reference](../../../mcp-reference/tools/layout-and-qa/nova-get-computed-style.md)
-* [`nova.force_pseudo_state` Tool Reference](../../../mcp-reference/tools/layout-and-qa/nova-force-pseudo-state.md)
-* [`nova.composer_state` Tool Reference](../../../mcp-reference/tools/layout-and-qa/nova-composer-state.md)
-* [Automated Accessibility (a11y) Engine](../accessibility-audit/README.md)
-* [Real-User Core Web Vitals](../core-web-vitals/README.md)
+* **[Bounding Rectangles & Constraining Ancestors Sub-Guide](bounding-client-rect-and-box-model-metrics/README.md)** — Multi-selector geometric analysis, Three Widths container constraints, and computed styles.
+* **[Overflow Detection & Pseudo-State Inspection Sub-Guide](overflow-detection-and-pseudo-state-inspection/README.md)** — Layout spillage, deliberate vertical asymmetry rationale, and CDP state forcing.
+* **[`nova.detect_overflow` Tool Reference](../../../mcp-reference/tools/layout-and-qa/nova-detect-overflow.md)** — Overflow scanning tool reference.
+* **[`nova.measure_elements` Tool Reference](../../../mcp-reference/tools/layout-and-qa/nova-measure-elements.md)** — Element measurement tool reference.
+* **[`nova.get_computed_style` Tool Reference](../../../mcp-reference/tools/layout-and-qa/nova-get-computed-style.md)** — Computed style tool reference.
+* **[`nova.force_pseudo_state` Tool Reference](../../../mcp-reference/tools/layout-and-qa/nova-force-pseudo-state.md)** — CDP pseudo-state tool reference.
+* **[`nova.composer_state` Tool Reference](../../../mcp-reference/tools/layout-and-qa/nova-composer-state.md)** — Chat composer inspection tool reference.
+* **[Automated Accessibility (a11y) Engine](../accessibility-audit/README.md)** — Contrast and target size auditing.
+* **[Real-User Core Web Vitals](../core-web-vitals/README.md)** — Performance telemetry and rating gates.

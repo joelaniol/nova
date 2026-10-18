@@ -43,7 +43,16 @@ flowchart TD
 
 ---
 
-## 2. Toast Visual Layouts & Template Construction
+## 2. Dedicated Architecture Sub-Guides
+
+| Guide | Description | Primary Topics |
+| :--- | :--- | :--- |
+| **[Unpackaged WinRT & Toast Templates](unpackaged-winrt-and-toast-templates/README.md)** | Windows App SDK registration, AUMID/CLSID setup, cold-boot queueing, and rich XML visual template construction. | `AppNotificationManager`, Hero images, favicons, audio muting |
+| **[Focus Assist & Deep-Link Routing](focus-assist-and-deep-link-routing/README.md)** | Breakthrough escalation (`Urgent = true`), activation argument protocols, and multi-sandbox deep-link routing. | Focus Assist, `NotificationActivationRouter`, Sandbox isolation |
+
+---
+
+## 3. Toast Visual Layouts & Template Construction
 
 Native Windows toasts are constructed using `Microsoft.Windows.AppNotifications.Builder.AppNotificationBuilder`. Nova configures rich visual elements depending on the notification source:
 
@@ -71,7 +80,7 @@ flowchart TD
 
 ---
 
-## 3. Focus Assist Escalation & Urgent Priority
+## 4. Focus Assist Escalation & Urgent Priority
 
 Windows Focus Assist (Do Not Disturb) silences non-critical application toasts during presentations, fullscreen gaming, or configured quiet hours. Routine notifications respect these quiet hours:
 
@@ -93,7 +102,7 @@ stateDiagram-v2
 
 ---
 
-## 4. Activation Argument Protocol & Serialization
+## 5. Activation Argument Protocol & Serialization
 
 When a user clicks a toast banner or action button, the Windows Shell invokes Nova's COM activation callback with an encoded launch argument:
 
@@ -125,7 +134,7 @@ flowchart TD
 
 ---
 
-## 5. Multi-Sandbox Deep-Link Router
+## 6. Multi-Sandbox Deep-Link Router
 
 The activation router (`NotificationActivationRouter.RouteToPageAsync`) ensures that clicking a notification restores the exact visual and operational context without leaking state across isolated profiles:
 
@@ -153,8 +162,10 @@ flowchart TD
 
 ---
 
-## Related Documentation
+## 7. Related Documentation
 
-* **[Desktop Notifications Overview](../README.md)** — Master three-source topology and parity principles.
+* **[Unpackaged WinRT & Toast Templates Sub-Guide](unpackaged-winrt-and-toast-templates/README.md)** — Registration mechanics, AUMID/CLSID plumbing, and visual XML payload generation.
+* **[Focus Assist & Deep-Link Routing Sub-Guide](focus-assist-and-deep-link-routing/README.md)** — Focus Assist escalation, serialized protocol details, and sandbox isolation invariants.
+* **[Desktop Notifications Master Overview](../README.md)** — Master three-source topology and parity principles.
 * **[Inbox Storage & Channel Worker Architecture](../inbox-and-storage/README.md)** — SQLite database schema and lock-free write queues.
 * **[W3C Web Permissions & Lifecycle Handshake](../web-permissions-and-lifecycle/README.md)** — WebView2 interception and origin management.

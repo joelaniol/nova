@@ -38,7 +38,16 @@ sequenceDiagram
 
 ---
 
-## 2. Two-Phase Probe Architecture
+## 2. Dedicated Architecture Sub-Guides
+
+| Guide | Description | Primary Topics |
+| :--- | :--- | :--- |
+| **[PerformanceObserver & Synthetic Instrumentation](performance-observer-and-synthetic-instrumentation/README.md)** | Two-phase probe architecture, buffered observers (`layout-shift`, `largest-contentful-paint`, `event`), and async host delays. | Two-phase probe, `PerformanceObserver`, `Task.Delay`, navigation timing |
+| **[Diagnostic Attribution & Threshold Gates](diagnostic-attribution-and-threshold-gates/README.md)** | Official rating thresholds, windowed vs cumulative reset semantics, layout shift attribution, and CI/CD quality gates. | Thresholds, LCP invariant, windowed delta, quality gates |
+
+---
+
+## 3. Two-Phase Probe Architecture
 
 In Microsoft WebView2, `ExecuteScriptAsync` executes synchronously on the JavaScript thread and returns immediately without awaiting pending Promises or asynchronous observer callbacks.
 
@@ -56,7 +65,7 @@ To reliably capture asynchronous performance events without blocking the browser
 
 ---
 
-## 3. Metrics & Rating Thresholds
+## 4. Metrics & Rating Thresholds
 
 Nova evaluates observed metrics against official Google Core Web Vitals thresholds:
 
@@ -99,7 +108,7 @@ graph TD
 
 ---
 
-## 4. Reset Semantics: Windowed vs. Cumulative Measurement
+## 5. Reset Semantics: Windowed vs. Cumulative Measurement
 
 The `reset` parameter controls whether accumulators are zeroed before the measurement window begins:
 
@@ -126,7 +135,7 @@ stateDiagram-v2
 
 ---
 
-## 5. Parameter Reference & Schema
+## 6. Parameter Reference & Schema
 
 The tool is invoked via [`nova.measure_web_vitals`](../../../mcp-reference/tools/layout-and-qa/nova-measure-web-vitals.md):
 
@@ -177,7 +186,7 @@ The tool is invoked via [`nova.measure_web_vitals`](../../../mcp-reference/tools
 
 ---
 
-## 6. Practical Agent Workflows & Recipes
+## 7. Practical Agent Workflows & Recipes
 
 ### Recipe 1: Initial Page Load Quality Gate
 An agent navigates to a new page and ensures it meets baseline performance standards before taking actions:
@@ -217,9 +226,11 @@ Verify that dynamic UI actions (such as expanding a filter drawer or opening an 
 
 ---
 
-## 7. Related Tools & Documentation
+## 8. Related Tools & Documentation
 
-* [`nova.measure_web_vitals` Tool Reference](../../../mcp-reference/tools/layout-and-qa/nova-measure-web-vitals.md)
-* [Automated Accessibility (a11y) Engine](../accessibility-audit/README.md)
-* [Layout Geometry & Overflow Detection](../layout-geometry-and-overflow/README.md)
-* [Browser Automation & Click Selectors](../../../mcp-reference/tools/browser-automation/nova-click-selector.md)
+* **[PerformanceObserver & Synthetic Instrumentation Sub-Guide](performance-observer-and-synthetic-instrumentation/README.md)** — Two-phase probe mechanics and observer lifecycle.
+* **[Diagnostic Attribution & Threshold Gates Sub-Guide](diagnostic-attribution-and-threshold-gates/README.md)** — Google ratings thresholds, LCP invariant, and quality gates.
+* **[`nova.measure_web_vitals` Tool Reference](../../../mcp-reference/tools/layout-and-qa/nova-measure-web-vitals.md)** — Complete tool parameter reference.
+* **[Automated Accessibility (a11y) Engine](../accessibility-audit/README.md)** — In-engine accessibility auditing.
+* **[Layout Geometry & Overflow Detection](../layout-geometry-and-overflow/README.md)** — Container analysis and overflow inspection.
+* **[Browser Automation & Click Selectors](../../../mcp-reference/tools/browser-automation/nova-click-selector.md)** — Element interaction and click simulation.

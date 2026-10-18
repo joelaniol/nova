@@ -58,15 +58,44 @@ Nova organizes its DOM and reading capabilities into three distinct operational 
 
 ---
 
-## 3. Subsystem Architecture
+## 3. Comprehensive Documentation Index
 
-The perception subsystem is broken down into three specialized architectural areas:
+The perception subsystem is organized into three specialized architectural areas and six deep-dive technical guides:
 
-| Subsystem Guide | Scope & Key Concepts | Primary MCP Tools |
-| :--- | :--- | :--- |
-| **[Multimodal Fusion Perception](multimodal-perception/README.md)** | Atomic coordination of visual pixels and semantic structure, 6 specialized perception modes (`summary`, `state`, `form_analysis`, `cta_detection_v3`, `modals`, `full`), bidirectional fold accounting (`aboveFoldPx`/`belowFoldPx`), CTA delta sync (`sinceRev`), temporal capture skew detection, and snapshot caching. | `nova.perceive`<br>`nova.perceive_snapshot_query` |
-| **[Semantic Landmark Reading & Tabular Extraction](semantic-reading/README.md)** | Regional HTML5/ARIA text partitioning (`header`, `nav`, `main`, `aside`, `footer`, `modals`), subtree scoping via ` >>> `, conversation feed extraction with role normalization, tabular data parsing (`nova.extract_table`), and clean Markdown extraction. | `nova.read_text_structured`<br>`nova.extract_table`<br>`nova.read_text` |
-| **[Deep Element Traversal & Geometry](element-inspection/README.md)** | Piercing open Shadow DOM boundaries, innermost focused element resolution (`nova.get_active_element_deep`), safe native property extraction without JS execution (`nova.dom_extract`), visual text search with traversal paths, and layout viewport metrics. | `nova.dom_extract`<br>`nova.get_active_element_deep`<br>`nova.search_text`<br>`nova.get_element_rect`<br>`nova.get_layout_metrics` |
+```
+public/docs/core-features/dom-perception/
+├── README.md                                         # This master hub
+├── multimodal-perception/
+│   ├── README.md                                     # Multimodal fusion perception hub
+│   ├── fusion-pipeline-and-modes/
+│   │   └── README.md                                 # Fusion pipeline, perceiveTiming, skew detection, and 6 perception modes
+│   └── fold-metrics-and-snapshots/
+│       └── README.md                                 # Bidirectional fold metrics, CTA delta sync, and snapshot caching
+├── semantic-reading/
+│   ├── README.md                                     # Semantic landmark reading & tabular extraction hub
+│   ├── landmark-and-conversation-reading/
+│   │   └── README.md                                 # HTML5/ARIA landmark slicing, conversation mode, reply-watch continuation
+│   └── tabular-data-extraction/
+│       └── README.md                                 # Native C# table parser, header auto-detection, empty cell alignment
+└── element-inspection/
+    ├── README.md                                     # Deep element traversal, geometry & shadow boundaries hub
+    ├── shadow-dom-and-deep-focus/
+    │   └── README.md                                 # Shadow DOM piercing, get_active_element_deep, >>> combinator, 16 typed properties
+    └── geometry-and-visual-search/
+        └── README.md                                 # nova.search_text, get_element_rect center points, and get_layout_metrics
+```
+
+| Area | Architecture Guide | Scope & Key Concepts | Primary Components |
+| :--- | :--- | :--- | :--- |
+| **Multimodal Perception** | **[Multimodal Fusion Perception Hub](multimodal-perception/README.md)** | Architectural role, atomic coordination concept, temporal skew synchronization, and persistent snapshot caching overview. | `McpPerceiveHandler`<br>`nova.perceive`<br>`PerceiveSnapshotStore` |
+| | **[Multimodal Fusion Pipeline & Modes](multimodal-perception/fusion-pipeline-and-modes/README.md)** | Single-phase pixel + DOM fusion pipeline, temporal capture skew synchronization (`perceiveTiming`), `skewStatus` thresholds, and the 6 specialized perception modes (`summary`, `state`, `form_analysis`, `cta_detection_v3`, `modals`, `full`). | `McpPerceiveHandler`<br>`perceiveTiming`<br>`skewStatus`<br>`mode="summary"`<br>`mode="state"` |
+| | **[Fold Metrics, Virtualization & Snapshots](multimodal-perception/fold-metrics-and-snapshots/README.md)** | Bidirectional fold accounting (`aboveFoldPx`/`belowFoldPx`), handling reverse-scroll chat windows and virtualized feeds, CTA prominence scoring with stable handles (`ctaRef`), delta synchronization (`sinceRev`), cross-origin frame isolation (`opaqueFrames[]`), and persistent offline snapshot caching (`nova.perceive_snapshot_query`). | `completeness`<br>`aboveFoldPx`<br>`belowFoldPx`<br>`cta_detection_v3`<br>`nova.perceive_snapshot_query` |
+| **Semantic Reading** | **[Semantic Reading & Tables Hub](semantic-reading/README.md)** | Role of semantic text extraction, the problem of flat text dumps, and regional partitioning architecture. | `McpServer.ReadTextStructured`<br>`TableExtractor`<br>`nova.read_text` |
+| | **[Landmark-Scoped & Conversational Reading](semantic-reading/landmark-and-conversation-reading/README.md)** | Partitioning page text by WAI-ARIA and HTML5 landmarks (`header`, `nav`, `main`, `aside`, `footer`, `modals`), token reduction up to 75%, per-region character caps (`maxCharsPerRegion`), Shadow DOM piercing via ` >>> `, conversational message extraction (`mode: "conversation"`), and clean Markdown extraction (`nova.read_text`). | `LandmarkExtractor`<br>`ConversationProjector`<br>`replyWatchId`<br>`maxCharsPerRegion` |
+| | **[Tabular Data Extraction Engine](semantic-reading/tabular-data-extraction/README.md)** | Native C# HTML table parser (`nova.extract_table`), automatic column header discovery (`<thead>` / leading `<th>`), synthetic column fallbacks, row cell alignment with empty cell preservation (`""`), cell normalization, and container-scoped table extraction. | `TableExtractor`<br>`nova.extract_table`<br>`headers[]`<br>`rows[][]`<br>`maxCellChars` |
+| **Element Inspection** | **[Deep Element Traversal & Geometry Hub](element-inspection/README.md)** | Shadow DOM barrier overview, deep element resolution concept, and native property inspection advantages. | `McpServer.DomExtract`<br>`DeepActiveElementResolver`<br>`nova.search_text` |
+| | **[Shadow DOM Piercing & Deep Focus](element-inspection/shadow-dom-and-deep-focus/README.md)** | Piercing open Shadow Roots, innermost focus discovery (`nova.get_active_element_deep`), `shadowChain` hierarchy, the ` >>> ` combinator across selectors, and safe strongly-typed native property extraction (`nova.dom_extract`) across 16 properties without JS execution. | `nova.get_active_element_deep`<br>`ShadowCombinator`<br>`nova.dom_extract`<br>`properties[]` |
+| | **[Geometry, Viewport Metrics & Visual Search](element-inspection/geometry-and-visual-search/README.md)** | Visual text search in live DOM (`nova.search_text`), selector synthesis with Shadow DOM paths, exact element bounding client geometry (`nova.get_element_rect`), automated center coordinate calculation, and layout/visual viewport metrics (`nova.get_layout_metrics`). | `nova.search_text`<br>`nova.get_element_rect`<br>`nova.get_layout_metrics`<br>`ViewportMetrics` |
 
 ---
 

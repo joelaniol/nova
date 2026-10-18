@@ -57,7 +57,16 @@ CREATE INDEX IF NOT EXISTS idx_notifications_unread
 
 ---
 
-## 2. Lock-Free Channel Worker Queue
+## 2. Dedicated Architecture Sub-Guides
+
+| Guide | Description | Primary Topics |
+| :--- | :--- | :--- |
+| **[SQLite Schema & Channel Worker](sqlite-schema-and-channel-worker/README.md)** | `notifications.db` schema, partial indexes, `System.Threading.Channels` queue, and micro-batch writes. | Relational schema, partial indexes, single-writer worker, WAL mode |
+| **[Query Facades, Badge Metrics & Retention](query-facades-badge-metrics-and-retention/README.md)** | `NotificationStore` facade, optimistic badge synchronization, slide-out drawer, and 30-day retention. | `NotificationStore`, badge caching, `NotificationCenterView`, incremental vacuum |
+
+---
+
+## 3. Lock-Free Channel Worker Queue
 
 To ensure that high-frequency background operations (such as dozens of file downloads or rapid agent loops) never block the WinUI 3 UI thread or browser IPC pipelines, Nova decouples write requests using a producer-consumer channel queue:
 
@@ -93,7 +102,7 @@ flowchart LR
 
 ---
 
-## 3. High-Performance Query Facade
+## 4. High-Performance Query Facade
 
 Reads and queries are executed through an asynchronous data access facade (`NotificationStore`):
 
@@ -104,7 +113,7 @@ flowchart TD
     subgraph ReadOperations["Asynchronous Read Operations"]
         Unread["GetUnreadCountAsync()<br>O(1) Indexed Filter"]
         List["GetNotificationsAsync()<br>Paginated & Filtered SQL"]
-        GetById["GetByIdAsync()<br>Direct Primary Key Lookup"]
+        Get["GetByIdAsync()<br>Direct Primary Key Lookup"]
     end
 
     subgraph FireAndForget["Non-Blocking Write Dispatches"]
@@ -126,7 +135,7 @@ The unread notification count is updated reactively:
 
 ---
 
-## 4. In-App Notification Center UI Architecture
+## 5. In-App Notification Center UI Architecture
 
 The In-App Notification Center is rendered as a lightweight, code-only WinUI 3 slide-out drawer positioned along the right border of the browser window:
 
@@ -161,7 +170,7 @@ flowchart TD
 
 ---
 
-## 5. Retention & Purge Policies
+## 6. Retention & Purge Policies
 
 To prevent indefinite database growth over months of continuous operation, Nova provides automated retention controls:
 
@@ -182,8 +191,10 @@ flowchart LR
 
 ---
 
-## Related Documentation
+## 7. Related Documentation
 
-* **[Desktop Notifications Overview](../README.md)** — Master three-source topology and parity principles.
+* **[SQLite Schema & Channel Worker Sub-Guide](sqlite-schema-and-channel-worker/README.md)** — Relational design, index optimization, and background worker queue.
+* **[Query Facades, Badge Metrics & Retention Sub-Guide](query-facades-badge-metrics-and-retention/README.md)** — Facade operations, memory counter caching, slide-out drawer, and maintenance.
+* **[Desktop Notifications Master Overview](../README.md)** — Master three-source topology and parity principles.
 * **[Windows Toasts & Activation Routing](../windows-toasts-and-activation/README.md)** — Windows App SDK integration and deep-link routing.
 * **[W3C Web Permissions & Lifecycle Handshake](../web-permissions-and-lifecycle/README.md)** — WebView2 interception and origin management.

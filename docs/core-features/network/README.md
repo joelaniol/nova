@@ -64,75 +64,85 @@ flowchart TD
     TlsInspector -.->|"CT Queries"| CtService
 ```
 
-### Core Routing Invariants
+### Core Routing Invariants:
 1. **The Single Egress Policy:** All active network probes initiated by `nova.tls_inspect` and request replay operations via `nova.network_replay` respect Nova's active browser proxy route. If a proxy is configured and fails or goes offline, Nova **never falls back to a direct, unproxied route**, preventing accidental IP exposure.
 2. **Replay Traffic Isolation:** Requests generated via `nova.network_replay` are executed by an independent HTTP client outside the browser tab. Replay traffic **never traverses the page's tab-scoped interception rules**, ensuring that replayed requests test the real server rather than local browser mocks.
 3. **Session Replay Decoupling:** Adopting a browser session into request replay copies authentication headers and cookies into a new request draft. It does not clone the browser's execution state or bind to the page's transport socket.
 
 ---
 
-## 2. The Three Network Control Pillars
+## 2. Comprehensive Documentation Index
 
-Nova partitions network operations across three distinct architectural pillars:
+The Network architecture is organized into three primary domains and eight specialized deep-dive architecture subguides:
 
 ```
-+-----------------------------------------------------------------------------------+
-|                              NETWORK CONTROL PILLARS                              |
-+-----------------------------------------------------------------------------------+
-| 1. Proxy Routing & Isolation  | Global & sandbox proxy profiles, SOCKS5/HTTP,     |
-|                               | DPAPI credential storage, WebRTC leak protection, |
-|                               | domain bypass rules, dynamic route switching.     |
-+-------------------------------+---------------------------------------------------+
-| 2. Interception & Replay      | Tab-scoped CDP interception, 5 action primitives  |
-|                               | (fail, respondWith, modifyRequest/Response, delay)|
-|                               | detached request replay, session adoption.        |
-+-------------------------------+---------------------------------------------------+
-| 3. SSL/TLS Deep Inspection    | In-tab vs active host probes, full X.509 chains,  |
-|                               | cipher suites & PFS, ALPN, HSTS verification,     |
-|                               | Certificate Transparency subdomains via crt.sh.   |
-+-----------------------------------------------------------------------------------+
+network/
+├── README.md                                                       # Master Architectural Hub
+├── proxy/                                                          # Domain 1: Proxy Routing & Traffic Isolation
+│   ├── README.md                                                   # Domain Hub
+│   ├── profile-management-and-runtime-leak-protection/
+│   │   └── README.md                                               # Schemas, CLI projection, WebRTC & SOCKS5 DNS protection
+│   ├── credential-security-and-dpapi-storage/
+│   │   └── README.md                                               # DPAPI vault, HTTP 407 challenge, Security Root URI Guard
+│   └── auxiliary-routing-and-health-probing/
+│       └── README.md                                               # NovaWebTrafficProxy, DownloadProxyResolver, Circuit Breakers
+├── network-interception/                                           # Domain 2: Network Interception & Request Replay
+│   ├── README.md                                                   # Domain Hub
+│   ├── tab-scoped-interception/
+│   │   └── README.md                                               # 5 action primitives, request/response editing, CDP pipeline
+│   └── request-replay-and-session-adoption/
+│       └── README.md                                               # Detached HTTP client, compareTo, session adoption, bounds
+└── tls-inspection/                                                 # Domain 3: SSL/TLS Cryptographic Inspection
+    ├── README.md                                                   # Domain Hub
+    ├── certificate-chains/
+    │   └── README.md                                               # X.509 chains, intermediate caching fallacies, offline checks
+    ├── cipher-suites-and-protocols/
+    │   └── README.md                                               # Protocol negotiation, AEAD, PFS, post-quantum groups
+    └── certificate-transparency/
+        └── README.md                                               # RFC 6962 framework, SCT parsing, public CT log mining
 ```
 
----
+### Complete Guide Reference Table
 
-## 3. Documentation Suite Index
-
-Explore each specialized module within the Network documentation suite:
-
-| Topic | Primary Focus | Key Capabilities & Enforcements |
+| Domain Area | Specialized Architecture Guide | Key Focus Areas & Technical Invariants |
 | :--- | :--- | :--- |
-| [Proxy Routing](proxy/README.md) | Egress & IP Control | HTTP, HTTPS, SOCKS4, and SOCKS5 profiles, DPAPI credential storage, WebRTC STUN/ICE interface binding, domain bypass lists, connection testing, and live route switching. |
-| [Network Interception & Request Replay](network-interception/README.md) | In-Flight Manipulation | Five interception actions (`fail`, `respondWith`, `modifyRequest`, `modifyResponse`, `delay`), one-hit rules, session adoption from `HttpOnly` cookies and `localStorage`, and baseline diff comparisons. |
-| [SSL/TLS Inspection & Debugging](tls-inspection/README.md) | Cryptographic Verification | Tab connection inspection (`targetId`) vs active host probes (`url`), X.509 chain trust validation, cipher suite enumeration (PFS, AEAD), HSTS header auditing, and public CT log queries. |
+| **Proxy Routing & Isolation**<br>([Domain Hub](proxy/README.md)) | **[Profile Management & Leak Protection](proxy/profile-management-and-runtime-leak-protection/README.md)** | Profile schemas, URL paste parsing, IPv6 bracket formatting, Chromium runtime projection, WebRTC non-proxied UDP blocking, remote SOCKS5 DNS resolution (`MAP * ~NOTFOUND`), and sandbox isolation modes (`global`, `none`, `profile`). |
+| | **[Credential Security & DPAPI Storage](proxy/credential-security-and-dpapi-storage/README.md)** | Zero-plaintext credential policy, DPAPI encrypted storage (`proxy-credentials.dat`), write-protection invariants, dynamic HTTP 407 authentication challenges, and the Security Root URI Guard against credential harvesting. |
+| | **[Auxiliary Routing & Health Probing](proxy/auxiliary-routing-and-health-probing/README.md)** | Auxiliary tool routing parity via `NovaWebTrafficProxy` (`IWebProxy`), `DownloadProxyResolver` modes, `ProxyProbeService` 4KB bounded probing, rolling latency EMA smoothing, visual URL-bar states, and fail-closed disconnect/reconnect circuit breaker. |
+| **Network Interception & Replay**<br>([Domain Hub](network-interception/README.md)) | **[Tab-Scoped Interception](network-interception/tab-scoped-interception/README.md)** | Tab-scoped CDP `Fetch`/`Network` pipeline, the 5 action primitives (`fail`, `respondWith`, `modifyRequest`, `modifyResponse`, `delay`), request/response header and body rewriting, glob pattern matching ($\ge 4$ literal chars), one-hit rules, and application evidence tracking. |
+| | **[Request Replay & Session Adoption](network-interception/request-replay-and-session-adoption/README.md)** | Detached .NET HTTP client, the 4-step draft lifecycle (`prepare`, `send`, `get`, `discard`), controlled A/B baseline comparisons (`compareTo`), session adoption from active tabs (`HttpOnly` cookies and `localStorage`), same-site security gates, and transport framing protection. |
+| **SSL/TLS Cryptographic Inspection**<br>([Domain Hub](tls-inspection/README.md)) | **[Certificate Chain Analysis & Validation](tls-inspection/certificate-chains/README.md)** | X.509 certificate hierarchy (Leaf, Intermediate, Root), RFC 6125 SAN matching, intermediate CA caching fallacies, Windows `X509Chain` offline verification policies, and raw PEM exports. |
+| | **[Cipher Suites, Protocols & PFS](tls-inspection/cipher-suites-and-protocols/README.md)** | Deprecation of SSLv3–TLS 1.1, TLS 1.2/1.3 cipher negotiation, AEAD algorithms, Perfect Forward Secrecy (PFS), Post-Quantum hybrid groups (Kyber768), and ALPN protocol selection. |
+| | **[Certificate Transparency & Subdomains](tls-inspection/certificate-transparency/README.md)** | RFC 6962 framework, Signed Certificate Timestamps (SCTs), automated public CT log mining via `crt.sh`, subdomain discovery, and proxy privacy boundaries. |
 
 ---
 
-## 4. MCP Network Tool Reference Matrix
+## 3. MCP Network Tool Reference Matrix
 
 The `proxy-and-network` capability bundle provides 16 specialized tools:
 
 | Tool Name | Subsystem | Action & Operational Scope |
 | :--- | :--- | :--- |
-| `nova.proxy_create` | Proxy | Registers a new named proxy profile (HTTP/SOCKS5, host, port, credentials). |
-| `nova.proxy_update` | Proxy | Modifies configuration parameters of an existing proxy profile. |
-| `nova.proxy_remove` | Proxy | Deletes an existing proxy profile from the workspace. |
-| `nova.proxy_list` | Proxy | Lists all configured proxy profiles and identifies the currently active route. |
-| `nova.proxy_status` | Proxy | Returns live operational status, egress IP, latency, and connection health. |
-| `nova.proxy_switch` | Proxy | Dynamically switches the active browser routing profile without browser restarts. |
-| `nova.proxy_test` | Proxy | Probes proxy reachability, authentication validity, and round-trip latency. |
-| `nova.proxy_set_password` | Proxy | Updates authentication credentials stored in the DPAPI Vault for a proxy profile. |
-| `nova.proxy_disconnect` | Proxy | Disconnects the active proxy, reverting the browser to the direct system route. |
-| `nova.proxy_reconnect` | Proxy | Re-establishes an active proxy tunnel after a network drop or IP rotation. |
-| `nova.proxy_log` | Proxy | Retrieves recent diagnostic connection events and authentication logs. |
-| `nova.network_intercept_add` | Interception | Registers a tab-scoped interception rule (`fail`, `respondWith`, `modify`, `delay`). |
-| `nova.network_intercept_list` | Interception | Lists all armed interception rules for a specific browser tab. |
-| `nova.network_intercept_clear` | Interception | Removes armed interception rules from a browser tab. |
-| `nova.network_replay` | Replay | Executes standalone HTTP requests outside the tab with optional session adoption. |
-| `nova.tls_inspect` | TLS | Performs in-depth cryptographic and certificate chain inspection for a host or tab. |
+| [`nova.proxy_create`](../../mcp-reference/tools/proxy-and-network/nova-proxy-create.md) | Proxy | Registers a new named proxy profile (HTTP/SOCKS5, host, port, credentials). |
+| [`nova.proxy_update`](../../mcp-reference/tools/proxy-and-network/nova-proxy-update.md) | Proxy | Modifies configuration parameters of an existing proxy profile. |
+| [`nova.proxy_remove`](../../mcp-reference/tools/proxy-and-network/nova-proxy-remove.md) | Proxy | Deletes an existing proxy profile from the workspace. |
+| [`nova.proxy_list`](../../mcp-reference/tools/proxy-and-network/nova-proxy-list.md) | Proxy | Lists all configured proxy profiles and identifies the currently active route. |
+| [`nova.proxy_status`](../../mcp-reference/tools/proxy-and-network/nova-proxy-status.md) | Proxy | Returns live operational status, egress IP, latency, and connection health. |
+| [`nova.proxy_switch`](../../mcp-reference/tools/proxy-and-network/nova-proxy-switch.md) | Proxy | Dynamically switches the active browser routing profile without browser restarts. |
+| [`nova.proxy_test`](../../mcp-reference/tools/proxy-and-network/nova-proxy-test.md) | Proxy | Probes proxy reachability, authentication validity, and round-trip latency. |
+| [`nova.proxy_set_password`](../../mcp-reference/tools/proxy-and-network/nova-proxy-set-password.md) | Proxy | Updates authentication credentials stored in the DPAPI Vault for a proxy profile. |
+| [`nova.proxy_disconnect`](../../mcp-reference/tools/proxy-and-network/nova-proxy-disconnect.md) | Proxy | Disconnects the active proxy, engaging the fail-closed navigation killswitch. |
+| [`nova.proxy_reconnect`](../../mcp-reference/tools/proxy-and-network/nova-proxy-reconnect.md) | Proxy | Probes proxy health and unblocks browsing only upon confirmed connectivity. |
+| [`nova.proxy_log`](../../mcp-reference/tools/proxy-and-network/nova-proxy-log.md) | Proxy | Retrieves recent diagnostic connection events and authentication logs. |
+| [`nova.network_intercept_add`](../../mcp-reference/tools/proxy-and-network/nova-network-intercept-add.md) | Interception | Registers a tab-scoped interception rule (`fail`, `respondWith`, `modify`, `delay`). |
+| [`nova.network_intercept_list`](../../mcp-reference/tools/proxy-and-network/nova-network-intercept-list.md) | Interception | Lists all armed interception rules for a specific browser tab. |
+| [`nova.network_intercept_clear`](../../mcp-reference/tools/proxy-and-network/nova-network-intercept-clear.md) | Interception | Removes armed interception rules from a browser tab. |
+| [`nova.network_replay`](../../mcp-reference/tools/proxy-and-network/nova-network-replay.md) | Replay | Executes standalone HTTP requests outside the tab with optional session adoption. |
+| [`nova.tls_inspect`](../../mcp-reference/tools/proxy-and-network/nova-tls-inspect.md) | TLS | Performs in-depth cryptographic and certificate chain inspection for a host or tab. |
 
 ---
 
-## 5. Decision Matrix: Selecting the Right Network Tool
+## 4. Decision Matrix: Selecting the Right Network Tool
 
 When diagnosing network anomalies or building autonomous workflows, selecting the appropriate tool ensures minimal overhead:
 
@@ -150,7 +160,7 @@ When diagnosing network anomalies or building autonomous workflows, selecting th
 
 ---
 
-## 6. Security, Privacy & Boundary Guarantees
+## 5. Security, Privacy & Boundary Guarantees
 
 1. **WebRTC Leak Protection:**
    * Standard browser proxies often leak local and public IP addresses through WebRTC STUN/ICE queries.
@@ -165,7 +175,7 @@ When diagnosing network anomalies or building autonomous workflows, selecting th
 
 ---
 
-## 7. Related Architecture Guides
+## 6. Related Architecture Guides
 
 * [Multi-Sandbox Session Isolation](../sandbox-isolation/README.md): Details physical profile separation across sandboxes and proxy inheritance.
 * [Session Recording & Time-Travel Debugging](../session-recording/README.md): Capturing network streams (`network.cdp.jsonl`) for post-mortem forensics.

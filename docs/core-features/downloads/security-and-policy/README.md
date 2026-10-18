@@ -40,7 +40,16 @@ flowchart TD
 
 ---
 
-## 2. The Executable Download Security Gate
+## 2. Dedicated Architecture Sub-Guides
+
+| Guide | Description | Primary Topics |
+| :--- | :--- | :--- |
+| **[Executable Gates & Security Prompts](executable-gates-and-security-prompts/README.md)** | Fail-closed binary interception, `AlwaysBlockedExtensions` catalog, unattended surface protection, and programmatic prompt resolution. | `SaveFileSecurityCheckStarting`, `ui_download_security_prompt_resolve` |
+| **[Path Policies, Multi-Downloads & Previews](path-policies-multi-downloads-and-previews/README.md)** | Target path sanitization, UNC share defense, multiple automatic download permission gates, and the strict SVG/HTML inline preview ban. | UNC rejection, `BlockedAutomaticDownloads`, SVG/HTML ban |
+
+---
+
+## 3. The Executable Download Security Gate
 
 When a web page attempts to save an executable file, Microsoft WebView2 fires the `SaveFileSecurityCheckStarting` event. Nova intercepts this event natively before any byte is committed to disk.
 
@@ -79,7 +88,7 @@ When an agent chooses `keep`, Nova records an explicit audit log (`Executable do
 
 ---
 
-## 3. Multiple Automatic Downloads Permission Gate
+## 4. Multiple Automatic Downloads Permission Gate
 
 Modern web browsers enforce strict security boundaries against "drive-by downloads":
 * The **first** automatic download initiated by a web page is permitted.
@@ -108,7 +117,7 @@ In unattended or automated environments, this permission defaults to `Deny`. Con
 
 ---
 
-## 4. Directory Path Security Policy
+## 5. Directory Path Security Policy
 
 Nova sanitizes all download target paths via `DownloadDirectoryPathPolicy`:
 
@@ -133,7 +142,7 @@ graph LR
 
 ---
 
-## 5. In-Browser Previews vs. OS Launching
+## 6. In-Browser Previews vs. OS Launching
 
 Nova distinguishes between **passive, sandboxed in-browser previews** and **full operating system execution**:
 
@@ -161,7 +170,7 @@ To inspect downloaded HTML or SVG files, agents should use [`nova.convert_to_mar
 
 ---
 
-## 6. Auto-Open Policy Configuration
+## 7. Auto-Open Policy Configuration
 
 Users and agents can configure specific safe file extensions to automatically open in the OS default handler upon download completion:
 * **Inspect Configured Extensions:**
@@ -182,11 +191,14 @@ Users and agents can configure specific safe file extensions to automatically op
 
 ---
 
-## 7. Related Tools & Documentation
+## 8. Related Tools & Documentation
 
+* [Executable Gates & Security Prompts](executable-gates-and-security-prompts/README.md): Deep dive into binary interception, unattended fail-closed policy, and prompt resolution.
+* [Path Policies, Multi-Downloads & Previews](path-policies-multi-downloads-and-previews/README.md): UNC share defense, multi-download limits, and SVG/HTML preview restrictions.
+* [Lifecycle, Queue & Parked WebViews](../lifecycle-and-queue/README.md): Stream mechanics and tab closure parking.
+* [Wait Synchronization & Join Points](../wait-and-synchronization/README.md): Deterministic agent wait synchronization.
 * [`nova.ui_download_security_prompt_resolve` Tool Reference](../../../mcp-reference/tools/app-shell-and-ui/nova-ui-download-security-prompt-resolve.md)
 * [`nova.downloads_preview` Tool Reference](../../../mcp-reference/tools/downloads/nova-downloads-preview.md)
 * [`nova.downloads_open_file` Tool Reference](../../../mcp-reference/tools/downloads/nova-downloads-open-file.md)
 * [`nova.downloads_auto_open_set` Tool Reference](../../../mcp-reference/tools/downloads/nova-downloads-auto-open-set.md)
-* [Lifecycle, Queue & Parked WebViews](../lifecycle-and-queue/README.md)
-* [Wait Synchronization & Join Points](../wait-and-synchronization/README.md)
+* [Downloads Master Hub](../README.md): Master subsystem architectural catalog.

@@ -193,15 +193,44 @@ To establish true execution certainty, agents must combine browser interaction w
 
 ---
 
-## 6. Subsystem Navigation Index
+## 6. Comprehensive Documentation Index
 
-Explore the dedicated deep-dive guides for technical specifications, algorithms, and tool references:
+The browser interaction subsystem is organized into three specialized architectural areas and six deep-dive technical guides:
 
-| Subsystem Guide | Core Capabilities & Focus | Key Tools Covered |
-| :--- | :--- | :--- |
-| [**Input Dispatch**](input-dispatch/README.md) | DevTools CDP physical input pipeline, `isTrusted: true`, hardware frame delays, chunked typing for rich-text editors, Monaco and CodeMirror model adapters, physical wheel events, and smart container scrolling with stalled-loader rebound recovery. | `nova.input_click`, `nova.input_move`, `nova.input_wheel`, `nova.input_text`, `nova.type_selector`, `nova.input_key`, `nova.input_shortcut`, `nova.scroll_smart`, `nova.scroll_by`, `nova.scroll_to`, `nova.scroll_element` |
-| [**Selectors & Shadow DOM**](selectors-and-shadow-dom/README.md) | Open Shadow DOM piercing with the ` >>> ` combinator, cumulative ancestor opacity calculations, visible bounding box clipping, iframe scoping, native vs. custom dropdown selection (`nova.choose_option`), and guarded action macros (`guarded_send_message`, `guarded_submit_form`, `guarded_login`). | `nova.click_selector`, `nova.type_selector`, `nova.select_option`, `nova.choose_option`, `nova.guarded_send_message`, `nova.guarded_submit_form`, `nova.guarded_login`, `nova.guarded_switch_model`, `nova.guarded_switch_sandbox`, `nova.composer_state` |
-| [**Drag & Drop**](drag-and-drop/README.md) | The drag-and-drop divide: physical DevTools mouse drag (`nova.input_drag`) vs. synthetic humanized drag (`nova.input_drag_humanized`) with Bézier easing, perpendicular jitter, and deliberate overshoot; plus the injected HTML5 Drag and Drop polyfill bridging mouse gestures to `DataTransfer`. | `nova.input_drag`, `nova.input_drag_humanized` |
+```
+public/docs/core-features/browser-interaction/
+├── README.md                                         # This master hub
+├── drag-and-drop/
+│   ├── README.md                                     # Drag & drop architecture & polyfill hub
+│   ├── physical-and-humanized-drag/
+│   │   └── README.md                                 # Physical CDP drag vs humanized Bézier drag, jitter, overshoot
+│   └── webview2-html5-polyfill/
+│       └── README.md                                 # WinUI 3 WebView2 limitation, __novaDragPolyfillBegin handover, CultureInfo
+├── input-dispatch/
+│   ├── README.md                                     # Low-level input dispatch hub
+│   ├── pointer-and-keyboard-pipelines/
+│   │   └── README.md                                 # Physical pointer sequence, ~16ms delays, chunked typing, Monaco/CodeMirror adapters
+│   └── advanced-scrolling-mechanisms/
+│       └── README.md                                 # Smart scrolling container auto-detection, saturation signals, rebound recovery
+└── selectors-and-shadow-dom/
+    ├── README.md                                     # Selectors, shadow DOM & custom components hub
+    ├── shadow-dom-and-ancestor-opacity/
+    │   └── README.md                                 # Shadow DOM >>> combinator, cumulative ancestor opacity product, clipping
+    └── dropdowns-and-component-selection/
+        └── README.md                                 # Native select vs custom ARIA comboboxes, nova.choose_option, safety audits
+```
+
+| Area | Architecture Guide | Scope & Key Concepts | Primary Components |
+| :--- | :--- | :--- | :--- |
+| **Drag & Drop** | **[Drag & Drop Architecture Hub](drag-and-drop/README.md)** | Architectural role, the modern drag-and-drop divide, execution pipelines, and polyfill overview. | `nova.input_drag`<br>`nova.input_drag_humanized`<br>`HTML5Polyfill` |
+| | **[Physical vs. Humanized Drag](drag-and-drop/physical-and-humanized-drag/README.md)** | Comparison of physical hardware events (`isTrusted: true`) vs synthetic humanized profiles (`mode: "humanized_js"`), cubic Bézier easing curves, perpendicular physiological jitter ($\pm 2$ px), deliberate overshoot ($3$–$8$ px) with pullback corrections, and post-drag outcome verification via `nova.wait_for_eval`. | `nova.input_drag`<br>`nova.input_drag_humanized`<br>`BézierEasing`<br>`isTrusted: true` |
+| | **[WinUI 3 WebView2 HTML5 Polyfill](drag-and-drop/webview2-html5-polyfill/README.md)** | Addressing the WebView2 limitation where CDP mouse events fail to trigger native OS drag sessions on `draggable="true"` elements, deterministic script handover (`window.__novaDragPolyfillBegin`), culture-invariant floating-point serialization (`CultureInfo.InvariantCulture`), and simulated `DataTransfer` object cascade. | `__novaDragPolyfillBegin`<br>`NovaDataTransfer`<br>`CultureInfo.InvariantCulture`<br>`draggable="true"` |
+| **Input Dispatch** | **[Low-Level Input Dispatch Hub](input-dispatch/README.md)** | Event trust comparison, CDP pipeline overview, hardware frame timing, and code editor adapters overview. | `McpServer.InputInteractionHandlers`<br>`isTrusted: true`<br>`Input.dispatchMouseEvent` |
+| | **[Pointer & Keyboard Pipelines](input-dispatch/pointer-and-keyboard-pipelines/README.md)** | Physical DevTools pointer dispatch (`isTrusted: true`), calibrated ~16 ms hardware frame delays, click count semantics (single, double, triple), window minimization restoration (`SW_RESTORE`), chunked typing with paced micro-delays for rich-text editors, Monaco and CodeMirror model adapters, and strict modifier depression/release ordering. | `nova.input_click`<br>`nova.type_selector`<br>`nova.input_shortcut`<br>`MonacoModelAdapter`<br>`CodeMirrorModelAdapter` |
+| | **[Advanced Scrolling Mechanisms](input-dispatch/advanced-scrolling-mechanisms/README.md)** | Why window-level scrolling fails in modern component architectures, smart scrolling container auto-detection and scoring (`nova.scroll_smart`), feed saturation signal diagnostics, stalled-loader rebound recovery for infinite feeds, route container caching, relative scrolling (`nova.scroll_by`), and physical coordinate wheel events (`nova.input_wheel`). | `nova.scroll_smart`<br>`nova.scroll_by`<br>`nova.scroll_element`<br>`nova.input_wheel`<br>`ReboundManeuver` |
+| **Selectors & DOM** | **[Selectors & Shadow DOM Hub](selectors-and-shadow-dom/README.md)** | Selector resolution pipeline, open shadow roots, cumulative ancestor opacity, and custom dropdown selection overview. | `ShadowCombinator`<br>`nova.click_selector`<br>`nova.choose_option` |
+| | **[Shadow DOM & Ancestor Opacity](selectors-and-shadow-dom/shadow-dom-and-ancestor-opacity/README.md)** | Piercing open Shadow DOM boundaries via ` >>> `, iframe query scoping (`frameId`), multiplicative cumulative ancestor opacity calculations, exceptions for invisible click/upload overlays (`opacity: 0`), and visible bounding box viewport clipping. | `ShadowCombinator`<br>`CumulativeOpacityEvaluator`<br>`IframeScopeResolver`<br>`nova.click_selector` |
+| | **[Dropdowns & Custom Component Selection](selectors-and-shadow-dom/dropdowns-and-component-selection/README.md)** | Comparison of native `<select>` elements (`nova.select_option`) vs custom ARIA comboboxes (`nova.choose_option`), matching options by visible label, substring, or index, autonomous popover menu opening/closing verification, and post-action safety audits (Identity Overlay, Loop Guard). | `nova.choose_option`<br>`nova.select_option`<br>`IdentityOverlayDetector`<br>`LoopGuard` |
 
 ---
 

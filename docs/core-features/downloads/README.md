@@ -108,13 +108,21 @@ Nova enforces multi-tier defense-in-depth before any file lands on disk:
 
 ---
 
-## 3. Dedicated Sub-Guides
+## 3. Dedicated Architecture Sub-Guides
 
-| Guide | Description | Primary MCP Tools |
-| :--- | :--- | :--- |
-| **[Lifecycle, Queue & Parked WebViews](lifecycle-and-queue/README.md)** | Download state machine, dual-engine transfer mechanics, parked WebView retention on tab close, persistent SQLite history, and batch queue controls. | [`nova.downloads_list`](../../mcp-reference/tools/downloads/nova-downloads-list.md), [`nova.downloads_pause`](../../mcp-reference/tools/downloads/nova-downloads-pause.md), [`nova.downloads_resume`](../../mcp-reference/tools/downloads/nova-downloads-resume.md), [`nova.downloads_cancel`](../../mcp-reference/tools/downloads/nova-downloads-cancel.md), [`nova.downloads_retry`](../../mcp-reference/tools/downloads/nova-downloads-retry.md) |
-| **[Wait Synchronization & Join Points](wait-and-synchronization/README.md)** | Deterministic agent join points, anchored time windows (`sinceMs`), multi-file batch grace periods, paused early-exits, and resumable wait continuations. | [`nova.downloads_wait`](../../mcp-reference/tools/downloads/nova-downloads-wait.md), [`nova.wait_continue`](../../mcp-reference/tools/downloads/nova-wait-continue.md), [`nova.wait_cancel`](../../mcp-reference/tools/downloads/nova-wait-cancel.md) |
-| **[Security Gates & Policy Enforcement](security-and-policy/README.md)** | Executable download confirmation dialogs, unattended fail-closed policy, automatic multi-download permission gates, UNC path protection, and safe inline previews. | [`nova.ui_download_security_prompt_resolve`](../../mcp-reference/tools/app-shell-and-ui/nova-ui-download-security-prompt-resolve.md), [`nova.downloads_auto_open_get`](../../mcp-reference/tools/downloads/nova-downloads-auto-open-get.md), [`nova.downloads_auto_open_set`](../../mcp-reference/tools/downloads/nova-downloads-auto-open-set.md), [`nova.downloads_preview`](../../mcp-reference/tools/downloads/nova-downloads-preview.md), [`nova.downloads_open_file`](../../mcp-reference/tools/downloads/nova-downloads-open-file.md) |
+The Downloads & Synchronization architecture is partitioned into three core operational domains, detailed across six specialized guides:
+
+### Domain 1: [Lifecycle, Queue Control & Parked WebViews](lifecycle-and-queue/README.md)
+* **[Dual-Engine Transfers & Parked WebViews](lifecycle-and-queue/dual-engine-transfers-and-parked-webviews/README.md):** Native Chromium stream handling vs. managed HTTP fallback, tab-closure retention pool (`_downloadParkedWebViews`), and socket stall detection.
+* **[SQLite Persistence & Queue Orchestration](lifecycle-and-queue/sqlite-persistence-and-queue-orchestration/README.md):** Durable `DownloadDb` schema, in-memory throughput moving averages, and programmatic queue operations (`pause`, `resume`, `cancel`, `retry`, `clear`).
+
+### Domain 2: [Security Gates & Policy Enforcement](security-and-policy/README.md)
+* **[Executable Gates & Security Prompts](security-and-policy/executable-gates-and-security-prompts/README.md):** Fail-closed binary interception, `AlwaysBlockedExtensions` catalog, unattended surface protection, and programmatic prompt resolution (`nova.ui_download_security_prompt_resolve`).
+* **[Path Policies, Multi-Downloads & Previews](security-and-policy/path-policies-multi-downloads-and-previews/README.md):** Target path sanitization, UNC share defense, multiple automatic download permission gates, and the strict SVG/HTML inline preview ban.
+
+### Domain 3: [Wait Synchronization & Join Points](wait-and-synchronization/README.md)
+* **[Deterministic Join Points & Anchored Windows](wait-and-synchronization/deterministic-join-points-and-lookback-windows/README.md):** Eliminating heuristic sleeps, the Anchored Window Invariant (`UtcNow - sinceMs`), 100ms polling, and terminal state evaluation.
+* **[Batch Grace Periods & Resumable Watches](wait-and-synchronization/batch-grace-periods-and-resumable-watches/README.md):** 400ms multi-file late-arrival grace window, high-signal paused/blocked early-exits, and resumable watch continuations (`nova.wait_continue`, `nova.wait_cancel`).
 
 ---
 
