@@ -10,7 +10,7 @@ Looking for a tool by what it does rather than by area? The [tool catalog](../to
 | Area | Tools | What it covers |
 |---|---:|---|
 | [Agent-Authored Plugins](plugins/README.md) | 22 | Write, test, and ship agent-authored browser plugins that change how pages behave. |
-| [App Shell, Dialogs & DevTools](app-shell-and-ui/README.md) | 62 | WinUI window controls, native OS dialog handling, DevTools panels, setup wizard, and onboarding injection. |
+| [App Shell, Dialogs & DevTools](app-shell-and-ui/README.md) | 64 | WinUI window controls, native OS dialog handling, DevTools panels, setup wizard, and onboarding injection. |
 | [Browser Navigation & Physical Automation](browser-automation/README.md) | 40 | Page navigation, tab strip lifecycle management, physical clicks, humanized typing, scroll mechanics, and file uploads. |
 | [Connectors, Mail & File Transfer](connectors-and-mail/README.md) | 53 | IMAP/SMTP email client automation, EML exports, SFTP/FTP server operations, and credential access grants. |
 | [Credentials, Vault & DPAPI Secret Keystore](vault-and-security/README.md) | 9 | Password autofill via ephemeral origin-bound SecretRef tokens, credential discovery, and write-only encrypted environment variables. |
@@ -31,7 +31,8 @@ Looking for a tool by what it does rather than by area? The [tool catalog](../to
 | [Session Tracing & DOM Event Recording](session-recording/README.md) | 14 | Network HAR capture, user interaction timelines, DOM change snapshots, and replay verification. |
 | [Site Crawler & URL Discovery Index](crawler-and-discovery/README.md) | 13 | Broad-surface website crawling, URL indexing, sitemap verification, and exploration of UI states no URL reaches. |
 | [Site Data, Fingerprinting & Sandboxes](site-data-and-identity/README.md) | 21 | Cookie jars, localStorage/sessionStorage, cache purging, browser fingerprint spoofing, and sandbox isolation. |
-| [Visual Evidence, Screenshots & Archiving](visual-evidence/README.md) | 13 | Lossless cropped screenshots, pixel-by-pixel diffing, persistent baselines, and print-to-PDF generation. |
+| [Video Editing](video-editing/README.md) | 4 | Nova's video editor: screen recordings turned into GIF, WebM and MP4 clips or stills, with cuts, speed, captions, end cards, zoom, framing for feeds and reusable templates. |
+| [Visual Evidence, Screenshots & Archiving](visual-evidence/README.md) | 12 | Lossless cropped screenshots, pixel-by-pixel diffing, persistent baselines, and print-to-PDF generation. |
 
-**487 tools in total.**
+**492 tools in total.**
 <!-- /generated:area-list -->

@@ -12,7 +12,7 @@ Every tool exposed by **Nova AI Workspace**, grouped by operational domain. Clic
 - [3. Layout Quality & Measuring QA](#3-layout-quality--measuring-qa) (7)
 - [4. Input & Interaction](#4-input--interaction) (18)
 - [5. Guarded Actions & Blocker Clearance](#5-guarded-actions--blocker-clearance) (7)
-- [6. Visual Evidence & Screenshots](#6-visual-evidence--screenshots) (13)
+- [6. Visual Evidence & Screenshots](#6-visual-evidence--screenshots) (16)
 - [7. Local Files, Documents & Archives](#7-local-files-documents--archives) (23)
 - [8. Knowledge & Phenomenological Store (PKS)](#8-knowledge--phenomenological-store-pks) (21)
 - [9. Credentials & Secure Vault](#9-credentials--secure-vault) (9)
@@ -29,7 +29,7 @@ Every tool exposed by **Nova AI Workspace**, grouped by operational domain. Clic
 - [20. Media Intelligence & Whisper Speech-to-Text](#20-media-intelligence--whisper-speech-to-text) (24)
 - [21. Site Data, Fingerprinting & Sandboxes](#21-site-data-fingerprinting--sandboxes) (21)
 - [22. Episodic Task Memory & Guidance](#22-episodic-task-memory--guidance) (33)
-- [23. App Shell, Dialogs & DevTools](#23-app-shell-dialogs--devtools) (62)
+- [23. App Shell, Dialogs & DevTools](#23-app-shell-dialogs--devtools) (64)
 - [24. Agent-Authored Plugins](#24-agent-authored-plugins) (22)
 <!-- /generated:catalog-toc -->
 
@@ -156,7 +156,7 @@ High-impact macros that run safety pre-checks to prevent destructive loops or se
 
 ## 6. Visual Evidence & Screenshots
 
-Lossless visual captures and regression testing with bounded budgets.
+Lossless visual captures and regression testing with bounded budgets; screen recordings and the clips Nova's video editor renders from them.
 
 | Tool Name | Parameters | Description |
 | :--- | :--- | :--- |
@@ -169,7 +169,10 @@ Lossless visual captures and regression testing with bounded budgets.
 | **[`nova.screen_record_status`](tools/visual-evidence/nova-screen-record-status.md)** | `agentId?` | Shows whether a recording of the Nova window is running, paused or already finished. |
 | **[`nova.screen_record_stop`](tools/visual-evidence/nova-screen-record-stop.md)** | `agentId?` | Stops the recording of the Nova window and returns the video, checked for correctness. |
 | **[`nova.screen_record_assert`](tools/visual-evidence/nova-screen-record-assert.md)** | `kind`, `selector?`, `timeoutMs?`, `stableMs?`, `label?`, `agentId?` | Checks a claim during your running screen recording and marks the answer on its timeline with a picture. |
-| **[`nova.screen_record_export`](tools/visual-evidence/nova-screen-record-export.md)** | `agentId?`, `filePath?`, `format?`, `segments?`, `fps?`, `width?`, `loop?`, `endHoldMs?`, `idle?`, `maxBytes?`, `atMs?`, `aspect?`, `includeAudio?`, `lossless?`, `captions?`, `endCard?`, `keys?`, `zoom?`, `saveDir?`, `fileName?` | Turns a screen recording into an animated GIF for a README, an issue or a chat. |
+| **[`nova.video_render`](tools/video-editing/nova-video-render.md)** | `agentId?`, `filePath?`, `format?`, `segments?`, `fps?`, `width?`, `loop?`, `endHoldMs?`, `idle?`, `maxBytes?`, `atMs?`, `aspect?`, `includeAudio?`, `lossless?`, `captions?`, `endCard?`, `keys?`, `zoom?`, `saveDir?`, `fileName?`, `template?`, `style?` | Turns a screen recording into a clip: an animated GIF, a WebM or MP4 video, or a still. |
+| **[`nova.video_template_list`](tools/video-editing/nova-video-template-list.md)** | `name?`, `agentId?` | Lists the templates for nova.video_render, or one template's values. |
+| **[`nova.video_template_save`](tools/video-editing/nova-video-template-save.md)** | `name`, `values`, `description?`, `notes?`, `agentId?` | Saves a set of render values under a name of your own, for nova.video_render. |
+| **[`nova.video_template_delete`](tools/video-editing/nova-video-template-delete.md)** | `name`, `agentId?` | Deletes a saved template for nova.video_render. |
 | **[`nova.screen_record_mark`](tools/visual-evidence/nova-screen-record-mark.md)** | `label`, `capture?`, `agentId?` | Marks a moment of your running screen recording, with a lossless picture of it. |
 | **[`nova.screen_record_inspect`](tools/visual-evidence/nova-screen-record-inspect.md)** | `filePath?`, `view?`, `kinds?`, `fromMs?`, `toMs?`, `limit?`, `image?`, `agentId?` | Reads the evidence of a finished screen recording: summary, timeline, contact sheet and pictures. |
 | **[`nova.responsive_screenshots`](tools/visual-evidence/nova-responsive-screenshots.md)** | `widths`, `targetId?`, `height?`, `deviceScaleFactor?`, `mobile?`, `fullPage?`, `format?`, `quality?` | Sweeps multiple viewport widths one at a time, capturing a screenshot at each and restoring the tab's original viewport afterwards. |
@@ -670,6 +673,8 @@ WinUI window controls, native OS dialog handling, DevTools panels, setup wizard,
 | **[`nova.mcp_transport_log`](tools/app-shell-and-ui/nova-mcp-transport-log.md)** | `run?`, `startLine?`, `maxLines?`, `contains?`, `caseSensitive?` | Reads recent redacted entries from Nova's internal MCP JSON-RPC transport log. |
 | **[`nova.ok_observe`](tools/app-shell-and-ui/nova-ok-observe.md)** | `claims`, `targetId?`, `perceptionId?` | Records structured Operational Knowledge (OK) claims about the service open in a tab, such as login state or active model. |
 | **[`nova.ok_signal_schema`](tools/app-shell-and-ui/nova-ok-signal-schema.md)** | `namespace?`, `includeDeprecated?`, `maxEntries?` | Lists the canonical Operational Knowledge signal keys accepted by nova.ok_observe. |
+| **[`nova.app_settings_get`](tools/app-shell-and-ui/nova-app-settings-get.md)** | `keys?` | Reads Nova's app preferences and tells the agent which of them it may change. |
+| **[`nova.app_settings_set`](tools/app-shell-and-ui/nova-app-settings-set.md)** | `values` | Changes Nova's app preferences the same way as the Settings page. |
 | **[`nova.permission_center_get`](tools/app-shell-and-ui/nova-permission-center-get.md)** | *(none)* | Retrieves the global default permission modes for camera, microphone, speaker, and geolocation, plus the detected hardware devices. |
 | **[`nova.permission_center_set`](tools/app-shell-and-ui/nova-permission-center-set.md)** | `cameraPermissionMode?`, `microphonePermissionMode?`, `speakerPermissionMode?`, `geolocationPermissionMode?`, `automaticDownloadsPermissionMode?`, `preferredCameraDeviceId?`, `preferredMicrophoneDeviceId?`, `preferredSpeakerDeviceId?`, `clearPreferredDevices?`, `validateDeviceIds?` | Sets the global Permission Center defaults for camera, microphone, speaker and location, and the preferred media devices. |
 | **[`nova.permission_prompt`](tools/app-shell-and-ui/nova-permission-prompt.md)** | `tool_name`, `description`, `schemaVersion?`, `risk_level?` | Asks the Nova operator to approve or deny an action that an agent wants to run. |

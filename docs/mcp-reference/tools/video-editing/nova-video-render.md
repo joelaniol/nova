@@ -1,6 +1,6 @@
-# `nova.screen_record_export`
+# `nova.video_render`
 
-> **Turns a screen recording into an animated GIF for a README, an issue or a chat.**
+> **Turns a screen recording into a clip: an animated GIF, a WebM or MP4 video, or a still.**
 
 * **Core Feature Guide:** [Visual Evidence & Auditing](../../../research/evidence-verification-mode-evm/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
@@ -12,28 +12,33 @@
 > [!NOTE]
 > **Upcoming.** This tool arrives with a coming release, which is not published yet.
 
-A video recorded with [`nova.screen_record_start`](nova-screen-record-start.md) is the evidence; a short GIF is what people actually watch in a README or an issue. `nova.screen_record_export` makes one from the most recent recording, or from the recording `filePath` names.
+Nova's video editor. A video recorded with [`nova.screen_record_start`](../visual-evidence/nova-screen-record-start.md) is the evidence; a short clip is what people actually watch in a README, an issue, a chat or a feed. `nova.video_render` makes one from your most recent recording, or from the recording `filePath` names. The recording itself stays unchanged.
 
-**Cut and tighten, never stage.** `segments` picks parts of the recording and plays them one after the other, each at its own `speed`: a waiting phase at `speed: 4` takes a quarter of the time, a detail at `speed: 0.5` runs at half speed. Every frame in the GIF is a frame that was recorded. `endHoldMs` keeps the last frame on screen at the end.
+**Cut and tighten, never stage.** `segments` picks parts of the recording and plays them one after the other, each at its own `speed`: a waiting phase at `speed: 4` takes a quarter of the time, a detail at `speed: 0.5` runs at half speed. `idle='auto'` does that by itself from the recording's evidence timeline. Every frame in the clip is a frame that was recorded; captions and the end card are the only pictures added.
 
-**Readable interface text.** The GIF uses one palette of 255 colours for the whole clip and stores only what changed from one frame to the next, without dithering. Text and panels stay sharp and the file stays small: for interface clips, 8 to 12 frames per second at 800 to 1000 pixels wide is the usual range. `width` also enlarges a recording of a small area, up to twice its size. The result warns (`note`) when the file is larger than the 10 MB GitHub shows inline.
+**The format for the place it goes.** `gif` plays everywhere, also inline on GitHub; it uses one palette of 255 colours and stores only what changed from frame to frame, so interface text stays sharp (8 to 12 frames per second at 800 to 1000 pixels wide is the usual range). `webm` is full-colour VP8 video at a fraction of the size, for chats and websites. `mp4` is H.264 video for LinkedIn, Reddit and YouTube. `png` is one still frame for a thumbnail. `mp4` with `lossless=true` cuts the recording itself without re-encoding, for unchanged evidence in a bug report.
 
-The GIF goes to Nova's Exports folder (`ScreenRecordings`) next to the recordings unless `saveDir` names another folder, which needs the user's "Allow local files" setting. Nothing is ever overwritten.
+**Feeds and phones.** `aspect='4:5'` or `'9:16'` reframes the clip and pans to where things change; `croppedShare` in the result says how much of each recorded frame was left out. `captions` tell the story in two to five words per step, `endCard` closes the clip, `keys=true` shows the shortcuts that were pressed (never typed text), `zoom` enlarges details.
+
+**A finished look.** `template='nova-linkedin'` applies a complete set of values (4:5, 1080x1350, H.264, the styled look: the recording as a framed window on a dark canvas, captions beside it, an animated end card). `style` sets the look's values one by one; templates are listed and saved with [`nova.video_template_list`](nova-video-template-list.md) and [`nova.video_template_save`](nova-video-template-save.md).
+
+The clip goes to Nova's Exports folder (`ScreenRecordings`) next to the recordings unless `saveDir` names another folder, which needs the user's "Allow local files" setting. Nothing is ever overwritten. Only the agent that made a recording can render it.
 
 ### Example
 
 ```text
-nova.screen_record_start(area="tab", includeCursor=false, fileName="draft-review")
+nova.screen_record_start(area="tab", evidence=true, fileName="draft-review")
 ... the flow ...
 nova.screen_record_stop()
-nova.screen_record_export(fps=10, width=900, endHoldMs=1500, segments=[
+nova.video_render(fps=10, width=900, endHoldMs=1500, segments=[
   {"startMs": 0, "endMs": 6000},
   {"startMs": 6000, "endMs": 14000, "speed": 4},
   {"startMs": 14000}
 ])
+nova.video_render(template="nova-linkedin", captions=[{"startMs": 800, "endMs": 3500, "text": "Table from Wikipedia."}], endCard={"text": "Done in 14 s."})
 ```
 
-Common refusals: `export.no_recording`, `export.still_recording` (stop the recording first), `export.too_large`, `export.too_many_frames` (shorten the segments or lower `fps`).
+Common refusals: `export.no_recording`, `export.still_recording` (stop the recording first), `export.too_large`, `export.too_many_frames` (shorten the segments or lower `fps`), `export.no_timeline` (`idle`, `keys` or `zoom='auto'` on a recording made without `evidence`).
 
 ---
 
@@ -63,8 +68,26 @@ Common refusals: `export.no_recording`, `export.still_recording` (stop the recor
 | `endCard.holdMs` | `integer` | No | `2500` | 500–10000 | — |
 | `keys` | `boolean` | No | `false` | — | GIF, WebM and MP4: show the keys you pressed as a badge at the bottom (named keys and Ctrl/Alt/Win shortcuts only, never typed text). Needs a recording made with evidence=true. |
 | `zoom` | `any` | No | — | — | Zoom effects in the exported GIF, WebM or MP4 only (the recording stays unchanged). 'auto': from the recording's evidence timeline - every observed change that covered a part of the picture (a menu, a toast, a field) gets a smooth zoom onto that area from shortly before it started until shortly after it settled. Or a list of {startMs, endMs, x, y, width, height} in recording pixels (as the timeline's change boxes). The view keeps the GIF's aspect ratio, enlarges at most 3x and eases in and out over 0.4 s. |
-| `saveDir` | `string` | No | — | — | Absolute folder for the GIF. Omit to use Nova's Exports folder; any other folder needs 'Allow local files'. |
+| `saveDir` | `string` | No | — | — | Absolute folder for the clip. Omit to use Nova's Exports folder; any other folder needs 'Allow local files'. |
 | `fileName` | `string` | No | — | ≤ 80 characters | File name without extension; default: the recording's name. A taken name gets -2, -3 ... |
+| `template` | `string` | No | — | — | An export template's name (nova.video_template_list), e.g. 'nova-linkedin'. Its values stand in for the arguments you leave out; your own arguments win. The result names the template and its version, so the export can be repeated. |
+| `style` | `object` | No | — | — | The styled look ('Nova Cinematic'): the recording as a rounded window with shadows on a dark canvas, captions beside the window (never over the picture) in the shipped Inter, an end card that turns into the canvas. Any style value given here - even {} - switches it on; values you leave out come from the template, then from Nova's defaults (nova.video_template_list(name=...) shows them as defaultStyle). Sizes are shares of the output: padding and radius of its width, text sizes of its height. The result repeats the style it used. |
+| `style.background` | `array` of `string` | No | — | 2–2 items | Canvas gradient from top left to bottom right. |
+| `style.accent` | `string` | No | — | — | Glow and the end card's line. |
+| `style.glow` | `number` | No | — | 0–0.5 | Strength of the accent glow behind the window. |
+| `style.padding` | `number` | No | — | 0–0.2 | Space between window and the canvas edge, share of the width. |
+| `style.radius` | `number` | No | — | 0–0.06 | Window corner radius, share of the width. |
+| `style.border` | `number` | No | — | 0–1 | Opacity of the window's thin white outline. |
+| `style.shadow` | `number` | No | — | 0–2 | Strength of the two window shadows (1 = default). |
+| `style.textSize` | `number` | No | — | 0.02–0.07 | Caption size, share of the height. |
+| `style.textColor` | `string` | No | — | — | Captions and the end card's headline. |
+| `style.secondaryColor` | `string` | No | — | — | The end card's second line. |
+| `style.textAlign` | `string` | No | — | `left`, `center` | Captions and end card: aligned with the window's left edge, or centred. |
+| `style.textEnterMs` | `integer` | No | — | 0–1000 | Caption fade-in (it rises a little longer). |
+| `style.textExitMs` | `integer` | No | — | 0–1000 | Caption fade-out. |
+| `style.headlineSize` | `number` | No | — | 0.025–0.09 | End card headline size, share of the height. |
+| `style.brandSize` | `number` | No | — | 0.015–0.05 | End card second line size, share of the height. |
+| `style.cardTransitionMs` | `integer` | No | — | 0–1500 | How long the last picture takes to turn into the canvas for the end card. |
 
 Capability bundle: `visual_evidence` (load it with `nova.tools_bundle(bundle='visual_evidence')`).
 Tool category: `normal` (standard risk class in Nova's agent permission settings).

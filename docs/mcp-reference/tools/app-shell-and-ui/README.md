@@ -8,7 +8,7 @@ WinUI window controls, native OS dialog handling, DevTools panels, setup wizard,
 ---
 
 <!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
-## Tool Inventory (62 Tools)
+## Tool Inventory (64 Tools)
 
 Capability bundles of these tools: `app_shell_recovery`, `onboarding`, `page_read_debug`, `system_tools`, `visual_evidence`.
 
@@ -17,6 +17,8 @@ Capability bundles of these tools: `app_shell_recovery`, `onboarding`, `page_rea
 | **[`nova.agent_activity_summary`](nova-agent-activity-summary.md)** | Returns a per-agent summary of this session's MCP tool calls: call counts, tab targets, and failure reason codes. |
 | **[`nova.app_info`](nova-app-info.md)** | Returns runtime environment metadata: app version, WebView2/OS runtime info, MCP endpoint, and storage paths. |
 | **[`nova.app_quit`](nova-app-quit.md)** | Gracefully terminates the Nova host application process and all child WebView2 runtimes. |
+| **[`nova.app_settings_get`](nova-app-settings-get.md)** | Reads Nova's app preferences and tells the agent which of them it may change. |
+| **[`nova.app_settings_set`](nova-app-settings-set.md)** | Changes Nova's app preferences the same way as the Settings page. |
 | **[`nova.bookmarks_folder_create`](nova-bookmarks-folder-create.md)** | Creates a hierarchical folder in the browser bookmark collection. |
 | **[`nova.bookmarks_folder_delete`](nova-bookmarks-folder-delete.md)** | Deletes a bookmark folder and either moves its contents to the root or deletes them with it. |
 | **[`nova.bookmarks_folder_rename`](nova-bookmarks-folder-rename.md)** | Renames an existing bookmark folder. |
