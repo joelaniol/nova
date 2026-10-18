@@ -29,7 +29,7 @@ Every tool exposed by **Nova AI Workspace**, grouped by operational domain. Clic
 - [20. Media Intelligence & Whisper Speech-to-Text](#20-media-intelligence--whisper-speech-to-text) (24)
 - [21. Site Data, Fingerprinting & Sandboxes](#21-site-data-fingerprinting--sandboxes) (21)
 - [22. Episodic Task Memory & Guidance](#22-episodic-task-memory--guidance) (33)
-- [23. App Shell, Dialogs & DevTools](#23-app-shell-dialogs--devtools) (64)
+- [23. App Shell, Dialogs & DevTools](#23-app-shell-dialogs--devtools) (65)
 - [24. Agent-Authored Plugins](#24-agent-authored-plugins) (22)
 <!-- /generated:catalog-toc -->
 
@@ -335,7 +335,7 @@ Mobile viewport simulation, touch event emulation, user agent overriding, and da
 | :--- | :--- | :--- |
 | **[`nova.emulation_use_device`](tools/device-emulation/nova-emulation-use-device.md)** | `device`, `targetId?` | Applies a named device preset (viewport, DPR, touch capabilities, and user agent) in a single atomic call. |
 | **[`nova.emulation_set_device_metrics`](tools/device-emulation/nova-emulation-set-device-metrics.md)** | `width`, `height`, `targetId?`, `deviceScaleFactor?`, `mobile?` | Overrides the viewport dimensions, device scale factor (DPR), and mobile layout behavior for a tab. |
-| **[`nova.emulation_clear_device_metrics`](tools/device-emulation/nova-emulation-clear-device-metrics.md)** | `targetId?` | Clears viewport device metrics overrides, restoring normal window-sized rendering. |
+| **[`nova.emulation_clear_device_metrics`](tools/device-emulation/nova-emulation-clear-device-metrics.md)** | `targetId?`, `all?` | Clears viewport device metrics overrides, restoring normal window-sized rendering. |
 | **[`nova.emulation_set_user_agent`](tools/device-emulation/nova-emulation-set-user-agent.md)** | `userAgent`, `targetId?`, `acceptLanguage?`, `platform?` | Overrides the HTTP User-Agent header, navigator.userAgent, and client hints for a tab. |
 | **[`nova.emulation_set_touch`](tools/device-emulation/nova-emulation-set-touch.md)** | `enabled`, `targetId?`, `maxTouchPoints?` | Enables or disables touch event simulation and sets the maximum touch points reported by the browser. |
 | **[`nova.emulation_set_media`](tools/device-emulation/nova-emulation-set-media.md)** | `targetId?`, `colorScheme?`, `reducedMotion?`, `forcedColors?`, `contrast?`, `media?` | Emulates CSS media features like dark mode, reduced motion, high contrast, and print media. |
@@ -696,6 +696,7 @@ WinUI window controls, native OS dialog handling, DevTools panels, setup wizard,
 | **[`nova.ui_download_security_prompt_resolve`](tools/app-shell-and-ui/nova-ui-download-security-prompt-resolve.md)** | `decision` | Answers Nova's "Keep this file?" question for a download that Windows can run (for example .exe, .msi, .bat, .ps1). |
 | **[`nova.ui_get_state`](tools/app-shell-and-ui/nova-ui-get-state.md)** | *(none)* | Inspects host application UI state: active tab, overlay visibility, responsiveness, and open dialogs. |
 | **[`nova.ui_inspect_native_dialog`](tools/app-shell-and-ui/nova-ui-inspect-native-dialog.md)** | *(none)* | Inspects the open dialog — a Windows dialog Nova owns or one of Nova's own dialogs — with its texts and buttons. |
+| **[`nova.ui_open_menu`](tools/app-shell-and-ui/nova-ui-open-menu.md)** | `menu`, `targetId?` | Opens one of Nova's own menus and lists its entries, so they can be pressed like a click. |
 | **[`nova.ui_open_downloads`](tools/app-shell-and-ui/nova-ui-open-downloads.md)** | *(none)* | Opens the download manager drawer panel in the Nova host user interface. |
 | **[`nova.ui_open_favorites`](tools/app-shell-and-ui/nova-ui-open-favorites.md)** | `query?`, `folderId?` | Opens the favorites panel in the Nova user interface, optionally with a search already typed. |
 | **[`nova.ui_open_settings`](tools/app-shell-and-ui/nova-ui-open-settings.md)** | `section?` | Opens the settings drawer overlay in the Nova host user interface. |

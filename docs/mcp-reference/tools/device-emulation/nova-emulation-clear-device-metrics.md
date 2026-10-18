@@ -18,6 +18,7 @@ Clears viewport device metrics overrides, restoring normal window-sized renderin
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `all` | `boolean` | No | `false` | — | End every emulation axis, not only the viewport (see the tool description). |
 
 Capability bundle: `device_emulation` (load it with `nova.tools_bundle(bundle='device_emulation')`).
 Tool category: `normal` (standard risk class in Nova's agent permission settings).

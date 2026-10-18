@@ -8,7 +8,7 @@ WinUI window controls, native OS dialog handling, DevTools panels, setup wizard,
 ---
 
 <!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
-## Tool Inventory (64 Tools)
+## Tool Inventory (65 Tools)
 
 Capability bundles of these tools: `app_shell_recovery`, `onboarding`, `page_read_debug`, `system_tools`, `visual_evidence`.
 
@@ -66,6 +66,7 @@ Capability bundles of these tools: `app_shell_recovery`, `onboarding`, `page_rea
 | **[`nova.ui_inspect_native_dialog`](nova-ui-inspect-native-dialog.md)** | Inspects the open dialog — a Windows dialog Nova owns or one of Nova's own dialogs — with its texts and buttons. |
 | **[`nova.ui_open_downloads`](nova-ui-open-downloads.md)** | Opens the download manager drawer panel in the Nova host user interface. |
 | **[`nova.ui_open_favorites`](nova-ui-open-favorites.md)** | Opens the favorites panel in the Nova user interface, optionally with a search already typed. |
+| **[`nova.ui_open_menu`](nova-ui-open-menu.md)** | Opens one of Nova's own menus and lists its entries, so they can be pressed like a click. |
 | **[`nova.ui_open_settings`](nova-ui-open-settings.md)** | Opens the settings drawer overlay in the Nova host user interface. |
 | **[`nova.ui_permission_prompt_resolve`](nova-ui-permission-prompt-resolve.md)** | Defers or answers the permission dialog that Nova is showing for a site (for example location, notifications, clipboard read or advanced device access). |
 | **[`nova.ui_restore_tabs_prompt_resolve`](nova-ui-restore-tabs-prompt-resolve.md)** | Resolves the startup tab restoration prompt modal after an abnormal browser termination. |
