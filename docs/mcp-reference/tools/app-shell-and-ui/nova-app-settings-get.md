@@ -64,7 +64,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
         "allowedValues": null,
         "writable": false,
         "readOnlyReason": "Agent access itself is the user's decision.",
-        "settingsLocation": "Settings > AI agents",
+        "settingsLocation": "Settings > AI & agents",
         "description": "Whether agents may control Nova over MCP at all."
       }
     ],
