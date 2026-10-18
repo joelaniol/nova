@@ -8,12 +8,13 @@ Mobile viewport simulation, touch event emulation, user agent overriding, and da
 ---
 
 <!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
-## Tool Inventory (10 Tools)
+## Tool Inventory (11 Tools)
 
-Capability bundles of these tools: `device_emulation`.
+Capability bundles of these tools: `device_emulation`, `page_read_debug`.
 
 | Tool | What it does |
 | :--- | :--- |
+| **[`nova.device_diagnostics`](nova-device-diagnostics.md)** | Checks whether every layer of a tab - the page, its embedded frames of other sites and its workers - sees the same device, and the device you asked Nova to emulate. |
 | **[`nova.emulation_clear_device_metrics`](nova-emulation-clear-device-metrics.md)** | Clears viewport device metrics overrides, restoring normal window-sized rendering. |
 | **[`nova.emulation_clear_locale`](nova-emulation-clear-locale.md)** | Clears all locale, timezone, and geolocation overrides, reverting to host system settings. |
 | **[`nova.emulation_clear_media`](nova-emulation-clear-media.md)** | Clears all emulated CSS media features, reverting to host system theme and display settings. |

@@ -19,7 +19,7 @@ Every tool exposed by **Nova AI Workspace**, grouped by operational domain. Clic
 - [10. Terminal Workspaces & Headless CLI](#10-terminal-workspaces--headless-cli) (12)
 - [11. Downloads Management & Queue Control](#11-downloads-management--queue-control) (17)
 - [12. Desktop Notifications & Alerts](#12-desktop-notifications--alerts) (11)
-- [13. Device Emulation & Responsive Testing](#13-device-emulation--responsive-testing) (10)
+- [13. Device Emulation & Responsive Testing](#13-device-emulation--responsive-testing) (11)
 - [14. External MCP Servers & Site-Provided Automation](#14-external-mcp-servers--site-provided-automation) (14)
 - [15. Proxy Routing & Network Interception](#15-proxy-routing--network-interception) (16)
 - [16. Site Crawler & URL Discovery Index](#16-site-crawler--url-discovery-index) (13)
@@ -78,7 +78,7 @@ Token-efficient data extraction without requesting raw HTML blobs or full-screen
 | **[`nova.extract_table`](tools/dom-and-reading/nova-extract-table.md)** | `targetId?`, `selector?`, `maxTables?`, `maxRows?`, `maxCols?`, `maxCellChars?` | Extracts HTML `<table>` elements into structured JSON objects containing column headers (`headers[]`) and data rows (`rows[][]`), eliminating manual DOM looping and complex JavaScript evaluation. |
 | **[`nova.search_text`](tools/dom-and-reading/nova-search-text.md)** | `text`, `targetId?`, `tag?`, `match?`, `maxResults?`, `caseSensitive?`, `visibleOnly?`, `deep?` | Searches the page for visible text occurrences and returns matching DOM elements with actionable CSS selectors, bounding geometry, and Shadow-DOM traversal chains. |
 | **[`nova.perceive`](tools/dom-and-reading/nova-perceive.md)** | `targetId?`, `mode?`, `fields?`, `pksInclude?`, `maxWidth?`, `maxHeight?`, `maxDomChars?`, `maxResults?`, `omitCtas?`, `ctaLimit?`, `visibleOnly?`, `ctaColumnDetail?`, `topK?`, `resolveRefs?`, `sinceRev?`, `deep?`, `includeScreenshot?`, `screenshotFormat?`, `screenshotQuality?`, `knownDomainNotesHash?`, `responseDetail?` | Fusion multi-modal perception engine: captures visual screenshot evidence and extracts structured semantic DOM data in a single coordinated atomic operation. |
-| **[`nova.page_info`](tools/dom-and-reading/nova-page-info.md)** | `targetId?`, `maxChars?` | Retrieves essential page metadata (URL, title, DOM ready state, viewport dimensions, scroll offsets, and active focused element) with minimal token overhead. |
+| **[`nova.page_info`](tools/dom-and-reading/nova-page-info.md)** | `targetId?`, `maxChars?`, `include?` | Retrieves essential page metadata (URL, title, DOM ready state, viewport dimensions, scroll offsets, and active focused element) with minimal token overhead. |
 | **[`nova.console_read`](tools/dom-and-reading/nova-console-read.md)** | `targetId?`, `maxEntries?`, `sinceId?`, `clear?`, `engineSinceId?`, `maxChars?` | Reads recent JavaScript console log messages (log, info, warn, error) from the page. |
 | **[`nova.eval`](tools/dom-and-reading/nova-eval.md)** | `expression`, `targetId?`, `timeoutMs?`, `isolate?`, `functionBody?`, `frameScope?`, `frameId?`, `worldMode?`, `includeShadow?`, `redact?`, `maxChars?`, `resultDelivery?`, `outputDetail?` | Evaluates an arbitrary JavaScript expression in the main page world or isolated world. |
 | **[`nova.fetch_resource`](tools/dom-and-reading/nova-fetch-resource.md)** | `targetId?`, `url?`, `urls?`, `savePath?`, `saveDir?`, `maxBytes?`, `timeoutMs?` | Downloads one or more URLs with the tab's session cookies and saves them to files. |
@@ -169,7 +169,7 @@ Lossless visual captures and regression testing with bounded budgets; screen rec
 | **[`nova.screen_record_status`](tools/visual-evidence/nova-screen-record-status.md)** | `agentId?` | Shows whether a recording of the Nova window is running, paused or already finished. |
 | **[`nova.screen_record_stop`](tools/visual-evidence/nova-screen-record-stop.md)** | `agentId?` | Stops the recording of the Nova window and returns the video, checked for correctness. |
 | **[`nova.screen_record_assert`](tools/visual-evidence/nova-screen-record-assert.md)** | `kind`, `selector?`, `timeoutMs?`, `stableMs?`, `label?`, `agentId?` | Checks a claim during your running screen recording and marks the answer on its timeline with a picture. |
-| **[`nova.video_render`](tools/video-editing/nova-video-render.md)** | `agentId?`, `filePath?`, `format?`, `segments?`, `fps?`, `width?`, `loop?`, `endHoldMs?`, `idle?`, `maxBytes?`, `atMs?`, `aspect?`, `includeAudio?`, `lossless?`, `captions?`, `endCard?`, `keys?`, `zoom?`, `saveDir?`, `fileName?`, `chapters?`, `proofLine?`, `template?`, `style?` | Turns a screen recording into a clip: an animated GIF, a WebM or MP4 video, or a still. |
+| **[`nova.video_render`](tools/video-editing/nova-video-render.md)** | `agentId?`, `filePath?`, `format?`, `segments?`, `fps?`, `width?`, `loop?`, `endHoldMs?`, `idle?`, `maxBytes?`, `atMs?`, `aspect?`, `includeAudio?`, `lossless?`, `captions?`, `endCard?`, `keys?`, `zoom?`, `saveDir?`, `fileName?`, `chapters?`, `motion?`, `protect?`, `proofLine?`, `header?`, `template?`, `style?` | Turns a screen recording into a clip: an animated GIF, a WebM or MP4 video, or a still. |
 | **[`nova.video_template_list`](tools/video-editing/nova-video-template-list.md)** | `name?`, `agentId?` | Lists the templates for nova.video_render, or one template's values. |
 | **[`nova.video_template_save`](tools/video-editing/nova-video-template-save.md)** | `name`, `values`, `description?`, `notes?`, `agentId?` | Saves a set of render values under a name of your own, for nova.video_render. |
 | **[`nova.video_template_delete`](tools/video-editing/nova-video-template-delete.md)** | `name`, `agentId?` | Deletes a saved template for nova.video_render. |
@@ -333,6 +333,7 @@ Mobile viewport simulation, touch event emulation, user agent overriding, and da
 
 | Tool Name | Parameters | Description |
 | :--- | :--- | :--- |
+| **[`nova.device_diagnostics`](tools/device-emulation/nova-device-diagnostics.md)** | `targetId?`, `detail?` | Checks whether every layer of a tab - the page, its embedded frames of other sites and its workers - sees the same device, and the device you asked Nova to emulate. |
 | **[`nova.emulation_use_device`](tools/device-emulation/nova-emulation-use-device.md)** | `device`, `targetId?` | Applies a named device preset (viewport, DPR, touch capabilities, and user agent) in a single atomic call. |
 | **[`nova.emulation_set_device_metrics`](tools/device-emulation/nova-emulation-set-device-metrics.md)** | `width`, `height`, `targetId?`, `deviceScaleFactor?`, `mobile?` | Overrides the viewport dimensions, device scale factor (DPR), and mobile layout behavior for a tab. |
 | **[`nova.emulation_clear_device_metrics`](tools/device-emulation/nova-emulation-clear-device-metrics.md)** | `targetId?`, `all?` | Clears viewport device metrics overrides, restoring normal window-sized rendering. |
@@ -653,7 +654,7 @@ WinUI window controls, native OS dialog handling, DevTools panels, setup wizard,
 | **[`nova.bookmarks_folder_delete`](tools/app-shell-and-ui/nova-bookmarks-folder-delete.md)** | `id`, `mode?` | Deletes a bookmark folder and either moves its contents to the root or deletes them with it. |
 | **[`nova.bookmarks_folder_rename`](tools/app-shell-and-ui/nova-bookmarks-folder-rename.md)** | `id`, `name` | Renames an existing bookmark folder. |
 | **[`nova.bookmarks_folders_list`](tools/app-shell-and-ui/nova-bookmarks-folders-list.md)** | *(none)* | Lists all bookmark folders with hierarchical parent-child relationships and depths. |
-| **[`nova.cdp`](tools/app-shell-and-ui/nova-cdp.md)** | `method`, `targetId?`, `params?`, `maxChars?` | Executes a raw Chrome DevTools Protocol (CDP) method directly on the target WebView2 instance. |
+| **[`nova.cdp`](tools/app-shell-and-ui/nova-cdp.md)** | `method`, `targetId?`, `subtargetId?`, `params?`, `maxChars?` | Executes a raw Chrome DevTools Protocol (CDP) method directly on the target WebView2 instance. |
 | **[`nova.clipboard_read`](tools/app-shell-and-ui/nova-clipboard-read.md)** | *(none)* | Reads the current plain text contents from the Windows OS system clipboard. |
 | **[`nova.clipboard_write`](tools/app-shell-and-ui/nova-clipboard-write.md)** | `text` | Writes plain text to the Windows OS system clipboard. |
 | **[`nova.create_dump`](tools/app-shell-and-ui/nova-create-dump.md)** | `targetId?`, `mode?` | Writes a diagnostic dump of a browser tab (screenshot, DOM, page info, and in full mode MHTML and resources) to a folder on disk. |

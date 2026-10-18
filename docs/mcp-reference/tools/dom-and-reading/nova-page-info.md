@@ -44,6 +44,7 @@ Identifies the element currently holding keyboard focus:
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
 | `maxChars` | `integer` | No | `20000` | 1000–5000000 | Maximum characters to return. Defaults shrink automatically under context pressure unless explicitly provided. |
+| `include` | `array` of `string` | No | — | — | Optional extra blocks. 'subtargets': the tab's separate iframes and workers (see the tool description). |
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
 Tool category: `safe` (lowest risk class in Nova's agent permission settings).

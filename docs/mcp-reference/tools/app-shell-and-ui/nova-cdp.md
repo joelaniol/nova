@@ -18,6 +18,7 @@
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `subtargetId` | `string` | No | — | — | Optional: run the call in this iframe's or worker's own session (subtargetId from nova.page_info(include=['subtargets'])). Omit for the page itself. |
 | `method` | `string` | Yes | — | — | Chrome DevTools Protocol method name, e.g. 'Network.enable', 'Runtime.evaluate', 'DOM.getDocument'. See chromedevtools.github.io/devtools-protocol/. |
 | `params` | `object` | No | — | — | CDP method parameters object. Exact allowed keys depend on `method`; discover the precise shape in the CDP spec for that method. The documented common keys here cover the highest-volume Nova workflows such as Runtime.evaluate, DOM/Overlay node targeting, Input.dispatch*, Emulation overrides, Network headers, and Page screenshots. |
 | `params.expression` | `string` | No | — | — | Runtime.evaluate expression. |

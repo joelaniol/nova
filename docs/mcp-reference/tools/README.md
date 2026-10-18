@@ -16,7 +16,7 @@ Looking for a tool by what it does rather than by area? The [tool catalog](../to
 | [Credentials, Vault & DPAPI Secret Keystore](vault-and-security/README.md) | 9 | Password autofill via ephemeral origin-bound SecretRef tokens, credential discovery, and write-only encrypted environment variables. |
 | [DOM Perception & Semantic Extraction](dom-and-reading/README.md) | 20 | Token-efficient text extraction, structured landmark reading, typed DOM attributes, and multi-modal fusion perception. |
 | [Desktop Notifications & Alerts](notifications/README.md) | 11 | Native OS notification dispatch, unread inbox management, and per-origin notification permissions. |
-| [Device Emulation & Responsive Testing](device-emulation/README.md) | 10 | Mobile viewport simulation, touch event emulation, user agent overriding, and dark mode toggles. |
+| [Device Emulation & Responsive Testing](device-emulation/README.md) | 11 | Mobile viewport simulation, touch event emulation, user agent overriding, and dark mode toggles. |
 | [Downloads Management & Queue Control](downloads/README.md) | 17 | Download tracking, pause/resume, security prompt resolution, and directory management. |
 | [Episodic Task Memory & Guidance](task-memory/README.md) | 33 | Task instance tracking, guidance logs, coverage scans, and operator domain notes. |
 | [External MCP Servers & Site-Provided Automation](external-mcp/README.md) | 14 | Registering, running, and dynamically calling secondary MCP servers through Nova's unified host, plus the probes that find the automation a website offers itself (MCP endpoints, agent cards, `llms.txt`). |
@@ -34,5 +34,5 @@ Looking for a tool by what it does rather than by area? The [tool catalog](../to
 | [Video Editing](video-editing/README.md) | 4 | Nova's video editor: screen recordings turned into GIF, WebM and MP4 clips or stills, with cuts, speed, captions, end cards, zoom, framing for feeds and reusable templates. |
 | [Visual Evidence, Screenshots & Archiving](visual-evidence/README.md) | 12 | Lossless cropped screenshots, pixel-by-pixel diffing, persistent baselines, and print-to-PDF generation. |
 
-**493 tools in total.**
+**494 tools in total.**
 <!-- /generated:area-list -->

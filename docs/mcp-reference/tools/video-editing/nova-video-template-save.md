@@ -33,7 +33,7 @@ nova.video_render(template="diary-clip")
 | `name` | `string` | Yes | — | — | 2..48 characters: a-z, 0-9, '-'. |
 | `description` | `string` | No | — | ≤ 200 characters | What the template is for, in one line (e.g. 'LinkedIn diary clips, German captions'). |
 | `notes` | `string` | No | — | ≤ 1000 characters | How to record for it, for whoever uses it later. |
-| `values` | `object` | Yes | — | — | Export values: aspect, width, fps, format (gif\|webm\|mp4), idle ('auto'), keys, zoom ('auto'), endHoldMs, style {...} (the style values of nova.video_render). |
+| `values` | `object` | Yes | — | — | Render values: aspect, width, fps, format (gif\|webm\|mp4), idle ('auto'), keys, zoom ('auto'), endHoldMs, motion (standard\|short\|reduced), style {...} (the style values of nova.video_render). A call's own segments replace the template's idle. |
 | `agentId` | `string` | No | — | — | Your agent identity. |
 
 Capability bundle: `visual_evidence` (load it with `nova.tools_bundle(bundle='visual_evidence')`).
