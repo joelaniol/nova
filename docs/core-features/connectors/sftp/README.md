@@ -36,6 +36,17 @@ flowchart TD
 
 ---
 
+## Dedicated Subsystem Architecture Guides
+
+For in-depth protocol mechanics, state machine transitions, crash recovery guarantees, and step-by-step agent recipes, explore the specialized SFTP architecture guides:
+
+| Architecture Guide | Scope & Focus | Primary Tools |
+| :--- | :--- | :--- |
+| **[SFTP Resumable Engine & Parallel Acceleration](resumable-engine-and-acceleration/README.md)** | Four-phase state machine (Plan, Verify, Transfer, Commit), 1 MB prefix-window verification, 8x parallel stream acceleration for files $\le 1\text{ MB}$, checkpoint cadence (64 MB / 5 s), atomic commit recovery, and asynchronous job tracking. | [`nova.sftp_get`](../../../mcp-reference/tools/connectors-and-mail/nova-sftp-get.md), [`nova.sftp_put`](../../../mcp-reference/tools/connectors-and-mail/nova-sftp-put.md), [`nova.sftp_transfer_status`](../../../mcp-reference/tools/connectors-and-mail/nova-sftp-transfer-status.md), [`nova.sftp_transfer_stop`](../../../mcp-reference/tools/connectors-and-mail/nova-sftp-transfer-stop.md) |
+| **[SFTP Directory Inspection & Filesystem Mutations](directory-inspection-and-filesystem-mutations/README.md)** | Structured directory querying, untrusted filename sanitization, octal POSIX permissions (`"755"`), numeric UID/GID projection, atomic renaming with collision guards, bounded recursive deletion, absolute-target symlink creation, and protected root guards. | [`nova.sftp_list`](../../../mcp-reference/tools/connectors-and-mail/nova-sftp-list.md), [`nova.sftp_mkdir`](../../../mcp-reference/tools/connectors-and-mail/nova-sftp-mkdir.md), [`nova.sftp_rename`](../../../mcp-reference/tools/connectors-and-mail/nova-sftp-rename.md), [`nova.sftp_delete`](../../../mcp-reference/tools/connectors-and-mail/nova-sftp-delete.md), [`nova.sftp_symlink`](../../../mcp-reference/tools/connectors-and-mail/nova-sftp-symlink.md), [`nova.sftp_chmod`](../../../mcp-reference/tools/connectors-and-mail/nova-sftp-chmod.md), [`nova.sftp_chown`](../../../mcp-reference/tools/connectors-and-mail/nova-sftp-chown.md) |
+
+---
+
 ## Connection Profiles & Host-Key Verification Gate
 
 An SFTP connector operates over standard SSH transport (port **22**). It supports two authentication mechanisms:

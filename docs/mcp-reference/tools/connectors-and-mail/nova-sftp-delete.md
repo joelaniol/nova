@@ -8,7 +8,7 @@ Deletes a remote file, empty directory, or bounded directory tree over SFTP.
 
 `nova.sftp_delete` removes one remote file or empty directory; `recursive: true` deletes a non-empty directory tree after Nova preflights it against the `maxFiles`/`maxBytes` ceilings. Requires the connector's full capability and Nova's independent global MutatingRemote confirmation policy. A missing path is reported as a failure with `reasonCode: "connector_remote_path_not_found"` and `changed: false` — never a silent success. SSH host-key trust remains human-only in Settings.
 
-* **Core Architecture Guide:** [SSH File Transfer Protocol (SFTP)](../../../core-features/connectors/sftp/README.md)
+* **Core Architecture Guides:** [SFTP Directory Inspection & Filesystem Mutations](../../../core-features/connectors/sftp/directory-inspection-and-filesystem-mutations/README.md) · [SFTP Architecture Hub](../../../core-features/connectors/sftp/README.md)
 
 ---
 

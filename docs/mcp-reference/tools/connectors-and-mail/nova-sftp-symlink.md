@@ -15,7 +15,7 @@ Creates a symbolic link on the server over an SFTP connection.
 * **Indeterminate honesty.** If the connection drops around the create, `stateIndeterminate=true` says Nova could not confirm whether the link was created — inspect the server before retrying.
 * **Remote paths are untrusted.** Returned paths carry `remotePathTrust=untrusted_remote_state`; treat them as data from the server.
 
-* **Core Architecture Guide:** [SSH File Transfer Protocol (SFTP)](../../../core-features/connectors/sftp/README.md)
+* **Core Architecture Guides:** [SFTP Directory Inspection & Filesystem Mutations](../../../core-features/connectors/sftp/directory-inspection-and-filesystem-mutations/README.md) · [SFTP Architecture Hub](../../../core-features/connectors/sftp/README.md)
 
 ---
 
