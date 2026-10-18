@@ -66,15 +66,20 @@ Common refusals: `export.no_recording`, `export.still_recording` (stop the recor
 | `endCard.text` | `string` | Yes | — | ≤ 80 characters | — |
 | `endCard.subtext` | `string` | No | — | ≤ 80 characters | — |
 | `endCard.holdMs` | `integer` | No | `2500` | 500–10000 | — |
+| `endCard.tone` | `string` | No | — | `verified` | Styled look: 'verified' turns the card's accent line green. Only when the clip shows a check that really ran (e.g. the agent read the result back), never as decoration. |
 | `keys` | `boolean` | No | `false` | — | GIF, WebM and MP4: show the keys you pressed as a badge at the bottom (named keys and Ctrl/Alt/Win shortcuts only, never typed text). Needs a recording made with evidence=true. |
 | `zoom` | `any` | No | — | — | Zoom effects in the exported GIF, WebM or MP4 only (the recording stays unchanged). 'auto': from the recording's evidence timeline - every observed change that covered a part of the picture (a menu, a toast, a field) gets a smooth zoom onto that area from shortly before it started until shortly after it settled. Or a list of {startMs, endMs, x, y, width, height} in recording pixels (as the timeline's change boxes). The view keeps the GIF's aspect ratio, enlarges at most 3x and eases in and out over 0.4 s. |
 | `saveDir` | `string` | No | — | — | Absolute folder for the clip. Omit to use Nova's Exports folder; any other folder needs 'Allow local files'. |
 | `fileName` | `string` | No | — | ≤ 80 characters | File name without extension; default: the recording's name. A taken name gets -2, -3 ... |
+| `chapters` | `array` of `object` | No | — | ≤ 12 items | Styled look only (style or a template with one): the clip's chapters, each a small kicker above a headline in the zone above the window, with at most one accent word that the accent colour wipes across. Times are recording time like captions; a chapter stands until endMs or until the next one begins. Keep headlines to three to seven words ('Data found.', 'Excel created.'). A chapter in a part the clip cuts away is not shown (droppedChapters in the result). |
+| `proofLine` | `string` | No | — | ≤ 100 characters | Styled look only: one line of small monospace text at the bottom that says what the clip is, e.g. 'Real run · Claude Code + Nova'. When parts are sped up, Nova adds the speed itself (' · 3×' or ' · 1–16×'), so the clip never claims real time; the result repeats the line as shown. |
 | `template` | `string` | No | — | — | An export template's name (nova.video_template_list), e.g. 'nova-linkedin'. Its values stand in for the arguments you leave out; your own arguments win. The result names the template and its version, so the export can be repeated. |
 | `style` | `object` | No | — | — | The styled look ('Nova Cinematic'): the recording as a rounded window with shadows on a dark canvas, captions beside the window (never over the picture) in the shipped Inter, an end card that turns into the canvas. Any style value given here - even {} - switches it on; values you leave out come from the template, then from Nova's defaults (nova.video_template_list(name=...) shows them as defaultStyle). Sizes are shares of the output: padding and radius of its width, text sizes of its height. The result repeats the style it used. |
 | `style.background` | `array` of `string` | No | — | 2–2 items | Canvas gradient from top left to bottom right. |
-| `style.accent` | `string` | No | — | — | Glow and the end card's line. |
-| `style.glow` | `number` | No | — | 0–0.5 | Strength of the accent glow behind the window. |
+| `style.accent` | `string` | No | — | — | Accent colour: the chapter headline's accent word, the end card's line (default Nova's violet #9270F5). |
+| `style.accentLight` | `string` | No | — | — | Light accent for small text: kickers and caption accents (default #B39DFF, readable on the dark canvas). |
+| `style.verified` | `string` | No | — | — | Colour of a tone='verified' chapter or end card (default #55D6A4). |
+| `style.glow` | `number` | No | — | 0–0.5 | Strength of an accent glow behind the window (default 0: none). |
 | `style.padding` | `number` | No | — | 0–0.2 | Space between window and the canvas edge, share of the width. |
 | `style.radius` | `number` | No | — | 0–0.06 | Window corner radius, share of the width. |
 | `style.border` | `number` | No | — | 0–1 | Opacity of the window's thin white outline. |

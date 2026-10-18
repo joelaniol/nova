@@ -779,7 +779,7 @@ Copyright (c) HarfBuzz authors (HarfBuzz, "Old MIT" license)
 (Same MIT license text as above.)
 
 ----------------------------------------------------------------------
-Inter 4.1 (font of the screen recorder's styled export, Inter-Regular/SemiBold/Bold.ttf in Nova Outrider)
+Inter 4.1 (font of the video editor's styled export, Inter-Regular/SemiBold/Bold.ttf in Nova Outrider)
 License: SIL Open Font License 1.1
 Source:  https://github.com/rsms/inter (release v4.1, static TTF, unmodified)
 ----------------------------------------------------------------------
@@ -876,3 +876,15 @@ INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
 DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
 OTHER DEALINGS IN THE FONT SOFTWARE.
+
+----------------------------------------------------------------------
+JetBrains Mono 2.304 (font of the video editor's styled export, JetBrainsMono-Medium.ttf in Nova Outrider)
+License: SIL Open Font License 1.1
+Source:  https://github.com/JetBrains/JetBrainsMono (release v2.304, static TTF, unmodified)
+----------------------------------------------------------------------
+
+Copyright 2020 The JetBrains Mono Project Authors (https://github.com/JetBrains/JetBrainsMono)
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1
+(same license text as for Inter above; shipped next to the font as Fonts\JetBrainsMono\OFL.txt).
+
