@@ -1,6 +1,7 @@
 # Media Devices & Permissions Architecture
 
-Nova enforces strict, transparent governance over web application access to sensitive hardware peripherals: webcams, microphones, speaker audio output, screen-sharing pipelines, and geolocation sensors. It implements a multi-layered permission model that separates persistent user preferences from ephemeral session grants, provides live stream monitoring, equips agents and users with an instant emergency kill-switch, and includes an isolated WebRTC hardware diagnostic suite.
+> [!NOTE]
+> Nova enforces strict, transparent governance over web application access to sensitive hardware peripherals: webcams, microphones, speaker audio output, screen-sharing pipelines, and geolocation sensors. It implements a multi-layered permission model that separates persistent user preferences from ephemeral session grants, provides live stream monitoring, equips agents and users with an instant emergency kill-switch, and includes an isolated WebRTC hardware diagnostic suite.
 
 ```mermaid
 flowchart TD
@@ -51,164 +52,45 @@ flowchart TD
 
 ---
 
-## 1. The Multi-Layered Permission Decision Model
+## The 3 Pillars of Media Devices & Permissions
 
-When a website invokes `navigator.mediaDevices.getUserMedia` or `getDisplayMedia`, Nova determines access through a strict evaluation hierarchy:
-
-$$\text{Effective Permission} = \text{SessionGrant} \succ \text{OriginOverride} \succ \text{GlobalDefault}$$
-
-### Decision States
-
-* **`prompt` (Default):** Prompts the user with an interactive WinUI 3 permission dialog displaying the requesting origin, requested peripheral axes, and persistence options.
-* **`allow`:** Automatically permits the requesting origin to access the specified peripheral.
-* **`block`:** Automatically rejects the peripheral request without prompting the user or notifying the site.
-
-### Granular Peripheral Axes
-
-Nova tracks permissions independently across five distinct axes:
-1. `camera`: Webcams and video capture cards.
-2. `microphone`: Audio input devices and USB microphones.
-3. `speaker`: Audio output device selection (`setSinkId`).
-4. `screenCapture`: Desktop and window screen sharing via `getDisplayMedia`.
-5. `geolocation`: Physical coordinate sensors and Wi-Fi triangulation.
-
-### Embedded Iframes & Origin Isolation
-
-Nova tracks both the top-level window origin and the immediate requesting frame origin. Third-party iframes cannot silently inherit permissions granted to the top-level document. An embedded widget on `https://example.com` requesting a camera stream must be explicitly authorized for its own frame origin.
-
----
-
-## 2. Provenance Chains & The `reasonStack`
-
-When agents query permissions using `nova.media_permission_get`, Nova provides the exact evaluation provenance chain:
+Nova's peripheral governance architecture is divided into three specialized domains:
 
 ```mermaid
 flowchart LR
-    Enterprise["1. Enterprise Override\n(enterprise_override:not_configured)"] --> OS["2. OS Privacy\n(os_privacy:not_checked)"]
-    OS --> Session["3. Session Grant\n(session_grant:none)"]
-    Session --> Site["4. Site Override\n(site_override:camera=allow)"]
-    Site --> Global["5. Global Default\n(global_default:prompt)"]
-    Global --> Terminal["6. Terminal Ask\n(terminal_ask)"]
+    A["1. Permission Hierarchy &<br/>The Reason Stack"] --- B["2. Hardware Routing &<br/>Real-Time Diagnostics"]
+    B --- C["3. Governance, Kill-Switches<br/>& Audit Logging"]
 ```
 
-### Evaluation Rule Hierarchy
-
-1. **`enterprise_override`:** Enterprise group policy and DLP controls (highest precedence).
-2. **`os_privacy`:** Windows operating system-level privacy toggles (camera/microphone privacy switches).
-3. **`session_grant`:** In-memory "Allow once" grants valid for the active session.
-4. **`site_override`:** Stored per-origin preferences recorded in `settings.json`.
-5. **`global_default`:** Global Permission Center defaults.
-6. **`terminal_ask`:** Fallback prompting the user.
-
-### Reason Stack Origin Sanitization (Log-Forging Protection)
-
-Origin strings originating from untrusted web pages or agent parameters could potentially inject control characters, newlines, or ANSI escape codes into log files and MCP envelopes.
-
-Nova applies strict ASCII sanitization to every origin string before interpolating it into reason stack entries:
-* All characters outside the strict character class `[A-Za-z0-9./:_-]` are replaced with `_`.
-* Strings are strictly clamped in length to prevent buffer overruns or log-forging exploits.
-
----
-
-## 3. Persistent Rules vs. Ephemeral Session Grants
-
-Nova enforces a clear distinction between persistent configuration and temporary memory grants:
-
-| Property | Persistent Permissions | Ephemeral Session Grants ("Allow Once") |
+| Sub-System | Scope & Responsibilities | Deep Dive Specification |
 | :--- | :--- | :--- |
-| **Storage Location** | Persisted to disk in Nova's `settings.json` | Stored exclusively in volatile application RAM |
-| **Lifetime** | Indefinite until explicitly revoked or reset | Discarded when the tab closes or Nova restarts |
-| **Intended Use** | Trusted daily work tools (e.g. video conferencing suites) | Ad-hoc meetings, temporary voice notes, unknown websites |
-| **Revocation Tool** | `nova.media_permission_set` or `nova.site_permissions_reset_origin` | `nova.media_permissions_clear_session_grants` |
-
-### Session Grant Flushing with Immediate Stream Termination
-
-Calling `nova.media_permissions_clear_session_grants` flushes all temporary in-memory grants.
-
-**The Immediate Termination Invariant:** Rather than merely deleting memory tokens while leaving active video streams running, Nova's clear routine actively severs all active camera, microphone, and screen-sharing tracks relying on those grants. The physical webcam LED indicator turns off immediately.
+| **Permission Hierarchy & Reason Stack** | Multi-layered decision hierarchy (SessionGrant > OriginOverride > GlobalDefault), 5 peripheral axes (`camera`, `microphone`, `speaker`, `screenCapture`, `geolocation`), embedded iframe isolation, `reasonStack` provenance, and ASCII log-forging sanitization. | [Permission Hierarchy & Reason Stack](permission-hierarchy-and-reason-stack/README.md) |
+| **Hardware Routing & Diagnostics** | Peripheral hardware inventory management, system default tracking (`__nova.system_default__`), device configuration drift detection, and isolated real-time WebRTC diagnostics (FPS, RMS audio energy, clipping, loopback). | [Hardware Routing & Diagnostics](hardware-routing-and-diagnostics/README.md) |
+| **Governance, Kill-Switches & Audits** | $O(1)$ live stream status monitoring, global and origin-scoped emergency kill-switches (`nova.media_stop_all`), session grant flushing with immediate track termination, atomic origin resets, and token-efficient incremental delta audits. | [Governance, Kill-Switches & Audits](governance-killswitch-and-audit/README.md) |
 
 ---
 
-## 4. Live Stream Monitoring & Emergency Kill-Switches
+## Comprehensive Documentation Index
 
-Nova provides continuous, real-time oversight of hardware usage:
+Explore the dedicated deep-dive guides for technical specifications, evaluation rule stacks, and diagnostic procedures:
 
-```mermaid
-sequenceDiagram
-    participant Web as Video Conference Tab
-    participant Cam as Physical Camera Hardware
-    participant Nova as Nova Media Monitor
-    participant Agent as Autonomous Agent / User
+### 1. [Permission Hierarchy & The Reason Stack](permission-hierarchy-and-reason-stack/README.md)
+* **The Permission Decision Model:** Hierarchical evaluation across ephemeral session grants, stored origin overrides, and global defaults.
+* **Embedded Iframes & Origin Isolation:** Preventing third-party widgets from inheriting permissions granted to top-level documents.
+* **Provenance Chains:** Detailed inspection of the 6-tier evaluation chain via `reasonStack`.
+* **Reason Stack Sanitization:** Strict ASCII filtering to defend against log-forging and buffer overruns.
 
-    Web->>Cam: Acquires Video Stream
-    Cam-->>Nova: Hardware Stream Active
-    Nova->>Nova: Renders visual recording badge in tab chrome
+### 2. [Hardware Device Routing & Real-Time Diagnostics](hardware-routing-and-diagnostics/README.md)
+* **Hardware Inventory & Preferences:** Mapping physical devices and handling the `__nova.system_default__` dynamic token.
+* **Device Drift Detection:** Correlating stored preferences against live connected peripherals to identify missing hardware.
+* **WebRTC Diagnostic Runner:** Non-disruptive telemetry testing for camera (resolution, FPS, drops), microphone (RMS volume, clipping), and speaker channels.
 
-    Agent->>Nova: nova.media_activity_status()
-    Nova-->>Agent: { activeOriginCount: 1, activeTrackCount: 1, origins: ["https://meet.google.com"] }
-
-    opt Emergency Privacy Halt
-        Agent->>Nova: nova.media_stop_all(scope="all")
-        Nova->>Cam: Immediately releases hardware handle
-        Nova->>Web: Severs media tracks & fires ended events
-        Nova-->>Agent: { status: "ok", stoppedTrackCount: 1 }
-    end
-```
-
-### 1. Live Stream Snapshot (`nova.media_activity_status`)
-
-An $O(1)$ query that inspects active media streams across all open tabs without scanning the historical audit log:
-* `activeOriginCount`: Number of origins currently capturing media.
-* `activeTrackCount`: Total number of live tracks (audio, video, screen).
-* `origins`: Sorted list of origins actively accessing hardware.
-* `isAnyActive`: Immediate boolean flag for rapid polling.
-
-### 2. The Emergency Stop (`nova.media_stop_all`)
-
-A global kill-switch for immediate privacy protection:
-* **`scope="all"` (Default):** Immediately severs all active media tracks across all open tabs and browser sandboxes, releasing operating system handles on cameras and microphones.
-* **`scope="origin"`:** Scopes the termination to a specific target origin (`origin="https://..."`).
-
-### 3. Origin Reset Aggregate (`nova.site_permissions_reset_origin`)
-
-A single-operation atomic reset that completely wipes a website's footprint:
-* Deletes all stored media permission overrides (camera, mic, speaker, screen, geolocation).
-* Deletes notification permissions.
-* Deletes stored hardware device bindings.
-* Flushes all active session grants for that origin.
-* Halts any active media streams and reapplies CDP policy boundaries.
-
----
-
-## 5. Hardware Device Routing & Drift Diagnostics
-
-Modern workstations frequently feature multiple multimedia devices (e.g. built-in laptop webcam, 4K USB webcam, podcast microphone, Bluetooth headset, virtual camera).
-
-### Stored Device Preferences (`nova.media_device_preferences_list`)
-
-* **Default Device Token (`__nova.system_default__`):** Explicitly marks an axis as following the host operating system's default peripheral.
-* **Per-Site Device Binding:** Users and agents can associate specific preferred devices with specific origins (e.g. routing a recording studio site to a professional USB interface).
-* **Drift Diagnosis:** If a user unplugs a USB webcam, the stored device ID remains in configuration. `nova.media_device_preferences_list` exposes stored bindings so agents can correlate them against live hardware and detect stale configurations.
-
-### Real-Time WebRTC Hardware Diagnostics
-
-When diagnosing audio or video failures inside web applications, Nova provides an isolated diagnostic suite:
-
-* **`nova.hardware_diagnostics_start`:** Launches an isolated diagnostic session in the target tab for `"camera"`, `"microphone"`, or `"speaker"`.
-* **`nova.hardware_diagnostics_state`:** Queries real-time hardware telemetry:
-  - **Camera:** Resolution (width $\times$ height), observed frame rate (FPS), frame drop rate.
-  - **Microphone:** Input volume levels (RMS energy), audio sample rate, clipping indicators.
-  - **Speaker:** Loopback audio verification.
-* **`nova.hardware_diagnostics_stop`:** Terminates the diagnostic test and releases hardware handles.
-
----
-
-## 6. In-Memory Activity Audit Trail & Incremental Deltas
-
-Every permission check, prompt resolution, and stream state change is recorded in an in-memory ring buffer:
-
-* **`nova.media_activity_audit`:** Retrieves recent permission decisions and stream lifecycle events with optional `kind` filtering.
-* **`nova.media_activity_delta`:** Token-efficient incremental querying for background security agents. The agent passes `sinceSequence`, and Nova returns only events logged after that sequence number. In steady state, the response is empty, consuming minimal LLM context tokens.
+### 3. [Governance, Emergency Kill-Switches & Audits](governance-killswitch-and-audit/README.md)
+* **Live Stream Monitoring:** Instant $O(1)$ stream status evaluation via `nova.media_activity_status`.
+* **The Emergency Kill-Switch:** Immediate hardware handle release and stream termination via `nova.media_stop_all`.
+* **Session Grant Flushing:** The immediate termination invariant when clearing in-memory grants.
+* **Atomic Origin Reset:** Aggregated clearing of media, notification, and device bindings via `nova.site_permissions_reset_origin`.
+* **Token-Efficient Auditing:** Incremental query deltas using sequence bookmarks via `nova.media_activity_delta`.
 
 ---
 
@@ -232,4 +114,10 @@ Every permission check, prompt resolution, and stream state change is recorded i
 
 ---
 
-[Media Intelligence overview](../README.md) · [Media Capture](../media-capture/README.md) · [Media Playback](../media-playback/README.md) · [Speech Transcription](../transcription/README.md) · [All core features](../../README.md)
+## Related Documentation
+
+* [Media Intelligence Overview](../README.md)
+* [Media Capture Architecture](../media-capture/README.md)
+* [Media Playback Inspection](../media-playback/README.md)
+* [Speech Transcription Architecture](../transcription/README.md)
+* [All core features](../../README.md)

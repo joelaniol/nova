@@ -230,11 +230,18 @@ When a website undergoes a major redesign, changes URL structure, or when testin
 * Deletes associated crawl records in `crawl_pages`, `crawl_links`, and `crawl_jobs`.
 * Evicts cached AI/MCP discovery probe entries in `discovery_cache`.
 * Removes stored Surface Explorer graph entries in `exploration_pages` and `exploration_interactions`.
-* Deletes orphaned screenshot artifacts under `StoragePaths.CrawlScreenshotsDir`.
+* Deletes orphaned screenshot artifacts under `workspaces/crawls/screenshots/` in the local application data directory.
 
 ---
 
-## 8. Related Documentation
+## 8. Detailed Subsystem Guides
+
+* **[Canonicalization, Utility Scoring & Schema](canonicalization-and-utility-scoring/README.md)**: Index-first navigation paradigm, 5 normalization rules, utility scoring model, and SQLite schema.
+* **[Querying, Reporting & Scope Eviction](querying-reporting-and-scope-eviction/README.md)**: Path prefix queries via `nova.site_urls`, live discovery streaming via `nova.site_urls_report`, and cascading scope resets via `nova.discovery_reset_scope`.
+
+---
+
+## 9. Related Documentation
 
 * [**Crawler & Discovery Architecture Hub**](../README.md) — Architectural overview, dual exploration model, and security invariants.
 * [**Autonomous Breadth-First Crawler**](../crawler/README.md) — Multi-worker route traversal, settlement detection, and sitemap expansion.

@@ -56,15 +56,44 @@ Nova provides specialized guarded tools for every major class of high-impact web
 
 ---
 
-## 3. Subsystem Architecture
+## 3. Comprehensive Documentation Index
 
-The guarded interaction subsystem is organized into three architectural areas:
+The guarded interaction subsystem is organized into three specialized architectural areas and six deep-dive technical guides:
 
-| Subsystem Guide | Scope & Key Concepts | Primary Components |
-| :--- | :--- | :--- |
-| **[Autonomous Chat Engine & Reply Watch](chat-macro/README.md)** | Atomic compose-and-send pipeline, composer auto-discovery, type-first wake-up recovery, read-back verification, isolated Chromium world observation (`__nova_reply_watch`), and C# streaming timeline reduction (`ReplyReducer`). | `McpServer.ComposeAndSend`<br>`ReplyWatchObserverScript`<br>`ReplyReducer`<br>`ReplyTimeline`<br>`EnterKeySend` |
-| **[Transactional Form Submissions & Auth Gates](form-submission/README.md)** | Pre-dispatch HTML5 validation checks, duplicate submission defense, non-idempotent retry policies, Auth Surface Detection (ASD) integration, and 2FA/MFA challenge branching. | `McpServer.InputInteractionGuardedTools`<br>`AuthSurfaceDetector`<br>`GuardedCommitPoint`<br>`form.fields.valid` |
-| **[Closed-Loop Transition Contracts](transition-contracts/README.md)** | Contract anatomy (`preconditions`, `postconditions`, `retryPolicy`, `stabilityWindowMs`), fact keys, operators, deep additive contract merging, and idempotency safeguards. | `TransitionContract`<br>`MergeWithProvidedTransitionContract`<br>`GuardedCommitPoint` |
+```
+public/docs/core-features/guarded-interactions/
+├── README.md                                         # This master hub
+├── chat-macro/
+│   ├── README.md                                     # Autonomous chat engine & reply-watch hub
+│   ├── compose-and-send-pipeline/
+│   │   └── README.md                                 # 6-step pipeline, type-first recovery, read-back verification
+│   └── reply-watch-and-streaming/
+│       └── README.md                                 # __nova_reply_watch, ReplyReducer, SSE tracking, continuation
+├── form-submission/
+│   ├── README.md                                     # Transactional form submissions & auth gates hub
+│   ├── form-validation-and-idempotency/
+│   │   └── README.md                                 # HTML5 :invalid scanning, ARIA checks, non_idempotent defenses
+│   └── auth-surface-and-mfa-gates/
+│       └── README.md                                 # ASD integration, 3-way outcome matrix, 2FA/MFA branching
+└── transition-contracts/
+    ├── README.md                                     # Closed-loop transition contracts hub
+    ├── contract-anatomy-and-operators/
+    │   └── README.md                                 # JSON schema, all/any trees, fact operators, stability holds
+    └── contract-merging-and-cls/
+        └── README.md                                 # Additive contract merging, pinned invariants, CLS engine
+```
+
+| Area | Architecture Guide | Scope & Key Concepts | Primary Components |
+| :--- | :--- | :--- | :--- |
+| **Chat Engine** | **[Autonomous Chat Engine Hub](chat-macro/README.md)** | Architectural role, challenge taxonomy, subsystem layout, and core invariants for LLM chat platforms. | `McpServer.ComposeAndSend`<br>`__nova_reply_watch`<br>`ReplyReducer` |
+| | **[The 6-Step Compose-and-Send Pipeline](chat-macro/compose-and-send-pipeline/README.md)** | Composer auto-discovery across ProseMirror/Lexical/textarea, Shadow DOM piercing, type-first wake-up recovery, read-back verification against input traps, send-button click & `EnterKeySend` fallback, and zero-data-loss prompt text retention. | `TypeFirstRecovery`<br>`ReadBackVerifier`<br>`EnterKeySend`<br>`composer.text.empty` |
+| | **[Reply-Watch & Streaming Architecture](chat-macro/reply-watch-and-streaming/README.md)** | In-page isolated Chromium JavaScript world observer (`__nova_reply_watch`), tamper-proof execution invariants, document replacement detection, C# host streaming reducer (`ReplyReducer`), dual DOM/network stream evaluation, and asynchronous continuation via `reply.watchId`. | `ReplyWatchObserverScript`<br>`ReplyReducer`<br>`ReplyTimeline`<br>`reply.watchId` |
+| **Form & Auth** | **[Transactional Form Submissions Hub](form-submission/README.md)** | Architectural overview, pre-scan validation strategy, and three-way authentication outcome model. | `McpServer.InputInteractionGuardedTools`<br>`AuthSurfaceDetector`<br>`GuardedCommitPoint` |
+| | **[Form Validation & Idempotency Safeguards](form-submission/form-validation-and-idempotency/README.md)** | Pre-dispatch HTML5 `:invalid` and `aria-invalid="true"` scanning, `form.fields.valid` precondition evaluation, atomic pointer dispatch, URL and success indicator postcondition checks, and `non_idempotent` duplicate submission defenses. | `form.fields.valid`<br>`form.successIndicator.visible`<br>`non_idempotent` |
+| | **[Auth Surface & MFA Gates](form-submission/auth-surface-and-mfa-gates/README.md)** | Direct integration with Auth Surface Detection (ASD), the three-way outcome matrix (`verified`, `failed`, `indeterminate`), forbidden credential error trapping (`auth.authError`), 2FA/MFA challenge branching preventing account lockouts, and guarded model/workspace switchers. | `AuthSurfaceDetector`<br>`auth.loggedIn`<br>`auth.authError`<br>`auth.mfaChallenge` |
+| **Contracts** | **[Closed-Loop Transition Contracts Hub](transition-contracts/README.md)** | Protocol-level verification philosophy, deterministic assertion models, and system safety invariant pinning. | `TransitionContract`<br>`MergeWithProvidedTransitionContract`<br>`ClosedLoopSystem` |
+| | **[Contract Anatomy & Fact Operators](transition-contracts/contract-anatomy-and-operators/README.md)** | Transition contract JSON schema, `actionKind`, `retryPolicy`, `ambiguityPolicy`, condition tree logic (`all` vs `any`), complete catalog of assertion operators (`eq`, `neq`, `exists`, `not_exists`, `contains`, `gt`, `gte`, `lt`, `lte`), and temporal stability windows (`stabilityWindowMs` vs `stabilityMs`). | `TransitionContract`<br>`FactAssertion`<br>`stabilityWindowMs`<br>`stabilityMs` |
+| | **[Contract Merging & Closed-Loop System (CLS)](transition-contracts/contract-merging-and-cls/README.md)** | Additive contract merging mechanics (`MergeWithProvidedTransitionContract`), combining built-in macro templates with agent extensions, pinned security invariants, Closed-Loop System (CLS) fact extraction and verification engine integration, and ambiguity resolution policies. | `MergeWithProvidedTransitionContract`<br>`ClosedLoopSystem`<br>`FactExtractionPipeline`<br>`ambiguityPolicy` |
 
 ---
 
@@ -80,6 +109,7 @@ When building autonomous workflows that mutate external application state, agent
    When invoking `nova.guarded_send_message` with `waitForReplyMs`, long generations that exceed the timeout return a `reply.watchId`. Do not send the prompt again. Continue monitoring the existing generation using:
    ```json
    {
+     "targetId": "tab-101",
      "mode": "conversation",
      "replyWatchId": "rw-123456789",
      "waitMs": 30000

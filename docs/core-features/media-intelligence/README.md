@@ -244,6 +244,30 @@ sequenceDiagram
 | **Archives** | [`nova.archive_extract_status`](../../mcp-reference/tools/files-and-documents/nova-archive-extract-status.md) | Real-time progress and extraction metrics for active background archive jobs (`jobId`, `wait`). |
 | **Archives** | [`nova.archive_extract_stop`](../../mcp-reference/tools/files-and-documents/nova-archive-extract-stop.md) | Instantly aborts active archive extraction and executes transactional disk rollback (`jobId`). |
 
+## Comprehensive Architecture Index
+
+Explore the specialized deep-dive specifications across Media Intelligence subsystems:
+
+### 1. [Speech Transcription Architecture](transcription/README.md)
+* **[Outrider Process & CPU Vector Gates](transcription/outrider-process-and-cpu-gates/README.md):** Native Outrider helper isolation, AVX2/FMA pre-flight checks, 0xC000001D fault prevention, and stdio channel separation.
+* **[WMF Transcoding & Pinned Speech Models](transcription/wmf-transcoding-and-models/README.md):** In-memory 16 kHz mono transcoding, video track dropping, and pinned GGML speech models on Hugging Face.
+* **[Execution Lifecycle, Acoustic Coverage & Subtitles](transcription/lifecycle-coverage-and-subtitles/README.md):** Synchronous `waitMs` inline fast paths, `uncoveredAudible` acoustic energy analysis, and subtitle generation (.srt, .vtt, .txt).
+
+### 2. [Media Devices & Permissions Architecture](devices-and-permissions/README.md)
+* **[Permission Hierarchy & The Reason Stack](devices-and-permissions/permission-hierarchy-and-reason-stack/README.md):** The 3-tier decision hierarchy, 5 granular peripheral axes, iframe isolation, and ASCII reason stack sanitization.
+* **[Hardware Routing & Real-Time Diagnostics](devices-and-permissions/hardware-routing-and-diagnostics/README.md):** Hardware inventory management, device drift detection, and isolated WebRTC diagnostic telemetry.
+* **[Governance, Emergency Kill-Switches & Audits](devices-and-permissions/governance-killswitch-and-audit/README.md):** Live stream snapshots, `nova.media_stop_all`, session grant flushing, and token-efficient incremental delta audits.
+
+### 3. [PDF Reading, Export & Page Operations](pdf/README.md)
+* **[Webpage Print Pipeline & Crash Guards](pdf/print-pipeline-and-crash-guard/README.md):** Chromium `Page.printToPDF` pipeline, the `generateTaggedPDF: false` crash guard, and reference-based delivery.
+* **[Digital Text Extraction & Page Range Parsing](pdf/text-extraction-and-range-parsing/README.md):** Managed `PdfPig` text layer extraction, flexible page range parsing, and `maxChars` token budget protection.
+* **[PDF Composition, Splitting & Embedded Viewer](pdf/composition-splitting-and-viewer/README.md):** Multi-source page subset composition, partitioning bundles, and hardware-accelerated WinUI 3 viewer.
+
+### 4. [Local Image Intelligence & Processing](image-processing/README.md)
+* **[Image Geometry Audit & Pre-Flight Meta-Tool](image-processing/geometry-audit-and-meta-tool/README.md):** Pre-flight structural inspection via `nova.image_info`, visual vs. stored geometry, and actionable hints.
+* **[Transformation Pipeline, Codecs & Barcodes](image-processing/transformation-pipeline-and-codecs/README.md):** Deterministic 6-stage pipeline, visual coordinate cropping, native WebP, contact sheets, and barcode operations.
+* **[Safety Guards & Privacy Commit](image-processing/safety-guards-and-privacy-commit/README.md):** Outrider process isolation, decompression bomb limits, EXIF thumbnail overwrite, and two-phase atomic commit.
+
 ---
 
 ## Related Systems

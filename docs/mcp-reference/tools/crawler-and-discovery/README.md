@@ -2,7 +2,13 @@
 
 Broad-surface website crawling, URL indexing, sitemap verification, and exploration of UI states no URL reaches.
 
-* **Core Architecture Guide:** [Autonomous Crawler & URL Discovery](../../../core-features/crawler-and-discovery/crawler/README.md)
+* **Core Architecture Hub:** [Crawler & Discovery Architecture Hub](../../../core-features/crawler-and-discovery/README.md)
+* **Domain Guides:**
+  * [Autonomous Breadth-First Crawler](../../../core-features/crawler-and-discovery/crawler/README.md)
+  * [Surface Explorer & In-Page State Analysis](../../../core-features/crawler-and-discovery/surface-explorer/README.md)
+  * [Persistent Site URL Index & Routing Memory](../../../core-features/crawler-and-discovery/site-url-index/README.md)
+  * [AI Discovery, llms.txt & Website MCP Probing](../../../core-features/crawler-and-discovery/site-discovery-and-mcp/README.md)
+  * [Crawl History, Diffs & Verification](../../../core-features/crawler-and-discovery/diff-and-verification/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

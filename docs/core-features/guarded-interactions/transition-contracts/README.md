@@ -5,132 +5,72 @@
 
 ---
 
-## 1. Anatomy of a Transition Contract
+## 1. Overview & Architectural Role
 
-A `transitionContract` is a structured JSON specification that defines the expected lifecycle of a state-changing web action:
+Traditional browser automation tools treat web actions as fire-and-forget commands, forcing upstream LLMs to infer whether an action succeeded by analyzing subsequent DOM dumps or screenshots. This creates latency, burns token budgets, and often results in duplicate submissions or missed error banners.
 
-```json
-{
-  "actionKind": "submit_form",
-  "retryPolicy": "non_idempotent",
-  "ambiguityPolicy": "signal",
-  "stabilityWindowMs": 3000,
-  "stabilityMs": 500,
-  "preconditions": {
-    "all": [
-      { "factKey": "form.fields.valid", "operator": "eq", "expected": true }
-    ]
-  },
-  "postconditions": {
-    "success": {
-      "any": [
-        { "factKey": "url.changed", "operator": "eq", "expected": true },
-        { "factKey": "form.successIndicator.visible", "operator": "eq", "expected": true }
-      ]
-    },
-    "forbidden": {
-      "any": [
-        { "factKey": "auth.authError", "operator": "eq", "expected": true }
-      ]
-    },
-    "ambiguous": {
-      "any": [
-        { "factKey": "auth.mfaChallenge", "operator": "eq", "expected": true }
-      ]
-    }
-  }
-}
+Nova replaces conversational guesswork with **Transition Contracts**:
+* **Deterministic Verification:** Contracts evaluate machine-verifiable facts (`form.fields.valid`, `url.changed`, `auth.authError`) directly on the browser runtime.
+* **Non-Idempotent Protection:** Prevents duplicate form submissions, duplicate chat prompts, and accidental multi-buys by setting cautious retry advice when outcomes are ambiguous.
+* **Additive Composition:** Built-in system safety templates can be augmented with caller-supplied assertions without compromising core platform invariants.
+
+```mermaid
+flowchart TD
+    Contract["Transition Contract Definition"] --> Pre["Preconditions\n(Evaluated Before Commit)"]
+
+    Pre -- "All True" --> Commit["Commit Point\n(Physical Click / Key / Select)"]
+    Pre -- "Any False" --> PreHalt["Halt: Action Aborted Pre-Flight\n(No State Mutation)"]
+
+    Commit --> Settle["Wait Temporal Hold Window (stabilityMs)"]
+    Settle --> PostCheck{"Evaluate Postconditions"}
+
+    PostCheck -- "Success Matched" --> Verified["verifyState = 'verified'"]
+    PostCheck -- "Forbidden Matched" --> Failed["verifyState = 'failed' (Do Not Retry)"]
+    PostCheck -- "Ambiguous Matched" --> Indet["verifyState = 'indeterminate' (Escalate)"]
+    PostCheck -- "Window Expired" --> Timeout["verifyState = 'indeterminate' (Timed Out)"]
 ```
-
-### Core Configuration Fields:
-
-| Field | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `actionKind` | `string` | `"custom"` | Interaction classification: `send_message`, `submit_form`, `select_option`, `dismiss_overlay`, or `custom`. |
-| `retryPolicy` | `string` | `"non_idempotent"` | `non_idempotent`: cautious retry advice; `idempotent`: safe to re-dispatch; `no_retry`: suppresses retry advice. |
-| `ambiguityPolicy` | `string` | `"signal"` | Action taken when indeterminate: `signal` (reports indeterminate), `retry_once` (one safe retry), `abort`. |
-| `stabilityWindowMs`| `integer` | `3000` | Maximum observation window to wait for postconditions to stabilize. |
-| `stabilityMs` | `integer` | `500` | Duration for which a success condition must remain true before passing (prevents transient glitches). |
 
 ---
 
-## 2. Fact Assertion Syntax & Operators
+## 2. Comprehensive Documentation Index
 
-Every condition inside `preconditions` and `postconditions` is an array of assertion objects:
+For exhaustive technical schemas, operator catalogs, and runtime merging rules, consult the specialized architecture guides:
 
-```json
-{
-  "factKey": "dom.element.count",
-  "operator": "gte",
-  "expected": 1,
-  "frameId": "frame-main-content"
-}
+```
+public/docs/core-features/guarded-interactions/transition-contracts/
+├── README.md                                 # This domain hub
+├── contract-anatomy-and-operators/
+│   └── README.md                             # Contract JSON schema, all/any condition trees, assertion operators, stability holds
+└── contract-merging-and-cls/
+    └── README.md                             # Additive contract merging, pinned invariants, CLS runtime integration, ambiguity policies
 ```
 
-### Supported Operators:
-
-| Operator | Semantics | Example |
+| Architecture Guide | Focus & Key Concepts | Primary Components |
 | :--- | :--- | :--- |
-| `eq` | Strict equality ($==$) | `{ "factKey": "auth.loggedIn", "operator": "eq", "expected": true }` |
-| `not_eq` / `neq` | Inequality (!=) | `{ "factKey": "selectedModel.label", "operator": "not_eq", "expected": "GPT-4" }` |
-| `exists` | Fact key is present and non-null | `{ "factKey": "composer.send_button.stopped", "operator": "exists" }` |
-| `not_exists` | Fact key is absent or null | `{ "factKey": "overlay.blockingDiv", "operator": "not_exists" }` |
-| `contains` | Substring or array membership | `{ "factKey": "page.url", "operator": "contains", "expected": "/dashboard" }` |
-| `gt` / `gte` | Greater than ($\gt$, $\ge$) | `{ "factKey": "cart.itemCount", "operator": "gt", "expected": 0 }` |
-| `lt` / `lte` | Less than ($\lt$, $\le$) | `{ "factKey": "form.errorCount", "operator": "lte", "expected": 0 }` |
+| **[Contract Anatomy & Fact Operators](contract-anatomy-and-operators/README.md)** | Transition contract JSON schema, `actionKind`, `retryPolicy`, `ambiguityPolicy`, condition tree logic (`all` vs `any`), complete catalog of assertion operators (`eq`, `neq`, `exists`, `not_exists`, `contains`, `gt`, `gte`, `lt`, `lte`), and temporal stability windows (`stabilityWindowMs` vs `stabilityMs`). | `TransitionContract`<br>`FactAssertion`<br>`stabilityWindowMs`<br>`stabilityMs` |
+| **[Contract Merging & Closed-Loop System (CLS)](contract-merging-and-cls/README.md)** | Additive contract merging mechanics (`MergeWithProvidedTransitionContract`), combining built-in macro templates with agent extensions, pinned security invariants, Closed-Loop System (CLS) fact extraction and verification engine integration, and ambiguity resolution policies. | `MergeWithProvidedTransitionContract`<br>`ClosedLoopSystem`<br>`FactExtractionPipeline`<br>`ambiguityPolicy` |
 
 ---
 
-## 3. Additive Contract Merging
+## 3. Core Operational Invariants for Autonomous Agents
 
-When calling a high-level guarded tool like `nova.guarded_send_message` or `nova.guarded_submit_form`, callers do not need to construct an entire contract from scratch. Nova provides built-in macro templates for each action.
+When constructing or consuming transition contracts in Nova, agents must follow these operational guidelines:
 
-If an agent needs to add custom verification rules (such as verifying that a specific order number rendered after checkout), it passes an optional `transitionContract` argument.
-
-Nova merges the caller's contract **additively** via its contract merger:
-
-```
-┌─────────────────────────────────┐       ┌─────────────────────────────────┐
-│     Built-in Macro Template     │       │     Agent-Supplied Extension    │
-│  - Pre: form.fields.valid == 1  │   +   │  - Post: dom.text contains      │
-│  - Post: url.changed == true    │       │          "Order Confirmed"      │
-│  - Retry: non_idempotent        │       │                                 │
-└────────────────┬────────────────┘       └────────────────┬────────────────┘
-                 │                                         │
-                 └────────────────────┬────────────────────┘
-                                      ▼
-                        ┌───────────────────────────┐
-                        │   Merged Closed-Loop Plan │
-                        │  - Pre: form.fields.valid │
-                        │  - Post: url.changed OR   │
-                        │    "Order Confirmed" text │
-                        │  - Retry: non_idempotent  │
-                        └───────────────────────────┘
-```
-
-### Security & Invariant Pinning:
-* **Pinned Array Paths:** On `nova.guarded_send_message`, built-in send preconditions and success assertions are pinned. Caller extensions cannot remove built-in assertions; they are merged into the execution plan additively.
-* **Non-Idempotent Preservation:** High-impact tools enforce `retryPolicy: "non_idempotent"`. Even if a caller attempts to supply `retryPolicy: "idempotent"` to a chat message send, Nova overrides it to ensure non-idempotent protection remains active.
-
----
-
-## 4. Stability Windows & Debounce Holds
-
-Web interfaces frequently undergo transient DOM animations immediately after a click:
-* A submit button briefly shows a loading spinner, then restores its previous label if an API request fails.
-* A modal starts closing via a CSS fade-out animation, but is reopened by an error banner.
-
-If an automation tool checks postconditions immediately (at millisecond 10), it may capture a temporary CSS class and declare success prematurely.
-
-Nova enforces two temporal guards:
-1. **`stabilityWindowMs` (Observation Window):** The maximum time Nova will observe the page waiting for postconditions to resolve (default: 3,000ms).
-2. **`stabilityMs` (Hold Window):** Once a success condition is met, it must remain true continuously for `stabilityMs` (default: 500ms) without triggering any forbidden postconditions. If the state flashes or reverts during the hold window, verification is withheld.
+1. **Never Attempt to Override Non-Idempotent Policies:**
+   High-impact tools (`guarded_send_message`, `guarded_submit_form`, `guarded_login`) automatically pin `retryPolicy: "non_idempotent"`. Even if an agent attempts to set `retryPolicy: "idempotent"`, Nova maintains non-idempotent protection to prevent accidental duplicate actions.
+2. **Distinguish `stabilityWindowMs` from `stabilityMs`:**
+   * `stabilityWindowMs` is the maximum time to wait for a state transition to occur (the observation timeout).
+   * `stabilityMs` is the debounce hold duration for which a state must remain true before success is declared (preventing transient animation glitches).
+3. **Handle `indeterminate` State Appropriately:**
+   If a contract resolves with `verifyState: "indeterminate"`, do not assume failure and re-dispatch. Inspect current UI state using [`nova.perceive`](../../../mcp-reference/tools/dom-and-reading/nova-perceive.md).
 
 ---
 
 ## Related Documentation
 
 * [Guarded Interactions Overview](../README.md)
+* [Contract Anatomy & Fact Operators](contract-anatomy-and-operators/README.md)
+* [Contract Merging & Closed-Loop System (CLS)](contract-merging-and-cls/README.md)
 * [Autonomous Chat Engine & Reply Watch](../chat-macro/README.md)
 * [Transactional Form Submissions & Auth Gates](../form-submission/README.md)
 * [Closed-Loop System (CLS) Architecture](../../closed-loop-system-cls/README.md)

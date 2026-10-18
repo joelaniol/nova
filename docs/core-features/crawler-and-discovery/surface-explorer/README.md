@@ -237,7 +237,14 @@ All surface exploration actions are executed through [`nova.explore_surface`](..
 
 ---
 
-## 8. Related Documentation
+## 8. Detailed Subsystem Guides
+
+* **[Guard Session, Invariants & Failure Modes](guard-session-and-invariants/README.md)**: `ExplorationGuardSession` architecture, download and popup traps, script dialog auto-dismissal, `CLAIM_LOST`, and `TAB_BECAME_HIDDEN`.
+* **[Trigger Classification, State Loss & Graph Modeling](trigger-classification-and-transitions/README.md)**: Tri-state trigger classification (`SAFE`, `PROBE_REQUIRED`, `DENY`), pre-activation state-loss guard, post-activation verification, and SQLite state graphs in `crawl.db`.
+
+---
+
+## 9. Related Documentation
 
 * [**Crawler & Discovery Architecture Hub**](../README.md) — High-level architecture, dual exploration model, and security invariants.
 * [**Autonomous Breadth-First Crawler**](../crawler/README.md) — Multi-worker route traversal, settlement detection, and sitemap expansion.

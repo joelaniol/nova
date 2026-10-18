@@ -142,7 +142,14 @@ flowchart LR
 
 ---
 
-## 6. Related Documentation
+## 6. Detailed Subsystem Guides
+
+* **[Crawl History & Generational Diffs](generational-diffs-and-history/README.md)**: Longitudinal website tracking, historical job inspection with `nova.crawl_history`, and generational delta taxonomy (`added_urls`, `removed_urls`, `modified_urls`, SHA-256 content hashes) via `nova.crawl_diff`.
+* **[Batch URL Verification & In-Tab Link Analysis](batch-verification-and-link-analysis/README.md)**: Deterministic batch audits with `nova.crawl_verify` on fixed URL lists, semantic readiness gates (`waitFor`), postcondition assertions (`assert`), research extraction, and instant in-tab link analysis with `nova.crawl_links`.
+
+---
+
+## 7. Related Documentation
 
 * [**Crawler & Discovery Architecture Hub**](../README.md) — Architectural overview, dual exploration model, and security invariants.
 * [**Autonomous Breadth-First Crawler**](../crawler/README.md) — Multi-worker route traversal, settlement detection, and sitemap expansion.

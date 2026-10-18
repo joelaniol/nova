@@ -9,6 +9,10 @@ Checks the live progress, active phase, and error metrics of a background crawl 
 `nova.crawl_status` queries the current operational status of an active or completed crawl job. It provides real-time counts of discovered, visited, failed, and remaining URLs, as well as circuit breaker status and poll hints.
 
 * **Core Architecture Guide:** [Autonomous Crawler & URL Discovery](../../../core-features/crawler-and-discovery/crawler/README.md)
+* **Specialized Guides:**
+  * [Worker Pool, Profile Binding & Job Lifecycle](../../../core-features/crawler-and-discovery/crawler/worker-pool-and-lifecycle/README.md)
+  * [Settlement Detection, Pacing & Resilience](../../../core-features/crawler-and-discovery/crawler/settlement-pacing-and-resilience/README.md)
+  * [Extraction, Sitemaps & Results Projection](../../../core-features/crawler-and-discovery/crawler/extraction-sitemaps-and-results/README.md)
 
 ---
 

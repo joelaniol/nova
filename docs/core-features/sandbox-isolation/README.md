@@ -172,13 +172,24 @@ stateDiagram-v2
 
 ## 6. Comprehensive Documentation Index
 
-Explore the dedicated deep-dive guides for technical specifications, recovery workflows, and API details:
+Explore the dedicated deep-dive guides for technical specifications, recovery workflows, and API details across the four pillars of Sandbox Isolation:
 
-| Guide | Focus & Core Topics Covered |
-|---|---|
-| [**Profile Storage, Disk Anchors & Recovery**](profile-storage-and-disk-anchors.md) | File system directory hierarchy, SQLite cookie databases, LevelDB structures, `.sandbox-meta.json` schema, atomic `.tmp` staging, startup identity reconciliation rules (Identity-Merge, Catastrophic Empty Restore, Auto-Reattach, Orphan Routing, Anchor Backfill), deletion suppression markers, and the interactive `SandboxRecoveryDialog`. |
-| [**Intent Routing & Agent Interaction**](intent-routing-and-agent-interaction.md) | Semantic attributes (`Purpose`, `Aliases`, `AccountLabel`, `PreferredFor`, `DetectedAccountName`), multi-signal intent scoring formula ($w_{\text{preferred}}$, $w_{\text{purpose}}$, $w_{\text{service}}$, $w_{\text{alias}}$, $w_{\text{account}}$, readiness bonus, affinity boost), the 4 Agent Awareness Gates (low confidence, multi-match ambiguity, account mismatch, not ready), and the complete MCP sandbox tool catalog. |
-| [**User Management & GUI Controls**](user-management-and-gui.md) | WinUI 3 title bar pills, responsive Expanded vs. Compact layout, marker badges (Color dot, dynamic Site Favicon, Agent Activity Pulse Ring), hardware recording indicators (webcam, mic, screen share), right-click context menu actions, granular data clearing dialog (`SandboxDataClearDialog`), SettingsView configuration, and Detour Host whitelists. |
+### 1. [Profile Storage, Disk Anchors & Recovery](profile-storage-and-disk-anchors/README.md)
+* **[Storage Partitioning & Format](profile-storage-and-disk-anchors/storage-partitioning-and-format/README.md):** Directory hierarchy, SQLite cookies, LevelDB localStorage, IndexedDB, and isolated vs. process-shared stacks.
+* **[Indestructible Disk Anchors & Boot Reconciliation](profile-storage-and-disk-anchors/disk-anchors-and-reconciliation/README.md):** `.sandbox-meta.json` schema v1, 2-phase atomic staging, the 5 startup reconciliation rules, and `SandboxRecoveryDialog`.
+* **[Deletion Safeguards & Cleanup Choreography](profile-storage-and-disk-anchors/deletion-safeguards-and-cleanup/README.md):** Floor invariant ($\ge 1$), `SuppressedRecoveryAnchorUids`, delayed handle closure, and background purging.
+
+### 2. [Semantic Intent Routing & Agent Interaction](intent-routing/README.md)
+* **[Scoring Engine & Learned Affinity](intent-routing/scoring-engine-and-affinity/README.md):** Declarative metadata attributes, mathematical multi-signal formula, and ETM domain affinity boosts.
+* **[Agent Awareness Gates & Disambiguation](intent-routing/agent-awareness-gates-and-disambiguation/README.md):** The 4 safety gates (Low Confidence, Ambiguity, Account Mismatch, Paused Profile) and structured remediation.
+
+### 3. [WinUI 3 User Management & GUI Controls](user-management/README.md)
+* **[Title Bar Pills & Visual Indicators](user-management/title-bar-pills-and-indicators/README.md):** Responsive Expanded/Compact layout, 10-color palettes, dynamic favicons, agent activity pulse rings, and hardware recording SVG alerts.
+* **[Context Actions & Scoped Data Clearing](user-management/context-actions-and-data-clearing/README.md):** Context flyout actions, per-sandbox proxy overrides, Detour Host whitelisting, and `SandboxDataClearDialog`.
+
+### 4. [Agent MCP Governance & Security Boundaries](mcp-governance/README.md)
+* **[Lifecycle Tools & Dynamic Context Switching](mcp-governance/lifecycle-tools-and-switching/README.md):** Complete tool contracts (`sandbox_create`, `update`, `delete`, `context`, `resolve`, `guarded_switch_sandbox`).
+* **[Security, Privacy & Isolation Boundaries](mcp-governance/security-and-privacy-boundaries/README.md):** InPrivate write barrier, canvas jitter noise injection, and DPAPI credential vault scoping.
 
 ---
 

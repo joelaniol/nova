@@ -14,7 +14,7 @@ Probes a website for modern AI and MCP discovery endpoints (llms.txt, /.well-kno
 
 Results are cached locally (10-minute TTL) so repeat lookups within that window skip the network probe.
 
-* **Core Architecture Guides:** [Site Discovery & OAuth 2.1 MCP Negotiation](../../../core-features/connectors/external-mcp/site-discovery-and-oauth-negotiation/README.md) · [External MCP Architecture Hub](../../../core-features/connectors/external-mcp/README.md) · [Autonomous Crawler & URL Discovery](../../../core-features/crawler-and-discovery/crawler/README.md)
+* **Core Architecture Guides:** [AI Discovery, llms.txt & Website MCP Probing](../../../core-features/crawler-and-discovery/site-discovery-and-mcp/README.md) · [AI Discovery & llms.txt Parsing](../../../core-features/crawler-and-discovery/site-discovery-and-mcp/llms-txt-and-ai-manifests/README.md) · [Remote MCP Web Discovery & OAuth](../../../core-features/crawler-and-discovery/site-discovery-and-mcp/mcp-web-discovery-and-oauth/README.md) · [External MCP Connectors Hub](../../../core-features/connectors/external-mcp/README.md)
 
 ---
 

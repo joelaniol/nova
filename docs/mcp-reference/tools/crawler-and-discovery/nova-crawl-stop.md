@@ -9,6 +9,10 @@ Requests cancellation of an active crawl job, safely draining in-flight workers.
 `nova.crawl_stop` signals the crawl orchestrator to stop scheduling new URLs and gracefully drain active hidden WebView workers. Visited page records and extracted metadata accumulated prior to cancellation remain fully preserved in `crawl.db`.
 
 * **Core Architecture Guide:** [Autonomous Crawler & URL Discovery](../../../core-features/crawler-and-discovery/crawler/README.md)
+* **Specialized Guides:**
+  * [Worker Pool, Profile Binding & Job Lifecycle](../../../core-features/crawler-and-discovery/crawler/worker-pool-and-lifecycle/README.md)
+  * [Settlement Detection, Pacing & Resilience](../../../core-features/crawler-and-discovery/crawler/settlement-pacing-and-resilience/README.md)
+  * [Extraction, Sitemaps & Results Projection](../../../core-features/crawler-and-discovery/crawler/extraction-sitemaps-and-results/README.md)
 
 ---
 

@@ -241,7 +241,15 @@ stateDiagram-v2
 
 ---
 
-## 9. Related Subsystems & Documentation
+## 9. Detailed Subsystem Guides
+
+* **[Worker Pool, Profile Binding & Job Lifecycle](worker-pool-and-lifecycle/README.md)**: Hidden vs. live tab workers, sandbox profile binding, permission lockdown, and state machine controls.
+* **[Settlement Detection, Pacing & Resilience](settlement-pacing-and-resilience/README.md)**: Dual quiet heuristic, semantic completion gates, hydration drift tracking, centralized origin pacing, and circuit breakers.
+* **[Extraction, Sitemaps & Results Projection](extraction-sitemaps-and-results/README.md)**: Robots.txt adherence, XML sitemap expansion, scoped text extraction, JSON-LD, screenshot deduplication, and result paging.
+
+---
+
+## 10. Related Subsystems & Documentation
 
 * [**Crawler & Discovery Architecture Hub**](../README.md) — Architectural overview, dual exploration model, and security boundaries.
 * [**Surface Explorer**](../surface-explorer/README.md) — Revealing dynamic in-page DOM states, modals, accordions, and hover menus.

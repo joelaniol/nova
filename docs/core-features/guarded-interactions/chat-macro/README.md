@@ -5,7 +5,7 @@
 
 ---
 
-## 1. The Modern Chat Interface Challenge
+## 1. Overview & Architectural Role
 
 Interacting with web-based LLMs and chat platforms is drastically different from submitting classic HTML forms:
 
@@ -33,131 +33,72 @@ Interacting with web-based LLMs and chat platforms is drastically different from
 └──────────────────────────────────┴─────────────────────────────────────┘
 ```
 
-`nova.guarded_send_message` addresses every stage of this lifecycle through a coordinated dual-subsystem design: the **Compose-and-Send Pipeline** and the **Reply-Watch Stream Engine**.
-
----
-
-## 2. The 6-Step Compose-and-Send Pipeline
-
-Every execution of `nova.guarded_send_message` follows a deterministic sequence:
+Nova resolves these challenges by dividing chat interaction into two tightly coupled subsystems:
+1. **The Compose-and-Send Pipeline:** Responsible for input surface discovery, reactive wake-up, prompt read-back verification, atomic send dispatch, and prompt text retention on error.
+2. **The Reply-Watch Stream Engine:** Responsible for isolated-world DOM mutation observation, network stream tracking, host-side timeline reduction, and asynchronous continuation without blocking tool connections.
 
 ```mermaid
-flowchart TD
-    Invoke["Agent Calls nova.guarded_send_message(text=...)"] --> Step1["Step 1: Composer Auto-Discovery\n(Scan DOM for ProseMirror / Lexical / textarea)"]
+flowchart LR
+    subgraph Client["Agent Application"]
+        AgentCall["nova.guarded_send_message(text=...)"]
+    end
 
-    Step1 --> PairCheck{"Input & Send Button\nPaired Successfully?"}
+    subgraph Pipeline["Compose-and-Send Pipeline"]
+        Discovery["Composer Auto-Discovery"] --> WakeUp["Type-First Recovery"]
+        WakeUp --> ReadBack["Read-Back Verification"]
+        ReadBack --> Dispatch["Atomic Click / Enter"]
+    end
 
-    PairCheck -- "No (Only Input Found,\nSend Button Absent)" --> Step2["Step 2: Type-First Wake-Up Recovery\n(Type text into input to trigger DOM reactivity)"]
-    Step2 --> ReDiscover["Re-Run Send Button Discovery"]
-    ReDiscover --> RePairCheck{"Send Button Appeared?"}
-    RePairCheck -- "No" --> FallbackEnter["Step 5A: Fallback to EnterKeySend\n(Dispatch synthetic Enter with modifier safety)"]
-    RePairCheck -- "Yes" --> Step3
+    subgraph WatchEngine["Reply-Watch Stream Engine"]
+        IsolatedObserver["__nova_reply_watch\n(Chromium Isolated World)"] --> HostReducer["ReplyReducer\n(C# Host Pipeline)"]
+        HostReducer --> StateEval["State Machine:\nrunning / done / settled"]
+    end
 
-    PairCheck -- "Yes" --> Step3["Step 3: Read-Back Verification\n(Query DOM to assert typed text matches prompt)"]
-
-    Step3 --> ReadBackCheck{"Read-Back Matches?"}
-    ReadBackCheck -- "Mismatch" --> AbortText["Halt: Preserve Composer Text\n(Do not click send, report error)"]
-    ReadBackCheck -- "Verified" --> Step4["Step 4: Register Reply Watch\n(Inject observer into isolated world __nova_reply_watch)"]
-
-    Step4 --> Step5["Step 5: Dispatch Send Action\n(Physical left click on verified send button)"]
-    FallbackEnter --> Step6
-
-    Step5 --> Step6["Step 6: Closed-Loop Postcondition Verification\n(Composer cleared, button morphed to stop, or bubble appeared)"]
-
-    Step6 --> StreamWait{"waitForReplyMs > 0?"}
-    StreamWait -- "Yes" --> AwaitReply["Engage ReplyReducer (Observe SSE / DOM stream)"]
-    StreamWait -- "No" --> ImmediateReturn["Return Result with reply.watchId"]
+    AgentCall --> Pipeline
+    Pipeline --> WatchEngine
+    WatchEngine --> Result["Verified Output / reply.watchId"]
 ```
-
-### The 6 Steps in Detail:
-
-1. **Composer Auto-Discovery:** Resolves active chat containers by querying contenteditable elements, ProseMirror nodes, Lexical editors, and standard textareas. Automatically pierces open Shadow DOM boundaries and same-origin frames.
-2. **Type-First Wake-Up Recovery:** On platforms like ChatGPT or Claude.ai, the send button does not exist in the DOM when the composer is empty. If discovery finds an input field but no send button, Nova types the prompt first to "wake up" the reactive framework, then immediately re-evaluates send-button discovery.
-3. **Read-Back Verification:** Before clicking the send button, Nova queries the composer's inner text or value. If the typed text does not match the prompt (caused by browser autofill interference or dropped keystrokes), Nova aborts the click to prevent partial prompt dispatch.
-4. **Text Retention & Rollback Safety:** If send resolution fails at any point, Nova **preserves the text inside the composer**. It never clears or deletes the user's prompt on failure, ensuring the operator or agent can inspect the input and recover cleanly.
-5. **Send-Button Click & Enter-Key Fallback:** Dispatches a physical left click to the verified send button. If the button is non-clickable or obscured, Nova falls back to `EnterKeySend`—dispatching synthetic `Enter` key events with modifier protection (`Shift+Enter` = newline, `Enter` = send).
-6. **Closed-Loop Postcondition Verification:** Verifies delivery by asserting that at least one of three transition facts became true:
-   * The composer cleared its text (`composer.text.empty`).
-   * The send button mutated into a "Stop Generating" control (`composer.send_button.stopped`).
-   * A new message bubble containing the prompt's first line appeared in the transcript feed.
 
 ---
 
-## 3. In-Page Reply Observer (`__nova_reply_watch`)
+## 2. Comprehensive Documentation Index
 
-To monitor streaming replies without interfering with page scripts, Nova injects an observation engine into an **isolated Chromium JavaScript world**:
+For exhaustive technical implementations, lifecycle diagrams, and operational recipes, consult the specialized architecture guides:
 
-```javascript
-// Runs in isolated world: '__nova_reply_watch'
-window.__novaReplyWatch[watchId] = {
-    originTime: performance.now(),
-    anchorFound: false,
-    replyTextHash: null,
-    composerState: "stopped", // "ready" | "stopped" | "disabled"
-    events: []
-};
+```
+public/docs/core-features/guarded-interactions/chat-macro/
+├── README.md                                 # This domain hub
+├── compose-and-send-pipeline/
+│   └── README.md                             # 6-step pipeline, type-first recovery, read-back verification, EnterKeySend
+└── reply-watch-and-streaming/
+    └── README.md                             # __nova_reply_watch, ReplyReducer, SSE/WebSocket tracking, continuation
 ```
 
-### Security & Isolation Invariants:
-* **Tamper-Proof Execution:** The page scripts share the DOM with the isolated world, but cannot access `window.__novaReplyWatch` or inspect recorded events.
-* **Document Replacement Detection:** If the web app executes a hard page reload or full navigation, the isolated world is discarded. A subsequent read returns `reasonCode: "reply.scope_changed"` or `reply.lost`, alerting the agent that the session navigated away.
-* **Bounded Memory Overhead:** The observer records changes (anchor appearance, text length, hash changes) capped at 1,500 events per channel, costing minimal CPU ticks.
+| Architecture Guide | Focus & Key Concepts | Primary Components |
+| :--- | :--- | :--- |
+| **[The 6-Step Compose-and-Send Pipeline](compose-and-send-pipeline/README.md)** | Composer auto-discovery across ProseMirror/Lexical/textarea, Shadow DOM piercing, type-first wake-up recovery, DOM read-back verification against input corruption, physical click dispatch, modifier-safe `EnterKeySend` fallback, and zero-data-loss prompt text retention on error. | `McpServer.ComposeAndSend`<br>`TypeFirstRecovery`<br>`ReadBackVerifier`<br>`EnterKeySend`<br>`composer.text.empty` |
+| **[Reply-Watch & Streaming Architecture](reply-watch-and-streaming/README.md)** | In-page isolated Chromium JavaScript world observer (`__nova_reply_watch`), tamper-proof execution invariants, document replacement detection, C# host streaming reducer (`ReplyReducer`), dual DOM/network stream evaluation, and asynchronous long-generation continuation via `reply.watchId`. | `ReplyWatchObserverScript`<br>`ReplyReducer`<br>`ReplyTimeline`<br>`ReplyNetworkLog`<br>`reply.watchId` |
 
 ---
 
-## 4. The C# Streaming Reducer (`ReplyReducer`)
+## 3. Core Operational Invariants for Autonomous Agents
 
-While the in-page script records raw DOM events, decision logic is executed on the C# host by the `ReplyReducer`.
+When operating web AI models or chat platforms, agents must adhere to the following rules:
 
-The reducer evaluates two independent observation channels:
-1. **DOM Mutation Channel:** Text length progression, anchor stability, and send-button state transitions.
-2. **Network Stream Channel:** Active Server-Sent Events (SSE) or NDJSON WebSocket streams (`ReplyNetworkLog`).
-
-```mermaid
-stateDiagram-v2
-    [*] --> Running: Send Click Committed
-
-    Running --> Done: Text Stable (No mutations for debounce window)\nAND Stop Button Reverted to Send
-    Running --> Settled: Stream Idle & Network Closed
-    Running --> Error: Page Shows Error Banner or API Failure
-    Running --> Lost: Navigation Away / Document Replaced
-
-    Done --> [*]: Final Text Returned
-    Settled --> [*]: Final Text Returned
-    Error --> [*]: Error Reported to Agent
-```
-
-### State Transitions:
-* **`running`:** Tokens are actively streaming; text length is expanding or network chunks are arriving.
-* **`done`:** The model completed its answer: the stop button reverted to the send button, and text mutations halted.
-* **`settled`:** The stream completed and an idle debounce period elapsed without further changes.
-* **`scope_changed` / `lost`:** The user clicked a different chat thread or navigated to another URL while waiting.
-
----
-
-## 5. Reply-Watch Continuation via `nova.read_text_structured`
-
-When an LLM response takes several minutes to generate (such as generating extensive code or conducting deep research), setting `waitForReplyMs: 1800000` (30 minutes) on `nova.guarded_send_message` is supported, but holding an open MCP call can be inconvenient.
-
-Instead, agents can specify a shorter wait (e.g. `waitForReplyMs: 10000`) and use the returned `reply.watchId` to follow up:
-
-```json
-{
-  "mode": "conversation",
-  "replyWatchId": "rw-123456789",
-  "waitMs": 30000
-}
-```
-
-### Operational Rules for Agents:
-* **Zero Duplicate Sends:** Calling `read_text_structured` with `replyWatchId` is strictly read-only. It observes the existing generation without typing or sending anything.
-* **Never "Retry" by Re-Sending:** If a reply wait times out, the agent must **never** call `nova.guarded_send_message` again with the same prompt. Doing so creates duplicate prompts in the user's chat history. Always continue observing via `replyWatchId`.
+1. **Never Re-Send on Stream Timeouts:**
+   If a chat interaction returns `reply.state: "running"` after the initial wait window, **never call `nova.guarded_send_message` again with the same prompt**. Doing so clutters the conversation with duplicate requests. Use [`nova.read_text_structured`](../../../mcp-reference/tools/dom-and-reading/nova-read-text-structured.md) with `replyWatchId` to resume non-destructive observation.
+2. **Rely on Zero-Data-Loss Retention:**
+   If a send fails due to an unexpected blocker or disabled button, Nova guarantees the prompt text remains in the composer. Do not attempt blind re-typing; inspect the UI state with `nova.perceive` to diagnose why the submit button was unavailable.
+3. **Use Blocker Dismissal for Popups:**
+   Many AI interfaces present periodic surveys, terms updates, or cookie banners that obscure the composer. Always provide `autoDismissBlockers: true` to allow Nova's CMP and dialog dismissers to clear overlays transparently.
 
 ---
 
 ## Related Documentation
 
 * [Guarded Interactions Overview](../README.md)
+* [The 6-Step Compose-and-Send Pipeline](compose-and-send-pipeline/README.md)
+* [Reply-Watch & Streaming Architecture](reply-watch-and-streaming/README.md)
 * [Transactional Form Submissions & Auth Gates](../form-submission/README.md)
 * [Closed-Loop Transition Contracts](../transition-contracts/README.md)
 * [Tool Reference: `nova.guarded_send_message`](../../../mcp-reference/tools/guarded-actions/nova-guarded-send-message.md)

@@ -240,7 +240,7 @@ Once started, query available tools via `nova.external_tools`:
 > **Enable Crash Resilience:** For external CLI tools running in long-lived agent sessions, set `restartOnCrash: true` to ensure transient failures do not permanently disable capabilities.
 
 > [!CAUTION]
-> **Check Stderr on Startup Failure:** If `nova.external_server_start` fails during the handshake, immediately call `nova.external_server_logs(serverKey="...", maxLines=50)` to inspect the subprocess's raw error output.
+> **Check Stderr on Startup Failure:** If `nova.external_server_start` fails during the handshake, immediately call `nova.external_server_logs(serverKey="...", lines=50)` to inspect the subprocess's raw error output.
 
 ---
 

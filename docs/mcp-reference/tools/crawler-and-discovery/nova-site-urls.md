@@ -8,7 +8,10 @@ Queries the persistent Site-URL-Index for known endpoints, utility scores, and r
 
 `nova.site_urls` queries the persistent cross-crawl URL index maintained in `crawl.db`. As Nova crawls websites, navigates pages, and executes tasks, it indexes discovered endpoints along with utility scores, observed HTTP statuses, and content freshness. Agents use this index to locate routes instantly without crawling from scratch.
 
-* **Core Architecture Guide:** [Autonomous Crawler & URL Discovery](../../../core-features/crawler-and-discovery/crawler/README.md)
+* **Core Architecture Guide:** [Persistent Site URL Index & Routing Memory](../../../core-features/crawler-and-discovery/site-url-index/README.md)
+* **Specialized Guides:**
+  * [Canonicalization, Utility Scoring & Schema](../../../core-features/crawler-and-discovery/site-url-index/canonicalization-and-utility-scoring/README.md)
+  * [Querying, Reporting & Scope Eviction](../../../core-features/crawler-and-discovery/site-url-index/querying-reporting-and-scope-eviction/README.md)
 
 ---
 

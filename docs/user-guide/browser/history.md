@@ -1,127 +1,100 @@
-# Browsing History & Chronological Search
+# Browsing History
 
 > [!NOTE]
-> Nova AI Workspace records your browsing navigation history locally in your profile storage (`history.db`). The History panel provides full-text search, chronological time groupings, per-sandbox origin indicators, and granular clearing controls for human operators and connected AI agents.
+> **Upcoming in 1.0.0-alpha.21 (not published yet).** The History tab, the "Recently closed" view and the History menu described here come with 1.0.0-alpha.21. In 1.0.0-alpha.20 and earlier, history is listed under **Settings → History**.
+
+Nova keeps your browsing history locally on your computer. You can search it, reopen pages, bring back tabs you closed by accident and delete what you no longer want to keep.
 
 ---
 
-## 1. Overview & Key Capabilities
+## 1. Opening History
 
-Browsing history in Nova is engineered for privacy, speed, and deep integration with sandbox profiles:
+* **Keyboard:** press `Ctrl+H`.
+* **Main menu:** **Menu → History → Show history**.
+* **Settings:** **Settings → History → Show history**.
 
-* **Chronological Groupings:** Automatically organizes visits into **Today**, **Yesterday**, **Last 7 days**, and **Older**.
-* **Full-Text Search:** Instantly filters past visits by page title, URL path, or domain name.
-* **Sandbox Origin Tagging:** Each entry shows which sandbox profile (e.g. *Default*, *Work*, or *Client B*) visited the page, preserving account context.
-* **Scoped URL Bar Search (`@history`):** Search exclusively through your historical visits directly from the main address bar.
-* **Private Browsing Protection:** Sites visited in **InPrivate** tabs are never recorded in history.
-* **Granular Deletion:** Remove single visits, purge specific domains, or clear history across custom timeframes.
+History opens as an ordinary tab. If a History tab is already open, Nova switches to it instead of opening a second one. Back, Forward, Reload and `Ctrl+W` work as on any web page.
 
-```
-+-----------------------------------------------------------------------------------+
-|  History (Ctrl+H)                                                         [_][O][X]|
-+-----------------------------------------------------------------------------------+
-|  Search history: [ pull request                              ] [ Clear Data... ]  |
-|                                                                                   |
-|  TODAY - October 11, 2026                                                         |
-|  +-----------------------------------------------------------------------------+  |
-|  | [16:20] Pull Request #142 - Feature Branch       [Sandbox: Work]    [X Del] |  |
-|  |         https://github.com/company/repo/pull/142                            |  |
-|  +-----------------------------------------------------------------------------+  |
-|  | [14:45] Cloud Monitoring - Active Dashboards      [Sandbox: Default] [X Del] |  |
-|  |         https://console.cloud.google.com/monitoring                         |  |
-|  +-----------------------------------------------------------------------------+  |
-|  | [11:10] .NET 8 Performance Documentation          [Sandbox: Work]    [X Del] |  |
-|  |         https://learn.microsoft.com/dotnet/performance/                     |  |
-|  +-----------------------------------------------------------------------------+  |
-|                                                                                   |
-|  YESTERDAY - October 10, 2026                                                     |
-|  +-----------------------------------------------------------------------------+  |
-|  | [18:30] Web Speech API Specification              [Sandbox: Default] [X Del] |  |
-|  |         https://w3c.github.io/speech-api/                                   |  |
-|  +-----------------------------------------------------------------------------+  |
-+-----------------------------------------------------------------------------------+
-```
+The page has two views in its left column:
+
+* **Visited pages:** every recorded visit, newest first, grouped by day ("Today", "Yesterday", then the date).
+* **Recently closed:** tabs and groups of tabs you closed, ready to be restored.
 
 ---
 
-## 2. Opening and Searching History
+## 2. Finding a Page
 
-### Accessing the History Panel
-1. **Keyboard Shortcut:** Press `Ctrl+H` from any active browser window.
-2. **Main Menu:** Select **Menu → History**.
-3. **Recently Closed Tabs:** Open **Menu → History → Recently closed tabs** to quickly restore accidentally closed pages (`Ctrl+Shift+T`).
-
-### Searching Past Visits
-* Click into the search box at the top of the History panel.
-* Type any word from the page title or URL (e.g. `pull request` or `docs`).
-* Results filter dynamically as you type, highlighting matching text across all time periods.
-
-### Scoped Search in the Address Bar (`@history`)
-You can search history without opening the separate History panel:
-1. Focus the address bar (`Ctrl+L` or `Alt+D`).
-2. Type `@history ` followed by your search query.
-3. The address bar displays matching pages from your history with timestamps and sandbox badges. Press `Enter` to navigate to the highlighted item.
+* **Search:** type into the search box at the top. Nova searches page titles and addresses of your whole history, not only the visible part.
+* **Show visits from:** the chips below the search box limit the list to **All**, **Normal tabs** or a single sandbox. Search and filter work together.
+* **Badges:** a visit made inside a sandbox carries that sandbox's name; a visit opened by an AI agent carries an agent badge.
+* **Address bar:** type `@history ` followed by a search term in the address bar to get suggestions from your history only.
 
 ---
 
-## 3. Navigating from History
+## 3. Opening a Page from History
 
-Clicking any history entry opens the page:
-
-* **Left Click:** Navigates the current active tab to the selected URL.
-* **Middle Click (or `Ctrl+Click`):** Opens the URL in a new background tab.
-* **Right-Click Context Menu:**
-  * **Open in new tab:** Opens the visit in a new tab.
-  * **Open in new window:** Launches a separate browser window.
-  * **Open in original Sandbox:** Opens the visit within the exact sandbox profile where it was originally viewed (e.g. *Sandbox B*), restoring logged-in sessions.
-  * **Copy link address:** Copies the URL to your clipboard.
-  * **Delete from history:** Removes that specific visit.
+* **Click:** opens the page in a new tab right next to the History tab. Closing that tab brings you back to History.
+* **Middle click or `Ctrl+Click`:** opens the page in a new background tab.
+* **⋯ menu (or right-click):**
+  * **Open in new tab**
+  * **Copy address**
+  * **More from this site:** searches your history for the same site.
+  * **Remove from history**
 
 ---
 
-## 4. Clearing Browsing History
+## 4. Restoring Closed Tabs
 
-Nova provides comprehensive controls for removing browsing data:
+* **`Ctrl+Shift+T`** reopens the most recently closed tab. The tab bar's context menu offers the same as **Reopen closed tab**.
+* **Menu → History** lists the last closed tabs with their site icons. Tabs that were closed together (for example "Close tabs to the right") appear as one group; you can restore the whole group or a single tab from it.
+* **History → Recently closed** shows the same list in the History tab.
+* A tab that belonged to a sandbox reopens inside the same sandbox. If that sandbox no longer exists, Nova asks before opening the page in a normal tab.
+* Tabs closed by an AI agent are marked with a bot icon. Tabs an agent opened and closed for itself are not listed.
+* Private tabs are never listed.
 
-### Deleting Specific Entries
-* **Single Visit:** In the History list, hover over any item and click the delete icon `[X]`, or right-click and select **Delete from history**.
-* **Entire Domain:** Search for a domain (e.g. `example.com`), select multiple entries with checkboxes or `Shift+Click`, and click **Delete selected**.
+### Previous session
 
-### Clearing Browsing Data in Bulk (`Ctrl+Shift+Delete`)
-To purge browsing traces across time ranges:
-1. In the History panel, click **Clear browsing data…**, or press `Ctrl+Shift+Delete`.
-2. Choose a **Time range**:
-   * **Last hour**
-   * **Last 24 hours**
-   * **Last 7 days**
-   * **Last 4 weeks**
-   * **All time**
-3. Select the data categories to remove:
-   * **Browsing history:** Clears the chronological list of visited URLs.
-   * **Download history:** Clears the list of downloaded files (downloaded files on disk are preserved).
-   * **Cookies and site data:** Signs you out of websites across selected sandboxes.
-   * **Cached images and files:** Frees disk space by removing temporary web assets.
-4. Click **Clear data**.
+If Nova was closed with tabs open, **Menu → History → Open last session** reopens them, even if you declined the restore question at startup. The New Tab page shows the same offer as a card.
 
 ---
 
-## 5. Private Browsing Protection
+## 5. Removing History
 
-Nova provides absolute privacy for InPrivate sessions:
+### Single pages
 
-* Open a private tab via `Ctrl+Shift+N` or **Menu → New private tab**.
-* Private tabs use an ephemeral in-memory profile. **No navigation URLs, cookies, form data, or temporary caches are ever written to `history.db`.**
-* Closing the private tab scrubs all session state immediately from memory. See [Private Browsing](private-browsing.md).
+Use **Remove from history** in a row's ⋯ menu. The row disappears at once and **Undo** stays available for a few seconds. Removing a page removes all of its recorded visits.
+
+### Clearing a time range
+
+**History → Clear browsing data** opens **Settings → History**, which offers:
+
+* **Clear last hour**
+* **Clear last 24 hours**
+* **Clear all history**
+
+Clearing history also removes the matching entries from "Recently closed" and the kept last session, so nothing you deleted can be reopened from there.
+
+### Keeping history for a limited time
+
+**Settings → History → Keep history for** sets how long visits are kept: 30 days, 90 days, 180 days, 1 year or no time limit.
 
 ---
 
-## 6. AI Agent Integration
+## 6. What Is Not Recorded
 
-Connected AI agents can interact with browsing history through Nova's Model Context Protocol (MCP) tools:
+* Pages in **private tabs** are never written to history. See [Private Browsing](private-browsing.md).
+* Reloading a page, or a page that reloads itself, does not add a new entry each time.
+* Pages opened by an AI agent are recorded with an agent badge but never feed your address-bar suggestions. To stop recording them, turn off **Settings → Privacy & Security → Also save pages the AI assistant opens to history**.
 
-* [`nova.history_search`](../../mcp-reference/tools/app-shell-and-ui/nova-history-search.md): Searches historical visits with keyword and sandbox filters.
-* [`nova.history_get`](../../mcp-reference/tools/browser-automation/nova-history-get.md): Retrieves the session navigation back/forward history for a specific tab.
-* [`nova.history_go`](../../mcp-reference/tools/browser-automation/nova-history-go.md): Simulates browser back/forward navigation (`-1`, `+1`) within a tab.
+---
+
+## 7. AI Agent Integration
+
+Connected AI agents can read history through Nova's MCP tools:
+
+* [`nova.history_search`](../../mcp-reference/tools/app-shell-and-ui/nova-history-search.md): searches recorded visits.
+* [`nova.history_get`](../../mcp-reference/tools/browser-automation/nova-history-get.md): reads a tab's back/forward list.
+* [`nova.history_go`](../../mcp-reference/tools/browser-automation/nova-history-go.md): moves a tab back or forward.
 
 ---
 

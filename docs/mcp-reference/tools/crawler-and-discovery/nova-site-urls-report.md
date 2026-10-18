@@ -8,7 +8,10 @@ Reports live navigation observations (new pages, 404s, redirects) to the Site-UR
 
 `nova.site_urls_report` allows agents to contribute live findings back to the shared Site-URL-Index. Each report's `status` is one of the lifecycle values `active`/`dead`/`stale` (not an HTTP status code); the HTTP status code itself goes in the separate `httpStatus` field. When an agent discovers a dead link, a new page title, or a redirect during everyday navigation, reporting it keeps the persistent index fresh for future runs.
 
-* **Core Architecture Guide:** [Autonomous Crawler & URL Discovery](../../../core-features/crawler-and-discovery/crawler/README.md)
+* **Core Architecture Guide:** [Persistent Site URL Index & Routing Memory](../../../core-features/crawler-and-discovery/site-url-index/README.md)
+* **Specialized Guides:**
+  * [Querying, Reporting & Scope Eviction](../../../core-features/crawler-and-discovery/site-url-index/querying-reporting-and-scope-eviction/README.md)
+  * [Canonicalization, Utility Scoring & Schema](../../../core-features/crawler-and-discovery/site-url-index/canonicalization-and-utility-scoring/README.md)
 
 ---
 

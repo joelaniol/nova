@@ -148,7 +148,7 @@ flowchart LR
 | [`nova.external_server_import`](../../../mcp-reference/tools/external-mcp/nova-external-server-import.md) | Ingests server configurations from Claude Desktop, VS Code, Claude Code, or JSON | `source`, `filePath`, `serverName`, `autoStart` |
 | [`nova.external_server_start`](../../../mcp-reference/tools/external-mcp/nova-external-server-start.md) | Spawns a stdio process or connects to an HTTP/SSE external server | `serverKey` |
 | [`nova.external_server_stop`](../../../mcp-reference/tools/external-mcp/nova-external-server-stop.md) | Stops a running stdio process or disconnects an external server | `serverKey` |
-| [`nova.external_server_logs`](../../../mcp-reference/tools/external-mcp/nova-external-server-logs.md) | Reads recent stderr output from a managed stdio subprocess | `serverKey`, `maxLines` |
+| [`nova.external_server_logs`](../../../mcp-reference/tools/external-mcp/nova-external-server-logs.md) | Reads recent stderr output from a managed stdio subprocess | `serverKey`, `lines` |
 | [`nova.external_tools`](../../../mcp-reference/tools/external-mcp/nova-external-tools.md) | Lists all tools exported by a configured external server | `serverKey` |
 | [`nova.external_tool_call`](../../../mcp-reference/tools/external-mcp/nova-external-tool-call.md) | Invokes a specific tool on an external MCP server | `serverKey`, `toolName`, `arguments` |
 

@@ -9,6 +9,10 @@ Dynamically modifies parameters (rate limits, filters, depth, pauses) of an acti
 `nova.crawl_update` adjusts the operational behavior of a running or paused crawl job without cancelling or restarting it. It allows agents to throttle rate limits, pause execution, change depth boundaries, or update regex patterns on the fly.
 
 * **Core Architecture Guide:** [Autonomous Crawler & URL Discovery](../../../core-features/crawler-and-discovery/crawler/README.md)
+* **Specialized Guides:**
+  * [Worker Pool, Profile Binding & Job Lifecycle](../../../core-features/crawler-and-discovery/crawler/worker-pool-and-lifecycle/README.md)
+  * [Settlement Detection, Pacing & Resilience](../../../core-features/crawler-and-discovery/crawler/settlement-pacing-and-resilience/README.md)
+  * [Extraction, Sitemaps & Results Projection](../../../core-features/crawler-and-discovery/crawler/extraction-sitemaps-and-results/README.md)
 
 ---
 

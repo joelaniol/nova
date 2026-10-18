@@ -186,13 +186,24 @@ sequenceDiagram
 
 ---
 
-## Subsystem Navigation
+## Subsystem Navigation & Architecture Guides
 
 * [**Autonomous Breadth-First Crawler**](crawler/README.md) — Multi-worker crawling, limits, settlement, pacing, and robots/sitemap support.
+  * [Worker Pool, Profile Binding & Job Lifecycle](crawler/worker-pool-and-lifecycle/README.md): Hidden vs. live tab workers, sandbox profile binding, permission lockdown, and state machine controls.
+  * [Settlement Detection, Pacing & Resilience](crawler/settlement-pacing-and-resilience/README.md): Dual quiet heuristic, semantic completion gates, hydration drift tracking, centralized origin pacing, and circuit breakers.
+  * [Extraction, Sitemaps & Results Projection](crawler/extraction-sitemaps-and-results/README.md): Robots.txt adherence, XML sitemap expansion, scoped text extraction, JSON-LD, screenshot deduplication, and result paging.
 * [**Surface Explorer**](surface-explorer/README.md) — Interactive DOM state discovery, trigger classification, hover peeks, and guard sessions.
+  * [Guard Session, Invariants & Failure Modes](surface-explorer/guard-session-and-invariants/README.md): Exploration guard session architecture, download and popup traps, script dialog auto-dismissal, `CLAIM_LOST`, and `TAB_BECAME_HIDDEN`.
+  * [Trigger Classification, State Loss & Graph Modeling](surface-explorer/trigger-classification-and-transitions/README.md): Tri-state trigger classification (`SAFE`, `PROBE_REQUIRED`, `DENY`), pre-activation state-loss guard, post-activation verification, and SQLite state graphs in `crawl.db`.
 * [**Site URL Index & Live Reporting**](site-url-index/README.md) — Cross-session routing memory, URL canonicalization, and live browsing ingestion.
+  * [Canonicalization, Utility Scoring & Schema](site-url-index/canonicalization-and-utility-scoring/README.md): Index-first navigation paradigm, 5 normalization rules, utility scoring model, and SQLite schema.
+  * [Querying, Reporting & Scope Eviction](site-url-index/querying-reporting-and-scope-eviction/README.md): Path prefix queries via `nova.site_urls`, live discovery streaming via `nova.site_urls_report`, and cascading scope resets via `nova.discovery_reset_scope`.
 * [**AI & Website MCP Discovery**](site-discovery-and-mcp/README.md) — Automated probing of `llms.txt`, `/.well-known/mcp.json`, and remote server cards.
+  * [AI Discovery & llms.txt Parsing](site-discovery-and-mcp/llms-txt-and-ai-manifests/README.md): Specifications for `/llms.txt` and `/llms-full.txt`, Markdown parsing, section categorization, and cache storage in `crawl.db`.
+  * [Remote MCP Web Discovery & OAuth Negotiation](site-discovery-and-mcp/mcp-web-discovery-and-oauth/README.md): Probing `/.well-known/mcp.json`, SSE and HTTP transports, zero-execution inspection invariant, and RFC 7591 OAuth 2.1 Dynamic Client Registration with PKCE.
 * [**Diffs & Verification**](diff-and-verification/README.md) — Generational crawl comparisons, batch URL verification recipes, and instant link extraction.
+  * [Crawl History & Generational Diffs](diff-and-verification/generational-diffs-and-history/README.md): Longitudinal website tracking, historical job inspection with `nova.crawl_history`, and generational delta taxonomy (`added_urls`, `removed_urls`, `modified_urls`, SHA-256 content hashes) via `nova.crawl_diff`.
+  * [Batch URL Verification & In-Tab Link Analysis](diff-and-verification/batch-verification-and-link-analysis/README.md): Deterministic batch audits with `nova.crawl_verify` on fixed URL lists, semantic readiness gates (`waitFor`), postcondition assertions (`assert`), research extraction, and instant in-tab link analysis with `nova.crawl_links`.
 
 ---
 

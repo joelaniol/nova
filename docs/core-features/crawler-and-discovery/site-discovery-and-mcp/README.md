@@ -222,7 +222,14 @@ Discovery probes strictly enforce `http://` and `https://` schemes. Probes to lo
 
 ---
 
-## 7. Related Documentation
+## 7. Detailed Subsystem Guides
+
+* **[AI Discovery & llms.txt Parsing](llms-txt-and-ai-manifests/README.md)**: Specifications for `/llms.txt` and `/llms-full.txt`, Markdown parsing, section categorization, and cache storage in `crawl.db`.
+* **[Remote MCP Web Discovery & OAuth Negotiation](mcp-web-discovery-and-oauth/README.md)**: Probing `/.well-known/mcp.json`, SSE and HTTP transports, zero-execution inspection invariant, and RFC 7591 OAuth 2.1 Dynamic Client Registration with PKCE.
+
+---
+
+## 8. Related Documentation
 
 * [**Crawler & Discovery Architecture Hub**](../README.md) — Architectural overview, dual exploration model, and security boundaries.
 * [**Autonomous Breadth-First Crawler**](../crawler/README.md) — Multi-worker crawling, limits, settlement, pacing, and robots/sitemap support.

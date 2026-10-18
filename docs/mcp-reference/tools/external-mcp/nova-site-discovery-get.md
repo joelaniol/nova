@@ -8,7 +8,7 @@ Retrieves cached MCP and AI discovery probe results for a domain without network
 
 `nova.site_discovery_get` reads previously cached AI/MCP discovery probe findings for a domain's origin from local storage. It does not initiate any network requests; if no probe has been executed yet for that origin, it returns `{ "found": false, "hint": "..." }` rather than `null`. It shares its response shape with [`nova.site_discovery_probe`](nova-site-discovery-probe.md) — both tools return identical fields on a cache hit, since `site_discovery_get` just serves the cached result without probing.
 
-* **Core Architecture Guides:** [Site Discovery & OAuth 2.1 MCP Negotiation](../../../core-features/connectors/external-mcp/site-discovery-and-oauth-negotiation/README.md) · [External MCP Architecture Hub](../../../core-features/connectors/external-mcp/README.md) · [Autonomous Crawler & URL Discovery](../../../core-features/crawler-and-discovery/crawler/README.md)
+* **Core Architecture Guides:** [AI Discovery, llms.txt & Website MCP Probing](../../../core-features/crawler-and-discovery/site-discovery-and-mcp/README.md) · [AI Discovery & llms.txt Parsing](../../../core-features/crawler-and-discovery/site-discovery-and-mcp/llms-txt-and-ai-manifests/README.md) · [Remote MCP Web Discovery & OAuth](../../../core-features/crawler-and-discovery/site-discovery-and-mcp/mcp-web-discovery-and-oauth/README.md) · [External MCP Connectors Hub](../../../core-features/connectors/external-mcp/README.md)
 
 ---
 
