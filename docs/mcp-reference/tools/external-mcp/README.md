@@ -2,7 +2,7 @@
 
 Registering, running, and dynamically calling secondary MCP servers through Nova's unified host, plus the probes that find the automation a website offers itself (MCP endpoints, agent cards, `llms.txt`).
 
-* **Core Architecture Guide:** [Core Features: plugins.md](../../../core-features/plugins/README.md)
+* **Core Architecture Guides:** [External MCP Server Lifecycle & Multi-Transport Architecture](../../../core-features/connectors/external-mcp/server-lifecycle-and-transports/README.md) · [Site Discovery & OAuth 2.1 MCP Negotiation](../../../core-features/connectors/external-mcp/site-discovery-and-oauth-negotiation/README.md) · [External MCP Architecture Hub](../../../core-features/connectors/external-mcp/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

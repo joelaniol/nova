@@ -8,7 +8,7 @@ Stops a running external MCP server gracefully with force-kill fallback.
 
 `nova.external_server_stop` shuts down an active server. For `stdio`, it closes stdin, waits 5 seconds for a graceful exit, then terminates the process. It refuses to stop if other agents have active calls unless `force: true` is set.
 
-* **Core Architecture Guide:** [External MCP Servers](../../../core-features/connectors/external-mcp/README.md)
+* **Core Architecture Guides:** [External MCP Server Lifecycle & Multi-Transport Architecture](../../../core-features/connectors/external-mcp/server-lifecycle-and-transports/README.md) · [External MCP Architecture Hub](../../../core-features/connectors/external-mcp/README.md)
 
 ---
 

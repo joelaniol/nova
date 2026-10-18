@@ -8,7 +8,7 @@ Lists all configured external MCP servers with runtime status, health, and tool 
 
 `nova.external_servers` returns an inventory of all secondary MCP servers registered in Nova. It reports transport types (`stdio`, `http`, `sse`), connection states, health indicators, last error messages, and registered tool counts.
 
-* **Core Architecture Guide:** [External MCP Servers](../../../core-features/connectors/external-mcp/README.md)
+* **Core Architecture Guides:** [External MCP Server Lifecycle & Multi-Transport Architecture](../../../core-features/connectors/external-mcp/server-lifecycle-and-transports/README.md) · [External MCP Architecture Hub](../../../core-features/connectors/external-mcp/README.md)
 
 ---
 

@@ -8,7 +8,7 @@ Launches an external MCP server, runs initialize handshake, and discovers availa
 
 `nova.external_server_start` initiates the server process or network connection, exchanges MCP initialization capabilities, and queries tools/list. Returns PID, duration, and tool count on success.
 
-* **Core Architecture Guide:** [External MCP Servers](../../../core-features/connectors/external-mcp/README.md)
+* **Core Architecture Guides:** [External MCP Server Lifecycle & Multi-Transport Architecture](../../../core-features/connectors/external-mcp/server-lifecycle-and-transports/README.md) · [External MCP Architecture Hub](../../../core-features/connectors/external-mcp/README.md)
 
 ---
 

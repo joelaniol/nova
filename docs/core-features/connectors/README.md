@@ -279,13 +279,26 @@ Nova stores only the address. How to work that page (open a sent message, find a
 
 ---
 
-## Detailed Protocol Guides
+## Detailed Protocol Guides & Subsystems
 
-* **[Mail Architecture (IMAP & SMTP)](mail/README.md)**: Deep dive into mailbox navigation, search cursors, compose constraints, and encrypted local backup storage.
-* **[Secure Shell (SSH) Execution](ssh/README.md)**: Detailed mechanics of one-shot commands, interactive stdin streaming, stream capture, and process exit analysis.
-* **[SSH File Transfer Protocol (SFTP)](sftp/README.md)**: Resumable transfer engine, prefix window validation, atomic commit recovery, and parallel file transfers.
-* **[FTP & FTPS Architecture](ftp-and-ftps/README.md)**: Transport security modes, control vs. data channel encryption, and passive transfer negotiation.
-* **[External MCP Server Orchestration](external-mcp/README.md)**: Managing child processes, Streamable HTTP/SSE endpoints, configuration import, and proxied tool calls.
+* **[Mail Architecture (IMAP & SMTP)](mail/README.md)**:
+  * [Mailbox Navigation, Hierarchy & Search](mail/mailbox-navigation-and-search/README.md): IMAP folder discovery, listing, and query execution.
+  * [Reading, Organizing & Quarantined Attachments](mail/reading-organizing-and-attachments/README.md): Message retrieval, flag mutation, and dangerous file isolation.
+  * [Composition, Outbox & Rolling Rate Limits](mail/composition-sending-and-rate-limits/README.md): Draft creation, recipient allow-lists, and 20 mails/hr throttles.
+  * [Local Archiving, EML Export & Backup Pipelines](mail/local-archive-and-backups/README.md): Background mailbox backup runs and single-message EML extraction.
+* **[Secure Shell (SSH) Execution](ssh/README.md)**:
+  * [Command Execution, Host Verification & Channels](ssh/command-execution-and-channels/README.md): Synchronous execution, output truncation, and host-key security gates.
+  * [Background Sessions, Output Streaming & Stdin Injection](ssh/background-sessions-and-streaming/README.md): Asynchronous execution, non-blocking polling, and active session stdin streaming.
+  * [Interactive Pseudo-Terminals (PTY)](ssh/interactive-pty-terminals/README.md): Raw terminal sessions, window resizing, ANSI escape sequences, and text-mode user interfaces.
+* **[SSH File Transfer Protocol (SFTP)](sftp/README.md)**:
+  * [Resumable Transfer Engine, Prefix Windows & Acceleration](sftp/resumable-engine-and-acceleration/README.md): 4-phase state machine, 1 MB prefix verification, and 8x parallel stream acceleration.
+  * [Directory Inspection & POSIX Filesystem Mutations](sftp/directory-inspection-and-filesystem-mutations/README.md): POSIX octal permissions, numeric UIDs/GIDs, symlink targets, and root path guards.
+* **[FTP & FTPS Architecture](ftp-and-ftps/README.md)**:
+  * [Dual-Channel Transport, TLS Negotiation & Security](ftp-and-ftps/dual-channel-transport-and-security/README.md): Control vs. data channel encryption, explicit TLS (`AUTH TLS`), passive NAT traversal, and insecure debugging gate.
+  * [Resumable Transfers, File Operations & Recovery](ftp-and-ftps/resumable-transfers-and-file-operations/README.md): Single-file background transfers, `APPE` offset checks, and safe-staging overwrite renaming with rollback.
+* **[External MCP Server Orchestration](external-mcp/README.md)**:
+  * [Server Lifecycle, Process Isolation & Transports](external-mcp/server-lifecycle-and-transports/README.md): Subprocess lifecycle (`stdio`), Streamable HTTP/SSE transports, token security, and config imports.
+  * [Site Discovery & OAuth 2.1 Dynamic Client Registration](external-mcp/site-discovery-and-oauth-negotiation/README.md): Well-known discovery probes (`/.well-known/mcp.json`), RFC 7591 dynamic client registration, and PKCE user consent.
 
 ---
 

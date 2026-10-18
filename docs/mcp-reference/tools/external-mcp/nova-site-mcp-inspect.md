@@ -8,7 +8,7 @@ Inspects a discovered MCP server from cached discovery metadata (identity, trans
 
 `nova.site_mcp_inspect` reads cached discovery data (from a prior `nova.site_discovery_probe`) for an MCP server at a web domain: transport kind and endpoint, whether authorization is required, protocol version, and a preview of the server's advertised tools (name, description, input schema). It fails if the domain has not been probed yet, or has no server card or direct endpoint. This is inspect-only — no external tool is called and the server-card metadata is untrusted.
 
-* **Core Architecture Guide:** [Sandbox Isolation & Container Security](../../../core-features/sandbox-isolation/README.md)
+* **Core Architecture Guides:** [Site Discovery & OAuth 2.1 MCP Negotiation](../../../core-features/connectors/external-mcp/site-discovery-and-oauth-negotiation/README.md) · [External MCP Architecture Hub](../../../core-features/connectors/external-mcp/README.md)
 
 ---
 

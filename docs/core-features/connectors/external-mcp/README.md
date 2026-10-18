@@ -41,6 +41,17 @@ flowchart TD
 
 ---
 
+## Dedicated Subsystem Architecture Guides
+
+For in-depth protocol mechanics, multi-transport supervision, 1-click configuration import, site discovery, and OAuth 2.1 negotiation, explore the specialized External MCP architecture guides:
+
+| Architecture Guide | Scope & Focus | Primary Tools |
+| :--- | :--- | :--- |
+| **[External MCP Server Lifecycle & Multi-Transport Architecture](server-lifecycle-and-transports/README.md)** | Transport engines (stdio, streamable HTTP, legacy SSE), subprocess supervision, isolated workspaces (`ExternalMcpWorkspacesDir`), crash resilience (`restartOnCrash`), stderr ring-buffer capture (1000 lines), DPAPI secret protection, 1-click import (Claude Desktop, VS Code, Claude Code, JSON) with 50-server capacity ceilings, and proxied tool dispatch. | [`nova.external_servers`](../../../mcp-reference/tools/external-mcp/nova-external-servers.md), [`nova.external_server_add`](../../../mcp-reference/tools/external-mcp/nova-external-server-add.md), [`nova.external_server_update`](../../../mcp-reference/tools/external-mcp/nova-external-server-update.md), [`nova.external_server_remove`](../../../mcp-reference/tools/external-mcp/nova-external-server-remove.md), [`nova.external_server_start`](../../../mcp-reference/tools/external-mcp/nova-external-server-start.md), [`nova.external_server_stop`](../../../mcp-reference/tools/external-mcp/nova-external-server-stop.md), [`nova.external_server_logs`](../../../mcp-reference/tools/external-mcp/nova-external-server-logs.md), [`nova.external_tools`](../../../mcp-reference/tools/external-mcp/nova-external-tools.md), [`nova.external_tool_call`](../../../mcp-reference/tools/external-mcp/nova-external-tool-call.md), [`nova.external_server_import`](../../../mcp-reference/tools/external-mcp/nova-external-server-import.md) |
+| **[Site Discovery & OAuth 2.1 MCP Negotiation Architecture](site-discovery-and-oauth-negotiation/README.md)** | Multi-signal website probing (`/.well-known/mcp.json`, A2A, `/llms.txt`, OAuth metadata, active DOM surfaces), 10-minute cache TTL and PKS domain persistence, zero-traffic server card inspection, and the dynamic OAuth 2.1 + PKCE connection flow with local loopback callback and DPAPI Vault onboarding. | [`nova.site_discovery_probe`](../../../mcp-reference/tools/external-mcp/nova-site-discovery-probe.md), [`nova.site_discovery_get`](../../../mcp-reference/tools/external-mcp/nova-site-discovery-get.md), [`nova.site_mcp_inspect`](../../../mcp-reference/tools/external-mcp/nova-site-mcp-inspect.md), [`nova.site_mcp_connect_request`](../../../mcp-reference/tools/external-mcp/nova-site-mcp-connect-request.md) |
+
+---
+
 ## Transport Protocols & Process Lifecycle
 
 External servers communicate through three standardized transport protocols:
@@ -54,7 +65,7 @@ External servers communicate through three standardized transport protocols:
 ### Subprocess Supervision (`stdio`)
 
 When managing local `stdio` subprocesses:
-* **Persistent Isolated Workspaces:** If no working directory (`cwd`) is specified, Nova automatically provides an isolated, persistent working directory located under `StoragePaths.ExternalMcpWorkspacesDir`.
+* **Persistent Isolated Workspaces:** If no working directory (`cwd`) is specified, Nova automatically provides an isolated, persistent working directory in its local application data directory under `workspaces/external-mcp`.
 * **Crash Resilience (`restartOnCrash`):** When enabled, if a managed subprocess crashes unexpectedly, Nova detects process termination and restarts it automatically.
 * **Startup & Request Timeouts:**
   - `startupTimeoutMs`: Timeout for initial handshake and tool discovery (5,000 ms to 120,000 ms, default: 30,000 ms).

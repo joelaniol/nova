@@ -8,7 +8,7 @@ Deletes an external MCP server registration, stopping it if running.
 
 `nova.external_server_remove` unregisters a server from Nova. If the server is currently running, it is stopped before removal.
 
-* **Core Architecture Guide:** [External MCP Servers](../../../core-features/connectors/external-mcp/README.md)
+* **Core Architecture Guides:** [External MCP Server Lifecycle & Multi-Transport Architecture](../../../core-features/connectors/external-mcp/server-lifecycle-and-transports/README.md) · [External MCP Architecture Hub](../../../core-features/connectors/external-mcp/README.md)
 
 ---
 

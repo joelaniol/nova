@@ -8,7 +8,7 @@ Lists all tools available on an external MCP server, with optional full inputSch
 
 `nova.external_tools` discovers capabilities exposed by a connected external server. By default, it returns tool names and descriptions; passing `includeSchema: true` returns complete JSON Schema definitions required for invocation.
 
-* **Core Architecture Guide:** [External MCP Servers](../../../core-features/connectors/external-mcp/README.md)
+* **Core Architecture Guides:** [External MCP Server Lifecycle & Multi-Transport Architecture](../../../core-features/connectors/external-mcp/server-lifecycle-and-transports/README.md) · [External MCP Architecture Hub](../../../core-features/connectors/external-mcp/README.md)
 
 ---
 

@@ -8,7 +8,7 @@ Deletes a remote regular file or empty directory on an FTP/FTPS server.
 
 `nova.ftp_delete` deletes one remote FTP/FTPS regular file or empty directory. Requires the connector's transfer-full access and Nova's independent global MutatingRemote confirmation policy. Recursive delete is intentionally not exposed; a missing path or a non-empty directory never reports success. A plaintext profile additionally needs the user's debug/legacy option plus `allowInsecure: true`.
 
-* **Core Architecture Guide:** [FTP & FTPS](../../../core-features/connectors/ftp-and-ftps/README.md)
+* **Core Architecture Guides:** [FTP Resumable Transfers & Remote File Operations](../../../core-features/connectors/ftp-and-ftps/resumable-transfers-and-file-operations/README.md) · [FTP Architecture Hub](../../../core-features/connectors/ftp-and-ftps/README.md)
 
 ---
 

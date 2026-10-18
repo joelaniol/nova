@@ -34,6 +34,17 @@ flowchart TD
 
 ---
 
+## Dedicated Subsystem Architecture Guides
+
+For in-depth protocol mechanics, dual-channel cryptographic handshakes, crash-resilient staging patterns, and step-by-step agent workflows, explore the specialized FTP architecture guides:
+
+| Architecture Guide | Scope & Focus | Primary Tools |
+| :--- | :--- | :--- |
+| **[Dual-Channel FTP/FTPS Transport & Security Architecture](dual-channel-transport-and-security/README.md)** | Control vs data channel isolation, explicit FTPS (`AUTH TLS`) and implicit FTPS (`ssl_on_connect`), data privacy enforcement (`PBSZ 0`, `PROT P`), system X.509 certificate validation with revocation checks, passive NAT traversal (`EPSV` / `PASV`), and the two-stage Insecure Connection Gate for plaintext debugging. | [`nova.ftp_list`](../../../mcp-reference/tools/connectors-and-mail/nova-ftp-list.md), [`nova.ftp_get`](../../../mcp-reference/tools/connectors-and-mail/nova-ftp-get.md), [`nova.ftp_put`](../../../mcp-reference/tools/connectors-and-mail/nova-ftp-put.md) |
+| **[FTP Resumable Transfers & Remote File Operations](resumable-transfers-and-file-operations/README.md)** | Single-file background transfer engine, 1 MB prefix-window verification, server part size validation (`GetFileSize` before `APPE`), SQLite checkpoint cadence (64 MB / 5 s), caller byte budgets (`maxBytes`), local path sandboxing, MLSD directory querying, and safe-staging overwrite renaming (`BuildAsidePath` / `TryRenameBackAsync`). | [`nova.ftp_get`](../../../mcp-reference/tools/connectors-and-mail/nova-ftp-get.md), [`nova.ftp_put`](../../../mcp-reference/tools/connectors-and-mail/nova-ftp-put.md), [`nova.ftp_transfer_status`](../../../mcp-reference/tools/connectors-and-mail/nova-ftp-transfer-status.md), [`nova.ftp_transfer_stop`](../../../mcp-reference/tools/connectors-and-mail/nova-ftp-transfer-stop.md), [`nova.ftp_list`](../../../mcp-reference/tools/connectors-and-mail/nova-ftp-list.md), [`nova.ftp_rename`](../../../mcp-reference/tools/connectors-and-mail/nova-ftp-rename.md), [`nova.ftp_delete`](../../../mcp-reference/tools/connectors-and-mail/nova-ftp-delete.md) |
+
+---
+
 ## Transport Security Modes
 
 FTP and FTPS share the `ftp` connector type. The transport security mode must match the remote server's configuration:

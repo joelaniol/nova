@@ -8,7 +8,7 @@ Uploads a local regular file over FTP/FTPS to a remote server.
 
 `nova.ftp_put` uploads one policy-approved local regular file over FTP/FTPS. Requires the connector's transfer-full access and Nova's independent global MutatingRemote confirmation policy. Nova writes a unique remote staging file, verifies its byte count, and renames it into place; an existing destination is preserved unless `overwrite: true`. Directory recursion and remote links are intentionally rejected — this tool uploads exactly one regular file. A plaintext profile additionally needs the user's debug/legacy option plus `allowInsecure: true`.
 
-* **Core Architecture Guide:** [FTP & FTPS](../../../core-features/connectors/ftp-and-ftps/README.md)
+* **Core Architecture Guides:** [FTP Resumable Transfers & Remote File Operations](../../../core-features/connectors/ftp-and-ftps/resumable-transfers-and-file-operations/README.md) · [Dual-Channel FTP/FTPS Transport & Security](../../../core-features/connectors/ftp-and-ftps/dual-channel-transport-and-security/README.md) · [FTP Architecture Hub](../../../core-features/connectors/ftp-and-ftps/README.md)
 
 ---
 

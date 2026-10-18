@@ -10,7 +10,7 @@ Reads recent stderr log lines captured from an external MCP server process, plus
 
 `transportEvents` holds the connection history for every transport (up to 100 entries per server): each start attempt with its duration and outcome (`phase`, `reasonCode`, HTTP status and content type) and each disconnect with its kind. HTTP and SSE servers write no stderr, so their failures show up here. Nova records only its own outcome lines: no tool arguments, tokens, headers or message bodies.
 
-* **Core Architecture Guide:** [External MCP Servers](../../../core-features/connectors/external-mcp/README.md)
+* **Core Architecture Guides:** [External MCP Server Lifecycle & Multi-Transport Architecture](../../../core-features/connectors/external-mcp/server-lifecycle-and-transports/README.md) · [External MCP Architecture Hub](../../../core-features/connectors/external-mcp/README.md)
 
 ---
 
