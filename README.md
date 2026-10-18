@@ -9,9 +9,9 @@
 Watch your agent work in real, signed-in browser tabs. Take over when needed.  
 Keep accounts separate and let Nova remember useful website workflows.
 
-Windows 10 / 11 · Works with Claude Code, Codex and other MCP clients · Free during alpha · No Nova account required · [Proprietary license](LICENSE)
+Windows 10 / 11 · Works with Claude Code, Codex and other MCP clients · [480+ MCP tools](docs/mcp-reference/tool-catalog.md) · Free during alpha · No Nova account required · [Proprietary license](LICENSE)
 
-**[Download](https://github.com/joelaniol/nova/releases) · [Try the demo](#-your-first-verified-task) · [How it works](#-what-is-nova-ai-workspace) · [Documentation](#-complete-documentation-index) · [Deutsch](#nova-ai-workspace-deutsch)**
+**[Download](https://github.com/joelaniol/nova/releases) · [Try the demo](#-your-first-verified-task) · [How it works](#-what-is-nova-ai-workspace) · [Tool catalog](docs/mcp-reference/tool-catalog.md) · [Documentation](#-complete-documentation-index) · [Deutsch](#nova-ai-workspace-deutsch)**
 
 [![Platform](https://img.shields.io/badge/Windows-10%20%7C%2011%20(x64)-0078D4?logo=windows&logoColor=white)](docs/getting-started/installation.md#1-system-requirements)
 [![Status: Alpha](https://img.shields.io/badge/status-alpha-orange)](ALPHA.md)
@@ -59,6 +59,8 @@ An agent that clicks **Save** has not saved anything yet. This first exercise sh
 Expected demo outcome: the first save deliberately leaves **Saved drafts** at **0**. Your agent should notice it and ask you; you click **I confirm this demo draft** yourself. The agent saves again and checks the page: **Saved drafts: 1**, with a receipt. All records are simulated, and the page makes no network requests of its own.
 
 Persistent website learning needs the local HTTP setup in the demo guide; the full demo continues there with a return visit and a changed page. [Open the demo guide →](demos/README.md) · [Deutsche Anleitung](demos/README.de.md)
+
+**Found a bug or have an idea?** Just tell your agent **"Nova feedback"**. It picks the right report type, collects the version and evidence, removes secrets and personal data, and shows you the draft. Only after your OK does it open the GitHub issue for you, or hand you the text for the form. You never have to fill in a bug template yourself.
 
 ---
 
@@ -157,7 +159,7 @@ Explore the comprehensive documentation for operators, developers, and AI agents
 **Dein KI-Agent kann einen Browser bedienen. Deshalb musst du die Kontrolle nicht abgeben.**  
 Sieh deinem Agenten in echten, angemeldeten Browser-Tabs bei der Arbeit zu. Übernimm, wenn nötig. Halte Konten getrennt und lass Nova sich nützliche Abläufe auf Websites merken.
 
-Windows 10 / 11 · Für Claude Code, Codex und andere MCP-Programme · Kostenlos während der Alpha · Kein Nova-Konto nötig · [Proprietäre Lizenz](LICENSE)
+Windows 10 / 11 · Für Claude Code, Codex und andere MCP-Programme · [480+ MCP-Werkzeuge](docs/mcp-reference/tool-catalog.md) · Kostenlos während der Alpha · Kein Nova-Konto nötig · [Proprietäre Lizenz](LICENSE)
 
 ### Schnellstart in 3 Schritten
 Du brauchst **Windows 10 / 11 (x64)** und ein installiertes KI-Programm wie Claude Code, Claude Desktop, Codex oder Antigravity. Dein Gespräch bleibt dort; Nova stellt den Browser-Arbeitsplatz bereit. Das KI-Programm kann ein eigenes Konto oder Abo benötigen.
@@ -177,6 +179,8 @@ Ein Agent, der auf **Speichern** klickt, hat noch nichts gespeichert. Diese erst
 
 Erwartetes Ergebnis der Demo: Der erste Speicherversuch lässt **Saved drafts** absichtlich auf **0**. Dein Agent sollte das bemerken und dich fragen; du klickst selbst **I confirm this demo draft**. Der Agent speichert erneut und prüft: **Saved drafts: 1** mit Beleg. Alle Daten sind simuliert. Dauerhaftes Lernen braucht die lokale HTTP-Einrichtung aus der [Demo-Anleitung](demos/README.de.md), dort geht es mit Wiederbesuch und geänderter Seite weiter.
 
+**Fehler gefunden oder eine Idee?** Sag deinem Agenten einfach **„Nova Feedback“**. Er wählt die passende Meldung, sammelt Version und Belege, entfernt Geheimnisse und persönliche Daten und zeigt dir den Entwurf. Erst nach deinem OK legt er das GitHub-Issue an oder gibt dir den Text fürs Formular. Eine Bug-Vorlage musst du nie selbst ausfüllen.
+
 Testschlüssel gesucht? → **[Alpha-Testlizenz](docs/getting-started/trial-license.md#alpha-testlizenz)**
 
 Weiter: **[Installation auf Deutsch](docs/getting-started/installation.md#nova-ai-workspace-installieren)** · [Erste Schritte (Englisch)](docs/getting-started/quickstart.md) · [Hilfe (Englisch)](docs/troubleshooting/README.md).
@@ -188,15 +192,7 @@ Weiter: **[Installation auf Deutsch](docs/getting-started/installation.md#nova-a
 * **Nova AI Workspace** is developed by Joel Aniol and contributors.
 * **License:** [License notice](LICENSE) · [EULA and contract versions](EULA.md).
 * **Security vulnerabilities:** Follow the [private reporting route](SECURITY.md).
-* **Issues & Feedback:** Report issues and feature requests on [GitHub Issues](https://github.com/joelaniol/nova/issues). You can ask your connected AI agent:
-
-  > Please prepare a Nova bug report following Nova's reporting guide. Help me describe the problem, collect relevant evidence, and check it for secrets and personal data. Show me the draft before submitting it.
-
-  Auf Deutsch:
-
-  > Bitte erstelle einen Nova-Bugreport nach Novas Meldeanleitung. Hilf mir, das Problem zu beschreiben, passende Belege zu sammeln und sie auf Geheimnisse und persönliche Daten zu prüfen. Zeige mir den Entwurf, bevor du ihn absendest.
-
-  See [Nova's reporting guide](docs/mcp-reference/tools/app-shell-and-ui/nova-get-instructions.md#reporting-bugs-and-work-session-feedback) and the [alpha reporting policy](ALPHA.md#what-to-report).
+* **Issues & Feedback:** Tell your agent **"Nova feedback"** (Deutsch: **„Nova Feedback“**); it drafts the report and opens it on [GitHub Issues](https://github.com/joelaniol/nova/issues) only after your OK. See [Nova's reporting guide](docs/mcp-reference/tools/app-shell-and-ui/nova-get-instructions.md#reporting-bugs-and-work-session-feedback) and the [alpha reporting policy](ALPHA.md#what-to-report).
 * **Website:** [nova-cognitive.com](https://nova-cognitive.com)
 * **YouTube:** [Nova Cognitive (@novacognitive)](https://www.youtube.com/@novacognitive)
 * **Contact:** Joel Aniol — [LinkedIn](https://www.linkedin.com/in/joelaniol/)

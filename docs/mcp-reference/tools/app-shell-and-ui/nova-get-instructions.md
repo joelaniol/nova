@@ -25,7 +25,7 @@ The reporting response contains `structuredContent.mode='task'`, `structuredCont
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `mode` | `string` | No | `"task"` | `task`, `learn` | Agent mode: 'task' for execution flows, 'learn' for Learn Mode v3 (evidence-backed exploration + PLATFORM_PLAYBOOK deliverable). |
-| `topic` | `string` | No | — | `bug_report` | Optional focused guide: 'bug_report' returns static bug-ticket and work-feedback rules with Markdown templates instead of the operational contract. Only topic, mode='task' (or omitted), and detail are accepted; both detail levels return the complete guide. No page/log collection, learn-state changes, or issue submission. |
+| `topic` | `string` | No | — | `bug_report`, `demo_clip` | Optional focused guide instead of the operational contract: 'bug_report' returns static bug-ticket and work-feedback rules with Markdown templates; 'demo_clip' the recipe for a demo clip or README GIF with Nova's screen recorder (takes, marks, checking, export to a size). Only topic, mode='task' (or omitted), and detail are accepted; both detail levels return the complete guide. No page/log collection, learn-state changes, or issue submission. |
 | `scope` | `string` | No | `"target"` | `target`, `allOwnerClaims` | Learn-mode claim activation scope: 'target' (default, current/explicit target only) or 'allOwnerClaims' (explicit owner-wide activation). |
 | `targetId` | `string` | No | — | — | Optional target for learn-mode claim activation. Uses the same target semantics as other tab tools. |
 | `agentId` | `string` | No | `"default"` | — | Optional agent identity for learn-mode claim ownership resolution. Defaults to 'default'. |

@@ -3,7 +3,7 @@
 Reading and reshaping files that already lie on disk: PDF, Word, Excel, PowerPoint, EPUB, HTML and text as Markdown, CSV/Excel tables with exact totals, PDF page composition, and ZIP/TAR archives.
 
 * **Core Architecture Guides:**
-  * [Local Image Processing](../../../core-features/media-intelligence/image-processing/README.md) (`nova.image_info`, `nova.image_transform`)
+  * [Local Image Processing](../../../core-features/media-intelligence/image-processing/README.md) (`nova.image_info`, `nova.image_transform`, `nova.image_contact_sheet`)
   * [Offline Optical Character Recognition (OCR)](../../../core-features/media-intelligence/ocr/README.md) (`nova.ocr_read`)
   * [Tabular Data Analysis & Streaming Queries](../../../core-features/media-intelligence/data-analysis/README.md) (`nova.data_inspect`, `nova.data_query`)
   * [PDF Reading, Export & Page Operations](../../../core-features/media-intelligence/pdf/README.md) (`nova.read_pdf`, `nova.pdf_compose`, `nova.pdf_split`)
@@ -14,7 +14,7 @@ Reading and reshaping files that already lie on disk: PDF, Word, Excel, PowerPoi
 ---
 
 <!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
-## Tool Inventory (20 Tools)
+## Tool Inventory (23 Tools)
 
 Capability bundles of these tools: `page_read_debug`, `visual_evidence`.
 
@@ -31,8 +31,11 @@ Capability bundles of these tools: `page_read_debug`, `visual_evidence`.
 | **[`nova.data_inspect`](nova-data-inspect.md)** | Shows the columns, types and value ranges of a local CSV or Excel file, before your agent queries it. |
 | **[`nova.data_query`](nova-data-query.md)** | Filters, groups and totals a local CSV or Excel file and returns only the result rows. |
 | **[`nova.docx_create`](nova-docx-create.md)** | Writes a Word document from Markdown, without Microsoft Office. |
+| **[`nova.image_contact_sheet`](nova-image-contact-sheet.md)** | Draws every image of a folder as a thumbnail with its name, in one PNG or JPEG or on A4 PDF pages. |
 | **[`nova.image_info`](nova-image-info.md)** | Describes a local image file: format, size as shown, animation, transparency and which metadata it carries, with hints for the next step. |
 | **[`nova.image_transform`](nova-image-transform.md)** | Writes a changed copy of a local image: crop, rotate, flip, resize, convert or remove metadata. The original stays untouched. |
+| **[`nova.image_transform_status`](nova-image-transform-status.md)** | Follows a folder job of nova.image_transform: progress while it runs, the summary once it is done. |
+| **[`nova.image_transform_stop`](nova-image-transform-stop.md)** | Stops a folder job of nova.image_transform and keeps every copy already written. |
 | **[`nova.ocr_read`](nova-ocr-read.md)** | Reads the text of a scanned PDF or an image by text recognition, locally and offline, and says per page how far it can be trusted. |
 | **[`nova.ocr_status`](nova-ocr-status.md)** | Reads an OCR job: its progress while it runs, the finished result once it is done. |
 | **[`nova.ocr_stop`](nova-ocr-stop.md)** | Stops a running OCR job and keeps the pages read so far. |

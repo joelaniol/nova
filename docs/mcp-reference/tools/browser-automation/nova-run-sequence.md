@@ -20,6 +20,7 @@
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs. Resolved once and injected only into target-aware steps. |
 | `agentId` | `string` | No | `"default"` | — | Optional agent identity for claim ownership checks. Propagated only to claim-sensitive inner step tools. Defaults to 'default'. |
 | `totalTimeoutMs` | `integer` | No | `120000` | 5000–300000 | Sequence-level timeout budget in milliseconds. |
+| `record` | `object` | No | — | — | Film the sequence: the arguments of nova.screen_record_start (area, privacy, maskSelectors, fps, ...; not agentId, the sequence's agentId owns the recording). The recording starts before the first step and returns only once its first frame is recorded, every step is marked on its evidence timeline, and it stops after the last step - also when a step fails. The result carries recording (as nova.screen_record_stop returns it). If the recording cannot start (permission, another recording), no step runs. |
 | `steps` | `array` of `object` | Yes | — | 1–50 items | Ordered list of tool calls to execute. |
 | `defaults` | `object` | No | — | — | Default retry/onError policy applied to all steps unless a step overrides it. |
 | `defaults.stepPolicy` | `object` | No | — | — | Default retry policy applied to steps that do not provide their own policy. |

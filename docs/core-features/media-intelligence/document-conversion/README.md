@@ -46,6 +46,7 @@ Nova provides dedicated, granular subsystems for different file types and data t
 | **CSV / TSV** | `.csv`, `.tsv` | Extension & delimiter probe | Formatted Markdown table, automatic delimiter detection (comma, semicolon, tab, pipe), RFC 4180 quoting | `csv` |
 | **JSON** | `.json` | Extension & syntax parser | Neatly indented and validated JSON code block | `json` |
 | **Plain Text** | `.txt`, `.text`, `.log` | Extension | Verbatim text within code block with normalized line endings | `text` |
+| **Image** | `.png`, `.jpg`, `.tif`, `.bmp`, `.gif`, `.webp` | File signature | Text recognised offline by OCR, each page marked as recognised | `image` |
 
 PDF, Word, Excel, PowerPoint, HTML, and EPUB files are recognized by **content magic bytes**, ensuring files with misleading, incorrect, or omitted extensions are correctly decoded.
 

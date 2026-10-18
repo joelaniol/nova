@@ -42,6 +42,8 @@ Camera data (EXIF) and XMP are carried into JPEG and PNG copies; WebP and BMP co
 
 The copy states its own pixel size. XMP that points to attachments behind the picture, like the short video of a motion photo or an HDR gain map, is left out, because the copy does not have them and viewers would otherwise look for them. When the copy keeps a GPS position, the answer names it, so a photo is not shared by accident with the place it was taken.
 
+**Whole folders.** Instead of `path`, give `folder` and every image in that folder gets the same steps, subfolders included unless `recursive` is `false`. A typical use: remove personal data from all holiday photos before they are shared, or shrink a folder of product pictures for a website. The copies go to a new folder that mirrors the original one, with the same subfolders and file names, and the source folder is never touched. Links, hidden and system files are skipped. A large folder takes minutes, so it runs in the background: the call waits up to `wait` seconds (45 by default) and then returns either the summary or a `jobId` for [`nova.image_transform_status`](nova-image-transform-status.md); [`nova.image_transform_stop`](nova-image-transform-stop.md) ends it and keeps every copy already written. The summary counts what was written, which files failed and why (a damaged photo fails on its own and does not stop the rest), how much smaller the copies are, and which metadata was removed how often - for example GPS in 214 of 380 photos.
+
 The original file is never changed and no existing file is overwritten. Without `outputPath` the copy goes to Nova's Exports folder. Before it gets its name, the new file is read back and its size is checked. JPEG cannot store transparency, so transparent areas become white; animations keep only their first frame. Both are reported as warnings.
 
 ---
@@ -51,8 +53,11 @@ The original file is never changed and no existing file is overwritten. Without 
 <!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
-| `path` | `string` | Yes | — | — | Absolute path to the source image. |
-| `outputPath` | `string` | No | — | — | Absolute path of the new file; its extension must match format. Default: Exports/Images. |
+| `path` | `string` | No | — | — | Absolute path to the source image (or folder instead). |
+| `folder` | `string` | No | — | — | Absolute path of a folder: every image in it gets the steps, as a job; copies go to a mirror folder. |
+| `recursive` | `boolean` | No | `true` | — | With folder: include subfolders. |
+| `wait` | `integer` | No | `45` | 0–540 | With folder: seconds this call waits for the summary; the job runs on (nova.image_transform_status). |
+| `outputPath` | `string` | No | — | — | Absolute path of the new file (its extension must match format), or with folder of a new or empty folder for the copies. Default: Exports/Images. |
 | `format` | `string` | No | — | `png`, `jpeg`, `webp`, `bmp` | Output format; default from outputPath, else the source format, else png. |
 | `crop` | `object` | No | — | — | Area to keep, in pixels of the image as shown. |
 | `crop.x` | `integer` | Yes | — | ≥ 0 | — |

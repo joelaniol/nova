@@ -25,8 +25,9 @@
 | CSV / TSV | `.csv`, `.tsv` | name | `csv` | One table; the delimiter is detected |
 | JSON | `.json` | name | `json` | Checked and printed indented in a code block |
 | Plain text | `.txt`, `.text`, `.log` | name | `text` | Unchanged in a code block |
+| Image | `.png`, `.jpg`, `.tif`, `.bmp`, `.gif`, `.webp` | content | `image` | Text recognised by OCR, one page marker per image page, marked as recognised |
 
-Not converted: legacy Office files (`.doc`, `.xls`, `.ppt`), password-protected Office files (`reasonCode: "convert_to_markdown.encrypted"`), other ZIP archives and images; images are read by [`nova.ocr_read`](nova-ocr-read.md). Macros in Office files are never run.
+Not converted: legacy Office files (`.doc`, `.xls`, `.ppt`), password-protected Office files (`reasonCode: "convert_to_markdown.encrypted"`), and other ZIP archives. Images (photos, screenshots, receipts) are read by text recognition like the scanned pages of a PDF; for choosing or comparing the OCR engines, use [`nova.ocr_read`](nova-ocr-read.md). Macros in Office files are never run.
 
 `nova.convert_to_markdown` turns a document on disk into Markdown, locally and without any extra software. Formats with a signature of their own (PDF, Word, Excel, PowerPoint, HTML) are recognised by the file's content, so a renamed download is still read correctly; CSV, JSON and text files by their name.
 

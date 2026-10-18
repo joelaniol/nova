@@ -23,7 +23,7 @@ Looking for a tool by what it does rather than by area? The [tool catalog](../to
 | [Guarded Actions & Blocker Clearance](guarded-actions/README.md) | 7 | High-impact interaction macros with pre-flight safety gates, auth surface verification, and cookie banner dismissals. |
 | [Headless Terminal Workspaces & TTY](terminal-ops/README.md) | 12 | Isolated pseudo-terminals (ConPTY), command execution streams, terminal dock control, and session persistence. |
 | [Layout Quality, Geometry & Web Vitals](layout-and-qa/README.md) | 7 | Bounding box measurements, container width constraints, text clipping, WCAG accessibility audits, and Core Web Vitals. |
-| [Local Files, Documents & Archives](files-and-documents/README.md) | 20 | Reading and reshaping files that already lie on disk: PDF, Word, Excel, PowerPoint, EPUB, HTML and text as Markdown, CSV/Excel tables with exact totals, PDF page composition, and ZIP/TAR archives. |
+| [Local Files, Documents & Archives](files-and-documents/README.md) | 23 | Reading and reshaping files that already lie on disk: PDF, Word, Excel, PowerPoint, EPUB, HTML and text as Markdown, CSV/Excel tables with exact totals, PDF page composition, and ZIP/TAR archives. |
 | [Media Intelligence & Whisper Speech-to-Text](media-and-transcription/README.md) | 24 | In-browser audio/video recording, local OpenAI Whisper transcription, model management, and camera/mic permissions. |
 | [Phenomenological Knowledge Store & Self-Learning](pks-and-learning/README.md) | 21 | Cross-session procedural UI memory, learned interaction playbooks, fingerprint matching, and health telemetry. |
 | [Proxy Routing & Network Interception](proxy-and-network/README.md) | 16 | Proxy profile management, authentication, traffic redirection, and CDP network request/response interception. |
@@ -31,7 +31,7 @@ Looking for a tool by what it does rather than by area? The [tool catalog](../to
 | [Session Tracing & DOM Event Recording](session-recording/README.md) | 14 | Network HAR capture, user interaction timelines, DOM change snapshots, and replay verification. |
 | [Site Crawler & URL Discovery Index](crawler-and-discovery/README.md) | 13 | Broad-surface website crawling, URL indexing, sitemap verification, and exploration of UI states no URL reaches. |
 | [Site Data, Fingerprinting & Sandboxes](site-data-and-identity/README.md) | 21 | Cookie jars, localStorage/sessionStorage, cache purging, browser fingerprint spoofing, and sandbox isolation. |
-| [Visual Evidence, Screenshots & Archiving](visual-evidence/README.md) | 10 | Lossless cropped screenshots, pixel-by-pixel diffing, persistent baselines, and print-to-PDF generation. |
+| [Visual Evidence, Screenshots & Archiving](visual-evidence/README.md) | 13 | Lossless cropped screenshots, pixel-by-pixel diffing, persistent baselines, and print-to-PDF generation. |
 
-**481 tools in total.**
+**487 tools in total.**
 <!-- /generated:area-list -->

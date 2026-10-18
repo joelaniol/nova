@@ -195,6 +195,7 @@ When an image contains text (e.g. an infobox or diagram snippet):
 | [`nova.barcode_generate`](../../../mcp-reference/tools/files-and-documents/nova-barcode-generate.md) | `page_read_debug` | QR code or barcode as a verified PNG/SVG file | `content`, `type?`, `format?`, `width?`, `height?`, `errorCorrection?`, `includeText?`, `outputPath?` |
 | [`nova.barcode_decode`](../../../mcp-reference/tools/files-and-documents/nova-barcode-decode.md) | `page_read_debug` | Reads QR codes and barcodes from an image | `path`, `multiple?`, `formats?` |
 | [`nova.image_transform`](../../../mcp-reference/tools/files-and-documents/nova-image-transform.md) | `page_read_debug` | Deterministic cropping, resizing, conversion, and metadata sanitization | `path`, `outputPath?`, `format?`, `crop?`, `rotate?`, `flip?`, `resize?`, `quality?`, `stripMetadata?`, `removeMetadata?` |
+| [`nova.image_contact_sheet`](../../../mcp-reference/tools/files-and-documents/nova-image-contact-sheet.md) | `page_read_debug` | A folder of images as one grid of named thumbnails (PNG, JPEG or A4 PDF pages) | `folder`, `format?`, `columns?`, `thumbSize?`, `labels?`, `title?` |
 
 ---
 
