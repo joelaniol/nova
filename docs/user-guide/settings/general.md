@@ -55,7 +55,7 @@ The default search provider governs how web queries are processed when entered d
 
 Nova includes integrated background services—such as [Scheduled Tasks](../tools/scheduled-tasks.md)—that can automate web workflows even while you are not actively browsing. The startup and close settings ensure these tasks continue executing reliably:
 
-* **Continue where you left off:** When enabled, Nova reopens the tabs of your last session at startup without asking. After a crash Nova still asks first, so a page that brought Nova down does not come back on every start. When disabled, Nova starts with a new tab and keeps the last session under **History → Open last session**.
+* **Continue where you left off** (on by default): Nova reopens the tabs of your last session at startup without asking. After a crash Nova still asks first, so a page that brought Nova down does not come back on every start. Tabs an AI agent opened and left behind do not come back by themselves; they wait under **History → Open last session**. When disabled, Nova starts with a new tab and keeps the last session there.
 * **Start with Windows:** When enabled, Nova launches automatically when you log into Windows, starting minimized in the system notification area (system tray). This allows scheduled scraping, monitoring, and agent routines to start immediately after a machine reboot.
 * **Window Close Behavior:** Choose what happens when you click the window close button (`X`):
   * **Quit Nova:** Completely terminates the browser process and all background worker threads.

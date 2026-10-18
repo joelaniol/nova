@@ -56,7 +56,7 @@ The page has two views in its left column:
 
 If Nova was closed with tabs open, **Menu → History → Open last session** reopens them, even if you declined the restore question at startup. The New Tab page shows the same offer as a card.
 
-Nova keeps up to three earlier sessions. The two before the last one appear in the same menu as **Session from <date and time> (N tabs)**. Each can be opened once; tabs that emulated a phone come back as that phone. With **Continue where you left off** turned on (Settings → General), the last session reopens by itself at startup.
+Nova keeps up to three earlier sessions. The two before the last one appear in the same menu as **Session from <date and time> (N tabs)**. Each can be opened once; tabs that emulated a phone come back as that phone. With **Continue where you left off** (Settings → General, on by default), the last session reopens by itself at startup; tabs an AI agent left behind stay out of it and are offered here instead.
 
 ---
 

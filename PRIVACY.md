@@ -1,6 +1,6 @@
 # Privacy Policy / Datenschutzerklärung
 
-*Last updated: October 17, 2026*
+*Last updated: October 18, 2026*
 
 ---
 
@@ -206,6 +206,22 @@ show a bug as it happens. This runs only when an agent starts it, and you see an
 - **The agent receives the file's location and a quality check, not the video.** If the agent then
   opens or uploads the file, it reaches that agent's provider like any other part of the
   conversation - see "Third-Party AI Providers" above
+
+### Saving Streamed Videos
+
+Many sites stream a video in small parts, so the browser's own "Save video" cannot save it. Nova can
+(Settings > General > Downloads, on by default):
+
+- **What Nova notes while you browse:** for each tab, the addresses and sizes of the stream parts and
+  playlists the page loads, and how much of the video the page has handed to the player. Nothing
+  else of the page, and not the video itself
+- **This stays in memory:** it is not written to disk, it is cleared when the tab goes to another
+  page, it ends with the tab, and none of it is sent to `nova-cognitive.com` or anyone else
+- **Only when you choose "Save video":** Nova loads the parts again from the site that serves them,
+  with the cookies your tab would send to that site and through the same proxy as your other
+  downloads, joins them on your computer and saves one file to your download folder
+- **Protected videos are never saved:** encrypted and copy-protected streams are refused before
+  anything is downloaded
 
 ### TLS Inspection
 
@@ -456,6 +472,24 @@ und steuerst es:
 - **Der Agent bekommt den Speicherort und eine Qualitätsprüfung, nicht das Video.** Öffnet oder lädt
   der Agent die Datei danach, erreicht sie seinen Anbieter wie jeder andere Teil des Gesprächs -
   siehe „Drittanbieter-KI-Provider" weiter oben
+
+### Gestreamte Videos speichern
+
+Viele Seiten streamen ein Video in kleinen Teilen, die das eingebaute „Video speichern" des Browsers
+nicht speichern kann. Nova kann es (Einstellungen > Allgemein > Downloads, standardmäßig an):
+
+- **Was Nova beim Surfen notiert:** je Tab die Adressen und Größen der Videoteile und Playlists, die
+  die Seite lädt, und wie viel vom Video die Seite an den Player übergeben hat. Sonst nichts von der
+  Seite, und nicht das Video selbst
+- **Das bleibt im Arbeitsspeicher:** Es wird nicht auf die Festplatte geschrieben, beim Wechsel des
+  Tabs auf eine andere Seite geleert, endet mit dem Tab und geht weder an `nova-cognitive.com` noch
+  an sonst jemanden
+- **Erst wenn du „Video speichern" wählst:** Nova lädt die Teile erneut von der Seite, die sie
+  ausliefert, mit den Cookies, die dein Tab dieser Seite senden würde, und über denselben Proxy wie
+  deine anderen Downloads, setzt sie auf deinem Rechner zusammen und speichert eine Datei in deinen
+  Download-Ordner
+- **Geschützte Videos werden nie gespeichert:** Verschlüsselte und kopiergeschützte Streams lehnt
+  Nova ab, bevor etwas heruntergeladen wird
 
 ### TLS-Prüfung
 
