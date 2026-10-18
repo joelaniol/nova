@@ -45,7 +45,7 @@ The page has two views in its left column:
 
 ## 4. Restoring Closed Tabs
 
-* **`Ctrl+Shift+T`** reopens the most recently closed tab. The tab bar's context menu offers the same as **Reopen closed tab**.
+* **`Ctrl+Shift+T`** reopens the most recently closed tab. Right-clicking or holding the Back button lists the earlier pages of the tab with their site icons and ends with **Show full history**. The tab bar's context menu offers the same as **Reopen closed tab**.
 * **Menu → History** lists the last closed tabs with their site icons. Tabs that were closed together (for example "Close tabs to the right") appear as one group; you can restore the whole group or a single tab from it.
 * **History → Recently closed** shows the same list in the History tab.
 * A tab that belonged to a sandbox reopens inside the same sandbox. If that sandbox no longer exists, Nova asks before opening the page in a normal tab.
@@ -55,6 +55,8 @@ The page has two views in its left column:
 ### Previous session
 
 If Nova was closed with tabs open, **Menu → History → Open last session** reopens them, even if you declined the restore question at startup. The New Tab page shows the same offer as a card.
+
+Nova keeps up to three earlier sessions. The two before the last one appear in the same menu as **Session from <date and time> (N tabs)**. Each can be opened once; tabs that emulated a phone come back as that phone. With **Continue where you left off** turned on (Settings → General), the last session reopens by itself at startup.
 
 ---
 
