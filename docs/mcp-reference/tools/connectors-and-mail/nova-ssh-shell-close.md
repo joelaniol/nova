@@ -12,7 +12,8 @@ Closes an interactive terminal (closes the channel, typically SIGHUP-ing the rem
 * **Always close what you opened.** A terminal you abandon runs until its idle timeout; close it so it does not hold a server session slot.
 * **Honest termination.** The result's `termination` reports channel-closed / connection-lost / signal-requested facts; `remoteProcessState` is `"unknown"` unless the end was confirmed.
 
-* **Core Architecture Guide:** [Secure Shell (SSH)](../../../core-features/connectors/ssh/README.md)
+* **Core Architecture Guide:** [Interactive PTY Terminals & Screen Reconstruction](../../../core-features/connectors/ssh/interactive-pty-terminals/README.md)
+* **Subsystem Overview:** [Secure Shell (SSH)](../../../core-features/connectors/ssh/README.md)
 
 ---
 

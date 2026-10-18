@@ -11,7 +11,8 @@ Lists the interactive terminals you own, so a lost `execId` does not leave one r
 * **Owner-scoped.** You see only the terminals you opened, the same scope that guards read/send/resize/close.
 * **Shell only.** This lists PTY sessions; background command sessions are listed separately by [`nova.ssh_run_list`](nova-ssh-run-list.md).
 
-* **Core Architecture Guide:** [Secure Shell (SSH)](../../../core-features/connectors/ssh/README.md)
+* **Core Architecture Guide:** [Interactive PTY Terminals & Screen Reconstruction](../../../core-features/connectors/ssh/interactive-pty-terminals/README.md)
+* **Subsystem Overview:** [Secure Shell (SSH)](../../../core-features/connectors/ssh/README.md)
 
 ---
 

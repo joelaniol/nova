@@ -14,7 +14,8 @@ Shows the **user** a read-only live view of an interactive terminal you opened, 
 * **Honest result.** `watchState` is `open` or `closed`; `width`/`height` report the display window size (null when closed). In a headless or unattended context (no Nova window), the call returns `watch_ui_unavailable`.
 * **The user can also open it themselves** from the connector activity indicator — this tool is the agent-driven path to the same read-only viewer.
 
-* **Core Architecture Guide:** [Secure Shell (SSH)](../../../core-features/connectors/ssh/README.md)
+* **Core Architecture Guide:** [Interactive PTY Terminals & Screen Reconstruction](../../../core-features/connectors/ssh/interactive-pty-terminals/README.md)
+* **Subsystem Overview:** [Secure Shell (SSH)](../../../core-features/connectors/ssh/README.md)
 
 ---
 

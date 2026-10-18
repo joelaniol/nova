@@ -32,6 +32,18 @@ flowchart TD
 
 ---
 
+## Dedicated Subsystem Architecture Guides
+
+For in-depth protocol mechanics, capability verification, buffering constraints, error codes, and step-by-step agent recipes, explore the specialized SSH architecture guides:
+
+| Architecture Guide | Scope & Focus | Primary Tools |
+| :--- | :--- | :--- |
+| **[SSH Command Execution & Channel Isolation](command-execution-and-channels/README.md)** | One-shot execution, sequential command batches, channel state independence, exit code accounting, flood protection (64 MB ceiling), and idempotency keys (`operationId`). | [`nova.ssh_run`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-run.md) |
+| **[Background SSH Sessions & Streaming I/O](background-sessions-and-streaming/README.md)** | Long-running process lifecycle, offset-based stdout/stderr streaming cursors, `waitForEndSeconds` zero-polling, interactive stdin injection, and the strict `process.stdin` capability gate. | [`nova.ssh_run_start`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-run-start.md), [`nova.ssh_run_read`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-run-read.md), [`nova.ssh_run_write`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-run-write.md), [`nova.ssh_run_stop`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-run-stop.md), [`nova.ssh_run_list`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-run-list.md) |
+| **[Interactive PTY Terminals & Screen Reconstruction](interactive-pty-terminals/README.md)** | True pseudo-terminal (PTY) emulation for TUI applications (`htop`, `vim`), 2D virtual screen reconstruction, cursor coordinate tracking, mode-aware key dispatch, dynamic window resizing (SIGWINCH), and live visual operator viewing. | [`nova.ssh_shell_open`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-shell-open.md), [`nova.ssh_shell_read`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-shell-read.md), [`nova.ssh_shell_send`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-shell-send.md), [`nova.ssh_shell_resize`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-shell-resize.md), [`nova.ssh_shell_watch`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-shell-watch.md), [`nova.ssh_shell_close`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-shell-close.md), [`nova.ssh_shell_list`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-shell-list.md) |
+
+---
+
 ## Connection Profiles & Host-Key Verification Gate
 
 SSH execution uses the connection profile of an `sftp` connector (standard port **22**). While file operations and command execution share network endpoints and authentication credentials, command execution is decoupled into distinct capability stages.

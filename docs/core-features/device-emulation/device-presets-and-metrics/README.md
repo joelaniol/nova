@@ -60,6 +60,9 @@ Nova provides over **70+ curated device presets** modeled after official Playwri
 > [!TIP]
 > **Tolerant Identifier Matching:** Presets are case-insensitive and ignore dashes or extra spaces. `"iPhone 15"`, `"iphone-15"`, and `"IPHONE 15"` all resolve to the same canonical preset.
 
+> [!IMPORTANT]
+> **The engine stays Chromium.** Nova renders every preset with its own Microsoft Edge (WebView2) engine. Android presets present Edge for Android at that engine's version, so the identity is consistent. iPhone, iPad, *Desktop Firefox* and *Desktop Safari* only change the user-agent string: they are right for layout and user-agent checks, but sites behind bot protection may refuse them or repeat their verification endlessly. The tool result then carries `engineIdentityMismatch`; use an Android preset for those sites.
+
 ### Curated Device Overview
 
 ```mermaid

@@ -18,7 +18,8 @@ Sends input to an interactive terminal: a named key (encoded mode-aware), litera
 * **Causal gap.** `observedScreenRevision` is the screen revision at send time. A [`nova.ssh_shell_read`](nova-ssh-shell-read.md) that still shows that revision has simply not reflected your input yet — that is normal, not a failed send.
 * **Ctrl-D is an ordinary key.** There is no stdin half-close; send `Ctrl-D` as a key when a program expects EOF.
 
-* **Core Architecture Guide:** [Secure Shell (SSH)](../../../core-features/connectors/ssh/README.md)
+* **Core Architecture Guide:** [Interactive PTY Terminals & Screen Reconstruction](../../../core-features/connectors/ssh/interactive-pty-terminals/README.md)
+* **Subsystem Overview:** [Secure Shell (SSH)](../../../core-features/connectors/ssh/README.md)
 
 ---
 

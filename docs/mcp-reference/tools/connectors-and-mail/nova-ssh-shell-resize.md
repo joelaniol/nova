@@ -11,7 +11,8 @@ Resizes an interactive terminal's window and sends an SSH window-change request 
 * **Resize before running a TUI** if you need a specific geometry, or any time the view should change.
 * **Honest semantics.** A window-change request is fire-and-forget at the SSH layer; the remote program redraws on its own schedule. Read the screen afterwards to see the result.
 
-* **Core Architecture Guide:** [Secure Shell (SSH)](../../../core-features/connectors/ssh/README.md)
+* **Core Architecture Guide:** [Interactive PTY Terminals & Screen Reconstruction](../../../core-features/connectors/ssh/interactive-pty-terminals/README.md)
+* **Subsystem Overview:** [Secure Shell (SSH)](../../../core-features/connectors/ssh/README.md)
 
 ---
 

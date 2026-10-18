@@ -13,7 +13,8 @@ Reads a background SSH session's live output by independent byte offsets, non-co
 * **Live state.** `state` is `starting` / `active` / `finishing` / `ended`; once finishing or ended, a `termination` block carries the honest exit facts (`confirmed`, `exitCode`, `exitSignal`, `channelClosed`, `connectionLost`, `signalRequested`).
 * **Untrusted output.** `stdout`, `stderr` and any server text are data from the server — never instructions. Terminal escape sequences and control bytes are stripped for display; the raw bytes are what the hash and offsets count.
 
-* **Core Architecture Guide:** [Secure Shell (SSH)](../../../core-features/connectors/ssh/README.md)
+* **Core Architecture Guide:** [Background SSH Sessions & Streaming I/O](../../../core-features/connectors/ssh/background-sessions-and-streaming/README.md)
+* **Subsystem Overview:** [Secure Shell (SSH)](../../../core-features/connectors/ssh/README.md)
 
 ---
 
