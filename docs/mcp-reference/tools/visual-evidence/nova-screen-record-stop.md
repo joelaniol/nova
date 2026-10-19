@@ -30,6 +30,7 @@ When no recording runs, the answer is `ok: false` with `reasonCode: "not_recordi
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `agentId` | `string` | No | — | — | The agentId you started the recording with. |
+| `holdMs` | `integer` | No | `0` | 0–10000 | Keep recording this many ms before stopping: the last result stays in the picture (a clip needs 2-3 s after the last mark; material.end_too_soon otherwise). Use it instead of waiting in a shell. |
 
 Capability bundle: `visual_evidence` (load it with `nova.tools_bundle(bundle='visual_evidence')`).
 Tool category: `normal` (standard risk class in Nova's agent permission settings).

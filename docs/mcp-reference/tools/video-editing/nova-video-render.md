@@ -68,6 +68,7 @@ Common refusals: `export.no_recording`, `export.still_recording` (stop the recor
 | `endCard.accent` | `string` | No | — | ≤ 80 characters | The grid's card: one word or phrase of text in the accent colour, green with tone='verified' (e.g. text='Research in.\nExcel out.\nChecked.', accent='Checked.'). |
 | `endCard.holdMs` | `integer` | No | `2500` | 500–10000 | — |
 | `endCard.tone` | `string` | No | — | `verified` | Styled look: 'verified' turns the card's accent line green. Only when the clip shows a check that really ran (e.g. the agent read the result back), never as decoration. |
+| `endCard.logo` | `string` | No | — | — | The grid's card: a logo left of the wordmark (header) - 'nova' for Nova's own symbol, or the absolute path of your PNG (transparent margins are trimmed; outside Nova's recordings folder it needs 'Allow local files'). |
 | `endCard.cta` | `string` | No | — | ≤ 40 characters | The grid's end card (styled 4:5 with chapters): what to do next, drawn as a button, e.g. 'Try the free alpha →'. |
 | `endCard.url` | `string` | No | — | ≤ 80 characters | The grid's end card: the address written out under the button (a video has no link), e.g. 'example.com/try'. |
 | `keys` | `boolean` | No | `false` | — | GIF, WebM and MP4: show the keys you pressed as a badge at the bottom (named keys and Ctrl/Alt/Win shortcuts only, never typed text). Needs a recording made with evidence=true. |
