@@ -33,6 +33,7 @@ Without `outputPath` the workbook goes into Nova's Exports folder; a path of you
 | `sheetName` | `string` | No | — | — | With sourcePath: the name of the output sheet; default the file name. |
 | `autoFormat` | `boolean` | No | `true` | — | — |
 | `currencySymbol` | `string` | No | `"\u20AC"` | — | — |
+| `openInTab` | `boolean` | No | `false` | — | After writing, show the workbook in Nova's read-only table view in a new active tab; the result gains openedInTab {opened, targetId, reasonCode}. |
 | `outputPath` | `string` | No | — | — | Absolute path of the new .xlsx; must not exist. Needs the user's 'Allow local files' setting. Omit for Nova's Exports folder. |
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).

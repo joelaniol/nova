@@ -207,7 +207,7 @@ Reading and reshaping files on disk: documents as Markdown, CSV/Excel tables wit
 | **[`nova.pdf_compose`](tools/files-and-documents/nova-pdf-compose.md)** | `sources`, `outputPath?` | Builds one new PDF from pages of local PDFs: merge files, keep or drop pages, change their order. |
 | **[`nova.pdf_split`](tools/files-and-documents/nova-pdf-split.md)** | `path`, `ranges`, `outputDir?` | Splits a local PDF into several new PDFs, one per page range. |
 | **[`nova.read_pdf`](tools/files-and-documents/nova-read-pdf.md)** | `path`, `pages?`, `maxChars?`, `includePages?` | Extracts the text of a local PDF file, optionally per page and for selected pages only. |
-| **[`nova.xlsx_create`](tools/files-and-documents/nova-xlsx-create.md)** | `sheets?`, `sourcePath?`, `sheet?`, `sheetName?`, `autoFormat?`, `currencySymbol?`, `outputPath?` | Writes an Excel workbook from data or from a CSV file, without Microsoft Office. |
+| **[`nova.xlsx_create`](tools/files-and-documents/nova-xlsx-create.md)** | `sheets?`, `sourcePath?`, `sheet?`, `sheetName?`, `autoFormat?`, `currencySymbol?`, `openInTab?`, `outputPath?` | Writes an Excel workbook from data or from a CSV file, without Microsoft Office. |
 
 ---
 

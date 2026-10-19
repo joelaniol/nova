@@ -93,7 +93,7 @@ Each download card provides context-sensitive quick actions:
 ### 3.1 Primary Actions
 * **Open:** Launches the downloaded file using Windows' default registered application (e.g., Acrobat Reader for `.pdf`, Word for `.docx`).
 * **Open folder:** Reveals the downloaded file directly in Windows File Explorer with the file selected.
-* **Preview:** Opens the file in a new Nova browser tab via a secure local `file://` URI (ideal for viewing PDFs, Markdown files, SVGs, or images immediately).
+* **Preview:** Opens the file in a new Nova browser tab via a secure local `file://` URI (ideal for viewing PDFs, images, videos, audio, or text files immediately; SVG and HTML files are not previewed because they can contain scripts). Tables (CSV, TSV, Excel `.xlsx`/`.xlsm`) open in Nova's read-only table view with sheet tabs, a frozen header, and numbers formatted as in Excel *(upcoming in 1.0.0-alpha.21)*.
 * **Pause & Resume:** Halts or restarts active byte streaming.
 * **Cancel:** Aborts the transfer and deletes any partial temporary download files (`.crdownload` / `.tmp`).
 * **Retry:** Re-initiates a failed or interrupted transfer from scratch.

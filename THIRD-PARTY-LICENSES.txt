@@ -779,7 +779,7 @@ Copyright (c) HarfBuzz authors (HarfBuzz, "Old MIT" license)
 (Same MIT license text as above.)
 
 ----------------------------------------------------------------------
-Inter 4.1 (font of the video editor's styled export, Inter-Regular/SemiBold/Bold.ttf in Nova Outrider)
+Inter 4.1 (font of the video editor's styled export, Inter-Regular/Medium/SemiBold/Bold.ttf in Nova Outrider)
 License: SIL Open Font License 1.1
 Source:  https://github.com/rsms/inter (release v4.1, static TTF, unmodified)
 ----------------------------------------------------------------------

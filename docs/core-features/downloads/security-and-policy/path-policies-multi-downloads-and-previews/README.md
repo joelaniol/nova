@@ -36,6 +36,7 @@ flowchart TD
         PV1["nova.downloads_preview(id)"] --> ClassifyExt{"Evaluate File Extension"}
         ClassifyExt -- ".html or .svg (Active Code)" --> BlockPreview["STRICTLY BLOCKED:<br/>Refuse inline file:// tab<br/>Offer OS Open or Convert to Markdown"]
         ClassifyExt -- "PDF, Image, Video, Audio, Text" --> SafePreview["Render Inline in Sandboxed Tab"]
+        ClassifyExt -- "CSV, TSV, XLSX, XLSM (Table)" --> TableView["Read-only Table View:<br/>cells as text, no macros,<br/>no file path in the address"]
     end
 ```
 

@@ -16,6 +16,9 @@
 | `back` / `forward` | The active tab's history in that direction, with site icons; the back menu ends with *Show full history* |
 | `reload` | Reload, hard reload, auto-reload |
 | `tab` | The right-click menu of the tab given as `targetId` |
+| `device` | The address bar's device picker for the active tab: phones, tablets, *Custom size*, and while a device is shown *End emulation* |
+
+Panels that open from the toolbar (the device picker, the sandbox overview, the favorites panel) are read and pressed the same way as menus. A check row such as *Touch* is a `toggle` with `checked`; field values such as *Width: 412* are listed as texts. To apply a size of your own, use `nova.emulation_set_device_metrics`.
 
 The answer lists the entries in `inAppMenu`. Press one with [`nova.ui_confirm_native_dialog(button='<entry>')`](nova-ui-confirm-native-dialog.md) — a submenu entry such as *History* opens its submenu. [`nova.ui_inspect_native_dialog`](nova-ui-inspect-native-dialog.md) reads what is open now, [`nova.ui_dismiss_native_dialog`](nova-ui-dismiss-native-dialog.md) closes it.
 
@@ -28,7 +31,7 @@ What a pressed entry does counts as the agent's action: a tab closed this way ap
 <!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
-| `menu` | `string` | Yes | — | `main`, `back`, `forward`, `reload`, `tab` | Which menu: 'main', 'back', 'forward', 'reload' or 'tab' (needs targetId). |
+| `menu` | `string` | Yes | — | `main`, `back`, `forward`, `reload`, `tab`, `device` | Which menu: 'main', 'back', 'forward', 'reload', 'tab' (needs targetId) or 'device'. |
 | `targetId` | `string` | No | — | — | Browser tab id from nova.tabs whose tab menu to open. Only with menu='tab'. |
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).

@@ -6,7 +6,9 @@ Opens a completed download inline in a new browser tab using a secure file:// UR
 
 ## 1. Overview
 
-`nova.downloads_preview` renders images, PDFs, videos, audio, and structured text files directly inside a new browser tab without launching external applications. For security, SVG and HTML files are strictly excluded to prevent script injection.
+`nova.downloads_preview` renders images, PDFs, videos, audio, and structured text files directly inside a new browser tab without launching external applications. CSV, TSV and Excel files (`.xlsx`, `.xlsm`) open in Nova's read-only table view (`kind='table'`): sheets as tabs, a frozen header, numbers and dates in their Excel format in the UI language, saved formula results only; macros never run. For security, SVG and HTML files are strictly excluded to prevent script injection.
+
+> **Upcoming in 1.0.0-alpha.21:** the table view is not in a published setup yet.
 
 * **Core Architecture Guide:** [Native Dialogs & Download Prompts](../../../core-features/native-dialogs-and-prompts/README.md)
 
@@ -62,7 +64,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ## 4. Operational Best Practices
 
-* **Supported File Formats:** Image (`jpg`, `jpeg`, `png`, `gif`, `webp`, `bmp`, `ico`), Document (`pdf`), Video (`mp4`, `webm`, `mov`), Audio (`mp3`, `wav`, `ogg`, `m4a`, `flac`), and Text (`txt`, `md`, `log`, `csv`, `json`, `xml`).
+* **Supported File Formats:** Image (`jpg`, `jpeg`, `png`, `gif`, `webp`, `bmp`, `ico`), Document (`pdf`), Video (`mp4`, `webm`, `mov`), Audio (`mp3`, `wav`, `ogg`, `m4a`, `flac`), Text (`txt`, `md`, `log`, `json`, `xml`), and Table (`csv`, `tsv`, `xlsx`, `xlsm`; read-only table view, not `file://`, and its address contains no file path).
 * **Sandbox Isolation:** The preview tab opens with an opaque origin, ensuring local files cannot leak data into existing sandbox sessions.
 
 ---

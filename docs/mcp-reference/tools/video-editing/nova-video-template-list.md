@@ -30,7 +30,7 @@ nova.video_template_list(name="nova-linkedin")
 <!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
-| `name` | `string` | No | — | — | One template's name, for its values. |
+| `name` | `string` | No | — | — | One template's name, for its values and (Nova's own) its guide with a complete example call. |
 | `agentId` | `string` | No | — | — | Your agent identity. |
 
 Capability bundle: `visual_evidence` (load it with `nova.tools_bundle(bundle='visual_evidence')`).

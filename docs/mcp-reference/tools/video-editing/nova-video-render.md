@@ -63,8 +63,9 @@ Common refusals: `export.no_recording`, `export.still_recording` (stop the recor
 | `lossless` | `boolean` | No | `false` | — | format='mp4' only: cut the recording itself without re-encoding instead - one segment at speed 1, every byte a recorded byte (with its sound), starting at the keyframe at or before startMs. For unchanged evidence in a bug report. |
 | `captions` | `array` of `object` | No | — | ≤ 20 items | GIF, WebM and MP4: short texts shown while that part of the recording plays (recording time, so they work with idle and segments), at the top or bottom - by default on the half where nothing happens meanwhile. Two to five words read best on a phone: 'Save clicked.', 'Nothing saved.' A longer text wraps onto two lines and gets smaller rather than being cut. |
 | `endCard` | `object` | No | — | — | GIF, WebM and MP4: a closing card after the last frame - the last frame dimmed, text large in the middle, subtext smaller below, shown for holdMs. |
-| `endCard.text` | `string` | Yes | — | ≤ 80 characters | — |
+| `endCard.text` | `string` | Yes | — | ≤ 80 characters | The closing line; on the grid's card up to three lines, each started with a line break (\n) where you want it. |
 | `endCard.subtext` | `string` | No | — | ≤ 80 characters | — |
+| `endCard.accent` | `string` | No | — | ≤ 80 characters | The grid's card: one word or phrase of text in the accent colour, green with tone='verified' (e.g. text='Research in.\nExcel out.\nChecked.', accent='Checked.'). |
 | `endCard.holdMs` | `integer` | No | `2500` | 500–10000 | — |
 | `endCard.tone` | `string` | No | — | `verified` | Styled look: 'verified' turns the card's accent line green. Only when the clip shows a check that really ran (e.g. the agent read the result back), never as decoration. |
 | `endCard.cta` | `string` | No | — | ≤ 40 characters | The grid's end card (styled 4:5 with chapters): what to do next, drawn as a button, e.g. 'Try the free alpha →'. |
