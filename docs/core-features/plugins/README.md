@@ -23,7 +23,19 @@ Plugins run in a host-controlled .NET sandbox, declare explicit permissions, ren
 
 ---
 
-## 2. High-Level Architecture & Process Topology
+## 2. Dedicated Sub-Guides
+
+For deep architectural exploration, operational protocol specifications, and implementation mechanics, refer to the dedicated sub-guides:
+
+| Sub-Guide | Primary Scope & Focus Areas |
+| :--- | :--- |
+| **[Jint Runtime, Dispatcher Pump & Lifecycle State Machine](./jint-runtime-dispatcher-and-lifecycle/README.md)** | Managed EcmaScript execution sandbox, 32 MB memory quotas, 5,000 ms wall-clock invocation limits, single-threaded serialized message pump (`PluginEngineDispatcher`), deadlock prevention, two-phase lifecycle (`PluginInstallState` vs. `PluginRuntimeState`), staged testing (`deferActivation = true`, `nova.plugin_test`), version history, atomic rollbacks, and `.novaplugin` bundles. |
+| **[Manifest Specification, Permissions & Dynamic MCP Tools](./manifest-permissions-and-dynamic-mcp-tools/README.md)** | AAP Manifest Schema v1 (`manifest.json`), reverse-DNS IDs, two-tier permission governance (Auto-Grant vs. Install-Review), human approval review dialogs (`nova.plugin_request_permission`), temporary active-tab grants, dynamic MCP tool exports (`plugin.{pluginId}.{toolName}`), JS handler binding (`nova.tools.register`), runtime logs, and security audit ledgers. |
+| **[Bridge APIs, DOM Virtualization & Overlays](./bridge-apis-dom-virtualization-and-overlays/README.md)** | Global `nova.*` bridge namespace, DOM traversal via immutable `ElementHandle` tuples `(HandleId, FrameId, DocumentEpoch)`, epoch consistency fencing (`NavigationId`, `DocumentEpoch`, `RouteEpoch`), `epoch_stale` protections, reversible mutation ledgers (`PluginMutationLedger`), atomic resets, and open Shadow DOM UI isolation with two-way style encapsulation and keylogger defenses. |
+
+---
+
+## 3. High-Level Architecture & Process Topology
 
 The AAP subsystem bridges the AI Agent layer, the Nova Host process, and the WebView2 browser processes:
 
@@ -69,7 +81,7 @@ flowchart TD
 
 ---
 
-## 3. The Jint JavaScript Execution Engine
+## 4. The Jint JavaScript Execution Engine
 
 Each installed plugin executes inside an isolated instance of **Jint**—an embeddable, fully managed EcmaScript engine running directly in .NET:
 
@@ -116,7 +128,7 @@ stateDiagram-v2
 
 ---
 
-## 4. The Serialized Engine Dispatcher Pump
+## 5. The Serialized Engine Dispatcher Pump
 
 A primary challenge in desktop browser automation is synchronizing the multi-threaded WinUI 3 UI thread, the asynchronous Chromium/WebView2 IPC pipeline, and multiple synchronous JavaScript execution sandboxes.
 
@@ -128,7 +140,7 @@ Nova implements the **`PluginEngineDispatcher`**—a dedicated, serialized execu
 
 ---
 
-## 5. AAP Manifest Specification (`manifest.json`)
+## 6. AAP Manifest Specification (`manifest.json`)
 
 Plugins are defined by an immutable manifest adhering to the AAP Schema v1:
 
@@ -207,7 +219,7 @@ Permissions are divided into two distinct security tiers:
 
 ---
 
-## 6. Bridge APIs & DOM Virtualization
+## 7. Bridge APIs & DOM Virtualization
 
 Inside the Jint sandbox, plugins interact with the world via the global `nova.*` namespace:
 
@@ -243,7 +255,7 @@ All class and style mutations executed via `nova.mutation.*` are recorded in an 
 
 ---
 
-## 7. Shadow DOM UI Overlay Isolation
+## 8. Shadow DOM UI Overlay Isolation
 
 When plugins render interactive UI (status badges, extraction progress bars, confirmation modals), overlays are injected into a dedicated **Open Shadow DOM** container:
 
@@ -267,7 +279,7 @@ flowchart LR
 
 ---
 
-## 8. Dynamic MCP Tool Export
+## 9. Dynamic MCP Tool Export
 
 One of the most powerful features of AAP is the ability for an agent to author a plugin that exposes **brand-new MCP tools** back to itself or other agents:
 
@@ -295,7 +307,7 @@ sequenceDiagram
 
 ---
 
-## 9. Rollout, Testing & Rollback Lifecycles
+## 10. Rollout, Testing & Rollback Lifecycles
 
 To prevent untested code from disrupting live workflows, Nova provides end-to-end staging:
 
@@ -311,7 +323,7 @@ To prevent untested code from disrupting live workflows, Nova provides end-to-en
 
 ---
 
-## 10. Complete MCP Tool Inventory (22 Tools)
+## 11. Complete MCP Tool Inventory (22 Tools)
 
 All plugin management and diagnostic operations are grouped within the `plugin_management` capability bundle:
 
@@ -344,6 +356,9 @@ All plugin management and diagnostic operations are grouped within the `plugin_m
 
 ## Related Documentation
 
+* **[Jint Runtime, Dispatcher Pump & Lifecycle State Machine](./jint-runtime-dispatcher-and-lifecycle/README.md)** — Execution engines, message pumps, and lifecycle state transitions.
+* **[Manifest Specification, Permissions & Dynamic MCP Tools](./manifest-permissions-and-dynamic-mcp-tools/README.md)** — Manifest schemas, review gates, and dynamic tool exports.
+* **[Bridge APIs, DOM Virtualization & Overlays](./bridge-apis-dom-virtualization-and-overlays/README.md)** — Opaque element handles, epoch fences, and Shadow DOM isolation.
 * **[Alpha Limitations and Status](../../../ALPHA.md)** — Current feature availability.
 * **[Browser Interaction Architecture](../browser-interaction/README.md)** — Input events and DOM manipulation.
 * **[Agent Awareness Gates (AAG)](../agent-awareness-gates-aag/README.md)** — Permission models and safety checks.

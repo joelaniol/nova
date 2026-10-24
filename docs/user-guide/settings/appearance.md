@@ -85,9 +85,18 @@ flowchart LR
 * **Reduced Motion:** Calms down animation speeds and transitions for users sensitive to rapid cursor movement or flashing indicators.
 * **Step Cards & Timeline HUD:** Displays a floating on-screen card indicating the current task phase (e.g., *Step 2/5: Click Submit*), upcoming actions, and whether a verification step succeeded.
 * **Tempo Presets:** Adjusts the pacing and delay between sequential agent actions, allowing you to slow down operations to follow along comfortably or speed them up for maximum productivity.
-* **Advanced Tuning:** Fine-tune operator bias, risk penalties, and trust thresholds for complex automated navigation sequences.
 
 For an in-depth walkthrough of observing live agent interactions and taking manual control, see [Watching Agent Work](../agents/watching-agent-work.md).
+
+---
+
+## 7. Related Documentation
+
+* **[Settings Hub](README.md)** — Main overview of all 14 settings panels.
+* **[General Settings](general.md)** — Startup restoration and window close behaviors.
+* **[Developer Options Settings](developer-options.md)** — Emulation viewport framing and DevTools.
+* **[Agent Governance & MCP](agent-governance-and-mcp.md)** — Programmatic settings access and curated keys.
+* **[Watching Agent Work](../agents/watching-agent-work.md)** — Real-time visual overlay and live agent inspection.
 
 ---
 

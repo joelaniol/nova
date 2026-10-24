@@ -23,6 +23,7 @@ Use Nova's generated text: it contains the current connection details for your i
 | Claude Code | [Connect Claude Code](claude-code.md) |
 | Claude Desktop | [Connect Claude Desktop](claude-desktop.md) |
 | OpenAI Codex CLI | [Connect Codex](openai-codex.md) |
+| Cursor, Windsurf & VS Code | [Connect Cursor & VS Code](vscode-and-cursor.md) |
 | Antigravity | [Connect Antigravity](google-antigravity.md) |
 
 If your program is missing, install it and choose **Search again**. For another MCP-compatible program, use **Connect another program** in the wizard.

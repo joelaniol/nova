@@ -42,8 +42,8 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 | [Browser](user-guide/browser/README.md) | Tabs, favorites, history, downloads, private browsing and shortcuts |
 | [Identity & security](user-guide/identity-and-security/README.md) | Passwords, permissions, certificates, sandboxes and proxies |
 | [Agents](user-guide/agents/README.md) | Connection, watching work, taking over, Domain Notes and onboarding |
-| [Tools](user-guide/tools/README.md) | Terminal, transcription, scheduled tasks and recordings |
-| [Settings](user-guide/settings/README.md) | General, appearance, site permissions and AI & agents |
+| [Tools](user-guide/tools/README.md) | Terminal, transcription, OCR, tabular data, documents, scheduled tasks and connectors |
+| [Settings](user-guide/settings/README.md) | Workspace preferences, 14 settings panels, storage persistence and agent governance |
 
 ## Agent integration
 
@@ -54,6 +54,7 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 | [Claude Code](integration/claude-code.md) | Connecting the Claude Code CLI |
 | [Claude Desktop](integration/claude-desktop.md) | Connecting the Claude Desktop app |
 | [OpenAI Codex](integration/openai-codex.md) | Connecting the Codex CLI |
+| [Cursor & VS Code](integration/vscode-and-cursor.md) | Connecting Cursor, Windsurf, Roo Code and Cline |
 | [Antigravity](integration/google-antigravity.md) | Connect and restart Antigravity |
 | [Custom integrations — developers](integration/custom-agents.md) | Build your own MCP client against the actual contracts |
 
@@ -177,8 +178,13 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 | Page | What it covers |
 |---|---|
 | [Connection issues](troubleshooting/agent-connection-issues.md) | Missing connections, local server and bridge checks |
+| [Claude Code](troubleshooting/claude-code.md) | Resolving Claude Code CLI connection and pipe errors |
+| [Claude Desktop](troubleshooting/claude-desktop.md) | Tray icon locks, missing tools, and JSON path escaping |
+| [OpenAI Codex](troubleshooting/openai-codex.md) | Resolving Codex CLI timeouts and TOML syntax |
+| [Cursor & VS Code](troubleshooting/vscode-and-cursor.md) | Resolving IDE extension and MCP bridge errors |
 | [Agent behavior](troubleshooting/agent-behavior.md) | Connected but not using tools, missing data or unchecked outcomes |
 | [Antigravity compatibility](troubleshooting/antigravity.md) | Nova's client-compatible names and result handling |
+| [Performance & GPU recovery](troubleshooting/performance-and-crashes.md) | Graphics driver crashes, sleeping tabs and minidumps |
 | [Diagnostics](troubleshooting/diagnostics.md) | Logs and failure evidence |
 | [Sandbox and session recovery](troubleshooting/sandbox-and-session-recovery.md) | Abandoned tabs, held claims and missing sandboxes |
 

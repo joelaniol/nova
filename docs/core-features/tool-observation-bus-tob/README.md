@@ -53,7 +53,19 @@ flowchart TD
 
 ---
 
-## 2. The 5-Layer Bus Architecture
+## 2. Dedicated Sub-Guides
+
+For detailed architectural specifications, database schemas, and operational runbooks, refer to the focused subguides in this directory:
+
+| Sub-Guide | Primary Focus & Topics Covered |
+| :--- | :--- |
+| **[Dispatch Envelope & Layer Pipeline](dispatch-envelope-and-layer-pipeline/README.md)** | The 5-layer bus architecture, canonical dispatch envelope, pre-state/post-state capture in `finally`, foreign target tab resolution, 64-bit signal flags, multi-channel click effect evaluation (9 channels), and in-memory prelude ring buffers. |
+| **[Observation Projections & Visit Windows](observation-projections-and-visit-windows/README.md)** | Scope lifecycle state machine, the 8 frozen scope invariants, scope reactivation on evidence rejection, 750 ms epilogue grace window, `TobFlushCoordinator` sequence barrier protocol, SQLite relational schemas (`pks.db`), and dual-tier retention policies. |
+| **[Evidence Ledgers & Consumer Verification](evidence-ledgers-and-consumer-verification/README.md)** | The `EvidenceLedger` task verification engine, mathematical evidence grades (`strong`, `weak`, `none`, `unknown`), unit locator inference, complete reason code catalog (`perUnitExceptions`), autonomous PKS selector proof emitting, and AAG preflight block recording. |
+
+---
+
+## 3. The 5-Layer Bus Architecture
 
 TOB is structured into five distinct architectural layers spanning the execution lifecycle from initial dispatch to high-level policy evaluation:
 
@@ -120,7 +132,7 @@ flowchart TD
 
 ---
 
-## 3. The Dispatch Envelope Lifecycle & Surface Capture
+## 4. The Dispatch Envelope Lifecycle & Surface Capture
 
 Every tool execution follows a deterministic, fail-safe envelope lifecycle:
 
@@ -155,12 +167,12 @@ sequenceDiagram
     end
 ```
 
-### 3.1 Pre-State and Post-State Capture
+### 4.1 Pre-State and Post-State Capture
 * **Pre-State:** Captured immediately before tool dispatch. Records target ID, target session ID, tab state version, navigation epoch (`pageEpoch`), raw URL, normalized route URL, and start timestamp (`started_at_ms`).
 * **Post-State:** Captured in a `finally` block, ensuring capture occurs even if the tool throws an unhandled exception, times out, or encounters renderer process termination.
 * **Effective Fields:** To handle intermediate navigations cleanly, TOB derives effective attributes (`page_url_effective_norm`, `page_epoch_effective`) using `COALESCE(postState, preState)`.
 
-### 3.2 The Foreign Target Resolution Invariant
+### 4.2 The Foreign Target Resolution Invariant
 > [!IMPORTANT]
 > When an agent interacts with a background tab by supplying an explicit `targetId`, TOB **does not borrow the identity of the foreground active tab**.
 > 
@@ -168,7 +180,7 @@ sequenceDiagram
 
 ---
 
-## 4. Signal Flags & Tool Classification (`ObservationSignalFlags`)
+## 5. Signal Flags & Tool Classification (`ObservationSignalFlags`)
 
 TOB categorizes every tool execution using a 64-bit bitmask (`ObservationSignalFlags`). This bitmask describes exactly what data was exposed to the agent and what mutations were committed to the browser runtime:
 
@@ -190,7 +202,7 @@ TOB categorizes every tool execution using a 64-bit bitmask (`ObservationSignalF
 | **`FullDocument`** | `1 << 13` | Complete document tree or full-page scroll was exposed. |
 | **`TargetResolved`** | `1 << 14` | Target WebView/tab was successfully located and matched. |
 
-### 4.1 Tool-to-Signal Mapping Rules
+### 5.1 Tool-to-Signal Mapping Rules
 
 `ObservationClassifier` inspects the tool name and execution outcome to assign action kinds (`read`, `navigate`, `interact`, `write`, `meta`) and surface types:
 
@@ -201,12 +213,12 @@ TOB categorizes every tool execution using a 64-bit bitmask (`ObservationSignalF
 * **`nova.type_selector`:** Classified as `interact` on `dom_node`. Flags: `SelectorTouched | InputSupplied | MutationAttempted | (MutationCommitted) | TargetResolved`.
 * **`nova.navigate` / `nova.back` / `nova.forward`:** Classified as `navigate` on `webpage`. Flags: `NavigationIntent | (NavigationCommitted) | TargetResolved`.
 
-### 4.2 The Perceive-First Surface Exposure Filter
+### 5.2 The Perceive-First Surface Exposure Filter
 To prevent agents from bypassing AAG's `safety.perceive_first` gate with cheap no-ops, TOB enforces a strict surface exposure filter:
 * Invocations of `nova.search_text` **do not qualify** as surface exposure, even though they expose text.
 * Only substantive observation tools (`nova.perceive`, `nova.read_text`, `nova.read_dom`, `nova.dom_extract`) set `_surfaceExposedByTarget = true`.
 
-### 4.3 The Multi-Channel Click Effect Observation Engine
+### 5.3 The Multi-Channel Click Effect Observation Engine
 
 A persistent flaw in web automation is the "silent dead click": dispatching a synthetic click event onto an unmounted element, an element without an attached event listener, or an element whose handler has not yet bound will return `ok: true`. The language model interprets `ok: true` as proof that the action succeeded, even though the page state never changed.
 
@@ -247,7 +259,7 @@ flowchart TD
 
 ---
 
-## 5. Scope Lifecycle State Machine & The 8 Core Invariants
+## 6. Scope Lifecycle State Machine & The 8 Core Invariants
 
 To prevent unbounded database growth during regular interactive browsing, TOB observations are **scope-gated**: they are only projected to SQLite when an active workflow scope exists (such as a running ETM task instance or a tab claim lease).
 
@@ -277,18 +289,18 @@ stateDiagram-v2
 7. **Complete Ingestion Prerequisite:** Grade `none` may only be assigned when data ingestion and projection are 100% complete; any gap degrades to `unknown`.
 8. **Retention Precedence:** Scope retention never prunes records before the task's final `evidence_snapshot_json` is generated.
 
-### 5.1 In-Memory Prelude Buffer
+### 6.1 In-Memory Prelude Buffer
 When an agent performs setup calls (navigating to a starting URL, dismissing an initial popup) *before* explicitly creating an ETM task instance, those dispatches are unscoped.
 * Unscoped dispatches are held in an in-memory ring buffer (`PreludeBuffer`: max 512 per target, max 4,096 globally, 60s TTL).
 * When `OpenScope` is invoked, TOB drains the last 30 seconds (`PreludeWindowMs = 30_000`) of matching dispatches and backfills them into `tob_tool_observation` with `binding_mode = 'prelude_backfill'`.
 * **Per-Target Overflow Isolation:** The ring buffer tracks buffer overflows strictly per target (`_overflowByTarget[targetKey]`). An overflow on an unrelated tab does not mark another tab's prelude drain as incomplete, preventing artificial degradation to `unknown`.
 
-### 5.2 Epilogue Grace Window
+### 6.2 Epilogue Grace Window
 When a task requests completion, the agent may have issued a final verification call that is still in transit.
 * `BeginClosing` initiates an `epilogue_grace_ms` period (default **750 ms**).
 * Any calls completing within this grace window bind with `binding_mode = 'epilogue_grace'` before the sequence barrier is locked.
 
-### 5.3 Scope Reactivation on Evidence Rejection
+### 6.3 Scope Reactivation on Evidence Rejection
 When an agent attempts task completion, Nova flushes the sequence barrier and evaluates the Evidence Ledger. If the evidence gate rejects the completion (e.g. required strong evidence but observed weak or none), the scope is **not closed or aborted**:
 1. `TobFlushCoordinator.ReactivateScopeAfterRejection` closes existing visit windows to prevent dwell times from bleeding across the rejection boundary.
 2. The scope coordinator transitions the scope from `Flushing` back to `Active`.
@@ -296,19 +308,19 @@ When an agent attempts task completion, Nova flushes the sequence barrier and ev
 4. The agent receives the specific rejection diagnostic and can perform additional verification actions before attempting completion again.
 5. Only upon passing the evidence gate does `CloseScopeAfterGate` mark the scope as `Closed`.
 
-### 5.4 Crash Recovery Invariant (`RecoverFromDb`)
+### 6.4 Crash Recovery Invariant (`RecoverFromDb`)
 If Nova AI Workspace terminates unexpectedly while scopes are active, `EvidenceScopeCoordinator.RecoverFromDb()` runs on startup:
 * Recovers all scopes in states `open`, `active`, `closing`, or `flushing` from `tob_scope_runtime`.
 * Restores them to `Active` in memory, rebuilding reverse target indexes (`ActiveBindings`) so target tabs are not deadlocked against new scopes.
 
-### 5.5 Process-Wide Static Isolation in Tests (`ResetTobStaticsForSelfTest`)
+### 6.5 Process-Wide Static Isolation in Tests (`ResetTobStaticsForSelfTest`)
 In production, `McpServer` is a single process singleton. However, in test suites, multiple `McpServer` instances are constructed within a single process.
 * To prevent cross-test contamination where a newly instantiated test server inadvertently hijacks the static scope coordinator of a previous test (QM-3836), Nova provides `ResetTobStaticsForSelfTest()` and `InstallTobScopeCoordinatorForSelfTest()`.
 * Every isolated unit test starts with a completely clean static slate.
 
 ---
 
-## 6. The Flush & Barrier Protocol (`TobFlushCoordinator`)
+## 7. The Flush & Barrier Protocol (`TobFlushCoordinator`)
 
 Before an evidence consumer (such as the ETM Evidence Ledger) can grade task completion, it must guarantee that all asynchronous background worker threads have flushed their data to disk.
 
@@ -339,20 +351,20 @@ sequenceDiagram
     Coord-->>Consumer: Return FlushResult (ingestionComplete, projectionComplete)
 ```
 
-### 6.1 The In-Memory Visit Window Flush Invariant
+### 7.1 The In-Memory Visit Window Flush Invariant
 > [!IMPORTANT]
 > The visit window of the page the agent is currently sitting on resides *purely in memory* (`VisitWindowBuilder._openWindows`) until a page change occurs or the scope closes.
 > 
 > If the flush protocol did not explicitly close the window, the current page would never count as a materialized visit window in SQLite! `TobFlushCoordinator` calls `_visitWindowBuilder.CloseAllWindows(scopeId)` before returning, ensuring the open window is inserted into `tob_visit_window` ahead of the correlation query.
 
-### 6.2 The Barrier Non-Stall Guarantee
+### 7.2 The Barrier Non-Stall Guarantee
 In `ToolObservationProjector`, database writes execute asynchronously on a background worker thread.
 * If an insertion fails due to an unexpected SQLite exception or disk constraint, the sequence counter advancement (`AdvanceCommittedSeq`) and projected count increment still execute inside a guaranteed `finally` block.
 * This ensures that `WaitForFlushAsync` will **never hang indefinitely or stall the barrier**. The missing observation may result in an `unknown` grade, but the execution pipeline remains fully operational.
 
 ---
 
-## 7. Database Schema & Storage Architecture (`pks.db`)
+## 8. Database Schema & Storage Architecture (`pks.db`)
 
 All TOB tables reside in `pks.db` and are initialized via Migrations V14 and V15:
 
@@ -394,7 +406,7 @@ erDiagram
     }
 ```
 
-### 7.1 Relational Table Catalog
+### 8.1 Relational Table Catalog
 
 | Table Name | Primary Role | Retention Policy |
 | :--- | :--- | :--- |
@@ -407,12 +419,12 @@ erDiagram
 | **`task_instance_unit_locator`** | Typed locator definitions for ETM work units. | Task Instance Lifetime |
 | **`tob_lcj_durable_outbox`** | Reserved durability bridge for future LCJ integration. | Scope End + 7d / 30d |
 
-### 7.2 The Outbox Durability Bridge Semantics (`tob_lcj_durable_outbox`)
+### 8.2 The Outbox Durability Bridge Semantics (`tob_lcj_durable_outbox`)
 The `tob_lcj_durable_outbox` table records selector interactions alongside dispatch call IDs and outcomes.
 * **Current Status:** This table is currently write-only (with severity recorded as a literal `0` placeholder). It is an architectural reservation designed as a durable persistence bridge for future out-of-process LCJ consumers.
 * Today, LCJ consumes observations in-memory via `McpServer.ExecutionLcjObservation`. The outbox table is reaped by `TobRetentionPolicy` and must not be treated by external clients as an active bidirectional queue.
 
-### 7.3 Single-Worker DB Channel & Deadlock Prevention
+### 8.3 Single-Worker DB Channel & Deadlock Prevention
 `PksStore.GetDb()` operates over a single-worker asynchronous queue.
 * To prevent deadlocks, lightweight status queries (`task_instance_get`, `get_instructions`) invoke `EvidenceLedger.CorrelateSummary()` instead of the full `Correlate()` method.
 * For completed instances, `CorrelateSummary()` reads the pre-compiled `evidence_snapshot_json` via fast JSON parsing without touching SQLite queries.
@@ -420,7 +432,7 @@ The `tob_lcj_durable_outbox` table records selector interactions alongside dispa
 
 ---
 
-## 8. Evidence Ledger & Task Verification (`EvidenceLedger`)
+## 9. Evidence Ledger & Task Verification (`EvidenceLedger`)
 
 When an autonomous task instance completes, the **Evidence Ledger** evaluates whether the agent's claims are backed by physical evidence:
 
@@ -441,7 +453,7 @@ flowchart TD
     WinCheck -->|No / Selector-only| Weak["Grade: weak (Interacted but Not Proven Read)"]
 ```
 
-### 8.1 Evidence Grades
+### 9.1 Evidence Grades
 
 | Evidence Grade | Required Criteria | Practical Meaning |
 | :---: | :--- | :--- |
@@ -450,7 +462,7 @@ flowchart TD
 | **`none`** | Deterministic locators exist, data ingestion and projection are 100% complete, and zero matching observations exist. | **Proven fabrication / omission:** The agent claimed completion, but Nova observed zero corresponding actions. |
 | **`unknown`** | No deterministic locators exist, or a measurement gap occurred (`unknown_due_to_source_gap`, `projection_incomplete`, `scope_binding_missing`). | Indeterminate: Nova cannot prove or disprove the claim due to missing instrumentation. |
 
-### 8.2 The "Strong" Grade Ceiling Invariant
+### 9.2 The "Strong" Grade Ceiling Invariant
 > [!IMPORTANT]
 > Grade `strong` is **strictly achievable only for locator types `url_exact` and `route_key`**.
 > 
@@ -461,7 +473,7 @@ flowchart TD
 > ```
 > Because `tob_visit_window` coalesces page-level interactions and does not maintain a selector index, work units whose sole deterministic locator is a DOM selector (`selector_hash`) or a URL prefix (`url_prefix`) can at most achieve grade `weak`. Individual element interactions prove execution, but only visit windows prove sustained page dwell time.
 
-### 8.3 Unit Locator Inference & Normalization Engine (`TobUnitLocatorWriter`)
+### 9.3 Unit Locator Inference & Normalization Engine (`TobUnitLocatorWriter`)
 
 Work units defined in ETM are automatically analyzed to infer typed locators:
 
@@ -474,7 +486,7 @@ Work units defined in ETM are automatically analyzed to infer typed locators:
 | Starts with `/` or path-like string | `route_key` | Trimmed lowercase without slashes | `null` | `strong` |
 | Domain-like string (contains `.`) | `url_exact` | Canonical route URL | Scheme + Host + Path | `strong` |
 
-### 8.4 The Complete Exception Reason Code Catalog (`perUnitExceptions`)
+### 9.4 The Complete Exception Reason Code Catalog (`perUnitExceptions`)
 
 When a checked work unit does not achieve `strong`, the ledger records precise diagnostic reason codes:
 
@@ -489,7 +501,7 @@ When a checked work unit does not achieve `strong`, the ledger records precise d
 | **`projection_incomplete`** | `unknown` | Tool observation projection did not reach the sequence barrier within the flush timeout. |
 | **`no_matching_observation`** | `none` | Deterministic locators exist and data pipelines were 100% complete, but zero matching tool calls occurred. |
 
-### 8.5 The Evidence Snapshot Schema (`evidence_snapshot_json`)
+### 9.5 The Evidence Snapshot Schema (`evidence_snapshot_json`)
 Upon task completion, the ledger compiles an immutable JSON summary saved to `task_instance.evidence_snapshot_json`:
 
 ```json
@@ -530,7 +542,7 @@ Upon task completion, the ledger compiles an immutable JSON summary saved to `ta
 
 ---
 
-## 9. Autonomous PKS Selector Proof (`TobSelectorProofEmitter`)
+## 10. Autonomous PKS Selector Proof (`TobSelectorProofEmitter`)
 
 When an agent interacts with web pages, TOB autonomously validates and promotes UI patterns in the Phenomenological Knowledge Store (PKS) without requiring the agent to self-report:
 
@@ -552,7 +564,7 @@ flowchart LR
 
 ---
 
-## 10. AAG Preflight Block Recording (Migration V15)
+## 11. AAG Preflight Block Recording (Migration V15)
 
 When an Agent Awareness Gate (such as `setup.bootstrap_required` or `safety.perceive_first`) halts a tool call, the tool implementation never executes. However, recording this attempt is vital for debugging and compliance.
 
@@ -563,7 +575,7 @@ TOB handles this via **Blocked Preflight Projections** (`TryProjectBlocked`):
 
 ---
 
-## 11. Dual-Tier Retention Policy (`TobRetentionPolicy`)
+## 12. Dual-Tier Retention Policy (`TobRetentionPolicy`)
 
 To maintain high SQLite query performance and prevent database file bloat, TOB implements an automated, dual-tier retention policy:
 
@@ -587,7 +599,7 @@ flowchart TD
 
 ---
 
-## 12. Operational Health Metrics (`TobHealthMetrics`)
+## 13. Operational Health Metrics (`TobHealthMetrics`)
 
 To diagnose whether a poor task verification score was caused by agent incompetence or browser infrastructure delays, TOB tracks atomic operational metrics:
 
@@ -605,7 +617,7 @@ To diagnose whether a poor task verification score was caused by agent incompete
 
 ---
 
-## 13. Summary: The TOB Architectural Matrix
+## 14. Summary: The TOB Architectural Matrix
 
 | Layer / Component | Core Responsibility | Invariant / Guarantee | Primary Failure Mode Addressed |
 | :--- | :--- | :--- | :--- |
@@ -625,6 +637,9 @@ To diagnose whether a poor task verification score was caused by agent incompete
 
 ## Related Documentation
 
+* **[Dispatch Envelope & Layer Pipeline](dispatch-envelope-and-layer-pipeline/README.md)** — The 5-layer bus architecture, canonical dispatch envelope, signal flags, and click effect engines.
+* **[Observation Projections & Visit Windows](observation-projections-and-visit-windows/README.md)** — Scope lifecycle state machines, visit windows, flush barriers, and relational SQLite schemas.
+* **[Evidence Ledgers & Consumer Verification](evidence-ledgers-and-consumer-verification/README.md)** — The Evidence Ledger, mathematical proof grading, unit locator inference, and PKS selector proofs.
 * **[Agent Awareness Gates (AAG)](../agent-awareness-gates-aag/README.md)** — Precondition gates and tab leasing in the MCP dispatch pipeline.
 * **[Closed-Loop System (CLS)](../closed-loop-system-cls/README.md)** — Transition contracts, stability verification, and outcome reaction.
 * **[Phenomenological Knowledge Store (PKS)](../learning/phenomenological-knowledge-store-pks/README.md)** — Procedural UI memory, playbooks, and autonomous health tracking.

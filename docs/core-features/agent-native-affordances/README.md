@@ -59,7 +59,19 @@ Agent-native affordances are **not tech debt or loose typing**. They constitute 
 
 ---
 
-## 2. The Seven Pillars of Nova's Affordance Architecture
+## 2. Dedicated Sub-Guides
+
+For deep architectural exploration, operational protocol specifications, and implementation mechanics, refer to the dedicated sub-guides:
+
+| Sub-Guide | Primary Scope & Focus Areas |
+| :--- | :--- |
+| **[Affordance Vocabulary Bridges & Parameter Normalization](./vocabulary-bridges-and-parameter-normalization/README.md)** | Cognitive translation layers, action name lookup tables (Playwright/Puppeteer/Selenium aliases), client/transport prefix stripping, parameter normalization matrices (`NormalizeCommonInputAliases`), Anthropic scroll conversion, scalar-to-array lifting, value synonym harmonization (`outputDetail`), permissive primitive coercion (`McpArgumentParser`), and pedagogical feedback loops (`InjectAliasInfo`). |
+| **[Dual-Envelope Observability & Self-Healing](./dual-envelope-observability-and-self-healing/README.md)** | Client asymmetry resilience (Claude Code vs. Antigravity vs. Codex), universal dual-envelope error architecture (`McpToolErrorEnvelope` with `structuredContent:\n` text mirror and length budgeting), clean empty-argument formatting (`McpAllowedArgsMessage`), directional recovery (`nextActions`), stateful anti-loop state machines (`dismiss_blockers`), and DOM exception interception in `nova.eval`. |
+| **[Session Continuity & Layered Autonomy](./session-continuity-and-layered-autonomy/README.md)** | Cross-restart tab target ID continuity (`restoredFrom`), volatile state diagnostics (`volatileStateLost`), rate-limiting backoff durations (`retryAfterMs`), natural-language capability search in `nova.tools_bundle(query=...)`, deep Shadow DOM piercing, opaque Vault secret injection, 4-tier layered control autonomy, deliberately rejected aliases, and complete framework compatibility matrices. |
+
+---
+
+## 3. The Seven Pillars of Nova's Affordance Architecture
 
 Nova implements agent-native ergonomics across seven distinct architectural dimensions:
 
@@ -120,7 +132,7 @@ flowchart LR
 
 ---
 
-## 3. Multi-Layer Compatibility Engine
+## 4. Multi-Layer Compatibility Engine
 
 ### 3.1 Action Name Bridges (Tool Aliases)
 
@@ -286,7 +298,7 @@ Unknown string values that cannot be parsed as valid numbers or booleans continu
 
 ---
 
-## 4. Plain-Language Capability Discovery & Dynamic Guidance
+## 5. Plain-Language Capability Discovery & Dynamic Guidance
 
 ### 4.1 Plain-Language Query Search in `nova.tools_bundle(query=...)`
 
@@ -294,9 +306,12 @@ A primary failure mode of autonomous agents is the **"Blank Slate Fallback Trap"
 
 Nova's capability search affordance solves this directly:
 * **Task-Oriented Fuzzy Queries:** Agents can query capabilities in natural language:
-  ```json
-  { "query": "measure element width overflow clipped text" }
-  ```
+
+```json
+{
+  "query": "measure element width overflow clipped text"
+}
+```
 * **Intelligent Tokenization & Stop-Word Removal:** The search engine strips function words (`"how"`, `"do"`, `"I"`, `"want"`, `"to"`, `"please"`) and ranks tools based on term hits across both tool names and full descriptions.
 * **OR-Combined Thresholding:** Imprecise paraphrases still succeed: querying `"transcribe voice message audio to text"` reliably returns `nova.media_transcribe_start`, even though none of the individual terms match the exact tool name alone.
 
@@ -331,7 +346,7 @@ Operating instructions are delivered on demand via `nova.get_instructions`, opti
 
 ---
 
-## 5. Universal Dual-Envelope Response Affordance (`McpToolErrorEnvelope`)
+## 6. Universal Dual-Envelope Response Affordance (`McpToolErrorEnvelope`)
 
 Different MCP client environments process and present tool results to LLMs asymmetrically:
 * **Claude Code:** Prioritizes `structuredContent`. If `structuredContent` is present, it strips the text array from the prompt context. If a JSON-RPC transport error occurs, it presents only `message`.
@@ -376,7 +391,7 @@ The tool 'nova.ui_inspect_native_dialog' accepts no arguments.
 
 ---
 
-## 6. Directional Recovery & Loop Breakers
+## 7. Directional Recovery & Loop Breakers
 
 An affordance must guide an agent forward when an action cannot be completed. Conventional systems return dead-end errors; Nova provides **directional vectors** (`nextActions`) and stateful loop breakers.
 
@@ -428,7 +443,7 @@ Affordance Hint: The selector returned null. Call nova.read_dom() or nova.percei
 
 ---
 
-## 7. Session Continuity, Tab Restoration & Backoff Affordances
+## 8. Session Continuity, Tab Restoration & Backoff Affordances
 
 ### 7.1 Target ID Continuity Across Restarts (`restoredFrom`)
 During long-running automation or system updates, Nova or the underlying browser may restart. When tabs are restored, Chromium assigns them fresh internal runtime identifiers.
@@ -461,7 +476,7 @@ This tells the calling agent exactly how long to pause, preventing frantic polli
 
 ---
 
-## 8. Deep DOM Inspection, Selector Healing & Secret Privacy
+## 9. Deep DOM Inspection, Selector Healing & Secret Privacy
 
 ### 8.1 Deep Shadow DOM Piercing & Coordinate Extraction
 Modern web components encapsulate inputs inside nested Shadow DOM trees where standard `document.querySelector` fails. Nova's `nova.get_element_rect` and `nova.get_active_element_deep` automatically pierce shadow root boundaries:
@@ -484,7 +499,7 @@ Nova provides an opaque secret injection affordance:
 
 ---
 
-## 9. Educational Feedback Loop (`InjectAliasInfo`)
+## 10. Educational Feedback Loop (`InjectAliasInfo`)
 
 Aliases in Nova are designed as **transitional learning bridges**, not permanent cloaks. When an agent invokes a tool via an alias or a flattened name, Nova executes the canonical tool and injects pedagogical metadata into the response:
 
@@ -509,7 +524,7 @@ The calling model naturally adopts canonical names in subsequent steps without w
 
 ---
 
-## 10. Tiered Levels of Control (Layered Autonomy)
+## 11. Tiered Levels of Control (Layered Autonomy)
 
 Nova provides four progressively lower tiers of abstraction. An agent can operate at the highest level of abstraction that succeeds, dropping down to lower levels when edge cases arise:
 
@@ -538,7 +553,7 @@ Lower levels provide finer physical control, but **never bypass safety contracts
 
 ---
 
-## 11. Intentional Boundary Decisions: Rejected Aliases & Anti-Patterns
+## 12. Intentional Boundary Decisions: Rejected Aliases & Anti-Patterns
 
 Not every recurring agent expectation qualifies for an alias. Where an alias would mask a conceptual misunderstanding, create semantic collisions, or create security risks, Nova explicitly **rejects the alias** and clarifies the boundary through documentation and error messaging:
 
@@ -562,7 +577,7 @@ Not every recurring agent expectation qualifies for an alias. Where an alias wou
 
 ---
 
-## 12. Framework Compatibility Matrix
+## 13. Framework Compatibility Matrix
 
 The following matrix summarizes how Nova bridges common automation frameworks:
 
@@ -582,6 +597,9 @@ The following matrix summarizes how Nova bridges common automation frameworks:
 
 ## Related Documentation
 
+* **[Affordance Vocabulary Bridges & Parameter Normalization](./vocabulary-bridges-and-parameter-normalization/README.md)** — Cognitive aliases, parameter maps, and value harmonizations.
+* **[Dual-Envelope Observability & Self-Healing](./dual-envelope-observability-and-self-healing/README.md)** — Dual-envelope guarantees, error mirrors, and anti-loop state machines.
+* **[Session Continuity & Layered Autonomy](./session-continuity-and-layered-autonomy/README.md)** — Tab restoration, plain-language search, and tiered control levels.
 * **[Agent Awareness Gates (AAG)](../agent-awareness-gates-aag/README.md)** — Preemptive situational execution checks and recovery contracts.
 * **[Closed-Loop System (CLS)](../closed-loop-system-cls/README.md)** — Post-action visual transition verification.
 * **[Tool Observation Bus (TOB)](../tool-observation-bus-tob/README.md)** — Forensic event tracking and audit trails.

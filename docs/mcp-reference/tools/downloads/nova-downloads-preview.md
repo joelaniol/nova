@@ -6,7 +6,7 @@ Opens a completed download inline in a new browser tab using a secure file:// UR
 
 ## 1. Overview
 
-`nova.downloads_preview` renders images, PDFs, videos, audio, and structured text files directly inside a new browser tab without launching external applications. CSV, TSV and Excel files (`.xlsx`, `.xlsm`) open in Nova's read-only table view (`kind='table'`): sheets as tabs, a frozen header, numbers and dates in their Excel format in the UI language, saved formula results only; macros never run. For security, SVG and HTML files are strictly excluded to prevent script injection.
+`nova.downloads_preview` renders images, PDFs, videos, audio, and structured text files directly inside a new browser tab without launching external applications. CSV, TSV and Excel files (`.xlsx`, `.xlsm`) open in Nova's read-only table view (`kind='table'`): sheets as tabs, a frozen header, numbers and dates in their Excel format in the UI language, saved formula results only; macros never run. With `path` instead of `id` it previews any local file the same way (files in the download folder and Nova's Exports folder always, elsewhere only with the user's "Allow local files" setting). `fitToData=true` zooms a small table so its filled cells fill the window. For security, SVG and HTML files are strictly excluded to prevent script injection.
 
 > **Upcoming in 1.0.0-alpha.21:** the table view is not in a published setup yet.
 
@@ -19,11 +19,13 @@ Opens a completed download inline in a new browser tab using a secure file:// UR
 <!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
-| `id` | `string` | Yes | — | — | The download ID (from nova.downloads_list). |
+| `id` | `string` | No | — | — | The download ID (from nova.downloads_list). Pass exactly one of id or path. |
+| `path` | `string` | No | — | — | Absolute path to a local file instead of a download, e.g. a table another tool wrote. Files in the download folder and Nova's Exports folder always; elsewhere only with the user's 'Allow local files' setting (otherwise -32035 mcp.file_access_disabled). |
+| `fitToData` | `boolean` | No | `false` | — | Tables only: once loaded, zoom the tab (Nova's own page zoom, session only, between 100 % and 200 %) so the used cells fill the window, keeping two empty columns and rows of grid around them. Useful for screenshots and recordings of small tables; the user resets it with Ctrl+0. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
-Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
+Capability bundles: `app_shell_recovery`, `page_read_debug`.
 Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 

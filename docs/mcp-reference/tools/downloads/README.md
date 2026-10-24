@@ -10,7 +10,7 @@ Download tracking, pause/resume, security prompt resolution, and directory manag
 <!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 ## Tool Inventory (17 Tools)
 
-Capability bundles of these tools: `app_shell_recovery`.
+Capability bundles of these tools: `app_shell_recovery`, `page_read_debug`.
 
 | Tool | What it does |
 | :--- | :--- |

@@ -10,6 +10,7 @@ Nova uses several processes with different lifetimes. Seeing more than one Nova-
 | [`NovaBrowser.TerminalRunner.exe`](terminal-runner.md) | Hosts pseudo consoles separately from the browser. | While terminal sessions need it; it can outlive the Nova window. |
 | [`NovaBrowser.ReplayValidator.exe`](replay-validator.md) | Checks recording manifests and inventories artifacts; current replay coverage is limited. | When explicitly invoked for recording diagnostics or validation. |
 | [`msedgewebview2.exe`](webview2-and-child-processes.md) | Microsoft's Chromium-based browser runtime. | While Nova's WebViews are active; multiple subprocesses are normal. |
+| [IPC & Lifecycle Architecture](ipc-and-lifecycle.md) | Host-bridge communication, watchdog budgets, and crash containment across all processes. | Active throughout workspace execution. |
 
 Shells and agent CLIs such as PowerShell, Claude Code or Codex can appear underneath terminal or scheduled work. They are the selected programs, not additional Nova helper binaries.
 
@@ -47,6 +48,7 @@ The diagram shows responsibility, rather than a promise that every box is always
 | Why did a command keep running after its tool call timed out? | [TerminalRunner](terminal-runner.md). |
 | What does a recording validation pass actually establish? | [ReplayValidator](replay-validator.md). |
 | Why are there so many runtime or shell processes? | [WebView2 and child processes](webview2-and-child-processes.md). |
+| How do the processes communicate and handle crashes? | [IPC & Lifecycle Management](ipc-and-lifecycle.md). |
 
 Each page explains capabilities, an example workflow and the boundary of what it guarantees. Core-feature pages describe the user-facing behaviour across components; these pages explain which process carries which part of that work.
 

@@ -26,6 +26,7 @@
 | `regex` | `boolean` | No | `false` | — | If true, treat pattern as a regex. Invalid regex patterns fail with -32602. |
 | `maxItems` | `integer` | No | `200` | 1–2000 | Maximum resources to enumerate before searching. |
 | `maxResourceChars` | `integer` | No | `100000` | 1000–5000000 | Maximum characters to read from each text resource before searching. |
+| `passiveOnly` | `boolean` | No | `false` | — | Force CDP-only resource discovery and reads, without page-code or network fallback. Matches are static source evidence, never proof of an API call or fingerprinting intent. Workers and unavailable resources are not covered. |
 | `maxMatches` | `integer` | No | `100` | 1–2000 | Maximum total matches to return across all resources. |
 | `contextChars` | `integer` | No | `120` | 0–2000 | Characters of context to include before and after each match. |
 | `maxChars` | `integer` | No | `100000` | 1000–5000000 | Maximum serialized response characters before truncation. Defaults shrink automatically under context pressure unless explicitly provided. |

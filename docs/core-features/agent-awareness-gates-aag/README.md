@@ -60,7 +60,19 @@ AAG evaluates observable technical prerequisites at the protocol boundary. While
 
 ---
 
-## 2. Central Enforcement Matrix
+## 2. Dedicated Sub-Guides
+
+For deep architectural exploration, operational protocol specifications, and implementation mechanics, refer to the dedicated sub-guides:
+
+| Sub-Guide | Primary Scope & Focus Areas |
+| :--- | :--- |
+| **[Pipeline & High-Hazard Barriers](./pipeline-and-high-hazard-barriers/README.md)** | Pre-dispatch evaluation pipeline (Stages 0–7), fail-closed host safety barriers (`emergency_stop`, `disk_space_low`, `private_target_write`), enforcement tiers (`Off`, `Warn`, `ShadowBlock`, `Block`), business errors vs transport crashes, and `nova.run_sequence` pre-validation. |
+| **[Perception, Directives & Environment Gates](./perception-directives-and-environment-gates/README.md)** | `safety.perceive_first` mechanics, `user.site_note` tripartite lifecycle & compact stubs, `openNativeDialog` host modal handling, `StallPageGate` bot challenges, `pks.spa_navigation_block`, and `aag.screenshot_budget`. |
+| **[Annotation Engine & Anti-Nagging](./annotation-engine-and-anti-nagging/README.md)** | Post-dispatch response enrichment, advisory suppression hierarchy, persistent `safety.backup_integrity` alarms, stable guidance hashing, 25-call periodic re-delivery heuristic, client identity tracking, and orchestrator recovery playbooks. |
+
+---
+
+## 3. Central Enforcement Matrix
 
 The following matrix provides a complete reference for all awareness gates, their default enforcement tiers, affected tool scopes, and resolution pathways:
 
@@ -88,7 +100,7 @@ The following matrix provides a complete reference for all awareness gates, thei
 
 ---
 
-## 3. End-to-End Pipeline & Architecture
+## 4. End-to-End Pipeline & Architecture
 
 Every incoming MCP `tools/call` request passes through a multi-stage gateway before dispatching to Chromium or host subsystems. The evaluation sequence is ordered by hazard severity: process-level safety barriers execute first, followed by parameter validation, session orientation, domain directives, and mutating action guards.
 
@@ -140,7 +152,7 @@ sequenceDiagram
 
 ---
 
-## 4. Enforcement Modes (`AagGateMode`)
+## 5. Enforcement Modes (`AagGateMode`)
 
 Each configurable awareness gate operates across four distinct enforcement tiers defined by `AagGateMode`:
 
@@ -160,7 +172,7 @@ Each configurable awareness gate operates across four distinct enforcement tiers
 
 ---
 
-## 5. Deep Gate Catalog & Operational Boundaries
+## 6. Deep Gate Catalog & Operational Boundaries
 
 AAG categorizes gates into three distinct structural classes: **Unconditional Host Barriers**, **Configurable Precondition Gates**, and **Advisory Guidance**.
 
@@ -331,7 +343,7 @@ Capturing full-page screenshots at high device scale factors can generate multi-
 
 ---
 
-## 6. In-Flight Stop, Cancellation & Atomic Sequences
+## 7. In-Flight Stop, Cancellation & Atomic Sequences
 
 Awareness gates govern not only single discrete tool calls, but also atomic macro sequences and in-flight background operations.
 
@@ -350,7 +362,7 @@ When an agent submits a multi-step macro via `nova.run_sequence`, AAG evaluates 
 
 ---
 
-## 7. The Annotation Engine (Response Enrichment)
+## 8. The Annotation Engine (Response Enrichment)
 
 When gates do not block execution (operating in `Warn` or `ShadowBlock` mode, or serving as informational context), they enrich successful tool responses via `ApplyAagHandlerWarningGates`.
 
@@ -380,7 +392,7 @@ If a background mailbox backup encounters dropped messages, network timeouts, or
 
 ---
 
-## 8. Token Efficiency, Deduplication & Anti-Nagging
+## 9. Token Efficiency, Deduplication & Anti-Nagging
 
 Repeating full advisory payloads on every single tool call creates a severe **Token Starvation Trap** where prompt context is consumed by redundant warnings. Nova implements three specific mitigation mechanisms:
 
@@ -399,7 +411,7 @@ Transport session IDs rotate on HTTP reconnection or transient network drops. To
 
 ---
 
-## 9. Autonomous Agent Integration & Recovery Playbook
+## 10. Autonomous Agent Integration & Recovery Playbook
 
 When integrating an autonomous agent with Nova, client frameworks should distinguish between wire-level metadata and the model-facing prompt:
 
@@ -547,7 +559,7 @@ def _log_advisories_if_present(result: Any) -> None:
 
 ---
 
-## 10. Configuration Reference (`settings.json`)
+## 11. Configuration Reference (`settings.json`)
 
 All awareness gates are configurable in Nova's application settings (`settings.json`). The settings file supports human-readable enum values (`"off"`, `"warn"`, `"shadowblock"`, `"block"`):
 
@@ -574,6 +586,9 @@ All awareness gates are configurable in Nova's application settings (`settings.j
 
 ## Related Documentation
 
+* **[Pipeline & High-Hazard Barriers](./pipeline-and-high-hazard-barriers/README.md)** — Pre-dispatch pipeline stages, fail-closed barriers, and business error framing.
+* **[Perception, Directives & Environment Gates](./perception-directives-and-environment-gates/README.md)** — DOM observation, MUST-read site notes, native modals, and SPA state preservation.
+* **[Annotation Engine & Anti-Nagging](./annotation-engine-and-anti-nagging/README.md)** — Response enrichment, suppression hierarchies, and client recovery playbooks.
 * **[Tool Observation Bus (TOB)](../tool-observation-bus-tob/README.md)** — Comprehensive audit logging of attempted, dispatched, and blocked actions.
 * **[Closed-Loop System (CLS)](../closed-loop-system-cls/README.md)** — Post-action state verification and transition contracts.
 * **[Phenomenological Knowledge Store (PKS)](../learning/phenomenological-knowledge-store-pks/README.md)** — Self-healing selector learning and SPA navigation phenomenons.

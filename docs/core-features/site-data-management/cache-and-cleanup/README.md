@@ -24,7 +24,16 @@ Nova provides a high-precision cache invalidation and profile cleanup engine thr
 
 ---
 
-## 2. Invariant: Absence of Domain Filtering in Cache Clearing
+## 2. Dedicated Architecture Sub-Guides
+
+| Guide | Description | Primary Topics |
+| :--- | :--- | :--- |
+| **[Profile Invalidation & Category Matrix](profile-invalidation-and-category-matrix/README.md)** | Deep breakdown of all 9 browsing-data categories, internal engine mappings, and surgical invalidation recipes. | 9 categories, CoreWebView2BrowsingDataKinds, absence of domain filtering, chunk recipes |
+| **[`allSite` vs. `allProfile` & Vault Isolation](all-site-vs-all-profile-and-vault-isolation/README.md)** | Granular component matrix, the Nova Vault DPAPI separation invariant, and multi-profile blast radius dynamics. | `allSite` vs `allProfile`, Nova Vault `vault.dat` invariant, profile blast radius, rehydration |
+
+---
+
+## 3. Invariant: Absence of Domain Filtering in Cache Clearing
 
 A critical architectural constraint governs `nova.cache_clear`:
 
@@ -39,7 +48,7 @@ $$\text{Cache Clearing Scope} = \text{Target Profile} \quad (\text{Domain Filter
 
 ---
 
-## 3. Deep Dive: `allSite` vs. `allProfile`
+## 4. Deep Dive: `allSite` vs. `allProfile`
 
 Understanding the boundary between composite categories prevents accidental loss of browser settings:
 
@@ -73,7 +82,7 @@ Nova distinguishes between the browser engine's internal password autosave mecha
 
 ---
 
-## 4. Multi-Profile & Multi-Tab Isolation
+## 5. Multi-Profile & Multi-Tab Isolation
 
 The operational blast radius of any cache clearing operation is strictly bounded by the target's profile:
 
@@ -93,7 +102,7 @@ flowchart TD
 
 ---
 
-## 5. Interactive UI vs. Automated Agent Clear
+## 6. Interactive UI vs. Automated Agent Clear
 
 Nova provides two paths to execute cache and site-data cleanup:
 
@@ -130,7 +139,7 @@ Autonomous agents invoke `nova.cache_clear` through JSON-RPC:
 
 ---
 
-## 6. Post-Clear Verification & Cache Rehydration
+## 7. Post-Clear Verification & Cache Rehydration
 
 Clearing a cache subsystem resets disk and memory storage at that exact instant. However:
 1. **In-Memory JavaScript State:** Pages that remain open during a cache clear may still hold old script state, global variables, or API responses in JavaScript memory. **Always reload or navigate the page** (`nova.navigate` or `nova.reload`) after clearing caches.
@@ -138,8 +147,10 @@ Clearing a cache subsystem resets disk and memory storage at that exact instant.
 
 ---
 
-## 7. Related References
+## 8. Related References
 
+* [Profile Invalidation & Category Matrix Sub-Guide](profile-invalidation-and-category-matrix/README.md): Detailed analysis of the 9 browsing data categories and practical invalidation recipes.
+* [`allSite` vs. `allProfile` & Vault Isolation Sub-Guide](all-site-vs-all-profile-and-vault-isolation/README.md): Granular subsystem matrix, DPAPI vault isolation, and container blast radius.
 * [Cookies Architecture Guide](../cookies/README.md): Detailed RFC 6265bis specifications and domain-scoped cookie clearing.
 * [Web Storage Architecture Guide](../web-storage/README.md): Key-level manipulation of `localStorage` and `sessionStorage`.
 * [Site Data Permissions & Audit](../permissions-and-audit/README.md): Authorization policies and audit log guarantees.

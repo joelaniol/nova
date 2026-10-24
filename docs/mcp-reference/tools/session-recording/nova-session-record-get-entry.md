@@ -19,6 +19,7 @@ Retrieves the complete event timeline, headers, and decoded payload for a single
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `recordingId` | `string` | Yes | — | — | Recording ID. |
 | `requestId` | `string` | Yes | — | — | CDP requestId from a prior session_record_query result. |
+| `redact` | `boolean` | No | `false` | — | true returns sanitized metadata only; false returns full recorded event payloads. Body bytes additionally require includeBody=true. |
 | `includeBody` | `boolean` | No | `false` | — | Include the inline base64-encoded body bytes. |
 
 Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='session_recording')`).

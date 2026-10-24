@@ -11,6 +11,7 @@ Choose the problem you can see. You do not need to know whether it belongs to th
 | It connects, but does not use Nova or cannot read its results | [Agent behavior](#agent-behavior) |
 | A tab, login, sandbox or running agent needs attention | [Browser and sessions](#browser-and-sessions) |
 | You need logs or details of a failure | [Diagnostics](#diagnostics) |
+| Nova crashed, GPU driver crashed or high RAM | [Performance, crashes & GPU recovery](performance-and-crashes.md) |
 | The problem happens with one particular AI program | [Client-specific quirks](#client-specific-quirks) |
 
 ## Installation
@@ -45,8 +46,9 @@ For login loops, stale site data or cookies/storage that return after deletion, 
 
 | Client | Setup and help |
 |---|---|
-| Claude Code | [Client guide](../integration/claude-code.md) |
-| Claude Desktop | [Client guide](../integration/claude-desktop.md) · [Connection issues](agent-connection-issues.md#2-claude-desktop-shows-no-nova-tools) |
-| OpenAI Codex CLI | [Client guide](../integration/openai-codex.md) |
-| Antigravity | [Client guide](../integration/google-antigravity.md) · [Compatibility help](antigravity.md) |
+| Claude Code | [Troubleshooting guide](claude-code.md) · [Client guide](../integration/claude-code.md) |
+| Claude Desktop | [Troubleshooting guide](claude-desktop.md) · [Client guide](../integration/claude-desktop.md) |
+| OpenAI Codex CLI | [Troubleshooting guide](openai-codex.md) · [Client guide](../integration/openai-codex.md) |
+| Cursor, Windsurf & VS Code | [Troubleshooting guide](vscode-and-cursor.md) · [Client guide](../integration/vscode-and-cursor.md) |
+| Antigravity | [Compatibility help](antigravity.md) · [Client guide](../integration/google-antigravity.md) |
 | Another MCP client | [Custom agents](../integration/custom-agents.md) · [Missing result data](agent-behavior.md#the-agent-sees-only-summaries) |

@@ -20,6 +20,7 @@ Decrypts and streams generic event logs (console, errors, lifecycle, IndexedDB) 
 | `recordingId` | `string` | Yes | — | — | Recording ID. |
 | `stream` | `string` | Yes | — | `console.jsonl`, `errors.jsonl`, `lifecycle.jsonl`, `network.cdp.jsonl`, `indexeddb-ops.jsonl`, `security-violations.jsonl`, `performance.jsonl`, `workers.jsonl`, `interactions.jsonl`, `dom-snapshots.jsonl`, `websocket-payloads.jsonl`, `indexeddb-values.jsonl`, `dom-mutations.jsonl` | Stream file name (e.g. 'console.jsonl'). The three V2 sidecars may report available=false when this recording did not capture them. |
 | `limit` | `integer` | No | `200` | 1–5000 | Max events returned. |
+| `redact` | `boolean` | No | `false` | — | true returns sanitized event metadata; false preserves full recorded payloads. Reads existing artifacts only; never starts capture, hooks or page code. |
 
 Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='session_recording')`).
 Tool category: `safe` (lowest risk class in Nova's agent permission settings).

@@ -38,7 +38,17 @@ flowchart TD
 
 ---
 
-## 2. The Tri-State Logic Paradigm (`Yes`, `No`, `Unknown`)
+## 2. Dedicated Architecture Sub-Guides
+
+| Guide | Description | Primary Topics |
+| :--- | :--- | :--- |
+| **[Heuristic Probing & Tri-State Logic](heuristic-probing-and-tri-state-logic/README.md)** | Three-valued logic (`Yes`, `No`, `Unknown`), continuous confidence scoring $[0.0, 1.0]$, multi-signal DOM heuristics, and host-level `HttpOnly` cookie inspection. | Tri-state model, 6 stages (`auth.stage`), `current-password`, `one-time-code`, host cookie jar, TOB facts |
+| **[Identity Overlays & SSO Detection](identity-overlays-and-sso-detection/README.md)** | Four provider families (Consumer SSO, Enterprise IdP, SaaS IdP, Web Components), negative pattern filtering, and `safety.identity_overlay` advisory warnings. | Google One Tap, Entra, Okta, Clerk, negative exclusion, geometry scoring, AAG warning |
+| **[Surface Safety & Crawler Shield](surface-safety-and-crawler-shield/README.md)** | Multi-lingual lexicon shield (`dangerous.json`, `high-risk-identity.json`), 4 persistence tiers, crawler target parity, SSRF defense, and guarded login contracts. | Lexicon shield, Hard Deny, persistence tiers, SSRF blocking, Ghost Surface Reaper, `nova.guarded_login`, Windows Hello |
+
+---
+
+## 3. The Tri-State Logic Paradigm (`Yes`, `No`, `Unknown`)
 
 In security-critical browser automation, **absence of positive evidence is not evidence of absence**. 
 
@@ -59,7 +69,7 @@ ASD mandates **Three-Valued Logic (`AuthTriState`)**:
 
 ---
 
-## 3. Multi-Signal Probing & Heuristic Detection Architecture
+## 4. Multi-Signal Probing & Heuristic Detection Architecture
 
 ASD evaluates pages through a sandboxed, top-document probe paired with native host-level inspection. Gathered signals feed into dedicated detector modules without introducing external network dependencies.
 
@@ -81,7 +91,7 @@ flowchart LR
     HostJar --> D3
 ```
 
-### 3.1 DOM Input & Autocomplete Analysis
+### 4.1 DOM Input & Autocomplete Analysis
 The probe inspects visible `<input>` and `<textarea>` elements across top-level documents and accessible DOM scopes:
 * **Password Fields:** Counts visible fields with `type="password"`. A single password field indicates a login surface; multiple password fields indicate registration or password change workflows.
 * **W3C Autocomplete Semantics:** Reads standard autocomplete tokens:
@@ -91,7 +101,7 @@ The probe inspects visible `<input>` and `<textarea>` elements across top-level 
   * `autocomplete="username"` / `autocomplete="email"`: Identifies credential identifier fields.
 * **Identifier Fields:** Evaluates visible inputs by attributes (`name`, `id`, `placeholder`, `aria-label`, `data-testid`) containing tokens like `email`, `username`, `login`, `user-id`, or `identifier`.
 
-### 3.2 Form Linkage & Multi-Lingual Action Dictionaries
+### 4.2 Form Linkage & Multi-Lingual Action Dictionaries
 Auth surfaces vary across internationalized applications. ASD embeds multi-lingual keyword dictionaries to recognize action anchors, submission buttons, and headings across English, German, French, and Spanish:
 
 * **Auth Action URLs (`authHrefKeywords`):** Detects navigation links pointing to `/login`, `/signin`, `/sign-in`, `/auth`, `/oauth`, `/sso`, `/account/login`, `/session`, `/connexion`, `/connect`, `/acceso`, `/entrar`, `/iniciar-sesion`, `/registro`.
@@ -103,13 +113,13 @@ Auth surfaces vary across internationalized applications. ASD embeds multi-lingu
 * **Federated Identity Providers (`providerKeywords`):** Recognizes branded SSO buttons for `Google`, `Microsoft`, `GitHub`, `Apple`, `Okta`, and `Auth0`.
 * **Auth Headings (`authHeadingKeywords`):** Inspects `<h1>`–`<h3>`, `<legend>`, and `[role="heading"]` for phrases announcing login or account access.
 
-### 3.3 Account Controls & Authenticated Surface Detection
+### 4.3 Account Controls & Authenticated Surface Detection
 To determine if a page represents an already authenticated session, ASD searches for controls that only appear when logged in:
 * **Logout Links (`logoutSels`):** Inspects anchors and buttons matching `a[href*="logout"]`, `a[href*="abmelden"]`, `a[href*="signout"]`, `a[href*="sign-out"]`, `button[data-testid*="logout"]`.
 * **Profile & Settings Anchors:** Evaluates links matching `/profile`, `/account`, `/user`, `/settings`, `/preferences`, and corresponding localized ARIA labels (`Profil`, `Einstellungen`, `Konto`).
 * **User Avatars:** Identifies user profile icons or images located inside `<header>`, `<nav>`, `[role="banner"]`, or `[role="navigation"]`. Checks image `src`, `alt`, and `class` attributes, as well as `<svg>` icons with user-related ARIA labels (`avatar`, `user`, `profile`).
 
-### 3.4 Host-Level `HttpOnly` Cookie Inspection
+### 4.4 Host-Level `HttpOnly` Cookie Inspection
 In standard browser automation, client-side JavaScript (`document.cookie`) cannot read cookies marked with the `HttpOnly` directive. As a result, standard headless scripts fail to see secure session cookies, falsely concluding that no session exists.
 
 Nova bridges this gap at the host level:
@@ -117,7 +127,7 @@ Nova bridges this gap at the host level:
 * If active session cookies exist in the native store for the target origin, the probe result is enriched with `HasAnyCookie = true`.
 * This ensures high-security corporate sites and enterprise applications using `HttpOnly` session tokens are correctly recognized as authenticated rather than mistaken for ephemeral or logged-out pages.
 
-### 3.5 Storage & Runtime State Inspection
+### 4.5 Storage & Runtime State Inspection
 Authentication often resides in client-side storage rather than visible DOM elements:
 * **Web Storage (`localStorage` & `sessionStorage`):** Scans key names and structured values for authentication evidence, user profiles, or JWT tokens.
 * **SPA Framework State Stores:** Detects active state management frameworks (React Redux, Pinia, Vuex, Angular) holding user authentication objects.
@@ -125,7 +135,7 @@ Authentication often resides in client-side storage rather than visible DOM elem
 
 ---
 
-## 4. Identity Overlay & SSO Detection (`IdentityOverlayDetector`)
+## 5. Identity Overlay & SSO Detection (`IdentityOverlayDetector`)
 
 Modern web applications frequently embed third-party identity providers in floating dialogs, modals, or iframes (e.g. Google One Tap, Microsoft Entra / MSA, Okta, Atlassian, Apple Sign-In).
 
@@ -146,13 +156,13 @@ flowchart TD
     Score -->|Confidence >= 0.70| Warn["Emit Advisory Warning: safety.identity_overlay"]
 ```
 
-### 4.1 Provider Catalog Families
+### 5.1 Provider Catalog Families
 1. **Consumer SSO (`ConsumerSso`):** Google (`accounts.google.com`, `/gsi/`, `credential_picker`), Apple (`appleid.apple.com`), Meta/Facebook (`connect.facebook.net`), GitHub, GitLab, LinkedIn, X/Twitter, Discord, Slack, Dropbox, Box, Amazon.
 2. **Enterprise IdP (`EnterpriseIdp`):** Microsoft Entra ID / MSA (`login.microsoftonline.com`, `login.live.com`), Okta (`okta.com`, `okta-emea.com`), Auth0, OneLogin, Ping Identity, Duo, JumpCloud, Cloudflare Access, AWS Cognito, Keycloak.
 3. **SaaS IdP (`SaasIdp`):** Atlassian, Shopify, Adobe, Zoom, Salesforce, Workday.
 4. **Web Component & Shadow DOM (`WebComponentIdentity`):** Walks open shadow roots to detect encapsulated custom elements such as `auth0-lock`, `okta-signin-widget`, `apple-id-signin-button`, and Google Identity Services components (`<g_id_onload>`).
 
-### 4.2 Negative Pattern Exclusion
+### 5.2 Negative Pattern Exclusion
 To eliminate false alarms, the detector applies strict negative pattern rules:
 * **Advertisements & Tracking:** Excludes `doubleclick.net`, `googlesyndication.com`, `adsrvr.org`, `criteo`, `taboola`, `outbrain`.
 * **Cookie Consent Management (CMP):** Excludes `onetrust`, `cookielaw`, `cookiebot`, `didomi`, `usercentrics`, `sourcepoint`, `quantcast`, `trustarc`, `consensu.org`, `iubenda`.
@@ -160,7 +170,7 @@ To eliminate false alarms, the detector applies strict negative pattern rules:
 * **Support & Live Chat:** Excludes `intercom.io`, `zendesk.com`, `crisp.chat`, `drift.com`, `tawk.to`, `freshchat.com`.
 * **Bot Challenges:** Excludes `recaptcha`, `hcaptcha`, `challenges.cloudflare.com` (Turnstile), `arkose`.
 
-### 4.3 Geometrical Scoring & Advisory Warning
+### 5.3 Geometrical Scoring & Advisory Warning
 * **Base Confidence:** $0.38$ to $0.45$ per catalog provider.
 * **Boosts:** $+0.20$ for visible cross-origin iframe; $+0.15$ for overlay geometry ($\ge 10\%$ viewport area or $\ge 12{,}000\text{ px}^2$); $+0.10$ for high `z-index` ($\ge 1000$) or fixed/absolute positioning; $+0.10$ for auth-related titles.
 * **Dampening:** $-0.25$ if offscreen, very small, or `pointer-events: none`.
@@ -168,7 +178,7 @@ To eliminate false alarms, the detector applies strict negative pattern rules:
 
 ---
 
-## 5. The 6 Lifecycle Stages (`auth.stage`) & Confidence Scoring Matrix
+## 6. The 6 Lifecycle Stages (`auth.stage`) & Confidence Scoring Matrix
 
 ASD maps gathered signals to an explicit authentication lifecycle stage, providing agents with complete situational awareness of the current page context.
 
@@ -237,7 +247,7 @@ Verdicts are published to the Tool Observation Bus (TOB) and dual-facts dictiona
 
 ---
 
-## 6. Session Persistence Classification (`auth.persistence`) & Navigation Safety
+## 7. Session Persistence Classification (`auth.persistence`) & Navigation Safety
 
 Modern Single Page Applications (SPAs) manage user credentials across varying storage tiers. A destructive page reload or cross-origin navigation can instantly destroy an in-memory session. ASD classifies persistence to enable predictive navigation gating.
 
@@ -253,7 +263,7 @@ flowchart TD
     SpaHybrid --> Warn["Warn: Prefer nova.route over full nova.navigate"]
 ```
 
-### 6.1 The Four Persistence Tiers
+### 7.1 The Four Persistence Tiers
 
 1. **`persistent`:**
    * **Backing:** Persistent cookies or `localStorage` auth tokens.
@@ -268,7 +278,7 @@ flowchart TD
    * **Backing:** Pure memory-only authentication (e.g. JWT held only in a JavaScript closure or React component state). No tokens exist in cookies or web storage.
    * **Safety: CRITICAL.** Any standard browser reload (`F5`) or external navigation causes **immediate, unrecoverable session loss**.
 
-### 6.2 The Navigation Safety Gate & Persistence Cache
+### 7.2 The Navigation Safety Gate & Persistence Cache
 Whenever an agent invokes navigation tools (`nova.navigate`, `nova.reload`), Nova's navigation safety pipeline evaluates the target:
 * **10-Minute Persistence Cache (`AuthPersistenceCache`):** Caches persistence classifications per `(profileId, origin)` for up to 10 minutes to minimize IPC latency during frequent interactions.
 * **`forceAuthProbe` Parameter:** Agents can pass `forceAuthProbe=true` to invalidate the cache and force a fresh live evaluation.
@@ -280,7 +290,7 @@ Whenever an agent invokes navigation tools (`nova.navigate`, `nova.reload`), Nov
 
 ---
 
-## 7. The Surface Safety Lexicon Shield & Exclusion Dictionaries
+## 8. The Surface Safety Lexicon Shield & Exclusion Dictionaries
 
 Autonomous surface exploration (`nova.explore_surface`) and background web crawlers (`nova.crawl_start`) navigate web applications by discovering interactive elements and clicking them.
 
@@ -291,7 +301,7 @@ Without strict safety guardrails, automated explorers create havoc:
 
 To prevent this, Nova equips ASD and the Surface Explorer with the **Surface Safety Lexicon Shield**.
 
-### 7.1 Multi-Lingual Safety Lexicons
+### 8.1 Multi-Lingual Safety Lexicons
 Nova embeds comprehensive, multi-lingual JSON lexicon dictionaries that classify interface elements into risk tiers:
 
 ```mermaid
@@ -317,7 +327,7 @@ flowchart TD
 | **`SafeReadonly`** | `safe-readonly.json` | Multi | `view`, `details`, `expand`, `anzeigen`, `öffnen`. | **ALLOW.** Read-only inspection triggers are permitted. |
 | **`SafeNavigation`** | `safe-navigation.json` | Multi | `next`, `previous`, `page 2`, `weiter`, `zurück`. | **ALLOW.** Pagination and read-navigation triggers are permitted. |
 
-### 7.2 The 5-Module Surface Safety Pipeline
+### 8.2 The 5-Module Surface Safety Pipeline
 When evaluating candidate elements, Nova executes a deterministic 5-module evaluation pipeline:
 
 1. **SemanticAllowModule:** Identifies declarative open controls (e.g. `<details>`, ARIA popups, tabs, accordions) designed for safe content disclosure.
@@ -337,7 +347,7 @@ When evaluating candidate elements, Nova executes a deterministic 5-module evalu
 
 ---
 
-## 8. Crawler Integration & SSRF Defense-in-Depth
+## 9. Crawler Integration & SSRF Defense-in-Depth
 
 The web crawler (`nova.crawl_start`, `nova.crawl_status`, `nova.crawl_verify`) shares ASD and surface safety engines to maintain security boundaries while indexing web applications.
 
@@ -353,19 +363,19 @@ flowchart LR
     IPCheck -->|Public Routable IP| Fetch["Execute Page Fetch & Continuous ASD Probing"]
 ```
 
-### 8.1 Target-Bound Pre-Flight Gating (`CrawlerAccessPolicy`)
+### 9.1 Target-Bound Pre-Flight Gating (`CrawlerAccessPolicy`)
 When an agent attempts to start a target-bound crawl (`nova.crawl_start(targetId=...)`), Nova performs a pre-flight probe using ASD:
 * **Interactive Login Wall (`auth.wall`):** If the visible target currently shows an authentication surface, the crawl is blocked (`-32001`): *"Target-bound crawl blocked: the visible target currently shows an auth/login surface that should be continued in the live tab."* A headless crawler cannot solve user authentication.
 * **Session-Scoped Storage:** If the target relies on `sessionStorage` (`session_scoped`), target-bound crawling is blocked: detached background WebViews do not share tab-scoped session storage.
 * **Hydrated SPA State & Ephemeral Tokens:** If the target uses `spa_cookie_plus_state` or `ephemeral`, the crawl is blocked because background WebViews cannot reproduce volatile in-memory client state.
 * **Safe Fallback:** Nova advises the agent to use `nova.crawl_links` (direct in-tab traversal) instead of launching a detached hidden crawler.
 
-### 8.2 Continuous Auth Probing & Session Parity
+### 9.2 Continuous Auth Probing & Session Parity
 During crawling, every newly loaded page is continuously evaluated by ASD:
 * **Login Wall Avoidance:** If a crawl job encounters `auth.loginWallVisible == true` on a public crawl, it halts crawling along that path to prevent becoming trapped in authentication loops.
 * **Target Auth Parity Verification:** When a crawl is bound to an authenticated tab session, Nova continuously compares the crawl's authentication status against the target tab (`HasTargetAuthParityMismatch`). If the target is logged in but the crawler encounters a login wall or logged-out state, the crawler immediately aborts with error code `crawl.target_session_mismatch`, preventing unauthenticated page corruption.
 
-### 8.3 Network Boundary & SSRF Prevention
+### 9.3 Network Boundary & SSRF Prevention
 To prevent autonomous crawlers from being weaponized for Server-Side Request Forgery (SSRF) or scanning private internal intranets, Nova enforces strict network boundary validation:
 * **Scheme Restrictions:** Crawlers strictly permit `http://` and `https://` URLs.
 * **Prohibited Hostnames:** Blocks `localhost` and all `.local` mDNS domains.
@@ -377,7 +387,7 @@ To prevent autonomous crawlers from being weaponized for Server-Side Request For
   * `169.254.0.0/16` (Link-Local / APIPA / Cloud Metadata Services like `169.254.169.254`)
   * `::1` (IPv6 Loopback) and `fe80::/10` (IPv6 Link-Local)
 
-### 8.4 Ghost Surface Reaper (`HiddenCrawlSurfaceRegistry`)
+### 9.4 Ghost Surface Reaper (`HiddenCrawlSurfaceRegistry`)
 Headless crawling utilizes hidden WebViews. If a crawl process terminates unexpectedly or encounters a worker fault, leaked WebViews could continue executing scripts or playing background media ("ghost audio").
 * **Continuous Registry Tracking:** Every hidden crawl WebView is registered with its active job ID and idle timestamp.
 * **Sweeper Daemon:** A background sweeper evaluates registered surfaces every 60 seconds.
@@ -385,7 +395,7 @@ Headless crawling utilizes hidden WebViews. If a crawl process terminates unexpe
 
 ---
 
-## 9. Guarded Interactions & Vault Workflow
+## 10. Guarded Interactions & Vault Workflow
 
 Submitting authentication credentials requires deterministic synchronization between password vaults, form submission, and ASD verification.
 
@@ -417,7 +427,7 @@ sequenceDiagram
     end
 ```
 
-### 9.1 The Non-Idempotent Contract in `nova.guarded_login`
+### 10.1 The Non-Idempotent Contract in `nova.guarded_login`
 `nova.guarded_login` enforces strict Closed-Loop System (CLS) invariants tailored to authentication:
 
 ```json
@@ -456,7 +466,7 @@ sequenceDiagram
 * **Non-Idempotent Retry Policy:** Authentication submissions are inherently non-idempotent. If a network lag occurs or an intermediate MFA prompt appears, Nova prohibits automated retries of the submit action, preventing rate limiting or account lockouts.
 * **Frame Scoping:** If a login form is embedded within a same-origin `<iframe>`, `nova.guarded_login` accepts an optional `frameId`, scoping both click execution and fact assertions directly to that frame context.
 
-### 9.2 Secret Masking with the Password Vault
+### 10.2 Secret Masking with the Password Vault
 Agents should never read plaintext passwords into their language model context.
 * **Safe Fill Preparation:** The agent calls `nova.vault_prepare_fill` or `nova.type_selector_secret`, specifying a secret reference key.
 * **Direct IPC Injection:** Nova injects the decrypted secret directly into the WebView2 DOM input buffer via native OS messaging.
@@ -464,7 +474,7 @@ Agents should never read plaintext passwords into their language model context.
 
 ---
 
-## 10. Procedural Knowledge & Zero-Leak Credential Redaction
+## 11. Procedural Knowledge & Zero-Leak Credential Redaction
 
 Nova's Procedural Knowledge Store (PKS) monitors and learns recurring interaction patterns. During authentication flows, PKS observes sequences while enforcing strict data hygiene:
 
@@ -475,7 +485,7 @@ Nova's Procedural Knowledge Store (PKS) monitors and learns recurring interactio
 
 ---
 
-## 11. Native Dialog Authentication (HTTP Basic & Client Certificates)
+## 12. Native Dialog Authentication (HTTP Basic & Client Certificates)
 
 In-page DOM probing cannot intercept authentication challenges that occur at the network protocol layer (HTTP 401 Basic, Digest, Proxy Authentication, or TLS Client Certificates).
 
@@ -486,7 +496,7 @@ Nova routes these challenges through native UI dialog handlers:
 
 ---
 
-## 12. Sensitive Action Re-Authentication Gate
+## 13. Sensitive Action Re-Authentication Gate
 
 When an operator or agent attempts to reveal or export credentials stored inside Nova's Password Vault, software-only permissions are insufficient.
 
@@ -497,7 +507,7 @@ Nova enforces the **Sensitive Action Re-Authentication Gate**:
 
 ---
 
-## 13. Summary: The ASD & Surface Safety Architectural Matrix
+## 14. Summary: The ASD & Surface Safety Architectural Matrix
 
 | Subsystem | Primary Responsibility | Governing Invariant | Outcome on Violation |
 | :--- | :--- | :--- | :--- |
@@ -518,6 +528,9 @@ Nova enforces the **Sensitive Action Re-Authentication Gate**:
 
 ## Related Documentation
 
+* **[Heuristic Probing & Tri-State Logic](heuristic-probing-and-tri-state-logic/README.md)** — In-depth analysis of three-valued truth logic, confidence scoring, and host-level `HttpOnly` cookie inspection.
+* **[Identity Overlays & SSO Detection](identity-overlays-and-sso-detection/README.md)** — Architectural taxonomy of Google One Tap, Entra, Okta, and shadow DOM identity components.
+* **[Surface Safety & Crawler Shield](surface-safety-and-crawler-shield/README.md)** — Multi-lingual safety lexicons, persistence navigation gates, and SSRF prevention.
 * **[Agent Awareness Gates (AAG)](../agent-awareness-gates-aag/README.md)** — Situational awareness gates and pre-execution safety rules.
 * **[Agent-Native Affordances](../agent-native-affordances/README.md)** — Atomic compound primitives and closed-loop interaction mechanics.
 * **[Closed-Loop System (CLS)](../closed-loop-system-cls/README.md)** — Post-action verification and assertion contracts.

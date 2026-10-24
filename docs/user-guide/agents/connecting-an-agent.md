@@ -21,7 +21,7 @@ flowchart LR
 
     subgraph Bridge["Local Stdio Bridge"]
         Proxy["NovaBrowser.McpProxy.exe"]
-        TokenStore[("%LOCALAPPDATA%\NovaBrowser\mcp-identity.dat<br>(DPAPI Protected)")]
+        TokenStore[("%LOCALAPPDATA%\nova-cognitive\Nova\mcp-identity.dat<br>(DPAPI Protected)")]
     end
 
     subgraph App["Nova AI Workspace"]
@@ -82,7 +82,7 @@ For custom Python scripts, TypeScript frameworks, or emerging tools supporting M
 {
   "mcpServers": {
     "nova": {
-      "command": "C:\\Users\\<YourUsername>\\AppData\\Local\\NovaBrowser\\tools\\NovaBrowser.McpProxy.exe",
+      "command": "C:\\Users\\<YourUsername>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe",
       "args": []
     }
   }
@@ -97,7 +97,7 @@ For advanced network topologies, see [Custom Agents](../../integration/custom-ag
 
 Nova is designed with a defense-in-depth security model to ensure that only authorized local programs can control your browser:
 
-* **Local DPAPI Encryption:** The authentication bearer token is encrypted at rest using Windows Data Protection API (DPAPI) and stored in `%LOCALAPPDATA%\NovaBrowser\mcp-identity.dat`. Only processes running under your Windows user account can decrypt it.
+* **Local DPAPI Encryption:** The authentication bearer token is encrypted at rest using Windows Data Protection API (DPAPI) and stored in `%LOCALAPPDATA%\nova-cognitive\Nova\mcp-identity.dat`. Only processes running under your Windows user account can decrypt it.
 * **Token Rotation:** If you ever suspect that an unauthorized script obtained access, open **Settings → AI & agents → Connection & setup → Security token** and click **Regenerate token**. This immediately invalidates all active sessions.
 * **Network Isolation by Default:** By default, Nova's MCP server listens strictly on local loopback (`127.0.0.1`). External devices on your local network cannot connect to Nova.
 * **Remote Access Opt-In:** If you need to control Nova from a development container or a second computer, you must explicitly enable **Allow access from other devices on the network** in settings and establish a dedicated bearer secret.

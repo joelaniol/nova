@@ -32,7 +32,16 @@ Nova's Web Storage tools operate strictly within the **top-level document origin
 
 ---
 
-## 2. Granular MCP Storage Operations
+## 2. Dedicated Architecture Sub-Guides
+
+| Guide | Description | Primary Topics |
+| :--- | :--- | :--- |
+| **[Origin Storage & Context Bounds](origin-storage-and-context-bounds/README.md)** | RFC 6454 origin partitioning, top-level document scoping, and algorithmic bounds (`maxEntries`, `valueMaxChars`). | Origin tuple, iframe shielding, `maxEntries`, `valueMaxChars`, `_meta.intent` |
+| **[IndexedDB & Storage Mutations](indexeddb-and-storage-mutations/README.md)** | Structured storage limitations, surgical mutation mechanics, DOM/memory desynchronization, and diagnostic capture. | IndexedDB boundary, `nova.storage_set`, `nova.storage_delete`, `indexeddb-ops.jsonl` |
+
+---
+
+## 3. Granular MCP Storage Operations
 
 The `site_data_management` capability bundle provides three dedicated tools for interacting with Web Storage:
 
@@ -54,8 +63,8 @@ flowchart TD
 Inspects keys and values in the target's current origin:
 * `storageType`: Explicit selection between `"local"` and `"session"`.
 * `keyFilter`: Substring or prefix filter to narrow the inventory (e.g., `"token_"` or `"auth"`).
-* `maxEntries`: Maximum number of keys returned (defaults to 50; bounds context size).
-* `valueMaxChars`: Maximum character length returned for any single value (defaults to 200). Values exceeding this length are safely truncated with an ellipsis.
+* `maxEntries`: Maximum number of keys returned (defaults to 100; max 1000; bounds context size).
+* `valueMaxChars`: Maximum character length returned for any single value (defaults to 120; max 10000). Values exceeding this length are safely truncated with an ellipsis.
 * `includeValues`: Defaults to `false`. When `false`, returns only key names, preventing accidental credential exposure. Setting `includeValues: true` requires user approval under the [Site Data Permission Gate](../permissions-and-audit/README.md).
 
 ```json
@@ -98,7 +107,7 @@ Removes a specific named key from the store:
 
 ---
 
-## 3. The IndexedDB Boundary & Diagnostic Capture
+## 4. The IndexedDB Boundary & Diagnostic Capture
 
 Web Storage tools are strictly engineered for `localStorage` and `sessionStorage`. They **do not** browse, query, or edit structured databases managed by `IndexedDB` or `CacheStorage`.
 
@@ -128,7 +137,7 @@ When diagnosing complex web applications that store transactional state or offli
 
 ---
 
-## 4. Integration: Mapping Stored Values into Request Replay
+## 5. Integration: Mapping Stored Values into Request Replay
 
 Many modern Single-Page Applications (SPAs) store OAuth bearer tokens in `localStorage` rather than HTTP cookies. Nova's [Network Interception & Replay](../../network/network-interception/README.md) allows agents to adopt these tokens directly into HTTP request drafts:
 
@@ -154,8 +163,10 @@ Many modern Single-Page Applications (SPAs) store OAuth bearer tokens in `localS
 
 ---
 
-## 5. Related References
+## 6. Related References
 
+* [Origin Storage & Context Bounds Sub-Guide](origin-storage-and-context-bounds/README.md): RFC 6454 origin partitioning, top-level document scoping, and context bounds.
+* [IndexedDB & Storage Mutations Sub-Guide](indexeddb-and-storage-mutations/README.md): Structured storage boundaries, surgical mutations, and diagnostic session recording.
 * [Cookies Architecture Guide](../cookies/README.md): Native browser cookie engine, RFC 6265bis prefix enforcement, and deterministic identity hashing.
 * [Cookie Inspector UI Guide](../cookie-inspector/README.md): Visual previews of Web Storage keys and the clipboard diagnostic copy button.
 * [Cache & Cleanup Guide](../cache-and-cleanup/README.md): Category definitions, `allDomStorage` wipe scopes, and profile reset boundaries.

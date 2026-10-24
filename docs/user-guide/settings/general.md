@@ -96,9 +96,18 @@ In the download panel, you can choose to automatically open specific non-executa
 The General settings panel provides direct access to Nova's local data stores on your Windows machine, simplifying troubleshooting, log collection, and manual backups:
 
 * **Open User Data:** Opens `%LOCALAPPDATA%\NovaBrowser` in File Explorer, where local preferences, vault keystores, and sandbox state are maintained.
-* **Open App Logs:** Opens `%LOCALAPPDATA%\NovaBrowser\logs`, where daily Serilog diagnostic files are stored.
+* **Open App Logs:** Opens `%LOCALAPPDATA%\nova-cognitive\Nova\Logs`, where daily Serilog diagnostic files are stored.
 * **Open Dumps:** Opens the crash dump directory containing minidumps created during unexpected terminations.
 * **Create Backup Archive:** Generates a compressed snapshot of your profile configurations, bookmarks, and settings for safe migration or disaster recovery.
+
+---
+
+## 8. Related Documentation
+
+* **[Settings Hub](README.md)** — Main overview of all 14 settings panels.
+* **[Agent Governance & MCP](agent-governance-and-mcp.md)** — Programmatic settings access and curated keys.
+* **[Sandboxes & Profiles Settings](sandboxes.md)** — Multi-profile partitions and start URL suggestions.
+* **[Appearance & Performance Settings](appearance.md)** — Hardware acceleration and sleeping tabs.
 
 ---
 

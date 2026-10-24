@@ -4,7 +4,12 @@ Troubleshooting now starts at one [Troubleshooting hub](../troubleshooting/READM
 
 ## Client guides
 
-[Client-specific help](../troubleshooting/README.md#client-specific-quirks).
+* [Claude Code](../troubleshooting/claude-code.md)
+* [Claude Desktop](../troubleshooting/claude-desktop.md)
+* [OpenAI Codex CLI](../troubleshooting/openai-codex.md)
+* [Cursor, Windsurf & VS Code](../troubleshooting/vscode-and-cursor.md)
+* [Google Antigravity](../troubleshooting/antigravity.md)
+* [Client-specific help overview](../troubleshooting/README.md#client-specific-quirks)
 
 ## The agent does not use Nova's tools
 

@@ -21,6 +21,18 @@ Nova cannot stop a model from believing what it reads. It enforces independent s
 
 ---
 
+## Dedicated Sub-Guides
+
+For deep architectural exploration, operational protocol specifications, and implementation mechanics, refer to the dedicated sub-guides:
+
+| Sub-Guide | Primary Scope & Focus Areas |
+| :--- | :--- |
+| **[Content Screening & Risk State](./content-screening-and-risk-state/README.md)** | Indirect prompt injection vectors, local on-device rule screening engine (1ms latency, zero cloud leakage), multi-modal ingress checks (DOM text, OCR, PDFs, emails), process-wide cross-tab risk states, persistence across navigations, and response enrichment alerts. |
+| **[Stepped Confirmations & Purchase Guards](./stepped-confirmations-and-purchase-guards/README.md)** | Four action hazard tiers (Critical, Modify Website, Permanent Data, Sensitive Reads), dynamic risk escalation, forced per-call approval for exfiltration vectors, the 10-second reflex protection countdown, trusted sites management, and financial transaction safeguards with amount discrepancy verification. |
+| **[Knowledge Poisoning & Authorship Boundaries](./knowledge-poisoning-and-authorship-boundaries/README.md)** | Memory poisoning threat model, strict authorship attribution (user-authored vs. agent-authored), the binding promotion barrier (`MUST_READ` / `WARN` requires human confirmation), human directive immutability, and empirical outcome verification in the Phenomenological Knowledge Store (PKS). |
+
+---
+
 ## Layered defense
 
 | Layer | What it does |
@@ -140,3 +152,18 @@ If you deny, the agent is told what Nova found, that it must not retry the purch
 ## Reporting a vulnerability
 
 Found a way around these controls? Please report it privately, as described in the [security policy](../../../SECURITY.md). Do not post it in a public issue.
+
+---
+
+## Related Documentation
+
+* **[Content Screening & Risk State](./content-screening-and-risk-state/README.md)** — Indirect prompt injection detection and local rule screening.
+* **[Stepped Confirmations & Purchase Guards](./stepped-confirmations-and-purchase-guards/README.md)** — Action classification, dynamic escalation, and financial guards.
+* **[Knowledge Poisoning & Authorship Boundaries](./knowledge-poisoning-and-authorship-boundaries/README.md)** — Authorship tracking, human promotion barriers, and PKS trust.
+* **[Agent Awareness Gates (AAG)](../agent-awareness-gates-aag/README.md)** — Pre-dispatch validation pipeline and fail-closed barriers.
+* **[Sandbox Isolation](../sandbox-isolation/README.md)** — Isolated profiles, intent routing, and disk anchors.
+* **[Vault & Secrets](../privacy/vault-and-secrets/README.md)** — Encrypted credential storage and opaque token injection.
+* **[Phenomenological Knowledge Store (PKS)](../learning/phenomenological-knowledge-store-pks/README.md)** — Self-healing selector learning and empirical knowledge.
+* **[Domain Notes Architecture](../learning/domain-notes/README.md)** — Storage and retrieval of domain-scoped user directives.
+
+[All core features](../README.md)

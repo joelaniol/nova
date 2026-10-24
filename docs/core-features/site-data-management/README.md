@@ -122,16 +122,23 @@ Handling cookie banners programmatically via DOM clicks frequently results in mo
 
 ## 3. Documentation Suite Index
 
-Explore each specialized module within the Site Data Management documentation suite:
+The Site Data Management subsystem is organized into 3 core architectural domains (with dedicated deep-dive sub-guides) and 3 cross-cutting operational guides:
 
-| Topic | Primary Focus | Key Capabilities & Enforcements |
+### Core Architectural Domains & Sub-Guides
+
+| Domain Hub | Dedicated Sub-Guides | Key Architectural Topics |
 | :--- | :--- | :--- |
-| [Cookies](cookies/README.md) | Browser Cookie Engine | Triple identity `{name, domain, path}`, deterministic `cookieId` hashing, `HttpOnly` access, PSL validation, `__Secure-`/`__Host-` prefixes, Unix expiry. |
-| [Web Storage](web-storage/README.md) | Origin-Bound State | `localStorage` vs `sessionStorage`, bounded key inspection, length-limited value previews, IndexedDB recording diagnostics, replay adoption. |
-| [Cache & Cleanup](cache-and-cleanup/README.md) | Resource Invalidation | 9 browsing-data categories, `diskCache` vs `cacheStorage`, `allDomStorage` wipe scope, `allSite` vs `allProfile` boundaries, Vault separation. |
-| [Cookie Inspector](cookie-inspector/README.md) | Address-Bar Human UI | Address-bar trigger, sensitive value masking, manual cookie creation/editing, storage accordions, clipboard preview formatting, profile cleanup. |
-| [Permissions & Audit](permissions-and-audit/README.md) | Security & Compliance | 3-tier policy (`always_ask`, `ask_first`, `always_allow`), 5 action groups, sticky session denial invariants, audit log schema without secret leaks. |
-| [Troubleshooting](troubleshooting/README.md) | Diagnostic Playbooks | Resolving login loops, stale session tokens, immediate data reappearance, CMP modal traps, permission stalls, and sandbox identity recovery. |
+| **[Cookies](cookies/README.md)** | • [Triple Identity & Normalization](cookies/triple-identity-and-normalization/README.md)<br/>• [HttpOnly & Mutation Engine](cookies/httponly-and-secure-mutation-engine/README.md) | Triple identity `{name, domain, path}`, deterministic 24-character `cookieId`, Punycode, PSL supercookie protection, `__Secure-`/`__Host-` prefixes, native engine access vs `document.cookie`, `includeValues: true` secret gate, `dryRun`. |
+| **[Web Storage](web-storage/README.md)** | • [Origin Storage & Context Bounds](web-storage/origin-storage-and-context-bounds/README.md)<br/>• [IndexedDB & Storage Mutations](web-storage/indexeddb-and-storage-mutations/README.md) | RFC 6454 origin partitioning (`localStorage` vs `sessionStorage`), top-level document scoping (iframe shielding), context limits (`maxEntries`, `valueMaxChars`), IndexedDB boundary, DOM/memory desynchronization, `indexeddb-ops.jsonl`. |
+| **[Cache & Cleanup](cache-and-cleanup/README.md)** | • [Profile Invalidation & Category Matrix](cache-and-cleanup/profile-invalidation-and-category-matrix/README.md)<br/>• [`allSite` vs. `allProfile` & Vault Isolation](cache-and-cleanup/all-site-vs-all-profile-and-vault-isolation/README.md) | 9 browsing data categories, CoreWebView2BrowsingDataKinds mapping, absence of domain filtering in cache clearing, `allSite` vs `allProfile` matrix, DPAPI Nova Vault (`vault.dat`) isolation barrier, multi-profile container blast radius. |
+
+### Operational & Diagnostic Guides
+
+| Guide | Primary Focus | Key Operational Capabilities |
+| :--- | :--- | :--- |
+| **[Cookie Inspector](cookie-inspector/README.md)** | Address-Bar Human UI | Address-bar trigger, sensitive value masking, manual cookie creation/editing, storage accordions, clipboard preview formatting, interactive profile cleanup dialog. |
+| **[Permissions & Audit](permissions-and-audit/README.md)** | Security & Compliance | 3-tier policy (`always_ask`, `ask_first`, `always_allow`), 5 action groups, sticky session denial invariants, audit log schema without raw secret leaks. |
+| **[Troubleshooting](troubleshooting/README.md)** | Diagnostic Playbooks | Resolving login loops, stale session tokens, immediate data reappearance, CMP modal traps, permission stalls, and sandbox identity recovery. |
 
 ---
 

@@ -3,6 +3,7 @@
 > **Reads Nova's app preferences and tells the agent which of them it may change.**
 
 * **User Guide:** [Settings](../../../user-guide/settings/README.md)
+* **Architecture Guide:** [Agent Settings Governance & MCP](../../../user-guide/settings/agent-governance-and-mcp.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

@@ -8,7 +8,7 @@ WinUI window controls, native OS dialog handling, DevTools panels, setup wizard,
 ---
 
 <!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
-## Tool Inventory (65 Tools)
+## Tool Inventory (66 Tools)
 
 Capability bundles of these tools: `app_shell_recovery`, `onboarding`, `page_read_debug`, `system_tools`, `visual_evidence`.
 
@@ -23,6 +23,7 @@ Capability bundles of these tools: `app_shell_recovery`, `onboarding`, `page_rea
 | **[`nova.bookmarks_folder_delete`](nova-bookmarks-folder-delete.md)** | Deletes a bookmark folder and either moves its contents to the root or deletes them with it. |
 | **[`nova.bookmarks_folder_rename`](nova-bookmarks-folder-rename.md)** | Renames an existing bookmark folder. |
 | **[`nova.bookmarks_folders_list`](nova-bookmarks-folders-list.md)** | Lists all bookmark folders with hierarchical parent-child relationships and depths. |
+| **[`nova.browser_api_evidence`](nova-browser-api-evidence.md)** | Shows, per category of fingerprint-relevant browser APIs, where a page's loaded scripts mention them and which calls a recording actually observed — kept apart. |
 | **[`nova.cdp`](nova-cdp.md)** | Executes a raw Chrome DevTools Protocol (CDP) method directly on the target WebView2 instance. |
 | **[`nova.clipboard_read`](nova-clipboard-read.md)** | Reads the current plain text contents from the Windows OS system clipboard. |
 | **[`nova.clipboard_write`](nova-clipboard-write.md)** | Writes plain text to the Windows OS system clipboard. |

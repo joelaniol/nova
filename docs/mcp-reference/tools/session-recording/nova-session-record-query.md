@@ -17,7 +17,8 @@ Queries the complete CDP network stream of a finalized recording with rich filte
 <!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
-| `recordingId` | `string` | Yes | — | — | Recording ID (the dir under %LOCALAPPDATA%/NovaBrowser/Recordings). |
+| `recordingId` | `string` | No | — | — | Recording ID. Omit to list existing recording manifests only, without decrypting recording contents. |
+| `redact` | `boolean` | No | `false` | — | true returns sanitized metadata; false preserves full recorded debug values. Never recovers data redacted during capture. |
 | `urlMatch` | `string` | No | — | — | Regex applied case-insensitively to entry URL. Invalid regex disables the filter. |
 | `method` | `string` | No | — | — | Exact HTTP method match (GET/POST/...). |
 | `mimeType` | `string` | No | — | — | MIME-type prefix match (e.g. 'application/json' matches 'application/json; charset=utf-8'). |

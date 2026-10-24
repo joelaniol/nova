@@ -20,7 +20,16 @@ Standard web automation relies on injecting JavaScript to inspect `document.cook
 
 ---
 
-## 2. The Triple Identity Model
+## 2. Dedicated Architecture Sub-Guides
+
+| Guide | Description | Primary Topics |
+| :--- | :--- | :--- |
+| **[Triple Identity & Normalization](triple-identity-and-normalization/README.md)** | RFC 6265bis triple identity, deterministic 24-character `cookieId` hashing, Punycode, path case-sensitivity, and PSL protection. | Triple identity `{name, domain, path}`, `cookieId`, PSL, `__Secure-`/`__Host-` |
+| **[HttpOnly & Mutation Engine](httponly-and-secure-mutation-engine/README.md)** | Direct native engine visibility, `includeValues: true` secret-read gating, surgical mutations, `dryRun` simulation, and Cookie Inspector. | `HttpOnly`, `nova.cookie_set`, `nova.cookie_delete`, `dryRun`, Cookie Inspector |
+
+---
+
+## 3. The Triple Identity Model
 
 A cookie is **never** uniquely identified by its name alone. Under RFC 6265bis, cookie identity is defined by the triple tuple:
 
@@ -80,7 +89,7 @@ To guarantee identity consistency across differing input formats:
 
 ---
 
-## 3. Cookie Domain Validation & Security Guardrails
+## 4. Cookie Domain Validation & Security Guardrails
 
 When setting or mutating cookies via `nova.cookie_set`, Nova applies rigorous validation rules before writing to the underlying browser profile:
 
@@ -126,7 +135,7 @@ To prevent malicious or accidental "supercookie" injection across independent te
 
 ---
 
-## 4. Lifecycle & Expiry Mechanics
+## 5. Lifecycle & Expiry Mechanics
 
 In Nova, cookie persistence is governed by the `expires` attribute, expressed as a **Unix timestamp in seconds**:
 
@@ -141,7 +150,7 @@ In Nova, cookie persistence is governed by the `expires` attribute, expressed as
 
 ---
 
-## 5. Tool Protocol Reference
+## 6. Tool Protocol Reference
 
 The `site_data_management` capability bundle provides four dedicated cookie tools:
 
@@ -149,32 +158,31 @@ The `site_data_management` capability bundle provides four dedicated cookie tool
 Retrieves cookies matching specified filter criteria within the target profile:
 * **Metadata Default:** Returns cookie names, domains, paths, security flags, and `cookieId` records without disclosing secret values. This is classified as a safe read and auto-allowed by the security gate.
 * **Sensitive Secret Read:** Setting `includeValues: true` requires an explicit, non-empty `domainFilter`. This triggers a high-impact secret read prompt under the [Site Data Permission Gate](../permissions-and-audit/README.md).
-* **Pagination:** Supports `offset` and `limit` to prevent context exhaustion in profiles with thousands of tracking cookies.
+* **Pagination:** Supports `cursor` and `maxEntries` (1–500, default 100) to safely paginate without context exhaustion.
 
 ```json
 {
   "targetId": "tab-101",
   "domainFilter": "example.com",
-  "includeValues": false
+  "includeValues": false,
+  "maxEntries": 100
 }
 ```
 
 ### 2. `nova.cookie_set`
 Creates a new cookie or replaces an existing cookie matching the `{name, domain, path}` triple:
-* Supports `name`, `value`, `domain`, `path`, `expires`, `isHttpOnly`, `isSecure`, and `sameSite`.
+* Supports `targetId`, `name`, `value`, `domain`, `path`, `expires`, `httpOnly`, `secure`, `sameSite`, and `dryRun`.
 * **Dry Run Mode:** Setting `dryRun: true` validates the proposal against PSL, origin scope, and prefix rules without writing to disk.
 
 ```json
 {
   "targetId": "tab-101",
-  "cookie": {
-    "name": "app_theme",
-    "value": "dark",
-    "domain": "example.com",
-    "path": "/",
-    "sameSite": "Lax",
-    "isSecure": true
-  },
+  "name": "app_theme",
+  "value": "dark",
+  "domain": "example.com",
+  "path": "/",
+  "sameSite": "Lax",
+  "secure": true,
   "dryRun": false
 }
 ```
@@ -200,7 +208,7 @@ Performs bulk cookie deletion:
 
 ---
 
-## 6. Integration: Session Adoption in Request Replay
+## 7. Integration: Session Adoption in Request Replay
 
 Nova's [Network Request Replay](../../network/network-interception/README.md) allows developers and agents to construct raw HTTP requests using authentication sessions captured from the browser:
 
@@ -211,8 +219,10 @@ Nova's [Network Request Replay](../../network/network-interception/README.md) al
 
 ---
 
-## 7. Related References
+## 8. Related References
 
+* [Triple Identity & Normalization Sub-Guide](triple-identity-and-normalization/README.md): Deep architectural details on RFC 6265bis triple identity, deterministic `cookieId` generation, Punycode handling, and PSL rules.
+* [HttpOnly & Secure Mutation Engine Sub-Guide](httponly-and-secure-mutation-engine/README.md): Detailed mechanics of native engine visibility, secret-read gating, surgical mutations, and simulation.
 * [Cookie Inspector Guide](../cookie-inspector/README.md): Using the interactive address-bar panel to view, add, and edit cookies manually.
 * [Site Data Permissions & Audit](../permissions-and-audit/README.md): Understanding action groups, session grants, and audit log guarantees.
 * [Site Data Troubleshooting](../troubleshooting/README.md): Step-by-step resolution of login loops and cookies that reappear after deletion.

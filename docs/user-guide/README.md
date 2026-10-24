@@ -9,8 +9,8 @@ New here? Start with [Your first five minutes](../getting-started/quickstart.md)
 | [Browser](browser/README.md) | Tabs and windows, favorites, history, downloads, private browsing and shortcuts |
 | [Identity & security](identity-and-security/README.md) | Passwords, permissions, certificates, sandboxes and proxies |
 | [Agents](agents/README.md) | Connection, watching work, taking over, emergency stop, Domain Notes and onboarding |
-| [Tools](tools/README.md) | Terminal, transcription, scheduled tasks and recordings |
-| [Settings](settings/README.md) | General, appearance, site permissions and AI & agents |
+| [Tools](tools/README.md) | Terminal, transcription, OCR, tabular data, documents, scheduled tasks and connectors |
+| [Settings](settings/README.md) | Workspace preferences, 14 settings panels, storage persistence and agent governance |
 
 Some topics currently have a short starting page linking to existing documentation. These pages say when their detailed user guide is still being prepared.
 

@@ -102,7 +102,16 @@ flowchart LR
 * **Active Site-Data Grants:** The **Active site-data grants** card displays temporary, session-scoped access tokens granted to agents. You can revoke any active grant immediately with a single click.
 * **Media Permission Activity Log:** An immutable chronological log recording every instance of camera, microphone, or speaker access by any tab, ensuring complete transparency over your hardware.
 
-See [Website & Agent Permissions](../identity-and-security/permissions.md) for further details on agent autonomy and confirmation policies.
+---
+
+## 7. Related Documentation
+
+* **[Settings Hub](README.md)** — Main overview of all 14 settings panels.
+* **[Privacy & Security Settings](privacy-and-security.md)** — Tracking protection, browser identity, and data clearance.
+* **[Tools & Capabilities Settings](tools-and-diagnostics.md)** — Hardware diagnostic probes and tool catalog.
+* **[Agent Governance & MCP](agent-governance-and-mcp.md)** — Programmatic settings access and curated keys.
+* **[Website & Agent Permissions](../identity-and-security/permissions.md)** — Detailed guide on permissions and agent autonomy.
+* **[Desktop Notifications](../browser/notifications.md)** — Notification toast setup and quiet hours.
 
 ---
 

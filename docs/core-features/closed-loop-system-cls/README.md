@@ -47,7 +47,19 @@ flowchart TD
 
 ---
 
-## 2. The 4-Stage Control Loop Architecture
+## 2. Dedicated Sub-Guides
+
+For exhaustive architectural specifications, algorithmic mechanics, and operational runbooks, refer to the focused subguides in this directory:
+
+| Sub-Guide | Primary Focus & Topics Covered |
+| :--- | :--- |
+| **[Control Loop & Precondition Gates](control-loop-and-precondition-gates/README.md)** | The 4-stage execution pipeline, fail-closed precondition gating, 200 ms stale fact settling, `ActionCoordinator` per-tab mutex, priority hierarchies, and in-flight non-preemption. |
+| **[Transition Contracts & Assertion Calculus](transition-contracts-and-assertion-calculus/README.md)** | Transition contract schema, pure tri-state `AssertionEngine`, 10 comparison operators, fact key vocabulary, scoped selectors (`@css=...`), continuous stability holds (`stabilityMs`), and baseline suppression. |
+| **[Retry Policies & Knowledge Feedback](retry-policies-and-knowledge-feedback/README.md)** | Commit point classification, pre-commit previews in `nova.perceive`, missing-contract gates, safe retry advice (`check_postcondition_first`), indeterminate reason dissection (`postcondition_mismatch` vs `timeout`), learned default contracts, Goal Register integration, and PKS health feedback. |
+
+---
+
+## 3. The 4-Stage Control Loop Architecture
 
 Every closed-loop interaction—whether explicitly authored by an agent via `transitionContract` on interactive tools like `nova.click_selector`, or implicitly synthesized by compound tools like `nova.guarded_send_message`—executes through a deterministic 4-stage pipeline.
 
@@ -116,11 +128,11 @@ sequenceDiagram
 
 ---
 
-## 3. The Pure Assertion Engine (`AssertionEngine`)
+## 4. The Pure Assertion Engine (`AssertionEngine`)
 
 At the heart of CLS is the `AssertionEngine`—a purely deterministic, in-memory tri-state evaluation engine with zero I/O side effects.
 
-### 3.1 The Frozen Truth Table
+### 4.1 The Frozen Truth Table
 Every individual assertion evaluates to `true` (Satisfied), `false` (Failed), or `null` (Unknown). Unknown is treated with strict mathematical rigor:
 
 | Assertion Bucket | All Children `true` | At Least One `true`, None `false` | At Least One `false` | Any `null` (Unknown), None `false` |
@@ -129,13 +141,13 @@ Every individual assertion evaluates to `true` (Satisfied), `false` (Failed), or
 | **`any`** | **Satisfied** (`true`) | **Satisfied** (`true`) | Failed (`false`) | Unknown (`null`) |
 | **`forbidden`** | **Failed** (`false` - Violation!) | **Failed** (`false` - Violation!) | **Satisfied** (`true` - Clean) | Unknown (`null`) |
 
-### 3.2 Precedence Hierarchy
+### 4.2 Precedence Hierarchy
 When combining bucket outcomes, CLS enforces strict precedence:
 $$\text{Forbidden Violation} > \text{Success Match} > \text{Ambiguous Signal} > \text{Unknown / Timeout}$$
 
 If a forbidden condition fires (e.g. `auth.authError == true` or `form.errorBanner.visible == true`), it immediately overrides any partial success signals, terminating the verification loop with `verified_fail`.
 
-### 3.3 The 10 Comparison Operators
+### 4.3 The 10 Comparison Operators
 
 | Operator | Syntax | Supported Types | Evaluation Behavior |
 | :--- | :--- | :--- | :--- |
@@ -149,7 +161,7 @@ If a forbidden condition fires (e.g. `auth.authError == true` or `form.errorBann
 | **`gte`** | `"gte"` | Number | Numeric greater than or equal ($a \ge b$). |
 | **`lte`** | `"lte"` | Number | Numeric less than or equal ($a \le b$). |
 
-### 3.4 Fact Degradation & Unreadable Handling
+### 4.4 Fact Degradation & Unreadable Handling
 When a fact provider encounters an element that cannot be queried or a probe that throws an exception, it reports the fact as JSON `null`.
 * **No False Mismatches:** Comparing an unreadable `null` fact against a concrete expected value (e.g. checking if `composer.textEmpty == true`) yields **Unknown (`null`)**, not `false`. This prevents an infrastructure probe failure from masquerading as a confirmed state mismatch.
 * **Diagnostic Trace Error Codes:** Every evaluated assertion generates an immutable trace containing one of:
@@ -161,7 +173,7 @@ When a fact provider encounters an element that cannot be queried or a probe tha
 
 ---
 
-## 4. Fact Key Vocabulary & Scoped Semantic Selectors
+## 5. Fact Key Vocabulary & Scoped Semantic Selectors
 
 To prevent subtle authoring bugs where an agent guesses a fact key (e.g. typing `dom.text` instead of `composer.hasText`) and runs into an uninformative timeout, Nova enforces a strict fact key vocabulary. Known prefixes with unrecognized names are rejected up front with JSON-RPC error `-32602`.
 
@@ -196,7 +208,7 @@ flowchart LR
 | **`sandbox.*`** | `sandbox.selected`<br>`sandbox.selected.changed`<br>`sandbox.target.exists` | Multi-sandbox profile switching and target binding verification. |
 | **`runtime.*`** | `runtime.domEpoch`<br>`runtime.frameId`<br>`runtime.rendererHealthy` | DOM revision tracking; subframe identification; renderer liveness. |
 
-### 4.1 Scoped Semantic Fact Keys (`@css=...`)
+### 5.1 Scoped Semantic Fact Keys (`@css=...`)
 While global semantic fact keys (like `composer.hasText` or `composer.sendButton.clickable`) automatically locate the active composer using smart heuristic surface detection, complex web applications often feature multiple concurrent entry areas (e.g. a main prompt box, an inline comment input, and a sidebar search).
 
 Nova solves this via **Scoped Semantic Fact Keys**:
@@ -211,11 +223,11 @@ composer.sendButton.clickable@css=.sidebar-submit-btn
 
 ---
 
-## 5. Commit Point Classification & Pre-Commit Preview
+## 6. Commit Point Classification & Pre-Commit Preview
 
 Not all browser actions carry the same risk. Clicking an informational tab is low risk; clicking **"Send Message"**, **"Submit Order"**, or switching active models is a **Commit Point**.
 
-### 5.1 Commit Point Classification Rules
+### 6.1 Commit Point Classification Rules
 Nova automatically classifies an action as a commit point if any of the following criteria are met:
 1. **Send Buttons:** Selectors matching `send-button`, `send_button`, or `data-testid="send"`.
 2. **Submit Forms:** Buttons or inputs matching `[type="submit"]` or `type="submit"`.
@@ -224,13 +236,13 @@ Nova automatically classifies an action as a commit point if any of the followin
 5. **Sandbox Switches:** Selectors matching `sandbox-switch`, `workspace-switch`, or `sandbox-selector`.
 6. **Authentication Actions:** Selectors matching `login`, `sign-in`, or `signin` combined with `button`, `submit`, or `[role="button"]`.
 
-### 5.2 Pre-Commit Preview in `nova.perceive` (`safety.guarded_commit_preview`)
+### 6.2 Pre-Commit Preview in `nova.perceive` (`safety.guarded_commit_preview`)
 Traditional automation systems wait until an action is dispatched to reject an unguarded commit, wasting full tool round-trips. Nova avoids this:
 * During `nova.perceive`, Nova scans all interactive CTAs and projects their classification into `structuredContent.commitPointCtas`.
 * The returned CTA handles list the exact ref IDs of buttons that require a `transitionContract`.
 * Agents know *in advance* that clicking CTA ref #4 will require postconditions, allowing them to construct contracts before attempting the click.
 
-### 5.3 Missing-Contract Gate & Starter Hint
+### 6.3 Missing-Contract Gate & Starter Hint
 If an agent attempts to execute a commit-point action via `nova.click_selector` or `nova.type_selector` without providing a `transitionContract`, Nova halts execution immediately:
 * **Response Status:** `status: "blocked"`, `stage: "guarded_commit_check"`.
 * **Action Dispatched:** `actionDispatched: false` (Zero side effects on the page).
@@ -252,7 +264,7 @@ If an agent attempts to execute a commit-point action via `nova.click_selector` 
 
 ---
 
-## 6. Contract Authoring & Stability Profiles
+## 7. Contract Authoring & Stability Profiles
 
 Agents specify transition contracts using the `transitionContract` parameter. Nova configures timing defaults based on the declared `actionKind`.
 
@@ -301,11 +313,11 @@ Agents specify transition contracts using the `transitionContract` parameter. No
 
 ---
 
-## 7. Verification Verdicts, Indeterminate Reasons & Retry Advice
+## 8. Verification Verdicts, Indeterminate Reasons & Retry Advice
 
 CLS strictly separates the questions: *"Did the action dispatch?"*, *"Was the intended outcome verified?"*, and *"Is it safe to retry?"*
 
-### 7.1 Verification Statuses
+### 8.1 Verification Statuses
 
 | Verification Status | Definition & Operational Meaning |
 | :--- | :--- |
@@ -314,7 +326,7 @@ CLS strictly separates the questions: *"Did the action dispatch?"*, *"Was the in
 | **`indeterminate`** | The outcome could not be definitively confirmed within the observation window. **Never treated as success.** |
 | **`skipped`** | Verification was not performed (preconditions blocked execution or no postconditions were specified). |
 
-### 7.2 Dissecting Indeterminate Reasons (`ClIndeterminateReason`)
+### 8.2 Dissecting Indeterminate Reasons (`ClIndeterminateReason`)
 When an outcome is indeterminate, CLS provides exact diagnostic attribution:
 
 * **`postcondition_mismatch` (Contract Mismatch vs. Timeout):**
@@ -328,7 +340,7 @@ When an outcome is indeterminate, CLS provides exact diagnostic attribution:
 * **`frame_destroyed`:** An iframe containing the target element was detached during execution.
 * **`eval_error`:** Renderer exception during fact evaluation.
 
-### 7.3 Retry Policies & Derived Advice
+### 8.3 Retry Policies & Derived Advice
 
 | Configured `retryPolicy` | Observed Outcome | Generated `retryAdvice` | `retryable` | Actionable Agent Guidance |
 | :--- | :--- | :--- | :--- | :--- |
@@ -339,7 +351,7 @@ When an outcome is indeterminate, CLS provides exact diagnostic attribution:
 
 ---
 
-## 8. Action Coordinator & Tab Concurrency Protection
+## 9. Action Coordinator & Tab Concurrency Protection
 
 Autonomous browser environments frequently host competing actors:
 1. Interactive agent tool calls (clicking, typing).
@@ -366,7 +378,7 @@ flowchart TD
     end
 ```
 
-### 8.1 Frozen Coordination Invariants
+### 9.1 Frozen Coordination Invariants
 1. **Non-Preemptive In-Flight Guarantee:** Once a guarded action begins execution, it **cannot be preempted** by any other process—even a higher priority agent request—until verification completes or the timeout expires.
 2. **Priority Ordering:** `Agent (0) > AutoApply (1) > Telemetry (2)`. If an agent issues a command, Ambient Auto-Apply immediately steps aside.
 3. **PKS Execution Within Mutex:** Ambient Auto-Apply acquires its coordinator reservation *before* inspecting playbooks, ensuring no state changes occur between matching and execution.
@@ -374,7 +386,7 @@ flowchart TD
 
 ---
 
-## 9. Hierarchical Kill Switches & Signal-Only Controls
+## 10. Hierarchical Kill Switches & Signal-Only Controls
 
 In enterprise and production environments, operators must be able to instantly disable automated commits or auto-apply playbooks without restarting the application or modifying code.
 
@@ -417,7 +429,7 @@ flowchart TD
 
 ---
 
-## 10. Learned Default Contracts (`OutcomeCandidateStore`)
+## 11. Learned Default Contracts (`OutcomeCandidateStore`)
 
 Requiring explicit transition contracts on every simple click would place excessive cognitive overhead on agents. To bridge the gap between open-loop fragility and full contract authoring, Nova introduces **Learned Default Contracts**.
 
@@ -442,7 +454,7 @@ flowchart TD
 
 ---
 
-## 11. Goal Register Integration
+## 12. Goal Register Integration
 
 When an agent manages multi-step execution graphs via **`nova.goal_register`**, Closed-Loop transitions hook directly into the active goal's lifecycle state machine:
 
@@ -478,11 +490,11 @@ sequenceDiagram
 
 ---
 
-## 12. Fact Provider Architecture & Single-Eval Script Mechanics
+## 13. Fact Provider Architecture & Single-Eval Script Mechanics
 
 Querying DOM elements and page properties repeatedly over an asynchronous polling loop can create severe IPC and CPU overhead if implemented naively. Nova's `FactProviderComposite` uses batched, single-evaluation architecture.
 
-### 12.1 Per-Frame Batched Script Execution
+### 13.1 Per-Frame Batched Script Execution
 Instead of issuing dozens of individual CDP or JavaScript calls, Nova analyzes the contract's request plan and compiles all required assertions into a **single JavaScript IIFE per frame**:
 
 ```javascript
@@ -496,27 +508,27 @@ Instead of issuing dozens of individual CDP or JavaScript calls, Nova analyzes t
 })()
 ```
 
-### 12.2 Shadow DOM Traversal (`novaCollectRoots`)
+### 13.2 Shadow DOM Traversal (`novaCollectRoots`)
 Modern web chat applications (ChatGPT, Claude, Slack, Teams) heavily encapsulate their composers inside nested Web Components. Nova's embedded script collector traverses up to **80 open shadow roots** concurrently, ensuring elements inside shadow DOM boundaries are discovered without manual selector gymnastics.
 
-### 12.3 Smart Send Surface Detection (`novaFindSendSurface`)
+### 13.3 Smart Send Surface Detection (`novaFindSendSurface`)
 Nova does not rely on fragile static CSS selectors to find chat and messenger inputs. The embedded collector features a heuristic scoring engine:
 * **Positive Intent Scoring:** Evaluates element tag, role, `aria-label`, `title`, and inner text for intent tokens (`send`, `senden`, `submit`, `post`, `reply`).
 * **Non-Send Filter:** Strictly penalizes and discards non-send action buttons (`attach`, `upload`, `paperclip`, `voice`, `mic`, `tools`, `settings`).
 * **Proximity Matching:** Locates the nearest text entry surface (`<textarea>`, `<input>`, or `contenteditable`) within 6 parent DOM levels.
 
-### 12.4 Messenger Delta Counters
+### 13.4 Messenger Delta Counters
 For non-AI chat applications (e.g. LinkedIn, Slack) where AI stream signals (`chat.streamActive`) do not exist, Nova uses specialized delta counters (`chat.outboundMessageAppeared`, `chat.assistantTurnCreated`):
 * Tracks the count of rendered message rows across polling ticks.
 * If zero message rows exist, the fact evaluates to `null` (Unknown) rather than `false`, ensuring that unsupported selectors do not cause false postcondition mismatches.
 
-### 12.5 DOM Epoch & Freshness Management
+### 13.5 DOM Epoch & Freshness Management
 * **`runtime.domEpoch`:** An atomic counter incremented whenever a top-level navigation, renderer reload, or iframe destruction occurs (`InvalidateDomEpoch()`).
 * **Stale Fact Quarantine:** Facts gathered prior to an epoch increment are flagged as `ClFactFreshness.Stale`, automatically triggering the 200 ms settle-and-retry path in `CheckPreconditionsAsync`.
 
 ---
 
-## 13. Outcome Learning & Phenomenon Health State Machine
+## 14. Outcome Learning & Phenomenon Health State Machine
 
 Every completed transition contract feeds back into Nova's Phenomenological Knowledge Store (PKS), updating the health state machine of matching UI phenomena:
 
@@ -532,18 +544,18 @@ stateDiagram-v2
     Deprecated --> [*]
 ```
 
-### 13.1 Health Classification Metrics
+### 14.1 Health Classification Metrics
 * **Healthy:** Success rate $\ge 95\%$ over 30 days and 0 unrecovered severe misfires.
 * **Watch:** Success rate between $80\%$ and $95\%$.
 * **Quarantined:** Success rate $< 80\%$, $\ge 3$ consecutive failures, or a **Severe Misfire** (`VerifiedFail` where retry advice is `DoNotRetry`).
 * **Deprecated:** Quarantined phenomenon unrecovered after 14 days.
 
-### 13.2 Selector Ambiguity Protection (`telemetry_ambiguous_selector`)
+### 14.2 Selector Ambiguity Protection (`telemetry_ambiguous_selector`)
 When attributing a transition outcome to a stored phenomenon, Nova requires exact route and selector matching. If multiple phenomena claim the same selector on the same route segment, Nova skips health updates with reason code `telemetry_ambiguous_selector`, preventing corrupted health records.
 
 ---
 
-## 14. Comprehensive Wire Response & Diagnostics Specification
+## 15. Comprehensive Wire Response & Diagnostics Specification
 
 When an agent executes an action with a transition contract, Nova returns detailed verification telemetry in the response payload:
 
@@ -601,7 +613,7 @@ When an agent executes an action with a transition contract, Nova returns detail
 > * **Unmet Precondition or Success:** Reports assertions where `passed == false` or `null` (the required condition was missing).
 > * **Forbidden Violation:** Reports assertions where `passed == true` (the forbidden condition was present and triggered the trip).
 
-### 14.1 OK Store Telemetry Metrics Catalog
+### 15.1 OK Store Telemetry Metrics Catalog
 
 Every closed-loop transition writes atomic metrics into the local Operational Knowledge (OK) store:
 
@@ -622,7 +634,7 @@ Every closed-loop transition writes atomic metrics into the local Operational Kn
 
 ---
 
-## 15. Summary: The CLS Architectural Matrix
+## 16. Summary: The CLS Architectural Matrix
 
 | Architectural Layer | Core Responsibility | Invariant / Guarantee | Primary Failure Mode Addressed |
 | :--- | :--- | :--- | :--- |
@@ -643,6 +655,9 @@ Every closed-loop transition writes atomic metrics into the local Operational Kn
 
 ## Related Documentation
 
+* **[Control Loop & Precondition Gates](control-loop-and-precondition-gates/README.md)** — The 4-stage execution pipeline, fail-closed precondition gating, and tab mutex serialization.
+* **[Transition Contracts & Assertion Calculus](transition-contracts-and-assertion-calculus/README.md)** — Contract authoring, pure tri-state assertion operators, and stability hold mechanics.
+* **[Retry Policies & Knowledge Feedback](retry-policies-and-knowledge-feedback/README.md)** — Commit point classification, safe retry policies, and PKS learning feedback.
 * **[Agent-Native Affordances](../agent-native-affordances/README.md)** — Compound interaction primitives and closed-loop execution patterns.
 * **[Agent Awareness Gates (AAG)](../agent-awareness-gates-aag/README.md)** — Pre-execution situational awareness and tab leases.
 * **[Tool Observation Bus (TOB)](../tool-observation-bus-tob/README.md)** — Server-side immutable record of executed actions and verification traces.

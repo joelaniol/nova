@@ -112,4 +112,16 @@ If an agent behaves unexpectedly, you have two primary ways to take back control
 
 ---
 
+## 8. Related Documentation
+
+* **[Settings Hub](README.md)** — Main overview of all 14 settings panels.
+* **[Agent Governance & MCP](agent-governance-and-mcp.md)** — Programmatic settings access and curated keys.
+* **[Tools & Capabilities Settings](tools-and-diagnostics.md)** — Capability bundles and diagnostic probes.
+* **[Passwords & Vault Settings](passwords-and-vault.md)** — Master password, credentials, and agent autofill access.
+* **[Privacy & Security Settings](privacy-and-security.md)** — History recording and search suggestion privacy.
+* **[Connecting an Agent](../agents/connecting-an-agent.md)** — Connecting Claude Code, Codex, and Antigravity.
+* **[Staying in Control](../agents/taking-over-and-emergency-stop.md#3-staying-in-control)** — Emergency stop and human-in-the-loop takeover.
+
+---
+
 [Back to settings](README.md) · [Connecting an agent](../agents/connecting-an-agent.md) · [Watching agent work](../agents/watching-agent-work.md) · [Staying in control](../agents/taking-over-and-emergency-stop.md#3-staying-in-control) · [Terminal dock](../tools/terminal.md) · [All user guides](../README.md)
