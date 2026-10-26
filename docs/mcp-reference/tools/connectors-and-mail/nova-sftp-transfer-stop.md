@@ -18,6 +18,7 @@ Stops a running background SFTP transfer softly and keeps everything for a resum
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `jobId` | `string` | Yes | — | — | Job id returned by nova.sftp_get or nova.sftp_put. |
+| `discard` | `boolean` | No | `false` | — | true: give the job up - delete its local parts and list its remote parts (remoteParts) for nova.sftp_delete. The job can no longer be resumed. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 

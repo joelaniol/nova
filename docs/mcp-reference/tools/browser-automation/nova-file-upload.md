@@ -53,6 +53,12 @@ When uploading documents, passing `previewPdf: true` renders page 1 of each atta
 | `selector` | `string` | No | `"input[type=file]"` | — | CSS selector for the file input. Default: auto-detect first input[type=file]. |
 | `frameId` | `string` | No | — | — | Optional frame ID (from perceive frames[]). When set, the selector is resolved inside that iframe's isolated world and the file is set on the element there. Omit for top-document uploads. A frame of another site (perceive opaqueFrames[].frameId) works too, unless the user turned off 'Let agents click and type in embedded content from other websites' (on by default); then the call is refused with reasonCode frame.cross_origin_interaction_off. |
 | `previewPdf` | `boolean` | No | `false` | — | If true, page 1 of each uploaded PDF (up to 3) comes back as an image content item (JPEG, at most 900 px wide), so you can see what you attached before sending - e.g. leftover page CSS in a PDF made with nova.save_pdf. structuredContent.pdfPreviews[] lists index, fileName, pageCount and a reason when a PDF could not be rendered (damaged, password-protected). The upload itself never fails because of the preview. Costs one image per PDF, hence off by default. |
+| `observe` | `object` | No | — | — | See what this action set off, in the same call: requests started by page JavaScript (fetch, XHR, WebSocket, sendBeacon) with method, url, status, ok and duration, whether the page navigated, and optionally the state of an element afterwards. Waits until no request is in flight and nothing new arrived for quietMs, at most waitMs. Pass {} for the defaults. Replaces network_read before and after the action plus dom_extract. Document navigations and images are not listed. |
+| `observe.waitMs` | `integer` | No | `3000` | 0–15000 | Longest wait for the traffic to settle after the action. |
+| `observe.quietMs` | `integer` | No | `500` | 100–5000 | How long nothing may be in flight or arrive before the traffic counts as settled. |
+| `observe.urlContains` | `string` | No | — | ≤ 500 characters | List only requests whose URL contains this text (counts still cover all). |
+| `observe.maxRequests` | `integer` | No | `20` | 1–100 | Most requests listed; requestsOmitted counts the rest. |
+| `observe.after` | `object` | No | — | — | Read an element once the traffic settled, like nova.dom_extract: {selector, properties}. |
 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
 

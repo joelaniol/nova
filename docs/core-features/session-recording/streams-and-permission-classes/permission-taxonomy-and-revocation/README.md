@@ -1,6 +1,6 @@
 # Permission Taxonomy & Revocation Mechanics
 
-Nova enforces strict principle-of-least-privilege capture through a formal taxonomy of **15 permission classes**. Rather than offering an all-or-nothing recording switch, Nova allows agents, automated workflows, and enterprise compliance engines to grant only the exact data classes required for a specific diagnostic session.
+Nova enforces strict principle-of-least-privilege capture through a formal taxonomy of **16 permission classes**. Rather than offering an all-or-nothing recording switch, Nova allows agents, automated workflows, and enterprise compliance engines to grant only the exact data classes required for a specific diagnostic session.
 
 This guide details the complete permission class taxonomy across development Waves R1–R4, sensitivity classifications, runtime permission enforcement, mid-stream revocation mechanics, and pre-flight negotiation strategies.
 
@@ -15,7 +15,7 @@ flowchart TD
     subgraph Waves ["Permission Development Waves"]
         WImplicit["Implicit Wave (Auto-Granted)<br/>• metadata<br/>• interactions_mcp"]
         WR2["Wave R2 (Bodies & Timing)<br/>• headers_sensitive<br/>• network_timing_detail<br/>• request_bodies<br/>• response_bodies<br/>• storage_values"]
-        WR3["Wave R3 (Forensics & Sidecars)<br/>• performance_marks<br/>• worker_messages<br/>• interactions_native<br/>• dom_snapshots<br/>• websocket_payloads<br/>• dom_mutations<br/>• indexeddb_values [Secret-Bearing]"]
+        WR3["Wave R3 (Forensics & Sidecars)<br/>• performance_marks<br/>• worker_messages<br/>• interactions_native<br/>• dom_snapshots<br/>• websocket_payloads<br/>• dom_mutations<br/>• api_calls<br/>• indexeddb_values [Secret-Bearing]"]
         WR4["Wave R4 (Conditional & Reserved)<br/>• streaming_bodies [Conditional]<br/>• fetch_interception [Reserved Non-Grantable]"]
     end
 
@@ -35,7 +35,7 @@ flowchart TD
 
 ---
 
-## 2. Complete Catalog of the 15 Permission Classes
+## 2. Complete Catalog of the 16 Permission Classes
 
 | Permission Class | Development Wave | Sensitivity Tier | Data Captured | Default State |
 | :--- | :--- | :--- | :--- | :--- |
@@ -52,9 +52,13 @@ flowchart TD
 | **`dom_snapshots`** | Wave R3 | Content | Periodic and on-demand full HTML tree snapshots and target element ancestry. | Granted in Full |
 | **`websocket_payloads`** | Wave R3 | Content | WebSocket inbound and outbound text message frames. | Disabled |
 | **`dom_mutations`** | Wave R3 | Content | Full-fidelity, continuous rrweb-compatible DOM tree mutation streams (Brotli). | Disabled |
+| **`api_calls`** | Wave R3 | Content | Fingerprint-relevant browser API calls (Canvas, WebGL, Audio, WebRTC, Hardware, Screen, Fonts) wrapped page-side with stacks and totals. | Disabled |
 | **`indexeddb_values`** | Wave R3 | Secret-Bearing | Raw, unmasked records and objects stored inside IndexedDB object stores. | Disabled |
 | **`streaming_bodies`** | Wave R4 | Content | Chunk-level capture of Server-Sent Events (SSE) and chunked HTTP responses. | Conditional |
 | **`fetch_interception`** | Wave R4 | Reserved | Active interception and modification of live fetch calls during recording. | Non-Grantable |
+
+> [!NOTE]
+> The **`api_calls`** permission class is an **Active (Page-Detectable)** capture class. It wraps fingerprint-sensitive browser APIs in the page context. While return values remain untouched, the wrapping functions are detectable by page scripts; it is refused when passive network-only recording is required.
 
 > [!CAUTION]
 > The **`indexeddb_values`** permission class is classified as **Secret-Bearing**. Modern web applications frequently persist authentication tokens, encrypted session keys, and offline customer records in IndexedDB. Enabling this class captures raw database values; it must only be used in isolated test sandboxes or during authorized security audits.

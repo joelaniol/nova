@@ -18,6 +18,7 @@
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `section` | `string` | No | — | `general`, `appearance_performance`, `privacy_security`, `site_permissions`, `passwords`, `sandboxes`, `proxies`, `connectors`, `tools`, `ai_agents`, `developer`, `bookmarks`, `about` | Optional top-level settings section to open directly. |
+| `find` | `string` | No | — | 1–200 characters | Optional text to look up with the settings search: the name of a setting or group as the app shows it (its UI language; group names also match in English), e.g. 'site notes' or 'Hardwarebeschleunigung' in a German UI. Opens the best hit - a match in the setting's name beats one in its description - scrolled into view, so there is no need to scroll the settings page down to a setting yourself (it cannot be scrolled from outside). The result names its card, setting and area. status='not_found' when nothing matches. Not together with 'section'. |
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
 Tool category: `normal` (standard risk class in Nova's agent permission settings).

@@ -8,7 +8,7 @@ Token-efficient text extraction, structured landmark reading, typed DOM attribut
 ---
 
 <!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
-## Tool Inventory (20 Tools)
+## Tool Inventory (21 Tools)
 
 Capability bundles of these tools: `browser_automation`, `form_submission`, `page_read_debug`, `vault_auth`, `visual_evidence`.
 
@@ -22,6 +22,7 @@ Capability bundles of these tools: `browser_automation`, `form_submission`, `pag
 | **[`nova.get_active_element_deep`](nova-get-active-element-deep.md)** | Traverses through nested Shadow DOM boundaries to find the truly focused interactive element. |
 | **[`nova.get_element_rect`](nova-get-element-rect.md)** | Returns the exact bounding client rectangle (x, y, width, height) of an element. |
 | **[`nova.get_layout_metrics`](nova-get-layout-metrics.md)** | Retrieves layout viewport dimensions, visual viewport offset/scale, and the full scrollable content size. |
+| **[`nova.inspect_component`](nova-inspect-component.md)** | Reads the framework component that rendered an element - React props, state, hooks and context, Vue props and state, Angular inputs in development builds - plus the store the component reads from. |
 | **[`nova.messages_read`](nova-messages-read.md)** | Reads captured window postMessage and cross-frame messaging traffic. |
 | **[`nova.network_read`](nova-network-read.md)** | Reads captured HTTP network requests and responses matching URL filters or status codes. |
 | **[`nova.page_blobs_list`](nova-page-blobs-list.md)** | Lists in-memory Blob and Object URLs (blob:http://...) created by the page. |

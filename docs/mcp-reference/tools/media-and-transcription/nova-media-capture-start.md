@@ -22,6 +22,9 @@ Starts streaming capture of live audio/video playing in a tab (Media Source Exte
 | `fileName` | `string` | No | — | ≤ 80 characters | Base name for the output files; a track suffix and the container extension are appended. Omit for a timestamped name. |
 | `maxBytes` | `integer` | No | — | ≥ 1 | Stop collecting after this many bytes (default 2 GB, ceiling 16 GB). Reaching it does not interrupt playback — the capture simply stops growing and reports limitHit. |
 | `reload` | `boolean` | No | `false` | — | Reload the tab after installing the recorder, so a player that already started is captured from the beginning. Restarts playback and can destroy an in-memory session, which is why it is off by default. |
+| `mode` | `string` | No | `"raw"` | `raw`, `save` | raw: per-SourceBuffer files and Web Audio items as they arrive (low level). save: one MP4 of the whole streamed video in the downloads list, recorded after one reload, as 'Save video' does. |
+| `incomplete` | `string` | No | `"ask"` | `ask`, `keep`, `discard` | mode='save' only: what happens to a recording with gaps - ask the user, keep it as '(incomplete)', or discard it. |
+| `method` | `string` | No | `"auto"` | `auto`, `record` | mode='save' only: auto downloads the stream the tab loaded and records only when that cannot work; record always plays the video through and records it, without trying the download first. |
 | `source` | `string` | No | `"both"` | `both`, `mse`, `webaudio` | Which playback paths to record. Default both, so you need not know how the page plays its media: mse covers HLS/DASH streaming, webaudio covers decodeAudioData (messenger voice messages). Narrow it only to avoid installing a recorder you know is useless. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).

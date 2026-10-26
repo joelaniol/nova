@@ -1,6 +1,6 @@
 # Acceptable Use Policy / Nutzungsrichtlinie
 
-*Last updated: October 18, 2026*
+*Last updated: October 26, 2026*
 
 ---
 
@@ -28,7 +28,7 @@ Authorized testing requires express permission from a person or organization ent
 
 - Personal browsing and productivity
 - Authorized testing and automation of your own websites and services
-- AI agent workflows on websites where you have explicit permission or where the site's terms of service allow automated access
+- AI agent workflows on websites where you have explicit permission or where the site's terms of service allow automated access. Where a site asks agents to identify themselves, as Amazon does, let your agent do so with **Agent identification** (Settings → Privacy & Security, from version 1.0.0-alpha.21)
 - Research and development within legal boundaries
 - Connecting MCP-compatible tools and agents for legitimate purposes
 - Inspecting, intercepting and replaying network traffic of your own sites and services — and of third-party services only within a scope their operator has authorized in writing
@@ -98,7 +98,7 @@ Autorisierte Prüfungen setzen die ausdrückliche Genehmigung einer dazu befugte
 
 - Persönliches Browsen und Produktivität
 - Autorisiertes Testen und Automatisieren eigener Websites und Dienste
-- KI-Agenten-Workflows auf Websites, für die du ausdrückliche Erlaubnis hast oder deren Nutzungsbedingungen automatisierten Zugriff erlauben
+- KI-Agenten-Workflows auf Websites, für die du ausdrückliche Erlaubnis hast oder deren Nutzungsbedingungen automatisierten Zugriff erlauben. Verlangt eine Seite wie Amazon, dass sich Agenten zu erkennen geben, lass deinen Agenten das mit der **Kennung für Agenten** tun (Einstellungen → Datenschutz & Sicherheit, ab Version 1.0.0-alpha.21)
 - Forschung und Entwicklung innerhalb gesetzlicher Grenzen
 - Anbindung MCP-kompatibler Tools und Agenten für legitime Zwecke
 - Beobachten, Abfangen und erneutes Senden von Netzwerkverkehr eigener Websites und Dienste — bei Drittanbieterdiensten nur in einem Rahmen, den deren Betreiber schriftlich genehmigt hat

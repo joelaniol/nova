@@ -82,6 +82,9 @@ flowchart TD
 | `nova.read_screenshot_resource` | Fetches a stored screenshot by its `nova://screenshot/...` URI. |
 | `nova.screenshot_diff` | Pixel comparison of two PNG screenshots: changed-pixel share, changed regions and a diff overlay; supports masks and anti-aliasing filtering. |
 | `nova.screenshot_baseline` | Saves named baselines and compares a new capture against them (`save`, `update`, `compare`, `list`, `delete`). |
+| `nova.browser_api_evidence` | Inspects loaded scripts passively for fingerprint-relevant API references and correlates observed calls from session recordings. |
+| `nova.screen_record_mark` | Records semantic evidence timestamps, crop regions, and factual assertions (`check`) on the recording timeline. |
+| `nova.video_render` | Synthesizes verified video evidence clips from screen recordings with automatic proof focus, paced checks, and result cards. |
 | `nova.audit_accessibility` | Checks text contrast, tap-target size and missing labels or accessible names. |
 | `nova.measure_web_vitals` | Measures LCP, CLS, INP, FCP and TTFB with ratings. |
 

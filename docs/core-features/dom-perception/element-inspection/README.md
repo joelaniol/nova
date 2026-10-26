@@ -77,6 +77,8 @@ When inspecting elements and measuring spatial geometry, agents should adhere to
    Never use `nova.eval` to iterate through DOM elements or read properties. `nova.dom_extract` runs natively on the host, respects CSP `script-src 'none'` headers, and returns strongly-typed results in a fraction of the time.
 3. **Calculate Clicks from Exact Bounding Centers:**
    When performing physical pointer clicks via mouse coordinates, query [`nova.get_element_rect`](../../../mcp-reference/tools/dom-and-reading/nova-get-element-rect.md) to retrieve the pre-computed `center.x` and `center.y` coordinates, ensuring pointer events land securely within the element hitbox.
+4. **Inspect Framework Components & State Directly:**
+   When dealing with reactive front-end applications (React, Vue, Angular) where DOM state may desync from in-memory application state, invoke [`nova.inspect_component`](../../../mcp-reference/tools/dom-and-reading/nova-inspect-component.md) to inspect component props, state, hooks, consumed contexts, and stores (Redux, Apollo Client, TanStack Query, Relay, Pinia, Vuex) instead of traversing internal fiber trees by hand.
 
 ---
 
@@ -89,6 +91,7 @@ When inspecting elements and measuring spatial geometry, agents should adhere to
 * [Semantic Landmark Reading & Tabular Extraction](../semantic-reading/README.md)
 * [Browser Interaction Architecture](../../browser-interaction/README.md)
 * [Tool Reference: `nova.dom_extract`](../../../mcp-reference/tools/dom-and-reading/nova-dom-extract.md)
+* [Tool Reference: `nova.inspect_component`](../../../mcp-reference/tools/dom-and-reading/nova-inspect-component.md)
 * [Tool Reference: `nova.get_active_element_deep`](../../../mcp-reference/tools/dom-and-reading/nova-get-active-element-deep.md)
 * [Tool Reference: `nova.search_text`](../../../mcp-reference/tools/dom-and-reading/nova-search-text.md)
 * [Tool Reference: `nova.get_element_rect`](../../../mcp-reference/tools/dom-and-reading/nova-get-element-rect.md)

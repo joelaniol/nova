@@ -190,6 +190,7 @@ flowchart LR
     Prefix -->|auth.*| F8["auth.loggedIn, auth.loginWallVisible, auth.mfaChallenge, auth.authError, auth.stage"]
     Prefix -->|sandbox.*| F9["sandbox.selected, sandbox.selected.changed, sandbox.target.exists"]
     Prefix -->|runtime.*| F10["runtime.domEpoch, runtime.frameId, runtime.rendererHealthy"]
+    Prefix -->|network.*| F12["network.status@url=..., network.ok@url=..."]
     Prefix -->|Unprefixed| F11["OK Store Dynamic Facts (nova.ok_observe)"]
 ```
 
@@ -207,6 +208,7 @@ flowchart LR
 | **`auth.*`** | `auth.assessment`<br>`auth.stage`<br>`auth.loggedIn`<br>`auth.loginWallVisible`<br>`auth.authError`<br>`auth.mfaChallenge` | Authentication state; sign-in wall detection; MFA challenge prompts; login error verification. |
 | **`sandbox.*`** | `sandbox.selected`<br>`sandbox.selected.changed`<br>`sandbox.target.exists` | Multi-sandbox profile switching and target binding verification. |
 | **`runtime.*`** | `runtime.domEpoch`<br>`runtime.frameId`<br>`runtime.rendererHealthy` | DOM revision tracking; subframe identification; renderer liveness. |
+| **`network.*`** | `network.status@url=<part of the url>`<br>`network.ok@url=<part of the url>` | The newest request the page started after the action (fetch, XHR, sendBeacon): its HTTP status, or whether it succeeded (2xx/3xx). Requests from before the action never count, so a save that answered `200` proves itself: `{ "factKey": "network.status@url=saveDraft", "operator": "eq", "expected": 200 }`. |
 
 ### 5.1 Scoped Semantic Fact Keys (`@css=...`)
 While global semantic fact keys (like `composer.hasText` or `composer.sendButton.clickable`) automatically locate the active composer using smart heuristic surface detection, complex web applications often feature multiple concurrent entry areas (e.g. a main prompt box, an inline comment input, and a sidebar search).

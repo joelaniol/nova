@@ -26,7 +26,7 @@ Queries the complete CDP network stream of a finalized recording with rich filte
 | `statusLte` | `integer` | No | — | 0–999 | Filter status <= value. |
 | `sinceMs` | `integer` | No | — | — | Filter timestamp >= Unix-ms (ISO-8601 string also accepted). |
 | `untilMs` | `integer` | No | — | — | Filter timestamp <= Unix-ms (ISO-8601 string also accepted). |
-| `hasBody` | `boolean` | No | — | — | Filter entries with/without captured body. |
+| `hasBody` | `boolean` | No | — | — | Filter entries with/without a captured body (request or response). |
 | `vaultMatched` | `boolean` | No | — | — | Filter entries where the redaction pipeline matched a vault fingerprint in the body. |
 | `limit` | `integer` | No | `50` | 1–1000 | Max entries returned (totalMatchCount reports the full match count). |
 

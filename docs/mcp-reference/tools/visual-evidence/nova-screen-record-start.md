@@ -49,7 +49,7 @@ Common refusals: `video.already_recording`, `video.source_minimized`, `video.for
 <!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
-| `fitTab` | `any` | No | — | — | Size Nova's window for the take so the tab is exactly this shape, measured after the resize: a template name ('nova-linkedin': 1360x970, 'nova-readme': 1280x720) or {width, height} in CSS pixels. A maximized or minimized window is restored first; nova.screen_record_stop puts size and state back. Refused (video.window_fit_failed) when the screen is too small. |
+| `fitTab` | `any` | No | — | — | Size Nova's window for the take so the tab is exactly this shape, measured after the resize: a template name ('nova-linkedin': 1360x970, 'nova-readme': 1280x720) or {width, height} in CSS pixels. A maximized window is restored first; a minimized Nova is refused untouched (video.source_minimized: the user hid it). nova.screen_record_stop puts size and state back and says so (windowRestored). Refused (video.window_fit_failed) when the screen is too small. |
 | `fps` | `integer` | No | `30` | 1–60 | Frames per second of the video (constant; the last frame repeats when nothing changed). |
 | `maxDurationSec` | `integer` | No | `60` | 1–1800 | The recording ends by itself after this many seconds of video. |
 | `maxWidth` | `integer` | No | `1920` | 64–7680 | Largest video width in pixels; the window is scaled down to fit, never up, aspect ratio kept. |

@@ -55,7 +55,14 @@ When an agent calls `nova.app_settings_set(values={...})`, it can pass any combi
 | `sleepingTabsRestoreAsDiscarded` | `boolean` | `true`, `false` | Settings > Appearance & performance | Restored tabs from previous sessions load as stubs and hydrate on click. |
 | `antiThrottlingEnabled` | `boolean` | `true`, `false` | Settings > Appearance & performance | Prevent background tabs from being throttled by timer and render limits. |
 | `emulationViewportFrameEnabled` | `boolean` | `true`, `false` | Settings > Developer options | Render a visible high-contrast device outline around emulated screens. |
+| `hostPerfTimingEnabled` | `boolean` | `true`, `false` | Settings > Developer options > Performance log | Write timings of Nova's own interface (for example the ⋯ menu opening) to the app log. Only takes effect while developer options are on. |
+| `toolbarPerfLogEnabled` | `boolean` | `true`, `false` | Settings > Developer options > Performance log | Show the toolbar button that starts and stops a performance recording. Only takes effect while developer options are on. |
+| `devToolsPopoutByDefault` | `boolean` | `true`, `false` | Settings > Developer options > Debug | Open developer tools in their own window instead of docked at the bottom of the page. |
 | `gpuIncidentNoticesEnabled` | `boolean` | `true`, `false` | Settings > Appearance & performance | Show an explanatory banner when automatic GPU crash recovery triggers. |
+| `toolbarShowHomeButton` | `boolean` | `true`, `false` | Right-click on the toolbar > Show in toolbar | Show the Home button in the toolbar. |
+| `toolbarShowDeviceButton` | `boolean` | `true`, `false` | Right-click on the toolbar > Show in toolbar | Show the idle device-emulation button; while a tab emulates a device the chip shows regardless. |
+| `toolbarShowNotificationsButton` | `boolean` | `true`, `false` | Right-click on the toolbar > Show in toolbar | Show the notifications bell in the toolbar. |
+| `favoritesFaviconAutoFetch` | `boolean` | `true`, `false` | Favorites panel > gear > Load missing favicons | Load icons for favorites without one from their own sites, after an import and at most once a day. |
 
 ---
 
@@ -65,6 +72,7 @@ Protected switches govern the very mechanisms designed to supervise, constrain, 
 
 | Protected Key | Type | Settings UI Location | Security Rationale |
 | :--- | :--- | :--- | :--- |
+| `toolbarShowMcpActivity` | `boolean` | Right-click on the toolbar > Show in toolbar | It is how the user sees what agents do; an agent must not hide its own activity. |
 | `mcpRemoteControlEnabled` | `boolean` | Settings > AI & agents | Agent access itself is the user's decision. |
 | `mcpConfirmHighImpact` | `string` | Settings > AI & agents | An agent must not switch off the approval that is meant to stop it. |
 | `recordAgentBrowsingInHistory` | `boolean` | Settings > Privacy & Security | The agent's trail in history is how the user sees what agents did. |

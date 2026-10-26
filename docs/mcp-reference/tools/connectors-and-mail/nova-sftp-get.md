@@ -20,14 +20,16 @@ Before any byte is written, the whole remote tree is listed and checked: a symbo
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `profileId` | `string` | Yes | — | — | SFTP connector id from nova.connector_list. |
-| `localPath` | `string` | Yes | — | — | Local destination path inside Downloads or the host-verified current workspace. For a remote directory, this is the destination root. |
-| `remotePath` | `string` | Yes | — | ≤ 4096 characters | Remote file or directory path to download. |
+| `localPath` | `string` | No | — | — | Local destination path inside Downloads or the host-verified current workspace. For a remote directory, this is the destination root. |
+| `remotePath` | `string` | No | — | ≤ 4096 characters | Remote file or directory path to download. |
 | `recursive` | `boolean` | No | `false` | — | Required for a directory source; transfers its whole tree. |
 | `overwrite` | `boolean` | No | `false` | — | Replace existing local destination files. False preserves them and the job fails with destination_changed before any byte is transferred. |
 | `maxFiles` | `integer` | No | — | ≥ 1 | Optional budget: the job refuses to start (caller_limit_exceeded) when the checked plan has more files. Omit for no limit. |
 | `maxBytes` | `integer` | No | — | ≥ 1 | Optional budget in bytes: the job refuses to start (caller_limit_exceeded) when the checked plan is larger. Omit for no limit. |
+| `verifySha256` | `boolean` | No | `false` | — | Check the content of every file, not only its size: before a file is committed, Nova compares the SHA-256 of the copy with sha256sum run on the server. Needs the connection's process.exec grant as well (asked together with the transfer; 'always' makes it autonomous). Costs one more read of each file on both sides. A file that differs is discarded and the job fails with checksum_mismatch (a resume transfers it again); a server without sha256sum fails with checksum_unavailable. transfer_status reports verification.performed='sha256'. |
 | `wait` | `integer` | No | `60` | 0–540 | Seconds the call waits for the job before returning state='running' with its jobId. 0 returns at once. The job continues after the wait either way. |
 | `resumeJobId` | `string` | No | — | — | Optional: continue exactly this unfinished job. Without it, repeating the identical call resumes the newest unfinished job of the same transfer. |
+| `resumeUnfinished` | `boolean` | No | `false` | — | true with only profileId (plus unattended): continue every unfinished transfer of this connection in this direction at once - e.g. after a Nova restart - instead of repeating each original call. Each job goes through the same checks and approval as its repeated call. Returns jobs (resumed, wait=0), failed (with reasonCode) and skipped (already_running, access_revoked, given_up, target_exists). Poll transfer_status(profileId, state='active') afterwards. |
 | `unattended` | `boolean` | No | `false` | — | Fail closed instead of opening account/policy prompts. Scheduled-task hosts enforce unattended mode even when omitted; this flag can only reduce authority. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).

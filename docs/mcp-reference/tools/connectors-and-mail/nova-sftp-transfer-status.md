@@ -21,6 +21,7 @@ Reports progress and result of background SFTP transfers started by `nova.sftp_g
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `jobId` | `string` | No | — | — | Job id returned by nova.sftp_get or nova.sftp_put. Pass this or profileId. |
 | `profileId` | `string` | No | — | — | SFTP connector id: lists its 20 newest transfer jobs. Pass this or jobId. |
+| `state` | `string` | No | — | `all`, `active`, `unfinished` | Filter for the profileId list: all (default), active (running now) or unfinished (running, stopped, interrupted or failed). |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 

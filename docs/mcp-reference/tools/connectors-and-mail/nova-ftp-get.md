@@ -18,12 +18,13 @@ Downloads a remote regular file over FTP/FTPS into Downloads or the workspace.
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `profileId` | `string` | Yes | — | — | FTP connector id from nova.connector_list. |
-| `localPath` | `string` | Yes | — | — | Local destination inside Downloads or the host-verified current workspace. |
-| `remotePath` | `string` | Yes | — | ≤ 4096 characters | Remote regular file to download. |
+| `localPath` | `string` | No | — | — | Local destination inside Downloads or the host-verified current workspace. |
+| `remotePath` | `string` | No | — | ≤ 4096 characters | Remote regular file to download. |
 | `overwrite` | `boolean` | No | `false` | — | Replace an existing local destination file. False preserves it. |
 | `maxBytes` | `integer` | No | — | ≥ 1 | Optional budget in bytes: the job refuses to start (caller_limit_exceeded) when the file is larger. Omit for no limit. |
 | `wait` | `integer` | No | `60` | 0–540 | Seconds the call waits for the job before returning state='running' with its jobId. 0 returns at once. The job continues after the wait either way. |
 | `resumeJobId` | `string` | No | — | — | Optional: continue exactly this unfinished job. Without it, repeating the identical call resumes the newest unfinished job of the same transfer. |
+| `resumeUnfinished` | `boolean` | No | `false` | — | true with only profileId (plus unattended): continue every unfinished transfer of this connection in this direction at once - e.g. after a Nova restart - instead of repeating each original call. Each job goes through the same checks and approval as its repeated call. Returns jobs (resumed, wait=0), failed (with reasonCode) and skipped (already_running, access_revoked, given_up, target_exists). Poll transfer_status(profileId, state='active') afterwards. |
 | `unattended` | `boolean` | No | `false` | — | Fail closed instead of opening account/policy prompts. Scheduled-task hosts enforce unattended mode even when omitted; this flag can only reduce authority. |
 | `allowInsecure` | `boolean` | No | `false` | — | Required as true only when this profile explicitly uses plaintext FTP. The user's separate debug/legacy option must also be enabled. |
 

@@ -55,7 +55,11 @@ Common refusals: `not_recording`, `video.not_owner`, `video.evidence_off` (the r
 | `check.expectedLocale` | `string` | No | — | `de`, `en` | How expected is formatted: 'de' (1.234,5) or 'en' (1,234.5). |
 | `check.actualLocale` | `string` | No | — | `de`, `en` | How actual is formatted. |
 | `check.ok` | `boolean` | No | — | — | Your own verdict (optional); it never overrides Nova's. |
-| `caption` | `string` | No | — | ≤ 80 characters | The clip's text for this moment, two to five words ('Source: Wikipedia'); nova.video_render(captionsFromMarks=true) shows it. Without caption a short label (up to 40 characters) serves. |
+| `caption` | `string` | No | — | ≤ 80 characters | The clip's text for this moment, two to five words ('Source: Wikipedia'); nova.video_render(captionsFromMarks=true or fromMarks=true) shows it. Without caption a short label (up to 40 characters) serves for captionsFromMarks, not for fromMarks. |
+| `role` | `string` | No | — | `task`, `step`, `check`, `result` | The mark's part in the clip (nova.video_render fromMarks=true): 'task' opens the clip with the task (set it first), 'step' starts a chapter - mark it once its result is on screen; the chapter then begins where that picture appeared (a change of at least a quarter of the picture up to 5 s before the mark, otherwise at the mark) - 'check' is a compared value (needs check and best selector or rect: focus, tick, result card), 'result' starts the closing chapter over the checks before it, green only when Nova found all of them equal. |
+| `headline` | `string` | No | — | ≤ 80 characters | For role task, step or result: the chapter's headline, about 22 characters ('Excel created.'). Without it a label of up to 40 characters serves. |
+| `kicker` | `string` | No | — | ≤ 32 characters | For role task, step or result: the small line above the headline, one word ('Export'). |
+| `accent` | `string` | No | — | ≤ 80 characters | For role task, step or result: one word of the headline in the accent colour ('Excel'). |
 | `agentId` | `string` | No | — | — | The agentId you started the recording with. |
 
 Capability bundle: `visual_evidence` (load it with `nova.tools_bundle(bundle='visual_evidence')`).

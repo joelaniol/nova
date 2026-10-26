@@ -20,7 +20,7 @@ flowchart TD
     Start["Page Navigation / Modal Encountered"] --> Detect{"Recognized CMP Vendor API?"}
 
     subgraph Tier1["Tier 1: Programmatic CMP Engine (nova.cmp_apply)"]
-        Detect -- "Yes (OneTrust, Sourcepoint, Cookiebot)" --> ReadPre["Read Pre-State ConsentStateVector"]
+        Detect -- "Yes (OneTrust, Sourcepoint, Cookiebot, Usercentrics v3)" --> ReadPre["Read Pre-State ConsentStateVector"]
         ReadPre --> CheckPolicy{"Intent Mode?"}
         CheckPolicy -- "RejectOptional (Default)" --> DispatchAPI["Execute Vendor Runtime API\n(e.g. OneTrust.RejectAll, __tcfapi)"]
         CheckPolicy -- "AcceptAll" --> GateBlock["Reject with -32035\n(Autonomous Accept Blocked)"]
@@ -58,8 +58,8 @@ Nova divides consent and overlay handling into two distinct MCP tools, each desi
 | Dimension | Tier 1: Programmatic CMP Engine | Tier 2: Heuristic Blocker Remediation |
 | :--- | :--- | :--- |
 | **Primary MCP Tool** | [`nova.cmp_apply`](../../mcp-reference/tools/guarded-actions/nova-cmp-apply.md) | [`nova.dismiss_blockers`](../../mcp-reference/tools/guarded-actions/nova-dismiss-blockers.md) |
-| **Execution Layer** | Vendor JavaScript runtime APIs (`window.OneTrust`, `__tcfapi`, `window.Cookiebot`) | DOM tree traversal, CSS styling overrides, synthetic click/key dispatch |
-| **Vendor Scope** | Standardized Enterprise CMPs (OneTrust, Sourcepoint / TCF v2, Cookiebot) | Universal: custom cookie walls, newsletter modals, age gates, backdrops |
+| **Execution Layer** | Vendor JavaScript runtime APIs (`window.OneTrust`, `__tcfapi`, `window.Cookiebot`, `window.__ucCmp`) | DOM tree traversal, CSS styling overrides, synthetic click/key dispatch |
+| **Vendor Scope** | Standardized Enterprise CMPs (OneTrust, Sourcepoint / TCF v2, Cookiebot, Usercentrics Browser CMP v3) | Universal: custom cookie walls, newsletter modals, age gates, backdrops |
 | **Ground-Truth Verification** | Yes: captures cryptographic TC strings, vendor group states, and purpose flags | Visual & structural: checks whether elements still intercept pointer events |
 | **Dark Pattern Resilience** | Complete: bypasses DOM UI entirely via direct runtime method calls | Algorithmic: 3-stage polarity scoring and sibling contrast classification |
 | **DOM Side Effects** | Zero DOM mutation: vendor scripts manage their own banner teardown | Controlled DOM mutation: element removal, `display: none`, scroll restoration |

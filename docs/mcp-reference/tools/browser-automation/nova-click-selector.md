@@ -42,13 +42,19 @@ If multiple visible elements match the selector and `strict: true` is passed, No
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `observe` | `object` | No | — | — | See what this action set off, in the same call: requests started by page JavaScript (fetch, XHR, WebSocket, sendBeacon) with method, url, status, ok and duration, whether the page navigated, and optionally the state of an element afterwards. Waits until no request is in flight and nothing new arrived for quietMs, at most waitMs. Pass {} for the defaults. Replaces network_read before and after the action plus dom_extract. Document navigations and images are not listed. |
+| `observe.waitMs` | `integer` | No | `3000` | 0–15000 | Longest wait for the traffic to settle after the action. |
+| `observe.quietMs` | `integer` | No | `500` | 100–5000 | How long nothing may be in flight or arrive before the traffic counts as settled. |
+| `observe.urlContains` | `string` | No | — | ≤ 500 characters | List only requests whose URL contains this text (counts still cover all). |
+| `observe.maxRequests` | `integer` | No | `20` | 1–100 | Most requests listed; requestsOmitted counts the rest. |
+| `observe.after` | `object` | No | — | — | Read an element once the traffic settled, like nova.dom_extract: {selector, properties}. |
 | `activateIfNeeded` | `boolean` | No | `true` | — | For an explicit inactive targetId: briefly bring that tab to the front for the click (default true). Never retargets 'active', never foregrounds the window. |
 | `restoreActiveTarget` | `boolean` | No | `true` | — | After such an activation and a clear non-navigating success, give the user's previous tab back (default true). |
 | `selector` | `string` | No | — | — | CSS selector; ' >>> ' pierces shadow DOM (e.g. 'my-comp >>> .btn'). |
 | `frameId` | `string` | No | — | — | Click inside an iframe: frames[] or opaqueFrames[] frameId from nova.perceive(deep=true). Not with ctaRef. Other-site frames can be switched off by the user (frame.cross_origin_interaction_off); scaled/rotated/nested ones return unsupported_frame_geometry. |
 | `button` | `string` | No | `"left"` | `left`, `middle`, `right` | 'left' (default), 'middle' (new tab), 'right' (context menu). |
 | `clickCount` | `integer` | No | `1` | 1–3 | 1 single, 2 double (select word), 3 triple (select line). |
-| `timeoutMs` | `integer` | No | `10000` | 0–300000 | Max ms to wait for the element to appear. |
+| `timeoutMs` | `integer` | No | `10000` | 0–300000 | Max ms to wait for the element to appear. Left unset, the click stops early (stoppedEarly says why) when an open modal dialog covers the element, or when nothing matches on a loaded page that stopped changing; set it to wait the full time for content that appears later. |
 | `autoDismissBlockers` | `boolean` | No | `false` | — | true: remove overlays blocking the element before clicking. Default false - prefer nova.cmp_apply / dismiss_blockers for consent banners. |
 | `autoDismissMode` | `string` | No | `"conservative"` | `conservative`, `aggressive` | 'conservative': common banners only. 'aggressive': any overlay/fixed blocker. |
 | `pksMode` | `string` | No | `"match"` | `off`, `match`, `telemetry` | PKS matching: off \| match (compact hints) \| telemetry (full). |
@@ -58,6 +64,8 @@ If multiple visible elements match the selector and `strict: true` is passed, No
 | `waitForNavigation` | `boolean` | No | `false` | — | Wait for URL change + page load after the click. |
 | `navigationStrict` | `boolean` | No | `false` | — | With waitForNavigation: ok only if the navigation happened too. |
 | `strict` | `boolean` | No | `false` | — | Click only if exactly one visible element matches; otherwise refuse (selector.ambiguous / selector.uniqueness_unverified), nothing clicked. Default: click best visible match and warn. |
+| `expectText` | `string` | No | — | 1–300 characters | Click the element that reads this text (visible text, else aria-label/value/title; case and spacing ignored). When the selector matches several, Nova picks the one with this text - a whole-label match wins over partial ones - so 'li > button' plus expectText clicks one entry of a list. None reads it: selector.text_mismatch; several do: selector.text_ambiguous; nothing clicked either way. Also guards buttons that share generic classes ('Move to list' vs 'Delete selected'). Selector clicks only, not ctaRef. |
+| `expectTextExact` | `boolean` | No | `false` | — | With expectText: the whole text must equal it instead of containing it. |
 | `waitForNavigationTimeoutMs` | `integer` | No | `5000` | 0–30000 | Max ms to wait for navigation (0-30000). |
 | `includeScreenshot` | `boolean` | No | `false` | — | Add a screenshot after navigation. Optional sidecar: if only the capture fails (screenshotStatus/screenshotReasonCode), the click result still stands - do not repeat the click. |
 | `screenshotPolicy` | `string` | No | `"smart"` | `smart`, `always`, `on_failure`, `on_partial_or_failure`, `off` | With includeScreenshot: smart (failures always, successes sampled) \| always \| on_failure \| on_partial_or_failure \| off. |

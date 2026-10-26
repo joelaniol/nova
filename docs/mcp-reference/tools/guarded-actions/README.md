@@ -14,7 +14,7 @@ Capability bundles of these tools: `browser_automation`, `form_submission`, `sys
 
 | Tool | What it does |
 | :--- | :--- |
-| **[`nova.cmp_apply`](nova-cmp-apply.md)** | Applies a typed privacy consent policy directly through recognized Consent Management Platform (CMP) vendor JavaScript APIs (OneTrust, Sourcepoint, Cookiebot), verifying consent vector state before and after execution. |
+| **[`nova.cmp_apply`](nova-cmp-apply.md)** | Applies a typed privacy consent policy directly through recognized Consent Management Platform (CMP) vendor JavaScript APIs (OneTrust, Sourcepoint, Cookiebot, Usercentrics v3), verifying consent vector state before and after execution. |
 | **[`nova.dismiss_blockers`](nova-dismiss-blockers.md)** | Identifies and removes click-blocking overlays, cookie consent banners, notification prompts, and modal backdrops. |
 | **[`nova.guarded_login`](nova-guarded-login.md)** | High-level guarded macro for login form submissions, featuring integrated Auth Surface Detection (ASD) that distinguishes between authentication rejections and multi-factor (2FA/MFA) follow-up states. |
 | **[`nova.guarded_send_message`](nova-guarded-send-message.md)** | High-level guarded macro for chat interfaces (ChatGPT, Claude.ai, Gemini, Slack, Teams): auto-discovers the composer, types text with read-back verification, resolves the send button, clicks it, and verifies delivery in a single atomic operation. |

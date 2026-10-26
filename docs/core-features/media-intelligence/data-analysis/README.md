@@ -111,7 +111,7 @@ Returns detected column types (`Category` $\rightarrow$ `text`, `Amount` $\right
 
 ```json
 {
-  "name": "nova_data_query",
+  "name": "nova.data_query",
   "arguments": {
     "path": "C:\\Users\\Operator\\Downloads\\Q3_Expenses.csv",
     "columns": ["Department"],
@@ -133,6 +133,19 @@ The agent receives the exact top-10 department totals in a single compact JSON e
 
 ---
 
+## Read-Only Table View in a Tab
+
+Nova includes a native, read-only table viewer that opens CSV, TSV, and Microsoft Excel (`.xlsx`, `.xlsm`) spreadsheets directly in a browser tab without requiring Microsoft Office or third-party spreadsheet viewers:
+
+* **Spreadsheet Layout:** Renders column letters (A, B, C...), row numbers (1, 2, 3...), sheet navigation tabs, bold frozen header rows, and formatted gridlines that adapt smoothly to window resizing.
+* **Locale & Formula Fidelity:** Formats numbers and dates according to the application's UI locale using native Excel format codes (IDs 14/22 for short dates, custom currency, percentages, scientific notation, and thousands scaling). Displays saved formula calculation results without executing macros (zero code execution attack surface).
+* **Direct Inspection via MCP:**
+  * [`nova.downloads_preview`](../../../mcp-reference/tools/downloads/nova-downloads-preview.md) opens downloaded spreadsheets with `kind='table'`, or previews any local file via `path`.
+  * [`nova.xlsx_create`](../../../mcp-reference/tools/files-and-documents/nova-xlsx-create.md) accepts `openInTab=true` to render written workbooks immediately for visual inspection.
+  * `fitToData=true` automatically scales table zoom (100% to 200%) so populated cells comfortably fill the viewport for screenshot evidence or recording capture.
+
+---
+
 ## Charts from the Results
 
 [`nova.chart_create`](../../../mcp-reference/tools/files-and-documents/nova-chart-create.md) draws the rows of a query, or a CSV, Excel or JSON file, as a column, bar, line, area, scatter, pie or donut chart and saves it as a PNG or SVG file. It shows the data exactly as given: values are never guessed, empty cells stay gaps, and nothing is summed or sorted. That makes the usual path query first, then chart.
@@ -145,6 +158,7 @@ The agent receives the exact top-10 department totals in a single compact JSON e
 | :--- | :--- | :--- | :--- |
 | [`nova.data_inspect`](../../../mcp-reference/tools/files-and-documents/nova-data-inspect.md) | `page_read_debug` | Pre-flight schema inspection, column types, and data range profiling | `path`, `sheet?`, `sampleRows?`, `previewRows?`, `fullScan?`, `timeoutSeconds?` |
 | [`nova.data_query`](../../../mcp-reference/tools/files-and-documents/nova-data-query.md) | `page_read_debug` | Streaming predicate filtering, grouping, and exact decimal aggregations | `path`, `sheet?`, `columns?`, `filters?`, `groupBy?`, `metrics?`, `orderBy?`, `limit?`, `timeoutSeconds?` |
+| [`nova.xlsx_create`](../../../mcp-reference/tools/files-and-documents/nova-xlsx-create.md) | `page_read_debug` | Generates native Excel (.xlsx) workbooks with auto-filters and optional tab preview | `sheets?`, `sourcePath?`, `openInTab?`, `fitToData?`, `outputPath?` |
 
 ---
 

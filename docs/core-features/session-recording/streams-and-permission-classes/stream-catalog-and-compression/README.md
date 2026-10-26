@@ -1,12 +1,12 @@
 # Stream Catalog & Mutation Compression
 
-Nova partitions captured session data into **12 distinct stream files**, separating high-frequency telemetry, network metadata, DOM deltas, and sensitive database states into dedicated streams. Each stream is framed as an encrypted line-delimited JSON (`.jsonl`) file, ensuring that queries can target specific event types without decrypting or parsing irrelevant telemetry.
+Nova partitions captured session data into **14 distinct stream files**, separating high-frequency telemetry, network metadata, DOM deltas, API calls, and sensitive database states into dedicated streams. Each stream is framed as an encrypted line-delimited JSON (`.jsonl`) file, ensuring that queries can target specific event types without decrypting or parsing irrelevant telemetry.
 
-This guide provides the complete specification of all 12 stream formats, the Brotli compression pipeline for DOM mutations, payload size caps, and the semantics of opt-in sidecar streams.
+This guide provides the complete specification of all 14 stream formats, the Brotli compression pipeline for DOM mutations, payload size caps, and the semantics of opt-in sidecar streams.
 
 ---
 
-## 1. The Twelve Encrypted Stream Files
+## 1. The Fourteen Encrypted Stream Files
 
 When a recording is active, events are filtered and routed into one or more of the following stream files within the recording folder (`%LOCALAPPDATA%\NovaBrowser\Recordings\<recording-id>\`):
 
@@ -25,6 +25,7 @@ When a recording is active, events are filtered and routed into one or more of t
 | **`websocket-payloads.jsonl`** | Inbound and outbound WebSocket text frames and frame metadata. | Content | `websocket_payloads` |
 | **`indexeddb-values.jsonl`** | Unmasked, raw IndexedDB record values (strictly quota-capped and redactor-scanned). | Secret-Bearing | `indexeddb_values` |
 | **`dom-mutations.jsonl`** | Continuous, rrweb-compatible DOM tree mutation deltas (Brotli-compressed). | Content | `dom_mutations` |
+| **`api-calls.jsonl`** | Fingerprint-sensitive browser API calls, per-document stack traces, and call counts. | Content | `api_calls` |
 
 ---
 
@@ -81,6 +82,20 @@ Each stream consists of line-delimited JSON objects. Every record begins with a 
   "level": "error",
   "text": "Uncaught (in promise) Error: Inventory lock timeout",
   "stackTrace": "Error: Inventory lock timeout\n    at checkout.js:142:19\n    at async handleCheckout (checkout.js:88:5)"
+}
+```
+
+### 4. API Call Stream (`api-calls.jsonl`)
+```json
+{
+  "ts": "2026-10-24T05:30:12.110Z",
+  "kind": "call",
+  "category": "canvas",
+  "api": "HTMLCanvasElement.toDataURL",
+  "docId": "doc-01",
+  "frameUrl": "https://example.com/checkout",
+  "seq": 1,
+  "stack": "at fingerprint (https://cdn.example.com/fp.js:12:45)"
 }
 ```
 

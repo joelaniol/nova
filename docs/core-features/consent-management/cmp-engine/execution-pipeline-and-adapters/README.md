@@ -132,7 +132,9 @@ flowchart TD
     P1 -- "Matched" --> UseSourcepoint["Activate SourcepointAdapter"]
     P1 -- "Not Matched" --> P2{"Priority 2: Cookiebot Adapter\n(Function Gate: window.Cookiebot.submitCustomConsent)"}
     P2 -- "Matched" --> UseCookiebot["Activate CookiebotAdapter"]
-    P2 -- "Not Matched" --> P3{"Priority 3: OneTrust Adapter\n(Global Gate: window.OneTrust)"}
+    P2 -- "Not Matched" --> P2b{"Priority 3: Usercentrics Adapter\n(Function Gate: window.__ucCmp.getConsentDetails + denyAllConsents)"}
+    P2b -- "Matched" --> UseUsercentrics["Activate UsercentricsAdapter"]
+    P2b -- "Not Matched" --> P3{"Priority 4: OneTrust Adapter\n(Global Gate: window.OneTrust)"}
     P3 -- "Matched" --> UseOneTrust["Activate OneTrustAdapter"]
     P3 -- "Not Matched" --> NoMatch["Return failureCode: 'no_adapter'"]
 ```
@@ -143,7 +145,8 @@ flowchart TD
 | :---: | :--- | :--- | :--- |
 | **1** | **Sourcepoint Adapter** | `window.__tcfapi` with `cmpId == 6` or Sourcepoint frame signatures. | Strict cryptographic and IAB European registry ID. Takes precedence over generic DOM markers. |
 | **2** | **Cookiebot Adapter** | Callable function `window.Cookiebot.submitCustomConsent`. | Disjoint global object. Verified function presence ensures the runtime engine is ready for custom calls. |
-| **3** | **OneTrust Adapter** | Global object `window.OneTrust` and `OneTrust.RejectAll` or group arrays. | Broad enterprise deployment; ordered third to prevent shadowing dedicated TCF implementations. |
+| **3** | **Usercentrics Adapter** | Callable functions `window.__ucCmp.getConsentDetails` and `denyAllConsents` (Browser CMP v3). | Disjoint global object. A Usercentrics site in TCF mode also answers `__tcfapi`, but with its own CMP id, so the Sourcepoint gate passes it on. |
+| **4** | **OneTrust Adapter** | Global object `window.OneTrust` and `OneTrust.RejectAll` or group arrays. | Broad enterprise deployment; ordered last to prevent shadowing dedicated TCF implementations. |
 
 ---
 
@@ -229,7 +232,23 @@ The adapter extracts runtime boolean flags from `window.Cookiebot.consent` and n
 
 ---
 
-### 4.3 OneTrust Adapter
+### 4.3 Usercentrics Adapter (Browser CMP v3)
+
+Usercentrics' current Browser CMP (loader `web.cmp.usercentrics.eu`) renders its banner inside the open shadow root of `<aside id="usercentrics-cmp-ui">` and exposes an asynchronous API as `window.__ucCmp`. The older v2 (`#usercentrics-root`) has no adapter; `nova.cmp_apply` answers `no_adapter` there.
+
+#### Mutation Protocol
+`denyAllConsents()` stores the decision immediately but leaves the dialog on screen, so the adapter closes it afterwards:
+```javascript
+await window.__ucCmp.denyAllConsents();
+await window.__ucCmp.closeCmp();
+```
+
+#### State Mapping
+The state comes from `await window.__ucCmp.getConsentDetails()`: `consent.status`, `consent.type`, `consent.required`, a consent hash, and the state of every non-essential category. A first visit already reads `ALL_DENIED` - but with `type: IMPLICIT` and `required: true`, meaning nobody has decided and the banner is open. Only an `EXPLICIT`, no-longer-required decision with every non-essential category `ALL_DENIED` counts as rejected; verification also requires the consent hash to change.
+
+---
+
+### 4.4 OneTrust Adapter
 
 OneTrust is widely used across Fortune 500 portals, government institutions, and e-commerce applications.
 

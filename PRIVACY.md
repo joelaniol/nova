@@ -1,6 +1,6 @@
 # Privacy Policy / Datenschutzerklärung
 
-*Last updated: October 18, 2026*
+*Last updated: October 26, 2026*
 
 ---
 
@@ -145,8 +145,11 @@ Apart from the license and crash-report requests above, Nova itself contacts the
 - **Speech models — Hugging Face** (`huggingface.co`). Only when you or an agent installs an additional transcription model is it downloaded from there. The basic model ships with Nova.
 - **Proxy check — ipify** (`api.ipify.org`). Only if you use a proxy: while it is active, Nova asks this service about every 30 seconds, and whenever you or an agent tests a proxy, which public IP address the proxy shows. The request goes through the proxy, so ipify sees the proxy's address.
 - **WebView2 runtime — Microsoft.** Only if the browser engine is missing or damaged does Nova download it from Microsoft.
+- **Favorite icons — the sites of your favorites.** For a favorite without an icon, Nova asks that favorite's own site for its icon (its start page and `/favicon.ico`): after you import bookmarks, at most once a day for favorites still without an icon, and when you choose **Refresh favicons** in the favorites panel. The request goes through your proxy, without cookies; the icon is stored on your computer. When you import from Chrome or Edge, Nova first takes the icons that browser already stored on your computer, without any request. Turn the automatic loading off with the gear in the favorites panel (**Load missing favicons**).
 
 The websites you open in Nova are contacted by the browser engine as in any browser; that traffic is not covered by this list.
+
+**Agent identification** (from version 1.0.0-alpha.21, not published yet). On sites you list under Settings → Privacy & Security → **Agent identification** (Amazon is listed from the start), an agent can ask Nova to mark its tab as an agent. That tab's requests then carry `Agent/NovaAIWorkspace` in the browser identification (user agent), also requests the page makes to other sites, until the agent ends it, the tab closes or it moves to a site not on the list. Nothing else is added, and no tab is marked unless an agent asks for it.
 
 ### Third-Party AI Providers
 
@@ -222,6 +225,12 @@ Many sites stream a video in small parts, so the browser's own "Save video" cann
   downloads, joins them on your computer and saves one file to your download folder
 - **Protected videos are never saved:** encrypted and copy-protected streams are refused before
   anything is downloaded
+- **Recording while it plays, only after you agree:** when the parts cannot be loaded again (some
+  sites sign each part for a single request), Nova can offer to record the video while it plays.
+  Only after you confirm does Nova reload the page and play the video from the start; the parts the
+  page hands to its player are written to a temporary folder on your computer, joined into one file
+  in your download folder, and the temporary files are deleted. Nothing is sent anywhere. Cancelling
+  discards what was recorded; an incomplete recording is kept only if you choose to save it
 
 ### TLS Inspection
 
@@ -408,8 +417,11 @@ Neben den oben beschriebenen Anfragen für Lizenz und Absturzberichte kontaktier
 - **Sprachmodelle — Hugging Face** (`huggingface.co`). Nur wenn du oder ein Agent ein zusätzliches Transkriptionsmodell installiert, wird es von dort geladen. Das Basismodell liefert Nova mit.
 - **Proxy-Prüfung — ipify** (`api.ipify.org`). Nur wenn du einen Proxy nutzt: Solange er aktiv ist, fragt Nova diesen Dienst etwa alle 30 Sekunden, und bei jedem Test durch dich oder einen Agenten, welche öffentliche IP-Adresse der Proxy zeigt. Die Anfrage läuft über den Proxy, ipify sieht also dessen Adresse.
 - **WebView2-Laufzeit — Microsoft.** Nur wenn die Browser-Engine fehlt oder beschädigt ist, lädt Nova sie von Microsoft.
+- **Favoriten-Symbole — die Websites deiner Favoriten.** Für einen Favoriten ohne Symbol fragt Nova die Website dieses Favoriten nach ihrem Symbol (Startseite und `/favicon.ico`): nach einem Lesezeichen-Import, höchstens einmal am Tag für Favoriten, die noch keins haben, und wenn du im Favoriten-Panel **Favicons erneuern** wählst. Die Anfrage läuft über deinen Proxy, ohne Cookies; das Symbol wird auf deinem Computer gespeichert. Beim Import aus Chrome oder Edge übernimmt Nova zuerst die Symbole, die dieser Browser schon auf deinem Computer gespeichert hat, ohne jede Anfrage. Das automatische Laden schaltest du über das Zahnrad im Favoriten-Panel ab (**Fehlende Favicons laden**).
 
 Die Websites, die du in Nova öffnest, kontaktiert die Browser-Engine wie in jedem Browser; dieser Verkehr ist von dieser Liste nicht erfasst.
+
+**Kennung für Agenten** (ab Version 1.0.0-alpha.21, noch nicht veröffentlicht). Auf Seiten, die du unter Einstellungen → Datenschutz & Sicherheit → **Kennung für Agenten** einträgst (Amazon steht von Anfang an drin), kann ein Agent Nova bitten, seinen Tab als Agent zu kennzeichnen. Die Anfragen dieses Tabs tragen dann `Agent/NovaAIWorkspace` in der Browser-Kennung (User-Agent), auch Anfragen der Seite an andere Websites, bis der Agent es beendet, der Tab geschlossen wird oder auf eine nicht eingetragene Seite wechselt. Sonst wird nichts hinzugefügt, und kein Tab wird gekennzeichnet, ohne dass ein Agent darum bittet.
 
 ### Drittanbieter-KI-Provider
 
@@ -490,6 +502,14 @@ nicht speichern kann. Nova kann es (Einstellungen > Allgemein > Downloads, stand
   Download-Ordner
 - **Geschützte Videos werden nie gespeichert:** Verschlüsselte und kopiergeschützte Streams lehnt
   Nova ab, bevor etwas heruntergeladen wird
+- **Mitschneiden während der Wiedergabe, nur nach deiner Zustimmung:** Lassen sich die Teile nicht
+  erneut laden (manche Seiten signieren jeden Teil für einen einzigen Abruf), kann Nova anbieten, das
+  Video während der Wiedergabe mitzuschneiden. Erst wenn du zustimmst, lädt Nova die Seite neu und
+  spielt das Video von vorn; die Teile, die die Seite ihrem Player übergibt, landen in einem
+  temporären Ordner auf deinem Rechner, werden zu einer Datei in deinem Download-Ordner
+  zusammengesetzt, und die temporären Dateien werden gelöscht. Nichts wird irgendwohin gesendet.
+  Abbrechen verwirft das Aufgenommene; einen unvollständigen Mitschnitt behält Nova nur, wenn du ihn
+  speichern willst
 
 ### TLS-Prüfung
 

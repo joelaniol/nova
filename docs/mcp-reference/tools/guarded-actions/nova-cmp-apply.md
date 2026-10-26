@@ -1,6 +1,6 @@
 # `nova.cmp_apply`
 
-Applies a typed privacy consent policy directly through recognized Consent Management Platform (CMP) vendor JavaScript APIs (OneTrust, Sourcepoint, Cookiebot), verifying consent vector state before and after execution.
+Applies a typed privacy consent policy directly through recognized Consent Management Platform (CMP) vendor JavaScript APIs (OneTrust, Sourcepoint, Cookiebot, Usercentrics v3), verifying consent vector state before and after execution.
 
 ---
 
@@ -9,11 +9,11 @@ Applies a typed privacy consent policy directly through recognized Consent Manag
 Dismissing cookie consent dialogs through naive UI clicking is fragile: consent banners frequently embed cross-origin iframes (e.g. Sourcepoint TCF v2), employ multi-step accordion settings, or render non-standard custom checkboxes.
 
 `nova.cmp_apply` interfaces directly with the CMP's programmatic JavaScript APIs:
-* **Supported CMP Vendors:** OneTrust, Sourcepoint (TCF v2), and Cookiebot (`window.Cookiebot.submitCustomConsent`).
-* **ConsentStateVector Verification:** Reads the vendor's consent state before and after the call (framework, CMP id/version, TCF purpose flags, OneTrust group states, or Cookiebot category flags, depending on the detected vendor) and compares them to decide whether the intent was actually applied.
+* **Supported CMP Vendors:** OneTrust, Sourcepoint (TCF v2), Cookiebot (`window.Cookiebot.submitCustomConsent`) and the Usercentrics Browser CMP v3 (`window.__ucCmp`; the reject also closes the banner). Usercentrics v2 (`#usercentrics-root` only) answers `no_adapter`.
+* **ConsentStateVector Verification:** Reads the vendor's consent state before and after the call (framework, CMP id/version, TCF purpose flags, OneTrust group states, Cookiebot category flags, or the Usercentrics consent type and category states, depending on the detected vendor) and compares them to decide whether the intent was actually applied.
 * **Autonomous-Safe Default (`RejectOptional`):** Rejects advertising, analytics, and marketing cookies while preserving strictly necessary operational cookies.
 * **AcceptAll Currently Blocked:** `intent.mode: "AcceptAll"` is rejected outright for every automated call (JSON-RPC error `-32035`, `failureCode: "accept_all_blocked"`) because the verification needed to trust a per-site accept claim is not wired up yet. Use `RejectOptional`, or let the human user accept all cookies manually in the banner.
-* **User Choice Preservation:** For OneTrust and Cookiebot, if the pre-state already shows an explicit prior user accept of an optional category, Nova preserves it (`user_choice_preserved`) instead of overriding it with `RejectOptional`. TCF/Sourcepoint state cannot currently be decoded well enough to detect this, so that vendor always applies the requested intent.
+* **User Choice Preservation:** For OneTrust, Cookiebot and Usercentrics, if the pre-state already shows an explicit prior user accept of an optional category, Nova preserves it (`user_choice_preserved`) instead of overriding it with `RejectOptional`. TCF/Sourcepoint state cannot currently be decoded well enough to detect this, so that vendor always applies the requested intent.
 
 * **Cross-Origin Iframe Awareness:** For Sourcepoint, the `__tcfapi` function it relies on commonly lives in the top frame even when the consent UI itself renders inside a cross-origin iframe.
 * **Automatic Fallback:** If no recognized CMP adapter is detected (`failureCode: "no_adapter"`), agents fall back to visual blocker dismissal via [`nova.dismiss_blockers`](nova-dismiss-blockers.md).

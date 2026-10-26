@@ -65,6 +65,7 @@ flowchart TD
    * `clickCount = 3`: Triple-click (selects entire paragraphs or code lines).
 4. **Hardware Frame Delay (~16 ms):** Nova enforces a calibrated ~16 ms delay (corresponding to one screen refresh frame at 60 Hz) between press and release. Web applications measuring press-to-release duration (to differentiate clicks from dragging) register the gesture as a valid click.
 5. **Button Release (`mouseReleased`):** Emits the release event, completing the physical click cycle and firing `click` handlers.
+6. **Traffic & Navigation Observation (`observe`):** Action tools (`nova.click_selector`, `nova.input_click`, `nova.input_key`, `nova.type_selector`, `nova.select_option`, `nova.choose_option`) accept `observe={...}` to monitor network requests (fetch, XHR, WebSocket), single-page navigation transitions, and post-action element states within the same tool call, eliminating roundtrips and separate read invocations.
 
 ---
 

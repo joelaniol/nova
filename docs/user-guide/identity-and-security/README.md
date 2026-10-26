@@ -50,6 +50,7 @@ Explore the comprehensive guides covering each facet of Nova's identity and secu
 | **[Passwords & Vault](passwords-and-vault.md)** | Credential Protection | Local DPAPI encryption, password vault management, Windows Hello biometric prompts, form autofill, and secure secret injection for agents without exposing plaintext keys to LLM contexts. |
 | **[Proxies & Network Routing](proxies.md)** | Egress & Privacy | Dedicated per-sandbox proxies (HTTP, HTTPS, SOCKS5), WebRTC private IP leak prevention, PAC script support, live connection logging, and DNS leak shielding. |
 | **[Website & Agent Permissions](permissions.md)** | Access Control & Gates | The dual-pillar model separating origin device access (camera, microphone, speaker routing, location) from agent autonomy levels (*Fully automatic*, *Semi-automatic*, *Supervised*), guarded actions, and session grants. |
+| **[Agent Identification](agent-identification.md)** | Telling Sites an Agent Acts | Lets an agent mark its own tab as an agent on sites you list (such as Amazon, which asks for it), with your normal browser identity unchanged everywhere else. |
 | **[Certificates, Auth & Prompts](certificates-and-auth.md)** | System & Native Dialogs | The 3-plane dialog engine: resolving HTTP 401 Basic/Digest challenges, handling untrusted SSL/TLS certificate warnings, selecting enterprise mTLS client certificates, native Win32 file pickers, and download security guards. |
 
 ---

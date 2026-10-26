@@ -18,6 +18,7 @@ Stops in-tab media capture, flushes pending segments, closes the per-track files
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `targetId` | `string` | No | `"active"` | — | Target ID of the capturing tab, or 'active' / 'activeBrowserTab'. |
+| `assemble` | `boolean` | No | `false` | — | Also join the reconstructed streaming parts into one MP4 (picture and sound together). Off by default: the raw per-SourceBuffer files and the reconstruction verdict come either way. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 

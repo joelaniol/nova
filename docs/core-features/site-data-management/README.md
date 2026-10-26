@@ -35,7 +35,7 @@ flowchart TD
         WebViewCookie["Native WebView2 Cookie Manager<br/>(Includes HttpOnly Cookies)"]
         DomStorage["Origin-Bound DOM Storage Engine<br/>(localStorage & sessionStorage)"]
         DiskCache["Chromium Profile Cache & Quota Engine<br/>(diskCache, cacheStorage, IndexedDB)"]
-        CmpEngine["Programmatic CMP Vector Adapter<br/>(OneTrust, Sourcepoint, Cookiebot)"]
+        CmpEngine["Programmatic CMP Vector Adapter<br/>(OneTrust, Sourcepoint, Cookiebot, Usercentrics v3)"]
     end
 
     UserUI --> TargetResolve

@@ -88,6 +88,7 @@ Transferring source trees, configuration repositories, or documentation director
 ### Phase 4: Atomic Commit State Machine
 To guarantee that incomplete downloads or uploads are never consumed as valid files:
 * Data streams into a dedicated staging file (`<filename>.part`).
+* **Optional Remote SHA-256 Verification (`verifySha256`):** When `verifySha256=true` is requested on `nova.sftp_get` or `nova.sftp_put`, Nova verifies the completed file against `sha256sum` executed on the remote server over a second SSH channel on the same connection before initiating the rename. If hashes disagree, the partial file is purged and the transfer reports `checksum_mismatch`.
 * Once payload transfer and size verification succeed, Nova writes a durable `CommitIntent` to SQLite before initiating the filesystem rename.
 * **Post-Crash Recovery Rules:**
   * **`RenameAgain`:** The `.part` file is intact and the destination path is free. The engine performs the atomic rename.
@@ -107,8 +108,9 @@ Transfer state is continuously committed to a SQLite database residing in Nova's
 | **Time Cadence** | Every **5 seconds** (`CheckpointInterval`) | Guarantees progress persistence even on low-bandwidth connections. |
 | **Network Retry** | Up to **5 automatic retries** | Exponential backoff with jitter on dropped sockets or transient disconnects. |
 | **Host-Key Re-Verification** | Every reconnect | Every new socket connection re-evaluates the human-approved host-key fingerprint. |
+| **Startup Continuity** | ~30 seconds after start | Interrupted transfers resume automatically under original workspace and sandbox scope when connection permissions allow unattended execution. |
 
-If Nova is closed, the host machine restarts, or the remote server disconnects during a multi-gigabyte transfer, re-invoking the original command attaches to the existing job and resumes immediately from the latest validated checkpoint.
+If Nova is closed, the host machine restarts, or the remote server disconnects during a multi-gigabyte transfer, re-invoking the original command attaches to the existing job and resumes immediately from the latest validated checkpoint. Unattended transfers continue automatically after browser startup.
 
 ---
 

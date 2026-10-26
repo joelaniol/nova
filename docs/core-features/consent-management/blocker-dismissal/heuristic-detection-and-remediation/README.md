@@ -109,6 +109,12 @@ For obfuscated or unclassed wrappers, Nova evaluates physical geometry via `getB
 * **Viewport Coverage:** Element area covers $> 30\%$ of the active viewport area ($W \times H$).
 * **Hit-Testing Interception:** Calls `document.elementFromPoint(centerX, centerY)` to verify that the element intercepts pointer events directed at underlying content.
 
+### Open Shadow-Root Traversal
+Modern web components and third-party consent providers (such as Usercentrics v3 `#usercentrics-cmp-ui`) encapsulate modal barriers and consent dialogs inside open shadow roots (`element.shadowRoot`). Nova's structural scan recursively inspects open shadow DOM boundaries across all three priority tiers:
+* Evaluates semantic ARIA attributes and custom elements within shadow trees.
+* Discovers and scores polarity on interactive buttons inside encapsulated shadow DOM.
+* Applies geometric overlay hit-testing across shadow boundary roots, ensuring complete dismiss action coverage before falling back to aggressive styling overrides.
+
 ---
 
 ## 4. Remediation Modes: Conservative vs. Aggressive

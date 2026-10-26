@@ -12,7 +12,7 @@ Enterprise websites deploy standardized Consent Management Platforms to comply w
 Naive visual button-clicking frequently fails against these systems because DOM mutations do not guarantee internal state transitions, and dark patterns frequently mislead text-matching algorithms.
 
 The Nova CMP Engine provides:
-1. **Direct Runtime API Dispatch:** Direct invocation of vendor methods (`window.OneTrust.RejectAll()`, `__tcfapi('postRejectAll', 2, ...)`, `window.Cookiebot.submitCustomConsent()`).
+1. **Direct Runtime API Dispatch:** Direct invocation of vendor methods (`window.OneTrust.RejectAll()`, `__tcfapi('postRejectAll', 2, ...)`, `window.Cookiebot.submitCustomConsent()`, `window.__ucCmp.denyAllConsents()`).
 2. **Deterministic 8-Step Pipeline:** Strict sequencing from settings evaluation and ordered adapter detection to settle debouncing and Serilog auditing.
 3. **Cryptographic State Verification:** Capture and comparison of typed `ConsentStateVector` snapshots with anti-spoofing provenance validation.
 4. **Autonomous Safety Gate:** Unconditional rejection of commercial tracking acceptance (`AcceptAll` error `-32035`).
@@ -25,7 +25,7 @@ The CMP Engine architecture is detailed across specialized subguides:
 
 | Architecture Guide | Focus Areas & Key Invariants | Primary Components |
 | :--- | :--- | :--- |
-| **[Execution Pipeline & Vendor Adapters](execution-pipeline-and-adapters/README.md)** | The 8-stage execution pipeline, ordered adapter detection priority (Sourcepoint $\rightarrow$ Cookiebot $\rightarrow$ OneTrust), runtime protocols, cryptographic TC string hashing, and event bus listener guards. | `McpCmpApplyHandler`<br>`CmpAdapterRegistry`<br>`SourcepointAdapter`<br>`CookiebotAdapter`<br>`OneTrustAdapter` |
+| **[Execution Pipeline & Vendor Adapters](execution-pipeline-and-adapters/README.md)** | The 8-stage execution pipeline, ordered adapter detection priority (Sourcepoint $\rightarrow$ Cookiebot $\rightarrow$ Usercentrics $\rightarrow$ OneTrust), runtime protocols, cryptographic TC string hashing, and event bus listener guards. | `McpCmpApplyHandler`<br>`CmpAdapterRegistry`<br>`SourcepointAdapter`<br>`CookiebotAdapter`<br>`OneTrustAdapter` |
 | **[Consent State & Safety Gates](consent-state-and-safety-gates/README.md)** | Ground-truth verification via `ConsentStateVector`, anti-spoofing data provenance (`OneTrust.GetDomainData().Groups`), strongly-typed `ConsentIntent`, autonomous `AcceptAll` barrier (-32035), user choice preservation, and visual hidden probing. | `ConsentStateVector`<br>`ConsentIntent`<br>`OneTrustGroupsFromDomainData`<br>`CmpHideList`<br>`bannerVisuallyHidden` |
 
 ---
@@ -43,12 +43,14 @@ flowchart TD
         subgraph Registry["Ordered Adapter Detection Sequence"]
             Stage2 --> Det1{"1. Sourcepoint (TCF cmpId == 6)"}
             Det1 -- "No" --> Det2{"2. Cookiebot (submitCustomConsent)"}
-            Det2 -- "No" --> Det3{"3. OneTrust (window.OneTrust)"}
+            Det2 -- "No" --> DetUc{"3. Usercentrics v3 (window.__ucCmp)"}
+            DetUc -- "No" --> Det3{"4. OneTrust (window.OneTrust)"}
             Det3 -- "No" --> DetFail["failureCode: 'no_adapter'\nnextAction: 'fallback_dismiss_blockers'"]
         end
 
         Det1 -- "Yes" --> SelectedAdapter["Active Vendor Adapter Selected"]
         Det2 -- "Yes" --> SelectedAdapter
+        DetUc -- "Yes" --> SelectedAdapter
         Det3 -- "Yes" --> SelectedAdapter
 
         SelectedAdapter --> Stage3["3. Semantic Preflight Validation"]

@@ -110,7 +110,19 @@ Understanding the technical boundaries of browser identity emulation is essentia
 
 ---
 
-## 6. Granular Identity API
+## 6. Explicit Agent Identification (`identifyAsAgent`)
+
+Where web origins require or encourage automated agents to declare themselves transparently, Nova supports explicit identification via [`nova.emulation_set_user_agent`](../../../../mcp-reference/tools/device-emulation/nova-emulation-set-user-agent.md):
+
+* **Transparent Token:** Setting `identifyAsAgent=true` appends `Agent/NovaAIWorkspace` to the browser's native User-Agent string, preserving genuine Chromium engine signatures while advertising autonomous operation.
+* **Operator Whitelist:** Explicit identification is restricted to domains enumerated by the human user in `agentIdentificationSites` (read-only for agents via `nova.app_settings_get`). Calls on unlisted sites are refused.
+* **Tab-Scoped Lifetime:** The override remains active only on the targeted tab. It automatically clears (`identifyAsAgent=false`) upon navigating away from the whitelisted site or closing the tab.
+* **Humanized Input Guard:** While agent identification is active, synthetic humanization tools (such as `nova.input_drag_humanized`) are strictly rejected (`agent_identified`) to maintain compliance and avoid mimicking human motor jitter.
+* **Service Worker Concurrency (`sharedSessionTabs`):** Chromium routes background service worker requests at the origin level across all tabs in the session. Because service workers inherit the identified tab's user-agent token, Nova returns `sharedSessionTabs` naming other open tabs of that origin, allowing the agent to move to an isolated tab if clean separation is required.
+
+---
+
+## 7. Granular Identity API
 
 Agents manage identity profiles through the `site-data-and-identity` tool suite:
 
@@ -119,10 +131,11 @@ Agents manage identity profiles through the `site-data-and-identity` tool suite:
 | [`nova.identity_presets`](../../../../mcp-reference/tools/site-data-and-identity/nova-identity-presets.md) | Lists available identity presets and their metadata. | Discovering supported browser profiles before starting a task. |
 | [`nova.identity_set`](../../../../mcp-reference/tools/site-data-and-identity/nova-identity-set.md) | Applies an identity preset to a tab or sandbox. | Switching the active profile to `chrome` for autonomous web scraping. |
 | [`nova.identity_get`](../../../../mcp-reference/tools/site-data-and-identity/nova-identity-get.md) | Reads the current identity configuration of a tab. | Verifying that active User-Agent and Client Hints match expected personas. |
+| [`nova.emulation_set_user_agent`](../../../../mcp-reference/tools/device-emulation/nova-emulation-set-user-agent.md) | Configures custom User-Agent strings or enables explicit agent identification. | Declaring agent identity on whitelisted corporate or research endpoints. |
 
 ---
 
-## 7. Related Documentation
+## 8. Related Documentation
 
 * [Hardware Noise & Canvas Fingerprint Protection](../hardware-noise-and-canvas-protection/README.md): Canvas 2D, Web Audio, and WebGL noise injection.
 * [Fingerprint Protection & Identity Hub](../README.md): High-level taxonomy and threat model.

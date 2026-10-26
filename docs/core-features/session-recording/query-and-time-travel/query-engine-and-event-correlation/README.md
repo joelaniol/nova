@@ -70,6 +70,14 @@ In a standard web session, `network.cdp.jsonl` contains hundreds or thousands of
 | **`vaultMatched`** | boolean | Filters for requests where Vault credentials were redacted. |
 | **`limit`** | integer | Caps result array size (default: 50, max: 200). |
 
+### Child Target & Worker Execution Contexts
+Modern web applications delegate data synchronization to dedicated Web Workers and embed third-party services in cross-site `iframe` elements. Standard devtools recording often loses visibility into these child sessions.
+
+Nova's session recorder automatically attaches Network instrumentation to all child targets (existing targets at start and new targets attached while paused). When queried via `nova.session_record_query`, each matched row in `entries` reports its exact execution context:
+* **`context`:** `"page"` for the main frame, `"worker"` for dedicated Web Workers, or `"iframe"` for cross-site embedded frames.
+* **`contextUrl`:** The worker script URL (e.g. `https://example.com/worker.js`) or embedded frame URL.
+* **`sessionId`:** Unique CDP child session identifier. Request and response bodies are captured and read directly from the child session in which the HTTP transaction occurred.
+
 ---
 
 ## 3. Deep Request Lifecycle Inspection with `nova.session_record_get_entry`

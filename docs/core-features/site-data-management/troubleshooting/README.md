@@ -94,7 +94,7 @@ Instead of attempting fragile visual clicks against dynamic DOM elements, use No
    }
    ```
 2. **How It Works:**
-   * Automatically detects vendor framework APIs (OneTrust, Sourcepoint TCF v2, Cookiebot).
+   * Automatically detects vendor framework APIs (OneTrust, Sourcepoint TCF v2, Cookiebot, Usercentrics Browser CMP v3).
    * Verifies the consent vector (`ConsentStateVector`) before and after execution to confirm optional tracking was disabled.
    * Handles cross-origin iframes (e.g. Sourcepoint on German media portals).
 3. **The `AcceptAll` Invariant:**

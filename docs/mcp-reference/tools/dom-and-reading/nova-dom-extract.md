@@ -46,8 +46,10 @@ The `properties` array accepts any combination of the following 16 fixed propert
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
 | `selector` | `string` | Yes | — | 1–10000 characters | Required CSS selector. Supports the ' >>> ' combinator for open Shadow DOM boundaries. |
-| `properties` | `array` of `string` | Yes | — | 1–16 items | Fixed read-only fields to extract in the requested order. Unsupported names are rejected instead of evaluated as JavaScript. |
-| `maxItems` | `integer` | No | `20` | 1–100 | Maximum matching elements returned in document order. Over-limit runtime fallbacks are clamped to 100 and reported through limits.maxItems. |
+| `properties` | `array` of `string` | No | — | 1–16 items | Fixed read-only fields of each matched element itself, in the requested order. Unsupported names are rejected instead of evaluated as JavaScript. Optional when fields is given. |
+| `fields` | `object` | No | — | — | Parts INSIDE each matched element, as {name: spec}. spec 'css' = text of the first match inside the element; 'css@property' = one of the properties (text, value, checked, selected, disabled, href, src, title, ariaLabel, role, tagName, id, className, attributes, rect, visible) or attr:<name> of that match; '@property' = the element itself. Each row's values carry the field names. |
+| `offset` | `integer` | No | `0` | 0–100000 | Skip this many matches before returning; pass the previous nextOffset to read the next page. |
+| `maxItems` | `integer` | No | `20` | 1–500 | Maximum matching elements returned in document order (up to 500). hasMore and nextOffset say when more matched. |
 | `maxChars` | `integer` | No | `20000` | 1000–200000 | Maximum total characters across returned string values. Structural JSON overhead is not counted; truncation is reported truthfully. |
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
