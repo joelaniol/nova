@@ -48,7 +48,7 @@ If multiple visible elements match the selector and `strict: true` is passed, No
 | `observe.urlContains` | `string` | No | — | ≤ 500 characters | List only requests whose URL contains this text (counts still cover all). |
 | `observe.maxRequests` | `integer` | No | `20` | 1–100 | Most requests listed; requestsOmitted counts the rest. |
 | `observe.after` | `object` | No | — | — | Read an element once the traffic settled, like nova.dom_extract: {selector, properties}. |
-| `activateIfNeeded` | `boolean` | No | `true` | — | For an explicit inactive targetId: briefly bring that tab to the front for the click (default true). Never retargets 'active', never foregrounds the window. |
+| `activateIfNeeded` | `boolean` | No | `true` | — | For an explicit inactive targetId: briefly bring that tab to the front for the click (default true); the person sees that tab for the moment of the click. Never retargets 'active', never foregrounds the window. |
 | `restoreActiveTarget` | `boolean` | No | `true` | — | After such an activation and a clear non-navigating success, give the user's previous tab back (default true). |
 | `selector` | `string` | No | — | — | CSS selector; ' >>> ' pierces shadow DOM (e.g. 'my-comp >>> .btn'). |
 | `frameId` | `string` | No | — | — | Click inside an iframe: frames[] or opaqueFrames[] frameId from nova.perceive(deep=true). Not with ctaRef. Other-site frames can be switched off by the user (frame.cross_origin_interaction_off); scaled/rotated/nested ones return unsupported_frame_geometry. |
@@ -65,11 +65,12 @@ If multiple visible elements match the selector and `strict: true` is passed, No
 | `navigationStrict` | `boolean` | No | `false` | — | With waitForNavigation: ok only if the navigation happened too. |
 | `strict` | `boolean` | No | `false` | — | Click only if exactly one visible element matches; otherwise refuse (selector.ambiguous / selector.uniqueness_unverified), nothing clicked. Default: click best visible match and warn. |
 | `expectText` | `string` | No | — | 1–300 characters | Click the element that reads this text (visible text, else aria-label/value/title; case and spacing ignored). When the selector matches several, Nova picks the one with this text - a whole-label match wins over partial ones - so 'li > button' plus expectText clicks one entry of a list. None reads it: selector.text_mismatch; several do: selector.text_ambiguous; nothing clicked either way. Also guards buttons that share generic classes ('Move to list' vs 'Delete selected'). Selector clicks only, not ctaRef. |
-| `expectTextExact` | `boolean` | No | `false` | — | With expectText: the whole text must equal it instead of containing it. |
+| `expectTextExact` | `boolean` | No | `false` | — | With expectText or expectTextAny: the whole text must equal it instead of containing it. |
+| `expectTextAny` | `array` of `string` | No | — | 1–10 items | Like expectText, for an element whose label changes: any one of these texts is enough, e.g. ['Choose your category', 'Choose another category'] for a link that reads differently once suggestions load. Can be combined with expectText. |
 | `waitForNavigationTimeoutMs` | `integer` | No | `5000` | 0–30000 | Max ms to wait for navigation (0-30000). |
 | `includeScreenshot` | `boolean` | No | `false` | — | Add a screenshot after navigation. Optional sidecar: if only the capture fails (screenshotStatus/screenshotReasonCode), the click result still stands - do not repeat the click. |
 | `screenshotPolicy` | `string` | No | `"smart"` | `smart`, `always`, `on_failure`, `on_partial_or_failure`, `off` | With includeScreenshot: smart (failures always, successes sampled) \| always \| on_failure \| on_partial_or_failure \| off. |
-| `screenshotMaxWidth` | `integer` | No | — | — | Max screenshot width px. |
+| `screenshotMaxWidth` | `integer` | No | — | — | Max screenshot width px. Above 512 (or screenshotMaxHeight above 320) the screenshot comes inline at that size instead of as a 512 px thumbnail plus resource link. |
 | `screenshotMaxHeight` | `integer` | No | — | — | Max screenshot height px. |
 | `screenshotFormat` | `string` | No | `"png"` | `png`, `jpeg`, `auto` | png (default) \| jpeg \| auto. |
 | `screenshotQuality` | `integer` | No | `80` | 1–100 | JPEG quality 1-100. |

@@ -14,6 +14,8 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 
 [Gemini code-review reliability](research/gemini/nova-code-review/README.md) — 552 findings separately counterchecked by another agent, outcome charts and a timeline alongside project growth.
 
+[What the agents say](agent-reviews.md) — reviews AI agents wrote after a real working session in Nova, quoted as written.
+
 ## Complete reference
 
 <details>

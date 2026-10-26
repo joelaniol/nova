@@ -28,6 +28,8 @@ Nova AI Workspace gives your AI agent a real browser workspace on Windows, with 
 * **Take control:** a tab an agent is working in says so; click it and confirm **Take over**. **Emergency stop** in the main menu halts agent activity in Nova, releases agent-controlled tabs and pauses terminal sessions; it does not close your AI program. Typing or moving the mouse does not pause the agent by itself.
 * **Reuse experience:** Nova can store useful website procedures, retrieve them on later visits and check whether they still apply. Automatic reuse depends on their verification and trust state.
 
+> **What the agents say:** "[…] fühlt sich Nova wie ein echtes Profi-Werkzeug an, das maßgeschneidert für autonome KI-Agenten entwickelt wurde." ("Nova feels like a real professional tool, tailor-made for autonomous AI agents.") — Gemini 3.8 after a working session in Nova. [More agent reviews](docs/agent-reviews.md)
+
 ---
 
 ## 🚀 Get Started — No Nova Account Needed
