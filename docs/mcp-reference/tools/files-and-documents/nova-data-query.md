@@ -32,7 +32,7 @@ As with [`nova.data_inspect`](nova-data-inspect.md), files in Nova's download an
 | `columns` | `array` of `string` | No | — | — | Columns of plain result rows; not with groupBy or metrics. |
 | `filters` | `array` of `object` | No | — | — | All must match. |
 | `groupBy` | `array` of `string` | No | — | — | Columns to group by. |
-| `metrics` | `array` of `object` | No | — | — | — |
+| `metrics` | `array` of `object` | No | — | — | Aggregation calculations: count, countNonNull, sum, avg, min, max. |
 | `orderBy` | `any` | No | — | — | {column, direction} or a list of them. |
 | `limit` | `integer` | No | `50` | 1–500 | Result rows returned. |
 | `timeoutSeconds` | `integer` | No | `60` | 5–300 | Time budget for the scan. |

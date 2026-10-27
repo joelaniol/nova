@@ -42,19 +42,19 @@ The defaults aim at a chart you can use as it is: colours that people with colou
 <!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
-| `type` | `string` | Yes | — | `bar`, `column`, `line`, `area`, `scatter`, `pie`, `donut` | — |
+| `type` | `string` | Yes | — | `bar`, `column`, `line`, `area`, `scatter`, `pie`, `donut` | Chart type: column, bar, line, area, scatter, pie, or donut. |
 | `data` | `array` of `object` | No | — | — | Rows as objects; not with sourcePath. |
 | `sourcePath` | `string` | No | — | — | Absolute path to a .csv, .tsv, .xlsx, .xlsm or .json file; not with data. |
 | `sheet` | `string` | No | — | — | Excel sheet; default the first visible one. |
 | `xKey` | `string` | No | — | — | Category or x column; default the first column. |
 | `yKey` | `string` | No | — | — | Value column; default the second column. |
 | `series` | `array` of `string` | No | — | — | Several value columns, one series each; replaces yKey. |
-| `title` | `string` | No | — | — | — |
+| `title` | `string` | No | — | — | Optional chart title displayed above the plot. |
 | `xLabel` | `string` | No | — | — | Title of the category / x axis. |
 | `yLabel` | `string` | No | — | — | Title of the value axis. |
-| `width` | `integer` | No | `1200` | 200–4000 | — |
-| `height` | `integer` | No | `675` | 150–4000 | — |
-| `theme` | `string` | No | `"light"` | `light`, `dark`, `auto` | — |
+| `width` | `integer` | No | `1200` | 200–4000 | Target image width in pixels (default 1200). |
+| `height` | `integer` | No | `675` | 150–4000 | Target image height in pixels (default 675). |
+| `theme` | `string` | No | `"light"` | `light`, `dark`, `auto` | Visual theme: light (default) or dark. |
 | `format` | `string` | No | — | `png`, `svg` | Default: from outputPath, else png. |
 | `outputPath` | `string` | No | — | — | Absolute path of the new file (.png or .svg). Default: Exports/Charts. |
 

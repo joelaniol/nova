@@ -31,8 +31,8 @@ Without `outputPath` the workbook goes into Nova's Exports folder; a path of you
 | `sourcePath` | `string` | No | — | — | Absolute path to a .csv, .tsv, .xlsx or .xlsm file, instead of sheets. |
 | `sheet` | `string` | No | — | — | With an Excel sourcePath: the input sheet; default the first visible one. |
 | `sheetName` | `string` | No | — | — | With sourcePath: the name of the output sheet; default the file name. |
-| `autoFormat` | `boolean` | No | `true` | — | — |
-| `currencySymbol` | `string` | No | `"\u20AC"` | — | — |
+| `autoFormat` | `boolean` | No | `true` | — | Apply bold header row, frozen pane, filter buttons, and column auto-widths (default true). |
+| `currencySymbol` | `string` | No | `"\u20AC"` | — | Currency symbol used when formatting monetary numbers (default €). |
 | `openInTab` | `boolean` | No | `false` | — | After writing, show the workbook in Nova's read-only table view in a new active tab; the result gains openedInTab {opened, targetId, reasonCode}. |
 | `fitToData` | `boolean` | No | `false` | — | With openInTab: once loaded, zoom the tab (Nova's own page zoom, session only, 100 % to 200 %) so the used cells fill the window, keeping two empty columns and rows of grid around them - for screenshots and recordings of small tables. |
 | `outputPath` | `string` | No | — | — | Absolute path of the new .xlsx; must not exist. Needs the user's 'Allow local files' setting. Omit for Nova's Exports folder. |

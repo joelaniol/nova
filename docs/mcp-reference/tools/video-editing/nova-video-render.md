@@ -74,9 +74,9 @@ Common refusals: `export.no_recording`, `export.still_recording` (stop the recor
 | `captionsFromMarks` | `boolean` | No | `false` | — | Instead of captions: one caption per mark of the recording (nova.screen_record_mark) - its caption, or its label when that is up to 40 characters - from the mark until the next one (at most 4 s). Mark the moments once with a short caption and the clip writes them. Needs evidence=true. |
 | `endCard` | `object` | No | — | — | GIF, WebM and MP4: a closing card after the last frame - the last frame dimmed, text large in the middle, subtext smaller below, shown for holdMs. |
 | `endCard.text` | `string` | Yes | — | ≤ 80 characters | The closing line; on the grid's card up to three lines, each started with a line break (\n) where you want it. |
-| `endCard.subtext` | `string` | No | — | ≤ 80 characters | — |
+| `endCard.subtext` | `string` | No | — | ≤ 80 characters | Supporting line or URL below the main text on the end card. |
 | `endCard.accent` | `string` | No | — | ≤ 80 characters | The grid's card: one word or phrase of text in the accent colour, green with tone='verified' (e.g. text='Research in.\nExcel out.\nChecked.', accent='Checked.'). |
-| `endCard.holdMs` | `integer` | No | `2500` | 500–10000 | — |
+| `endCard.holdMs` | `integer` | No | `2500` | 500–10000 | Duration in milliseconds to hold the end card on screen (default 2500). |
 | `endCard.tone` | `string` | No | — | `verified` | Styled look: 'verified' turns the card's accent line green. Only when the clip shows a check that really ran (e.g. the agent read the result back), never as decoration. |
 | `endCard.logo` | `string` | No | — | — | The grid's card: a logo left of the wordmark (header) - 'nova' for Nova's own symbol, or the absolute path of your PNG (transparent margins are trimmed; outside Nova's recordings folder it needs 'Allow local files'). |
 | `endCard.cta` | `string` | No | — | ≤ 40 characters | The grid's end card (styled 4:5 with chapters): what to do next, drawn as a button, e.g. 'Try the free alpha →'. |

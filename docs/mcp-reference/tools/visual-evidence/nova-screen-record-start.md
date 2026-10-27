@@ -63,10 +63,10 @@ Common refusals: `video.already_recording`, `video.source_minimized`, `video.for
 | `selector` | `string` | No | — | — | With area=element: CSS selector of a visible element on the shown tab (refused with video.element_not_found or video.area_not_visible when it is missing or scrolled away). |
 | `follow` | `boolean` | No | `false` | — | With area=element: the video follows the element when it moves or changes size (measured about ten times a second; the video frame keeps its size and the element is fitted in). While the element is gone or scrolled away the frames are black - never its surroundings. The result's follow says how often it moved and how many frames were black. |
 | `region` | `object` | No | — | — | With area=region: rectangle in CSS pixels of the visible page (as nova.get_element_rect reports them). |
-| `region.x` | `number` | Yes | — | — | — |
-| `region.y` | `number` | Yes | — | — | — |
-| `region.width` | `number` | Yes | — | — | — |
-| `region.height` | `number` | Yes | — | — | — |
+| `region.x` | `number` | Yes | — | — | Left coordinate of the region in CSS pixels. |
+| `region.y` | `number` | Yes | — | — | Top coordinate of the region in CSS pixels. |
+| `region.width` | `number` | Yes | — | — | Width of the region in CSS pixels. |
+| `region.height` | `number` | Yes | — | — | Height of the region in CSS pixels. |
 | `finalize` | `string` | No | `"compatible"` | `compatible`, `fragmented` | What the file becomes after the recording. compatible: a classic MP4 that every player, editor and upload form takes (the recording is rewritten after the stop, which costs a copy of the file). fragmented: kept as recorded - plays in browsers and Windows, but some editors refuse it. While recording the file is always fragmented, so a crash keeps what was recorded. |
 | `saveDir` | `string` | No | — | — | Absolute folder for the video. Omit to use Nova's Exports folder; any other folder needs 'Allow local files'. |
 | `fileName` | `string` | No | — | ≤ 80 characters | File name without extension; default recording-<UTC time>. A taken name gets -2, -3 ... |

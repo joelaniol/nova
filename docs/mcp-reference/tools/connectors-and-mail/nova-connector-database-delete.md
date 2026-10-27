@@ -54,3 +54,11 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
   }
 }
 ```
+
+---
+
+## 4. Related Tools
+
+* [`nova.db_query`](nova-db-query.md) — Queries databases over SSH without password exposure
+* [`nova.connector_database_set`](nova-connector-database-set.md) — Adds or updates database connection profiles
+* [`nova.connector_list`](nova-connector-list.md) — Lists connections and database entries

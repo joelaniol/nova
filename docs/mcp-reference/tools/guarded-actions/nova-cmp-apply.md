@@ -29,14 +29,14 @@ Dismissing cookie consent dialogs through naive UI clicking is fragile: consent 
 | `agentId` | `string` | No | — | — | Agent identifier (used for audit trail; optional). |
 | `intent` | `object` | No | — | — | Typed consent intent. Omit to use the default cookie choice from Nova's settings. |
 | `intent.mode` | `string` | No | — | `RejectOptional`, `AcceptAll`, `OpenManage`, `PreserveExisting`, `Revoke` | Consent mode. RejectOptional = strict-necessary only (autonomous-safe default). AcceptAll is always refused (the user accepts manually). PreserveExisting = no-op verify (returns the current ConsentStateVector without mutating). OpenManage/Revoke are reserved values and rejected. |
-| `intent.allowStrictNecessary` | `boolean` | No | — | — | — |
-| `intent.allowPreferences` | `boolean` | No | — | — | — |
-| `intent.allowStatistics` | `boolean` | No | — | — | — |
-| `intent.allowMarketing` | `boolean` | No | — | — | — |
-| `intent.objectToLegitimateInterest` | `boolean` | No | — | — | — |
-| `intent.doNotSellOrShare` | `boolean` | No | — | — | — |
-| `intent.personalizedAds` | `boolean` | No | — | — | — |
-| `intent.frameworkHint` | `string` | No | — | `Unknown`, `TcfEu`, `GppUs`, `VendorCustom` | — |
+| `intent.allowStrictNecessary` | `boolean` | No | — | — | Whether strictly necessary cookies are allowed (always true). |
+| `intent.allowPreferences` | `boolean` | No | — | — | Whether preference / personalization cookies are allowed. |
+| `intent.allowStatistics` | `boolean` | No | — | — | Whether analytics and performance cookies are allowed. |
+| `intent.allowMarketing` | `boolean` | No | — | — | Whether advertising and tracking cookies are allowed. |
+| `intent.objectToLegitimateInterest` | `boolean` | No | — | — | Whether to object to legitimate interest data processing. |
+| `intent.doNotSellOrShare` | `boolean` | No | — | — | Assert US privacy rights (CCPA/CPRA) against selling or sharing personal data. |
+| `intent.personalizedAds` | `boolean` | No | — | — | Whether personalized advertising is permitted. |
+| `intent.frameworkHint` | `string` | No | — | `Unknown`, `TcfEu`, `GppUs`, `VendorCustom` | CMP standard framework: Unknown, TcfEu, GppUs, or VendorCustom. |
 | `intent.userPolicyOrigin` | `string` | No | — | `user_per_site`, `user_global`, `agent_task`, `learned_default` | Provenance of the policy decision (recorded in the audit log). |
 | `mode` | `string` | No | — | `auto`, `dry_run` | Tool execution mode. 'auto' = run apply immediately. 'dry_run' = read ConsentStateVector and surface preState only, no mutation. Reserved value 'ask' returns -32002. |
 

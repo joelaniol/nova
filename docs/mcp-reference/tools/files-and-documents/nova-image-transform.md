@@ -60,17 +60,17 @@ The original file is never changed and no existing file is overwritten. Without 
 | `outputPath` | `string` | No | — | — | Absolute path of the new file (its extension must match format), or with folder of a new or empty folder for the copies. Default: Exports/Images. |
 | `format` | `string` | No | — | `png`, `jpeg`, `webp`, `bmp` | Output format; default from outputPath, else the source format, else png. |
 | `crop` | `object` | No | — | — | Area to keep, in pixels of the image as shown. |
-| `crop.x` | `integer` | Yes | — | ≥ 0 | — |
-| `crop.y` | `integer` | Yes | — | ≥ 0 | — |
-| `crop.width` | `integer` | Yes | — | ≥ 1 | — |
-| `crop.height` | `integer` | Yes | — | ≥ 1 | — |
+| `crop.x` | `integer` | Yes | — | ≥ 0 | Left pixel coordinate of the crop box. |
+| `crop.y` | `integer` | Yes | — | ≥ 0 | Top pixel coordinate of the crop box. |
+| `crop.width` | `integer` | Yes | — | ≥ 1 | Width of the crop box in pixels. |
+| `crop.height` | `integer` | Yes | — | ≥ 1 | Height of the crop box in pixels. |
 | `rotate` | `integer` | No | — | `90`, `180`, `270` | Degrees clockwise. |
-| `flip` | `string` | No | — | `horizontal`, `vertical` | — |
+| `flip` | `string` | No | — | `horizontal`, `vertical` | Mirror direction: horizontal or vertical. |
 | `resize` | `object` | No | — | — | Target size; fit needs width or height, fill and stretch need both. |
-| `resize.width` | `integer` | No | — | 1–16383 | — |
-| `resize.height` | `integer` | No | — | 1–16383 | — |
-| `resize.mode` | `string` | No | `"fit"` | `fit`, `fill`, `stretch` | — |
-| `resize.allowUpscale` | `boolean` | No | `false` | — | — |
+| `resize.width` | `integer` | No | — | 1–16383 | Target width in pixels. |
+| `resize.height` | `integer` | No | — | 1–16383 | Target height in pixels. |
+| `resize.mode` | `string` | No | `"fit"` | `fit`, `fill`, `stretch` | Resize mode: fit (keep aspect), fill (cover box), or stretch. |
+| `resize.allowUpscale` | `boolean` | No | `false` | — | Allow enlarging an image beyond original dimensions (default false). |
 | `quality` | `integer` | No | — | 1–100 | JPEG (default 90) and WebP (default 85, 100 = lossless). |
 | `stripMetadata` | `boolean` | No | `false` | — | Write no EXIF, GPS or XMP into the copy. |
 | `removeMetadata` | `array` of `string` | No | — | — | Metadata groups to remove, or the presets privacy (personal data) and bloat (bulk); the rest is kept. |

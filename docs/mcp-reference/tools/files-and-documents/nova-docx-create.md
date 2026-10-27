@@ -28,7 +28,7 @@ Without `outputPath` the document goes into Nova's Exports folder; a path of you
 | `markdown` | `string` | No | — | — | The document as Markdown. |
 | `sourcePath` | `string` | No | — | — | Absolute path to a Markdown file, instead of markdown. |
 | `title` | `string` | No | — | — | Optional document title, shown as the first paragraph. |
-| `pageSize` | `string` | No | `"A4"` | `A4`, `Letter` | — |
+| `pageSize` | `string` | No | `"A4"` | `A4`, `Letter` | Page paper size: A4 (default) or Letter. |
 | `outputPath` | `string` | No | — | — | Absolute path of the new .docx; must not exist. Needs the user's 'Allow local files' setting. Omit for Nova's Exports folder. |
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).

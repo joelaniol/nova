@@ -42,10 +42,10 @@ Common refusals: `not_recording`, `video.not_owner`, `video.evidence_off` (the r
 | `capture` | `boolean` | No | `true` | — | Also save a PNG of the frame. |
 | `selector` | `string` | No | — | — | Where this moment's proof is on the shown page (e.g. the table row you checked): Nova measures the element now and keeps its place on the timeline in video pixels (box), for effects that point at it. Not found = the mark is refused (video.element_not_found); nothing is guessed. |
 | `rect` | `object` | No | — | — | Instead of selector: the place in CSS pixels of the shown page. |
-| `rect.x` | `number` | Yes | — | — | — |
-| `rect.y` | `number` | Yes | — | — | — |
-| `rect.width` | `number` | Yes | — | — | — |
-| `rect.height` | `number` | Yes | — | — | — |
+| `rect.x` | `number` | Yes | — | — | Left coordinate of the rectangle in CSS pixels. |
+| `rect.y` | `number` | Yes | — | — | Top coordinate of the rectangle in CSS pixels. |
+| `rect.width` | `number` | Yes | — | — | Width of the rectangle in CSS pixels. |
+| `rect.height` | `number` | Yes | — | — | Height of the rectangle in CSS pixels. |
 | `check` | `object` | No | — | — | A check this moment shows - Nova compares the two values itself and returns its verdict (ok, reason); only its ok=true may become a tick in a clip. Numbers compare as numbers: spaces and thousands separators ignored, decimal comma or point; a single separator followed by exactly three digits ('17,098', '9.984') is ambiguous without a locale and fails with reason number_ambiguous. Your own ok can only take the tick away (checkMismatch when Nova disagrees). |
 | `check.item` | `string` | Yes | — | ≤ 120 characters | What is checked, e.g. 'Russia'. |
 | `check.expected` | `string` | Yes | — | ≤ 120 characters | The source value exactly as shown, e.g. '17,098,246'. |

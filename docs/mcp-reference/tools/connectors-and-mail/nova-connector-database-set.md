@@ -10,7 +10,7 @@ A database entry names a database user and, optionally, the database and where i
 
 * **No password argument.** The user sets the password in Settings > Connectors > SFTP > Databases…, or the agent passes `passwordFromVault` with the id of a vault entry; the user confirms that copy and the agent never sees the password.
 * **Where the database runs.** By default the client's local socket on the SSH server. Pass `host`/`port` for a database in a container or on another machine, or `socket` for a non-default socket path.
-* **Entries are listed** in `nova.connector_list` under `connectors[].databases[]`, with `hasPassword`, the detected engine, the server version and the last privilege check.
+* **Entries are listed** in [`nova.connector_list`](nova-connector-list.md) under `connectors[].databases[]`, with `hasPassword`, the detected engine, the server version and the last privilege check.
 
 * **Subsystem Overview:** [Secure Shell (SSH)](../../../core-features/connectors/ssh/README.md)
 
@@ -78,3 +78,12 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 * **Prefer a read-only database user.** It is the boundary that holds even when a query slips past every other check.
 * **Ask the user for the password step**, or use `passwordFromVault` when the vault already holds the database login.
+
+---
+
+## 5. Related Tools
+
+* [`nova.db_query`](nova-db-query.md) — Queries databases over SSH without password exposure
+* [`nova.connector_database_delete`](nova-connector-database-delete.md) — Removes database profiles and stored passwords
+* [`nova.connector_list`](nova-connector-list.md) — Lists connections and database entries
+* [`nova.vault_list`](../vault-and-security/nova-vault-list.md) — Lists Vault credentials available for `passwordFromVault`

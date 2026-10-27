@@ -47,8 +47,8 @@ Before the file is written, Nova reads the drawn code back and compares it with 
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `content` | `string` | No | — | — | Text, link or number to encode. For a QR code, data can build it instead. |
 | `data` | `object` | No | — | — | QR only, instead of content: kind plus its fields (see the description) - wifi, vcard, mecard, epc, event, email, tel, sms or geo. |
-| `data.kind` | `string` | Yes | — | `wifi`, `vcard`, `mecard`, `epc`, `email`, `tel`, `sms`, `geo`, `event` | — |
-| `type` | `string` | No | `"qr"` | `qr`, `code128`, `ean13`, `ean8`, `upca` | — |
+| `data.kind` | `string` | Yes | — | `wifi`, `vcard`, `mecard`, `epc`, `email`, `tel`, `sms`, `geo`, `event` | Payload format: wifi, vcard, mecard, epc, event, email, tel, sms, or geo. |
+| `type` | `string` | No | `"qr"` | `qr`, `code128`, `ean13`, `ean8`, `upca` | Barcode type: qr (default), code128, ean13, ean8, or upca. |
 | `format` | `string` | No | — | `png`, `svg` | Default: from outputPath, else png. |
 | `outputPath` | `string` | No | — | — | Absolute path of the new file (.png or .svg). Default: Exports/Codes. |
 | `width` | `integer` | No | — | 20–4000 | Target width in pixels (default 400). |
