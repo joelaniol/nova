@@ -8,19 +8,22 @@ IMAP/SMTP email client automation, EML exports, SFTP/FTP server operations, and 
 ---
 
 <!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
-## Tool Inventory (53 Tools)
+## Tool Inventory (56 Tools)
 
 Capability bundles of these tools: `connector_ops`.
 
 | Tool | What it does |
 | :--- | :--- |
 | **[`nova.connector_create`](nova-connector-create.md)** | Creates an E-Mail account (IMAP/SMTP) or remote server connection (SFTP/FTP). |
+| **[`nova.connector_database_delete`](nova-connector-database-delete.md)** | Removes a database entry from an SSH/SFTP connection together with its stored password. |
+| **[`nova.connector_database_set`](nova-connector-database-set.md)** | Adds or changes a MySQL/MariaDB database on an SSH/SFTP connection, so `nova.db_query` can reach it. |
 | **[`nova.connector_delete`](nova-connector-delete.md)** | Deletes a connector profile, associated capability grants, and backing DPAPI secrets. |
 | **[`nova.connector_grant_set`](nova-connector-grant-set.md)** | Sets capability access modes (ask, always, blocked) for a connector. |
 | **[`nova.connector_list`](nova-connector-list.md)** | Lists configured E-Mail accounts and remote file transfer server connections. |
 | **[`nova.connector_probe`](nova-connector-probe.md)** | Diagnoses a configured mail account or SFTP/FTP server: reachability, TLS, server identity, features and limits, read-only. |
 | **[`nova.connector_recipient_set`](nova-connector-recipient-set.md)** | Configures recipient allow-lists for autonomous email sending without human prompts. |
 | **[`nova.connector_update`](nova-connector-update.md)** | Updates configuration, endpoints, credentials, or signatures of an existing connection. |
+| **[`nova.db_query`](nova-db-query.md)** | Runs one SQL statement on a MySQL or MariaDB database that the user set up on an SSH/SFTP connection - without the agent ever seeing the database password. |
 | **[`nova.ftp_delete`](nova-ftp-delete.md)** | Deletes a remote regular file or empty directory on an FTP/FTPS server. |
 | **[`nova.ftp_get`](nova-ftp-get.md)** | Downloads a remote regular file over FTP/FTPS into Downloads or the workspace. |
 | **[`nova.ftp_list`](nova-ftp-list.md)** | Lists remote directory entries or inspects file metadata through an FTP/FTPS connector. |

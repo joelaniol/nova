@@ -30,9 +30,12 @@ Reads an interactive terminal's reconstructed screen — rows, cursor, revision 
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `execId` | `string` | Yes | — | — | Terminal id from nova.ssh_shell_open. |
 | `sinceRevision` | `integer` | No | — | ≥ 0 | The revision you already have; the result sets unchanged=true if the screen has not advanced past it. |
-| `waitMs` | `integer` | No | `0` | 0–10000 | With sinceRevision: wait up to this many ms for the screen to change before returning. Default 0, but if you pass sinceRevision and omit waitMs, Nova waits ~1000ms for the post-send repaint. |
+| `waitMs` | `integer` | No | `0` | 0–120000 | With sinceRevision: wait up to this many ms (at most 10000) for the screen to change before returning. Default 0, but if you pass sinceRevision and omit waitMs, Nova waits ~1000ms for the post-send repaint. With waitFor: up to 120000, default 30000. |
 | `maxScrollbackLines` | `integer` | No | `0` | 0–2000 | If >0, also return up to this many scrollback history lines (oldest first) that scrolled above the visible screen. Empty on the alternate screen. Default 0 (no scrollback). |
 | `redactSecrets` | `boolean` | No | `true` | — | Mask recognised password hashes, PEM private keys and mysql_native_password hashes in rows and scrollback with '*'. Set false only when the task needs the value itself. |
+| `output` | `string` | No | `"screen"` | `screen`, `since_last_send` | since_last_send: also return output {text, fromOffset, endOffset, leftOutBytes} - what the remote sent since your last send, as text. For maintenance commands (no full-screen program) this is the answer; the screen stays for TUIs. |
+| `waitFor` | `string` | No | — | ≤ 1000 characters | Wait until the output since the last send ends at the prompt ('prompt') or matches this .NET regex, up to waitMs (then up to 120000, default 30000); implies output='since_last_send'. Use it to keep waiting after ssh_shell_send(waitFor) timed out. |
+| `maxOutputBytes` | `integer` | No | `32768` | 1024–262144 | Bytes of output text returned; a longer output keeps its start and end (leftOutBytes). |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 

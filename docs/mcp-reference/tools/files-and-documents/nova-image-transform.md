@@ -23,24 +23,24 @@ Metadata stays unless you remove it. `stripMetadata` removes everything. `remove
 | Group | What goes |
 | :--- | :--- |
 | `location` | GPS position |
-| `people` | Artist, copyright, Windows author, camera owner |
+| `people` | Artist, copyright, Windows author, camera owner; in XMP also named people and face regions |
 | `deviceIds` | Serial numbers of camera body and lens, image unique ID |
 | `software` | Editing software and the computer name |
 | `text` | Description, user comment, Windows title, comment, keywords and subject |
 | `makerNotes` | The camera maker's private block, often tens of kilobytes |
 | `xmp` | The whole XMP block: edit history, document ancestors, rights, creator tool |
-| `dates` | Dates and times |
+| `dates` | Dates and times (including GPS date and time stamps) |
 | `camera` | Camera and lens make and model |
 
-Two presets cover the usual cases. `privacy` removes `location`, `people`, `deviceIds`, `software`, `text`, `makerNotes` and `xmp` and keeps camera, exposure and date, which is the safe choice before a photo is shared. `bloat` removes `makerNotes`, `xmp` and `software`: editing programs such as Photoshop leave a long edit history and lists of earlier documents in XMP that can make a small picture many times larger. The answer lists in `metadataRemoved` what went. XMP repeats much of EXIF; when it repeats a group you removed, it is left out as a whole, so a name or position does not survive there.
+Two presets cover the usual cases. `privacy` removes `location`, `people`, `deviceIds`, `software`, `text`, `makerNotes` and `xmp` and keeps camera, exposure and date, which is the safe choice before a photo is shared. `bloat` removes `makerNotes`, `xmp` and `software`: editing programs such as Photoshop leave a long edit history and lists of earlier documents in XMP that can make a small picture many times larger. The answer lists in `metadataRemoved` what went. Any IPTC/NAA block, Photoshop resource block, or embedded XMP packet inside EXIF IFD0 is removed with `location`, `people`, `text` or `dates`. XMP repeats much of EXIF; when it repeats a group you removed, it is left out as a whole (even across UTF-16/UTF-32 encodings and alternative namespace prefixes), so a name, face region or position does not survive there.
 
-Camera data (EXIF) and XMP are carried into JPEG and PNG copies; WebP and BMP copies get none, and the answer says so. Some things are never carried over:
+Camera data (EXIF) and XMP are carried into JPEG and PNG copies; WebP and BMP copies get none, and the answer says so (`metadata_not_kept`); TIFF sources do not carry their EXIF into a copy because it is part of the image structure (`exif_not_kept`). Some things are never carried over:
 
 * **The old orientation note.** The pixels are already upright, so the note would turn them twice.
-* **The preview image inside EXIF.** In a cropped photo it would still show the whole original.
-* **Photoshop's own block and text comments.** The block holds IPTC data, paths and its own previews.
+* **The preview image inside EXIF.** In a cropped photo it would still show the whole original; all preview formats, including uncompressed multi-strip TIFF previews in IFD1, are actively erased in memory.
+* **Photoshop's own block and text comments.** The block holds IPTC data, paths and its own previews. Omitted text comments (such as AI prompts) emit the warning `comments_not_kept`.
 
-The copy states its own pixel size. XMP that points to attachments behind the picture, like the short video of a motion photo or an HDR gain map, is left out, because the copy does not have them and viewers would otherwise look for them. When the copy keeps a GPS position, the answer names it, so a photo is not shared by accident with the place it was taken.
+The copy states its own pixel size. XMP that points to attachments behind the picture, like the short video of a motion photo or an HDR gain map, is left out (`xmp_not_kept`), because the copy does not have them and viewers would otherwise look for them. When the copy keeps a GPS position (whether from EXIF or XMP), the answer issues the warning `gps_kept`, so a photo is not shared by accident with the place it was taken.
 
 **Whole folders.** Instead of `path`, give `folder` and every image in that folder gets the same steps, subfolders included unless `recursive` is `false`. A typical use: remove personal data from all holiday photos before they are shared, or shrink a folder of product pictures for a website. The copies go to a new folder that mirrors the original one, with the same subfolders and file names, and the source folder is never touched. Links, hidden and system files are skipped. A large folder takes minutes, so it runs in the background: the call waits up to `wait` seconds (45 by default) and then returns either the summary or a `jobId` for [`nova.image_transform_status`](nova-image-transform-status.md); [`nova.image_transform_stop`](nova-image-transform-stop.md) ends it and keeps every copy already written. The summary counts what was written, which files failed and why (a damaged photo fails on its own and does not stop the rest), how much smaller the copies are, and which metadata was removed how often - for example GPS in 214 of 380 photos.
 

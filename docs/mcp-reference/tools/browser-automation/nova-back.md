@@ -23,7 +23,7 @@ The `force` parameter exists for parity with `nova.navigate`/`nova.reload`, but 
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
 | `force` | `boolean` | No | `false` | — | If true, bypass the SPA/session-preservation AAG gate and allow a hard history back even when the current tab is flagged as session-sensitive. |
-| `waitForLoad` | `boolean` | No | `false` | — | If true, wait for page load before returning. |
+| `waitForLoad` | `boolean` | No | `false` | — | If true, wait for page load before returning; the result then carries httpStatus, the server's answer to the page (a 404 or 500 page loads like any other, and the message says so). |
 | `waitForLoadTimeoutMs` | `integer` | No | `10000` | 0–30000 | Max ms to wait for load (0-30000). Only used when waitForLoad=true. Default 10000 fits typical static pages; SPA-heavy domains (LinkedIn, X, Reddit, large dashboards) often need 15000-20000 — bump explicitly on retry after navigation.wait_for_load_timeout if structuredContent.pageUrl matches the request (URL committed, DOM still settling). |
 | `waitForSettlement` | `boolean` | No | `false` | — | If true, wait for SPA DOM settlement after readyState=complete. Implies waitForLoad=true. |
 | `settlementTimeoutMs` | `integer` | No | `5000` | 1000–15000 | Max ms to wait for settlement (1000-15000). Only used when waitForSettlement=true. |

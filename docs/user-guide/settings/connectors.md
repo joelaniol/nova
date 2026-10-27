@@ -48,11 +48,21 @@ The Mail connector enables automated email workflows—such as retrieving verifi
 Nova allows agents and operators to interact directly with remote server infrastructure:
 
 * **SSH Connector:**
-  * Define remote Linux/Unix host endpoints, port (default 22), username, and private key authentication.
-  * Used for executing remote administrative commands, deploying artifacts, and monitoring server health.
+  * Define remote Linux/Unix host endpoints, port (default 22), username, and private key or password authentication.
+  * Used for executing remote administrative commands, deploying artifacts, and monitoring server health without giving up credential control.
 * **SFTP & FTP/FTPS Connectors:**
   * Establish secure file transfer pipelines for uploading web assets, retrieving server log bundles, or syncing test artifacts.
-  * Supports directory navigation, file permissions (`chmod`), and bandwidth-throttled transfers.
+  * Supports directory navigation, file permissions (`chmod`, `chown`), and bandwidth-throttled transfers.
+  * **Checksum Verification:** Supports SHA-256 integrity validation (`verifySha256`) to ensure uploaded or downloaded files match remote storage exactly.
+  * **Automatic Transfer Resumption:** Enable "Continue interrupted file transfers after Nova starts" under Connectors Settings to automatically resume partial file transfers 30 seconds after application startup.
+* **Remote Database Management (MySQL & MariaDB over SSH):**
+  * Configured via **Settings > Connectors > SFTP > Databases…** (or via `nova.connector_database_set`).
+  * Connects to MySQL/MariaDB instances running on the SSH host (via localhost, Unix domain sockets, or internal container networks).
+  * Stores database usernames, schemas, and passwords securely in DPAPI or resolves them from the Nova Vault (`passwordFromVault`).
+  * Enables agents to run SQL statements via `nova.db_query` with strict safety envelopes (AST validation, read-only transaction envelopes) without shell access (`process.exec`).
+* **Connection Notes & Infrastructure Context:**
+  * Each connector profile includes a dedicated note field (`note`, up to 500 characters) for documenting hosting provider names, data center locations, management panel URLs (cPanel, Plesk), or server roles.
+  * Notes are visible to agents via `nova.connector_list` as plain text operational metadata without exposing credentials.
 
 ---
 

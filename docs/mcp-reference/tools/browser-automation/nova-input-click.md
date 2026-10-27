@@ -24,6 +24,8 @@
 | `observe.quietMs` | `integer` | No | `500` | 100–5000 | How long nothing may be in flight or arrive before the traffic counts as settled. |
 | `observe.urlContains` | `string` | No | — | ≤ 500 characters | List only requests whose URL contains this text (counts still cover all). |
 | `observe.maxRequests` | `integer` | No | `20` | 1–100 | Most requests listed; requestsOmitted counts the rest. |
+| `observe.texts` | `boolean` | No | `true` | — | List text that became visible after the action in newTexts: an error next to a field, a toast, a banner, a changed price. Entries inside an alert or live region carry alert:true. false skips the comparison. |
+| `observe.maxTexts` | `integer` | No | `8` | 1–50 | Most new texts listed; newTextsOmitted counts the rest. |
 | `observe.after` | `object` | No | — | — | Read an element once the traffic settled, like nova.dom_extract: {selector, properties}. |
 | `activateIfNeeded` | `boolean` | No | `true` | — | For an explicit concrete inactive targetId, temporarily activate that Nova target before physical pointer dispatch (the person sees that tab for that moment). Defaults true. Omitted/'active' targets are never auto-retargeted, and Nova never foregrounds the app window. |
 | `restoreActiveTarget` | `boolean` | No | `true` | — | After automatic activation and an unambiguous non-navigation success, restore the previously active Nova target if no user or competing target switch occurred. Ignored when no automatic activation happened. |

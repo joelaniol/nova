@@ -52,8 +52,9 @@ flowchart TD
 
 Nova allows agents and operators to interact securely with remote servers without spawning external terminal windows:
 
-* **One-Shot Command Execution (`nova.ssh_run`):** Executes a single command on a remote Linux/Unix host and returns the exit code, standard output (`stdout`), and error stream (`stderr`). Ideal for checking server disk space, restarting web services, or verifying git commits.
-* **Interactive Shell Sessions (`nova.ssh_shell_open`):** Spawns a persistent, bidirectional SSH terminal session. Agents can send keystrokes with `nova.ssh_shell_send`, read real-time terminal output with `nova.ssh_shell_read`, and resize the virtual window with `nova.ssh_shell_resize`.
+* **One-Shot Command Execution (`nova.ssh_run`):** Executes a single command or a batch of commands on a remote Linux/Unix host and returns exit codes, stdout, and stderr. Features aggregate flood protection via `maxTotalOutputBytes` (curling loud streams in the middle while keeping quiet streams intact), ANSI escape stripping, and automated credential masking.
+* **Interactive Shell Sessions (`nova.ssh_shell_open`):** Spawns a persistent, bidirectional SSH pseudo-terminal (PTY). Agents can send keystrokes with `nova.ssh_shell_send`, read reconstructed screen state with `nova.ssh_shell_read`, and resize the virtual window with `nova.ssh_shell_resize`.
+* **Prompt Synchronization & Slicing:** In interactive shells, `nova.ssh_shell_send(waitFor='prompt')` waits for the shell prompt (or a regex pattern) and returns command text immediately in `output.text`. Alternatively, `nova.ssh_shell_read(output='since_last_send')` retrieves output emitted since the last send without manual screen scraping.
 * **Cryptographic Authentication:** Supports OpenSSH private key files (RSA, ECDSA, Ed25519) and password authentication. Host keys are cryptographically verified against known-host records to defend against man-in-the-middle attacks.
 
 ---
@@ -63,13 +64,27 @@ Nova allows agents and operators to interact securely with remote servers withou
 For transferring web assets, log archives, or test deliverables between your local machine and remote servers:
 
 * **Remote Directory Navigation:** List remote directories, query file sizes and permissions, and create nested folders using `nova.sftp_list` and `nova.sftp_mkdir`.
-* **Uploading & Downloading:** Transfer files safely using `nova.sftp_put` and `nova.sftp_get`. Both operations support resuming interrupted transfers and verifying SHA-256 checksums upon completion.
+* **Uploading & Downloading:** Transfer files safely using `nova.sftp_put` and `nova.sftp_get`. Both operations support resuming interrupted transfers (`resumeUnfinished=true`) and verifying SHA-256 checksums (`verifySha256=true`) upon completion.
+* **Connection Notes:** Connector profiles support operator notes (`note`, up to 500 characters) visible in `nova.connector_list`, documenting hosting details, server roles, and infrastructure contexts.
 * **Asynchronous Transfer Management:** Large multi-gigabyte transfers run in the background. Agents monitor active transfer progress with `nova.sftp_transfer_status` and can halt running jobs cleanly using `nova.sftp_transfer_stop`.
 * **Legacy Protocol Support:** When interacting with legacy enterprise mainframes or hosting providers, Nova provides matching `nova.ftp_*` tools supporting explicit FTPS encryption.
 
 ---
 
-## 4. Automated Email Management (IMAP / SMTP)
+## 4. Remote Database Queries over SSH (MySQL & MariaDB)
+
+Nova provides dedicated, credential-isolated database querying directly through an active SSH connection via `nova.db_query`:
+
+* **No Shell Access Required:** Runs queries without granting interactive shell execution (`process.exec`). Queries are executed by the remote database client via an isolated SSH exec channel.
+* **Zero Credential Exposure:** Database passwords are transmitted to the remote client exclusively via standard input (`--defaults-file=/dev/stdin` or isolated temporary file with `umask 077`). Passwords never appear in process lists, command arguments, or agent transcripts.
+* **Pre-Execution AST Inspection:** Strictly validates each query before sending. Blocks multi-statement execution, SQL comments, schema mutations (`DROP`, `ALTER`, `CREATE`), administrative commands (`GRANT`, `KILL`), and file operations (`LOAD_FILE`, `INTO OUTFILE`).
+* **Server-Enforced Read Safety:** Read queries (`mode='read'`) run within a `START TRANSACTION READ ONLY` envelope with statement timeouts (`timeoutMs`). Data modifications require explicit `mode='write'` and the `db.write` capability grant.
+* **Privilege Audit:** Queries run `SHOW GRANTS` on the connection to report effective user privileges (`readOnlyUser: true`, `riskyGrants`), ensuring least-privilege configurations.
+* **Profile Configuration:** Databases are linked to SFTP connections via `nova.connector_database_set` (or Nova Settings) and removed via `nova.connector_database_delete`.
+
+---
+
+## 5. Automated Email Management (IMAP / SMTP)
 
 Automating user signups, invoice notifications, and password resets requires reliable email interaction:
 
@@ -79,7 +94,7 @@ Automating user signups, invoice notifications, and password resets requires rel
 
 ---
 
-## 5. External MCP Server Aggregation
+## 6. External MCP Server Aggregation
 
 Nova can act as an MCP hub, bridging external tools directly into the browser's agent interface:
 
@@ -89,7 +104,7 @@ Nova can act as an MCP hub, bridging external tools directly into the browser's 
 
 ---
 
-## 6. Security Governance & Approval Gates
+## 7. Security Governance & Approval Gates
 
 All connector capabilities operate under Nova's enterprise permission model:
 

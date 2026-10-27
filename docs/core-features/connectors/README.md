@@ -29,6 +29,7 @@ flowchart TD
         MailEngine["Mail Client (IMAP & SMTP)"]
         SftpEngine["SFTP Transfer Runner (Resumable)"]
         SshEngine["SSH Command & Stream Manager"]
+        DbEngine["Database Client (MySQL & MariaDB via SSH)"]
         FtpEngine["FTP / FTPS Client (Channel TLS)"]
         ExternalMcp["External MCP Process Gateway"]
     end
@@ -56,6 +57,7 @@ flowchart TD
 | :--- | :--- | :--- | :--- |
 | **[Mail: IMAP & SMTP](mail/README.md)** | IMAP (RFC 3501) & SMTP (RFC 5321) | `read`, `organize`, `send` | Message search, reading, tagging, drafting, sending, `.eml` exports, background mailbox archiving |
 | **[Secure Shell (SSH)](ssh/README.md)** | SSH-2 (RFC 4251-4254) | `process.exec`, `process.stdin`, `process.pty` | Batch command execution, background long-running sessions, interactive stdin streaming, interactive terminals (PTY) for full-screen programs, stream capture |
+| **[Database: MySQL & MariaDB over SSH](ssh/README.md#database-queries-over-ssh)** | MySQL & MariaDB client over SSH-2 | `db.read`, `db.write` | Password-isolated SQL queries, single-statement enforcement, read-only transactions, database user privilege audit (`SHOW GRANTS`), multi-database profile management |
 | **[SSH File Transfer (SFTP)](sftp/README.md)** | SFTP over SSH-2 | `read`, `full` | Directory synchronization, resumable uploads/downloads, atomic commit recovery, parallel acceleration |
 | **[FTP & FTPS](ftp-and-ftps/README.md)** | FTP (RFC 959) & FTPS (RFC 4217) | `read`, `full` | Directory listing, explicit/implicit TLS transfers, passive mode negotiation, resumable single-file jobs |
 | **[External MCP Servers](external-mcp/README.md)** | stdio, Streamable HTTP, SSE | Aggregated tools | Subprocess orchestration, configuration import (Claude/VS Code), token authentication, tool call proxying |
@@ -156,6 +158,8 @@ classDiagram
         +process.exec (SSH Command Execution)
         +process.stdin (Interactive Shell Input Channel)
         +process.pty (Interactive Terminal / PTY)
+        +db.read (Read-only Database Queries)
+        +db.write (Opt-in Data Mutations)
     }
 
     ConnectorType <|-- MailCapabilities
@@ -176,6 +180,8 @@ classDiagram
   - `process.exec`: Spawning one-shot commands or background SSH sessions. Its own grant: full file access does not include it. When unset, the first command asks once (an unattended run fails closed).
   - `process.stdin`: Streaming interactive standard input into an active SSH session (`nova.ssh_run_write`). This capability is strictly opt-in and **never** inherits weaker grants.
   - `process.pty`: Opening a full interactive terminal / pseudo-terminal on the server (`nova.ssh_shell_open`) for full-screen programs and interactive prompts. The most powerful process stage; strictly opt-in and **never** inherits weaker grants.
+  - `db.read`: Read-only queries against databases configured for the SFTP connection (`nova.db_query` with `mode='read'`). Evaluated independently of file access.
+  - `db.write`: Data mutations (`INSERT`, `UPDATE`, `DELETE`) against configured databases (`nova.db_query` with `mode='write'`). Strictly opt-in; never inherits `db.read` or `process.exec`.
 
 ---
 
@@ -265,17 +271,52 @@ Every connection can name the web page that belongs to it, such as the webmail o
 
 Nova stores only the address. How to work that page (open a sent message, find an upload folder) is learned by agents and kept as domain notes for its domain. `nova.connector_list` returns `webInterface` with the address and, as `knownTasks`, the names of the notes already saved for it, so the next agent can follow a known way instead of searching again. When a way stops working, the agent re-checks it on the page and updates the note. Nova has no built-in link formats for particular webmail products; the notes are the knowledge.
 
+---
+
+## Database Query Subsystem over SSH (MySQL & MariaDB)
+
+Nova allows agents to query MySQL and MariaDB databases running on or accessible from the SSH host without granting raw interactive shell access (`process.exec`). Databases are configured per SFTP profile via Nova Settings or programmatically via [`nova.connector_database_set`](../../mcp-reference/tools/connectors-and-mail/nova-connector-database-set.md).
+
+### Zero-Leakage Architecture
+
+Database passwords never appear on the command line, in environment variables, in `/proc/*/cmdline`, or in agent transcripts. Nova delivers credentials using a transient option file passed directly through standard input (`--defaults-file=/dev/stdin` or isolated temporary file with `umask 077` permissions).
+
+### Multi-Tier Safety Gates
+
+1. **Pre-Execution AST Classification:** Every query is analyzed before transmission. Nova allows only a single SQL statement per execution. Multiple statements separated by semicolons, SQL comments (`--`, `/* ... */`), backslashes outside string literals, newlines within strings, DDL (`DROP`, `ALTER`, `CREATE`), DCL (`GRANT`, `REVOKE`, `KILL`), and filesystem functions (`LOAD_FILE`, `INTO OUTFILE`) are blocked immediately.
+2. **Read-Only Transaction Enforcement:** When executed with `mode='read'`, queries run within a server-enforced `START TRANSACTION READ ONLY` envelope with strict statement timeouts. Any unexpected data mutation is stopped at the database engine level.
+3. **Privilege Audit (`SHOW GRANTS`):** On every query execution, Nova inspects the effective database user privileges via `SHOW GRANTS`. Queries flag whether the user is read-only (`readOnlyUser: true`) and warn if the user holds dangerous administrative grants (`GRANT ALL`, `SUPER`, `PROXY`).
+
+### Multi-Database Profile Management
+
+A single SFTP connector profile can host multiple named database configurations (e.g., `Shop`, `Analytics`). Agents execute queries via [`nova.db_query`](../../mcp-reference/tools/connectors-and-mail/nova-db-query.md) by specifying `profileId`, `databaseId`, and `sql`. Configurations can be removed with [`nova.connector_database_delete`](../../mcp-reference/tools/connectors-and-mail/nova-connector-database-delete.md).
+
+---
+
+## Connection Notes & Human Infrastructure Context
+
+Connections support an operator-defined note (`note`, up to 500 characters) configured via Settings or through `nova.connector_create` / `nova.connector_update`.
+
+Connection notes capture vital operational context that cannot be derived from network probing alone—such as hosting provider names, data center locations, management panel URLs (cPanel, Plesk), server roles, maintenance windows, or internal ticket identifiers.
+
+Notes are stored locally in the connection database (`notes.db`, schema version 2+) alongside the connector profile. When an agent calls `nova.connector_list`, the sanitized `note` string is included in the profile metadata, providing immediate operational context without exposing credentials or requiring manual re-discovery.
+
+---
+
 ## MCP Tool Catalog (`connector_ops`)
 
 | Tool | Purpose | Key Parameters |
 | :--- | :--- | :--- |
 | [`nova.connector_list`](../../mcp-reference/tools/connectors-and-mail/nova-connector-list.md) | Lists configured accounts and resolved capability grants | `type` (optional: `mail`, `sftp`, `ftp`) |
-| [`nova.connector_create`](../../mcp-reference/tools/connectors-and-mail/nova-connector-create.md) | Registers a new mail account or server connection | `displayName`, `type`, `username`, `password`, `passwordFromVault`, `authMode`, `privateKeyPath`, `host`, `port`, `security` |
-| [`nova.connector_update`](../../mcp-reference/tools/connectors-and-mail/nova-connector-update.md) | Updates existing connection endpoints or credentials | `id`, updated configuration fields, `allowInsecure` |
+| [`nova.connector_create`](../../mcp-reference/tools/connectors-and-mail/nova-connector-create.md) | Registers a new mail account or server connection | `displayName`, `type`, `username`, `password`, `passwordFromVault`, `authMode`, `privateKeyPath`, `host`, `port`, `security`, `note` |
+| [`nova.connector_update`](../../mcp-reference/tools/connectors-and-mail/nova-connector-update.md) | Updates existing connection endpoints or credentials | `id`, updated configuration fields, `allowInsecure`, `note` |
 | [`nova.connector_delete`](../../mcp-reference/tools/connectors-and-mail/nova-connector-delete.md) | Removes a connector profile and cleans up orphan secrets | `id` |
 | [`nova.connector_grant_set`](../../mcp-reference/tools/connectors-and-mail/nova-connector-grant-set.md) | Sets access mode (`ask`, `always`, `blocked`) for a capability | `profileId`, `capability`, `mode`, `scope`, `allowedMailFolders`, `allowedMailSenders` |
 | [`nova.connector_recipient_set`](../../mcp-reference/tools/connectors-and-mail/nova-connector-recipient-set.md) | Replaces the allowed recipient list for a mail account | `profileId`, `recipients` |
 | [`nova.connector_probe`](../../mcp-reference/tools/connectors-and-mail/nova-connector-probe.md) | Performs non-destructive network & capability diagnostics | `profileId`, `depth` (`reach`, `session`, `full`), `includeTranscript`, `allowInsecure` |
+| [`nova.db_query`](../../mcp-reference/tools/connectors-and-mail/nova-db-query.md) | Executes isolated SQL queries on a remote MySQL/MariaDB database over SSH | `profileId`, `databaseId`, `sql`, `mode` (`read`, `write`), `maxRows`, `timeoutMs` |
+| [`nova.connector_database_set`](../../mcp-reference/tools/connectors-and-mail/nova-connector-database-set.md) | Configures or updates a database definition linked to an SFTP connection | `profileId`, `databaseId`, `label`, `username`, `passwordFromVault`, `defaultDatabase`, `host`, `port` |
+| [`nova.connector_database_delete`](../../mcp-reference/tools/connectors-and-mail/nova-connector-database-delete.md) | Removes a database definition from an SFTP connection | `profileId`, `databaseId` |
 
 ---
 

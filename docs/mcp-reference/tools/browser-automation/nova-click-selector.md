@@ -47,6 +47,8 @@ If multiple visible elements match the selector and `strict: true` is passed, No
 | `observe.quietMs` | `integer` | No | `500` | 100–5000 | How long nothing may be in flight or arrive before the traffic counts as settled. |
 | `observe.urlContains` | `string` | No | — | ≤ 500 characters | List only requests whose URL contains this text (counts still cover all). |
 | `observe.maxRequests` | `integer` | No | `20` | 1–100 | Most requests listed; requestsOmitted counts the rest. |
+| `observe.texts` | `boolean` | No | `true` | — | List text that became visible after the action in newTexts: an error next to a field, a toast, a banner, a changed price. Entries inside an alert or live region carry alert:true. false skips the comparison. |
+| `observe.maxTexts` | `integer` | No | `8` | 1–50 | Most new texts listed; newTextsOmitted counts the rest. |
 | `observe.after` | `object` | No | — | — | Read an element once the traffic settled, like nova.dom_extract: {selector, properties}. |
 | `activateIfNeeded` | `boolean` | No | `true` | — | For an explicit inactive targetId: briefly bring that tab to the front for the click (default true); the person sees that tab for the moment of the click. Never retargets 'active', never foregrounds the window. |
 | `restoreActiveTarget` | `boolean` | No | `true` | — | After such an activation and a clear non-navigating success, give the user's previous tab back (default true). |

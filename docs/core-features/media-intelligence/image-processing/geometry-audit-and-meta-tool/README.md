@@ -42,11 +42,12 @@ If an autonomous agent blindly calculates crop coordinates based on raw file dim
 
 ### Diagnostic Facts Returned
 
-1. **Format & Container:** Detects image containers (`jpeg`, `png`, `webp`, `gif`, `bmp`, `ico`, `tiff`).
+1. **Format & Container:** Detects image containers (`jpeg`, `png`, `webp`, `gif`, `bmp`, `ico`, `tiff`), including standalone TIFF files.
 2. **Animation & Frame Count:** Detects animated files ($> 1$ frames for animated GIFs and animated WebP), warning agents before single-frame conversions.
 3. **Alpha Transparency Channel:** Reports whether the image contains a transparency channel (`true` / `false`), preventing accidental black background artifacts when converting PNGs to JPEG.
 4. **Color Space & Profiles:** Reports embedded ICC color profiles (e.g. `sRGB`, `Display P3`) and color depths.
 5. **DPI Resolution:** Horizontal and vertical DPI (`dpiX`, `dpiY`) for print layout fidelity.
+6. **Rich Metadata & Personal Fields:** Extracts camera, lens, exposure (clean decimals for 0.3 s to 0.9 s), ISO lists, Motorola big-endian UNICODE comments, signed GPS coordinates (from EXIF or XMP) with altitude, IPTC editorial records (`iptc*` fields from Photoshop blocks and EXIF), and personal XMP categories (`xmpPersonal`).
 
 ---
 

@@ -67,14 +67,18 @@ When photos taken with digital cameras or smartphones are cropped, standard soft
 
 ### Nova's Anti-Leak Invariant
 
-* In `nova.image_transform`, embedded thumbnail bytes are **actively overwritten and destroyed in memory** before writing the output file.
+* In `nova.image_transform`, embedded thumbnail bytes are **actively overwritten and destroyed in memory** before writing the output file. This includes both compressed JPEG previews and uncompressed multi-strip TIFF preview blocks (`StripOffsets`) in IFD1, ensuring no orphaned preview slices remain on disk.
 * The EXIF orientation tag is reset to $1$ because pixels are already physically transformed upright.
+* Embedded sub-blocks inside EXIF IFD0—including IPTC/NAA records (tag `0x83BB`), Photoshop image resources (tag `0x8649`), and nested XMP packets (tag `0x02BC`)—are purged whenever their functional metadata group (`location`, `people`, `text`, `dates`, `xmp`) is targeted.
+* Removing `people` actively purges facial recognition bounding boxes and tag regions (`mwg-rs:Regions`) as well as named persons (`PersonInImage`) from XMP.
+* Removing `dates` wipes satellite date and time stamps (`GPSDateStamp`, `GPSTimeStamp`) from the GPS sub-IFD alongside standard capture timestamps.
+* Multi-byte XMP encodings (UTF-16LE, UTF-16BE, UTF-32) and alternative XML namespace prefixes are parsed and scrubbed defensively to prevent encoding bypasses.
 
 ### Metadata Sanitization Levels
 
 | Mode | Behavior & Data Preserved |
 | :--- | :--- |
-| **`removeMetadata: ["privacy"]`** | Strips GPS coordinates, author names, serial numbers, software tags, free text, maker notes, and XMP blocks. Preserves camera model, exposure settings, and date. |
+| **`removeMetadata: ["privacy"]`** | Strips GPS coordinates, author and owner names, facial recognition regions, serial numbers, software tags, free text, maker notes, embedded IPTC/Photoshop blocks, and XMP blocks. Preserves camera model, exposure settings, and date. |
 | **`removeMetadata: ["bloat"]`** | Drops heavy binary bulk (maker notes, XMP edit history, vendor software tags) to reduce file size while retaining basic photo metadata. |
 | **`stripMetadata: true`** | Completely strips all EXIF, GPS, and XMP metadata blocks for maximum privacy. |
 

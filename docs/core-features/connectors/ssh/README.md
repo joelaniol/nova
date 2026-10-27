@@ -88,6 +88,9 @@ graph LR
 3. **`process.pty` Capability (Strict Opt-In):**
    - Authorizes opening a full interactive terminal — a real pseudo-terminal (PTY) — on the server (`nova.ssh_shell_open`).
    - A terminal is the most powerful process stage: it runs full-screen programs, can execute any command, and reads typed passwords. It is **strictly opt-in and never inherits weaker grants**. Opening a terminal authorizes `process.exec` + `process.stdin` + `process.pty` together in a single prompt.
+4. **`db.read` and `db.write` Capabilities (Database Queries over SSH):**
+   - Authorize querying MySQL or MariaDB databases via [`nova.db_query`](../../../mcp-reference/tools/connectors-and-mail/nova-db-query.md) without interactive shell access (`process.exec`).
+   - Queries execute through the remote client inside a secure, credential-isolated wrapper. `db.read` enforces read-only transaction envelopes and timeouts; `db.write` is strictly opt-in for data modifications (`INSERT`, `UPDATE`, `DELETE`).
 
 In addition to connector-level capabilities, executing mutating remote commands requires approval under Nova's system-wide `MutatingRemote` execution policy.
 
@@ -156,11 +159,13 @@ flowchart LR
    - If a misconfigured remote process produces a continuous output flood, Nova halts reading once 64 MB is received and terminates the remote process. The command outcome is flagged as `OutputLimitExceeded`.
 2. **Head/Tail Retain Buffer (`maxOutputBytes = 256 KB`):**
    - To provide actionable context without exhausting token budgets, results capture the start (head) and end (tail) of the output stream, reporting exact counts for omitted bytes.
-3. **ANSI & Control Character Stripping:**
+3. **Cumulative Whole-Answer Ceiling (`maxTotalOutputBytes = 48 KB`, up to 4 MB):**
+   - In `nova.ssh_run`, Nova bounds the total volume of text returned across all executed commands and streams. When exceeded, Nova retains head and tail while curling the loudest streams in the middle (`leftOutOfAnswerBytes`), preserving quiet streams intact.
+4. **ANSI & Control Character Stripping:**
    - Terminal color sequences and raw cursor manipulation codes are stripped from text output, leaving clean, machine-readable log lines.
-4. **Stream Integrity Hash:**
+5. **Stream Integrity Hash:**
    - Every completed stream includes a SHA-256 cryptographic hash of all received bytes, providing verifiable proof of stream content.
-5. **Masking of recognised credentials** *(since 1.0.0-alpha.19)*:
+6. **Masking of recognised credentials** *(since 1.0.0-alpha.19)*:
    - In `nova.ssh_run` and `nova.ssh_run_read`, password hashes in crypt format (`$1$`, `$2y$`, `$5$`, `$6$`, `$y$`, argon2 and related), PEM private keys and `mysql_native_password` hashes are replaced with `[REDACTED:<kind>]` before the agent reads the text. Each stream reports `redactions` and `redactedKinds`; the SHA-256 hash, byte counters and offsets still describe the raw stream.
    - Only these formats are recognised. Other secrets pass through unchanged, so remote scripts should print error classes rather than full exception text that may quote credentials.
    - `redactSecrets: false` turns masking off for a task that needs the value itself, such as moving a hash between systems.
@@ -268,9 +273,15 @@ sequenceDiagram
 
 Nova feeds the raw PTY byte stream through a headless VT (xterm) emulator and returns the resulting screen grid. This is **Nova's reconstruction of the bytes it has received and processed** — it is never proof of the remote application's current state. A monotone `revision` (with a content `hash`) advances only when the canonical screen actually changes, so an agent can distinguish "no change" from "changed back", and `sinceRevision` + `waitMs` turn polling into a short wait for the next repaint. There is an honest **causal gap**: a read immediately after a send can still show the pre-send revision — the screen simply has not repainted yet, which is not a failed send.
 
-### Mode-aware input
+### Mode-aware input & Prompt Synchronization
 
 `nova.ssh_shell_send` encodes input by `inputKind`: a named **key** (`Enter`, `Up`, `Ctrl-C`, `F5`, …) is encoded for the terminal's *current* modes, so arrow keys produce the right bytes whether or not the application enabled DECCKM application-cursor mode; **text** types literal UTF-8; **paste** is bracketed when the app enabled bracketed-paste mode; **raw** sends bytes verbatim. `Ctrl-D` is an ordinary key byte (there is no stdin half-close for a terminal). A send result means the bytes were **handed to the channel**, never that the remote application processed them.
+
+* **Prompt Synchronization (`waitFor='prompt'` or Regex):**
+  - Instead of sending input and polling the screen, `nova.ssh_shell_send` can wait for the remote shell prompt (`waitFor='prompt'`) or a specific regular expression (such as `[y/N]`) up to `waitMs` (default 30 s, max 120 s).
+  - When matched, the command's output text is captured directly in `output.text` within the send response, avoiding separate screen reads.
+* **Output Slicing (`output='since_last_send'` in `nova.ssh_shell_read`):**
+  - When following up on commands, passing `output='since_last_send'` causes `nova.ssh_shell_read` to return the new output emitted by the remote host since the last send (`output.text`, `fromOffset`, `endOffset`), facilitating command line automation without fullscreen screen-scraping.
 
 ### Honest lifecycle
 
@@ -280,6 +291,18 @@ Nova feeds the raw PTY byte stream through a headless VT (xterm) emulator and re
 * **`nova.ssh_shell_list`:** recovers terminals you own before their idle timeout.
 
 Terminal sessions share the same connection setup, human-verified host-key gate, concurrency ceilings, idle/lifetime caps, and flood protection as the command sessions above.
+
+---
+
+## Database Queries over SSH (`nova.db_query`)
+
+Nova provides isolated SQL execution against MySQL and MariaDB databases accessible on or through the SSH server via [`nova.db_query`](../../../mcp-reference/tools/connectors-and-mail/nova-db-query.md), completely decoupled from raw shell execution (`process.exec`).
+
+* **Zero Password Exposure:** Database credentials are fed directly to the remote client via standard input (`--defaults-file=/dev/stdin` or a transient file with `umask 077`). Passwords never touch the command line, process lists (`/proc/*/cmdline`), or agent conversation context.
+* **Pre-Execution AST Validation:** Queries undergo strict static AST validation before transmission. Multiple statements, comments, SQL injection bypasses, schema modifications (`CREATE`, `ALTER`, `DROP`), administrative operations (`GRANT`, `KILL`), and file functions (`LOAD_FILE`, `INTO OUTFILE`) are rejected before contacting the server.
+* **Read-Only Transaction Isolation:** `mode='read'` (governed by the `db.read` capability) wraps queries in an engine-enforced `START TRANSACTION READ ONLY` envelope with statement execution timeouts (`timeoutMs`). Data mutations require `mode='write'` (strictly opt-in under `db.write`).
+* **Privilege Audit (`SHOW GRANTS`):** Every query execution audits user permissions on the database server, returning structured privilege flags (`readOnlyUser`, `writeGrants`, `riskyGrants`).
+* **Profile Management:** Databases are configured per SFTP connector via [`nova.connector_database_set`](../../../mcp-reference/tools/connectors-and-mail/nova-connector-database-set.md) or Nova Settings, and deleted via [`nova.connector_database_delete`](../../../mcp-reference/tools/connectors-and-mail/nova-connector-database-delete.md).
 
 ---
 
@@ -299,6 +322,9 @@ Terminal sessions share the same connection setup, human-verified host-key gate,
 | [`nova.ssh_shell_resize`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-shell-resize.md) | `process.pty` | Requests a new terminal window size |
 | [`nova.ssh_shell_close`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-shell-close.md) | `process.pty` | Closes a terminal (requests termination; never a death proof) |
 | [`nova.ssh_shell_list`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-shell-list.md) | `read` / `process.pty` | Lists the interactive terminals you own |
+| [`nova.db_query`](../../../mcp-reference/tools/connectors-and-mail/nova-db-query.md) | `db.read` / `db.write` | Runs an isolated SQL statement on a MySQL/MariaDB database over SSH |
+| [`nova.connector_database_set`](../../../mcp-reference/tools/connectors-and-mail/nova-connector-database-set.md) | `read` | Adds or updates a database entry linked to an SSH/SFTP connection |
+| [`nova.connector_database_delete`](../../../mcp-reference/tools/connectors-and-mail/nova-connector-database-delete.md) | `read` | Removes a database entry from an SSH/SFTP connection |
 
 ---
 

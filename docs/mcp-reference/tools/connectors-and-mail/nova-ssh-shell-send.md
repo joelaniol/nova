@@ -32,6 +32,10 @@ Sends input to an interactive terminal: a named key (encoded mode-aware), litera
 | `inputKind` | `string` | No | `"text"` | `key`, `text`, `paste`, `raw` | How to encode data: a named key, literal text, a bracketed paste, or raw bytes. |
 | `data` | `string` | Yes | — | — | For 'key': the key name (e.g. 'Up', 'Enter', 'Ctrl-C'). For 'text'/'paste'/'raw': the UTF-8 content (max 256 KiB). |
 | `writeSequence` | `integer` | Yes | — | ≥ 1 | Monotone per-session sequence number for ordering + idempotent retry. |
+| `waitFor` | `string` | No | — | ≤ 1000 characters | Wait after sending: 'prompt' (the last line is a short line ending in $ # % or > and nothing arrives for 300 ms) or a .NET regex (multiline) matched against the output since this send. The result then carries output {text, matched, timedOut, waitedMs, leftOutBytes}. For a program that asks a question, pass a regex for the question (e.g. '\[y/N\]'). |
+| `waitMs` | `integer` | No | `30000` | 0–120000 | With waitFor: how long to wait for it. On expiry output.timedOut=true with what came so far; continue with nova.ssh_shell_read(waitFor=...). |
+| `maxOutputBytes` | `integer` | No | `32768` | 1024–262144 | With waitFor: bytes of output text returned; a longer output keeps its start and end (leftOutBytes). |
+| `redactSecrets` | `boolean` | No | `true` | — | With waitFor: mask recognised password hashes, PEM private keys and mysql_native_password hashes in the output. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 

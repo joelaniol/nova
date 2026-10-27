@@ -25,7 +25,7 @@ An offset outside the history returns `ok: false` with `reasonCode: "navigation.
 | `offset` | `integer` | No | — | — | Relative step count from currentIndex. -1 = back one step, +2 = forward two steps. Mutually exclusive with entryId. |
 | `force` | `boolean` | No | `false` | — | If true, bypass the SPA/session-preservation AAG gate. Required for multi-step jumps on session-flagged tabs. |
 | `confirmSessionDestruction` | `boolean` | No | `false` | — | Required alongside force=true when the tab has an authenticated session. Acknowledges that the session may be destroyed by the jump. |
-| `waitForLoad` | `boolean` | No | `false` | — | If true, wait for page load before returning. |
+| `waitForLoad` | `boolean` | No | `false` | — | If true, wait for page load before returning; the result then carries httpStatus, the server's answer to the page (a 404 or 500 page loads like any other, and the message says so). |
 | `waitForLoadTimeoutMs` | `integer` | No | `10000` | 0–30000 | Max ms to wait for load (0-30000). Only used when waitForLoad=true. |
 | `waitForSettlement` | `boolean` | No | `false` | — | If true, wait for SPA DOM settlement after readyState=complete. Implies waitForLoad=true. |
 | `settlementTimeoutMs` | `integer` | No | `5000` | 1000–15000 | Max ms to wait for settlement (1000-15000). Only used when waitForSettlement=true. |
