@@ -87,3 +87,12 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 * **Read after you send, but expect lag.** Poll `nova.ssh_shell_read` with `sinceRevision`/`waitMs`; a brief unchanged result after a send is the normal causal gap.
 * **Never log raw input you send to `sudo`/`passwd`.** Treat typed secrets as secrets.
 * **`outcome_unknown` means stop.** The channel wedged and the session is tearing down; do not blindly re-send.
+
+---
+
+## 5. Related Tools
+
+* [`nova.ssh_shell_read`](nova-ssh-shell-read.md) — Reads the reconstructed terminal screen following sends
+* [`nova.ssh_shell_open`](nova-ssh-shell-open.md) — Opens a new interactive terminal
+* [`nova.ssh_shell_watch`](nova-ssh-shell-watch.md) — Waits for screen changes or text patterns
+* [`nova.ssh_shell_close`](nova-ssh-shell-close.md) — Closes the terminal session

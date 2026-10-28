@@ -81,7 +81,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.tab_release`](nova-tab-release.md) — Release an active lease.
 * [`nova.tabs`](nova-tabs.md) — Check claim owners and lease remaining time.

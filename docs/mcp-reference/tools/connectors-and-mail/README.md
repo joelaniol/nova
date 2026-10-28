@@ -8,7 +8,7 @@ IMAP/SMTP email client automation, EML exports, SFTP/FTP server operations, and 
 ---
 
 <!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
-## Tool Inventory (56 Tools)
+## Tool Inventory (57 Tools)
 
 Capability bundles of these tools: `connector_ops`.
 
@@ -23,6 +23,7 @@ Capability bundles of these tools: `connector_ops`.
 | **[`nova.connector_probe`](nova-connector-probe.md)** | Diagnoses a configured mail account or SFTP/FTP server: reachability, TLS, server identity, features and limits, read-only. |
 | **[`nova.connector_recipient_set`](nova-connector-recipient-set.md)** | Configures recipient allow-lists for autonomous email sending without human prompts. |
 | **[`nova.connector_update`](nova-connector-update.md)** | Updates configuration, endpoints, credentials, or signatures of an existing connection. |
+| **[`nova.db_export`](nova-db-export.md)** | Exports (backs up) a MySQL or MariaDB database that the user set up on an SSH/SFTP connection as an SQL dump file on the server - with the stored database login, without the agent ever seeing its password. |
 | **[`nova.db_query`](nova-db-query.md)** | Runs one SQL statement on a MySQL or MariaDB database that the user set up on an SSH/SFTP connection - without the agent ever seeing the database password. |
 | **[`nova.ftp_delete`](nova-ftp-delete.md)** | Deletes a remote regular file or empty directory on an FTP/FTPS server. |
 | **[`nova.ftp_get`](nova-ftp-get.md)** | Downloads a remote regular file over FTP/FTPS into Downloads or the workspace. |

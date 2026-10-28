@@ -77,7 +77,7 @@ If no profile matches (and no live status applies), the result is just `{"conten
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.proxy_test`](nova-proxy-test.md) - Run deep diagnostic probe.
 * [Proxy Routing Category](README.md)

@@ -85,7 +85,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.cmp_apply`](nova-cmp-apply.md) — Programmatic vendor API dispatch for recognized CMPs.
 * [`nova.click_selector`](../browser-automation/nova-click-selector.md) — Click elements with `autoDismissBlockers: true`.

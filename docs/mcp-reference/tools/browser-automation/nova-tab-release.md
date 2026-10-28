@@ -103,7 +103,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.tab_claim`](nova-tab-claim.md) — Claim an exclusive write lease.
 * [`nova.tabs`](nova-tabs.md) — Inspect active tab claims.

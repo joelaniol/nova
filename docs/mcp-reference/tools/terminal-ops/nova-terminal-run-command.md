@@ -73,7 +73,7 @@ Tool category: `high_impact` (highest risk class; Nova's agent permission settin
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.terminal_open`](nova-terminal-open.md) - Open a new session.
 * [`nova.terminal_read`](nova-terminal-read.md) - Read scrollback output.

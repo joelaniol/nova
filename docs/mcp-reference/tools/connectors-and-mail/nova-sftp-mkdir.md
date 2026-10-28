@@ -76,3 +76,12 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 * **Use `recursive=true` for nested paths.** Without it, a missing parent returns `connector_remote_path_not_found`; with it, Nova creates the whole chain and lists what it made.
 * **Set `mode` only when you need it.** The mode applies solely to directories Nova creates in this call. To change an existing directory's permissions, use [`nova.sftp_chmod`](nova-sftp-chmod.md).
 * **Respect `stateIndeterminate`.** If it is true, the connection dropped mid-create; check the server's state before creating again.
+
+---
+
+## 5. Related Tools
+
+* [`nova.sftp_list`](nova-sftp-list.md) — Lists remote directories and entries
+* [`nova.sftp_chmod`](nova-sftp-chmod.md) — Modifies permissions of existing remote directories
+* [`nova.sftp_delete`](nova-sftp-delete.md) — Deletes remote files or empty directories
+* [`nova.sftp_put`](nova-sftp-put.md) — Uploads files into created directories

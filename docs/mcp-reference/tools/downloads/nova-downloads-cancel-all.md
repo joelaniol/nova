@@ -84,7 +84,7 @@ end up cancelled.
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.downloads_cancel`](nova-downloads-cancel.md) - Cancel a single download.
 * [`nova.downloads_pause_all`](nova-downloads-pause-all.md) - Pause all transfers without cancelling.

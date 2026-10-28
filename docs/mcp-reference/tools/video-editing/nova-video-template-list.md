@@ -36,3 +36,11 @@ nova.video_template_list(name="nova-linkedin")
 Capability bundle: `visual_evidence` (load it with `nova.tools_bundle(bundle='visual_evidence')`).
 Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
+
+---
+
+## 3. Related Tools
+
+* [`nova.video_render`](nova-video-render.md) — Renders styled videos using templates
+* [`nova.video_template_save`](nova-video-template-save.md) — Saves custom rendering presets
+* [`nova.video_template_delete`](nova-video-template-delete.md) — Deletes custom render presets

@@ -63,7 +63,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.downloads_list`](nova-downloads-list.md) - View current download history.
 * [Downloads Management Category](README.md)

@@ -75,3 +75,12 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 * **Use an absolute target.** Relative targets are rejected because the client resolves them against the connection home, not the link's directory — pass the full path like `/srv/app/releases/2026-10-05`.
 * **Replacing a link is two steps.** Nova never overwrites; delete the existing link with `nova.sftp_delete` first, then create the new one. (An atomic swap is not available over plain SFTP.)
 * **Respect `stateIndeterminate`.** If it is true, the connection dropped around the create; check the server before trying again.
+
+---
+
+## 5. Related Tools
+
+* [`nova.sftp_list`](nova-sftp-list.md) — Inspects symlinks and resolves remote file paths
+* [`nova.sftp_delete`](nova-sftp-delete.md) — Removes symlinks before recreating or pointing elsewhere
+* [`nova.sftp_rename`](nova-sftp-rename.md) — Renames remote files and link paths
+* [`nova.sftp_chmod`](nova-sftp-chmod.md) — Modifies permissions of resolved targets

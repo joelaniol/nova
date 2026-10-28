@@ -103,7 +103,7 @@ Both `content[0].text` and `structuredContent` carry the same serialized result 
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.network_intercept_add`](nova-network-intercept-add.md) - Intercept in-page requests.
 * [Proxy Routing Category](README.md)

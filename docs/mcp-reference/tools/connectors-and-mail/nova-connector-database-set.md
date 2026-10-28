@@ -84,6 +84,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 ## 5. Related Tools
 
 * [`nova.db_query`](nova-db-query.md) — Queries databases over SSH without password exposure
+* [`nova.db_export`](nova-db-export.md) — Exports a database as an SQL dump on the server without exposing the password
 * [`nova.connector_database_delete`](nova-connector-database-delete.md) — Removes database profiles and stored passwords
 * [`nova.connector_list`](nova-connector-list.md) — Lists connections and database entries
 * [`nova.vault_list`](../vault-and-security/nova-vault-list.md) — Lists Vault credentials available for `passwordFromVault`

@@ -131,7 +131,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.type_selector`](nova-type-selector.md) — Type text into inputs.
 * [`nova.scroll_smart`](nova-scroll-smart.md) — Bring off-screen elements into view.

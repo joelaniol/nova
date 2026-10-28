@@ -114,3 +114,44 @@ Common refusals: `export.no_recording`, `export.still_recording` (stop the recor
 Capability bundle: `visual_evidence` (load it with `nova.tools_bundle(bundle='visual_evidence')`).
 Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
+
+---
+
+## 3. Protocol Examples
+
+### JSON-RPC Request
+```json
+{
+  "name": "nova.video_render",
+  "arguments": {
+    "template": "nova-linkedin",
+    "segments": [
+      { "startMs": 0, "endMs": 6000 },
+      { "startMs": 6000, "endMs": 14000, "speed": 4 }
+    ],
+    "captions": [
+      { "startMs": 800, "endMs": 3500, "text": "Navigating to settings." }
+    ],
+    "endCard": {
+      "text": "Done in 14 s."
+    }
+  }
+}
+```
+
+---
+
+## 4. Operational Best Practices
+
+* **Inspect source timeline:** Verify video timestamps before cutting. Lossless cuts snap to keyframe boundaries, while re-encoded cuts apply exact millisecond cuts.
+* **Review contact sheet:** `nova.video_render` generates an inline contact sheet (`.sheet.png`) summarizing chapters and result cards without requiring a local media player.
+* **Keep captions concise:** Avoid lengthy text captions that overflow or obscure key interface elements.
+
+---
+
+## 5. Related Tools
+
+* [`nova.video_template_list`](nova-video-template-list.md) — Lists available render templates and presets
+* [`nova.video_template_save`](nova-video-template-save.md) — Saves custom rendering presets
+* [`nova.video_template_delete`](nova-video-template-delete.md) — Deletes custom render presets
+* [`nova.screen_record_stop`](../visual-evidence/nova-screen-record-stop.md) — Finalizes screen recordings for video rendering

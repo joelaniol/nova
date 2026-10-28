@@ -95,3 +95,12 @@ Abridged:
 ```
 
 `observedEvidence.status` is `not_requested` without `recordingId`, `not_recorded` when the recording did not capture `api_calls`, `not_observed_in_recording` when it did but saw no call of that category, and `observed` otherwise.
+
+---
+
+## 4. Related Tools
+
+* [`nova.session_record_start`](../session-recording/nova-session-record-start.md) — Starts session recordings with API call tracking
+* [`nova.session_record_stop`](../session-recording/nova-session-record-stop.md) — Finalizes session recordings
+* [`nova.session_record_query`](../session-recording/nova-session-record-query.md) — Queries captured session events
+* [`nova.fingerprint_get`](../site-data-and-identity/nova-fingerprint-get.md) — Inspects browser fingerprint and hardware profile

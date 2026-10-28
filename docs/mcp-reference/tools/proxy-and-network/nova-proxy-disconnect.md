@@ -64,7 +64,7 @@ Calling it again while already disconnected still succeeds with `"status": "alre
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.proxy_reconnect`](nova-proxy-reconnect.md) - Reconnect proxy.
 * [Proxy Routing Category](README.md)

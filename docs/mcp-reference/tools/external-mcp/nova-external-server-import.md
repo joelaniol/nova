@@ -96,7 +96,7 @@ Imported servers are never auto-started unless `autoStart: true` is passed; `sta
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.external_servers`](nova-external-servers.md) - List configured servers.
 * [External MCP Servers Category](README.md)

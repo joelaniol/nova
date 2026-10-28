@@ -65,7 +65,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.proxy_disconnect`](nova-proxy-disconnect.md) - Disconnect proxy.
 * [Proxy Routing Category](README.md)

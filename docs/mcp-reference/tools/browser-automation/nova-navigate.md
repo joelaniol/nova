@@ -106,7 +106,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.route`](nova-route.md) — Client-side SPA navigation without document reload.
 * [`nova.tab_new`](nova-tab-new.md) — Create a new browser tab.

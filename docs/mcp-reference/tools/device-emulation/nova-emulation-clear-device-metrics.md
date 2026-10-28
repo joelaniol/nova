@@ -72,7 +72,7 @@ reports which of `touch`/`userAgentOverridden` is still set.
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.emulation_set_device_metrics`](nova-emulation-set-device-metrics.md) - Set custom metrics.
 * [`nova.emulation_clear_media`](nova-emulation-clear-media.md) - Clear media feature overrides.

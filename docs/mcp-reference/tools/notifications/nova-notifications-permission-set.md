@@ -68,7 +68,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.notifications_permissions_list`](nova-notifications-permissions-list.md) - List configured permissions.
 * [`nova.notifications_permission_default_set`](nova-notifications-permission-default-set.md) - Set global default.

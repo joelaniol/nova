@@ -68,3 +68,11 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 * **Do not read `stopRequested: true` as "killed".** Confirm via `termination.confirmed` or a final `nova.ssh_run_read`.
 * **Stop sessions you are done with.** It frees a session slot immediately instead of waiting for the idle cap.
 * **Retrying is safe.** A second stop on an ended session is a harmless no-op.
+
+---
+
+## 5. Related Tools
+
+* [`nova.ssh_run_read`](nova-ssh-run-read.md) — Drains remaining output from the stopped session
+* [`nova.ssh_run_start`](nova-ssh-run-start.md) — Spawns new background command sessions
+* [`nova.ssh_run_list`](nova-ssh-run-list.md) — Lists all running and recent background sessions

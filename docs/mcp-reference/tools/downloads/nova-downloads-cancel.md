@@ -69,7 +69,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.downloads_cancel_all`](nova-downloads-cancel-all.md) - Cancel all active transfers.
 * [`nova.downloads_list`](nova-downloads-list.md) - Inspect current transfers.

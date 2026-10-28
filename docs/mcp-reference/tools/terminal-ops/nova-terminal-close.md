@@ -65,7 +65,7 @@ Tool category: `high_impact` (highest risk class; Nova's agent permission settin
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.terminal_open`](nova-terminal-open.md) - Open a new terminal session.
 * [`nova.terminal_list`](nova-terminal-list.md) - List active sessions.

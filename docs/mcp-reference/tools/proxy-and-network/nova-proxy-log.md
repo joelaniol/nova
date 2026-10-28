@@ -68,7 +68,7 @@ Response is shortened to 2 lines for this example; a real call returns up to `ma
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.proxy_status`](nova-proxy-status.md) - View live proxy health.
 * [Proxy Routing Category](README.md)

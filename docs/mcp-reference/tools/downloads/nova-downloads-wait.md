@@ -100,7 +100,7 @@ returned.
 
 ---
 
-## See Also
+## Related Tools
 
 * [Download Wait Synchronization & Deterministic Join Points](../../../core-features/downloads/wait-and-synchronization/README.md) — Architecture, anchored windows, and batch arrival grace.
 * [`nova.downloads_list`](nova-downloads-list.md) - List active and historical downloads.

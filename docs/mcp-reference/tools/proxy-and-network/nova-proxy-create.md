@@ -87,7 +87,7 @@ IDs are assigned sequentially (`proxy-1`, `proxy-2`, ...), not derived from the 
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.proxy_set_password`](nova-proxy-set-password.md) - Store encrypted proxy password.
 * [`nova.proxy_switch`](nova-proxy-switch.md) - Activate proxy.

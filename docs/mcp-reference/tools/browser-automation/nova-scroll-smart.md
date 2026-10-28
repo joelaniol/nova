@@ -119,7 +119,7 @@ There is no `deltaYActual`, top-level `scrollTop`, or `newDomNodesDetected` fiel
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.perceive`](../dom-and-reading/nova-perceive.md) — Inspect page completeness (`belowFoldPx`, `aboveFoldPx`).
 * [`nova.click_selector`](nova-click-selector.md) — Click loaded elements.

@@ -25,7 +25,7 @@ Every tool exposed by **Nova AI Workspace**, grouped by operational domain. Clic
 - [16. Site Crawler & URL Discovery Index](#16-site-crawler--url-discovery-index) (13)
 - [17. Session Tracing & DOM Event Recording](#17-session-tracing--dom-event-recording) (14)
 - [18. Scheduled Tasks, Cron & Workspaces](#18-scheduled-tasks-cron--workspaces) (25)
-- [19. Connectors, Mail & File Transfer](#19-connectors-mail--file-transfer) (56)
+- [19. Connectors, Mail & File Transfer](#19-connectors-mail--file-transfer) (57)
 - [20. Media Intelligence & Whisper Speech-to-Text](#20-media-intelligence--whisper-speech-to-text) (24)
 - [21. Site Data, Fingerprinting & Sandboxes](#21-site-data-fingerprinting--sandboxes) (21)
 - [22. Episodic Task Memory & Guidance](#22-episodic-task-memory--guidance) (33)
@@ -490,6 +490,7 @@ IMAP/SMTP email client automation, EML exports, SFTP/FTP server operations, and 
 | **[`nova.connector_database_set`](tools/connectors-and-mail/nova-connector-database-set.md)** | `profileId`, `databaseId?`, `label?`, `username?`, `passwordFromVault?`, `defaultDatabase?`, `host?`, `port?`, `socket?` | Adds or changes a MySQL/MariaDB database on an SSH/SFTP connection, so `nova.db_query` can reach it. |
 | **[`nova.connector_database_delete`](tools/connectors-and-mail/nova-connector-database-delete.md)** | `profileId`, `databaseId` | Removes a database entry from an SSH/SFTP connection together with its stored password. |
 | **[`nova.db_query`](tools/connectors-and-mail/nova-db-query.md)** | `profileId`, `databaseId`, `sql`, `mode?`, `maxRows?`, `maxCellChars?`, `maxResultChars?`, `timeoutMs?`, `connectTimeoutSeconds?`, `allowWholeTable?`, `unattended?` | Runs one SQL statement on a MySQL or MariaDB database that the user set up on an SSH/SFTP connection - without the agent ever seeing the database password. |
+| **[`nova.db_export`](tools/connectors-and-mail/nova-db-export.md)** | `profileId`, `databaseId?`, `exportId?`, `format?`, `portable?`, `includeRoutines?`, `includeEvents?`, `waitSeconds?`, `connectTimeoutSeconds?`, `unattended?` | Exports (backs up) a MySQL or MariaDB database that the user set up on an SSH/SFTP connection as an SQL dump file on the server - with the stored database login, without the agent ever seeing its password. |
 | **[`nova.connector_recipient_set`](tools/connectors-and-mail/nova-connector-recipient-set.md)** | `profileId`, `recipients` | Configures recipient allow-lists for autonomous email sending without human prompts. |
 | **[`nova.mail_folders`](tools/connectors-and-mail/nova-mail-folders.md)** | `profileId`, `unattended?`, `allowInsecure?` | Lists the personal IMAP folder tree with total and unread message counts. |
 | **[`nova.mail_list`](tools/connectors-and-mail/nova-mail-list.md)** | `profileId`, `folder`, `query?`, `limit?`, `sinceCursor?`, `olderCursor?`, `unattended?`, `allowInsecure?` | Lists bounded message metadata (headers, dates, senders) from an exact IMAP folder. |

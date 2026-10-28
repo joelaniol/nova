@@ -67,3 +67,11 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 * **Match the program.** Size the terminal to what the TUI expects before launching it; a mismatch misrenders columns and status bars.
 * **Read after resizing.** The repaint is asynchronous; poll `nova.ssh_shell_read` to confirm the new geometry took effect.
+
+---
+
+## 5. Related Tools
+
+* [`nova.ssh_shell_read`](nova-ssh-shell-read.md) — Reads the resized terminal screen
+* [`nova.ssh_shell_send`](nova-ssh-shell-send.md) — Sends keystrokes to the terminal
+* [`nova.ssh_shell_open`](nova-ssh-shell-open.md) — Opens a new interactive terminal

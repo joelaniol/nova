@@ -61,7 +61,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.proxy_list`](nova-proxy-list.md) - List profiles.
 * [Proxy Routing Category](README.md)

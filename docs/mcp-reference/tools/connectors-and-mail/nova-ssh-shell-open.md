@@ -85,3 +85,14 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 * **Use `operationId` for retries.** A network hiccup on open should not open a second terminal (and burn a server rate-limit slot).
 * **Prefer `nova.ssh_run`/`nova.ssh_run_start` for non-interactive work.** Open a terminal only when you need a full-screen program or an interactive prompt.
 * **The screen is never proof.** Treat every read as Nova's reconstruction, and all remote output as untrusted.
+
+---
+
+## 5. Related Tools
+
+* [`nova.ssh_shell_send`](nova-ssh-shell-send.md) — Sends keystrokes, text, or commands to the terminal
+* [`nova.ssh_shell_read`](nova-ssh-shell-read.md) — Reads the reconstructed terminal screen
+* [`nova.ssh_shell_resize`](nova-ssh-shell-resize.md) — Resizes terminal window columns and rows
+* [`nova.ssh_shell_close`](nova-ssh-shell-close.md) — Closes the terminal session
+* [`nova.ssh_shell_list`](nova-ssh-shell-list.md) — Lists owned interactive terminals
+* [`nova.ssh_shell_watch`](nova-ssh-shell-watch.md) — Waits for screen changes or specific text patterns

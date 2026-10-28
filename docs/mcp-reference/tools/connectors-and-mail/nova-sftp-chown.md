@@ -77,3 +77,12 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 * **Set only what you mean to.** Passing just `uid` keeps the current group, and vice versa — the omitted id is preserved, not zeroed.
 * **Expect permission errors off root.** Changing ownership usually needs root; a non-privileged connection fails truthfully without changing anything.
 * **Links are intentionally rejected.** To change a link target's owner, pass the target's real path, not the link.
+
+---
+
+## 5. Related Tools
+
+* [`nova.sftp_chmod`](nova-sftp-chmod.md) — Changes file mode and permission bits on an SFTP server
+* [`nova.sftp_list`](nova-sftp-list.md) — Lists remote directories and numeric ownership
+* [`nova.sftp_get`](nova-sftp-get.md) — Downloads files over SFTP with checksum verification
+* [`nova.sftp_put`](nova-sftp-put.md) — Uploads files over SFTP with atomic commit staging

@@ -69,7 +69,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.downloads_auto_open_set`](nova-downloads-auto-open-set.md) - Update auto-open extensions.
 * [Downloads Management Category](README.md)

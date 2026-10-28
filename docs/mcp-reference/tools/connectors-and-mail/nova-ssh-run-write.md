@@ -74,3 +74,12 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 * **A result is not a read receipt.** `bytesWritten` is what Nova handed the channel; the program may not have consumed it yet.
 * **Send EOF when input is done.** A command blocked on stdin (`cat`, a prompt) only proceeds after `eof: true`.
 * **Handle `stdin_not_enabled`.** If you need input, start the session with `allowStdin: true`; it cannot be enabled afterwards.
+
+---
+
+## 5. Related Tools
+
+* [`nova.ssh_run_read`](nova-ssh-run-read.md) — Reads session output emitted in response to writes
+* [`nova.ssh_run_start`](nova-ssh-run-start.md) — Starts a background command session with `allowStdin=true`
+* [`nova.ssh_run_stop`](nova-ssh-run-stop.md) — Terminates a background session
+* [`nova.ssh_shell_send`](nova-ssh-shell-send.md) — Sends interactive input to pseudo-terminals (PTY)

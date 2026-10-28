@@ -81,7 +81,7 @@ Sandbox assignments are listed separately from profiles, not nested under each p
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.proxy_status`](nova-proxy-status.md) - Check proxy health and latency.
 * [`nova.proxy_switch`](nova-proxy-switch.md) - Assign proxy to sandbox.

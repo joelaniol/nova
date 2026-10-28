@@ -66,7 +66,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.downloads_open_folder`](nova-downloads-open-folder.md) - Reveal in Explorer.
 * [`nova.downloads_preview`](nova-downloads-preview.md) - Preview inline in a browser tab.

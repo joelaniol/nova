@@ -69,7 +69,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.terminal_list`](nova-terminal-list.md) - List all active sessions.
 * [`nova.terminal_close`](nova-terminal-close.md) - Close session.

@@ -78,7 +78,7 @@ If every given value already matched, `changed` comes back empty and the text re
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.terminal_settings_get`](nova-terminal-settings-get.md) - Read terminal settings.
 * [Headless Terminal Workspaces Category](README.md)

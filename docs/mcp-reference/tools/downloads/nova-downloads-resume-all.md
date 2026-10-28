@@ -62,7 +62,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.downloads_pause_all`](nova-downloads-pause-all.md) - Pause all transfers.
 * [`nova.downloads_resume`](nova-downloads-resume.md) - Resume a single download.

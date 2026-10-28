@@ -64,7 +64,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.terminal_dock_set_state`](nova-terminal-dock-set-state.md) - Expand, collapse, or hide dock.
 * [Headless Terminal Workspaces Category](README.md)

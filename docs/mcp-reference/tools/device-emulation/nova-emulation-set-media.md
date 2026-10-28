@@ -73,7 +73,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## See Also
+## Related Tools
 
 * [Media Features & Visual Themes](../../../core-features/device-emulation/media-features-and-themes/README.md) — Additive media state merge, dark mode, reduced motion, and print emulation.
 * [`nova.emulation_clear_media`](nova-emulation-clear-media.md) - Clear emulated media features.

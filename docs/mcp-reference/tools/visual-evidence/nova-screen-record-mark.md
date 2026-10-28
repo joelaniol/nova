@@ -65,3 +65,12 @@ Common refusals: `not_recording`, `video.not_owner`, `video.evidence_off` (the r
 Capability bundle: `visual_evidence` (load it with `nova.tools_bundle(bundle='visual_evidence')`).
 Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
+
+---
+
+## 3. Related Tools
+
+* [`nova.screen_record_assert`](nova-screen-record-assert.md) — Asserts visual properties against timeline checkpoints
+* [`nova.screen_record_start`](nova-screen-record-start.md) — Starts a screen recording session
+* [`nova.screen_record_stop`](nova-screen-record-stop.md) — Finalizes recording and produces video evidence
+* [`nova.screen_record_inspect`](nova-screen-record-inspect.md) — Inspects recording timeline marks and manifests

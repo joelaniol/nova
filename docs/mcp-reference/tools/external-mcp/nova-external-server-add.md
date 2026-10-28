@@ -91,7 +91,7 @@ Tool category: `high_impact` (highest risk class; Nova's agent permission settin
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.external_server_start`](nova-external-server-start.md) - Start server.
 * [`nova.external_server_remove`](nova-external-server-remove.md) - Remove server.

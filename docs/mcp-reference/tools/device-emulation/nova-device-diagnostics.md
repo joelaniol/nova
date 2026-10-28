@@ -92,7 +92,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.emulation_use_device`](nova-emulation-use-device.md) - Apply a device preset.
 * [`nova.page_info`](../dom-and-reading/nova-page-info.md) - List a tab's frames and workers.

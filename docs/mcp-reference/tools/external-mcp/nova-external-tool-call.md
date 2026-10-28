@@ -87,7 +87,7 @@ A tool that the server's release list (`allowedTools`) does not contain is refus
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.external_tools`](nova-external-tools.md) - Discover tool schemas.
 * [External MCP Servers Category](README.md)

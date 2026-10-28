@@ -73,7 +73,7 @@ The `removed` array is shortened here to one entry; a real response lists every 
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.network_intercept_add`](nova-network-intercept-add.md) - Add interception rule.
 * [`nova.network_intercept_list`](nova-network-intercept-list.md) - List active rules.

@@ -106,3 +106,14 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 * **Never loop on a rejected login.** An authentication failure is not retried automatically; check the credentials with the user.
 * **One directory per command does not persist.** `cd` in one command does not affect the next; combine with `&&` inside a single command.
 * **Long or interactive work.** There is no PTY and the overall timeout caps at 1800s; for longer jobs start them detached and poll, rather than holding the call open.
+
+---
+
+## 5. Related Tools
+
+* [`nova.ssh_run_start`](nova-ssh-run-start.md) — Spawns background command sessions with output streaming
+* [`nova.ssh_shell_open`](nova-ssh-shell-open.md) — Opens an interactive pseudo-terminal (PTY) for full-screen tools
+* [`nova.sftp_get`](nova-sftp-get.md) — Downloads files over SFTP with checksum verification
+* [`nova.sftp_put`](nova-sftp-put.md) — Uploads files over SFTP with atomic commit staging
+* [`nova.db_query`](nova-db-query.md) — Runs SQL queries on databases over SSH without password exposure
+* [`nova.db_export`](nova-db-export.md) — Exports a MySQL/MariaDB database to an SQL dump on the server

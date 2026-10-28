@@ -36,6 +36,8 @@ flowchart TD
         ArchiveTools["nova.archive_inspect\nnova.archive_extract*"]
         OcrTools["nova.ocr_read"]
         TranscribeTools["nova.media_transcribe_*\n(start, status, stop, models)"]
+        VideoTools["nova.video_render\nnova.video_template_*"]
+        VisualTools["nova.barcode_generate / decode\nnova.chart_create"]
     end
 
     subgraph Layer4["4. Isolated Native Outrider Helper Process"]
@@ -84,6 +86,9 @@ flowchart TD
 | **[Media Devices & Permissions](devices-and-permissions/README.md)** | Multi-layered governance over camera, microphone, speaker, and screen-sharing access. Persistent per-origin rules, ephemeral session grants, live stream monitoring, emergency kill-switches, and WebRTC hardware diagnostics. | `nova.media_permissions_list`<br/>`nova.media_permission_get`<br/>`nova.media_permission_set`<br/>`nova.media_permissions_clear_session_grants`<br/>`nova.media_activity_status`<br/>`nova.media_activity_audit`<br/>`nova.media_activity_delta`<br/>`nova.media_stop_all`<br/>`nova.site_permissions_reset_origin`<br/>`nova.media_device_preferences_list`<br/>`nova.hardware_diagnostics_start`<br/>`nova.hardware_diagnostics_state`<br/>`nova.hardware_diagnostics_stop` |
 | **[Media Capture](media-capture/README.md)** | In-page stream recording intercepting live media directly from Media Source Extensions (MSE) and Web Audio API graphs into local native track files without external transcoders. | `nova.media_capture_start`<br/>`nova.media_capture_status`<br/>`nova.media_capture_stop` |
 | **[Media Playback Inspection](media-playback/README.md)** | Real-time diagnostics of in-page `<video>` and `<audio>` elements: playback state, current position, buffer health, network readiness, YouTube video ad detection, and classified pause root causes. | `nova.media_status` |
+| **Video Composition & Rendering** | Local programmatic video timeline assembly and MP4 rendering. Chapter headlines, validation checkpoints, result cards, end cards, contact sheet generation (`.sheet.png`), audio crossfading, lossless cuts, and reusable template presets. | `nova.video_render`<br/>`nova.video_template_save`<br/>`nova.video_template_list`<br/>`nova.video_template_delete` |
+| **Barcode & QR Code Intelligence** | Deterministic generation and decoding of 1D and 2D barcodes (QR, Aztec, Code 128, EAN, DataMatrix). Complies with WCAG contrast ratios (>= 4.5:1), custom typography/captions, and on-device decoding without cloud APIs. | `nova.barcode_generate`<br/>`nova.barcode_decode` |
+| **Chart & Visualization Synthesis** | Local vector and raster chart rendering (bar, line, pie, donut, scatter) with customizable themes and dimensions for agent reports. | `nova.chart_create` |
 
 ---
 

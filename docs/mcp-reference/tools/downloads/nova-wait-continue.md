@@ -86,3 +86,13 @@ When the download has finished:
 * `wait.watch_unknown` - no wait with this id, or it ended more than 10 minutes ago.
 * `wait.watch_other_session` - the wait belongs to another MCP session.
 * `wait.watch_host_restarted` - the wait was started before Nova restarted. Check the state directly (for downloads: `nova.downloads_list`) instead of repeating the action.
+
+---
+
+## 4. Related Tools
+
+* [`nova.wait_cancel`](nova-wait-cancel.md) — Ends a resumable wait that is no longer needed
+* [`nova.downloads_wait`](nova-downloads-wait.md) — Waits deterministically for active downloads
+* [`nova.downloads_list`](nova-downloads-list.md) — Lists active and recent downloads
+* [`nova.wait_for_selector`](../browser-automation/nova-wait-for-selector.md) — Waits for DOM elements with optional resumable watches
+* [`nova.wait_for_eval`](../dom-and-reading/nova-wait-for-eval.md) — Waits for JavaScript expressions with optional resumable watches

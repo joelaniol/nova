@@ -122,6 +122,25 @@ Nova follows a strict architectural contract regarding track delivery:
   }
   ```
 
+### Iframe Media Player Capture & Multi-Player Isolation
+
+Many web applications embed media players inside same-origin or cross-site iframes (e.g. video portals, educational platforms, customer service embeds):
+
+* **Automatic Iframe Arming:** Media capture hooks attach across child iframes belonging to the target tab.
+* **Track Isolation:** Streams originating from distinct players are written to isolated track files tagged with their frame context.
+* **Multiple Active Players (`several_players`):** If multiple distinct players begin playback concurrently within the same tab, Nova detects the collision and reports `several_players` to prevent multiplexing disparate media streams into conflicting files.
+* **Document Navigation Teardown:** When a captured document or iframe navigates away, active track files for that frame are flushed and cleanly closed, preventing file handle leaks and buffer truncation.
+
+### Append Journal & Stream Integrity (`CRC-32`)
+
+Nova maintains an internal append journal during chunk recording:
+* **Checksum Verification:** Each appended chunk records a CRC-32 checksum.
+* **Integrity States:** Status and stop reports evaluate the stream integrity:
+  - `verified`: Every chunk written to disk passed continuous CRC-32 checksum validation.
+  - `mismatch`: A corrupted byte stream or buffer truncation was detected during append verification.
+  - `incomplete`: Recording was interrupted before trailing buffer drains settled.
+* **Standardized Reason Codes:** If an operation cannot proceed, Nova returns structured machine-readable `reasonCode` values (such as `no_media_captured`, `max_bytes_reached`, `several_players`, `recorder_lost`, `drain_timeout`) alongside clear explanations.
+
 ---
 
 ## 4. Safety Guardrails & Resource Limits

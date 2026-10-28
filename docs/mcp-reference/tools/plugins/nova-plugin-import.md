@@ -29,7 +29,7 @@ Tool category: `high_impact` (highest risk class; Nova's agent permission settin
 
 ---
 
-## See Also
+## Related Tools
 
 * [All plugin tools](README.md)
 * [Agent-Authored Plugins](../../../core-features/plugins/README.md)

@@ -123,7 +123,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.click_selector`](nova-click-selector.md) — Click buttons and links.
 * [`nova.type_selector_secret`](../vault-and-security/nova-type-selector-secret.md) — Secure, zero-leak credential injection.

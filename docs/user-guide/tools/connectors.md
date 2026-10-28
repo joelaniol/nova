@@ -76,11 +76,12 @@ For transferring web assets, log archives, or test deliverables between your loc
 Nova provides dedicated, credential-isolated database querying directly through an active SSH connection via `nova.db_query`:
 
 * **No Shell Access Required:** Runs queries without granting interactive shell execution (`process.exec`). Queries are executed by the remote database client via an isolated SSH exec channel.
-* **Zero Credential Exposure:** Database passwords are transmitted to the remote client exclusively via standard input (`--defaults-file=/dev/stdin` or isolated temporary file with `umask 077`). Passwords never appear in process lists, command arguments, or agent transcripts.
-* **Pre-Execution AST Inspection:** Strictly validates each query before sending. Blocks multi-statement execution, SQL comments, schema mutations (`DROP`, `ALTER`, `CREATE`), administrative commands (`GRANT`, `KILL`), and file operations (`LOAD_FILE`, `INTO OUTFILE`).
+* **Zero Credential Exposure:** Database passwords are transmitted to the remote client exclusively via standard input (`--defaults-file=/dev/stdin`). Passwords never appear in process lists, command arguments, or agent transcripts.
+* **Pre-Execution Inspection:** Strictly validates each query before sending. Blocks multi-statement execution, SQL comments, schema mutations (`DROP`, `ALTER`, `CREATE`), administrative commands (`GRANT`, `KILL`), and file operations (`LOAD_FILE`, `INTO OUTFILE`).
 * **Server-Enforced Read Safety:** Read queries (`mode='read'`) run within a `START TRANSACTION READ ONLY` envelope with statement timeouts (`timeoutMs`). Data modifications require explicit `mode='write'` and the `db.write` capability grant.
 * **Privilege Audit:** Queries run `SHOW GRANTS` on the connection to report effective user privileges (`readOnlyUser: true`, `riskyGrants`), ensuring least-privilege configurations.
 * **Profile Configuration:** Databases are linked to SFTP connections via `nova.connector_database_set` (or Nova Settings) and removed via `nova.connector_database_delete`.
+* **Backups and SQL exports:** `nova.db_export` dumps a database with the same stored login into a private folder on the server (`.sql` or `.sql.gz`), publishes the file only once the dump is verified complete, and keeps running if the connection drops. The file imports into the database selected in phpMyAdmin; by default it carries no `DEFINER` clauses, so the import also works on shared hosting. Download it with `nova.sftp_get(verifySha256=true)`. Exporting needs its own permission, `db.export`.
 
 ---
 

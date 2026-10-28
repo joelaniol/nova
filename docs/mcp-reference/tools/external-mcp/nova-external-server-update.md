@@ -86,7 +86,7 @@ Tool category: `high_impact` (highest risk class; Nova's agent permission settin
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.external_servers`](nova-external-servers.md) - Inspect current configurations.
 * [External MCP Servers Category](README.md)

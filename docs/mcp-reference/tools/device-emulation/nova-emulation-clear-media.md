@@ -58,7 +58,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.emulation_set_media`](nova-emulation-set-media.md) - Set emulated CSS media.
 * [Device Emulation Category](README.md)

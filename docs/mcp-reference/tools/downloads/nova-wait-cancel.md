@@ -51,3 +51,11 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
   "watchState": "cancelled"
 }
 ```
+
+---
+
+## 4. Related Tools
+
+* [`nova.wait_continue`](nova-wait-continue.md) — Continues a long-running resumable wait
+* [`nova.downloads_wait`](nova-downloads-wait.md) — Waits deterministically for active downloads
+* [`nova.downloads_list`](nova-downloads-list.md) — Lists active and recent downloads

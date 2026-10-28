@@ -64,3 +64,11 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 * **Recover, then close.** If a terminal shows up that you no longer need, end it with [`nova.ssh_shell_close`](nova-ssh-shell-close.md).
 * **Watch the caps.** Only a few sessions run at once across both the shell and command families; list and close idle ones before opening more.
+
+---
+
+## 5. Related Tools
+
+* [`nova.ssh_shell_open`](nova-ssh-shell-open.md) — Opens an interactive pseudo-terminal
+* [`nova.ssh_shell_read`](nova-ssh-shell-read.md) — Reads the reconstructed terminal screen
+* [`nova.ssh_shell_close`](nova-ssh-shell-close.md) — Closes an owned terminal session

@@ -62,7 +62,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.notifications_get`](nova-notifications-get.md) - Inspect notification target before opening.
 * [Desktop Notifications Category](README.md)

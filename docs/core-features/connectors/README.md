@@ -57,7 +57,7 @@ flowchart TD
 | :--- | :--- | :--- | :--- |
 | **[Mail: IMAP & SMTP](mail/README.md)** | IMAP (RFC 3501) & SMTP (RFC 5321) | `read`, `organize`, `send` | Message search, reading, tagging, drafting, sending, `.eml` exports, background mailbox archiving |
 | **[Secure Shell (SSH)](ssh/README.md)** | SSH-2 (RFC 4251-4254) | `process.exec`, `process.stdin`, `process.pty` | Batch command execution, background long-running sessions, interactive stdin streaming, interactive terminals (PTY) for full-screen programs, stream capture |
-| **[Database: MySQL & MariaDB over SSH](ssh/README.md#database-queries-over-ssh)** | MySQL & MariaDB client over SSH-2 | `db.read`, `db.write` | Password-isolated SQL queries, single-statement enforcement, read-only transactions, database user privilege audit (`SHOW GRANTS`), multi-database profile management |
+| **[Database: MySQL & MariaDB over SSH](ssh/README.md#database-queries-over-ssh)** | MySQL & MariaDB client over SSH-2 | `db.read`, `db.write`, `db.export` | Password-isolated SQL queries, single-statement enforcement, read-only transactions, database user privilege audit (`SHOW GRANTS`), multi-database profile management, and verified server-side SQL dumps (`nova.db_export`) |
 | **[SSH File Transfer (SFTP)](sftp/README.md)** | SFTP over SSH-2 | `read`, `full` | Directory synchronization, resumable uploads/downloads, atomic commit recovery, parallel acceleration |
 | **[FTP & FTPS](ftp-and-ftps/README.md)** | FTP (RFC 959) & FTPS (RFC 4217) | `read`, `full` | Directory listing, explicit/implicit TLS transfers, passive mode negotiation, resumable single-file jobs |
 | **[External MCP Servers](external-mcp/README.md)** | stdio, Streamable HTTP, SSE | Aggregated tools | Subprocess orchestration, configuration import (Claude/VS Code), token authentication, tool call proxying |
@@ -160,6 +160,7 @@ classDiagram
         +process.pty (Interactive Terminal / PTY)
         +db.read (Read-only Database Queries)
         +db.write (Opt-in Data Mutations)
+        +db.export (Isolated Database Backups & SQL Dumps)
     }
 
     ConnectorType <|-- MailCapabilities
@@ -182,6 +183,7 @@ classDiagram
   - `process.pty`: Opening a full interactive terminal / pseudo-terminal on the server (`nova.ssh_shell_open`) for full-screen programs and interactive prompts. The most powerful process stage; strictly opt-in and **never** inherits weaker grants.
   - `db.read`: Read-only queries against databases configured for the SFTP connection (`nova.db_query` with `mode='read'`). Evaluated independently of file access.
   - `db.write`: Data mutations (`INSERT`, `UPDATE`, `DELETE`) against configured databases (`nova.db_query` with `mode='write'`). Strictly opt-in; never inherits `db.read` or `process.exec`.
+  - `db.export`: Creating verified server-side SQL dump exports (`nova.db_export`). Evaluated independently of `db.read` and `db.write`; the resulting file is a complete export of database data.
 
 ---
 
@@ -291,6 +293,17 @@ Database passwords never appear on the command line, in environment variables, i
 
 A single SFTP connector profile can host multiple named database configurations (e.g., `Shop`, `Analytics`). Agents execute queries via [`nova.db_query`](../../mcp-reference/tools/connectors-and-mail/nova-db-query.md) by specifying `profileId`, `databaseId`, and `sql`. Configurations can be removed with [`nova.connector_database_delete`](../../mcp-reference/tools/connectors-and-mail/nova-connector-database-delete.md).
 
+### Automated Database Backups & Exports (`nova.db_export`)
+
+Nova enables agents to back up configured MySQL and MariaDB databases without exposing database credentials or requiring root shell access (`process.exec`).
+
+* **Direct Tool Execution:** Invoked via [`nova.db_export`](../../mcp-reference/tools/connectors-and-mail/nova-db-export.md) using the stored database login from Nova Settings or Vault.
+* **Server-Side Dump Engine:** Executes the remote server's native `mysqldump` or `mariadb-dump` client. Credentials are transmitted via stdin option files (`--defaults-file=/dev/stdin`), preventing credential exposure in process argument lists.
+* **phpMyAdmin & Shared Hosting Portability:** By default (`portable=true`), Nova strips `DEFINER` clauses and MariaDB sandbox headers, allowing SQL dumps to import cleanly on shared hosting platforms and phpMyAdmin environments without `SUPER` privileges.
+* **Format & Compression:** Supports compressed gzip dumps (`format='sql.gz'`, default) and plain-text SQL files (`format='sql'`).
+* **Asynchronous Lifecycle & Integrity Verification:** Exports run as asynchronous server jobs. Nova publishes the resulting file in `~/.nova-db-exports/<exportId>/` only after verifying that the dump writer exited with code 0, the gzip stream validates cleanly, and the final line contains `-- Dump completed`.
+* **Honest Omission Reporting:** Status reports explicitly enumerate omitted database routines, events, or triggers (`objectsOmitted`) if the database user lacks `TRIGGER` or administrative grants.
+
 ---
 
 ## Connection Notes & Human Infrastructure Context
@@ -315,6 +328,7 @@ Notes are stored locally in the connection database (`notes.db`, schema version 
 | [`nova.connector_recipient_set`](../../mcp-reference/tools/connectors-and-mail/nova-connector-recipient-set.md) | Replaces the allowed recipient list for a mail account | `profileId`, `recipients` |
 | [`nova.connector_probe`](../../mcp-reference/tools/connectors-and-mail/nova-connector-probe.md) | Performs non-destructive network & capability diagnostics | `profileId`, `depth` (`reach`, `session`, `full`), `includeTranscript`, `allowInsecure` |
 | [`nova.db_query`](../../mcp-reference/tools/connectors-and-mail/nova-db-query.md) | Executes isolated SQL queries on a remote MySQL/MariaDB database over SSH | `profileId`, `databaseId`, `sql`, `mode` (`read`, `write`), `maxRows`, `timeoutMs` |
+| [`nova.db_export`](../../mcp-reference/tools/connectors-and-mail/nova-db-export.md) | Exports a configured database to a verified server-side SQL dump ready for phpMyAdmin | `profileId`, `databaseId`, `exportId`, `format`, `portable`, `waitSeconds` |
 | [`nova.connector_database_set`](../../mcp-reference/tools/connectors-and-mail/nova-connector-database-set.md) | Configures or updates a database definition linked to an SFTP connection | `profileId`, `databaseId`, `label`, `username`, `passwordFromVault`, `defaultDatabase`, `host`, `port` |
 | [`nova.connector_database_delete`](../../mcp-reference/tools/connectors-and-mail/nova-connector-database-delete.md) | Removes a database definition from an SFTP connection | `profileId`, `databaseId` |
 

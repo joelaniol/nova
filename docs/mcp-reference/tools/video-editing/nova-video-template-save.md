@@ -39,3 +39,11 @@ nova.video_render(template="diary-clip")
 Capability bundle: `visual_evidence` (load it with `nova.tools_bundle(bundle='visual_evidence')`).
 Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
+
+---
+
+## 3. Related Tools
+
+* [`nova.video_render`](nova-video-render.md) — Renders styled videos using templates
+* [`nova.video_template_list`](nova-video-template-list.md) — Lists available render templates and presets
+* [`nova.video_template_delete`](nova-video-template-delete.md) — Deletes custom render presets

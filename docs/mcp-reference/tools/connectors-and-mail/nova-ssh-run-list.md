@@ -67,3 +67,12 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 * **List before starting another.** Concurrency is capped; a forgotten active session may be why a new start is refused.
 * **Clean up.** Stop sessions you no longer need instead of leaving them to the idle timeout.
+
+---
+
+## 5. Related Tools
+
+* [`nova.ssh_run_start`](nova-ssh-run-start.md) — Spawns new background command sessions
+* [`nova.ssh_run_read`](nova-ssh-run-read.md) — Reads output from sessions returned by the list
+* [`nova.ssh_run_stop`](nova-ssh-run-stop.md) — Terminates active sessions
+* [`nova.ssh_run`](nova-ssh-run.md) — One-shot synchronous command execution over SSH

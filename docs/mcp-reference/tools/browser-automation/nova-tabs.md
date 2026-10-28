@@ -105,7 +105,7 @@ The response also carries `totalCount`, `filteredCount`, `mine`/`mineAgentId`, a
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.tab_claim`](nova-tab-claim.md) — Claim exclusive write access to a tab.
 * [`nova.tab_new`](nova-tab-new.md) — Open a new tab.

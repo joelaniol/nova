@@ -69,7 +69,7 @@ On failure `ok` is `false`, `externalIp`/`statusCode` are `null`, and `message` 
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.proxy_switch`](nova-proxy-switch.md) - Switch active proxy.
 * [Proxy Routing Category](README.md)

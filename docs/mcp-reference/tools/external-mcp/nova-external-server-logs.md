@@ -85,7 +85,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.external_server_start`](nova-external-server-start.md) - Start server.
 * [External MCP Servers Category](README.md)

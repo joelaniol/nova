@@ -74,3 +74,12 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 * **Resize the window, not the terminal.** Use `resize` here only to make the viewer bigger/smaller on screen; to change what the remote program sees, use [`nova.ssh_shell_resize`](nova-ssh-shell-resize.md).
 * **Close it when done.** `close` the viewer once the session ends or the user no longer needs to watch; the terminal itself keeps running until you [`nova.ssh_shell_close`](nova-ssh-shell-close.md) it.
 * **Expect `watch_ui_unavailable` when headless.** Scheduled/unattended runs have no window to show; do not treat it as a failure of the session.
+
+---
+
+## 5. Related Tools
+
+* [`nova.ssh_shell_open`](nova-ssh-shell-open.md) — Opens an interactive terminal session
+* [`nova.ssh_shell_read`](nova-ssh-shell-read.md) — Reads the reconstructed terminal screen programmatically
+* [`nova.ssh_shell_send`](nova-ssh-shell-send.md) — Sends keystrokes and commands to the terminal
+* [`nova.ssh_shell_close`](nova-ssh-shell-close.md) — Closes the terminal session

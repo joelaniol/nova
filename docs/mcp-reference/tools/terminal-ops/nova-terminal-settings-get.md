@@ -68,7 +68,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.terminal_settings_set`](nova-terminal-settings-set.md) - Configure appearance settings.
 * [Headless Terminal Workspaces Category](README.md)

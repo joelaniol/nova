@@ -82,7 +82,7 @@ Shortened for readability: each entry also carries `origin`, `targetId`, `sandbo
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.notifications_get`](nova-notifications-get.md) - Get full single notification details.
 * [`nova.notifications_mark_read`](nova-notifications-mark-read.md) - Mark notification as read.

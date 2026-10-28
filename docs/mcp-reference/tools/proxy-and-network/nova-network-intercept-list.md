@@ -80,7 +80,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.network_intercept_add`](nova-network-intercept-add.md) - Add new rule.
 * [Proxy Routing Category](README.md)

@@ -77,7 +77,7 @@ Closing an already-gone tab by an explicit `targetId` is not an error: the respo
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.tab_new`](nova-tab-new.md) — Open a new tab.
 * [`nova.tabs`](nova-tabs.md) — List open tabs.

@@ -84,3 +84,13 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 * **Use `operationId` for retries.** A network hiccup on start should not open a second session.
 * **Prefer `nova.ssh_run` for one-shot commands.** The background session is for output you must watch or input you must send over time.
 * **Mind the caps.** Only a few sessions run at once; stop sessions you are done with instead of leaving them to time out.
+
+---
+
+## 5. Related Tools
+
+* [`nova.ssh_run_read`](nova-ssh-run-read.md) — Reads buffered output from an active background session
+* [`nova.ssh_run_write`](nova-ssh-run-write.md) — Sends interactive standard input to a running session
+* [`nova.ssh_run_stop`](nova-ssh-run-stop.md) — Stops an active background session
+* [`nova.ssh_run_list`](nova-ssh-run-list.md) — Lists active and recent background SSH sessions
+* [`nova.ssh_run`](nova-ssh-run.md) — One-shot synchronous command execution over SSH

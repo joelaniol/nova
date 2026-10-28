@@ -93,6 +93,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ## 5. Related Tools
 
+* [`nova.db_export`](nova-db-export.md) — Exports a database as an SQL dump on the server without exposing the password
 * [`nova.connector_database_set`](nova-connector-database-set.md) — Adds or updates database connection profiles
 * [`nova.connector_database_delete`](nova-connector-database-delete.md) — Removes database profiles and stored credentials
 * [`nova.connector_list`](nova-connector-list.md) — Lists configured SSH/SFTP connections and their associated databases

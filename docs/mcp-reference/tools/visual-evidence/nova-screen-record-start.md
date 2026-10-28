@@ -79,3 +79,13 @@ Common refusals: `video.already_recording`, `video.source_minimized`, `video.for
 Capability bundle: `visual_evidence` (load it with `nova.tools_bundle(bundle='visual_evidence')`).
 Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
+
+---
+
+## 3. Related Tools
+
+* [`nova.screen_record_status`](nova-screen-record-status.md) — Checks status of an active screen recording
+* [`nova.screen_record_stop`](nova-screen-record-stop.md) — Stops the recording and finalizes MP4 output
+* [`nova.screen_record_mark`](nova-screen-record-mark.md) — Adds timeline markers and verification checkpoints
+* [`nova.screen_record_inspect`](nova-screen-record-inspect.md) — Inspects recording evidence and timeline events
+* [`nova.video_render`](../video-editing/nova-video-render.md) — Renders styled video clips and contact sheets

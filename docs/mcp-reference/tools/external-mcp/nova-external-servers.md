@@ -88,7 +88,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.external_server_start`](nova-external-server-start.md) - Start server.
 * [`nova.external_tools`](nova-external-tools.md) - Discover external tools.

@@ -116,6 +116,7 @@ When the job finishes within `wait`, the same fields come back with `state: "com
 
 ## 5. Related Tools
 
+* [`nova.db_export`](nova-db-export.md) — Exports a MySQL/MariaDB database to an SQL dump on the server
 * [`nova.sftp_transfer_status`](nova-sftp-transfer-status.md)
 * [`nova.sftp_transfer_stop`](nova-sftp-transfer-stop.md)
 * [`nova.sftp_put`](nova-sftp-put.md)

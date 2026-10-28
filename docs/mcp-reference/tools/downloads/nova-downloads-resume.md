@@ -64,7 +64,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.downloads_pause`](nova-downloads-pause.md) - Pause active transfer.
 * [`nova.downloads_retry`](nova-downloads-retry.md) - Retry failed download.

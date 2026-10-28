@@ -55,7 +55,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.notifications_list`](nova-notifications-list.md) - Read notifications list.
 * [Desktop Notifications Category](README.md)

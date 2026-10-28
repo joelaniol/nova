@@ -68,7 +68,7 @@ A request without `sandboxId` switches the global default instead and returns `{
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.proxy_status`](nova-proxy-status.md) - Check proxy health.
 * [`nova.proxy_disconnect`](nova-proxy-disconnect.md) - Temporarily disconnect.

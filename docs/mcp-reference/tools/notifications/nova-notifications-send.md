@@ -99,7 +99,7 @@ Tool category: `high_impact` (highest risk class; Nova's agent permission settin
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.notifications_list`](nova-notifications-list.md) - List inbox notifications.
 * [`nova.notifications_open`](nova-notifications-open.md) - Navigate to notification target.

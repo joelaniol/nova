@@ -88,9 +88,10 @@ graph LR
 3. **`process.pty` Capability (Strict Opt-In):**
    - Authorizes opening a full interactive terminal — a real pseudo-terminal (PTY) — on the server (`nova.ssh_shell_open`).
    - A terminal is the most powerful process stage: it runs full-screen programs, can execute any command, and reads typed passwords. It is **strictly opt-in and never inherits weaker grants**. Opening a terminal authorizes `process.exec` + `process.stdin` + `process.pty` together in a single prompt.
-4. **`db.read` and `db.write` Capabilities (Database Queries over SSH):**
-   - Authorize querying MySQL or MariaDB databases via [`nova.db_query`](../../../mcp-reference/tools/connectors-and-mail/nova-db-query.md) without interactive shell access (`process.exec`).
+4. **`db.read`, `db.write`, and `db.export` Capabilities (Database Queries and Dumps over SSH):**
+   - Authorize querying MySQL or MariaDB databases via [`nova.db_query`](../../../mcp-reference/tools/connectors-and-mail/nova-db-query.md) and creating server-side SQL dumps via [`nova.db_export`](../../../mcp-reference/tools/connectors-and-mail/nova-db-export.md) without interactive shell access (`process.exec`).
    - Queries execute through the remote client inside a secure, credential-isolated wrapper. `db.read` enforces read-only transaction envelopes and timeouts; `db.write` is strictly opt-in for data modifications (`INSERT`, `UPDATE`, `DELETE`).
+   - `db.export` is evaluated independently of `db.read` and `db.write`: it produces a full export of database data.
 
 In addition to connector-level capabilities, executing mutating remote commands requires approval under Nova's system-wide `MutatingRemote` execution policy.
 
@@ -306,6 +307,17 @@ Nova provides isolated SQL execution against MySQL and MariaDB databases accessi
 
 ---
 
+## Database Backups and Exports (`nova.db_export`)
+
+Nova allows autonomous agents to dump MySQL and MariaDB databases directly on the remote server via [`nova.db_export`](../../../mcp-reference/tools/connectors-and-mail/nova-db-export.md) without revealing passwords or requiring root access.
+
+* **Server-Side Client:** Uses `mysqldump` or `mariadb-dump` already installed on the remote machine. Credentials are supplied on standard input (`--defaults-file=/dev/stdin`), completely shielded from command-line sniffing (`/proc/*/cmdline`).
+* **phpMyAdmin & Shared-Hosting Compatibility:** Dumps omit `CREATE DATABASE` and `USE` statements so they import directly into the target database selected in phpMyAdmin. With `portable=true` (default), Nova strips `DEFINER` clauses and MariaDB sandbox headers, allowing unprivileged accounts on shared hosting to import without `SUPER` privileges.
+* **Integrity Gate & Gzip Verification:** Output is staged in `~/.nova-db-exports/<exportId>/` and published only after verifying that the dump client exited cleanly, gzip decompression checks pass, and the `-- Dump completed` marker is present.
+* **Honest Omissions & Status Polling:** Polling with `exportId` tracks job states (`running`, `finalizing`, `done`, `failed`, `lost`). Omitted objects (routines, events, or triggers when the user lacks the `TRIGGER` privilege) are explicitly listed in `objectsOmitted`.
+
+---
+
 ## SSH Tool Reference
 
 | Tool | Capability Required | Description |
@@ -323,6 +335,7 @@ Nova provides isolated SQL execution against MySQL and MariaDB databases accessi
 | [`nova.ssh_shell_close`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-shell-close.md) | `process.pty` | Closes a terminal (requests termination; never a death proof) |
 | [`nova.ssh_shell_list`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-shell-list.md) | `read` / `process.pty` | Lists the interactive terminals you own |
 | [`nova.db_query`](../../../mcp-reference/tools/connectors-and-mail/nova-db-query.md) | `db.read` / `db.write` | Runs an isolated SQL statement on a MySQL/MariaDB database over SSH |
+| [`nova.db_export`](../../../mcp-reference/tools/connectors-and-mail/nova-db-export.md) | `db.export` | Exports a MySQL/MariaDB database to a verified SQL dump on the server |
 | [`nova.connector_database_set`](../../../mcp-reference/tools/connectors-and-mail/nova-connector-database-set.md) | `read` | Adds or updates a database entry linked to an SSH/SFTP connection |
 | [`nova.connector_database_delete`](../../../mcp-reference/tools/connectors-and-mail/nova-connector-database-delete.md) | `read` | Removes a database entry from an SSH/SFTP connection |
 

@@ -86,3 +86,12 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 * **React to `gapBytes > 0`.** It means the session produced output faster than you polled and the oldest bytes were evicted; you cannot get them back.
 * **Poll at `suggestedPollMs`.** `nova.ssh_run_start` suggests a cadence; polling far faster just returns empty reads.
 * **Stop when `state` is `ended`.** Read once more after it ends to drain the final bytes and read `termination`.
+
+---
+
+## 5. Related Tools
+
+* [`nova.ssh_run_start`](nova-ssh-run-start.md) — Starts a background command session
+* [`nova.ssh_run_write`](nova-ssh-run-write.md) — Feeds interactive input to a running command
+* [`nova.ssh_run_stop`](nova-ssh-run-stop.md) — Terminates an active background session
+* [`nova.ssh_run_list`](nova-ssh-run-list.md) — Lists active background SSH sessions

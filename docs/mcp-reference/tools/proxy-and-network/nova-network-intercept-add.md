@@ -120,7 +120,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.network_intercept_clear`](nova-network-intercept-clear.md) - Disarm interception rules.
 * [`nova.network_intercept_list`](nova-network-intercept-list.md) - List active rules.

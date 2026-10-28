@@ -121,7 +121,7 @@ The full payload also carries navigation, settlement, PKS and screenshot-sidecar
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.tab_close`](nova-tab-close.md) — Close a tab.
 * [`nova.tab_claim`](nova-tab-claim.md) — Manage tab leases.

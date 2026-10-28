@@ -66,7 +66,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.downloads_open_file`](nova-downloads-open-file.md) - Open file directly.
 * [`nova.downloads_list`](nova-downloads-list.md) - Inspect file paths.

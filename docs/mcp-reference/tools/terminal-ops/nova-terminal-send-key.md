@@ -68,7 +68,7 @@ Tool category: `high_impact` (highest risk class; Nova's agent permission settin
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.terminal_write`](nova-terminal-write.md) - Write raw characters to stdin.
 * [`nova.terminal_close`](nova-terminal-close.md) - Forcefully terminate session.

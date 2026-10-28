@@ -46,3 +46,12 @@ nova.screen_record_stop(agentId="tester")
 Capability bundle: `visual_evidence` (load it with `nova.tools_bundle(bundle='visual_evidence')`).
 Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
+
+---
+
+## 3. Related Tools
+
+* [`nova.screen_record_mark`](nova-screen-record-mark.md) — Adds timeline markers during active recording
+* [`nova.screen_record_start`](nova-screen-record-start.md) — Starts a screen recording session
+* [`nova.screen_record_stop`](nova-screen-record-stop.md) — Finalizes screen recording and computes verification verdict
+* [`nova.screen_record_inspect`](nova-screen-record-inspect.md) — Inspects assertions and visual evidence timeline

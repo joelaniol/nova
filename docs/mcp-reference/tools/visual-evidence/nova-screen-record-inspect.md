@@ -50,3 +50,13 @@ nova.screen_record_inspect(view="contact_sheet", agentId="tester")
 Capability bundle: `visual_evidence` (load it with `nova.tools_bundle(bundle='visual_evidence')`).
 Tool category: `normal` (standard risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
+
+---
+
+## 3. Related Tools
+
+* [`nova.screen_record_start`](nova-screen-record-start.md) — Starts screen recording sessions
+* [`nova.screen_record_stop`](nova-screen-record-stop.md) — Stops active recording and yields verified video
+* [`nova.screen_record_mark`](nova-screen-record-mark.md) — Adds markers and checkpoints to the recording timeline
+* [`nova.screen_record_assert`](nova-screen-record-assert.md) — Asserts visual properties against timeline checkpoints
+* [`nova.video_render`](../video-editing/nova-video-render.md) — Renders the recording and contact sheet into styled clips

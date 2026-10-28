@@ -106,3 +106,12 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 * **Watch `alternateScreen`.** Full-screen apps (`htop`, `vim`) switch to the alternate buffer; when it clears, the app exited back to the shell.
 * **Watch the receive budget.** `receiveBudgetRemainingBytes` shrinking toward 0 means a chatty process is about to trip `outputLimitReached` and end the session — quit the noisy command or save work before then.
 * **Honour `outputLimitReached`.** If a flood tripped the budget the session is ending — read once more, then close.
+
+---
+
+## 5. Related Tools
+
+* [`nova.ssh_shell_send`](nova-ssh-shell-send.md) — Sends keystrokes, text, or commands to the terminal
+* [`nova.ssh_shell_open`](nova-ssh-shell-open.md) — Opens a new interactive terminal
+* [`nova.ssh_shell_watch`](nova-ssh-shell-watch.md) — Waits for screen changes or specific text patterns
+* [`nova.ssh_shell_close`](nova-ssh-shell-close.md) — Closes the terminal session

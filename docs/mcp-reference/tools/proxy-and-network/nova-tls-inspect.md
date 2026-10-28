@@ -116,7 +116,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.tabs`](../browser-automation/nova-tabs.md) - The `security` block shows whether a tab runs under an overridden certificate.
 * [Proxy Routing Category](README.md)

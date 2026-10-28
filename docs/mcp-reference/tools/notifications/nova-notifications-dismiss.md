@@ -61,7 +61,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.notifications_clear`](nova-notifications-clear.md) - Bulk dismiss notifications.
 * [`nova.notifications_mark_read`](nova-notifications-mark-read.md) - Mark as read without dismissing.

@@ -65,7 +65,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.downloads_list`](nova-downloads-list.md) - Check error reasons and retryable status.
 * [`nova.downloads_wait`](nova-downloads-wait.md) - Wait for retried download to finish.

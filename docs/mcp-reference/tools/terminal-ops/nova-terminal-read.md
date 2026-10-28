@@ -72,7 +72,7 @@ Tool category: `high_impact` (highest risk class; Nova's agent permission settin
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.terminal_write`](nova-terminal-write.md) - Write raw text to stdin.
 * [`nova.terminal_run_command`](nova-terminal-run-command.md) - Run a command and capture output.

@@ -61,7 +61,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.notifications_dismiss`](nova-notifications-dismiss.md) - Dismiss notification.
 * [`nova.notifications_clear`](nova-notifications-clear.md) - Clear multiple notifications.

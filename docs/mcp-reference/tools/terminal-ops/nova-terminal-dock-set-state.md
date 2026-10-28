@@ -69,7 +69,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.terminal_dock_get_state`](nova-terminal-dock-get-state.md) - Query current dock state.
 * [Headless Terminal Workspaces Category](README.md)

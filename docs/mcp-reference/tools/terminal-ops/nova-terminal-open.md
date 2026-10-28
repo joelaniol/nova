@@ -78,7 +78,7 @@ Tool category: `high_impact` (highest risk class; Nova's agent permission settin
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.terminal_run_command`](nova-terminal-run-command.md) - Run a command and wait for completion.
 * [`nova.terminal_read`](nova-terminal-read.md) - Read scrollback output.

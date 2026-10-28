@@ -70,7 +70,7 @@ Shortened for readability: the full entry also carries `origin`, `profileId`, `i
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.notifications_list`](nova-notifications-list.md) - List all notifications.
 * [`nova.notifications_open`](nova-notifications-open.md) - Open notification destination.

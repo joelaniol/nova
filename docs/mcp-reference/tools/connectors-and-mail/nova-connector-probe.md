@@ -99,3 +99,12 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 * **`blocked` is not `failed`.** An unknown SSH host key or a switched-off insecure-connection option stops the probe on Nova's side; the server itself may be fine. Follow `nextAction`.
 * **Plaintext needs the user's switch.** Connections without TLS or with a mail certificate exception need the user's insecure-connection option (`nova.connector_list` reports it as `insecureConnectionsAllowed`) and `allowInsecure: true`.
 * **SMTP working is not mail delivery working.** The probe never sends; `details.sendTestPerformed` is always `false`. Domain records (MX, SPF, DKIM, DMARC) are out of its scope.
+
+---
+
+## 5. Related Tools
+
+* [`nova.connector_list`](nova-connector-list.md) — Lists configured connectors and capability grants
+* [`nova.connector_create`](nova-connector-create.md) — Registers a new connector profile
+* [`nova.connector_update`](nova-connector-update.md) — Updates connection settings or credentials
+* [`nova.connector_grant_set`](nova-connector-grant-set.md) — Configures capability permissions for a connector

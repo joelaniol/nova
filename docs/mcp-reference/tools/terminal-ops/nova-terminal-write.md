@@ -68,7 +68,7 @@ Tool category: `high_impact` (highest risk class; Nova's agent permission settin
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.terminal_send_key`](nova-terminal-send-key.md) - Send control key combinations.
 * [`nova.terminal_read`](nova-terminal-read.md) - Read scrollback output.

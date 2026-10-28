@@ -72,7 +72,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.downloads_auto_open_get`](nova-downloads-auto-open-get.md) - Read current auto-open extensions.
 * [Downloads Management Category](README.md)

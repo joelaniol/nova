@@ -103,7 +103,7 @@ Example of a server that returns its own id instead of the request id:
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.external_server_stop`](nova-external-server-stop.md) - Stop server.
 * [`nova.external_server_logs`](nova-external-server-logs.md) - View server stderr logs.

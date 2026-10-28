@@ -78,7 +78,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.terminal_open`](nova-terminal-open.md) - Open a new terminal session.
 * [`nova.terminal_get_state`](nova-terminal-get-state.md) - Get state of a single session.

@@ -67,7 +67,7 @@ Tool category: `high_impact` (highest risk class; Nova's agent permission settin
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.external_server_stop`](nova-external-server-stop.md) - Stop server without removing.
 * [External MCP Servers Category](README.md)

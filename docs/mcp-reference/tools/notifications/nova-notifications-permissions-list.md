@@ -77,7 +77,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.notifications_permission_set`](nova-notifications-permission-set.md) - Configure per-origin permission.
 * [`nova.notifications_permission_default_set`](nova-notifications-permission-default-set.md) - Configure global default.

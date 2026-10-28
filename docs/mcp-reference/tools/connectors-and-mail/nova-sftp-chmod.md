@@ -75,3 +75,12 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 * **chmod does not create.** The path must already exist; a missing path returns `connector_remote_path_not_found`. Use [`nova.sftp_mkdir`](nova-sftp-mkdir.md) to create a directory (optionally with its mode) first.
 * **Links are intentionally rejected.** If you need to change a link target's mode, pass the target's real path, not the link.
 * **Respect `stateIndeterminate`.** If it is true, the connection dropped around the change; verify the file's mode on the server before setting it again.
+
+---
+
+## 5. Related Tools
+
+* [`nova.sftp_chown`](nova-sftp-chown.md) — Changes file owner and group ownership on an SFTP server
+* [`nova.sftp_list`](nova-sftp-list.md) — Lists remote directories and file permissions
+* [`nova.sftp_get`](nova-sftp-get.md) — Downloads files over SFTP with checksum verification
+* [`nova.sftp_put`](nova-sftp-put.md) — Uploads files over SFTP with atomic commit staging

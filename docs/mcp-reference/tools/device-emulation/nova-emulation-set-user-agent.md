@@ -72,7 +72,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## See Also
+## Related Tools
 
 * [`nova.emulation_use_device`](nova-emulation-use-device.md) - Preset with device UA.
 * [Device Emulation Category](README.md)

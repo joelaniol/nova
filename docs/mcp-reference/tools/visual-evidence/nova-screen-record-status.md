@@ -28,3 +28,12 @@ When no recording runs, the answer is `ok: false` with `reasonCode: "not_recordi
 Capability bundle: `visual_evidence` (load it with `nova.tools_bundle(bundle='visual_evidence')`).
 Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
+
+---
+
+## 3. Related Tools
+
+* [`nova.screen_record_start`](nova-screen-record-start.md) — Starts screen recordings of the Nova window or tab
+* [`nova.screen_record_stop`](nova-screen-record-stop.md) — Stops active recording and returns the verified video
+* [`nova.screen_record_mark`](nova-screen-record-mark.md) — Adds timeline markers during recording
+* [`nova.screen_record_inspect`](nova-screen-record-inspect.md) — Inspects recorded evidence and manifests

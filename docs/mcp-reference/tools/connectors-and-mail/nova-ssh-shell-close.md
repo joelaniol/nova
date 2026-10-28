@@ -66,3 +66,11 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 * **Close before you forget the `execId`.** A lost terminal lingers until its idle cap; `nova.ssh_shell_list` recovers one you still own.
 * **Exit cleanly when you can.** For a shell, sending `exit` (then reading) is gentler than a channel close; use `close` to guarantee teardown.
 * **Do not treat close as a kill.** The remote process may survive; `descendants` is always `"unknown"`.
+
+---
+
+## 5. Related Tools
+
+* [`nova.ssh_shell_list`](nova-ssh-shell-list.md) — Lists owned interactive terminals
+* [`nova.ssh_shell_open`](nova-ssh-shell-open.md) — Opens a new interactive terminal
+* [`nova.ssh_shell_read`](nova-ssh-shell-read.md) — Reads terminal output before closing
