@@ -103,7 +103,15 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## Related Tools
+## 5. Operational Best Practices
+
+* **Prompt Lease Release:** Autonomous agents should release tab leases immediately after completing interactive transactions. Holding claims until TTL expiration unnecessarily blocks concurrent agents and human operator actions.
+* **Token Matching on Finalization:** If passing an explicit `finalizeDecision` override (`"commit"` or `"skip"`), ensure `finalizationToken` matches the secret token returned by the initial [`nova.tab_claim`](nova-tab-claim.md) call. Mismatched tokens result in lease rejection.
+* **Episodic Memory Integration:** When using Learn Mode v3 or structured task instances, configure `finalizeOutboxJobType` (e.g. `'pks.domain.save'`) and `coverageExhausted: true` to ensure extracted knowledge and verified selectors are atomically promoted to long-term memory.
+
+---
+
+## 6. Related Tools
 
 * [`nova.tab_claim`](nova-tab-claim.md) — Claim an exclusive write lease.
 * [`nova.tabs`](nova-tabs.md) — Inspect active tab claims.

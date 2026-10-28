@@ -48,8 +48,60 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## 3. Related Tools
+## 3. Protocol Usage
 
-* [`nova.image_transform`](nova-image-transform.md) to make changed copies of the images, one or a whole folder.
-* [`nova.image_info`](nova-image-info.md) for size, orientation and metadata of one image.
-* [`nova.pdf_compose`](nova-pdf-compose.md) to put a PDF sheet together with other PDFs.
+### JSON-RPC Request
+```json
+{
+  "name": "nova.image_contact_sheet",
+  "arguments": {
+    "folder": "C:/Workspace/Screenshots",
+    "format": "png",
+    "columns": 4,
+    "thumbSize": 256,
+    "labels": "name",
+    "title": "Audit Captures"
+  }
+}
+```
+
+### JSON-RPC Response
+```json
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Contact sheet generated with 12 images: C:/Workspace/Exports/Images/audit_captures_sheet.png"
+    }
+  ],
+  "structuredContent": {
+    "ok": true,
+    "status": "completed",
+    "outputPath": "C:/Workspace/Exports/Images/audit_captures_sheet.png",
+    "format": "png",
+    "imageCount": 12,
+    "unreadableCount": 0,
+    "columns": 4,
+    "dimensions": {
+      "width": 1024,
+      "height": 768
+    }
+  }
+}
+```
+
+---
+
+## 4. Operational Best Practices
+
+* **Dimension Limits on Single Sheets:** For PNG and JPEG exports, the maximum allowable canvas size is 16,383 pixels per dimension. When cataloging folders with hundreds of images, switch to `format: "pdf"` to paginate across printable A4 pages or reduce `thumbSize`.
+* **Async Job Tracking:** For very large directory trees, set `wait` to a bounded polling interval. If the generation exceeds `wait` seconds, the call returns a `jobId`. Monitor progress using [`nova.image_transform_status`](nova-image-transform-status.md) rather than issuing redundant creation requests.
+* **Label Formatting:** Use `labels: "name"` for shallow folders with distinct file names. Use `labels: "path"` when recursing deep subdirectories to disambiguate identical filenames located in different branches.
+
+---
+
+## 5. Related Tools
+
+* [`nova.image_transform`](nova-image-transform.md) — Transform, resize, and convert individual images or directory batches.
+* [`nova.image_info`](nova-image-info.md) — Inspect geometry, orientation, and EXIF metadata of source images.
+* [`nova.pdf_compose`](nova-pdf-compose.md) — Merge PDF contact sheets with audit reports and summary documents.

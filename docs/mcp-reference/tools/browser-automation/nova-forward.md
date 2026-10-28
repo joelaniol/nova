@@ -77,7 +77,15 @@ If there is no forward history entry, the call returns `ok: false` with `reasonC
 
 ---
 
-## 5. Related Tools & Documentation
+## 5. Operational Best Practices
+
+* **Stack Bounds Inspection:** When advancing forward in history, verify that a prior `nova.back` call was made. If the user or agent navigated to a new URL after going back, the forward stack is invalidated, causing `nova.forward` to return `ok: false` with `reasonCode: "navigation.cannot_go_forward"`.
+* **SPA Settlement:** Set `waitForSettlement: true` to allow client-side hydration, cached component re-mounting, and API queries to finish before issuing subsequent DOM queries or clicks.
+* **Sidecar Decoupling:** Transient failures during screenshot capture (`includeScreenshot: true`) do not impair forward history progression.
+
+---
+
+## 6. Related Tools
 
 * [`nova.back`](nova-back.md) — Navigate backward in history.
 * [`nova.route`](nova-route.md) — Single Page Application client-side routing.

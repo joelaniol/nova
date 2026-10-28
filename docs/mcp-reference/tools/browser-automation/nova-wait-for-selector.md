@@ -187,7 +187,15 @@ If `absent: true` was requested and the element disappeared, `result` is `null`:
 
 ---
 
-## 7. Related Tools & Documentation
+## 7. Operational Best Practices
+
+* **Replace Arbitrary Delays with Deterministic Predicates:** Never employ shell sleep commands or periodic `read_dom` loops to wait for UI state transitions. `nova.wait_for_selector` monitors the DOM and visual rendering engine deterministically, resolving in milliseconds the instant the target state is reached.
+* **Alternate Outcome Priority (`selectors`):** When awaiting an action that could either succeed or trigger a validation error, pass multiple candidates via `selectors: [".checkout-success", ".payment-declined-alert"]`. Nova checks them in priority order and returns immediately upon the first match, preventing unnecessary timeout waits on failure paths.
+* **Streaming Content Synchronization (`stableMs`):** When waiting for streaming LLM responses, chat feeds, or build logs, configure `stableMs: 2000` alongside `includeText: true`. This waits until text generation pauses and delivers the finalized text payload in a single round-trip.
+
+---
+
+## 8. Related Tools & Documentation
 
 * [`nova.click_selector`](nova-click-selector.md) — Click the element immediately after locating it.
 * [`nova.type_selector`](nova-type-selector.md) — Enter text into inputs once visible.

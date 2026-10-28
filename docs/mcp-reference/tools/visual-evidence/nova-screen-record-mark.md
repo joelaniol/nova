@@ -18,19 +18,6 @@ The mark lands on the first video frame that can show what happened at that mome
 
 Only the agent that started the recording can mark it. Read the result with [`nova.screen_record_inspect`](nova-screen-record-inspect.md).
 
-### Example
-
-```text
-nova.screen_record_start(area="tab", agentId="tester")
-nova.click_selector(selector="#save")
-nova.screen_record_mark(label="clicked Save", agentId="tester")
-nova.wait_for_selector(selector=".error")
-nova.screen_record_mark(label="error banner visible", agentId="tester")
-nova.screen_record_stop(agentId="tester")
-```
-
-Common refusals: `not_recording`, `video.not_owner`, `video.evidence_off` (the recording was started with `evidence=false`).
-
 ---
 
 ## 2. Parameter Reference
@@ -68,9 +55,66 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ---
 
-## 3. Related Tools
+## 3. Protocol Usage
 
-* [`nova.screen_record_assert`](nova-screen-record-assert.md) — Asserts visual properties against timeline checkpoints
-* [`nova.screen_record_start`](nova-screen-record-start.md) — Starts a screen recording session
-* [`nova.screen_record_stop`](nova-screen-record-stop.md) — Finalizes recording and produces video evidence
-* [`nova.screen_record_inspect`](nova-screen-record-inspect.md) — Inspects recording timeline marks and manifests
+### JSON-RPC Request
+```json
+{
+  "name": "nova.screen_record_mark",
+  "arguments": {
+    "label": "verified tax calculation",
+    "role": "check",
+    "headline": "Total amount verified",
+    "kicker": "Audit",
+    "accent": "verified",
+    "selector": "#invoice-total",
+    "check": {
+      "item": "Total tax",
+      "expected": "19.00 EUR",
+      "actual": "19.00 EUR"
+    }
+  }
+}
+```
+
+### JSON-RPC Response
+```json
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Mark 'verified tax calculation' recorded at frame 142 (time: 4733 ms)."
+    }
+  ],
+  "structuredContent": {
+    "ok": true,
+    "status": "marked",
+    "label": "verified tax calculation",
+    "frameIndex": 142,
+    "timestampMs": 4733,
+    "snapshotSaved": true,
+    "check": {
+      "item": "Total tax",
+      "ok": true,
+      "verdict": "match"
+    }
+  }
+}
+```
+
+---
+
+## 4. Operational Best Practices
+
+* **Assign Semantic Roles (`role`):** Use `role: "task"` for the initial hook, `role: "step"` when new UI sections load, `role: "check"` for verified data points, and `role: "result"` for the final outcome. This allows [`nova.video_render`](../video-editing/nova-video-render.md) with `fromMarks: true` to generate structured chapters and pacing automatically.
+* **Anchor with Selectors:** When marking verified values, always provide `selector` or `rect`. Nova records the bounding box in video coordinates, allowing the renderer to apply spotlight focus, dimming, and checkmark ticks directly over the relevant UI element.
+* **Keep Headlines Concise:** Keep `headline` strings under 25 characters and `kicker` to a single descriptive word. These strings render directly into video overlays and need to fit within mobile vertical feed viewports.
+
+---
+
+## 5. Related Tools
+
+* [`nova.screen_record_assert`](nova-screen-record-assert.md) — Asserts visual properties against timeline checkpoints.
+* [`nova.screen_record_start`](nova-screen-record-start.md) — Starts a screen recording session.
+* [`nova.screen_record_stop`](nova-screen-record-stop.md) — Finalizes recording and produces video evidence.
+* [`nova.screen_record_inspect`](nova-screen-record-inspect.md) — Inspects recording timeline marks and manifests.

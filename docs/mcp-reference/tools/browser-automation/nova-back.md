@@ -78,7 +78,15 @@ If there is no previous history entry to go back to, the call returns `ok: false
 
 ---
 
-## 5. Related Tools & Documentation
+## 5. Operational Best Practices
+
+* **SPA DOM Settlement:** Always pass `waitForSettlement: true` on modern single-page applications. Pushing the history stack in frameworks like React, Next.js, or Angular triggers client-side route transitions without a traditional document reload. Settlement tracking ensures hydration and background fetch requests quiet down before the next action.
+* **History Boundary Checks:** If the target tab was newly opened or its navigation stack was replaced, `nova.back` returns `ok: false` with `reasonCode: "navigation.cannot_go_back"`. Check this reason code rather than issuing redundant retries.
+* **Non-Blocking Screenshot Sidecar:** If `includeScreenshot: true` is enabled and frame capture encounters a transient timeout, the navigation state remains fully committed. Do not repeat `nova.back` solely to retrieve the image.
+
+---
+
+## 6. Related Tools
 
 * [`nova.forward`](nova-forward.md) — Navigate forward in history.
 * [`nova.route`](nova-route.md) — Single Page Application client-side routing.

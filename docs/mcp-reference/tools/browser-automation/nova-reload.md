@@ -120,7 +120,15 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## 6. Related Tools & Documentation
+## 6. Operational Best Practices
+
+* **Agent Awareness Gate Protection:** Hard-reloading an authenticated web application or an unsaved form destroys in-memory state and triggers Nova's Session Destruction Guard (`navigate.session_destruction_requires_confirmation`). Do not blindly pass `confirmSessionDestruction: true` unless you explicitly intend to discard unsaved user progress.
+* **Cache Bypass Discretion:** Reserve `hard: true` for scenarios where server assets or scripts are suspected to be stale. Standard refreshes should omit `hard` to leverage browser caching and reduce network transfer latency.
+* **Renderer Recovery Preconditions:** Use `recoverRenderer: true` only when a tab's renderer process has frozen or crashed. Ensure the calling `agentId` holds an active claim on the tab via [`nova.tab_claim`](nova-tab-claim.md) prior to attempting recovery.
+
+---
+
+## 7. Related Tools & Documentation
 
 * [`nova.navigate`](nova-navigate.md) — Navigate to a new URL.
 * [`nova.route`](nova-route.md) — Same-document client-side routing.

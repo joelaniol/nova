@@ -81,7 +81,15 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## 5. Related Tools & Documentation
+## 5. Operational Best Practices
+
+* **Ensure Prior Focus:** `nova.input_key` dispatches raw keystroke events to the active element holding DOM focus. Before pressing keys like `Enter`, `Tab`, or arrows, ensure the target input or control is focused by first clicking it with [`nova.click_selector`](nova-click-selector.md) or typing into it with [`nova.type_selector`](nova-type-selector.md).
+* **Modal and Popover Dismissal:** For accessible dialogs, tooltips, or dropdown menus, sending `Escape` via `nova.input_key` is often faster and less brittle than hunting for small close buttons in the DOM.
+* **Observe Async Key Side-Effects:** Pass the `observe` block when pressing keys that initiate network requests (such as `Enter` submitting a query or arrow keys populating autosuggestions). Nova automatically waits for the resulting HTTP/fetch traffic to settle before returning.
+
+---
+
+## 6. Related Tools & Documentation
 
 * [`nova.type_selector`](nova-type-selector.md) — For typing textual strings into inputs.
 * [`nova.click_selector`](nova-click-selector.md) — For clicking interactive elements.

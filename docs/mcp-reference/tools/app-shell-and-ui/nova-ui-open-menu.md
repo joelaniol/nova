@@ -74,8 +74,17 @@ When there is nothing to show — a `back` menu on a tab without earlier pages �
 
 ---
 
-## 4. Related Tools
+## 4. Operational Best Practices
 
-* [`nova.ui_confirm_native_dialog`](nova-ui-confirm-native-dialog.md)
-* [`nova.ui_inspect_native_dialog`](nova-ui-inspect-native-dialog.md)
-* [`nova.history_get`](../browser-automation/nova-history-get.md)
+* **Prefer Direct Tools Over Menu Navigation:** For standard browser workflows, prefer direct MCP primitives (such as [`nova.back`](../browser-automation/nova-back.md), [`nova.reload`](../browser-automation/nova-reload.md), or [`nova.emulation_use_device`](../device-emulation/nova-emulation-use-device.md)) over clicking shell menus. Reserve `nova.ui_open_menu` for UI QA testing or controlling shell-exclusive options.
+* **Selecting Entries:** To activate an item from the returned `inAppMenu.buttons`, invoke [`nova.ui_confirm_native_dialog`](nova-ui-confirm-native-dialog.md) with `button: "<name>"`.
+* **Always Dismiss When Done:** If the menu is opened only for inspection without activating an item, call [`nova.ui_dismiss_native_dialog`](nova-ui-dismiss-native-dialog.md) immediately to release modal shell focus and restore normal page interaction.
+
+---
+
+## 5. Related Tools
+
+* [`nova.ui_confirm_native_dialog`](nova-ui-confirm-native-dialog.md) — Activates a button or entry in an open menu or dialog.
+* [`nova.ui_inspect_native_dialog`](nova-ui-inspect-native-dialog.md) — Reads the state and entries of currently open native dialogs.
+* [`nova.ui_dismiss_native_dialog`](nova-ui-dismiss-native-dialog.md) — Closes open in-app menus or dialogs.
+* [`nova.history_get`](../browser-automation/nova-history-get.md) — Queries browser navigation history directly.

@@ -19,16 +19,6 @@
 
 A failed check answers `ok: false` with `reasonCode: "assert.failed"`; `elapsedMs` says how long the check took. Read all checks of a recording later with [`nova.screen_record_inspect`](nova-screen-record-inspect.md).
 
-### Example
-
-```text
-nova.screen_record_start(area="tab", agentId="tester")
-nova.click_selector(selector="#save")
-nova.screen_record_assert(kind="element_visible_within", selector=".toast-success", timeoutMs=2000, agentId="tester")
-nova.screen_record_assert(kind="visual_stable", stableMs=800, timeoutMs=5000, agentId="tester")
-nova.screen_record_stop(agentId="tester")
-```
-
 ---
 
 ## 2. Parameter Reference
@@ -49,9 +39,55 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ---
 
-## 3. Related Tools
+## 3. Protocol Usage
 
-* [`nova.screen_record_mark`](nova-screen-record-mark.md) — Adds timeline markers during active recording
-* [`nova.screen_record_start`](nova-screen-record-start.md) — Starts a screen recording session
-* [`nova.screen_record_stop`](nova-screen-record-stop.md) — Finalizes screen recording and computes verification verdict
-* [`nova.screen_record_inspect`](nova-screen-record-inspect.md) — Inspects assertions and visual evidence timeline
+### JSON-RPC Request
+```json
+{
+  "name": "nova.screen_record_assert",
+  "arguments": {
+    "kind": "element_visible_within",
+    "selector": ".toast-success",
+    "timeoutMs": 3000,
+    "label": "toast confirmation visible"
+  }
+}
+```
+
+### JSON-RPC Response
+```json
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Assertion passed: element '.toast-success' visible within 820ms (basis: dom)."
+    }
+  ],
+  "structuredContent": {
+    "ok": true,
+    "status": "passed",
+    "kind": "element_visible_within",
+    "elapsedMs": 820,
+    "basis": "dom",
+    "label": "toast confirmation visible",
+    "frameIndex": 98
+  }
+}
+```
+
+---
+
+## 4. Operational Best Practices
+
+* **Assertion Placement:** Run assertions immediately following an action (such as `nova.click_selector`). The resulting pass/fail milestone is stamped directly onto the recording's evidence timeline with an exact timestamp and frame index.
+* **Visual Stability for Dynamic Content:** After complex SPA navigations or infinite scrolling feeds, execute an assertion with `kind: "visual_stable"` and `stableMs: 500`. This verifies that asynchronous hydration, image decoding, and CSS transitions have fully concluded.
+* **Failure Forensics:** If an assertion times out and fails, Nova automatically captures and logs the exact state of the screen at the moment of failure in the recording's `.evidence` directory.
+
+---
+
+## 5. Related Tools
+
+* [`nova.screen_record_mark`](nova-screen-record-mark.md) — Adds timeline markers during active recording.
+* [`nova.screen_record_start`](nova-screen-record-start.md) — Starts a screen recording session.
+* [`nova.screen_record_stop`](nova-screen-record-stop.md) — Finalizes screen recording and computes verification verdict.
+* [`nova.screen_record_inspect`](nova-screen-record-inspect.md) — Inspects assertions and visual evidence timeline.

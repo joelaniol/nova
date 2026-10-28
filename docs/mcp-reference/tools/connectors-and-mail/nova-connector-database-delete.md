@@ -57,9 +57,17 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## 4. Related Tools
+## 4. Operational Best Practices
 
-* [`nova.db_query`](nova-db-query.md) — Queries databases over SSH without password exposure
-* [`nova.db_export`](nova-db-export.md) — Exports a database as an SQL dump on the server without exposing the password
-* [`nova.connector_database_set`](nova-connector-database-set.md) — Adds or updates database connection profiles
-* [`nova.connector_list`](nova-connector-list.md) — Lists connections and database entries
+* **Local Profile Deletion Only:** Deleting a database entry via this tool removes the encrypted credentials and connection parameters from Nova's vault. It has zero destructive effect on the physical database, schemas, or tables hosted on the remote server.
+* **Pre-Flight ID Lookup:** Always query [`nova.connector_list`](nova-connector-list.md) beforehand to retrieve the canonical `databaseId` and `profileId`. Deleting an unrecognized database identifier returns `status: "not_found"`.
+* **Cascade on Connector Removal:** If an entire server connection profile is being decommissioned via [`nova.connector_delete`](nova-connector-delete.md), all associated database entries attached to that connector are purged automatically without requiring individual deletion calls.
+
+---
+
+## 5. Related Tools
+
+* [`nova.db_query`](nova-db-query.md) — Queries databases over SSH without password exposure.
+* [`nova.db_export`](nova-db-export.md) — Exports a database as an SQL dump on the server without exposing the password.
+* [`nova.connector_database_set`](nova-connector-database-set.md) — Adds or updates database connection profiles.
+* [`nova.connector_list`](nova-connector-list.md) — Lists connections and database entries.

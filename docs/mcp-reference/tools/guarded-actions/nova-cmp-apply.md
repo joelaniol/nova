@@ -120,7 +120,15 @@ A call with `intent.mode: "AcceptAll"` does not return a tool result at all; it 
 
 ---
 
-## 5. Related Tools & Documentation
+## 5. Operational Best Practices
+
+* **Vendor API First, Visual Fallback Second:** Always invoke `nova.cmp_apply` as the primary defense against cookie consent barriers. By communicating directly with underlying CMP JavaScript SDKs (OneTrust, Cookiebot, TCF v2, Usercentrics), it avoids fragile DOM selectors and dark pattern traps. If the response reports `failureCode: "no_adapter"`, cleanly transition to [`nova.dismiss_blockers`](nova-dismiss-blockers.md).
+* **Strict Privacy Policy Enforcement:** Nova's consent pipeline strictly blocks automated `AcceptAll` directives (triggering error code `-32035`). Agents must specify privacy-preserving intents such as `intent.mode: "RejectAll"` or configure explicit granular categories (`necessary: true`, `analytics: false`, `marketing: false`).
+* **Audit State Vector Diffs:** Review `preState` and `postState` in the response to verify that non-essential tracking categories were verifiably toggled off in the vendor's internal consent ledger.
+
+---
+
+## 6. Related Tools & Documentation
 
 * [`nova.dismiss_blockers`](nova-dismiss-blockers.md) — Visual fallback for closing arbitrary overlay dialogs.
 * [Consent Management Architecture Overview](../../../core-features/consent-management/README.md) — Core architecture overview of Nova's privacy and blocker subsystem.

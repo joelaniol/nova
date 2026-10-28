@@ -107,7 +107,15 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## 5. Related Tools & Documentation
+## 5. Operational Best Practices
+
+* **Automated Client-Side Validation Fencing:** `nova.guarded_submit_form` observes DOM state immediately post-click. If HTML5 form validation (`:invalid`), inline red error labels, or required field callouts appear, the tool marks verification as failed, preventing silent submission drops.
+* **Idempotency Safeguards on High-Hazard Submissions:** In checkout, booking, or financial transfer forms, never retry an indeterminate submission blindly. When `retryAdvice: "do_not_retry"` or `"check_postcondition_first"` is returned, inspect confirmation badges or transaction ledgers using [`nova.dom_extract`](../dom-and-reading/nova-dom-extract.md) before attempting another submit.
+* **Overlay Clearance:** Set `autoDismissBlockers: true` when submitting forms on consumer retail portals where floating newsletter popups or sticky cookie bars frequently overlay the primary submit button.
+
+---
+
+## 6. Related Tools & Documentation
 
 * [`nova.guarded_send_message`](nova-guarded-send-message.md) — Guarded message dispatch for chat interfaces.
 * [`nova.guarded_login`](nova-guarded-login.md) — Guarded authentication submissions.

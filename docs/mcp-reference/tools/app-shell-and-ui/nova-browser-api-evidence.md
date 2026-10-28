@@ -98,9 +98,17 @@ Abridged:
 
 ---
 
-## 4. Related Tools
+## 4. Operational Best Practices
 
-* [`nova.session_record_start`](../session-recording/nova-session-record-start.md) — Starts session recordings with API call tracking
-* [`nova.session_record_stop`](../session-recording/nova-session-record-stop.md) — Finalizes session recordings
-* [`nova.session_record_query`](../session-recording/nova-session-record-query.md) — Queries captured session events
-* [`nova.fingerprint_get`](../site-data-and-identity/nova-fingerprint-get.md) — Inspects browser fingerprint and hardware profile
+* **Distinguish Static Mentions from Active Execution:** A static reference to a sensitive method (like `toDataURL` or `getParameter`) merely proves the identifier exists in a loaded script (e.g. within an analytics bundle or charting library). To confirm whether the script actually executed the method during interaction, pair the audit with a finished session recording via `recordingId`.
+* **Adjust Character Thresholds on Production Bundles:** Heavily packed enterprise JavaScript bundles frequently exceed the default 100,000-character limit. Check `staticScan.truncatedResources` in the response; if bundles were truncated, increase `maxResourceChars` to ensure full coverage.
+* **Audit Redaction:** In production compliance environments, set `redact: true` to strip dynamic URL parameters, session tokens, and deep call stacks from observed API traces.
+
+---
+
+## 5. Related Tools
+
+* [`nova.session_record_start`](../session-recording/nova-session-record-start.md) — Starts session recordings with API call tracking.
+* [`nova.session_record_stop`](../session-recording/nova-session-record-stop.md) — Finalizes session recordings.
+* [`nova.session_record_query`](../session-recording/nova-session-record-query.md) — Queries captured session events.
+* [`nova.fingerprint_get`](../site-data-and-identity/nova-fingerprint-get.md) — Inspects browser fingerprint and hardware profile.

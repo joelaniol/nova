@@ -31,9 +31,54 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ---
 
-## 3. Related Tools
+## 3. Protocol Usage
 
-* [`nova.screen_record_start`](nova-screen-record-start.md) — Starts screen recordings of the Nova window or tab
-* [`nova.screen_record_stop`](nova-screen-record-stop.md) — Stops active recording and returns the verified video
-* [`nova.screen_record_mark`](nova-screen-record-mark.md) — Adds timeline markers during recording
-* [`nova.screen_record_inspect`](nova-screen-record-inspect.md) — Inspects recorded evidence and manifests
+### JSON-RPC Request
+```json
+{
+  "name": "nova.screen_record_status",
+  "arguments": {
+    "agentId": "tester-1"
+  }
+}
+```
+
+### JSON-RPC Response
+```json
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Screen recording active: 12.4s elapsed, 372 frames, state: recording."
+    }
+  ],
+  "structuredContent": {
+    "ok": true,
+    "status": "recording",
+    "state": "recording",
+    "elapsedMs": 12400,
+    "frameCount": 372,
+    "droppedFrames": 0,
+    "duplicateFrames": 45,
+    "bytesWritten": 4194304,
+    "fps": 30
+  }
+}
+```
+
+---
+
+## 4. Operational Best Practices
+
+* **Monitor State Changes:** Check `state` periodically during long automation workflows. If `state` becomes `paused`, inspect `reasonCode` (`video.source_minimized` or `video.foreign_claim`) to ensure user intervention or foreign tab claims are properly resolved.
+* **Inspect Completed Runs Without Polling:** When no recording is currently active, `nova.screen_record_status` returns `ok: false` with `reasonCode: "not_recording"`, and exposes metadata for the previous session under `lastRecording`.
+* **Zero Overhead:** Calling status queries internal memory flags in the host process and does not incur GPU or encoder processing overhead.
+
+---
+
+## 5. Related Tools
+
+* [`nova.screen_record_start`](nova-screen-record-start.md) — Starts screen recordings of the Nova window or tab.
+* [`nova.screen_record_stop`](nova-screen-record-stop.md) — Stops active recording and returns the verified video.
+* [`nova.screen_record_mark`](nova-screen-record-mark.md) — Adds timeline markers during recording.
+* [`nova.screen_record_inspect`](nova-screen-record-inspect.md) — Inspects recorded evidence and manifests.

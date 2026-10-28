@@ -165,7 +165,15 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ---
 
-## 7. Related Tools & Documentation
+## 7. Operational Best Practices
+
+* **Crop Elements Rather than Capturing Full Viewports:** Full-page or 4K viewport screenshots consume thousands of multimodal vision tokens and blur fine interface typography. Using `selector` or `region` with `screenshotFormat: "png"` yields pixel-perfect, lossless crops at up to 90% lower token cost.
+* **Token Economy with Delivery Modes:** In long conversational sessions, avoid dumping raw base64 megabytes into model history. Specify `responseMode: "thumbnail+reference"`. Nova provides an immediate ~18 KB thumbnail preview while persisting the lossless original under a durable `nova://screenshot/...` URI that can be fetched on demand via [`nova.read_screenshot_resource`](../app-shell-and-ui/nova-read-screenshot-resource.md).
+* **Handle Obstructed Elements:** If an element is occluded by a sticky navbar, modal backdrop, or cookie banner, Nova rejects the crop with `-32004 (obstructed)`. Clear the obstructing overlay via [`nova.dismiss_blockers`](../guarded-actions/nova-dismiss-blockers.md) before capturing.
+
+---
+
+## 8. Related Tools & Documentation
 
 * [`nova.screenshot_diff`](nova-screenshot-diff.md) — Compare two screenshots pixel-by-pixel.
 * [`nova.screenshot_baseline`](nova-screenshot-baseline.md) — Persistent visual regression testing.

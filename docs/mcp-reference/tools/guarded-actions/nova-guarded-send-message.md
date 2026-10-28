@@ -127,7 +127,15 @@ These are reported as a failed action outcome (not an invalid-params error).
 
 ---
 
-## 6. Related Tools & Documentation
+## 6. Operational Best Practices
+
+* **Leverage Auto-Discovery:** When interacting with web chat interfaces (e.g. ChatGPT, Claude, Slack, Helpdesk portals), pass `text: "..."` directly without specifying explicit CSS selectors. Nova automatically detects the active contenteditable or textarea, identifies the associated send button, dispatches input with human-like typing cadence, and verifies composer clearance.
+* **Handle Extended Reply Streaming:** For conversational models generating multi-paragraph answers, specify an adequate wait budget (e.g. `waitForReplyMs: 30000`). If generation exceeds the window, Nova arms a background stream watcher and returns `replyWatchId`. Continue following the generation using [`nova.read_text_structured`](../dom-and-reading/nova-read-text-structured.md) rather than issuing redundant sends.
+* **Prevent Duplicate Transmissions:** If a send action encounters indeterminate network latency, respect `retryAdvice: "do_not_retry"`. Nova's postcondition verifier checks whether the message appears in the chat transcript before allowing any re-dispatch.
+
+---
+
+## 7. Related Tools & Documentation
 
 * [`nova.read_text_structured`](../dom-and-reading/nova-read-text-structured.md) — Continue observing long replies via `replyWatchId`.
 * [`nova.guarded_submit_form`](nova-guarded-submit-form.md) — Guarded form submissions.

@@ -133,7 +133,15 @@ The response also includes `fileName` (single-file case), `uploadedFile`, `frame
 
 ---
 
-## 7. Related Tools & Documentation
+## 7. Operational Best Practices
+
+* **Bypass Native OS Dialogs:** Never click `<input type="file">` elements using [`nova.click_selector`](nova-click-selector.md). Doing so triggers a Win32 modal file picker dialog that freezes browser execution. Always use `nova.file_upload`, which assigns file handles directly via CDP.
+* **Target Hidden File Inputs on Dropzones:** Modern drag-and-drop file uploaders hide the actual `<input type="file">` element (using `opacity: 0` or `display: none`) and render styled `<div>` drop zones. Point your selector at the underlying `<input type="file">` (or omit `selector` to let Nova auto-detect it), rather than targeting the visible dropzone container.
+* **Visual Verification with PDF Previews:** When attaching invoices, reports, or CVs, pass `previewPdf: true`. Nova returns a rendered JPEG preview of page 1, allowing the agent to verify that generated PDFs (e.g. from [`nova.save_pdf`](../visual-evidence/nova-save-pdf.md)) are legible and complete before submitting the enclosing form.
+
+---
+
+## 8. Related Tools & Documentation
 
 * [`nova.click_selector`](nova-click-selector.md) — Click submit buttons after attaching files.
 * [`nova.perceive`](../dom-and-reading/nova-perceive.md) — Identify iframes and file upload widgets on the page.

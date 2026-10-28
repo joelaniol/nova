@@ -51,7 +51,15 @@ If the target activates but its WebView does not finish initializing in time, th
 
 ---
 
-## 5. Related Tools & Documentation
+## 5. Operational Best Practices
+
+* **Prefer Background Execution When Feasible:** Most Nova DOM and automation tools accept an explicit `targetId` parameter, enabling agents to inspect, evaluate scripts, and interact with background tabs without disturbing the operator's active window focus. Reserve `nova.set_active_tab` for workflows requiring visible presentation or focus-sensitive modal handling.
+* **Verify Target Existence:** Always inspect open tab IDs via [`nova.tabs`](nova-tabs.md) before switching. Activating a non-existent or previously closed tab returns an error.
+* **Check WebView Readiness:** Review the `webViewReady` property in the response. If `webViewReady: false` (status `webview_not_ready`), the UI switch succeeded, but the underlying rendering engine is still hydrating. Allow a brief settlement pause before issuing document-dependent tool calls.
+
+---
+
+## 6. Related Tools & Documentation
 
 * [`nova.tabs`](nova-tabs.md) — Query open tabs and inspect their active state.
 * [`nova.tab_new`](nova-tab-new.md) — Create and open a new tab.

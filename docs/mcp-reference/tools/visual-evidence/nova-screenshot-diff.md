@@ -143,7 +143,15 @@ A dimension mismatch is a normal `ok: true` result, not a thrown error:
 
 ---
 
-## 7. Related Tools & Documentation
+## 7. Operational Best Practices
+
+* **Always Use Lossless PNG Inputs:** Pixel-level comparison algorithms require exact color reproduction. Never diff JPEG images, as DCT block compression and chroma subsampling introduce artificial color variations that trigger false positives.
+* **Match Input Dimensions Exactly:** `nova.screenshot_diff` compares images of identical width and height. If comparing targeted elements, ensure both captures were generated from the same DOM selector or coordinate box; mismatched dimensions result in `status: "dimension_mismatch"` without performing comparison.
+* **Utilize Visual Diff Overlays:** When `changed: true` and `withinTolerance: false`, Nova renders a high-contrast diff overlay image to `diffOverlayPath`. The overlay highlights modified pixels in vivid magenta over a dimmed backdrop, allowing human engineers or vision models to inspect regressions at a glance.
+
+---
+
+## 8. Related Tools & Documentation
 
 * [`nova.capture_screenshot`](nova-capture-screenshot.md) — Capture initial and subsequent screenshots.
 * [`nova.screenshot_baseline`](nova-screenshot-baseline.md) — Automated visual regression with stored baselines.

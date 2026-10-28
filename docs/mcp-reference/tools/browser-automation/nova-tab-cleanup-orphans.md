@@ -91,7 +91,15 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## 5. Related Tools & Documentation
+## 5. Operational Best Practices
+
+* **Dry-Run Inspection Before Purging:** Always execute `nova.tab_cleanup_orphans` with `dryRun: true` initially. Review the candidate tabs, their respective `createdByAgentId` tags, and `idleMinutes` to confirm no long-running task is inadvertently interrupted.
+* **Calibrate the Grace Period:** Set `graceMinutes` appropriately for the workload. For short research tasks, 15 minutes is ideal; for asynchronous crawler jobs or extended multi-step analyses, increase the window to 30–60 minutes to prevent premature eviction.
+* **Respect Active Leases:** Tabs with active claims ([`nova.tab_claim`](nova-tab-claim.md)) or tabs currently active in the operator's viewport are strictly exempt from cleanup. Ensure subagents release their leases when finished so stale tabs can be cleanly recycled.
+
+---
+
+## 6. Related Tools & Documentation
 
 * [`nova.tabs`](nova-tabs.md) — Query open tabs and inspect `mcpOrigin.orphaned` status.
 * [`nova.tab_close`](nova-tab-close.md) — Explicitly close a single known tab.

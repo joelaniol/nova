@@ -111,7 +111,15 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## 5. Related Tools & Documentation
+## 5. Operational Best Practices
+
+* **Never Retry Blindly on Indeterminate State:** If `nova.guarded_login` returns `verifyState: "indeterminate"` or `retryAdvice: "check_postcondition_first"`, the credentials were submitted, but the application moved to an intermediate two-factor authentication (2FA/TOTP) or federated identity challenge. Do not resend credentials; inspect the new page state and handle the verification step.
+* **Avoid Account Lockouts:** The tool enforces a strict `non_idempotent` retry policy. When an auth error occurs (`auth.authError`), Nova suppresses automated retry advice (`retryAdvice: "do_not_retry"`). Repeatedly submitting rejected credentials risks triggering security lockouts and captcha challenges.
+* **Secure Vault Injection:** Always populate password fields using [`nova.vault_prepare_fill`](../vault-and-security/nova-vault-prepare-fill.md) and [`nova.type_selector_secret`](../vault-and-security/nova-type-selector-secret.md). This prevents plaintext user passwords from leaking into LLM prompt contexts and interaction audit logs.
+
+---
+
+## 6. Related Tools & Documentation
 
 * [`nova.vault_prepare_fill`](../vault-and-security/nova-vault-prepare-fill.md) — Request single-use fill token for stored passwords.
 * [`nova.type_selector_secret`](../vault-and-security/nova-type-selector-secret.md) — Inject vault password into login input field.

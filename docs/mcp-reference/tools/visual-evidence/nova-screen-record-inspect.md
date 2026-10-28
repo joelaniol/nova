@@ -23,14 +23,6 @@ Observed changes show what happened at the same time, not what caused it; a flic
 
 By default the tool reads your most recent recording; `filePath` names another one (the video or its `.evidence` folder). Recordings outside Nova's Exports folder need the user's "Allow local files" setting; another agent's evidence is refused (`video.not_owner`).
 
-### Example
-
-```text
-nova.screen_record_inspect(agentId="tester")
-nova.screen_record_inspect(view="timeline", kinds=["mark", "change"], agentId="tester")
-nova.screen_record_inspect(view="contact_sheet", agentId="tester")
-```
-
 ---
 
 ## 2. Parameter Reference
@@ -53,10 +45,71 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## 3. Related Tools
+## 3. Protocol Usage
 
-* [`nova.screen_record_start`](nova-screen-record-start.md) — Starts screen recording sessions
-* [`nova.screen_record_stop`](nova-screen-record-stop.md) — Stops active recording and yields verified video
-* [`nova.screen_record_mark`](nova-screen-record-mark.md) — Adds markers and checkpoints to the recording timeline
-* [`nova.screen_record_assert`](nova-screen-record-assert.md) — Asserts visual properties against timeline checkpoints
-* [`nova.video_render`](../video-editing/nova-video-render.md) — Renders the recording and contact sheet into styled clips
+### JSON-RPC Request
+```json
+{
+  "name": "nova.screen_record_inspect",
+  "arguments": {
+    "view": "timeline",
+    "kinds": ["mark", "change"],
+    "limit": 50
+  }
+}
+```
+
+### JSON-RPC Response
+```json
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Evidence timeline retrieved: 6 marks, 4 UI change events."
+    }
+  ],
+  "structuredContent": {
+    "ok": true,
+    "status": "ok",
+    "view": "timeline",
+    "totalEntries": 10,
+    "entries": [
+      {
+        "timeMs": 0,
+        "kind": "mark",
+        "label": "initial page state",
+        "role": "task"
+      },
+      {
+        "timeMs": 1420,
+        "kind": "change",
+        "description": "table container hydrated"
+      },
+      {
+        "timeMs": 3500,
+        "kind": "mark",
+        "label": "checkout button clicked",
+        "role": "step"
+      }
+    ]
+  }
+}
+```
+
+---
+
+## 4. Operational Best Practices
+
+* **Audit Without Video Decoding:** Use `view: "summary"` to verify SHA-256 integrity and timeline marker counts without spending CPU cycles decoding the MP4 container.
+* **Filter High-Frequency Events:** When analyzing long automation sessions with thousands of interaction events, set `kinds: ["mark"]` and specify `fromMs` / `toMs` windows to focus on specific verification phases.
+* **Contact Sheet Extraction:** Use `view: "contact_sheet"` to produce an immediate visual collage of all milestone frames for PR reviews or customer documentation.
+
+---
+
+## 5. Related Tools
+
+* [`nova.screen_record_start`](nova-screen-record-start.md) — Starts screen recording sessions.
+* [`nova.screen_record_stop`](nova-screen-record-stop.md) — Stops active recording and yields verified video.
+* [`nova.screen_record_mark`](nova-screen-record-mark.md) — Adds markers and checkpoints to the recording timeline.
+* [`nova.screen_record_assert`](nova-screen-record-assert.md) — Asserts visual properties against timeline checkpoints.
+* [`nova.video_render`](../video-editing/nova-video-render.md) — Renders the recording and contact sheet into styled clips.

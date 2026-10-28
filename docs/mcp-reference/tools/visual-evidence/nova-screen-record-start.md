@@ -32,16 +32,6 @@ The call returns only after the first frame is recorded (`firstFrameCaptured: tr
 
 The recording ends by itself after `maxDurationSec`, at 2 GB, or when the Nova window closes. Stop it with [`nova.screen_record_stop`](nova-screen-record-stop.md), which returns the file together with a check that the video really shows what was recorded; [`nova.screen_record_status`](nova-screen-record-status.md) shows progress in between. Files go to Nova's Exports folder (`ScreenRecordings`) unless `saveDir` names another folder, which needs the user's "Allow local files" setting. Nothing is ever overwritten.
 
-### Example
-
-```text
-nova.screen_record_start(fps=30, maxDurationSec=30, quality="high", fileName="settings-dropdown")
-nova.click_selector(selector="#language-menu")
-nova.screen_record_stop()
-```
-
-Common refusals: `video.already_recording`, `video.source_minimized`, `video.foreign_claim`, `video.start_timeout` (no frame within 10 seconds).
-
 ---
 
 ## 2. Parameter Reference
@@ -82,10 +72,59 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## 3. Related Tools
+## 3. Protocol Usage
 
-* [`nova.screen_record_status`](nova-screen-record-status.md) — Checks status of an active screen recording
-* [`nova.screen_record_stop`](nova-screen-record-stop.md) — Stops the recording and finalizes MP4 output
-* [`nova.screen_record_mark`](nova-screen-record-mark.md) — Adds timeline markers and verification checkpoints
-* [`nova.screen_record_inspect`](nova-screen-record-inspect.md) — Inspects recording evidence and timeline events
-* [`nova.video_render`](../video-editing/nova-video-render.md) — Renders styled video clips and contact sheets
+### JSON-RPC Request
+```json
+{
+  "name": "nova.screen_record_start",
+  "arguments": {
+    "area": "tab",
+    "fps": 30,
+    "quality": "standard",
+    "maxDurationSec": 60,
+    "evidence": true,
+    "fileName": "checkout-workflow-audit"
+  }
+}
+```
+
+### JSON-RPC Response
+```json
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Screen recording started: area=tab, 30 fps, first frame captured."
+    }
+  ],
+  "structuredContent": {
+    "ok": true,
+    "status": "recording",
+    "firstFrameCaptured": true,
+    "area": "tab",
+    "fps": 30,
+    "hardwareEncoder": true,
+    "evidence": true,
+    "fileName": "checkout-workflow-audit"
+  }
+}
+```
+
+---
+
+## 4. Operational Best Practices
+
+* **Always Verify First Frame:** The tool blocks until `firstFrameCaptured: true` is confirmed by the encoder pipeline. Do not issue subsequent click or navigation actions before this call successfully returns.
+* **Enable Evidence Collection (`evidence: true`):** Leaving `evidence: true` creates an evidence folder with timeline timestamps, tool call mappings, and baseline PNGs at every mark. This allows post-hoc inspection via [`nova.screen_record_inspect`](nova-screen-record-inspect.md) and automated chapter rendering via [`nova.video_render`](../video-editing/nova-video-render.md).
+* **Fit Tab for Template Matching:** When preparing product clips or documentation GIFs, use `fitTab: "nova-linkedin"` or `fitTab: "nova-readme"`. Nova automatically resizes the browser window so that the recording matches target template aspect ratios precisely.
+
+---
+
+## 5. Related Tools
+
+* [`nova.screen_record_status`](nova-screen-record-status.md) — Checks status of an active screen recording.
+* [`nova.screen_record_stop`](nova-screen-record-stop.md) — Stops the recording and finalizes MP4 output.
+* [`nova.screen_record_mark`](nova-screen-record-mark.md) — Adds timeline markers and verification checkpoints.
+* [`nova.screen_record_inspect`](nova-screen-record-inspect.md) — Inspects recording evidence and timeline events.
+* [`nova.video_render`](../video-editing/nova-video-render.md) — Renders styled video clips and contact sheets.

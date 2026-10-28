@@ -123,7 +123,15 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## 7. Related Tools & Documentation
+## 7. Operational Best Practices
+
+* **Keep Tagged PDF Disabled:** Leave `generateTaggedPDF: false` (the default). Building accessibility tags on heavy, dynamic JavaScript DOMs can trigger Chromium renderer crashes (`save_pdf.tagged_pdf_renderer_crash`). The untagged export still generates sharp, fully selectable, and searchable vector text.
+* **Storage Path Governance:** Writing to an arbitrary absolute `savePath` requires the operator's "Allow local files" setting. For automated or unattended workflows, omit `savePath`; Nova writes to its secure, unconstrained `Exports/` folder and returns the resolved `filePath`.
+* **Post-Processing Pipeline:** Combine `nova.save_pdf` with [`nova.pdf_compose`](../files-and-documents/nova-pdf-compose.md) to merge multiple web exports into a single binder, or [`nova.read_pdf`](../files-and-documents/nova-read-pdf.md) to verify that extracted digital text matches target assertions.
+
+---
+
+## 8. Related Tools & Documentation
 
 * [`nova.capture_screenshot`](nova-capture-screenshot.md) — For raster image proof and visual cropped evidence.
 * [`nova.extract_table`](../dom-and-reading/nova-extract-table.md) — For extracting raw tabular data instead of rendering documents.

@@ -140,7 +140,15 @@ If a regression is detected outside tolerance, `changedRegions` carries flat `{x
 
 ---
 
-## 7. Related Tools & Documentation
+## 7. Operational Best Practices
+
+* **Enable Anti-Aliasing Suppression:** When running visual regression checks across differing machines, OS builds, or GPU rasterizers, set `ignoreAntialiasing: true`. This activates a perceptual edge-filtering algorithm that ignores subpixel font-rendering fringes.
+* **Mask Dynamic Content Areas:** Dynamic elements (such as clock timestamps, live visitor counters, avatars, or animated carousels) will cause tests to flake. Provide bounding boxes in `mask: [...]` to exclude these regions from pixel diffing.
+* **Consistent Viewport & FullPage Flags:** Mismatched geometries prevent comparison (`status: "dimension_mismatch"`). Always ensure that the window size, device emulation scale, and `fullPage` flag passed to `compare` match the values used during `save`.
+
+---
+
+## 8. Related Tools & Documentation
 
 * [`nova.capture_screenshot`](nova-capture-screenshot.md) — One-off screenshot captures and cropped evidence.
 * [`nova.screenshot_diff`](nova-screenshot-diff.md) — Ad-hoc visual diffing between arbitrary image files.

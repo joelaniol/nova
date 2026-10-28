@@ -89,10 +89,18 @@ When the download has finished:
 
 ---
 
-## 4. Related Tools
+## 4. Operational Best Practices
 
-* [`nova.wait_cancel`](nova-wait-cancel.md) — Ends a resumable wait that is no longer needed
-* [`nova.downloads_wait`](nova-downloads-wait.md) — Waits deterministically for active downloads
-* [`nova.downloads_list`](nova-downloads-list.md) — Lists active and recent downloads
-* [`nova.wait_for_selector`](../browser-automation/nova-wait-for-selector.md) — Waits for DOM elements with optional resumable watches
-* [`nova.wait_for_eval`](../dom-and-reading/nova-wait-for-eval.md) — Waits for JavaScript expressions with optional resumable watches
+* **Break Long Waits into Resumable Chunks:** Rather than configuring giant monolithic timeouts (e.g. 10 minutes) that risk exceeding external LLM client tool call timeouts, start the initial wait with `resumable: true` and a 30–60 second window. Continue following progress incrementally with `nova.wait_continue(watchId)`.
+* **Pre-Arming Ephemeral UI Events (`armOnly`):** To reliably capture transient toast notifications or short error alerts, invoke [`nova.wait_for_selector`](../browser-automation/nova-wait-for-selector.md) with `armOnly: true`. This immediately arms a background latching listener. Perform your action, then call `nova.wait_continue(watchId)`. Nova reports the moment the toast appeared (`match.observedAt`), even if it already disappeared from the DOM.
+* **Idempotent Replay Buffer:** If an intermediate network hiccup drops a completed wait response, repeating `nova.wait_continue` with the same `watchId` within 10 minutes safely returns the identical final result payload with `replayed: true`.
+
+---
+
+## 5. Related Tools
+
+* [`nova.wait_cancel`](nova-wait-cancel.md) — Ends a resumable wait that is no longer needed.
+* [`nova.downloads_wait`](nova-downloads-wait.md) — Waits deterministically for active downloads.
+* [`nova.downloads_list`](nova-downloads-list.md) — Lists active and recent downloads.
+* [`nova.wait_for_selector`](../browser-automation/nova-wait-for-selector.md) — Waits for DOM elements with optional resumable watches.
+* [`nova.wait_for_eval`](../dom-and-reading/nova-wait-for-eval.md) — Waits for JavaScript expressions with optional resumable watches.

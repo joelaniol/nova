@@ -113,7 +113,15 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## 7. Related Tools & Documentation
+## 7. Operational Best Practices
+
+* **Prefer Component Clicks Over Raw PushState:** Whenever an on-screen navigation link exists, pass both `selector` and `url`. Clicking the DOM element triggers the application's internal event dispatchers, scroll position restores, and lifecycle hooks naturally. Use raw `url` pushState only for deep linking or headless automation flows.
+* **Hard Navigation Trapping:** If the target link triggers a full-page document reload, Nova's safety seam intercepts the transition (`route.hard_navigate_intercepted`) to prevent accidental destruction of the in-memory SPA session. If a full reload is genuinely desired, switch to [`nova.navigate`](nova-navigate.md).
+* **Strict Same-Origin Boundary:** `nova.route` operates strictly within the current document's origin. Cross-origin route requests are rejected immediately with `reasonCode: "route.same_origin_required"`.
+
+---
+
+## 8. Related Tools & Documentation
 
 * [`nova.navigate`](nova-navigate.md) — For full document-level HTTP navigations.
 * [`nova.click_selector`](nova-click-selector.md) — Standard button and element clicks.

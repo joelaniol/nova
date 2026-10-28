@@ -54,8 +54,16 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ---
 
-## 4. Related Tools
+## 4. Operational Best Practices
 
-* [`nova.wait_continue`](nova-wait-continue.md) — Continues a long-running resumable wait
-* [`nova.downloads_wait`](nova-downloads-wait.md) — Waits deterministically for active downloads
+* **Free Up Wait Slots Promptly:** Each connected MCP agent session maintains a hard pool of up to 16 concurrent resumable wait slots. When an agent decides to pivot to another workflow or abandon an unresolved polling cycle, call `nova.wait_cancel` to release the observer slot.
+* **Idempotent Teardown:** If the watched task already concluded, failed, or reached its expiration deadline before cancellation was called, `nova.wait_cancel` returns `status: "noop"` with `reasonCode: "wait.already_ended"`. It does not produce an error.
+* **Non-Destructive Observation Teardown:** Cancelling an active watch terminates only Nova's background polling listener. It does not cancel in-flight downloads, interrupt page scripts, or alter DOM state.
+
+---
+
+## 5. Related Tools
+
+* [`nova.wait_continue`](nova-wait-continue.md) — Continues a long-running resumable wait.
+* [`nova.downloads_wait`](nova-downloads-wait.md) — Waits deterministically for active downloads.
 * [`nova.downloads_list`](nova-downloads-list.md) — Lists active and recent downloads

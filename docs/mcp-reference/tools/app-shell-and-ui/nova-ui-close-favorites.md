@@ -53,6 +53,14 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## 4. Related Tools
+## 4. Operational Best Practices
 
-* [`nova.ui_open_favorites`](nova-ui-open-favorites.md)
+* **Safe Idempotency:** If the favorites panel, folder flyout, or search popup is not open, the call safely returns `status: "not_open"` without throwing an error.
+* **Viewport Cleanliness for Visual Evidence:** Before taking window-level screenshots ([`nova.capture_screenshot`](../visual-evidence/nova-capture-screenshot.md)) or initiating screen recordings ([`nova.screen_record_start`](../visual-evidence/nova-screen-record-start.md)), call `nova.ui_close_favorites` to ensure floating chrome overlays do not obstruct active tab viewports.
+
+---
+
+## 5. Related Tools
+
+* [`nova.ui_open_favorites`](nova-ui-open-favorites.md) — Opens the favorites panel.
+* [`nova.favorites_list`](nova-favorites-list.md) — Enumerates saved bookmarks programmatically.

@@ -38,9 +38,58 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## 3. Related Tools
+## 3. Protocol Usage
 
-* [`nova.screen_record_start`](nova-screen-record-start.md) — Starts screen recording sessions
-* [`nova.screen_record_status`](nova-screen-record-status.md) — Inspects active recording state
-* [`nova.screen_record_inspect`](nova-screen-record-inspect.md) — Inspects recording evidence and timeline
-* [`nova.video_render`](../video-editing/nova-video-render.md) — Renders the recorded video into styled clips
+### JSON-RPC Request
+```json
+{
+  "name": "nova.screen_record_stop",
+  "arguments": {
+    "holdMs": 2000
+  }
+}
+```
+
+### JSON-RPC Response
+```json
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Screen recording finished: C:/Workspace/Exports/ScreenRecordings/audit_run.mp4 (duration: 18.2s, 546 frames, verified: ok)."
+    }
+  ],
+  "structuredContent": {
+    "ok": true,
+    "status": "stopped",
+    "filePath": "C:/Workspace/Exports/ScreenRecordings/audit_run.mp4",
+    "durationMs": 18200,
+    "frames": 546,
+    "bytes": 5242880,
+    "container": "mp4",
+    "stoppedBy": "request",
+    "verified": true,
+    "selfCheck": {
+      "verdict": "ok",
+      "failures": []
+    }
+  }
+}
+```
+
+---
+
+## 4. Operational Best Practices
+
+* **Always Specify `holdMs`:** When recording UI automation, passing `holdMs: 2000` to `2500` ensures that the final state remains visible on screen for viewers to read and comprehend before the recording terminates. Without `holdMs`, stopping immediately after a final click can cause `material.end_too_soon` validation warnings in downstream rendering.
+* **Inspect the Self-Check Verdict:** Nova automatically decodes sample frames of the output file to confirm color accuracy and roundtrip fidelity. Check `selfCheck.verdict`: if `ok: false` with `reasonCode: "video.not_verified"`, inspect the listed `failures` before presenting the asset in formal audit reports.
+* **Transition to Editing:** Once stopped, pass the resulting `filePath` directly to [`nova.video_render`](../video-editing/nova-video-render.md) or [`nova.screen_record_inspect`](nova-screen-record-inspect.md).
+
+---
+
+## 5. Related Tools
+
+* [`nova.screen_record_start`](nova-screen-record-start.md) — Starts screen recording sessions.
+* [`nova.screen_record_status`](nova-screen-record-status.md) — Inspects active recording state.
+* [`nova.screen_record_inspect`](nova-screen-record-inspect.md) — Inspects recording evidence and timeline.
+* [`nova.video_render`](../video-editing/nova-video-render.md) — Renders the recorded video into styled clips.
