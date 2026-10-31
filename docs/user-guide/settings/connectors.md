@@ -58,6 +58,7 @@ Nova allows agents and operators to interact directly with remote server infrast
 * **Remote Database Management (MySQL & MariaDB over SSH):**
   * Configured via **Settings > Connectors > SFTP > Databases…** (or via `nova.connector_database_set`).
   * Connects to MySQL/MariaDB instances running on the SSH host (via localhost, Unix domain sockets, or internal container networks).
+  * **Encryption (TLS):** under "Where the database runs, encryption" in the database dialog: the database program's default, off, required, or required with a certificate check, plus an optional certificate authority file on the server. Required encryption needs host and port; it does not work over a socket. The list shows an entry's encryption when it is not the default.
   * Stores database usernames, schemas, and passwords securely in DPAPI or resolves them from the Nova Vault (`passwordFromVault`).
   * Enables agents to run SQL statements via `nova.db_query` with strict safety envelopes (AST validation, read-only transaction envelopes) without shell access (`process.exec`).
   * Supports automated database exports and backups via `nova.db_export` (governed by the `db.export` capability), producing compressed `.sql.gz` or `.sql` dumps with optional `portable=true` sanitization (stripping `DEFINER` clauses for phpMyAdmin/shared-hosting import compatibility).
