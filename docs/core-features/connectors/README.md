@@ -57,7 +57,7 @@ flowchart TD
 | :--- | :--- | :--- | :--- |
 | **[Mail: IMAP & SMTP](mail/README.md)** | IMAP (RFC 3501) & SMTP (RFC 5321) | `read`, `organize`, `send` | Message search, reading, tagging, drafting, sending, `.eml` exports, background mailbox archiving |
 | **[Secure Shell (SSH)](ssh/README.md)** | SSH-2 (RFC 4251-4254) | `process.exec`, `process.stdin`, `process.pty` | Batch command execution, background long-running sessions, interactive stdin streaming, interactive terminals (PTY) for full-screen programs, stream capture |
-| **[Database: MySQL & MariaDB over SSH](ssh/README.md#database-queries-over-ssh)** | MySQL & MariaDB client over SSH-2 | `db.read`, `db.write`, `db.export` | Password-isolated SQL queries, single-statement enforcement, read-only transactions, database user privilege audit (`SHOW GRANTS`), multi-database profile management, and verified server-side SQL dumps (`nova.db_export`) |
+| **[Database: MySQL & MariaDB over SSH](ssh/README.md#database-queries-over-ssh)** | MySQL & MariaDB client over SSH-2 | `db.read`, `db.write`, `db.export`, `db.restore` | Password-isolated SQL queries, single-statement enforcement, read-only transactions, database user privilege audit (`SHOW GRANTS`), multi-database profile management, and verified server-side SQL dumps (`nova.db_export`) |
 | **[SSH File Transfer (SFTP)](sftp/README.md)** | SFTP over SSH-2 | `read`, `full` | Directory synchronization, resumable uploads/downloads, atomic commit recovery, parallel acceleration |
 | **[FTP & FTPS](ftp-and-ftps/README.md)** | FTP (RFC 959) & FTPS (RFC 4217) | `read`, `full` | Directory listing, explicit/implicit TLS transfers, passive mode negotiation, resumable single-file jobs |
 | **[External MCP Servers](external-mcp/README.md)** | stdio, Streamable HTTP, SSE | Aggregated tools | Subprocess orchestration, configuration import (Claude/VS Code), token authentication, tool call proxying |
@@ -106,7 +106,8 @@ sequenceDiagram
 1. **Write-Only Storage:** Passwords, passphrases, and private key paths are ingested once via `nova.connector_create` or `nova.connector_update` and encrypted using Windows DPAPI. Profiles hold only opaque reference keys.
 2. **Metadata Projection Sanitization:** The profile metadata record exposed via `nova.connector_list` strips all secret values. It exposes boolean presence indicators (`hasPasswordSecret`, `hasPrivateKey`, `hasKeyPassphrase`) rather than raw credentials.
 3. **Vault Integration (`passwordFromVault`):** Instead of passing raw credentials in plain text over JSON-RPC, an agent can supply a Vault entry identifier obtained from `nova.vault_list`. Nova resolves the password internally. To prevent cross-origin credential harvesting, Nova triggers an interactive confirmation dialog displaying the Vault entry alongside the target host names. Users can grant an "Always" decision for that specific login-host pair, enabling subsequent unattended runs.
-4. **SSH Host-Key Verification Gate:** All SSH and SFTP connections require prior host-key verification. When a connection is initiated to an unknown host or if the host key changes, Nova halts the connection attempt before sending any authentication credentials. Host keys must be reviewed and confirmed by a human operator in Nova Settings. Agents cannot confirm or modify host keys.
+4. **Password Dialog (`password: "ask"`):** When the password is not in the vault, the agent passes `ask` instead of the password. Nova opens its own dialog, shows the connection's user and servers, and the user types the password there; it goes straight into the encrypted store and never through the agent's chat. Only the user can type it; an agent can only close the dialog. Unattended runs cannot ask and are refused.
+5. **SSH Host-Key Verification Gate:** All SSH and SFTP connections require prior host-key verification. When a connection is initiated to an unknown host or if the host key changes, Nova halts the connection attempt before sending any authentication credentials. Host keys must be reviewed and confirmed by a human operator in Nova Settings. Agents cannot confirm or modify host keys.
 
 ---
 
@@ -161,6 +162,7 @@ classDiagram
         +db.read (Read-only Database Queries)
         +db.write (Opt-in Data Mutations)
         +db.export (Isolated Database Backups & SQL Dumps)
+        +db.restore (Restoring Nova's Exports, asks every time)
     }
 
     ConnectorType <|-- MailCapabilities
@@ -184,6 +186,7 @@ classDiagram
   - `db.read`: Read-only queries against databases configured for the SFTP connection (`nova.db_query` with `mode='read'`). Evaluated independently of file access.
   - `db.write`: Data mutations (`INSERT`, `UPDATE`, `DELETE`) against configured databases (`nova.db_query` with `mode='write'`). Strictly opt-in; never inherits `db.read` or `process.exec`.
   - `db.export`: Creating verified server-side SQL dump exports (`nova.db_export`). Evaluated independently of `db.read` and `db.write`; the resulting file is a complete export of database data.
+  - `db.restore`: Restoring one of Nova's exports into the database it was made from (`nova.db_restore`), after a backup of the current state. Every restore asks the user; `always` only means the stage is not blocked, and an unattended run never restores.
 
 ---
 
@@ -304,6 +307,10 @@ Nova enables agents to back up configured MySQL and MariaDB databases without ex
 * **Asynchronous Lifecycle & Integrity Verification:** Exports run as asynchronous server jobs. Nova publishes the resulting file in `~/.nova-db-exports/<exportId>/` only after verifying that the dump writer exited with code 0, the gzip stream validates cleanly, and the final line contains `-- Dump completed`.
 * **Honest Omission Reporting:** Status reports explicitly enumerate omitted database routines, events, or triggers (`objectsOmitted`) if the database user lacks `TRIGGER` or administrative grants.
 
+### Restoring an Export (`nova.db_restore`)
+
+[`nova.db_restore`](../../mcp-reference/tools/connectors-and-mail/nova-db-restore.md) plays one of Nova's own exports back into the database it was made from. The server job first backs up the current state as a new export (`role='rollback'`) and imports only after that backup is complete. Nova checks the export before it asks, the user confirms every restore, and the answer says whether data may have changed (`mayHaveApplied`) and how to restore the backup.
+
 ---
 
 ## Connection Notes & Human Infrastructure Context
@@ -329,6 +336,7 @@ Notes are stored locally in the connection database (`notes.db`, schema version 
 | [`nova.connector_probe`](../../mcp-reference/tools/connectors-and-mail/nova-connector-probe.md) | Performs non-destructive network & capability diagnostics | `profileId`, `depth` (`reach`, `session`, `full`), `includeTranscript`, `allowInsecure` |
 | [`nova.db_query`](../../mcp-reference/tools/connectors-and-mail/nova-db-query.md) | Executes isolated SQL queries on a remote MySQL/MariaDB database over SSH | `profileId`, `databaseId`, `sql`, `mode` (`read`, `write`), `maxRows`, `timeoutMs` |
 | [`nova.db_export`](../../mcp-reference/tools/connectors-and-mail/nova-db-export.md) | Exports a configured database to a verified server-side SQL dump ready for phpMyAdmin | `profileId`, `databaseId`, `exportId`, `format`, `portable`, `waitSeconds` |
+| [`nova.db_restore`](../../mcp-reference/tools/connectors-and-mail/nova-db-restore.md) | Restores a database from one of Nova's exports after backing it up; asks every time | `profileId`, `databaseId`, `exportId`, `restoreId`, `waitSeconds` |
 | [`nova.connector_database_set`](../../mcp-reference/tools/connectors-and-mail/nova-connector-database-set.md) | Configures or updates a database definition linked to an SFTP connection | `profileId`, `databaseId`, `label`, `username`, `passwordFromVault`, `defaultDatabase`, `host`, `port` |
 | [`nova.connector_database_delete`](../../mcp-reference/tools/connectors-and-mail/nova-connector-database-delete.md) | Removes a database definition from an SFTP connection | `profileId`, `databaseId` |
 

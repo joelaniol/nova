@@ -99,6 +99,11 @@ flowchart LR
 * **Dangling Links Permitted:** The remote target path does not need to exist at creation time; dangling symbolic links are permitted.
 * **No Overwrite:** If a file or directory already exists at `remotePath`, the operation aborts with `destination_exists`.
 
+### Editing Text Files (`nova.sftp_edit`)
+* **Exact replacements instead of `sed -i`:** each `{old, new}` pair is literal text; `old` must occur exactly once, otherwise nothing is written and the error names the replacement and its match lines.
+* **Backup, mode and owner:** the previous version stays as `<file>.nova-bak-<yyyyMMddTHHmmssZ>` (unless `backup=false`); the new version keeps the file's permissions and owner, and is renamed over the original in one step.
+* **Limits:** UTF-8 text files up to 1 MiB; symbolic links, binary files and other encodings are refused. Details: [`nova.sftp_edit`](../../../../mcp-reference/tools/connectors-and-mail/nova-sftp-edit.md).
+
 ### Permissions & Ownership (`nova.sftp_chmod`, `nova.sftp_chown`)
 * **Octal Chmod Mode:** `nova.sftp_chmod` accepts standard octal strings (e.g. `"644"`, `"755"`).
 * **Symlink Protection:** In standard SFTP `SETSTAT`, commands follow symlinks on the remote server. To prevent accidental modification of target files outside the intended scope, Nova rejects `chmod` and `chown` on symbolic link nodes.

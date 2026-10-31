@@ -93,6 +93,9 @@ graph LR
    - Queries execute through the remote client inside a secure, credential-isolated wrapper. `db.read` enforces read-only transaction envelopes and timeouts; `db.write` is strictly opt-in for data modifications (`INSERT`, `UPDATE`, `DELETE`).
    - `db.export` is evaluated independently of `db.read` and `db.write`: it produces a full export of database data.
    - `db.write` and `db.export` approvals belong to the databases known when they were given: adding a database entry, or pointing one at another user, host, port, socket, database or TLS setting, takes back their standing "always" and session approvals, so the next such call asks again. `db.read` approvals and blocks stay.
+5. **`db.restore` Capability (Restoring Nova's Exports):**
+   - Authorizes [`nova.db_restore`](../../../mcp-reference/tools/connectors-and-mail/nova-db-restore.md), which plays an export of `nova.db_export` back into the database it was made from.
+   - Every restore asks the user, whatever the stage says: `always` only means the stage is not blocked. An unattended run never restores. Like `db.write` and `db.export`, the stage is reset when a database entry is added or repointed.
 
 In addition to connector-level capabilities, executing mutating remote commands requires approval under Nova's system-wide `MutatingRemote` execution policy.
 
@@ -304,6 +307,7 @@ Nova provides isolated SQL execution against MySQL and MariaDB databases accessi
 * **Pre-Execution AST Validation:** Queries undergo strict static AST validation before transmission. Multiple statements, comments, SQL injection bypasses, schema modifications (`CREATE`, `ALTER`, `DROP`), administrative operations (`GRANT`, `KILL`), and file functions (`LOAD_FILE`, `INTO OUTFILE`) are rejected before contacting the server.
 * **Read-Only Transaction Isolation:** `mode='read'` (governed by the `db.read` capability) wraps queries in an engine-enforced `START TRANSACTION READ ONLY` envelope with statement execution timeouts (`timeoutMs`). Data mutations require `mode='write'` (strictly opt-in under `db.write`).
 * **Parameters:** Values go into `params` with `?` placeholders in the SQL. The statement then runs as a prepared statement on the server, so a value is data and never SQL; the approval prompt lists the values under the statement.
+* **Transactions:** `statements=[...]` in `mode='write'` runs up to 50 writes in one transaction, all or none. Nova first checks that every written table can roll back and refuses otherwise (`not_atomic`); the answer reports `commitState` (`committed`, `rolled_back` with the failed statement, `not_started`, or `unknown`, which means: read back before repeating).
 * **Privilege Audit (`SHOW GRANTS`):** Every query execution audits user permissions on the database server, returning structured privilege flags (`readOnlyUser`, `writeGrants`, `riskyGrants`).
 * **Encrypted Connections:** A database entry can require TLS (`tls='required'`), require TLS with a checked certificate and host name (`tls='verify'`, CA file via `tlsCaPath`), or turn it off (`tls='off'`). Nova gives the MariaDB and the MySQL client only their own switches. Every answer reports in a `tls` block whether the connection was encrypted and whether the certificate was checked; a failed handshake returns `tls_failed`.
 * **Profile Management:** Databases are configured per SFTP connector via [`nova.connector_database_set`](../../../mcp-reference/tools/connectors-and-mail/nova-connector-database-set.md) or Nova Settings, and deleted via [`nova.connector_database_delete`](../../../mcp-reference/tools/connectors-and-mail/nova-connector-database-delete.md).
@@ -317,7 +321,16 @@ Nova allows autonomous agents to dump MySQL and MariaDB databases directly on th
 * **Server-Side Client:** Uses `mysqldump` or `mariadb-dump` already installed on the remote machine. Credentials are supplied on standard input (`--defaults-file=/dev/stdin`), completely shielded from command-line sniffing (`/proc/*/cmdline`).
 * **phpMyAdmin & Shared-Hosting Compatibility:** Dumps omit `CREATE DATABASE` and `USE` statements so they import directly into the target database selected in phpMyAdmin. With `portable=true` (default), Nova strips `DEFINER` clauses and MariaDB sandbox headers, allowing unprivileged accounts on shared hosting to import without `SUPER` privileges.
 * **Integrity Gate & Gzip Verification:** Output is staged in `~/.nova-db-exports/<exportId>/` and published only after verifying that the dump client exited cleanly, gzip decompression checks pass, and the `-- Dump completed` marker is present.
-* **Honest Omissions & Status Polling:** Polling with `exportId` tracks job states (`running`, `finalizing`, `done`, `failed`, `lost`). Omitted objects (routines, events, or triggers when the user lacks the `TRIGGER` privilege) are explicitly listed in `objectsOmitted`.
+* **Honest Omissions & Status Polling:** Polling with `exportId` tracks job states (`running`, `finalizing`, `done`, `failed`, `lost`). `endsWithSession=true` (with the warning `may_die_on_logout`) means the server ends the job together with the SSH session (logind `KillUserProcesses`); wait for the end with `waitSeconds` there. `nova.db_restore` reports the same. Omitted objects (routines, events, or triggers when the user lacks the `TRIGGER` privilege) are explicitly listed in `objectsOmitted`.
+
+## Restoring an Export (`nova.db_restore`)
+
+[`nova.db_restore`](../../../mcp-reference/tools/connectors-and-mail/nova-db-restore.md) brings a database back to the state of one of Nova's own exports on the same server.
+
+* **Backup First:** The server job first exports the database's current state (`role='rollback'`, returned as `backupExportId`). Only a complete backup lets it go on to the import.
+* **Checked Before the Prompt:** Nova reads the export before asking: a missing, unfinished or changed export, an export of another database, or a dump that would switch databases is refused. The prompt lists the tables that will be replaced.
+* **Clear Outcome:** `complete`, `failed_before_apply` (nothing changed), `partial` or `outcome_unknown`. In the last two `mayHaveApplied=true`, and `nextAction` names the restore of the backup. That way back runs without a new backup, because the database then holds the half-finished state; the prompt says so.
+* **Protected Backups:** Deleting a `rollback` export with `nova.db_export(action='delete')` asks the user again.
 
 ---
 
@@ -339,6 +352,7 @@ Nova allows autonomous agents to dump MySQL and MariaDB databases directly on th
 | [`nova.ssh_shell_list`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-shell-list.md) | `read` / `process.pty` | Lists the interactive terminals you own |
 | [`nova.db_query`](../../../mcp-reference/tools/connectors-and-mail/nova-db-query.md) | `db.read` / `db.write` | Runs an isolated SQL statement on a MySQL/MariaDB database over SSH |
 | [`nova.db_export`](../../../mcp-reference/tools/connectors-and-mail/nova-db-export.md) | `db.export` | Exports a MySQL/MariaDB database to a verified SQL dump on the server |
+| [`nova.db_restore`](../../../mcp-reference/tools/connectors-and-mail/nova-db-restore.md) | `db.restore` | Restores a database from one of Nova's exports after backing it up; asks every time |
 | [`nova.connector_database_set`](../../../mcp-reference/tools/connectors-and-mail/nova-connector-database-set.md) | `read` | Adds or updates a database entry linked to an SSH/SFTP connection |
 | [`nova.connector_database_delete`](../../../mcp-reference/tools/connectors-and-mail/nova-connector-database-delete.md) | `read` | Removes a database entry from an SSH/SFTP connection |
 

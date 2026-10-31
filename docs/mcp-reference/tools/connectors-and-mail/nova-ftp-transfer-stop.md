@@ -18,7 +18,7 @@ Stops a running background FTP transfer softly and keeps everything for a resume
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `jobId` | `string` | Yes | — | — | Job id returned by nova.ftp_get or nova.ftp_put. |
-| `discard` | `boolean` | No | `false` | — | true: give the job up - delete its local parts and list its remote parts (remoteParts) for nova.ftp_delete. The job can no longer be resumed. |
+| `discard` | `boolean` | No | `false` | — | true: give the job up - delete its local parts and list its remote parts (remoteParts) for nova.ftp_delete. The job can no longer be resumed and leaves the state='unfinished' list; works on an ended or failed job too, which is how an old failure nobody continues is cleared. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 

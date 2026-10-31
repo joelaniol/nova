@@ -61,6 +61,7 @@ Nova allows agents and operators to interact directly with remote server infrast
   * Stores database usernames, schemas, and passwords securely in DPAPI or resolves them from the Nova Vault (`passwordFromVault`).
   * Enables agents to run SQL statements via `nova.db_query` with strict safety envelopes (AST validation, read-only transaction envelopes) without shell access (`process.exec`).
   * Supports automated database exports and backups via `nova.db_export` (governed by the `db.export` capability), producing compressed `.sql.gz` or `.sql` dumps with optional `portable=true` sanitization (stripping `DEFINER` clauses for phpMyAdmin/shared-hosting import compatibility).
+  * Restores such an export with `nova.db_restore` (permission **Restore database exports**, `db.restore`). Nova backs up the current state first and asks you before every restore, even when the permission is set to "always"; "always" only means it is not blocked.
 * **Connection Notes & Infrastructure Context:**
   * Each connector profile includes a dedicated note field (`note`, up to 500 characters) for documenting hosting provider names, data center locations, management panel URLs (cPanel, Plesk), or server roles.
   * Notes are visible to agents via `nova.connector_list` as plain text operational metadata without exposing credentials.

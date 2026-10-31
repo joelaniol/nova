@@ -68,7 +68,7 @@ SFTP operations are divided between two capability levels:
 | Capability | Permitted Operations | Typical Tools |
 | :--- | :--- | :--- |
 | **`read`** | Querying remote directories, inspecting file attributes, downloading files and trees. | `nova.sftp_list`, `nova.sftp_get` |
-| **`full`** | Uploading files, creating directories, renaming, deleting, modifying permissions and links. | `nova.sftp_put`, `nova.sftp_rename`, `nova.sftp_delete`, `nova.sftp_mkdir`, `nova.sftp_symlink`, `nova.sftp_chmod`, `nova.sftp_chown` |
+| **`full`** | Uploading files, editing text files, creating directories, renaming, deleting, modifying permissions and links. | `nova.sftp_put`, `nova.sftp_edit`, `nova.sftp_rename`, `nova.sftp_delete`, `nova.sftp_mkdir`, `nova.sftp_symlink`, `nova.sftp_chmod`, `nova.sftp_chown` |
 
 The same connector profile can also serve remote command execution via [SSH commands](../ssh/README.md), which requires the separate `process.exec` capability stage and Nova's `MutatingRemote` execution policy.
 
@@ -169,6 +169,7 @@ Local filesystem paths involved in SFTP downloads and uploads are strictly sandb
 | [`nova.sftp_list`](../../../mcp-reference/tools/connectors-and-mail/nova-sftp-list.md) | `read` | Lists remote directory contents with attributes, permissions, and sizes |
 | [`nova.sftp_get`](../../../mcp-reference/tools/connectors-and-mail/nova-sftp-get.md) | `read` | Downloads a file or recursive directory tree as a resumable background job |
 | [`nova.sftp_put`](../../../mcp-reference/tools/connectors-and-mail/nova-sftp-put.md) | `full` | Uploads a local file or directory tree as a resumable background job |
+| [`nova.sftp_edit`](../../../mcp-reference/tools/connectors-and-mail/nova-sftp-edit.md) | `full` | Changes a text file (a config) with exact replacements, a timestamped backup and an atomic swap |
 | [`nova.sftp_transfer_status`](../../../mcp-reference/tools/connectors-and-mail/nova-sftp-transfer-status.md) | `read` | Queries real-time progress, byte rates, ETA, and state of a transfer job |
 | [`nova.sftp_transfer_stop`](../../../mcp-reference/tools/connectors-and-mail/nova-sftp-transfer-stop.md) | `read` / `full` | Pauses or stops an active transfer job, preserving `.part` files for later resumption |
 | [`nova.sftp_rename`](../../../mcp-reference/tools/connectors-and-mail/nova-sftp-rename.md) | `full` | Renames or moves a file or directory on the remote server |

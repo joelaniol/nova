@@ -21,7 +21,7 @@ Reports progress and result of background FTP transfers started by `nova.ftp_get
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `jobId` | `string` | No | — | — | Job id returned by nova.ftp_get or nova.ftp_put. Pass this or profileId. |
 | `profileId` | `string` | No | — | — | FTP connector id: lists its 20 newest transfer jobs. Pass this or jobId. |
-| `state` | `string` | No | — | `all`, `active`, `unfinished` | Filter for the profileId list: all (default), active (running now) or unfinished (running, stopped, interrupted or failed). |
+| `state` | `string` | No | — | `all`, `active`, `unfinished` | Filter for the profileId list: all (default), active (running now) or unfinished (the latest attempt of each transfer that is running, stopped, interrupted or failed and was not given up). |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 

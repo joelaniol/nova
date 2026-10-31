@@ -82,6 +82,7 @@ Nova provides dedicated, credential-isolated database querying directly through 
 * **Privilege Audit:** Queries run `SHOW GRANTS` on the connection to report effective user privileges (`readOnlyUser: true`, `riskyGrants`), ensuring least-privilege configurations.
 * **Profile Configuration:** Databases are linked to SFTP connections via `nova.connector_database_set` (or Nova Settings) and removed via `nova.connector_database_delete`.
 * **Backups and SQL exports:** `nova.db_export` dumps a database with the same stored login into a private folder on the server (`.sql` or `.sql.gz`), publishes the file only once the dump is verified complete, and keeps running if the connection drops. The file imports into the database selected in phpMyAdmin; by default it carries no `DEFINER` clauses, so the import also works on shared hosting. Download it with `nova.sftp_get(verifySha256=true)`. Exporting needs its own permission, `db.export`.
+* **Restoring an export:** `nova.db_restore` plays one of these exports back into the database it was made from. It first backs up the current state as a new export, so you can go back again, and it asks you every time. If the import stops partway, the answer says so (`mayHaveApplied`) and names the call that restores the backup. Restoring needs its own permission, `db.restore`.
 
 ---
 

@@ -12,7 +12,7 @@ Looking for a tool by what it does rather than by area? The [tool catalog](../to
 | [Agent-Authored Plugins](plugins/README.md) | 22 | Write, test, and ship agent-authored browser plugins that change how pages behave. |
 | [App Shell, Dialogs & DevTools](app-shell-and-ui/README.md) | 66 | WinUI window controls, native OS dialog handling, DevTools panels, setup wizard, and onboarding injection. |
 | [Browser Navigation & Physical Automation](browser-automation/README.md) | 40 | Page navigation, tab strip lifecycle management, physical clicks, humanized typing, scroll mechanics, and file uploads. |
-| [Connectors, Mail & File Transfer](connectors-and-mail/README.md) | 58 | IMAP/SMTP email client automation, EML exports, SFTP/FTP server operations, and credential access grants. |
+| [Connectors, Mail & File Transfer](connectors-and-mail/README.md) | 62 | IMAP/SMTP email client automation, EML exports, SFTP/FTP server operations, and credential access grants. |
 | [Credentials, Vault & DPAPI Secret Keystore](vault-and-security/README.md) | 9 | Password autofill via ephemeral origin-bound SecretRef tokens, credential discovery, and write-only encrypted environment variables. |
 | [DOM Perception & Semantic Extraction](dom-and-reading/README.md) | 21 | Token-efficient text extraction, structured landmark reading, typed DOM attributes, and multi-modal fusion perception. |
 | [Desktop Notifications & Alerts](notifications/README.md) | 11 | Native OS notification dispatch, unread inbox management, and per-origin notification permissions. |
@@ -26,7 +26,7 @@ Looking for a tool by what it does rather than by area? The [tool catalog](../to
 | [Local Files, Documents & Archives](files-and-documents/README.md) | 23 | Reading and reshaping files that already lie on disk: PDF, Word, Excel, PowerPoint, EPUB, HTML and text as Markdown, CSV/Excel tables with exact totals, PDF page composition, and ZIP/TAR archives. |
 | [Media Intelligence & Whisper Speech-to-Text](media-and-transcription/README.md) | 24 | In-browser audio/video recording, local OpenAI Whisper transcription, model management, and camera/mic permissions. |
 | [Phenomenological Knowledge Store & Self-Learning](pks-and-learning/README.md) | 21 | Cross-session procedural UI memory, learned interaction playbooks, fingerprint matching, and health telemetry. |
-| [Proxy Routing & Network Interception](proxy-and-network/README.md) | 16 | Proxy profile management, authentication, traffic redirection, and CDP network request/response interception. |
+| [Proxy Routing & Network Interception](proxy-and-network/README.md) | 17 | Proxy profile management, authentication, traffic redirection, and CDP network request/response interception. |
 | [Scheduled Tasks, Cron & Workspaces](scheduled-tasks/README.md) | 25 | Background task automation, cron expressions, file-system watches, task workspaces, and execution logs. |
 | [Session Tracing & DOM Event Recording](session-recording/README.md) | 14 | Network HAR capture, user interaction timelines, DOM change snapshots, and replay verification. |
 | [Site Crawler & URL Discovery Index](crawler-and-discovery/README.md) | 13 | Broad-surface website crawling, URL indexing, sitemap verification, and exploration of UI states no URL reaches. |
@@ -34,5 +34,5 @@ Looking for a tool by what it does rather than by area? The [tool catalog](../to
 | [Video Editing](video-editing/README.md) | 4 | Nova's video editor: screen recordings turned into GIF, WebM and MP4 clips or stills, with cuts, speed, captions, end cards, zoom, framing for feeds and reusable templates. |
 | [Visual Evidence, Screenshots & Archiving](visual-evidence/README.md) | 12 | Lossless cropped screenshots, pixel-by-pixel diffing, persistent baselines, and print-to-PDF generation. |
 
-**501 tools in total.**
+**506 tools in total.**
 <!-- /generated:area-list -->

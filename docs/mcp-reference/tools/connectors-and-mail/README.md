@@ -8,7 +8,7 @@ IMAP/SMTP email client automation, EML exports, SFTP/FTP server operations, and 
 ---
 
 <!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
-## Tool Inventory (58 Tools)
+## Tool Inventory (62 Tools)
 
 Capability bundles of these tools: `connector_ops`.
 
@@ -26,6 +26,7 @@ Capability bundles of these tools: `connector_ops`.
 | **[`nova.connector_update`](nova-connector-update.md)** | Updates configuration, endpoints, credentials, or signatures of an existing connection. |
 | **[`nova.db_export`](nova-db-export.md)** | Exports (backs up) a MySQL or MariaDB database that the user set up on an SSH/SFTP connection as an SQL dump file on the server - with the stored database login, without the agent ever seeing its password. |
 | **[`nova.db_query`](nova-db-query.md)** | Runs one SQL statement on a MySQL or MariaDB database that the user set up on an SSH/SFTP connection - without the agent ever seeing the database password. |
+| **[`nova.db_restore`](nova-db-restore.md)** | Restores a MySQL or MariaDB database from an export that `nova.db_export` made on the same server. Nova backs up the database's current state first and asks the user before every restore. |
 | **[`nova.ftp_delete`](nova-ftp-delete.md)** | Deletes a remote regular file or empty directory on an FTP/FTPS server. |
 | **[`nova.ftp_get`](nova-ftp-get.md)** | Downloads a remote regular file over FTP/FTPS into Downloads or the workspace. |
 | **[`nova.ftp_list`](nova-ftp-list.md)** | Lists remote directory entries or inspects file metadata through an FTP/FTPS connector. |
@@ -48,9 +49,12 @@ Capability bundles of these tools: `connector_ops`.
 | **[`nova.mail_read`](nova-mail-read.md)** | Reads the sanitized body and attachment inventory of a specific email. |
 | **[`nova.mail_search`](nova-mail-search.md)** | Searches mail metadata across the IMAP server and local encrypted search archives. |
 | **[`nova.mail_send`](nova-mail-send.md)** | Sends an email with optional HTML body, CC/BCC, priority, and attachments via SMTP. |
+| **[`nova.server_snapshot`](nova-server-snapshot.md)** | Records the state of a server over an SSH/SFTP connection - services, listening ports, mounts, fail2ban jails and firewall rules - so it can be compared after a change. |
+| **[`nova.server_snapshot_diff`](nova-server-snapshot-diff.md)** | Compares two stored snapshots of one connection and lists, per part, what was added and what was removed. |
 | **[`nova.sftp_chmod`](nova-sftp-chmod.md)** | Changes the POSIX permissions of a remote file or directory over an SFTP connection. |
 | **[`nova.sftp_chown`](nova-sftp-chown.md)** | Changes the owner and/or group of a remote file or directory over an SFTP connection. |
 | **[`nova.sftp_delete`](nova-sftp-delete.md)** | Deletes a remote file, empty directory, or bounded directory tree over SFTP. |
+| **[`nova.sftp_edit`](nova-sftp-edit.md)** | Changes a text file on the server over an SFTP connection with exact replacements, a backup copy and an atomic swap — the safe replacement for `sed -i`. |
 | **[`nova.sftp_get`](nova-sftp-get.md)** | Downloads a remote file or directory tree of any size over SFTP into Downloads or the workspace, as a resumable background job. |
 | **[`nova.sftp_list`](nova-sftp-list.md)** | Lists remote directory entries or inspects file metadata through an SFTP connector. |
 | **[`nova.sftp_mkdir`](nova-sftp-mkdir.md)** | Creates a remote directory over an SFTP connection, optionally with its parent directories and POSIX permissions. |
