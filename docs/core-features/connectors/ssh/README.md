@@ -331,6 +331,7 @@ Nova allows autonomous agents to dump MySQL and MariaDB databases directly on th
 * **Checked Before the Prompt:** Nova reads the export before asking: a missing, unfinished or changed export, an export of another database, or a dump that would switch databases is refused. The prompt lists the tables that will be replaced.
 * **Clear Outcome:** `complete`, `failed_before_apply` (nothing changed), `partial` or `outcome_unknown`. In the last two `mayHaveApplied=true`, and `nextAction` names the restore of the backup. That way back runs without a new backup, because the database then holds the half-finished state; the prompt says so.
 * **Protected Backups:** Deleting a `rollback` export with `nova.db_export(action='delete')` asks the user again.
+* **Foreign Dumps:** `sourcePath` imports a `.sql` or `.sql.gz` file Nova did not write (phpMyAdmin export, old host's backup). `dryRun=true` checks it without changing anything; a real import copies it into Nova's private folder (`role='imported'`) and checks that copy. `stripDefiners=true` removes foreign `DEFINER` clauses for hosts without administrator rights.
 
 ---
 

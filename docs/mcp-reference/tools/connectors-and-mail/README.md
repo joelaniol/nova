@@ -26,7 +26,7 @@ Capability bundles of these tools: `connector_ops`.
 | **[`nova.connector_update`](nova-connector-update.md)** | Updates configuration, endpoints, credentials, or signatures of an existing connection. |
 | **[`nova.db_export`](nova-db-export.md)** | Exports (backs up) a MySQL or MariaDB database that the user set up on an SSH/SFTP connection as an SQL dump file on the server - with the stored database login, without the agent ever seeing its password. |
 | **[`nova.db_query`](nova-db-query.md)** | Runs one SQL statement on a MySQL or MariaDB database that the user set up on an SSH/SFTP connection - without the agent ever seeing the database password. |
-| **[`nova.db_restore`](nova-db-restore.md)** | Restores a MySQL or MariaDB database from an export that `nova.db_export` made on the same server. Nova backs up the database's current state first and asks the user before every restore. |
+| **[`nova.db_restore`](nova-db-restore.md)** | Restores a MySQL or MariaDB database from an export that `nova.db_export` made on the same server, or imports a `.sql`/`.sql.gz` file from elsewhere on that server. Nova backs up the database's current state first and asks the user before every restore; a dry run checks a file without changing anything. |
 | **[`nova.ftp_delete`](nova-ftp-delete.md)** | Deletes a remote regular file or empty directory on an FTP/FTPS server. |
 | **[`nova.ftp_get`](nova-ftp-get.md)** | Downloads a remote regular file over FTP/FTPS into Downloads or the workspace. |
 | **[`nova.ftp_list`](nova-ftp-list.md)** | Lists remote directory entries or inspects file metadata through an FTP/FTPS connector. |

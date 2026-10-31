@@ -186,7 +186,7 @@ classDiagram
   - `db.read`: Read-only queries against databases configured for the SFTP connection (`nova.db_query` with `mode='read'`). Evaluated independently of file access.
   - `db.write`: Data mutations (`INSERT`, `UPDATE`, `DELETE`) against configured databases (`nova.db_query` with `mode='write'`). Strictly opt-in; never inherits `db.read` or `process.exec`.
   - `db.export`: Creating verified server-side SQL dump exports (`nova.db_export`). Evaluated independently of `db.read` and `db.write`; the resulting file is a complete export of database data.
-  - `db.restore`: Restoring one of Nova's exports into the database it was made from (`nova.db_restore`), after a backup of the current state. Every restore asks the user; `always` only means the stage is not blocked, and an unattended run never restores.
+  - `db.restore`: Restoring one of Nova's exports into the database it was made from, or importing a foreign `.sql`/`.sql.gz` file from the server (`nova.db_restore`), after a backup of the current state. Every restore asks the user; `always` only means the stage is not blocked, and an unattended run never restores.
 
 ---
 
@@ -310,6 +310,8 @@ Nova enables agents to back up configured MySQL and MariaDB databases without ex
 ### Restoring an Export (`nova.db_restore`)
 
 [`nova.db_restore`](../../mcp-reference/tools/connectors-and-mail/nova-db-restore.md) plays one of Nova's own exports back into the database it was made from. The server job first backs up the current state as a new export (`role='rollback'`) and imports only after that backup is complete. Nova checks the export before it asks, the user confirms every restore, and the answer says whether data may have changed (`mayHaveApplied`) and how to restore the backup.
+
+The same tool imports a dump Nova did not write (`sourcePath`, plain or gzip). A dry run (`dryRun=true`) checks the file and changes nothing; a real import works on a private copy, refuses dumps that touch another database or the server itself, and warns first when the database user's privileges reach beyond the target database.
 
 ---
 
