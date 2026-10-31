@@ -10,6 +10,7 @@ A database entry names a database user and, optionally, the database and where i
 
 * **No password argument.** The user sets the password in Settings > Connectors > SFTP > Databases…, or the agent passes `passwordFromVault` with the id of a vault entry; the user confirms that copy and the agent never sees the password.
 * **Where the database runs.** By default the client's local socket on the SSH server. Pass `host`/`port` for a database in a container or on another machine, or `socket` for a non-default socket path.
+* **Encryption.** `tls` chooses how the database client connects over `host`/`port`: `default` leaves it to the client, `off` turns TLS off, `required` refuses a server without TLS, `verify` also checks the server certificate and the host name. `tlsCaPath` is the CA file on the SSH server for `required`/`verify`; a self-signed or company CA needs it. Nova gives the MariaDB and the MySQL client only the switches each one understands; a MariaDB client checks the certificate already with `required`, because it has no way to enforce TLS without the check.
 * **Entries are listed** in [`nova.connector_list`](nova-connector-list.md) under `connectors[].databases[]`, with `hasPassword`, the detected engine, the server version and the last privilege check.
 
 * **Subsystem Overview:** [Secure Shell (SSH)](../../../core-features/connectors/ssh/README.md)
@@ -30,6 +31,8 @@ A database entry names a database user and, optionally, the database and where i
 | `host` | `string` | No | — | ≤ 253 characters | Database host as seen from the SSH server (e.g. 127.0.0.1 or a container name). Omit to use the client's default socket. Not together with socket. |
 | `port` | `integer` | No | — | 0–65535 | Database port with host (default 3306). 0 clears it. |
 | `socket` | `string` | No | — | ≤ 201 characters | Absolute path of the server's database socket, e.g. /run/mysqld/mysqld.sock. Not together with host. |
+| `tls` | `string` | No | `"default"` | `default`, `off`, `required`, `verify` | default: what the server's client does (MariaDB 11.4+ encrypts and checks the certificate and fails on a server without TLS; MySQL clients encrypt without checking). off: no TLS. required: TLS is a must (a MariaDB client can enforce it only with the certificate check). verify: TLS plus CA and host name check; a MySQL client needs tlsCaPath for it. required/verify need host. |
+| `tlsCaPath` | `string` | No | — | ≤ 201 characters | With tls required/verify: absolute path of the CA file ON THE SSH SERVER that signed the database's certificate (own CA, self-signed). '' clears it. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
@@ -67,6 +70,8 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
       "defaultDatabase": "shop",
       "hasPassword": false
     },
+    "approvalsReset": ["db.write"],
+    "approvalsResetNote": "This entry names a new database target, so the connection's standing approvals for these stages went back to asking; the next such call asks the user again.",
     "next": "No password yet: the user sets it in Settings > Connectors > SFTP > Databases…, or pass passwordFromVault. Then run nova.db_query."
   }
 }
@@ -78,6 +83,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 * **Prefer a read-only database user.** It is the boundary that holds even when a query slips past every other check.
 * **Ask the user for the password step**, or use `passwordFromVault` when the vault already holds the database login.
+* **Expect a new question after a new target.** Creating an entry, or changing its user, host, port, socket, `defaultDatabase`, `tls` or `tlsCaPath`, takes back the connection's standing "always" and session approvals for `db.write` and `db.export`; `approvalsReset` lists the stages that had one. `db.read` approvals and blocks stay.
 
 ---
 

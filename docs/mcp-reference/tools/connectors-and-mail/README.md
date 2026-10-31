@@ -8,7 +8,7 @@ IMAP/SMTP email client automation, EML exports, SFTP/FTP server operations, and 
 ---
 
 <!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
-## Tool Inventory (57 Tools)
+## Tool Inventory (58 Tools)
 
 Capability bundles of these tools: `connector_ops`.
 
@@ -19,6 +19,7 @@ Capability bundles of these tools: `connector_ops`.
 | **[`nova.connector_database_set`](nova-connector-database-set.md)** | Adds or changes a MySQL/MariaDB database on an SSH/SFTP connection, so `nova.db_query` can reach it. |
 | **[`nova.connector_delete`](nova-connector-delete.md)** | Deletes a connector profile, associated capability grants, and backing DPAPI secrets. |
 | **[`nova.connector_grant_set`](nova-connector-grant-set.md)** | Sets capability access modes (ask, always, blocked) for a connector. |
+| **[`nova.connector_history`](nova-connector-history.md)** | Shows what agents did on a server through Nova: every writing SSH, SFTP, FTP and database call, newest first. |
 | **[`nova.connector_list`](nova-connector-list.md)** | Lists configured E-Mail accounts and remote file transfer server connections. |
 | **[`nova.connector_probe`](nova-connector-probe.md)** | Diagnoses a configured mail account or SFTP/FTP server: reachability, TLS, server identity, features and limits, read-only. |
 | **[`nova.connector_recipient_set`](nova-connector-recipient-set.md)** | Configures recipient allow-lists for autonomous email sending without human prompts. |

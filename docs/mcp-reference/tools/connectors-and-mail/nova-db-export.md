@@ -14,6 +14,8 @@ Exports (backs up) a MySQL or MariaDB database that the user set up on an SSH/SF
 * **Portable by default.** `portable=true` removes `DEFINER` clauses from views, triggers and routines and MariaDB's sandbox line, so the file imports for a user without the SUPER privilege, as on shared hosting, and on older servers. Row data is never changed.
 * **Honest about what is missing.** `objectsOmitted` lists routines and events when they were not requested, and triggers when the database user lacks the TRIGGER privilege (the dump client then leaves them out without any error). `consistency` says whether all tables shared one snapshot (`innodb_snapshot`) or not (`mixed_engines`). `warnings` names collations another server may not know.
 * **Its own permission.** Capability `db.export`, separate from `db.read`: the file is a full copy of the data.
+* **Some tables only.** `tables=["orders","customers"]` exports just those tables or views (`scope='tables'`, file name `<db>-tables-...`); their triggers come along. A name that does not exist stops the start before anything runs (`db_export.table_not_found`). A view whose tables are not in the selection fails on import.
+* **Tidy up.** `action='list'` shows every export on the server with state, database, size and age; `action='delete'` with `exportId` removes one export folder. A running export is left alone.
 
 * **Subsystem Overview:** [Secure Shell (SSH)](../../../core-features/connectors/ssh/README.md)
 
@@ -26,7 +28,9 @@ Exports (backs up) a MySQL or MariaDB database that the user set up on an SSH/SF
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `profileId` | `string` | Yes | — | — | SSH/SFTP connector id from nova.connector_list. |
 | `databaseId` | `string` | No | — | — | Database entry id from nova.connector_list (connectors[].databases[].id); required to start. The entry must name its database (defaultDatabase). |
-| `exportId` | `string` | No | — | — | Id a previous call returned (dbx_...): read that export's state instead of starting a new one. |
+| `exportId` | `string` | No | — | — | Id a previous call returned (dbx_...): read that export's state instead of starting a new one (or the export to delete). |
+| `action` | `string` | No | — | `start`, `status`, `list`, `delete` | start (default without exportId), status (default with exportId), list (all exports on the server) or delete (one export folder, needs exportId). |
+| `tables` | `array` of `string` | No | — | 1–200 items | Export only these tables/views of the database (names of letters, digits, _ and -). Omit for the whole database. |
 | `format` | `string` | No | `"sql.gz"` | `sql.gz`, `sql` | sql.gz (gzip, much smaller) or sql (plain text). phpMyAdmin imports both. |
 | `portable` | `boolean` | No | `true` | — | Drop DEFINER clauses and MariaDB's sandbox line so the dump imports on another server and for a user without SUPER. false keeps the dump exactly as the client wrote it. |
 | `includeRoutines` | `boolean` | No | `false` | — | Also dump stored procedures and functions (needs further privileges; listed in objectsOmitted when off). |
@@ -84,7 +88,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 * **Read `complete` and `warnings` before calling it a backup.** A dump without triggers or with a collation the target server lacks still imports partly or stops halfway.
 * **Grant TRIGGER for complete exports.** A read-only user with `SELECT, SHOW VIEW, TRIGGER` is enough for tables, views and triggers.
 * **Large databases.** The dump holds one long read transaction; run it outside peak hours and keep polling with `exportId` instead of starting again.
-* **Old exports stay on the server.** Remove them with `nova.sftp_delete` when they are no longer needed.
+* **Old exports stay on the server.** List them with `action='list'` and remove the ones you fetched with `action='delete'`.
 
 ---
 

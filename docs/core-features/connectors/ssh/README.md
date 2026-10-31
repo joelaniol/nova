@@ -92,6 +92,7 @@ graph LR
    - Authorize querying MySQL or MariaDB databases via [`nova.db_query`](../../../mcp-reference/tools/connectors-and-mail/nova-db-query.md) and creating server-side SQL dumps via [`nova.db_export`](../../../mcp-reference/tools/connectors-and-mail/nova-db-export.md) without interactive shell access (`process.exec`).
    - Queries execute through the remote client inside a secure, credential-isolated wrapper. `db.read` enforces read-only transaction envelopes and timeouts; `db.write` is strictly opt-in for data modifications (`INSERT`, `UPDATE`, `DELETE`).
    - `db.export` is evaluated independently of `db.read` and `db.write`: it produces a full export of database data.
+   - `db.write` and `db.export` approvals belong to the databases known when they were given: adding a database entry, or pointing one at another user, host, port, socket, database or TLS setting, takes back their standing "always" and session approvals, so the next such call asks again. `db.read` approvals and blocks stay.
 
 In addition to connector-level capabilities, executing mutating remote commands requires approval under Nova's system-wide `MutatingRemote` execution policy.
 
@@ -302,7 +303,9 @@ Nova provides isolated SQL execution against MySQL and MariaDB databases accessi
 * **Zero Password Exposure:** Database credentials are fed directly to the remote client via standard input (`--defaults-file=/dev/stdin` or a transient file with `umask 077`). Passwords never touch the command line, process lists (`/proc/*/cmdline`), or agent conversation context.
 * **Pre-Execution AST Validation:** Queries undergo strict static AST validation before transmission. Multiple statements, comments, SQL injection bypasses, schema modifications (`CREATE`, `ALTER`, `DROP`), administrative operations (`GRANT`, `KILL`), and file functions (`LOAD_FILE`, `INTO OUTFILE`) are rejected before contacting the server.
 * **Read-Only Transaction Isolation:** `mode='read'` (governed by the `db.read` capability) wraps queries in an engine-enforced `START TRANSACTION READ ONLY` envelope with statement execution timeouts (`timeoutMs`). Data mutations require `mode='write'` (strictly opt-in under `db.write`).
+* **Parameters:** Values go into `params` with `?` placeholders in the SQL. The statement then runs as a prepared statement on the server, so a value is data and never SQL; the approval prompt lists the values under the statement.
 * **Privilege Audit (`SHOW GRANTS`):** Every query execution audits user permissions on the database server, returning structured privilege flags (`readOnlyUser`, `writeGrants`, `riskyGrants`).
+* **Encrypted Connections:** A database entry can require TLS (`tls='required'`), require TLS with a checked certificate and host name (`tls='verify'`, CA file via `tlsCaPath`), or turn it off (`tls='off'`). Nova gives the MariaDB and the MySQL client only their own switches. Every answer reports in a `tls` block whether the connection was encrypted and whether the certificate was checked; a failed handshake returns `tls_failed`.
 * **Profile Management:** Databases are configured per SFTP connector via [`nova.connector_database_set`](../../../mcp-reference/tools/connectors-and-mail/nova-connector-database-set.md) or Nova Settings, and deleted via [`nova.connector_database_delete`](../../../mcp-reference/tools/connectors-and-mail/nova-connector-database-delete.md).
 
 ---
