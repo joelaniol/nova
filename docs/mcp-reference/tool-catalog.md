@@ -21,7 +21,7 @@ Every tool exposed by **Nova AI Workspace**, grouped by operational domain. Clic
 - [12. Desktop Notifications & Alerts](#12-desktop-notifications--alerts) (11)
 - [13. Device Emulation & Responsive Testing](#13-device-emulation--responsive-testing) (11)
 - [14. External MCP Servers & Site-Provided Automation](#14-external-mcp-servers--site-provided-automation) (14)
-- [15. Proxy Routing & Network Interception](#15-proxy-routing--network-interception) (17)
+- [15. Proxy Routing & Network Interception](#15-proxy-routing--network-interception) (22)
 - [16. Site Crawler & URL Discovery Index](#16-site-crawler--url-discovery-index) (13)
 - [17. Session Tracing & DOM Event Recording](#17-session-tracing--dom-event-recording) (14)
 - [18. Scheduled Tasks, Cron & Workspaces](#18-scheduled-tasks-cron--workspaces) (25)
@@ -239,7 +239,7 @@ Self-learning procedural memory for persistent fast-paths and domain notes.
 | **[`nova.pks_platform_list`](tools/pks-and-learning/nova-pks-platform-list.md)** | *(none)* | Lists supported platform UI frameworks and common component models. |
 | **[`nova.pks_platform_seed`](tools/pks-and-learning/nova-pks-platform-seed.md)** | `stableId`, `displayName`, `description?`, `homepageUrl?`, `patterns?`, `aliases?` | Creates or updates a platform entry (for example a cookie-consent vendor) with pattern templates and lookup aliases. |
 | **[`nova.pks_upsert_hint`](tools/pks-and-learning/nova-pks-upsert-hint.md)** | `scope`, `domainHint` | Creates or updates a domain hint: CSS selectors that mark ad containers, noise regions or result items on a site. |
-| **[`nova.revalidate`](tools/pks-and-learning/nova-revalidate.md)** | `targetId`, `scope?`, `limit?` | Checks stale PKS phenomena of a domain against the live page in a tab and records the outcome. |
+| **[`nova.revalidate`](tools/pks-and-learning/nova-revalidate.md)** | `targetId`, `scope?`, `limit?`, `phenomenonId?` | Checks stale PKS phenomena of a domain against the live page in a tab and records the outcome. |
 
 ---
 
@@ -393,6 +393,11 @@ Proxy profile management, authentication, traffic redirection, and CDP network r
 | **[`nova.proxy_test`](tools/proxy-and-network/nova-proxy-test.md)** | `profileId`, `probeUrl?` | Executes an active network diagnostic probe through a proxy profile to verify connectivity and external IP. |
 | **[`nova.proxy_update`](tools/proxy-and-network/nova-proxy-update.md)** | `profileId`, `name?`, `protocol?`, `host?`, `port?`, `bypassList?`, `username?`, `enabled?`, `isGlobalDefault?` | Updates host, port, protocol, or bypass list of an existing proxy profile. |
 | **[`nova.net_probe`](tools/proxy-and-network/nova-net-probe.md)** | `host`, `tcpPorts?`, `httpProxyConnect?`, `timeoutMs?` | Checks from this PC which TCP ports of a host are reachable, and whether an HTTP proxy there opens a CONNECT tunnel. |
+| **[`nova.net_scan`](tools/proxy-and-network/nova-net-scan.md)** | `targets`, `portSets?`, `ports?`, `discovery?`, `timeoutMs?`, `parallel?`, `discoveryWindowMs?`, `timeBudgetSeconds?`, `waitSeconds?` | Scans a network from this PC: finds the devices in a range, checks which TCP ports answer, and names what each device probably is, with the evidence behind it. |
+| **[`nova.net_scan_status`](tools/proxy-and-network/nova-net-scan-status.md)** | `scanId?` | Shows the progress or the result of a `nova.net_scan` job, or lists the scans of this Nova session and the latest stored scans. |
+| **[`nova.net_scan_stop`](tools/proxy-and-network/nova-net-scan-stop.md)** | `scanId` | Stops a running `nova.net_scan` and returns what it found so far. |
+| **[`nova.net_devices`](tools/proxy-and-network/nova-net-devices.md)** | `deviceId?`, `class?`, `port?`, `presence?`, `subnet?`, `newSince?`, `query?`, `limit?`, `fromScanId?`, `toScanId?` | Reads Nova's network inventory: every device `nova.net_scan` has found, with what it is, its addresses and open ports, and whether it was seen lately. Also compares two stored scans. |
+| **[`nova.net_devices_update`](tools/proxy-and-network/nova-net-devices-update.md)** | `deviceId`, `label?`, `note?`, `forget?` | Gives a device of the network inventory a name and a note, or forgets it. |
 | **[`nova.tls_inspect`](tools/proxy-and-network/nova-tls-inspect.md)** | `url?`, `targetId?`, `checks?`, `checkHosts?`, `ctDomain?`, `maxCtEntries?`, `includePem?` | Inspects the TLS certificate and server configuration of one host in depth: full chain, names, purpose, validation level, protocol and cipher support, HSTS and Certificate Transparency subdomains. |
 
 ---

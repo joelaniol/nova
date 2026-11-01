@@ -8,13 +8,18 @@ Proxy profile management, authentication, traffic redirection, and CDP network r
 ---
 
 <!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
-## Tool Inventory (17 Tools)
+## Tool Inventory (22 Tools)
 
 Capability bundles of these tools: `connector_ops`, `page_read_debug`, `proxy_management`.
 
 | Tool | What it does |
 | :--- | :--- |
+| **[`nova.net_devices`](nova-net-devices.md)** | Reads Nova's network inventory: every device `nova.net_scan` has found, with what it is, its addresses and open ports, and whether it was seen lately. Also compares two stored scans. |
+| **[`nova.net_devices_update`](nova-net-devices-update.md)** | Gives a device of the network inventory a name and a note, or forgets it. |
 | **[`nova.net_probe`](nova-net-probe.md)** | Checks from this PC which TCP ports of a host are reachable, and whether an HTTP proxy there opens a CONNECT tunnel. |
+| **[`nova.net_scan`](nova-net-scan.md)** | Scans a network from this PC: finds the devices in a range, checks which TCP ports answer, and names what each device probably is, with the evidence behind it. |
+| **[`nova.net_scan_status`](nova-net-scan-status.md)** | Shows the progress or the result of a `nova.net_scan` job, or lists the scans of this Nova session and the latest stored scans. |
+| **[`nova.net_scan_stop`](nova-net-scan-stop.md)** | Stops a running `nova.net_scan` and returns what it found so far. |
 | **[`nova.network_intercept_add`](nova-network-intercept-add.md)** | Deposits a CDP network interception rule to mock responses, inject delays, modify headers, or fail requests. |
 | **[`nova.network_intercept_clear`](nova-network-intercept-clear.md)** | Disarms network interception rules: by rule ID, by tab ID, or globally across the entire browser. |
 | **[`nova.network_intercept_list`](nova-network-intercept-list.md)** | Lists currently armed network interception rules with remaining hit budgets and expiration timers. |

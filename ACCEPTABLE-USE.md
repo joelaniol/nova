@@ -1,6 +1,6 @@
 # Acceptable Use Policy / Nutzungsrichtlinie
 
-*Last updated: October 26, 2026*
+*Last updated: November 1, 2026*
 
 ---
 
@@ -33,6 +33,7 @@ Authorized testing requires express permission from a person or organization ent
 - Connecting MCP-compatible tools and agents for legitimate purposes
 - Inspecting, intercepting and replaying network traffic of your own sites and services — and of third-party services only within a scope their operator has authorized in writing
 - Checking the TLS certificate and TLS configuration of a server (`nova.tls_inspect`) — what every server presents to every client that connects. The check covers one host per call, stays within a fixed handshake budget and does not attack the server
+- Scanning networks you run (`nova.net_scan`, from version 1.0.0-alpha.21, not published yet) — your home or office network, your VPN, your own servers — to see which devices are there and which ports answer. Other networks only with the permission of whoever runs them
 
 ### Prohibited Use
 
@@ -56,6 +57,7 @@ You may **not** use Nova AI Workspace to:
 - **Recording other people's data** — capture request or response bodies containing other people's personal data, credentials or tokens without a legal basis. If such data is captured, keeping it out of logs and agent transcripts and deleting it is your responsibility; Nova's `redact` option exists for this
 - **Saving videos you have no right to keep** — use "Save video" to copy a video that is plainly an unlawful upload, or pass on or publish a saved video without the rights holder's permission. A private copy is allowed only as far as the copyright law where you live allows it. Nova refuses encrypted and copy-protected videos; do not use other tools to work around that protection
 - **Recording people without a legal basis** — use screen recording to record video calls, meetings or other people shown on a page without their consent or another legal basis. Nova silences the sound while a page uses the microphone, but the picture of a call and its participants is still recorded
+- **Scanning networks without permission** — scan a network or address range you neither run nor are authorized to test, for example at your workplace without the IT department's consent, in a hotel or on public Wi-Fi, or use a scan to prepare access to systems that are not yours. Approving the scan in Nova only confirms that it should run; it is not permission from the network's operator
 - **Illegal commerce** — facilitate transactions involving illegal goods or services
 
 ### Your Responsibility
@@ -103,6 +105,7 @@ Autorisierte Prüfungen setzen die ausdrückliche Genehmigung einer dazu befugte
 - Anbindung MCP-kompatibler Tools und Agenten für legitime Zwecke
 - Beobachten, Abfangen und erneutes Senden von Netzwerkverkehr eigener Websites und Dienste — bei Drittanbieterdiensten nur in einem Rahmen, den deren Betreiber schriftlich genehmigt hat
 - Prüfen des TLS-Zertifikats und der TLS-Konfiguration eines Servers (`nova.tls_inspect`) — das, was jeder Server jedem Client zeigt, der sich verbindet. Die Prüfung umfasst einen Host pro Aufruf, bleibt in einem festen Handshake-Budget und greift den Server nicht an
+- Scannen eigener Netze (`nova.net_scan`, ab Version 1.0.0-alpha.21, noch nicht veröffentlicht) — Heim- oder Büronetz, eigenes VPN, eigene Server —, um zu sehen, welche Geräte dort sind und welche Ports antworten. Fremde Netze nur mit Erlaubnis dessen, der sie betreibt
 
 ### Verbotene Nutzung
 
@@ -125,6 +128,7 @@ Du darfst Nova AI Workspace **nicht** verwenden für:
 - **Erneutes Senden ohne Befugnis** — aufgezeichnete Anfragen erneut senden, auch unter einer Sitzung, die Nova wiederverwenden kann, gegen einen Dienst, der das nicht genehmigt hat. Dass Nova deine Sitzung technisch wiederverwenden kann, ist keine Erlaubnis des Dienstes
 - **Speichern von Videos ohne Recht dazu** — mit „Video speichern" ein Video kopieren, das offensichtlich rechtswidrig hochgeladen wurde, oder ein gespeichertes Video ohne Erlaubnis des Rechteinhabers weitergeben oder veröffentlichen. Eine Privatkopie ist nur erlaubt, soweit das Urheberrecht an deinem Wohnort sie erlaubt. Nova lehnt verschlüsselte und kopiergeschützte Videos ab; umgehe diesen Schutz nicht mit anderen Werkzeugen
 - **Aufnehmen von Personen ohne Rechtsgrundlage** — Bildschirmaufnahmen von Videoanrufen, Besprechungen oder anderen Personen auf einer Seite ohne deren Einwilligung oder eine andere Rechtsgrundlage. Nova schaltet den Ton stumm, solange eine Seite das Mikrofon nutzt; das Bild eines Gesprächs und seiner Teilnehmer wird trotzdem aufgenommen
+- **Scannen fremder Netze ohne Erlaubnis** — ein Netz oder einen Adressbereich scannen, den du weder betreibst noch prüfen darfst, etwa am Arbeitsplatz ohne Zustimmung der IT, im Hotel oder in einem öffentlichen WLAN, oder einen Scan nutzen, um den Zugriff auf fremde Systeme vorzubereiten. Die Freigabe in Nova bestätigt nur, dass der Scan laufen soll; sie ist keine Erlaubnis des Netzbetreibers
 - **Aufzeichnen fremder Daten** — Erfassen von Anfrage- oder Antwortinhalten mit personenbezogenen Daten, Zugangsdaten oder Tokens anderer Personen ohne Rechtsgrundlage. Werden solche Daten erfasst, liegt es bei dir, sie aus Protokollen und Agenten-Transcripts herauszuhalten und zu löschen; Novas `redact`-Option ist dafür da
 - **Illegaler Handel** — Erleichterung von Transaktionen mit illegalen Gütern oder Dienstleistungen
 

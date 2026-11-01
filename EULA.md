@@ -1,6 +1,6 @@
 # End User License Agreement / Endnutzer-Lizenzvereinbarung
 
-*Version 1.4-alpha · Revision: October 16, 2026 / Stand: 16. Oktober 2026*
+*Version 1.4-alpha · Revision: November 1, 2026 / Stand: 1. November 2026*
 
 > [!IMPORTANT]
 > **Upcoming revision, to be shipped with setup 1.0.0-alpha.21.** Setups 1.0.0-alpha.20 and earlier show revision 1.3-alpha. This revision is shown and accepted in the setup wizard from the version that ships it. An update installed silently by Nova's built-in updater is not an acceptance of it, and it does not retrospectively change contracts concluded earlier; the validly agreed version governs. This is a working revision without completed legal review.
@@ -28,7 +28,7 @@ An accessible text version of the contact details can be requested through the [
 
 ## English
 
-NOVA AI WORKSPACE — END USER LICENSE AGREEMENT (EULA) Version 1.4-alpha · Revision date: October 16, 2026
+NOVA AI WORKSPACE — END USER LICENSE AGREEMENT (EULA) Version 1.4-alpha · Revision date: November 1, 2026
 
 ### 1. PARTIES AND SCOPE
 
@@ -36,7 +36,7 @@ This End User License Agreement ("EULA") is concluded between Joel Aniol (contac
 
 ### 2. PRODUCT AND ALPHA STATUS
 
-Nova AI Workspace is an AI agent browser framework for Windows. The software is in its ALPHA PHASE: it is intended for evaluation and early adoption. It is not intended for environments where malfunctions can cause significant personal injury or property or financial damage — in particular medical, life-support or safety-critical systems, or financial transactions involving significant sums without human review. Features, surfaces and interfaces may change during the alpha phase. Nova AI Workspace includes tools that can read the network traffic of the open page and that can intercept, modify, fail or replay requests. These tools are inactive by default and become available only through an explicit authorization by the User; they are intended for the User's own websites and services and for authorized testing. This notice does not limit mandatory defect, update, security or liability rights.
+Nova AI Workspace is an AI agent browser framework for Windows. The software is in its ALPHA PHASE: it is intended for evaluation and early adoption. It is not intended for environments where malfunctions can cause significant personal injury or property or financial damage — in particular medical, life-support or safety-critical systems, or financial transactions involving significant sums without human review. Features, surfaces and interfaces may change during the alpha phase. Nova AI Workspace includes tools that can read the network traffic of the open page and that can intercept, modify, fail or replay requests. These tools are inactive by default and become available only through an explicit authorization by the User; they are intended for the User's own websites and services and for authorized testing. Nova AI Workspace also includes a network scanner that, from this computer, looks for devices in an address range, classifies them by their answers and checks which ports answer. It runs only after the User authorizes it (once, for the current session, or permanently through a switch in the settings); public address ranges additionally require authorization per range. It is intended for the User's own networks and for authorized testing. These notices do not limit mandatory defect, update, security or liability rights.
 
 ### 3. LICENSE GRANT AND PURCHASE MODEL
 
@@ -77,6 +77,8 @@ No use for weapons or military combat: No user may use Nova to develop, manufact
 Employment by such a company does not prevent genuinely private use unrelated to these prohibited purposes. Civilian explosives applications, such as mining or construction, are not prohibited solely because they involve explosives. Providing general-purpose civilian goods or services alone does not make a company an arms company under this definition. Journalism, historical research, humanitarian aid, and disarmament or explosive-ordnance disposal are not prohibited solely because they concern weapons or conflict; the business-customer exclusion above still applies.
 
 The tools for reading, intercepting, modifying and replaying network traffic are additionally subject to the following: the User applies them to third-party services only to the extent their operator has authorized it. It is in particular prohibited to use them to bypass payment, licensing, quotas, client-side validation, consent dialogs or security mechanisms of a third-party service, or to replay recorded requests without authorization; the technical ability to reuse an existing session is not authorization from the service. Where the User thereby records personal data of third parties, the User is responsible for handling it lawfully; which data Nova AI Workspace itself processes is set out in the privacy notice.
+
+The network scanner is additionally subject to the following: the User scans only networks and addresses the User operates or for which an authorization under paragraph 1 exists. In networks of others, such as at a workplace, in a hotel or on public Wi-Fi, this requires the authorization of the network operator. Authorizing a scan in Nova AI Workspace only confirms that the scan should run; it does not replace that authorization. It is prohibited to use the scanner to prepare unauthorized access or to disrupt third-party systems.
 
 The Licensor does not guarantee that third-party sites keep their surfaces or terms unchanged. This clause does not remove the Licensor's responsibility for secure product design and the agreed core features.
 
@@ -130,7 +132,7 @@ A copy of this EULA is installed together with Nova AI Workspace. Questions and 
 
 ## Deutsch
 
-NOVA AI WORKSPACE — ENDNUTZER-LIZENZVEREINBARUNG (EULA) Version 1.4-alpha · Stand: 16. Oktober 2026
+NOVA AI WORKSPACE — ENDNUTZER-LIZENZVEREINBARUNG (EULA) Version 1.4-alpha · Stand: 1. November 2026
 
 ### 1. VERTRAGSPARTNER UND GELTUNG
 
@@ -138,7 +140,7 @@ Diese Endnutzer-Lizenzvereinbarung („EULA") wird geschlossen zwischen Joel Ani
 
 ### 2. PRODUKT UND ALPHA-STATUS
 
-Nova AI Workspace ist ein KI-Agent-Browser-Framework für Windows. Die Software befindet sich in der ALPHA-PHASE: Sie ist für Evaluierung und frühe Nutzung bestimmt. Sie ist nicht vorgesehen für Umgebungen, in denen Fehlfunktionen zu erheblichen Personen-, Sach- oder Vermögensschäden führen können — insbesondere medizinische, lebenserhaltende oder sicherheitskritische Systeme sowie Finanztransaktionen mit erheblichen Summen ohne menschliche Prüfung. Funktionsumfang, Oberflächen und Schnittstellen können sich während der Alpha-Phase ändern. Nova AI Workspace enthält Werkzeuge, die Netzwerkverkehr der geöffneten Seite mitlesen, Anfragen abfangen, verändern, scheitern lassen oder erneut senden können. Diese Werkzeuge sind standardmäßig inaktiv und werden erst durch eine ausdrückliche Freigabe des Nutzers verfügbar; sie sind für eigene Websites und Dienste sowie für autorisierte Prüfungen bestimmt. Dieser Hinweis schränkt zwingende Mängel-, Update-, Sicherheits- oder Haftungsrechte nicht ein.
+Nova AI Workspace ist ein KI-Agent-Browser-Framework für Windows. Die Software befindet sich in der ALPHA-PHASE: Sie ist für Evaluierung und frühe Nutzung bestimmt. Sie ist nicht vorgesehen für Umgebungen, in denen Fehlfunktionen zu erheblichen Personen-, Sach- oder Vermögensschäden führen können — insbesondere medizinische, lebenserhaltende oder sicherheitskritische Systeme sowie Finanztransaktionen mit erheblichen Summen ohne menschliche Prüfung. Funktionsumfang, Oberflächen und Schnittstellen können sich während der Alpha-Phase ändern. Nova AI Workspace enthält Werkzeuge, die Netzwerkverkehr der geöffneten Seite mitlesen, Anfragen abfangen, verändern, scheitern lassen oder erneut senden können. Diese Werkzeuge sind standardmäßig inaktiv und werden erst durch eine ausdrückliche Freigabe des Nutzers verfügbar; sie sind für eigene Websites und Dienste sowie für autorisierte Prüfungen bestimmt. Außerdem enthält Nova AI Workspace einen Netzwerk-Scanner, der von diesem Rechner aus Geräte in einem Adressbereich sucht, sie anhand ihrer Antworten einordnet und prüft, welche Ports antworten. Er läuft nur nach Freigabe durch den Nutzer (einmalig, für die laufende Sitzung oder dauerhaft über einen Schalter in den Einstellungen); öffentliche Adressbereiche fragt er zusätzlich je Bereich ab. Er ist für eigene Netze und für autorisierte Prüfungen bestimmt. Diese Hinweise schränken zwingende Mängel-, Update-, Sicherheits- oder Haftungsrechte nicht ein.
 
 ### 3. NUTZUNGSRECHT UND KAUFMODELL
 
@@ -179,6 +181,8 @@ Keine Nutzung für Waffen oder militärische Kampfhandlungen: Niemand darf Nova 
 Die Beschäftigung bei einem solchen Unternehmen schließt eine tatsächlich private Nutzung ohne Bezug zu diesen verbotenen Zwecken nicht aus. Zivile Sprengstoffanwendungen, etwa im Bergbau oder Bauwesen, sind nicht allein wegen des Einsatzes von Sprengstoffen verboten. Das bloße Anbieten allgemeiner ziviler Waren oder Dienstleistungen macht ein Unternehmen nach dieser Definition nicht zum Rüstungsunternehmen. Journalismus, historische Forschung, humanitäre Hilfe sowie Abrüstung oder Kampfmittelbeseitigung sind nicht allein deshalb verboten, weil sie Waffen oder Konflikte betreffen; der oben geregelte Ausschluss als Geschäftskunde bleibt bestehen.
 
 Für die Werkzeuge zum Mitlesen, Abfangen, Verändern und erneuten Senden von Netzwerkverkehr gilt zusätzlich: Der Nutzer setzt sie gegen fremde Dienste nur ein, soweit deren Betreiber dies genehmigt hat. Untersagt ist insbesondere, damit Bezahlung, Lizenzierung, Kontingente, clientseitige Prüfungen, Zustimmungsdialoge oder Sicherheitsmechanismen eines fremden Dienstes zu umgehen sowie aufgezeichnete Anfragen ohne Genehmigung erneut zu senden; die technische Möglichkeit, eine bestehende Sitzung wiederzuverwenden, ersetzt keine Genehmigung des Dienstes. Zeichnet der Nutzer dabei personenbezogene Daten Dritter auf, ist er für den zulässigen Umgang damit verantwortlich; welche Daten Nova AI Workspace selbst verarbeitet, steht in der Datenschutzerklärung.
+
+Für den Netzwerk-Scanner gilt zusätzlich: Der Nutzer scannt nur Netze und Adressen, die er selbst betreibt oder für die eine Genehmigung nach Absatz 1 vorliegt. In Netzen anderer, etwa am Arbeitsplatz, in einem Hotel oder einem öffentlichen WLAN, ist dafür die Genehmigung des Netzbetreibers erforderlich. Die Freigabe in Nova AI Workspace bestätigt nur, dass der Scan ausgeführt werden soll; sie ersetzt diese Genehmigung nicht. Untersagt ist, den Scanner zur Vorbereitung eines unbefugten Zugriffs oder zur Störung fremder Systeme einzusetzen.
 
 Der Lizenzgeber garantiert nicht, dass Drittseiten ihre Oberflächen oder Bedingungen unverändert lassen. Diese Regelung beseitigt nicht die Verantwortung des Lizenzgebers für sichere Produktgestaltung und vereinbarte Kernfunktionen.
 

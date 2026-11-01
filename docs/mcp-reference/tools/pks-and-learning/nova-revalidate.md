@@ -21,6 +21,7 @@
 | `scope` | `string` | No | — | — | Domain scope to revalidate (e.g. 'example.com'). If omitted, revalidation is scoped to the current target host. |
 | `limit` | `integer` | No | — | 1–5 | Max phenomena to check (default 3, max 5). |
 | `targetId` | `string` | Yes | — | — | Tab/sandbox to run DOM checks in. |
+| `phenomenonId` | `string` | No | — | — | Check exactly this phenomenon (the id nova.pks_get flags with drift) instead of the least recently checked ones. Without it, an entry that drifted on the last check sorts last and a domain with more entries than limit never reaches it. It also runs right after the automatic check of the same page (no cooldown, no per-tab limit); the per-domain limit of 2 runs per 6 hours still applies. Unknown, deprecated or without a dom fingerprint signal: reasonCode revalidate.phenomenon_not_revalidatable. |
 
 Capability bundle: `pks_learning` (load it with `nova.tools_bundle(bundle='pks_learning')`).
 Tool category: `normal` (standard risk class in Nova's agent permission settings).

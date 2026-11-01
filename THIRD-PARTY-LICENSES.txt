@@ -888,3 +888,14 @@ Copyright 2020 The JetBrains Mono Project Authors (https://github.com/JetBrains/
 This Font Software is licensed under the SIL Open Font License, Version 1.1
 (same license text as for Inter above; shipped next to the font as Fonts\JetBrainsMono\OFL.txt).
 
+
+----------------------------------------------------------------------
+IEEE MA-L (OUI) public listing (MAC address prefix -> organization name, used by nova.net_scan)
+License: public registry listing; no license terms published by the IEEE Registration Authority
+Source:  https://standards-oui.ieee.org/oui/oui.csv (shipped reduced to prefix and organization name,
+         gzip-compressed inside NovaAIWorkspace.dll; refreshed from this source before a release)
+----------------------------------------------------------------------
+
+The assignments are published by the IEEE Registration Authority (https://standards.ieee.org/products-programs/regauth/).
+Nova ships only the two factual columns needed to name a device's manufacturer from its MAC address;
+addresses and other contact details of the assignees are not included.
