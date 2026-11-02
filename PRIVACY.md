@@ -1,6 +1,6 @@
 # Privacy Policy / Datenschutzerklärung
 
-*Last updated: November 1, 2026*
+*Last updated: November 2, 2026*
 
 ---
 
@@ -243,6 +243,21 @@ runs only when an agent calls it:
   Transparency search operated by Sectigo. Only the domain is sent, nothing about you or your
   browsing. Nova asks crt.sh only when the agent requests this lookup explicitly
 - **The action log keeps metadata only**, as for every other tool
+
+### DNS Lookups
+
+From version 1.0.0-alpha.21 (not published yet), an agent can ask Nova to look up the DNS records of a
+name or address (`nova.net_dns`). This runs only when an agent calls it:
+
+- **The name goes to the DNS servers the agent chose.** By default these are the DNS servers your
+  computer already uses. Only when the agent asks for them does Nova also send the name to public
+  resolvers: Cloudflare (1.1.1.1, USA), Google (8.8.8.8, USA) or Quad9 (9.9.9.9, Switzerland), or to
+  a DNS server address the agent names. DNS queries are not encrypted, and they go directly from your
+  computer, not through a proxy set in Nova; those servers see your IP address and the name asked
+- **Names of your own network are never sent to public resolvers** — single-label names, names
+  such as `.local`, `.lan` or `.internal`, and private IP addresses
+- **Nothing is stored.** The result goes to that agent; the action log keeps metadata only, as for
+  every other tool
 
 ### Local Data Storage
 
@@ -529,6 +544,22 @@ Ein Agent kann Nova das TLS-Zertifikat und die TLS-Konfiguration eines Servers p
   Certificate-Transparency-Logs, betrieben von Sectigo. Gesendet wird nur die Domain, nichts über
   dich oder dein Surfen. Nova fragt crt.sh nur, wenn der Agent diese Suche ausdrücklich anfordert
 - **Das Aktionsprotokoll führt nur Metadaten**, wie bei jedem anderen Werkzeug
+
+### DNS-Abfragen
+
+Ab Version 1.0.0-alpha.21 (noch nicht veröffentlicht) kann ein Agent Nova die DNS-Einträge eines
+Namens oder einer Adresse nachschlagen lassen (`nova.net_dns`). Das läuft nur, wenn ein Agent es aufruft:
+
+- **Der Name geht an die DNS-Server, die der Agent wählt.** Standardmäßig sind das die DNS-Server,
+  die dein Computer ohnehin nutzt. Nur wenn der Agent sie anfordert, schickt Nova den Namen auch an
+  öffentliche Resolver: Cloudflare (1.1.1.1, USA), Google (8.8.8.8, USA) oder Quad9 (9.9.9.9,
+  Schweiz), oder an die Adresse eines DNS-Servers, die der Agent nennt. DNS-Abfragen sind nicht
+  verschlüsselt und gehen direkt von deinem Computer aus, nicht über einen in Nova eingestellten
+  Proxy; diese Server sehen deine IP-Adresse und den abgefragten Namen
+- **Namen deines eigenen Netzes gehen nie an öffentliche Resolver** — einteilige Namen, Namen wie
+  `.local`, `.lan` oder `.internal` und private IP-Adressen
+- **Gespeichert wird nichts.** Das Ergebnis geht an diesen Agenten; das Aktionsprotokoll führt nur
+  Metadaten, wie bei jedem anderen Werkzeug
 
 ### Lokale Datenspeicherung
 
