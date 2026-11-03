@@ -21,7 +21,7 @@ Every tool exposed by **Nova AI Workspace**, grouped by operational domain. Clic
 - [12. Desktop Notifications & Alerts](#12-desktop-notifications--alerts) (11)
 - [13. Device Emulation & Responsive Testing](#13-device-emulation--responsive-testing) (11)
 - [14. External MCP Servers & Site-Provided Automation](#14-external-mcp-servers--site-provided-automation) (14)
-- [15. Proxy Routing & Network Interception](#15-proxy-routing--network-interception) (23)
+- [15. Proxy Routing & Network Interception](#15-proxy-routing--network-interception) (24)
 - [16. Site Crawler & URL Discovery Index](#16-site-crawler--url-discovery-index) (13)
 - [17. Session Tracing & DOM Event Recording](#17-session-tracing--dom-event-recording) (14)
 - [18. Scheduled Tasks, Cron & Workspaces](#18-scheduled-tasks-cron--workspaces) (25)
@@ -394,6 +394,7 @@ Proxy profile management, authentication, traffic redirection, and CDP network r
 | **[`nova.proxy_update`](tools/proxy-and-network/nova-proxy-update.md)** | `profileId`, `name?`, `protocol?`, `host?`, `port?`, `bypassList?`, `username?`, `enabled?`, `isGlobalDefault?` | Updates host, port, protocol, or bypass list of an existing proxy profile. |
 | **[`nova.net_probe`](tools/proxy-and-network/nova-net-probe.md)** | `host`, `tcpPorts?`, `httpProxyConnect?`, `timeoutMs?` | Checks from this PC which TCP ports of a host are reachable, and whether an HTTP proxy there opens a CONNECT tunnel. |
 | **[`nova.net_dns`](tools/proxy-and-network/nova-net-dns.md)** | `name`, `types?`, `resolvers?`, `timeoutMs?`, `checks?`, `dkimSelectors?` | Looks up DNS records like `dig` or `nslookup`, compares several resolvers, and says what the answers mean. |
+| **[`nova.net_ping`](tools/proxy-and-network/nova-net-ping.md)** | `host`, `method?`, `port?`, `count?`, `intervalMs?`, `route?`, `maxHops?`, `packetSize?`, `dontFragment?`, `mtuDiscovery?`, `timeoutMs?`, `family?`, `includeProbes?` | Ping, traceroute in rounds (like mtr or PingPlotter), TCP ping and a Path-MTU check from this PC, with findings that say what the numbers mean. |
 | **[`nova.net_scan`](tools/proxy-and-network/nova-net-scan.md)** | `targets`, `portSets?`, `ports?`, `discovery?`, `probes?`, `timeoutMs?`, `parallel?`, `discoveryWindowMs?`, `timeBudgetSeconds?`, `waitSeconds?` | Scans a network from this PC: finds the devices in a range, checks which TCP ports answer, and names what each device probably is, with the evidence behind it. |
 | **[`nova.net_scan_status`](tools/proxy-and-network/nova-net-scan-status.md)** | `scanId?` | Shows the progress or the result of a `nova.net_scan` job, or lists the scans of this Nova session and the latest stored scans. |
 | **[`nova.net_scan_stop`](tools/proxy-and-network/nova-net-scan-stop.md)** | `scanId` | Stops a running `nova.net_scan` and returns what it found so far. |
