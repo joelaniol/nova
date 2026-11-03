@@ -23,6 +23,11 @@ Looks up DNS records like `dig` or `nslookup`, compares several resolvers, and s
   * **MTA-STS, TLS-RPT and BIMI** records.
 
   This is DNS only: no mail server is contacted, so `mail.limitations` lists what the check cannot show. A part that got no answer is marked `incomplete`, not "missing".
+* **Name servers with `checks: ["delegation"]`.** For questions like **"are my name servers set up right?"**, **"what is a lame delegation?"** or **"I am moving my domain to another DNS provider"** the result gets a `delegation` block. Nova follows the name from the DNS root servers down to its zone without using a resolver's cache, and asks:
+  * **the parent zone** (for example the `.com` servers) which name servers it hands out, and with which addresses (glue);
+  * **each name server of the zone** directly, over UDP and TCP: does it answer for the zone, which SOA serial and NS records does it have, and what does it answer for the record types you asked.
+
+  Findings name a lame delegation (a server that does not serve the zone), parent and zone listing different name servers, missing glue, servers that only answer over UDP, different serials and records between the servers, and a single name server. Before you switch providers, pass the new servers in `candidateNameservers`: they are asked the same way and compared with the current ones. Every finding has a `confidence`; `low` means only that a server did not answer from here, which can also be this network. `delegation.coverage` lists every question that was not asked (question budget, no IPv6 on this PC), and `delegation.limitations` what a check from one PC cannot show. Addresses from DNS that are not public are never contacted.
 * **Names of your network stay inside.** Single-label names, names under `.local`, `.internal`, `.lan`, `.corp`, `.home.arpa` and similar, and private IP addresses are never sent to a public resolver; those resolvers are listed under `skipped`.
 * **Untrusted text.** TXT records and other texts come from DNS servers and are marked `remoteTextTrust: "untrusted_remote"`.
 
@@ -38,8 +43,9 @@ Looks up DNS records like `dig` or `nslookup`, compares several resolvers, and s
 | `resolvers` | `array` of `string` | No | — | 1–4 items | Who to ask, up to 4: 'system' (the DNS servers of this PC's active network adapters, VPN first; the default), 'cloudflare' (1.1.1.1), 'google' (8.8.8.8), 'quad9' (9.9.9.9), or the IP address of a DNS server (port 53), or the https URL of a DoH server (e.g. 'https://dns.example.net/dns-query'; implies transport='doh'). Several resolvers = a propagation comparison. Public resolvers see the names asked. |
 | `transport` | `string` | No | — | `udp`, `doh` | 'udp' (default): port 53, TCP when the answer is truncated, always direct. 'doh': DNS over HTTPS through the browser's proxy route; needs cloudflare, google, quad9 or a DoH URL in resolvers. Default 'doh' when resolvers holds an https URL. |
 | `timeoutMs` | `integer` | No | `2000` | 500–10000 | How long to wait for each answer before trying once more (then the next server of the resolver). Default 2000. |
-| `checks` | `array` of `string` | No | — | 1–1 items | Extra checks. 'mail': can the domain receive mail and how well is mail from it protected against forgery - MX, SPF, DMARC, DKIM, MTA-STS, TLS-RPT, BIMI, DANE TLSA, all asked at the first resolver that answered (up to 90 more questions, at most 40 s). Needs a domain name, not an IP; for the reverse DNS of a sending IP call nova.net_dns with that IP instead. |
+| `checks` | `array` of `string` | No | — | 1–2 items | Extra checks. 'mail': can the domain receive mail and how well is mail from it protected against forgery - MX, SPF, DMARC, DKIM, MTA-STS, TLS-RPT, BIMI, DANE TLSA, all asked at the first resolver that answered (up to 90 more questions, at most 40 s). Needs a domain name, not an IP; for the reverse DNS of a sending IP call nova.net_dns with that IP instead. 'delegation': walk from the root to the zone and ask its own name servers directly (UDP and TCP, no recursion; up to 160 more questions, at most 40 s). |
 | `dkimSelectors` | `array` of `string` | No | — | 1–10 items | Only with checks=['mail']: DKIM selectors to look up (the s= value in the DKIM-Signature header of a mail from the domain, e.g. 'selector1', 'google'). Without them common selectors of large mail providers are tried; not finding a key there does not mean DKIM is missing. |
+| `candidateNameservers` | `array` of `object` | No | — | 1–4 items | Only with checks=['delegation']: name servers that should serve the zone but are not (yet) delegated, e.g. the new provider's servers before the switch. Each is asked like a delegated one; findings say whether it answers authoritatively and with the same serial and records. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
@@ -119,6 +125,36 @@ Shortened `mail` block of the answer:
 }
 ```
 
+### Are the name servers of a domain right?
+```json
+{
+  "name": "nova.net_dns",
+  "arguments": { "name": "example.com", "types": ["A", "MX"], "checks": ["delegation"] }
+}
+```
+
+Shortened `delegation` block and a finding:
+```json
+{
+  "delegation": {
+    "status": "checked",
+    "zone": "example.com",
+    "parentZone": "com",
+    "nameservers": [
+      { "name": "ns1.example.net", "bailiwick": "out_of_bailiwick", "inParent": true, "inChild": true, "resolved": ["198.51.100.53"] },
+      { "name": "ns2.example.org", "bailiwick": "out_of_bailiwick", "inParent": true, "inChild": true, "resolved": ["203.0.113.53"] }
+    ],
+    "authorities": [
+      { "nameserver": "ns2.example.org", "address": "203.0.113.53", "udp": { "status": "ok", "aa": false, "authoritativeSoa": false }, "authoritative": false }
+    ],
+    "coverage": { "questions": 41, "budget": 160, "complete": true, "gaps": [] }
+  },
+  "findings": [
+    { "severity": "high", "code": "lame_delegation", "confidence": "high", "text": "ns2.example.org (203.0.113.53) answers, but not with authority for example.com ..." }
+  ]
+}
+```
+
 ### Which name does an IP have?
 ```json
 {
@@ -133,6 +169,7 @@ Shortened `mail` block of the answer:
 
 * **Propagation after a change.** Ask `system` together with one or two public resolvers. A resolver that still shows the old record only has it cached; its TTL says how long that can last.
 * **Mail setup.** Pass `checks: ["mail"]`. If you have a mail from the domain, take the `s=` value of its `DKIM-Signature` header and pass it in `dkimSelectors`: without it only common selectors are tried, and finding no key there does not mean DKIM is missing. For the reverse name of the server that **sends** the mail, call `nova.net_dns` with that IP address.
+* **Changing DNS provider.** Set up the zone at the new provider first, then call `checks: ["delegation"]` with the new servers in `candidateNameservers`. Switch the name servers at the registrar only when no `candidate_*` finding is left; afterwards run the check again to see that parent and zone list the same servers.
 * **`dangling_cname` needs action.** A CNAME that points to a name that no longer exists can let someone else take over that subdomain at the provider it points to. Remove the record or create the target again.
 * **`dnssec_failure` is not an outage of the server.** The zone's signatures do not validate; resolvers that check DNSSEC refuse the name, others still answer.
 * **`os_resolution_differs`** means Windows resolves the name differently from the DNS server: look at the hosts file, the DNS cache or VPN name rules.

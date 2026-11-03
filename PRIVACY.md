@@ -259,6 +259,12 @@ name or address (`nova.net_dns`). This runs only when an agent calls it:
   `dns.quad9.net`) or of a DoH server the agent names, through the same proxy as the browser. That
   server sees the name and your IP address, or the proxy's. The encryption hides the name from the
   network in between, not from the resolver
+- **Delegation check only when the agent asks for it.** Then Nova follows the name from the DNS root
+  servers down to the name servers of its zone and asks each of them directly, unencrypted and not
+  through a proxy: the root servers, the servers of the top-level domain (for example Verisign for
+  `.com`, DENIC for `.de`) and the zone's own name servers, plus any name server the agent names.
+  Each of them sees your IP address and the name asked. Addresses from DNS that are not public are
+  never contacted
 - **Names of your own network are never sent to public resolvers** — single-label names, names
   such as `.local`, `.lan` or `.internal`, and private IP addresses
 - **Nothing is stored.** The result goes to that agent; the action log keeps metadata only, as for
@@ -566,6 +572,12 @@ Namens oder einer Adresse nachschlagen lassen (`nova.net_dns`). Das läuft nur, 
   `dns.quad9.net`) oder eines DoH-Servers, den der Agent nennt, über denselben Proxy wie der Browser.
   Dieser Server sieht den Namen und deine IP-Adresse oder die des Proxys. Die Verschlüsselung
   verbirgt den Namen vor dem Netz dazwischen, nicht vor dem Resolver
+- **Delegationsprüfung nur, wenn der Agent sie anfordert.** Dann verfolgt Nova den Namen von den
+  DNS-Root-Servern bis zu den Nameservern seiner Zone und fragt jeden davon direkt, unverschlüsselt
+  und nicht über einen Proxy: die Root-Server, die Server der Top-Level-Domain (zum Beispiel Verisign
+  für `.com`, DENIC für `.de`) und die Nameserver der Zone selbst, dazu Nameserver, die der Agent
+  nennt. Jeder davon sieht deine IP-Adresse und den abgefragten Namen. Adressen aus dem DNS, die
+  nicht öffentlich sind, werden nie angesprochen
 - **Namen deines eigenen Netzes gehen nie an öffentliche Resolver** — einteilige Namen, Namen wie
   `.local`, `.lan` oder `.internal` und private IP-Adressen
 - **Gespeichert wird nichts.** Das Ergebnis geht an diesen Agenten; das Aktionsprotokoll führt nur
