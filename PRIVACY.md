@@ -1,6 +1,6 @@
 # Privacy Policy / Datenschutzerklärung
 
-*Last updated: November 2, 2026*
+*Last updated: November 3, 2026*
 
 ---
 
@@ -254,6 +254,11 @@ name or address (`nova.net_dns`). This runs only when an agent calls it:
   resolvers: Cloudflare (1.1.1.1, USA), Google (8.8.8.8, USA) or Quad9 (9.9.9.9, Switzerland), or to
   a DNS server address the agent names. DNS queries are not encrypted, and they go directly from your
   computer, not through a proxy set in Nova; those servers see your IP address and the name asked
+- **DNS over HTTPS only when the agent asks for it.** Then the question is encrypted on the way and
+  goes to the HTTPS address of the chosen resolver (`cloudflare-dns.com`, `dns.google`,
+  `dns.quad9.net`) or of a DoH server the agent names, through the same proxy as the browser. That
+  server sees the name and your IP address, or the proxy's. The encryption hides the name from the
+  network in between, not from the resolver
 - **Names of your own network are never sent to public resolvers** — single-label names, names
   such as `.local`, `.lan` or `.internal`, and private IP addresses
 - **Nothing is stored.** The result goes to that agent; the action log keeps metadata only, as for
@@ -556,6 +561,11 @@ Namens oder einer Adresse nachschlagen lassen (`nova.net_dns`). Das läuft nur, 
   Schweiz), oder an die Adresse eines DNS-Servers, die der Agent nennt. DNS-Abfragen sind nicht
   verschlüsselt und gehen direkt von deinem Computer aus, nicht über einen in Nova eingestellten
   Proxy; diese Server sehen deine IP-Adresse und den abgefragten Namen
+- **DNS über HTTPS nur, wenn der Agent es anfordert.** Dann ist die Frage unterwegs verschlüsselt
+  und geht an die HTTPS-Adresse des gewählten Resolvers (`cloudflare-dns.com`, `dns.google`,
+  `dns.quad9.net`) oder eines DoH-Servers, den der Agent nennt, über denselben Proxy wie der Browser.
+  Dieser Server sieht den Namen und deine IP-Adresse oder die des Proxys. Die Verschlüsselung
+  verbirgt den Namen vor dem Netz dazwischen, nicht vor dem Resolver
 - **Namen deines eigenen Netzes gehen nie an öffentliche Resolver** — einteilige Namen, Namen wie
   `.local`, `.lan` oder `.internal` und private IP-Adressen
 - **Gespeichert wird nichts.** Das Ergebnis geht an diesen Agenten; das Aktionsprotokoll führt nur
