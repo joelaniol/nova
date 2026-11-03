@@ -80,6 +80,7 @@ Protected switches govern the very mechanisms designed to supervise, constrain, 
 | `vaultEnabled` | `boolean` | Settings > Passwords & autofill | Credential storage and decryption is the human user's decision. |
 | `blockNonUserInitiatedMediaRequests` | `boolean` | Settings > Site permissions | A core defense against silent, unauthorized camera/microphone capture. |
 | `autoApplyWebViewRuntimeUpdate` | `boolean` | Settings > About Nova | Browser engine updates carry vital security and vulnerability fixes. |
+| `mcpAgentCaptchaSolveEnabled` | `boolean` | Settings > AI & agents > Confirmations & audit > Gates & access | Answering checks a service puts in front of automation is the user's decision; many services forbid it in their terms. |
 
 ### The Atomic Rejection Protocol
 If an agent attempts to write a batch of settings that includes even a single protected key:

@@ -1,6 +1,6 @@
 # Acceptable Use Policy / Nutzungsrichtlinie
 
-*Last updated: November 1, 2026*
+*Last updated: November 3, 2026*
 
 ---
 
@@ -44,6 +44,7 @@ You may **not** use Nova AI Workspace to:
 - **Violate laws or regulations** — including but not limited to computer fraud, data protection (GDPR, CCPA), copyright, and telecommunications laws
 - **Unauthorized access** — access systems, accounts, or data without explicit authorization, even if technically possible through Nova's tools
 - **Circumvent security measures** — bypass authentication, CAPTCHAs, rate limits, or access controls of third-party services unless explicitly authorized by the service owner
+  - Nova's setting "Let agents answer captchas" (off by default) lets an agent tick a verification checkbox itself. It is meant for your own services, testing, and services that allow it; it is not an authorization from the service. Check the service's terms first: many forbid automated access or answering their checks.
 - **Scrape or harvest data** in violation of a website's terms of service, robots.txt, or applicable law
 - **Distribute malware** — use Nova's automation, MCP server, or agent capabilities to create, distribute, or deploy malicious software
 - **Spam or abuse** — send unsolicited messages, create fake accounts, manipulate reviews, or engage in any form of automated abuse
@@ -116,6 +117,7 @@ Du darfst Nova AI Workspace **nicht** verwenden für:
 - **Gesetzes- oder Regelverstöße** — einschließlich Computerbetrug, Datenschutz (DSGVO, BDSG), Urheberrecht und Telekommunikationsrecht
 - **Unbefugten Zugriff** — Zugang zu Systemen, Konten oder Daten ohne ausdrückliche Genehmigung, auch wenn technisch über Novas Werkzeuge möglich
 - **Umgehung von Sicherheitsmaßnahmen** — Umgehen von Authentifizierung, CAPTCHAs, Rate Limits oder Zugangskontrollen von Drittanbietern, es sei denn, der Dienstanbieter hat dies ausdrücklich genehmigt
+  - Novas Einstellung „Agenten dürfen Captchas beantworten“ (standardmäßig aus) erlaubt einem Agenten, ein Prüfkästchen selbst anzuklicken. Sie ist für eigene Dienste, Tests und Dienste gedacht, die das erlauben; sie ist keine Genehmigung des Dienstes. Prüfe vorher die Nutzungsbedingungen des Dienstes: viele verbieten automatisierte Zugriffe oder das Beantworten ihrer Prüfungen.
 - **Daten-Scraping oder -Sammlung** unter Verstoß gegen Nutzungsbedingungen, robots.txt oder geltendes Recht einer Website
 - **Verbreitung von Schadsoftware** — Nutzung von Novas Automation, MCP-Server oder Agentenfunktionen zur Erstellung, Verbreitung oder Bereitstellung von Malware
 - **Spam oder Missbrauch** — Versand unerwünschter Nachrichten, Erstellung gefälschter Konten, Bewertungsmanipulation oder jede Form automatisierten Missbrauchs
