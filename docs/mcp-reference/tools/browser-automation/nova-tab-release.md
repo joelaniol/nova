@@ -61,6 +61,7 @@ When releasing a tab as part of an **Episodic Task Memory (ETM)** workflow:
 | `finalizeOutboxPayload.targetId` | `string` | No | — | — | Claim target ID for 'finalize.memory.promote'. Must match the active claimed target. Canonical field for new calls. |
 | `finalizeOutboxPayload.tabId` | `string` | No | — | — | Legacy alias for targetId in 'finalize.memory.promote'. Must match targetId when both are provided. |
 | `finalizeOutboxPayload.candidateIds` | `array` of `integer` | No | — | — | LCJ candidate IDs to promote for 'finalize.memory.promote'. |
+| `outputDetail` | `string` | No | `"compact"` | `compact`, `full` | 'compact' (default) leaves out taskId (same value as claimTaskId), learningReasonText (learningReasonCode and learningMessage say it), empty fields, and - unless you passed finalize arguments yourself - the finalize readback finalizeStats, finalizeOutboxJobType and finalizeOutboxPayload. 'full' returns all of them. A compact answer carries outputDetail='compact': a field missing there was not sent, it is not absent. |
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
 Tool category: `normal` (standard risk class in Nova's agent permission settings).
