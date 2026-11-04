@@ -39,6 +39,8 @@ Updates configuration, endpoints, credentials, or signatures of an existing conn
 | `smtpAllowInvalidCertificate` | `boolean` | No | — | — | mail only: whether this SMTP endpoint accepts an invalid TLS certificate as an explicitly gated debug exception. false restores strict validation; cannot be true with smtpSecurity='none'. |
 | `host` | `string` | No | — | ≤ 253 characters | sftp/ftp: server host. |
 | `port` | `integer` | No | — | 1–65535 | sftp/ftp: port. |
+| `targets` | `array` of `string` | No | — | 1–64 items | snmp only: replaces the list; the IP addresses and networks this connector's community may be sent to, e.g. ["192.168.1.0/24", "10.0.5.2"]. No host names (a name can point elsewhere tomorrow); IPv4 networks at least /16, IPv6 at least /48. An address outside them never gets the community. Changing them detaches the stored community. |
+| `snmpVersion` | `string` | No | — | `v2c` | snmp only: protocol version, default v2c (SNMPv3 profiles are not available yet). The community of v2c crosses the network readable. |
 | `security` | `string` | No | — | `auto`, `ssl_on_connect`, `start_tls`, `none` | File-transfer transport. SFTP accepts only auto; FTP auto/start_tls is explicit FTPS, ssl_on_connect is implicit FTPS, and none is plaintext FTP. |
 | `allowInsecure` | `boolean` | No | `false` | — | Required as true when the resulting profile uses security=none or allows an invalid mail TLS certificate; the user's separate Settings option must also be enabled. |
 

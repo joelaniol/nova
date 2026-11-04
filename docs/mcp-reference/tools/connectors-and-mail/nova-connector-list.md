@@ -17,7 +17,7 @@ Lists configured E-Mail accounts and remote file transfer server connections.
 <!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
-| `type` | `string` | No | — | `mail`, `sftp`, `ftp` | Optional: only list connectors of this type. |
+| `type` | `string` | No | — | `mail`, `sftp`, `ftp`, `snmp` | Optional: only list connectors of this type. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
