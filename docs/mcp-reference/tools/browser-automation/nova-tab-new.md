@@ -60,6 +60,7 @@ By passing `claim: true`, Nova assigns the new tab's write lease directly to you
 | `claim` | `object` | No | — | — | Optional auto-claim. When present, the server claims the new tab immediately after creation (equivalent to a separate nova.tab_claim call). Result appears in structuredContent.claim with tri-state: claimed/failed/unknown. Success responses stay canonical on leaseMs/leaseRemainingMs and also mirror ttlMs/ttlRemainingMs for round-trip claim helpers. Claim failure is non-fatal — the tab is still created. |
 | `claim.agentId` | `string` | No | `"default"` | — | Agent identifier for the claim. Optional — if omitted, nova.tab_new reuses the top-level agentId when present and otherwise falls back to 'default'. Recommended: pass explicitly for non-default ownership. |
 | `claim.ttlMs` | `integer` | No | `120000` | 5000–1800000 | Lease duration in ms. Defaults to 120s. Must be between 5s and 30min; out-of-range values fail with -32602 before the tab is created. |
+| `claim.debugLabel` | `string` | No | — | — | A readable name for this tab, e.g. 'checkout' or 'old-account'. While the claim lives, every tool takes it as targetId, so parallel tabs need no hex ids. A label several tabs carry is refused with both ids. |
 
 **`_meta.intent` is required for certain arguments.** Passing a short reason in `_meta.intent` is always safe; a rejected call names the argument that made it required.
 

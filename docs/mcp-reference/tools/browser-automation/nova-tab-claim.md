@@ -36,7 +36,7 @@ If a previous session or crashed subagent left an active lease, a coordinator ag
 | `agentId` | `string` | No | `"default"` | — | Agent identity. Defaults to 'default'. |
 | `agentRole` | `string` | No | — | `actor`, `archivist`, `mcp` | Optional role hint. 'actor' performs live tab work and cannot override finalize decisions, 'archivist' is allowed to finalize/curate completed work, and 'mcp' is the privileged server/operator role. If provided, the value must match the role inferred from agentId. Not a job title or task description: usually omit it, and put what you are doing into debugLabel. |
 | `ttlMs` | `integer` | No | `120000` | 5000–1800000 | Lease duration in ms. Defaults to 120s. Must be between 5s and 30min; out-of-range values fail with -32602 before a claim is created or extended. |
-| `debugLabel` | `string` | No | — | — | Optional label for logging/debugging. On a same-owner re-claim, a non-empty value updates the existing metadata; omission or blank input preserves the current label. |
+| `debugLabel` | `string` | No | — | — | Optional readable name for the tab (e.g. 'checkout'). While the claim lives, every tool takes it as targetId; a label several tabs carry is refused with both ids. On a same-owner re-claim, a non-empty value updates the existing metadata; omission or blank input preserves the current label. |
 | `reclaimReason` | `string` | No | — | — | Force-reclaim reason. When provided and another agent holds the tab, the existing claim is force-released and the displaced owner receives a one-shot AAG block notification with this reason. Omit to get the default owner-mismatch error. |
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
