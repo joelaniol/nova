@@ -15,9 +15,9 @@ Nova eliminates this complexity by providing an in-engine **Network Engineering 
 flowchart TD
     subgraph UI ["Nova AI Workspace Network Diagnostics Suite"]
         D1["1. Network Discovery & Inventory<br/>• Subnet ARP/ICMP scanning (nova.net_scan)<br/>• Device fingerprinting & inventory (nova.net_devices)<br/>• SNMP hardware telemetry enrichment"]
-        D2["2. DNS & Name Resolution<br/>• Comprehensive record queries (A, AAAA, MX, TXT, NS, SOA)<br/>• Custom nameservers & DoH routing (nova.net_dns)<br/>• Root-to-leaf delegation & Mail security suite"]
-        D3["3. Latency, Ping & Path Probing<br/>• Real-time ICMP ping & jitter telemetry (nova.net_ping)<br/>• Hop-by-hop MTR path diagnostics (nova.net_probe)<br/>• TCP port reachability & PMTU discovery"]
-        D4["4. Cryptographic TLS Auditing<br/>• Deep X.509 certificate chain inspection (nova.tls_inspect)<br/>• Cipher suite, ALPN & Perfect Forward Secrecy audit<br/>• Certificate expiration & SAN verification"]
+        D2["2. DNS & Nameserver Diagnostics<br/>• Comprehensive record queries (A, AAAA, MX, TXT, NS, SOA)<br/>• Custom nameservers & DoH routing (nova.net_dns)<br/>• Root-to-leaf delegation & Mail security suite"]
+        D3["3. Latency, Ping & Path Probing<br/>• Real-time ICMP/TCP ping & jitter (nova.net_ping)<br/>• Hop-by-hop MTR path diagnostics (nova.net_ping)<br/>• TCP port reachability & PMTU discovery (nova.net_probe)"]
+        D4["4. Cryptographic TLS Auditing<br/>• Deep X.509 certificate chain inspection (nova.tls_inspect)<br/>• Multi-host SAN audits & Certificate Transparency<br/>• Cipher suite, ALPN & Perfect Forward Secrecy audit"]
         D5["5. Interception & Request Replay<br/>• Pattern-based URL interception (nova.network_intercept_*)<br/>• Mock response injection (429, 500, custom JSON)<br/>• Standalone request adoption & replay (nova.network_replay)"]
     end
 ```
@@ -28,12 +28,60 @@ flowchart TD
 
 Nova allows operators and agents to discover active network devices and maintain a persistent, searchable local infrastructure catalog:
 
-* **Subnet Scanning ([`nova.net_scan`](../../mcp-reference/tools/proxy-and-network/nova-net-scan.md)):** Scans IPv4 CIDR blocks (e.g., `192.168.1.0/24`) using non-disruptive ICMP echoes, TCP SYN probes, and ARP discovery.
-  * Detects open ports, MAC vendor OIDs, and hostnames.
-  * Automatically cross-references configured SNMP connectors to enrich devices with hardware model, vendor SMI numbers, and system uptime.
-  * Real-time progress monitoring via [`nova.net_scan_status`](../../mcp-reference/tools/proxy-and-network/nova-net-scan-status.md) and cancellation via [`nova.net_scan_stop`](../../mcp-reference/tools/proxy-and-network/nova-net-scan-stop.md).
-* **Device Inventory ([`nova.net_devices`](../../mcp-reference/tools/proxy-and-network/nova-net-devices.md)):** Queries the local SQLite inventory database. Filter devices by classification (e.g., `class="nas_storage"`), presence (`presence="seen"`), or custom label.
-* **Metadata Enrichment ([`nova.net_devices_update`](../../mcp-reference/tools/proxy-and-network/nova-net-devices-update.md)):** Assign friendly display names, server roles, and asset tags to discovered hardware.
+```mermaid
+flowchart LR
+    Scan["nova.net_scan<br/>CIDR Targets"] --> Engine["Multi-Probe Engine<br/>(ARP, ICMP, TCP SYN, SNMP)"]
+    Engine --> Storage[("Local SQLite Inventory<br/>netmonitor.db")]
+    Storage --> Query["nova.net_devices<br/>Filter by class, port, subnet"]
+    Storage --> Diff["Scan Comparison<br/>fromScanId vs toScanId"]
+```
+
+### 2.1 Subnet Scanning ([`nova.net_scan`](../../mcp-reference/tools/proxy-and-network/nova-net-scan.md))
+
+Scans IPv4 CIDR blocks (e.g., `192.168.1.0/24`) using non-disruptive ICMP echoes, TCP SYN probes, and ARP discovery:
+
+```json
+{
+  "name": "nova.net_scan",
+  "arguments": {
+    "targets": ["192.168.1.0/24"],
+    "portSets": ["web", "management"],
+    "discovery": "all",
+    "timeBudgetSeconds": 60
+  }
+}
+```
+
+* **Target CIDR Ranges (`targets`):** Provide single host IPs or CIDR subnets (e.g. `10.0.0.0/24`).
+* **Port Profiles (`portSets`):** Select pre-configured port groupings:
+  * `"web"`: Ports 80, 443, 8080, 8443.
+  * `"management"`: SSH (22), RDP (3389), Telnet (23), WinRM (5985).
+  * `"databases"`: MySQL/MariaDB (3306), PostgreSQL (5432), Redis (6379), MongoDB (27017).
+  * `"all_ports"`: Comprehensive multi-port sweep.
+* **SNMP Integration (`snmpCredentialRef`):** Cross-references configured SNMP connectors to query device SMI vendor IDs, sysDescr strings, and device uptime.
+* **Public IP Governance (`scan_approval_required`):** Private RFC 1918, CGNAT, link-local, and loopback ranges execute under standard agent permissions. Any scan targeting public IP addresses strictly requires interactive human approval in the desktop UI per target range.
+
+### 2.2 Scan Job Governance & Cancellation
+
+* **Progress Telemetry ([`nova.net_scan_status`](../../mcp-reference/tools/proxy-and-network/nova-net-scan-status.md)):** Monitor active scans with real-time percentage completion, active probe counts, and discovered hosts.
+* **Safe Abort ([`nova.net_scan_stop`](../../mcp-reference/tools/proxy-and-network/nova-net-scan-stop.md)):** Cleanly stops a running scan and commits all partial discoveries made up to that moment.
+
+### 2.3 Device Inventory & Drift Analysis ([`nova.net_devices`](../../mcp-reference/tools/proxy-and-network/nova-net-devices.md))
+
+Discovered devices are indexed in Nova's persistent SQLite network database (`netmonitor.db`):
+
+* **Query Filtering:** Query devices by classification (`class="nas_storage"`), open port (`port=22`), subnet (`subnet="192.168.1.0/24"`), or presence status (`presence="seen"`).
+* **Scan Comparison (Drift Detection):** Compare two stored scans to identify newly appeared devices, disappeared hosts, or newly opened ports:
+  ```json
+  {
+    "name": "nova.net_devices",
+    "arguments": {
+      "fromScanId": "scan-2026-10-01",
+      "toScanId": "scan-2026-11-06"
+    }
+  }
+  ```
+* **Inventory Curation ([`nova.net_devices_update`](../../mcp-reference/tools/proxy-and-network/nova-net-devices-update.md)):** Assign human-friendly labels, system roles, asset tags, or forget decommissioned hardware.
 
 ---
 
@@ -64,9 +112,12 @@ Nova supports all essential DNS resource records and allows querying multiple pu
 
 ```json
 {
-  "name": "example.com",
-  "types": ["A", "MX", "NS"],
-  "resolvers": ["system", "cloudflare", "google"]
+  "name": "nova.net_dns",
+  "arguments": {
+    "name": "example.com",
+    "types": ["A", "MX", "NS"],
+    "resolvers": ["system", "cloudflare", "google"]
+  }
 }
 ```
 
@@ -96,16 +147,19 @@ When migrating domains between DNS providers or troubleshooting "lame delegation
 
 ### 3.4 Pre-Flight Migration Audits with Candidate Nameservers
 
-Before updating nameserver delegation at your domain registrar, you can verify that the new DNS provider is fully configured, authoritative, and synchronized:
+Before updating nameserver delegation at your domain registrar, verify that the new DNS provider is fully configured, authoritative, and synchronized:
 
 ```json
 {
-  "name": "example.com",
-  "checks": ["delegation"],
-  "candidateNameservers": [
-    { "host": "ns1.newhost.net", "address": "198.51.100.1" },
-    { "host": "ns2.newhost.net", "address": "198.51.100.2" }
-  ]
+  "name": "nova.net_dns",
+  "arguments": {
+    "name": "example.com",
+    "checks": ["delegation"],
+    "candidateNameservers": [
+      { "host": "ns1.newhost.net", "address": "198.51.100.1" },
+      { "host": "ns2.newhost.net", "address": "198.51.100.2" }
+    ]
+  }
 }
 ```
 
@@ -135,37 +189,129 @@ Diagnose why outgoing emails land in spam folders or verify spoofing protections
 
 ---
 
-## 4. Latency, Ping & Path Diagnostics
+## 4. Latency, Ping, MTR & Path Probing
 
-### 4.1 Real-Time ICMP Ping ([`nova.net_ping`](../../mcp-reference/tools/proxy-and-network/nova-net-ping.md))
+Nova integrates millisecond-level ICMP/TCP ping, multi-round MTR path discovery, Path MTU discovery, and high-concurrency TCP port auditing:
 
-Audit host reachability and network stability with millisecond precision:
-* **Metrics:** Measures minimum, maximum, and average Round-Trip Time (RTT), standard deviation, and packet loss percentage.
-* **Configurable Controls:** Tune packet count (`count`), ping timeout (`timeoutMs`), payload size (`packetSizeBytes`), and packet Time-To-Live (`ttl`).
+```mermaid
+flowchart TD
+    Host["Target Destination Host"]
+    
+    subgraph PingProbe ["nova.net_ping"]
+        ICMP["method: 'icmp'<br/>Round-trip RTT, jitter, loss"]
+        TCP["method: 'tcp'<br/>TCP SYN handshake timing"]
+        MTR["maxHops: 30<br/>Hop-by-hop intermediate router loss"]
+        PMTU["mtuDiscovery: true<br/>Don't Fragment flag & PMTU detection"]
+    end
 
-### 4.2 Hop-by-Hop Path Probing & MTR Diagnostics ([`nova.net_probe`](../../mcp-reference/tools/proxy-and-network/nova-net-probe.md))
+    subgraph PortProbe ["nova.net_probe"]
+        Ports["tcpPorts: [22, 80, 443, 8080]<br/>Concurrent socket reachability"]
+        Connect["httpProxyConnect: true<br/>Verify HTTP CONNECT tunnel creation"]
+    end
 
-Isolate routing bottlenecks, packet loss hops, and firewall boundaries between your workstation and target endpoints:
-* **Target Port Auditing:** Audit open TCP ports across target hosts (`tcpPorts=[22, 80, 443, 8080]`).
-* **Path Tracing (MTR):** Performs incremental TTL path discovery, reporting each intermediate router hop, IP address, hostname, and per-hop latency.
-* **Path MTU Discovery (PMTU):** Detects maximum transmission unit bottlenecks and fragmented packet drops along the path.
+    PingProbe --> Host
+    PortProbe --> Host
+```
+
+### 4.1 Real-Time Ping & Jitter Telemetry ([`nova.net_ping`](../../mcp-reference/tools/proxy-and-network/nova-net-ping.md))
+
+Measures round-trip latency, jitter, and packet loss using either ICMP echo requests or TCP SYN handshakes:
+
+```json
+{
+  "name": "nova.net_ping",
+  "arguments": {
+    "host": "api.example.com",
+    "method": "icmp",
+    "count": 5,
+    "timeoutMs": 2000
+  }
+}
+```
+
+* **TCP Handshake Ping (`method: "tcp"`):** Measures latency to endpoints that drop ICMP echo packets (common behind corporate cloud firewalls) by testing SYN/ACK round-trip timing on a specific `port` (e.g. `port=443`).
+
+### 4.2 Hop-by-Hop MTR Path Diagnostics
+
+Isolate which specific intermediate routing hop causes packet loss or latency spikes:
+
+```json
+{
+  "name": "nova.net_ping",
+  "arguments": {
+    "host": "server.example.com",
+    "maxHops": 30,
+    "count": 3
+  }
+}
+```
+
+Nova sends incremental TTL packets, recording each router's IP address, reverse hostname, and loss percentage across multiple rounds, providing comprehensive MTR/PingPlotter-style path diagnostics.
+
+### 4.3 Path MTU Discovery (PMTU)
+
+Detect maximum transmission unit bottlenecks that cause silent packet drops and VPN tunnel degradation:
+
+```json
+{
+  "name": "nova.net_ping",
+  "arguments": {
+    "host": "remote.example.com",
+    "packetSize": 1472,
+    "dontFragment": true,
+    "mtuDiscovery": true
+  }
+}
+```
+
+Nova sets the IP Don't Fragment (DF) flag and probes the path, identifying the exact maximum packet size supported before fragmentation occurs.
+
+### 4.4 Port Reachability & Proxy Tunnel Checks ([`nova.net_probe`](../../mcp-reference/tools/proxy-and-network/nova-net-probe.md))
+
+Quickly check whether critical TCP ports are open on a target host:
+
+```json
+{
+  "name": "nova.net_probe",
+  "arguments": {
+    "host": "198.51.100.50",
+    "tcpPorts": [22, 80, 443, 8080],
+    "httpProxyConnect": true
+  }
+}
+```
+
+* **`httpProxyConnect: true`:** When testing proxy nodes, verifies whether the target host successfully accepts HTTP `CONNECT` tunnel establishment.
 
 ---
 
 ## 5. Cryptographic TLS/SSL Auditing ([`nova.tls_inspect`](../../mcp-reference/tools/proxy-and-network/nova-tls-inspect.md))
 
-Verify the security and certificate validity of HTTPS endpoints before transmitting credentials or sensitive data:
+Verify the security, certificate chains, and cipher negotiation of HTTPS endpoints before transmitting credentials:
 
-* **X.509 Certificate Chain Inspection:** Audits server public certificates, intermediate certificate authorities, and root anchors. Reports validity start/end timestamps, days until expiration, and serial numbers.
-* **Subject Alternative Names (SANs):** Verifies all covered domains and wildcards (e.g. `*.example.com`).
-* **Protocol & Cipher Suite Negotiation:** Reports the negotiated TLS version (TLS 1.2, TLS 1.3), key exchange mechanism, cipher suite (e.g. `TLS_AES_256_GCM_SHA384`), and Perfect Forward Secrecy (PFS) support.
-* **ALPN Negotiation:** Inspects negotiated Application-Layer Protocol Negotiation (HTTP/2, HTTP/3, HTTP/1.1).
+```json
+{
+  "name": "nova.tls_inspect",
+  "arguments": {
+    "url": "https://example.com",
+    "checkHosts": ["api.example.com", "cdn.example.com"],
+    "ctDomain": "example.com",
+    "includePem": false
+  }
+}
+```
+
+* **X.509 Chain Inspection:** Audits the complete certificate path from server certificate through intermediate CAs to the root anchor, validating validity periods, days until expiration, and serial numbers.
+* **Multi-Host SAN Verification (`checkHosts`):** Verifies whether multiple domain names and wildcards are validly covered under the negotiated Subject Alternative Names (SANs).
+* **Certificate Transparency Log Enumeration (`ctDomain`):** Queries public Certificate Transparency (CT) logs to discover subdomains and historical certificates issued for the target domain.
+* **Cipher Suite & Protocol Negotiation:** Reports the negotiated TLS version (TLS 1.2, TLS 1.3), key exchange algorithms (ECDHE), cipher suites (e.g. `TLS_AES_256_GCM_SHA384`), and Perfect Forward Secrecy (PFS) support.
+* **PEM Export (`includePem: true`):** Returns base64-encoded PEM blocks for offline cryptographic verification or trust-store installation.
 
 ---
 
 ## 6. In-Flight HTTP Interception & Standalone Replay
 
-Simulate backend failures, test frontend error handling, and replay API requests without browser DevTools:
+Simulate backend failures, test frontend error handling, and replay API requests out-of-band:
 
 ```mermaid
 sequenceDiagram
@@ -187,19 +333,85 @@ sequenceDiagram
     Target-->>Nova: Raw JSON response returned
 ```
 
-* **Rule-Based Interception ([`nova.network_intercept_add`](../../mcp-reference/tools/proxy-and-network/nova-network-intercept-add.md)):** Intercept requests matching exact URLs or wildcards. Inject synthetic status codes (`status=500`, `status=503`, `status=429`) or mock JSON payloads.
-* **Rule Governance:** List active rules with [`nova.network_intercept_list`](../../mcp-reference/tools/proxy-and-network/nova-network-intercept-list.md) and purge interceptors with [`nova.network_intercept_clear`](../../mcp-reference/tools/proxy-and-network/nova-network-intercept-clear.md).
-* **Standalone Replay ([`nova.network_replay`](../../mcp-reference/tools/proxy-and-network/nova-network-replay.md)):** Adopt authenticated sessions from active tabs (`adoptSessionFrom={"targetId": "active"}`) to execute standalone HTTP requests, inspecting raw response headers and payloads without browser page reloads.
+### 6.1 Rule-Based Interception ([`nova.network_intercept_add`](../../mcp-reference/tools/proxy-and-network/nova-network-intercept-add.md))
+
+Intercept browser requests matching exact URLs or wildcards and apply synthetic actions:
+
+* **Mock Error Response:**
+  ```json
+  {
+    "name": "nova.network_intercept_add",
+    "arguments": {
+      "urlPattern": "*api/checkout*",
+      "status": 503,
+      "body": "{\"error\": \"Service Temporarily Unavailable\"}",
+      "contentType": "application/json"
+    }
+  }
+  ```
+* **Simulate Transport Failures:** Inject transport-level drops using `errorReason="ConnectionRefused"` or `errorReason="TimedOut"`.
+* **Inject Network Latency:** Test slow network resilience using `delayMs=3000`.
+* **Header Rewriting:** Inject or strip custom request/response headers.
+* **Rule Budgets (`maxHits`, `ttlMs`):** Automatically expire interception rules after a set number of hits or elapsed milliseconds.
+
+### 6.2 Managing Interception Rules
+
+* **List Active Rules ([`nova.network_intercept_list`](../../mcp-reference/tools/proxy-and-network/nova-network-intercept-list.md)):** Inspect all currently active rules, match patterns, and remaining hit counts.
+* **Purge Rules ([`nova.network_intercept_clear`](../../mcp-reference/tools/proxy-and-network/nova-network-intercept-clear.md)):** Clear rules by ID, by tab ID, or globally across the workspace.
+
+### 6.3 Standalone Request Replay ([`nova.network_replay`](../../mcp-reference/tools/proxy-and-network/nova-network-replay.md))
+
+Replay, edit, and compare HTTP requests outside the browser tab:
+
+```json
+{
+  "name": "nova.network_replay",
+  "arguments": {
+    "url": "https://example.com/api/user/profile",
+    "method": "GET",
+    "adoptSessionFrom": {
+      "targetId": "tab-101"
+    }
+  }
+}
+```
+
+* **Session Adoption (`adoptSessionFrom`):** Automatically copies `HttpOnly` session cookies and authorization tokens from an active tab without manual credential extraction.
+* **Payload Comparison (`compareTo`):** Compare the response against a baseline payload to highlight schema changes or regression diffs.
+* **Isolation Invariant:** Replayed requests execute out-of-band through an independent HTTP client and never trigger tab-scoped interception rules, testing the true remote server.
 
 ---
 
-## 7. Multi-Proxy Routing & Profile Switching
+## 7. Multi-Proxy Routing, Profiles & Emergency Disconnect
 
 Nova provides native support for routing network traffic through SOCKS5, HTTP, and HTTPS proxies per sandbox profile:
 
-* **Profile Management:** Configure proxy endpoints, ports, and authentication credentials in **Settings → Network & Proxies** or via [`nova.proxy_create`](../../mcp-reference/tools/proxy-and-network/nova-proxy-create.md) / [`nova.proxy_update`](../../mcp-reference/tools/proxy-and-network/nova-proxy-update.md).
-* **Dynamic Sandbox Switching:** Instantly switch the active proxy profile for a sandbox via [`nova.proxy_switch`](../../mcp-reference/tools/proxy-and-network/nova-proxy-switch.md) without restarting the browser.
-* **Health & Latency Testing:** Verify proxy availability and measured handshake latency using [`nova.proxy_test`](../../mcp-reference/tools/proxy-and-network/nova-proxy-test.md).
+### 7.1 Managing Proxy Profiles
+* **Create Profile ([`nova.proxy_create`](../../mcp-reference/tools/proxy-and-network/nova-proxy-create.md)):** Configure host, port, protocol, and optional credentials:
+  ```json
+  {
+    "name": "EU Research Node",
+    "host": "203.0.113.50",
+    "port": 1080,
+    "protocol": "socks5"
+  }
+  ```
+* **Update Profile ([`nova.proxy_update`](../../mcp-reference/tools/proxy-and-network/nova-proxy-update.md)):** Modify endpoints, ports, or bypass rules.
+* **List Profiles ([`nova.proxy_list`](../../mcp-reference/tools/proxy-and-network/nova-proxy-list.md)):** Inspect all configured proxy endpoints and sandbox bindings.
+* **Remove Profile ([`nova.proxy_remove`](../../mcp-reference/tools/proxy-and-network/nova-proxy-remove.md)):** Delete obsolete proxy profiles.
+
+### 7.2 Dynamic Switching & Health Auditing
+* **Dynamic Sandbox Switching ([`nova.proxy_switch`](../../mcp-reference/tools/proxy-and-network/nova-proxy-switch.md)):** Instantly assign a proxy profile to a sandbox or the global profile without browser restarts.
+* **Connectivity & Latency Probe ([`nova.proxy_test`](../../mcp-reference/tools/proxy-and-network/nova-proxy-test.md)):** Verify tunnel health, measure handshake latency, and check reflected external IP.
+* **Status Query ([`nova.proxy_status`](../../mcp-reference/tools/proxy-and-network/nova-proxy-status.md)):** Query active routing endpoints and WebRTC leak state.
+* **Diagnostic Log ([`nova.proxy_log`](../../mcp-reference/tools/proxy-and-network/nova-proxy-log.md)):** Retrieve recent connection events and routing challenges.
+
+### 7.3 Emergency Proxy Disconnect & Reconnect
+* **Emergency Kill Switch ([`nova.proxy_disconnect`](../../mcp-reference/tools/proxy-and-network/nova-proxy-disconnect.md)):** Instantly terminates the proxy tunnel for a target tab or sandbox, dropping all HTTP(S) traffic immediately to prevent accidental data leaks.
+* **Reconnection ([`nova.proxy_reconnect`](../../mcp-reference/tools/proxy-and-network/nova-proxy-reconnect.md)):** Re-establishes the tunnel and verifies end-to-end reachability before restoring traffic flow.
+
+### 7.4 Credential Storage ([`nova.proxy_set_password`](../../mcp-reference/tools/proxy-and-network/nova-proxy-set-password.md))
+Securely store or update proxy passwords encrypted via the Windows Data Protection API (DPAPI). Passwords never appear in cleartext logs or agent transcripts.
 
 ---
 
@@ -207,12 +419,12 @@ Nova provides native support for routing network traffic through SOCKS5, HTTP, a
 
 | Discipline | MCP Tools | Key Capabilities |
 | :--- | :--- | :--- |
-| **Discovery & Inventory** | [`nova.net_scan`](../../mcp-reference/tools/proxy-and-network/nova-net-scan.md)<br>[`nova.net_devices`](../../mcp-reference/tools/proxy-and-network/nova-net-devices.md)<br>[`nova.net_devices_update`](../../mcp-reference/tools/proxy-and-network/nova-net-devices-update.md) | Subnet IP/ARP scanning, MAC OID lookup, device categorization, and SNMP enrichment. |
-| **DNS Diagnostics** | [`nova.net_dns`](../../mcp-reference/tools/proxy-and-network/nova-net-dns.md) | Recursive queries, DoH proxy routing, root-to-leaf delegation, candidate nameservers, DNSSEC, and mail security suite. |
-| **Path & Latency** | [`nova.net_ping`](../../mcp-reference/tools/proxy-and-network/nova-net-ping.md)<br>[`nova.net_probe`](../../mcp-reference/tools/proxy-and-network/nova-net-probe.md) | Millisecond ICMP ping, packet loss statistics, hop-by-hop MTR path discovery, and TCP port checks. |
-| **TLS/SSL Inspection** | [`nova.tls_inspect`](../../mcp-reference/tools/proxy-and-network/nova-tls-inspect.md) | X.509 certificate chains, cipher suites, expiration warnings, and SAN domain verification. |
-| **Interception & Replay** | [`nova.network_intercept_add`](../../mcp-reference/tools/proxy-and-network/nova-network-intercept-add.md)<br>[`nova.network_replay`](../../mcp-reference/tools/proxy-and-network/nova-network-replay.md) | HTTP status injection (503/429), pattern interception, and standalone cookie-authenticated request replay. |
-| **Proxy Management** | [`nova.proxy_switch`](../../mcp-reference/tools/proxy-and-network/nova-proxy-switch.md)<br>[`nova.proxy_list`](../../mcp-reference/tools/proxy-and-network/nova-proxy-list.md)<br>[`nova.proxy_test`](../../mcp-reference/tools/proxy-and-network/nova-proxy-test.md) | Dynamic proxy routing per sandbox, credential-backed SOCKS5/HTTP profiles, and latency testing. |
+| **Discovery & Inventory** | [`nova.net_scan`](../../mcp-reference/tools/proxy-and-network/nova-net-scan.md)<br>[`nova.net_scan_status`](../../mcp-reference/tools/proxy-and-network/nova-net-scan-status.md)<br>[`nova.net_scan_stop`](../../mcp-reference/tools/proxy-and-network/nova-net-scan-stop.md)<br>[`nova.net_devices`](../../mcp-reference/tools/proxy-and-network/nova-net-devices.md)<br>[`nova.net_devices_update`](../../mcp-reference/tools/proxy-and-network/nova-net-devices-update.md) | Subnet IP/ARP scanning, port sweep sets, MAC OID lookup, device categorization, SNMP enrichment, scan diffing, and inventory management. |
+| **DNS Diagnostics** | [`nova.net_dns`](../../mcp-reference/tools/proxy-and-network/nova-net-dns.md) | Wire UDP/TCP, DoH proxy routing, root-to-leaf delegation, candidate nameservers, DNSSEC, and mail security suite (SPF, DMARC, DKIM). |
+| **Path & Latency** | [`nova.net_ping`](../../mcp-reference/tools/proxy-and-network/nova-net-ping.md)<br>[`nova.net_probe`](../../mcp-reference/tools/proxy-and-network/nova-net-probe.md) | Millisecond ICMP/TCP ping, jitter telemetry, hop-by-hop MTR path discovery, Path MTU discovery, TCP port reachability, and HTTP CONNECT checks. |
+| **TLS/SSL Inspection** | [`nova.tls_inspect`](../../mcp-reference/tools/proxy-and-network/nova-tls-inspect.md) | X.509 certificate chains, multi-host SAN validation, Certificate Transparency log enumeration, cipher suites, and PEM block export. |
+| **Interception & Replay** | [`nova.network_intercept_add`](../../mcp-reference/tools/proxy-and-network/nova-network-intercept-add.md)<br>[`nova.network_intercept_list`](../../mcp-reference/tools/proxy-and-network/nova-network-intercept-list.md)<br>[`nova.network_intercept_clear`](../../mcp-reference/tools/proxy-and-network/nova-network-intercept-clear.md)<br>[`nova.network_replay`](../../mcp-reference/tools/proxy-and-network/nova-network-replay.md) | HTTP status injection (503/429), transport error simulation, pattern interception, and standalone cookie-authenticated request replay. |
+| **Proxy Management** | [`nova.proxy_create`](../../mcp-reference/tools/proxy-and-network/nova-proxy-create.md)<br>[`nova.proxy_update`](../../mcp-reference/tools/proxy-and-network/nova-proxy-update.md)<br>[`nova.proxy_list`](../../mcp-reference/tools/proxy-and-network/nova-proxy-list.md)<br>[`nova.proxy_remove`](../../mcp-reference/tools/proxy-and-network/nova-proxy-remove.md)<br>[`nova.proxy_switch`](../../mcp-reference/tools/proxy-and-network/nova-proxy-switch.md)<br>[`nova.proxy_status`](../../mcp-reference/tools/proxy-and-network/nova-proxy-status.md)<br>[`nova.proxy_test`](../../mcp-reference/tools/proxy-and-network/nova-proxy-test.md)<br>[`nova.proxy_log`](../../mcp-reference/tools/proxy-and-network/nova-proxy-log.md)<br>[`nova.proxy_disconnect`](../../mcp-reference/tools/proxy-and-network/nova-proxy-disconnect.md)<br>[`nova.proxy_reconnect`](../../mcp-reference/tools/proxy-and-network/nova-proxy-reconnect.md)<br>[`nova.proxy_set_password`](../../mcp-reference/tools/proxy-and-network/nova-proxy-set-password.md) | Dynamic proxy routing per sandbox, credential-backed SOCKS5/HTTP profiles, latency testing, DPAPI passwords, and emergency traffic kill switches. |
 
 ---
 
@@ -223,7 +435,7 @@ Nova provides native support for routing network traffic through SOCKS5, HTTP, a
 * **[DNS Diagnostics Architecture](../../core-features/network/dns-diagnostics/README.md)** — DNS resolution mechanics and resolver fallbacks.
 * **[Path Diagnostics & Probing Architecture](../../core-features/network/path-diagnostics-and-probing/README.md)** — Path discovery, MTR, and PMTU.
 * **[Settings Guide: Network & Proxies](../settings/network-and-proxies.md)** — Desktop UI instructions for configuring proxy profiles and DNS governance.
-* **[Remote Connectors Guide](connectors.md)** — SSH command execution and remote database management.
+* **[Remote Connectors Guide](connectors.md)** — SSH command execution, server snapshots, and remote database management.
 
 ---
 

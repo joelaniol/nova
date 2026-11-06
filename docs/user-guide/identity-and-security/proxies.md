@@ -12,8 +12,10 @@ Whether you need to test geo-restricted web applications, route sensitive resear
 * **Dual-Tier Proxy Routing:** Set a global default proxy or bind individual proxy profiles to specific sandboxes.
 * **Protocol Support:** Supports HTTP, HTTPS (CONNECT tunneling), SOCKS4, and SOCKS5 endpoints.
 * **Built-in WebRTC Leak Protection:** Automatically disables WebRTC local IP candidate discovery to prevent your real IP address from leaking via STUN/TURN requests.
+* **DNS Leak Shielding:** When DNS-over-HTTPS (`transport: "doh"`) is used, DNS queries strictly traverse the active sandbox proxy tunnel, preventing local resolver leakage.
+* **Emergency Traffic Kill Switch:** Instantly drop all HTTP(S) traffic on an active proxy with [`nova.proxy_disconnect`](../../mcp-reference/tools/proxy-and-network/nova-proxy-disconnect.md) if an anomaly is detected.
 * **Integrated Health & Diagnostics:** Built-in connection testing, live activity logs, and external IP reflection checks directly in the settings UI.
-* **Full MCP Agent Parity:** AI agents can query proxy status, test connections, and switch profiles programmatically via [`nova.proxy_*`](../../mcp-reference/tools/proxy-and-network/README.md) tools.
+* **Full MCP Agent Parity:** AI agents can manage, test, switch, and secure proxies programmatically via [`nova.proxy_*`](../../mcp-reference/tools/proxy-and-network/README.md) tools.
 
 ```
 +-----------------------------------------------------------------------------------+
@@ -83,13 +85,12 @@ You can assign different proxies to different sandboxes to maintain completely i
 
 ---
 
-## 4. WebRTC Leak Protection
+## 4. WebRTC & DNS Leak Protection
 
-Traditional browsers routing through a proxy often leak the user's real public and local LAN IP addresses through WebSockets or WebRTC peer-to-peer connection requests.
+Traditional browsers routing through a proxy often leak the user's real public and local LAN IP addresses through WebSockets, WebRTC peer-to-peer requests, or plain-text DNS lookups:
 
-In Nova:
-* **WebRTC Leak Protection** is enabled by default in **Settings → Proxies**.
-* When enabled, WebView2 suppresses local host IP address candidates in WebRTC session descriptions (SDP), ensuring websites only see the proxy's IP address.
+* **WebRTC Leak Defense:** Enabled by default in **Settings → Proxies**. When active, WebView2 suppresses local host IP address candidates in WebRTC session descriptions (SDP), ensuring remote web peers only observe the proxy's IP address.
+* **DNS Leak Shielding:** When performing automated DNS queries via [`nova.net_dns`](../../mcp-reference/tools/proxy-and-network/nova-net-dns.md) with `transport: "doh"`, queries are encapsulated within encrypted HTTPS packets and routed strictly through the active sandbox proxy tunnel, preventing local ISP resolver leaks.
 
 ---
 
@@ -100,7 +101,7 @@ Before navigating to sensitive sites, verify that your proxy is working and not 
 1. **In-UI Proxy Test:**
    * Enter a test URL in the **Test Target** field (defaults to `https://api.ipify.org?format=json`).
    * Click **Test Proxy**.
-   * Nova sends a verified probe request through the proxy tunnel, displaying the round-trip latency and confirming the reflected external IP address.
+   * Nova sends a verified probe request through the proxy tunnel, displaying round-trip latency and confirming the reflected external IP address.
 2. **Proxy Activity Log:**
    * Review connection events, TLS handshake timestamps, and authentication challenges in the **Proxy Log** viewer.
    * Configure retention periods (**3 days**, **7 days**, or **30 days**), or click **Clear Log** to scrub diagnostic traces.
@@ -110,20 +111,83 @@ Before navigating to sensitive sites, verify that your proxy is working and not 
 
 ---
 
-## 6. AI Agent Integration
+## 6. Programmatic Proxy Automation over MCP
 
-Connected AI agents can inspect, test, and rotate proxies via Nova's Model Context Protocol (MCP) tools:
+Connected AI agents can inspect, configure, rotate, and secure proxies using Nova's complete suite of MCP proxy tools:
 
-* [`nova.proxy_status`](../../mcp-reference/tools/proxy-and-network/nova-proxy-status.md): Returns active proxy configuration, effective endpoints, and WebRTC leak state.
-* [`nova.proxy_switch`](../../mcp-reference/tools/proxy-and-network/nova-proxy-switch.md): Dynamically changes the active global proxy profile.
-* [`nova.proxy_test`](../../mcp-reference/tools/proxy-and-network/nova-proxy-test.md): Tests connection reachability and retrieves external IP reflection data.
-* [`nova.proxy_log`](../../mcp-reference/tools/proxy-and-network/nova-proxy-log.md): Inspects recent network tunnel events and errors.
+### 6.1 Profile Lifecycle Management
+* **List Profiles ([`nova.proxy_list`](../../mcp-reference/tools/proxy-and-network/nova-proxy-list.md)):** Inspect all configured proxy endpoints and assigned sandboxes.
+* **Create Profile ([`nova.proxy_create`](../../mcp-reference/tools/proxy-and-network/nova-proxy-create.md)):**
+  ```json
+  {
+    "name": "US Residential Proxy",
+    "host": "198.51.100.24",
+    "port": 8080,
+    "protocol": "http"
+  }
+  ```
+* **Update Profile ([`nova.proxy_update`](../../mcp-reference/tools/proxy-and-network/nova-proxy-update.md)):** Modify host, port, protocol, or bypass lists.
+* **Delete Profile ([`nova.proxy_remove`](../../mcp-reference/tools/proxy-and-network/nova-proxy-remove.md)):** Remove obsolete proxy profiles.
+
+### 6.2 Dynamic Switching & Health Verification
+* **Switch Active Proxy ([`nova.proxy_switch`](../../mcp-reference/tools/proxy-and-network/nova-proxy-switch.md)):** Bind a proxy to a sandbox on the fly:
+  ```json
+  {
+    "profileId": "proxy-eu-node",
+    "sandboxId": "sandbox-research"
+  }
+  ```
+* **Verify Status ([`nova.proxy_status`](../../mcp-reference/tools/proxy-and-network/nova-proxy-status.md)):** Check active routing endpoints, latency, and WebRTC leak state.
+* **Test Reachability ([`nova.proxy_test`](../../mcp-reference/tools/proxy-and-network/nova-proxy-test.md)):** Probe a test URL and retrieve reflected external IP telemetry.
+* **Inspect Traffic Logs ([`nova.proxy_log`](../../mcp-reference/tools/proxy-and-network/nova-proxy-log.md)):** Read recent routing events and HTTP tunnel errors.
+
+### 6.3 Emergency Traffic Kill Switch & Reconnect
+If an agent detects an unexpected network anomaly or IP exposure:
+* **Emergency Disconnect ([`nova.proxy_disconnect`](../../mcp-reference/tools/proxy-and-network/nova-proxy-disconnect.md)):** Instantly drops all HTTP(S) traffic for the target sandbox, preventing any unproxied requests from leaking:
+  ```json
+  {
+    "targetId": "tab-101"
+  }
+  ```
+* **Reconnection ([`nova.proxy_reconnect`](../../mcp-reference/tools/proxy-and-network/nova-proxy-reconnect.md)):** Restores proxy routing after confirming that the gateway is stable.
+
+### 6.4 Encrypted Credential Vault Storage ([`nova.proxy_set_password`](../../mcp-reference/tools/proxy-and-network/nova-proxy-set-password.md))
+Store or update proxy authentication passwords encrypted with Windows DPAPI:
+```json
+{
+  "profileId": "proxy-us-gateway",
+  "password": "SecretProxyPassword123"
+}
+```
 
 ---
 
-## Related Documentation
+## 7. Summary Tool Matrix
 
-* **[Core Features: Network Subsystem](../../core-features/network/README.md)** — Architectural details on network interception, replay, and TLS inspection.
+| Tool | Capability | Primary Use Case |
+| :--- | :--- | :--- |
+| [`nova.proxy_list`](../../mcp-reference/tools/proxy-and-network/nova-proxy-list.md) | List proxy profiles | Retrieve all configured proxy configurations and bindings. |
+| [`nova.proxy_create`](../../mcp-reference/tools/proxy-and-network/nova-proxy-create.md) | Create proxy profile | Register a new SOCKS5, HTTP, or HTTPS proxy tunnel. |
+| [`nova.proxy_update`](../../mcp-reference/tools/proxy-and-network/nova-proxy-update.md) | Update proxy profile | Modify host, port, protocol, or bypass list of an existing proxy. |
+| [`nova.proxy_remove`](../../mcp-reference/tools/proxy-and-network/nova-proxy-remove.md) | Delete proxy profile | Remove obsolete proxy configurations. |
+| [`nova.proxy_switch`](../../mcp-reference/tools/proxy-and-network/nova-proxy-switch.md) | Switch active proxy | Dynamically assign proxies to sandboxes without restarting Nova. |
+| [`nova.proxy_status`](../../mcp-reference/tools/proxy-and-network/nova-proxy-status.md) | Query proxy status | Verify current egress routing, latency, and WebRTC leak state. |
+| [`nova.proxy_test`](../../mcp-reference/tools/proxy-and-network/nova-proxy-test.md) | Test proxy health | Send diagnostic probe and confirm reflected public IP. |
+| [`nova.proxy_log`](../../mcp-reference/tools/proxy-and-network/nova-proxy-log.md) | Read proxy logs | Inspect recent handshake events and connection drops. |
+| [`nova.proxy_disconnect`](../../mcp-reference/tools/proxy-and-network/nova-proxy-disconnect.md) | Emergency kill switch | Immediately drop all traffic for a target sandbox on anomaly. |
+| [`nova.proxy_reconnect`](../../mcp-reference/tools/proxy-and-network/nova-proxy-reconnect.md) | Restore proxy tunnel | Re-establish connection and verify gateway health. |
+| [`nova.proxy_set_password`](../../mcp-reference/tools/proxy-and-network/nova-proxy-set-password.md) | Store DPAPI password | Save encrypted proxy credentials securely on Windows. |
+
+---
+
+## 8. Related Documentation
+
+* **[Network Diagnostics & Tools Guide](../tools/network-and-diagnostics.md)** — DNS queries, subnet scans, MTR path tracing, and TLS inspection.
+* **[Network Architecture Hub](../../core-features/network/README.md)** — Architectural details on network interception, replay, and egress routing.
 * **[Sandboxes & Profiles](sandboxes-and-profiles.md)** — Multi-profile session isolation and sandbox configuration.
 * **[Website & Agent Permissions](permissions.md)** — Controlling origin permissions and network requests.
 * **[Passwords & Vault](passwords-and-vault.md)** — Managing stored credentials and proxy secrets.
+
+---
+
+[Back to Identity & Security](README.md) · [All user guides](../README.md)

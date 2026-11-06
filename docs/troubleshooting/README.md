@@ -12,6 +12,7 @@ Choose the problem you can see. You do not need to know whether it belongs to th
 | A tab, login, sandbox or running agent needs attention | [Browser and sessions](#browser-and-sessions) |
 | You need logs or details of a failure | [Diagnostics](#diagnostics) |
 | Nova crashed, GPU driver crashed or high RAM | [Performance, crashes & GPU recovery](performance-and-crashes.md) |
+| Proxy drops connections, DNS fails or scans need approval | [Network & proxy issues](network-and-proxies.md) |
 | The problem happens with one particular AI program | [Client-specific quirks](#client-specific-quirks) |
 
 ## Installation
@@ -29,6 +30,10 @@ If that does not help, follow [Agent connection issues](agent-connection-issues.
 ## Agent behavior
 
 For a connected agent that avoids Nova, reports missing tools, sees only summary text or gets stuck on a page, follow [Agent behavior](agent-behavior.md).
+
+## Network and proxies
+
+For proxy connection drops, 502/504 gateway timeouts, DNS `SERVFAIL`, lame delegations, public scan approval gates, or Path MTU packet loss, see [Network & proxy issues](network-and-proxies.md).
 
 ## Browser and sessions
 
