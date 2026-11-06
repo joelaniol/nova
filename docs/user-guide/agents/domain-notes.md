@@ -1,75 +1,166 @@
-# Domain Notes: Give Your Agent Instructions for a Website
+# Domain Notes & Operator Directives
 
-Use **Domain Notes** to leave instructions that your agent should see when working on a particular website. Nova's interface calls them **Site notes**. They can describe your preferred workflow, account-specific details or actions the agent must ask you about first.
+> [!NOTE]
+> Domain Notes (referred to as **Site notes** in Nova's desktop UI) allow human operators to attach persistent, site-scoped instructions, constraints, and business rules to specific web domains. Nova's **Agent Awareness Gates (AAG)** enforce these rules across all connected AI agents, preventing unauthorized actions and ensuring adherence to portal-specific protocols.
 
-## Add a note for the current website
+---
 
-1. Open the website in Nova, in the sandbox where you intend to use it.
-2. Open **Site information** from the site icon beside the address bar.
-3. Find **Notes for [domain]**, choose **Show**, then **+ Add note**.
-4. Enter a short title and the instruction for your agent. An optional template can help you start.
-5. Choose **Hint only**, **Warn the agent** or **MUST read (agent must acknowledge)**.
-6. If a sandbox scope is offered, choose **For all sandboxes** or **Only for [sandbox]**.
-7. Choose **Save** and check that the note appears for the intended site and scope.
+## 1. Overview & Behavioral Guardrails
 
-To manage notes across websites, use **Settings → AI & agents → Access & rules → Site notes**, or **Manage all** from the site-information panel.
+When AI agents navigate enterprise portals, CRM dashboards, or shopping platforms, they require domain-specific context: *“Never click Delete on customer records,”* *“Always select the EU billing entity,”* or *“Ask before placing any order exceeding $100.”*
 
-## Choose how strongly the note is delivered
+Instead of repeatedly prompting the agent in chat, Nova provides a dual-layer directive system:
 
-| Level | What happens |
-|---|---|
-| **Hint only** | The note is available as context when the agent inspects the website. |
-| **Warn the agent** | Nova adds a warning about the note to matching tool results. |
-| **MUST read** | Nova blocks applicable tool calls on the matching site until the agent acknowledges the note. |
+```mermaid
+flowchart TD
+    subgraph Directives ["Nova Operator Directive System"]
+        SiteNotes["1. Domain Notes (Site Notes)<br/>• Scoped to specific web domains (e.g. portal.example.com)<br/>• Enforced via Agent Awareness Gates (AAG)<br/>• Enforcement levels: Hint, Warn, MUST-Read"]
+        OpNotes["2. Operator Notes (Task Memory)<br/>• Cross-site directives and operational memory<br/>• Keyword and semantic querying (nova.operator_notes_query)<br/>• Scoped globally or per-sandbox"]
+    end
 
-For Warn and MUST read, check **Site notes → Global override → On — per-note level wins (recommended)**. With the global switch off, even a MUST-read note becomes an inspection hint and does not block calls. The note editor also warns when this switch is off.
+    subgraph Enforcement ["Agent Execution & AAG Gate"]
+        AgentAction["Agent issues action (e.g. click_selector)"]
+        AAGCheck{"AAG Gate Check<br/>Has agent acknowledged<br/>MUST-read domain notes?"}
+        Block["Action Blocked!<br/>reasonCode: domain_note_unacknowledged"]
+        Proceed["Action Executes Safely"]
+    end
 
-Site-note enforcement is part of Nova's **Agent Awareness Gates (AAG)**. You do not need to put every other awareness gate into Block mode to use a MUST-read note. See [AAG](../../core-features/agent-awareness-gates-aag/README.md#53-user-directives--domain-notes-usersite_note) for the technical context.
+    SiteNotes --> AAGCheck
+    AgentAction --> AAGCheck
+    AAGCheck -->|No| Block
+    AAGCheck -->|Yes / Acknowledged| Proceed
+```
 
-## Ask for a visible confirmation of understanding
+---
 
-For an important instruction, select **MUST read** and write the behavior you want explicitly. For example:
+## 2. Managing Site Notes in the Desktop Interface
 
-**Title:** `Before working in this portal`
+You can inspect and create Domain Notes directly from the browser window:
 
-> Before taking actions on this website, read the applicable Domain Notes. Summarize the rules in your own words and confirm that you understand them. If anything is unclear or conflicts with my task, ask me before continuing. Use filters and existing records first. Do not create, edit or delete records without my approval.
+1. **Open Site Info:** Click the lock or site badge icon beside the address bar on the target website.
+2. **Add Note:** Under **Notes for [domain]**, click **Show**, then **+ Add note**.
+3. **Configure the Directive:**
+   * **Title & Description:** Enter a short title and explicit instructions (e.g., *“Read before submitting forms”*).
+   * **Enforcement Level:** Choose how strictly the note must be enforced:
+     * **Hint only:** Exposed to the agent as background context during page inspection.
+     * **Warn the agent:** Injects a prominent warning banner into subsequent tool results on this origin.
+     * **MUST read (AAG Gate):** Hard gate. Blocks all write actions (clicks, typing, navigation) on the origin until the agent explicitly acknowledges the note via MCP.
+   * **Sandbox Scope:** Select **For all sandboxes** or restrict the directive to a specific profile (**Only for [sandbox]**).
+4. **Global Management:** Review and edit notes across all domains in **Settings → AI & agents → Access & rules → Site notes**.
 
-Then tell your agent in its conversation:
+---
 
-> Before working on [website], read the Domain Notes for the correct sandbox in Nova. Explain the instructions in your own words, confirm that you understand them, and acknowledge any MUST-read notes through Nova. Tell me about conflicts or unclear points before acting.
+## 3. Enforcement Levels & Agent Awareness Gates (AAG)
 
-Review the reply. It should identify the actual rules, the site and any relevant sandbox, rather than merely say “understood.” For example:
+| Level | AAG Gate Behavior | Agent Workflow |
+| :--- | :--- | :--- |
+| **`hint`** | Non-blocking | Provided in inspection summaries. The agent incorporates advice autonomously. |
+| **`warn`** | Non-blocking with telemetry | Injects warnings into tool returns, alerting the agent to potential edge cases. |
+| **`must_read`** | **Strictly blocking** | Nova blocks all state-modifying actions on the domain until the agent calls [`nova.domain_note_ack`](../../mcp-reference/tools/task-memory/nova-domain-note-ack.md). |
 
-> I will search and filter existing records first. I will ask before creating, editing or deleting anything. These instructions apply to this portal in the selected sandbox.
+### 3.1 Re-Acknowledgement Intervals
+To prevent agents in long-running loops from losing track of critical constraints, you can configure automatic re-acknowledgement rules:
+* **`repeatMinutes`:** Requires re-acknowledgement after a specified duration of elapsed work.
+* **`repeatToolCalls`:** Requires re-acknowledgement after a set number of tool executions.
+* **Tab Resets:** Closing a tab or opening a new session resets acknowledgment state, ensuring fresh alignment.
 
-The agent handles Nova's acknowledgement mechanism. You do not need to type tool calls yourself. AAG records technical acknowledgement of delivered instructions; it does not assess whether the model interpreted every sentence correctly or require a chat explanation by itself. The explicit instruction and your review provide that visible check.
+---
 
-## Keep the right site and sandbox in scope
+## 4. Programmatic Domain Note Management over MCP
 
-A note for all sandboxes applies on that domain across your Nova sandboxes. A sandbox-specific note is visible only in its matching sandbox, which is useful when work and personal accounts need different instructions.
+Connected AI agents can inspect, store, and acknowledge Domain Notes through Nova's task memory tools:
 
-For MUST-read enforcement, use the website's actual host. A note for `example.com` does not automatically block actions on `portal.example.com`; add a note for that host if you need required acknowledgement there. Nova treats a leading `www.` as the same domain. Parent-domain hints may be available during inspection, but those hints do not establish MUST-read enforcement on every subdomain.
+### 4.1 Acknowledging MUST-Read Directives ([`nova.domain_note_ack`](../../mcp-reference/tools/task-memory/nova-domain-note-ack.md))
 
-Notes you create in Nova's interface are marked as **from you**. Notes the agent writes are its own observations. Review agent observations before relying on them as your instructions. Agent changes to your notes are subject to Nova's separate user-note override permission policy; the agent cannot mark its own notes as authored by you.
+When an agent encounters a blocked action with `domain_note_unacknowledged`, it must read the directive and record technical acknowledgement:
 
-## Remind the agent during longer sessions
+```json
+{
+  "name": "nova.domain_note_ack",
+  "arguments": {
+    "domain": "portal.example.com",
+    "key": "pre-submit-check",
+    "targetId": "tab-101"
+  }
+}
+```
 
-MUST-read acknowledgement is tracked per tab. A new tab, an edited note or a configured re-acknowledgement interval can require another acknowledgement.
+Once acknowledged, Nova's Agent Awareness Gate immediately lifts the execution barrier for that tab.
 
-Under **Site notes → Global default for re-acknowledge**, you can choose a time or tool-call interval. An individual note can override those defaults. A value of `0` disables that repeat trigger; closing the tab still re-arms acknowledgement. Use concise notes so repeated delivery stays useful.
+### 4.2 Querying & Storing Domain Notes
 
-If the agent seems to have lost the instructions, ask it to read the current notes again and restate them before continuing. Check the note's host, sandbox scope, enforcement level and the global switch if MUST read is not taking effect. The settings screen also shows note limits and expiration; review old instructions when the website or your workflow changes.
+* **List Domain Notes ([`nova.domain_notes_list`](../../mcp-reference/tools/task-memory/nova-domain-notes-list.md)):** Inspect all directives attached to the current domain or sandbox:
+  ```json
+  {
+    "domain": "portal.example.com",
+    "scope": "sandbox"
+  }
+  ```
+* **Create or Update Note ([`nova.domain_note`](../../mcp-reference/tools/task-memory/nova-domain-note.md)):** Record a site-specific discovery or observation:
+  ```json
+  {
+    "domain": "portal.example.com",
+    "key": "table-pagination-quirk",
+    "value": "Pagination buttons require 500ms settlement before clicking next page.",
+    "enforcement": "hint"
+  }
+  ```
+* **Delete Note ([`nova.domain_note_delete`](../../mcp-reference/tools/task-memory/nova-domain-note-delete.md)):** Remove outdated or resolved directives.
 
-## How this differs from onboarding and Learn Mode
+---
 
-| Feature | Purpose |
-|---|---|
-| **Domain Notes** | Your instructions and context for a particular website. |
-| [Project onboarding](../../getting-started/advanced-onboarding.md) | Nova references in a project folder so later agent sessions can find its working instructions. |
-| [Learn Mode](../../getting-started/learn-mode.md) | Deliberate exploration and verification of a website's workflows. |
+## 5. Cross-Task Operator Notes Suite
 
-A note is guidance, not permission to perform a transaction. Nova's action permissions still apply. To interrupt running work, use [Emergency Stop](../../getting-started/emergency-stop.md).
+While Domain Notes attach to specific web domains, **Operator Notes** store general operational guidance, project constraints, and operator preferences across all browser sessions:
 
-For the feature overview and technical reference, see [Domain Notes in Learning](../../core-features/learning/domain-notes/README.md).
+* **Store Operator Directive ([`nova.operator_notes_store`](../../mcp-reference/tools/task-memory/nova-operator-notes-store.md)):** Save persistent task directives with searchable tags and categories:
+  ```json
+  {
+    "content": "Prefer European date formats (DD.MM.YYYY) across all data exports.",
+    "tags": ["formatting", "locale", "export"],
+    "category": "preferences"
+  }
+  ```
+* **Semantic Querying ([`nova.operator_notes_query`](../../mcp-reference/tools/task-memory/nova-operator-notes-query.md)):** Search relevant operator guidelines by keyword or similarity score:
+  ```json
+  {
+    "keywords": "date format export",
+    "limit": 5
+  }
+  ```
+* **Listing & Deletion ([`nova.operator_notes_list`](../../mcp-reference/tools/task-memory/nova-operator-notes-list.md), [`nova.operator_notes_delete`](../../mcp-reference/tools/task-memory/nova-operator-notes-delete.md)):** Manage and retire completed operator guidelines.
 
-[Back to this section](README.md) · [All user guides](../README.md)
+---
+
+## 6. Human Authority & Security Invariants
+
+* **Human Authorship Protection:** Directives entered by human operators in Nova's UI are marked `from you`. Connected agents cannot overwrite or delete human directives without explicit operator authorization.
+* **Separation of Notes and Permissions:** A Domain Note is operational guidance, not an authorization waiver. High-hazard actions (such as downloading executables or scanning public subnets) still require interactive human confirmation.
+
+---
+
+## 7. Summary Tool Matrix
+
+| Tool | Capability | Primary Use Case |
+| :--- | :--- | :--- |
+| [`nova.domain_note`](../../mcp-reference/tools/task-memory/nova-domain-note.md) | Store/update domain note | Attach site-specific rules with enforcement levels (`hint`, `warn`, `must_read`). |
+| [`nova.domain_notes_list`](../../mcp-reference/tools/task-memory/nova-domain-notes-list.md) | List notes for domain | Audit all applicable instructions for a target origin and sandbox. |
+| [`nova.domain_note_ack`](../../mcp-reference/tools/task-memory/nova-domain-note-ack.md) | Acknowledge MUST-read note | Clear AAG gate blocks to proceed with browser actions. |
+| [`nova.domain_note_delete`](../../mcp-reference/tools/task-memory/nova-domain-note-delete.md) | Delete domain note | Remove obsolete site rules or completed instructions. |
+| [`nova.operator_notes_store`](../../mcp-reference/tools/task-memory/nova-operator-notes-store.md) | Store operator directive | Save cross-site project constraints, tags, and preferences. |
+| [`nova.operator_notes_query`](../../mcp-reference/tools/task-memory/nova-operator-notes-query.md) | Query operator directives | Retrieve matching task instructions via semantic keywords. |
+| [`nova.operator_notes_list`](../../mcp-reference/tools/task-memory/nova-operator-notes-list.md) | List operator directives | Review stored operator memory across sandboxes. |
+| [`nova.operator_notes_delete`](../../mcp-reference/tools/task-memory/nova-operator-notes-delete.md) | Delete operator directive | Retire obsolete operational guidelines. |
+
+---
+
+## 8. Related Documentation
+
+* **[Agent Awareness Gates (AAG) Architecture](../../core-features/agent-awareness-gates-aag/README.md)** — Architectural enforcement mechanisms for domain notes and directives.
+* **[Project Onboarding Guide](project-onboarding.md)** — Seeding persistent project contexts for agent sessions.
+* **[Emergency Stop & Taking Control](taking-over-and-emergency-stop.md)** — Pausing agent execution and freezing actions.
+* **[Website & Agent Permissions](../identity-and-security/permissions.md)** — Site permissions and security boundaries.
+
+---
+
+[Back to Agents Hub](README.md) · [All user guides](../README.md)

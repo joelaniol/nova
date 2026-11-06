@@ -50,6 +50,7 @@ A tab that simulates another device or browser (device emulation) cannot identif
 
 * **[Identity & Security](README.md)** — Overview of Nova's identity and security features.
 * **[Website & Agent Permissions](permissions.md)** — What agents may do and when Nova asks you.
+* **[Browser Fingerprinting & Identity](fingerprints-and-identity.md)** — Hardware noise, canvas defense, and persona switching.
 * **[Device emulation](../../core-features/device-emulation/README.md)** — Simulating phones, tablets and other browsers.
 
 ---
