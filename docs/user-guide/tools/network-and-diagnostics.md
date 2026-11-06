@@ -58,15 +58,72 @@ Scans IPv4 CIDR blocks (e.g., `192.168.1.0/24`) using non-disruptive ICMP echoes
   * `"management"`: SSH (22), RDP (3389), Telnet (23), WinRM (5985).
   * `"databases"`: MySQL/MariaDB (3306), PostgreSQL (5432), Redis (6379), MongoDB (27017).
   * `"all_ports"`: Comprehensive multi-port sweep.
-* **SNMP Integration (`snmpCredentialRef`):** Cross-references configured SNMP connectors to query device SMI vendor IDs, sysDescr strings, and device uptime.
 * **Public IP Governance (`scan_approval_required`):** Private RFC 1918, CGNAT, link-local, and loopback ranges execute under standard agent permissions. Any scan targeting public IP addresses strictly requires interactive human approval in the desktop UI per target range.
 
-### 2.2 Scan Job Governance & Cancellation
+### 2.2 SNMP Hardware Telemetry & Network Infrastructure Profiling
+
+Network switches, core routers, network-attached storage (NAS) appliances, and uninterruptible power supplies (UPS) rarely identify themselves through plain HTTP headers. Nova integrates **SNMP-based hardware telemetry** directly into `nova.net_scan` via SNMP connector profiles:
+
+```mermaid
+flowchart LR
+    Connector["nova.connector_create<br/>(type: 'snmp', snmpVersion: 'v3')"] --> Bounds["Target CIDR Bounding<br/>(e.g. 192.168.1.0/24)"]
+    Bounds --> Scan["nova.net_scan<br/>probes: ['snmp']"]
+    Scan --> SingleOID["UDP 161 Single-OID GetRequest<br/>sysDescr, sysObjectID, sysName, sysUpTime"]
+    SingleOID --> USM["SNMPv3 USM Verification<br/>Engine ID Pinning & AES-128 CFB"]
+    USM --> Inventory["netmonitor.db Inventory<br/>Enriched Model, Vendor, OS Family"]
+```
+
+#### 2.2.1 Provisioning SNMP Connectors ([`nova.connector_create`](../../mcp-reference/tools/connectors-and-mail/nova-connector-create.md))
+
+Configure an SNMP connector bound to specific subnets:
+
+```json
+{
+  "name": "nova.connector_create",
+  "arguments": {
+    "displayName": "HQ Managed Switches",
+    "type": "snmp",
+    "targets": ["192.168.1.0/24"],
+    "snmpVersion": "v3",
+    "username": "snmp_monitor",
+    "password": "ask",
+    "snmpSecurityLevel": "authPriv",
+    "snmpAuthProtocol": "sha256",
+    "snmpPrivProtocol": "aes128"
+  }
+}
+```
+
+* **Target CIDR Bounding (`targets`):** SNMP credentials are bound strictly to designated network ranges. Nova will never send an SNMP community string or USM authentication handshake to unlisted IP addresses.
+* **SNMPv3 Cryptographic Security (`authPriv`):** Authenticated with HMAC-SHA-256 and encrypted with AES-128 CFB. Unauthenticated SNMPv3 (`noAuthNoPriv`) is explicitly disallowed.
+* **Engine ID Pinning:** Nova records the authoritative `snmpEngineID` upon first contact. If an IP address answers with a diverging engine ID, communication is halted immediately (`state: "engine_id_changed"`) to prevent credential leakage.
+* **SNMPv2c Support (`snmpVersion: "v2c"`):** For legacy printers and environmental sensors, SNMPv2c uses community strings (e.g. `"public"`), which remain strictly isolated to the configured `targets`.
+
+#### 2.2.2 Non-Destructive Scanning with SNMP Evidence
+
+Execute a scan incorporating SNMP probes:
+
+```json
+{
+  "name": "nova.net_scan",
+  "arguments": {
+    "targets": ["192.168.1.0/24"],
+    "probes": ["snmp", "http", "ssh"],
+    "snmpCredentialRef": "cn_snmp_switches",
+    "timeBudgetSeconds": 120
+  }
+}
+```
+
+* **Single-OID Safety Guarantee:** Nova executes a single `GetRequest` targeting standard RFC 1213 MIB-II system attributes (`sysDescr`, `sysObjectID`, `sysName`, `sysUpTime`). It **never executes recursive MIB walks or `SetRequest` operations**, ensuring zero operational disruption on mission-critical networking equipment.
+* **Connector Narrowing (`snmpCredentialRef`):** Restricts SNMP queries to a specific connector profile, rather than evaluating all matching network connectors.
+
+### 2.3 Scan Job Governance & Cancellation
 
 * **Progress Telemetry ([`nova.net_scan_status`](../../mcp-reference/tools/proxy-and-network/nova-net-scan-status.md)):** Monitor active scans with real-time percentage completion, active probe counts, and discovered hosts.
 * **Safe Abort ([`nova.net_scan_stop`](../../mcp-reference/tools/proxy-and-network/nova-net-scan-stop.md)):** Cleanly stops a running scan and commits all partial discoveries made up to that moment.
 
-### 2.3 Device Inventory & Drift Analysis ([`nova.net_devices`](../../mcp-reference/tools/proxy-and-network/nova-net-devices.md))
+### 2.4 Device Inventory & Drift Analysis ([`nova.net_devices`](../../mcp-reference/tools/proxy-and-network/nova-net-devices.md))
 
 Discovered devices are indexed in Nova's persistent SQLite network database (`netmonitor.db`):
 
@@ -530,7 +587,73 @@ Securely store or update proxy passwords encrypted via the Windows Data Protecti
 
 ---
 
-## 8. Summary Tool Matrix
+## 8. Inside-Out Network Auditing: Remote Server Sockets & Firewalls
+
+Traditional network security relies either entirely on external port scanning (black-box) or ad-hoc terminal commands. Nova bridges these two paradigms by pairing external subnet scanning ([`nova.net_scan`](../../mcp-reference/tools/proxy-and-network/nova-net-scan.md)) with authenticated, inside-out server state auditing via [`nova.server_snapshot`](../../mcp-reference/tools/connectors-and-mail/nova-server-snapshot.md) and [`nova.server_snapshot_diff`](../../mcp-reference/tools/connectors-and-mail/nova-server-snapshot-diff.md):
+
+```mermaid
+flowchart LR
+    subgraph ExternalView ["1. External Network View (Black-Box)"]
+        Scan["nova.net_scan / nova.net_probe<br/>• Scans network from outside<br/>• Identifies reachable ports & dropped packets<br/>• Observes service banners & TLS handshakes"]
+    end
+
+    subgraph InternalView ["2. Internal Host View (White-Box)"]
+        Snap["nova.server_snapshot (over SSH)<br/>• True listening sockets (ss -tulpn)<br/>• Localhost-only daemons (127.0.0.1)<br/>• Active iptables / ip6tables / UFW rules<br/>• Fail2ban intrusion jail states"]
+    end
+
+    subgraph DiffAudit ["3. Differential Change Verification"]
+        Diff["nova.server_snapshot_diff<br/>• Atomic before vs. after comparison<br/>• Ephemeral noise filtering (ports >= 32768, PIDs)<br/>• Confirms mutations without side-effects"]
+    end
+
+    ExternalView <--> InternalView --> DiffAudit
+```
+
+### 8.1 Capturing Atomic Server Snapshots ([`nova.server_snapshot`](../../mcp-reference/tools/connectors-and-mail/nova-server-snapshot.md))
+
+Before modifying network firewall rules, upgrading reverse proxies (e.g. NGINX, HAProxy), or deploying microservices, capture a baseline snapshot over an established SSH connection profile:
+
+```json
+{
+  "name": "nova.server_snapshot",
+  "arguments": {
+    "profileId": "cn_prod_gateway",
+    "label": "before-firewall-update"
+  }
+}
+```
+
+* **Fixed Read-Only Command Suite:** Nova executes its own deterministic, non-destructive queries:
+  * **Listening Sockets:** Inspects TCP and UDP sockets using `ss -tulpn` or `netstat`, distinguishing between public listeners (`0.0.0.0`, `::`) and private internal services (`127.0.0.1`, `::1`).
+  * **Firewall Rules:** Collects active packet filters via `sudo -n iptables -S` and `sudo -n ip6tables -S`.
+  * **Active Services & Failed Units:** Evaluates systemd running units and flags failed daemons (`systemctl --failed`).
+  * **Intrusion Prevention:** Audits Fail2ban active jails and protection policies.
+* **Safe Privilege Escalation (`sudo -n`):** Security rules and jail audits execute with `sudo -n` (non-interactive); if root rights are not configured, those specific sections report `unavailable` without crashing the tool.
+* **Encrypted Local Storage:** Snapshots are encrypted with Windows DPAPI on the local machine and retained for 90 days. Zero data or temporary files are stored on the remote host.
+
+### 8.2 Differential Verification & Regression Proofs ([`nova.server_snapshot_diff`](../../mcp-reference/tools/connectors-and-mail/nova-server-snapshot-diff.md))
+
+After executing configuration changes (e.g. adding a UFW rule or restarting a web service), take a second snapshot (`label="after-firewall-update"`) and compute a deterministic diff:
+
+```json
+{
+  "name": "nova.server_snapshot_diff",
+  "arguments": {
+    "profileId": "cn_prod_gateway",
+    "a": "before-firewall-update",
+    "b": "after-firewall-update"
+  }
+}
+```
+
+* **Noise Filtering Invariant:** Ephemeral outbound UDP sockets (ports $\ge 32768$, such as transient NTP or DNS queries) and fluctuating process IDs (PIDs) are automatically filtered out. The diff reports only meaningful structural changes:
+  * Newly opened or closed listening ports.
+  * Added or removed iptables filter chains.
+  * Services that entered a failed or degraded state during the deployment.
+* **Proving Zero Regressions:** If `changed: false`, the agent proves that no unexpected socket drops, firewall rule corruptions, or background unit failures occurred during maintenance.
+
+---
+
+## 9. Summary Tool Matrix
 
 | Discipline | MCP Tools | Key Capabilities |
 | :--- | :--- | :--- |
@@ -539,17 +662,20 @@ Securely store or update proxy passwords encrypted via the Windows Data Protecti
 | **Path & Latency** | [`nova.net_ping`](../../mcp-reference/tools/proxy-and-network/nova-net-ping.md)<br>[`nova.net_probe`](../../mcp-reference/tools/proxy-and-network/nova-net-probe.md) | Millisecond ICMP/TCP ping, jitter telemetry, hop-by-hop MTR path discovery, Path MTU discovery, TCP port reachability, and HTTP CONNECT checks. |
 | **TLS/SSL Inspection** | [`nova.tls_inspect`](../../mcp-reference/tools/proxy-and-network/nova-tls-inspect.md) | X.509 certificate chains, multi-host SAN validation, Certificate Transparency log enumeration, cipher suites, and PEM block export. |
 | **Web Traffic, Interception & Replay** | [`nova.network_read`](../../mcp-reference/tools/dom-and-reading/nova-network-read.md)<br>[`nova.network_intercept_add`](../../mcp-reference/tools/proxy-and-network/nova-network-intercept-add.md)<br>[`nova.network_intercept_list`](../../mcp-reference/tools/proxy-and-network/nova-network-intercept-list.md)<br>[`nova.network_intercept_clear`](../../mcp-reference/tools/proxy-and-network/nova-network-intercept-clear.md)<br>[`nova.network_replay`](../../mcp-reference/tools/proxy-and-network/nova-network-replay.md) | In-tab HTTP/GraphQL traffic inspection, body/header capturing, async request waiting (`waitForMatchMs`), mock status injection (503/429), transport error simulation, pattern interception, and standalone cookie-authenticated request replay. |
+| **Server Sockets & Firewalls** | [`nova.server_snapshot`](../../mcp-reference/tools/connectors-and-mail/nova-server-snapshot.md)<br>[`nova.server_snapshot_diff`](../../mcp-reference/tools/connectors-and-mail/nova-server-snapshot-diff.md) | Inside-out SSH host auditing, internal listening sockets (`ss -tulpn`), firewall rules (`iptables`/`ufw`), Fail2ban jails, noise filtering, and atomic differential change verification. |
 | **Proxy Management** | [`nova.proxy_create`](../../mcp-reference/tools/proxy-and-network/nova-proxy-create.md)<br>[`nova.proxy_update`](../../mcp-reference/tools/proxy-and-network/nova-proxy-update.md)<br>[`nova.proxy_list`](../../mcp-reference/tools/proxy-and-network/nova-proxy-list.md)<br>[`nova.proxy_remove`](../../mcp-reference/tools/proxy-and-network/nova-proxy-remove.md)<br>[`nova.proxy_switch`](../../mcp-reference/tools/proxy-and-network/nova-proxy-switch.md)<br>[`nova.proxy_status`](../../mcp-reference/tools/proxy-and-network/nova-proxy-status.md)<br>[`nova.proxy_test`](../../mcp-reference/tools/proxy-and-network/nova-proxy-test.md)<br>[`nova.proxy_log`](../../mcp-reference/tools/proxy-and-network/nova-proxy-log.md)<br>[`nova.proxy_disconnect`](../../mcp-reference/tools/proxy-and-network/nova-proxy-disconnect.md)<br>[`nova.proxy_reconnect`](../../mcp-reference/tools/proxy-and-network/nova-proxy-reconnect.md)<br>[`nova.proxy_set_password`](../../mcp-reference/tools/proxy-and-network/nova-proxy-set-password.md) | Dynamic proxy routing per sandbox, credential-backed SOCKS5/HTTP profiles, latency testing, DPAPI passwords, and emergency traffic kill switches. |
 
 ---
 
-## 9. Related Documentation
+## 10. Related Documentation
 
 * **[Network Architecture Hub](../../core-features/network/README.md)** — Architectural specification for all 5 network disciplines.
 * **[Network Discovery & Inventory Architecture](../../core-features/network/network-discovery-and-inventory/README.md)** — In-depth discovery pipelines.
 * **[DNS Diagnostics Architecture](../../core-features/network/dns-diagnostics/README.md)** — DNS resolution mechanics and resolver fallbacks.
 * **[Path Diagnostics & Probing Architecture](../../core-features/network/path-diagnostics-and-probing/README.md)** — Path discovery, MTR, and PMTU.
 * **[Settings Guide: Network & Proxies](../settings/network-and-proxies.md)** — Desktop UI instructions for configuring proxy profiles and DNS governance.
+* **[Server Snapshots & Auditing Architecture](../../core-features/connectors/ssh/server-snapshots-and-auditing/README.md)** — Architectural specification for atomic SSH snapshots, noise elimination, and differential verification.
+* **[SNMP Connectors & Hardware Telemetry](../../core-features/connectors/snmp/README.md)** — SNMPv3 USM key derivation, target CIDR bounding, and hardware OID queries.
 * **[Remote Connectors Guide](connectors.md)** — SSH command execution, server snapshots, and remote database management.
 
 ---
