@@ -78,10 +78,11 @@ Verify microphone input levels and speaker audio playback pipelines:
 * **Start Audio Probe ([`nova.hardware_diagnostics_start`](../../mcp-reference/tools/media-and-transcription/nova-hardware-diagnostics-start.md)):**
   ```json
   {
-    "kind": "audio"
+    "kind": "speaker"
   }
   ```
-* **Inspect Probe State ([`nova.hardware_diagnostics_state`](../../mcp-reference/tools/media-and-transcription/nova-hardware-diagnostics-state.md)):** Measures input decibel levels, clipping warnings, and sample rates.
+  *(Note: The kind parameter accepts `"speaker"`, `"microphone"`, or `"video"`. Automated microphone and video probes require a user gesture and fail with `diagnostics.user_gesture_required` over CDP, while speaker verification runs without capture permissions).*
+* **Inspect Probe State ([`nova.hardware_diagnostics_state`](../../mcp-reference/tools/media-and-transcription/nova-hardware-diagnostics-state.md)):** Measures latency, buffer underflows, and output state.
 * **Stop Audio Probe ([`nova.hardware_diagnostics_stop`](../../mcp-reference/tools/media-and-transcription/nova-hardware-diagnostics-stop.md)):** Shuts down the diagnostic stream and releases audio endpoints.
 
 ### 4.2 Video Camera Diagnostic Probe
@@ -134,7 +135,7 @@ Nova delegates these tasks to an isolated child process, **Outrider**:
 | Tool | Capability | Primary Use Case |
 | :--- | :--- | :--- |
 | [`nova.tools_bundle`](../../mcp-reference/tools/app-shell-and-ui/nova-tools-bundle.md) | Load capability bundle | Dynamically activate specialized toolsets on demand. |
-| [`nova.hardware_diagnostics_start`](../../mcp-reference/tools/media-and-transcription/nova-hardware-diagnostics-start.md) | Start hardware probe | Test microphone input (`kind="audio"`) or webcam frames (`kind="video"`). |
+| [`nova.hardware_diagnostics_start`](../../mcp-reference/tools/media-and-transcription/nova-hardware-diagnostics-start.md) | Start hardware probe | Test audio output (`kind="speaker"`), microphone (`kind="microphone"`), or webcam frames (`kind="video"`). |
 | [`nova.hardware_diagnostics_state`](../../mcp-reference/tools/media-and-transcription/nova-hardware-diagnostics-state.md) | Inspect probe state | Read real-time audio volume levels and camera frame telemetry. |
 | [`nova.hardware_diagnostics_stop`](../../mcp-reference/tools/media-and-transcription/nova-hardware-diagnostics-stop.md) | Stop hardware probe | Terminate diagnostic stream and release media hardware. |
 | [`nova.device_diagnostics`](../../mcp-reference/tools/device-emulation/nova-device-diagnostics.md) | Query device features | Inspect GPU acceleration, touch input, and screen orientation. |
@@ -146,6 +147,7 @@ Nova delegates these tasks to an isolated child process, **Outrider**:
 ## 8. Related Documentation
 
 * **[Settings Hub](README.md)** — Main overview of all 14 settings panels.
+* **[Microphone, Camera & Permissions Troubleshooting](../../troubleshooting/media-and-permissions.md)** — Resolving `diagnostics.user_gesture_required`, device locks, and OS privacy blocks.
 * **[Developer Options Settings](developer-options.md)** — DevTools launch behavior and CDP commands.
 * **[Agent Governance & MCP](agent-governance-and-mcp.md)** — Programmatic settings access and curated keys.
 * **[Media & OCR Tools Guide](../tools/media-and-ocr.md)** — Media capture, transcription, and optical character recognition.

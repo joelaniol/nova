@@ -112,15 +112,17 @@ Nova provides native image manipulation tools, allowing agents to prepare web as
 
 Before starting sensitive media tasks (such as joining web meetings, recording audio notes, or verifying video streams), Nova includes interactive hardware probes:
 
-* **Audio Loopback Verification:** Measures live microphone input levels and plays a brief test chime to verify speaker output.
+* **Audio & Microphone Verification:** Measures live microphone input levels with real-time VU meter bars and peak clipping indicators in the native `HardwareTestDialog`, and plays a brief 440 Hz test tone to verify speaker output.
 * **Webcam Capture Probe:** Tests connected webcam devices, confirms supported video resolutions and frame rates, and ensures that camera privacy shutters are open.
-* **Diagnostic Tools:** Controlled via `nova.hardware_diagnostics_start(kind='video')` (or `kind='audio'`), providing real-time device health metrics.
+* **Programmatic Diagnostics:** Managed via `nova.hardware_diagnostics_start(kind='video')` (or `kind='microphone'`, `kind='speaker'`). Note that automated camera and microphone diagnostics require a user gesture and fail with `diagnostics.user_gesture_required` when driven over CDP, while speaker verification succeeds.
 
 ---
 
 ## 6. Related Documentation
 
 * **[Tools Overview](README.md)** — Master hub for all built-in workspace tools.
+* **[Hardware Routing & Real-Time Diagnostics](../../core-features/media-intelligence/devices-and-permissions/hardware-routing-and-diagnostics/README.md)** — Architectural specification of ConPTY, WebRTC diagnostics, and AudioGraph VU meters.
+* **[Microphone, Camera & Permissions Troubleshooting](../../troubleshooting/media-and-permissions.md)** — Resolving `diagnostics.user_gesture_required`, device locks, and OS privacy blocks.
 * **[Audio & Video Transcription](transcription.md)** — Offline speech-to-text with whisper.cpp.
 * **[Tabular Data & Document Workflows](data-and-documents.md)** — Table extraction, SQL queries, and document generation.
 * **[Media Intelligence Core Architecture](../../core-features/media-intelligence/README.md)** — In-depth architectural details of Nova's media engine.
