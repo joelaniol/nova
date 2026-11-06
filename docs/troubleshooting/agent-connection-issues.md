@@ -14,6 +14,8 @@ After saving a connection in Nova, restart agent sessions and shells that were a
 
 If Nova is connected but the agent still chooses the wrong way to work, use [Agent behavior](agent-behavior.md). The technical checks below help when the connection itself fails.
 
+---
+
 ## 1. The Agent Cannot Reach Nova
 
 ### Symptoms
@@ -111,5 +113,62 @@ The bridge then copies the structured data into the text block, so the model see
 A renderer timeout does not identify its cause. Inspect the visible page before retrying. If a CAPTCHA or other human verification challenge is present, complete it yourself and let the agent continue afterwards.
 
 For a stuck page without a clear challenge, use [Agent behavior](agent-behavior.md#a-page-is-stuck-or-asks-for-human-verification) and [Diagnostics](diagnostics.md). Do not repeatedly dispatch an action without checking its outcome.
+
+---
+
+## 6. Schema Drift & Stale Tool Invocations (`proxy.catalog_drift`)
+
+### Symptoms
+* A tool call fails with `{ "isError": true }` and reason code `proxy.catalog_drift`.
+* The tool error message mentions that tool parameters or return schemas have changed since the client listed tools.
+
+### Cause
+Nova AI Workspace was restarted or updated with code changes during an active AI agent session. The proxy detected that the tool's signature (`inputSchema` or `outputSchema`) changed in the new runtime. To prevent malformed payloads from breaking the browser, the proxy gates calls to changed tools.
+
+### Resolution
+Agents have two options to acknowledge the updated contract:
+1. **Refresh All Tools:** Ask the agent to re-fetch its tool list (e.g. run `/mcp` in Claude Code or re-query `tools/list`).
+2. **Exact Contract Lookup via `nova.tools_bundle`:** Call `nova.tools_bundle(toolName='<toolName>')` to look up the exact updated contract:
+   ```json
+   {
+     "name": "nova_tools_bundle",
+     "arguments": {
+       "toolName": "nova.navigate"
+     }
+   }
+   ```
+   The proxy captures the updated contract from the response, updates its client-visible signature, and automatically removes the tool from the drift quarantine. Subsequent calls execute normally.
+
+---
+
+## 7. Interrupted In-Flight Calls & Non-Replay Invariant (`proxy.outcome_unknown`)
+
+### Symptoms
+* A tool execution fails with `{ "isError": true }` and reason code `proxy.outcome_unknown`.
+* The error message states: *"Connection interrupted while waiting for tool execution reply. The outcome is unknown. Inspect current state before retrying."*
+
+### Cause & Safety Guarantee
+The proxy successfully delivered the request to Nova, but the network connection was severed, reset, or truncated before Nova's HTTP response was received. 
+
+Because mutating actions (such as clicking a confirmation button, submitting a form, or executing a shell command) may have already taken effect in the browser, the proxy **strictly refuses to automatically replay the request** to prevent duplicate side effects.
+
+### Resolution & Agent Recovery Rules
+* **DO NOT automatically repeat the same mutating call.**
+* **Inspect the browser state first:** Use non-mutating inspection tools such as `nova.tabs`, `nova.perceive`, or `nova.read_text` to verify whether the intended action took effect.
+* If inspection shows the action succeeded (e.g. the expected page loaded, or the form submitted), proceed to the next step. If inspection shows the action was not processed, retry the call manually.
+
+---
+
+## 8. Startup & Boot Blocks (`nova.blocked`, `nova.not_installed`, `nova.exe_missing`)
+
+When the proxy fails to reach Nova during initial autostart, it returns specific error reason codes rather than hanging:
+
+| Reason Code | Root Cause | Operator / Agent Resolution |
+| :--- | :--- | :--- |
+| `nova.blocked` | Nova is waiting on an interactive sign-in prompt, trial license activation, or critical modal dialog. | Open the visible Nova desktop application window and complete the pending dialog or login step. Diagnostic details are written to `%LOCALAPPDATA%\NovaBrowser\mcp-boot-status.json`. |
+| `nova.not_installed` | The profile activation metadata (`mcp-activation.json`) or runtime configuration is missing. | Start Nova interactively at least once to create its initial profile and enable agent control in **Settings → AI & agents**. |
+| `nova.exe_missing` | `NovaAIWorkspace.exe` is temporarily absent from its expected directory (typically during software builds or installer upgrades). | Wait for compilation or installation to finish. The proxy maintains a 15-second grace window and provides a 30-second retry-after recommendation. |
+
+---
 
 Return to the [Troubleshooting hub](README.md) for another symptom.
