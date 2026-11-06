@@ -4,7 +4,7 @@ The Network subsystem in Nova AI Workspace provides developers and autonomous ag
 
 Nova unifies five specialized network disciplines into a single coherent architecture:
 1. **Dynamic Proxy Routing:** System-wide or sandbox-isolated proxy routing (HTTP, HTTPS, SOCKS4, SOCKS5) with DPAPI-backed credential authentication, circuit-breaker fail-closed isolation, and WebRTC IP-leak prevention.
-2. **Tab-Scoped Network Interception:** In-flight request and response modification within a live browser tab, supporting mock responses, transport failure simulation, header rewriting, and controlled delays.
+2. **Tab-Scoped Network Traffic Control:** In-flight request and response modification ([`nova.network_intercept_*`](network-interception/tab-scoped-interception/README.md)) and live passive traffic monitoring ([`nova.network_read`](../../mcp-reference/tools/dom-and-reading/nova-network-read.md)) within a live browser tab, supporting mock responses, transport failure simulation, header rewriting, controlled delays, and deep GraphQL inspection.
 3. **Detached Request Replay:** An independent HTTP/HTTPS client outside the browser context capable of adopting live browser session credentials (`HttpOnly` cookies and `localStorage` bearer tokens) with cryptographic redacting previews.
 4. **Deep SSL/TLS Cryptographic Inspection:** In-depth cryptographic analysis of X.509 certificate chains, server cipher suite negotiation, HTTP Strict Transport Security (HSTS), and public Certificate Transparency (CT) logs.
 5. **Network Discovery, Diagnostics & Infrastructure Administration:** Native, permission-governed network scanning (`nova.net_scan`), persistent device inventory (`nova.net_devices`), root-to-leaf DNS and mail security inspection (`nova.net_dns`), continuous MTR-style path diagnostics and PMTU discovery (`nova.net_ping`), and low-overhead port probing (`nova.net_probe`).
@@ -19,6 +19,7 @@ The following diagram illustrates how outgoing and incoming network traffic flow
 flowchart TD
     subgraph BrowserTabs ["Browser Context (Tabs & Sandboxes)"]
         TabReq["Live Tab Network Request"]
+        LiveReader["nova.network_read<br/>(Passive Event Capture)"]
         InterceptionEngine{"Tab-Scoped Interception<br/>(NetworkInterceptRegistry)"}
         PageDOM["Web Page Rendering & DOM"]
     end
@@ -52,6 +53,7 @@ flowchart TD
         PathTracer["nova.net_ping / nova.net_probe<br/>(ICMP MTR & PMTU Discovery)"]
     end
 
+    TabReq -.->|"Passive Tap"| LiveReader
     TabReq --> InterceptionEngine
     InterceptionEngine -->|"Mock Action"| MockResp --> PageDOM
     InterceptionEngine -->|"Fail Action"| FailResp --> PageDOM

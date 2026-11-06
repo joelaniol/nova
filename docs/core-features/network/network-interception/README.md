@@ -14,6 +14,7 @@ Nova eliminates this complexity by embedding traffic manipulation directly into 
 2. **Deterministic Action Primitives:** Supports five core actions: transport failure simulation (`fail`), mock response generation (`respondWith`), request rewriting (`modifyRequest`), response rewriting (`modifyResponse`), and latency injection (`delay`).
 3. **Detached Request Repeater:** Executes standalone HTTP requests outside the tab, allowing agents to test endpoints without CORS boundaries, DOM side-effects, or ambient cookie interference.
 4. **Secure Session Adoption:** Imports `HttpOnly` cookies and `localStorage` bearer tokens into detached requests with redacted previews and same-site origin protection.
+5. **Passive In-Tab Network Inspection:** Complements active interception with [`nova.network_read`](../../../mcp-reference/tools/dom-and-reading/nova-network-read.md) to inspect live `fetch`, `xhr`, `websocket`, and GraphQL traffic before or after synthetic rules are triggered.
 
 ---
 
@@ -93,5 +94,6 @@ flowchart TD
 * [Parent: Network Architecture & Traffic Control](../README.md)
 * [Proxy Routing & Traffic Isolation](../proxy/README.md)
 * [SSL/TLS Inspection & Debugging](../tls-inspection/README.md)
+* [Tool Reference: `nova.network_read`](../../../mcp-reference/tools/dom-and-reading/nova-network-read.md)
 * [Tool Reference: `nova.network_intercept_add`](../../../mcp-reference/tools/proxy-and-network/nova-network-intercept-add.md)
 * [Tool Reference: `nova.network_replay`](../../../mcp-reference/tools/proxy-and-network/nova-network-replay.md)

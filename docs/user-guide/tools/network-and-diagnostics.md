@@ -18,7 +18,7 @@ flowchart TD
         D2["2. DNS & Nameserver Diagnostics<br/>• Comprehensive record queries (A, AAAA, MX, TXT, NS, SOA)<br/>• Custom nameservers & DoH routing (nova.net_dns)<br/>• Root-to-leaf delegation & Mail security suite"]
         D3["3. Latency, Ping & Path Probing<br/>• Real-time ICMP/TCP ping & jitter (nova.net_ping)<br/>• Hop-by-hop MTR path diagnostics (nova.net_ping)<br/>• TCP port reachability & PMTU discovery (nova.net_probe)"]
         D4["4. Cryptographic TLS Auditing<br/>• Deep X.509 certificate chain inspection (nova.tls_inspect)<br/>• Multi-host SAN audits & Certificate Transparency<br/>• Cipher suite, ALPN & Perfect Forward Secrecy audit"]
-        D5["5. Interception & Request Replay<br/>• Pattern-based URL interception (nova.network_intercept_*)<br/>• Mock response injection (429, 500, custom JSON)<br/>• Standalone request adoption & replay (nova.network_replay)"]
+        D5["5. Web Traffic Control: Reading, Interception & Replay<br/>• In-tab HTTP & GraphQL traffic inspection (nova.network_read)<br/>• Pattern-based URL interception & mocking (nova.network_intercept_*)<br/>• Standalone request adoption & replay (nova.network_replay)"]
     end
 ```
 
@@ -309,31 +309,146 @@ Verify the security, certificate chains, and cipher negotiation of HTTPS endpoin
 
 ---
 
-## 6. In-Flight HTTP Interception & Standalone Replay
+## 6. Web Traffic Control: Live Inspection, Interception & Standalone Replay
 
-Simulate backend failures, test frontend error handling, and replay API requests out-of-band:
+Nova equips autonomous agents and developers with three interconnected layers of web traffic control:
+1. **Passive In-Tab Traffic Inspection ([`nova.network_read`](../../mcp-reference/tools/dom-and-reading/nova-network-read.md)):** Record and inspect live `fetch`, `xhr`, `websocket`, `eventsource`, and GraphQL traffic directly from the browser tab without stopping execution.
+2. **Active In-Flight Interception ([`nova.network_intercept_add`](../../mcp-reference/tools/proxy-and-network/nova-network-intercept-add.md)):** Intercept requests matching URL patterns at the CDP layer to inject mock payloads (e.g. 503 Service Unavailable, 429 Too Many Requests), simulate transport failures, or inject artificial latency.
+3. **Detached Authenticated Replay ([`nova.network_replay`](../../mcp-reference/tools/proxy-and-network/nova-network-replay.md)):** Re-execute HTTP requests out-of-band using an independent .NET HTTP client that automatically adopts session cookies and authorization tokens from the browser tab, bypassing tab interception rules to test the real backend.
 
 ```mermaid
-sequenceDiagram
-    autonumber
-    actor Agent as Autonomous Agent
-    participant Nova as Nova Interception Engine
-    participant Target as Target Web API
+flowchart TD
+    subgraph Browser["Active Browser Tab (WebView2)"]
+        Page["Page Execution & DOM Events"]
+        NetStack["Chromium DevTools Protocol (CDP)"]
+        Page <--> NetStack
+    end
 
-    Agent->>Nova: nova.network_intercept_add(urlPattern="*api/checkout*", status=503)
-    Note over Nova: Rule activated for matching routes
+    subgraph Layer1["1. Passive Inspection (nova.network_read)"]
+        Buffer["In-Tab Event Buffer<br/>fetch, xhr, websocket, eventsource"]
+        Filter["Client-Side In-Page Filtering<br/>urlContains, methods, status, GraphQL"]
+        WaitMatch["Event Waiting (waitForMatchMs)<br/>Await Async Request Completion"]
+    end
 
-    Agent->>Target: Web application triggers checkout request
-    Nova->>Target: In-flight request intercepted!
-    Nova-->>Agent: Synthetic HTTP 503 Service Unavailable injected
-    Note over Agent: Validates UI error banner & retry logic
+    subgraph Layer2["2. In-Flight Interception (nova.network_intercept_*)"]
+        Rules["NetworkInterceptRegistry<br/>Rule Matching (URL Globs)"]
+        MockAction["Synthetic Actions<br/>fail, respondWith, modify, delay"]
+    end
 
-    Agent->>Nova: nova.network_replay(adoptSessionFrom={"targetId": "tab-101"})
-    Nova-->>Target: Standalone HTTP request replayed with original cookies
-    Target-->>Nova: Raw JSON response returned
+    subgraph Layer3["3. Detached Request Replay (nova.network_replay)"]
+        Adopt["adoptSessionFrom<br/>Extract Cookies & Bearer Tokens"]
+        Client[".NET Sockets HTTP Client<br/>Independent Out-of-Band Probing"]
+        Diff["compareTo Baseline Diffing"]
+    end
+
+    NetStack -.->|"Passive Tap"| Buffer --> Filter --> WaitMatch
+    NetStack <-->|"CDP Fetch.enable"| Rules --> MockAction
+    Page -.->|"Adopts Session State"| Adopt --> Client --> Diff
 ```
 
-### 6.1 Rule-Based Interception ([`nova.network_intercept_add`](../../mcp-reference/tools/proxy-and-network/nova-network-intercept-add.md))
+### 6.1 Live In-Tab HTTP & GraphQL Traffic Inspection ([`nova.network_read`](../../mcp-reference/tools/dom-and-reading/nova-network-read.md))
+
+While external network tools and packet captures operate outside the browser, [`nova.network_read`](../../mcp-reference/tools/dom-and-reading/nova-network-read.md) taps directly into the tab's internal JavaScript network lifecycle. It records `fetch`, `XMLHttpRequest` (XHR), `WebSocket` frames, `EventSource` (SSE), `Beacon`, and Resource Timing entries without requiring proxy configuration or root certificates.
+
+#### 6.1.1 Capturing API Calls & Status Filtering
+
+Filter captured traffic directly inside the page before serialization to minimize token overhead:
+
+```json
+{
+  "name": "nova.network_read",
+  "arguments": {
+    "targetId": "active",
+    "urlContains": "/api/v1/",
+    "methods": ["POST", "PUT", "DELETE"],
+    "statusMin": 400,
+    "statusMax": 599,
+    "maxEntries": 20
+  }
+}
+```
+
+* **Target Tab (`targetId`):** Inspect the currently active tab (`"active"`, `"activeBrowserTab"`) or specify an explicit tab ID.
+* **URL & Method Filtering (`urlContains`, `methods`):** Restrict results to specific API path substrings and HTTP verbs.
+* **Status Ranges (`statusMin`, `statusMax`, `onlyFailed`):** Quickly isolate error responses (e.g. `400`–`599`) or set `onlyFailed: true` to catch HTTP errors, thrown network exceptions, and WebSocket disconnects.
+* **WebSocket Noise Reduction (`excludeWebSocket: true`):** Drop high-frequency WebSocket heartbeats and subscriptions to focus strictly on REST/RPC calls.
+
+#### 6.1.2 Waiting for Async Network Requests (`waitForMatchMs`)
+
+When testing UI interactions (e.g. clicking a "Submit Order" button), agents often need to wait for the resulting asynchronous HTTP request to complete rather than polling in a busy loop:
+
+```json
+{
+  "name": "nova.network_read",
+  "arguments": {
+    "urlContains": "/api/checkout/submit",
+    "waitForMatchMs": 5000,
+    "pollIntervalMs": 200
+  }
+}
+```
+
+* **Zero-Poll Synchronization:** The wait starts from the current event position; only new requests triggered after the call are matched.
+* **Graceful Timeout:** If no matching request completes within `waitForMatchMs`, the call returns gracefully with `wait.timedOut: true` and `reasonCode: "network_read.wait_timeout"` instead of throwing an error.
+
+#### 6.1.3 Deep GraphQL Inspection (`graphqlOnly`, `graphqlOperation`)
+
+Nova provides first-class support for single-endpoint GraphQL APIs over both HTTP (`fetch`/`XHR`) and `graphql-ws` WebSockets:
+
+```json
+{
+  "name": "nova.network_read",
+  "arguments": {
+    "graphqlOnly": true,
+    "graphqlOperation": "UpdateUserProfile",
+    "includeBodies": true,
+    "maxBodyChars": 4000
+  }
+}
+```
+
+* **Operation Filtering (`graphqlOperation`):** Targets the specific GraphQL `operationName` (e.g., `"UpdateUserProfile"`, `"AddToCart"`) regardless of whether queries share the identical `/graphql` URL.
+* **Payload Arming (`includeBodies: true`):** Arms request and response body capturing for text payloads. Once armed, subsequent entries include full JSON query variables and server responses up to `maxBodyChars`.
+
+#### 6.1.4 Selective Header Capture & Credential Redaction
+
+Inspecting authentication headers and tracing IDs while protecting sensitive secrets:
+
+```json
+{
+  "name": "nova.network_read",
+  "arguments": {
+    "includeHeaders": ["x-request-id", "x-correlation-id", "authorization"],
+    "redactHeaders": true,
+    "redact": ["token", "apiKey", "password"]
+  }
+}
+```
+
+* **Selective Header Recording (`includeHeaders`):** Only specified header names (up to 12) are stored to conserve memory and buffer limits.
+* **Header Redaction (`redactHeaders: true`):** Masks sensitive credentials (`Authorization: Bearer [redacted]`, `Cookie: [redacted]`) in agent tool output while verifying header presence.
+* **Key Redaction (`redact`):** Strips matching query parameters, JSON payload keys, and GraphQL variables from output strings.
+
+#### 6.1.5 Traffic Summarization & Endpoint Grouping (`summarize: true`)
+
+On data-heavy single-page applications that execute hundreds of background polling requests, `summarize: true` aggregates traffic into concise statistics:
+
+```json
+{
+  "name": "nova.network_read",
+  "arguments": {
+    "summarize": true,
+    "groupBy": "endpoint"
+  }
+}
+```
+
+* **Aggregation Groups (`groupBy`):** Group by `"endpoint"` (collapsing IDs and UUIDs), `"url"`, `"status"`, or `"operation"` (GraphQL).
+* **Summary Metrics:** Returns hit counts, HTTP status histograms, min/median/max durations, and failure counts without returning redundant raw payloads.
+
+---
+
+### 6.2 Rule-Based Interception ([`nova.network_intercept_add`](../../mcp-reference/tools/proxy-and-network/nova-network-intercept-add.md))
 
 Intercept browser requests matching exact URLs or wildcards and apply synthetic actions:
 
@@ -354,12 +469,12 @@ Intercept browser requests matching exact URLs or wildcards and apply synthetic 
 * **Header Rewriting:** Inject or strip custom request/response headers.
 * **Rule Budgets (`maxHits`, `ttlMs`):** Automatically expire interception rules after a set number of hits or elapsed milliseconds.
 
-### 6.2 Managing Interception Rules
+### 6.3 Managing Interception Rules
 
 * **List Active Rules ([`nova.network_intercept_list`](../../mcp-reference/tools/proxy-and-network/nova-network-intercept-list.md)):** Inspect all currently active rules, match patterns, and remaining hit counts.
 * **Purge Rules ([`nova.network_intercept_clear`](../../mcp-reference/tools/proxy-and-network/nova-network-intercept-clear.md)):** Clear rules by ID, by tab ID, or globally across the workspace.
 
-### 6.3 Standalone Request Replay ([`nova.network_replay`](../../mcp-reference/tools/proxy-and-network/nova-network-replay.md))
+### 6.4 Standalone Request Replay ([`nova.network_replay`](../../mcp-reference/tools/proxy-and-network/nova-network-replay.md))
 
 Replay, edit, and compare HTTP requests outside the browser tab:
 
@@ -423,7 +538,7 @@ Securely store or update proxy passwords encrypted via the Windows Data Protecti
 | **DNS Diagnostics** | [`nova.net_dns`](../../mcp-reference/tools/proxy-and-network/nova-net-dns.md) | Wire UDP/TCP, DoH proxy routing, root-to-leaf delegation, candidate nameservers, DNSSEC, and mail security suite (SPF, DMARC, DKIM). |
 | **Path & Latency** | [`nova.net_ping`](../../mcp-reference/tools/proxy-and-network/nova-net-ping.md)<br>[`nova.net_probe`](../../mcp-reference/tools/proxy-and-network/nova-net-probe.md) | Millisecond ICMP/TCP ping, jitter telemetry, hop-by-hop MTR path discovery, Path MTU discovery, TCP port reachability, and HTTP CONNECT checks. |
 | **TLS/SSL Inspection** | [`nova.tls_inspect`](../../mcp-reference/tools/proxy-and-network/nova-tls-inspect.md) | X.509 certificate chains, multi-host SAN validation, Certificate Transparency log enumeration, cipher suites, and PEM block export. |
-| **Interception & Replay** | [`nova.network_intercept_add`](../../mcp-reference/tools/proxy-and-network/nova-network-intercept-add.md)<br>[`nova.network_intercept_list`](../../mcp-reference/tools/proxy-and-network/nova-network-intercept-list.md)<br>[`nova.network_intercept_clear`](../../mcp-reference/tools/proxy-and-network/nova-network-intercept-clear.md)<br>[`nova.network_replay`](../../mcp-reference/tools/proxy-and-network/nova-network-replay.md) | HTTP status injection (503/429), transport error simulation, pattern interception, and standalone cookie-authenticated request replay. |
+| **Web Traffic, Interception & Replay** | [`nova.network_read`](../../mcp-reference/tools/dom-and-reading/nova-network-read.md)<br>[`nova.network_intercept_add`](../../mcp-reference/tools/proxy-and-network/nova-network-intercept-add.md)<br>[`nova.network_intercept_list`](../../mcp-reference/tools/proxy-and-network/nova-network-intercept-list.md)<br>[`nova.network_intercept_clear`](../../mcp-reference/tools/proxy-and-network/nova-network-intercept-clear.md)<br>[`nova.network_replay`](../../mcp-reference/tools/proxy-and-network/nova-network-replay.md) | In-tab HTTP/GraphQL traffic inspection, body/header capturing, async request waiting (`waitForMatchMs`), mock status injection (503/429), transport error simulation, pattern interception, and standalone cookie-authenticated request replay. |
 | **Proxy Management** | [`nova.proxy_create`](../../mcp-reference/tools/proxy-and-network/nova-proxy-create.md)<br>[`nova.proxy_update`](../../mcp-reference/tools/proxy-and-network/nova-proxy-update.md)<br>[`nova.proxy_list`](../../mcp-reference/tools/proxy-and-network/nova-proxy-list.md)<br>[`nova.proxy_remove`](../../mcp-reference/tools/proxy-and-network/nova-proxy-remove.md)<br>[`nova.proxy_switch`](../../mcp-reference/tools/proxy-and-network/nova-proxy-switch.md)<br>[`nova.proxy_status`](../../mcp-reference/tools/proxy-and-network/nova-proxy-status.md)<br>[`nova.proxy_test`](../../mcp-reference/tools/proxy-and-network/nova-proxy-test.md)<br>[`nova.proxy_log`](../../mcp-reference/tools/proxy-and-network/nova-proxy-log.md)<br>[`nova.proxy_disconnect`](../../mcp-reference/tools/proxy-and-network/nova-proxy-disconnect.md)<br>[`nova.proxy_reconnect`](../../mcp-reference/tools/proxy-and-network/nova-proxy-reconnect.md)<br>[`nova.proxy_set_password`](../../mcp-reference/tools/proxy-and-network/nova-proxy-set-password.md) | Dynamic proxy routing per sandbox, credential-backed SOCKS5/HTTP profiles, latency testing, DPAPI passwords, and emergency traffic kill switches. |
 
 ---
