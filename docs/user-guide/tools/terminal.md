@@ -111,14 +111,14 @@ For interactive commands requiring inputs, password prompts, or cancellation sig
   ```json
   {
     "shell": "powershell",
-    "cwd": "E:\dev\project",
+    "cwd": "C:\\\\workspaces\\\\project",
     "cols": 120,
     "rows": 40
   }
   ```
 * **Read Output ([`nova.terminal_read`](../../mcp-reference/tools/terminal-ops/nova-terminal-read.md)):** Retrieves newly written terminal output bytes since the previous read.
-* **Write Input ([`nova.terminal_write`](../../mcp-reference/tools/terminal-ops/nova-terminal-write.md)):** Sends text or commands into an active interactive process.
-* **Send Keystrokes ([`nova.terminal_send_key`](../../mcp-reference/tools/terminal-ops/nova-terminal-send-key.md)):** Sends special control sequences such as `"enter"` or `"ctrl_c"` to cancel a running task or interrupt a hanging command.
+* **Write Input ([`nova.terminal_write`](../../mcp-reference/tools/terminal-ops/nova-terminal-write.md)):** Sends text or commands into an active interactive process using parameter `data`.
+* **Send Keystrokes ([`nova.terminal_send_key`](../../mcp-reference/tools/terminal-ops/nova-terminal-send-key.md)):** Sends special control sequences such as `"Enter"` or `"Ctrl+C"` to cancel a running task or interrupt a hanging command.
 * **Session Discovery ([`nova.terminal_list`](../../mcp-reference/tools/terminal-ops/nova-terminal-list.md)):** Returns all active terminal sessions, process IDs, and health statuses.
 * **Terminate Session ([`nova.terminal_close`](../../mcp-reference/tools/terminal-ops/nova-terminal-close.md)):** Gracefully terminates the underlying shell and cleans up ConPTY resources.
 
@@ -145,8 +145,8 @@ Agents can adjust the terminal dock state to present relevant command logs to th
 | [`nova.terminal_run_command`](../../mcp-reference/tools/terminal-ops/nova-terminal-run-command.md) | Execute command & capture output | Run build scripts, tests, and CLI queries with timeout limits. |
 | [`nova.terminal_open`](../../mcp-reference/tools/terminal-ops/nova-terminal-open.md) | Spawn shell session | Initialize a long-running dev server or terminal environment. |
 | [`nova.terminal_read`](../../mcp-reference/tools/terminal-ops/nova-terminal-read.md) | Read streaming console output | Poll compiler output or runtime logs asynchronously. |
-| [`nova.terminal_write`](../../mcp-reference/tools/terminal-ops/nova-terminal-write.md) | Write input text | Respond to interactive prompts (e.g. `[y/N]` confirmations). |
-| [`nova.terminal_send_key`](../../mcp-reference/tools/terminal-ops/nova-terminal-send-key.md) | Send key signal (`ctrl_c`, `enter`) | Cancel hung tasks or confirm terminal dialogs. |
+| [`nova.terminal_write`](../../mcp-reference/tools/terminal-ops/nova-terminal-write.md) | Write input text (`data`) | Respond to interactive prompts (e.g. `[y/N]` confirmations). |
+| [`nova.terminal_send_key`](../../mcp-reference/tools/terminal-ops/nova-terminal-send-key.md) | Send key signal (`Ctrl+C`, `Enter`) | Cancel hung tasks or confirm terminal dialogs. |
 | [`nova.terminal_close`](../../mcp-reference/tools/terminal-ops/nova-terminal-close.md) | Terminate terminal session | Terminate background servers and reclaim process memory. |
 | [`nova.terminal_list`](../../mcp-reference/tools/terminal-ops/nova-terminal-list.md) | List active sessions | Audit running processes, working directories, and session IDs. |
 | [`nova.terminal_dock_set_state`](../../mcp-reference/tools/terminal-ops/nova-terminal-dock-set-state.md) | Adjust dock visibility | Programmatically show or hide the dock during automation. |
@@ -155,6 +155,8 @@ Agents can adjust the terminal dock state to present relevant command logs to th
 
 ## 7. Related Documentation
 
+* **[TerminalRunner Component Architecture](../../components/terminal-runner.md)** — Persistent ConPTY host process, Job Objects, and 9-byte duplex framing.
+* **[Terminal & Console Troubleshooting](../../troubleshooting/terminal-and-consoles.md)** — Diagnostic guide for `command_rejected`, sentinels, timeouts, and runner pipe disconnects.
 * **[Terminal Workspaces Architecture](../../core-features/terminal-workspaces/README.md)** — Architectural specification for ConPTY sessions and process runner isolation.
 * **[ConPTY & Runner Internals](../../core-features/terminal-workspaces/conpty-and-runner/README.md)** — Pseudo-console streaming and buffer management.
 * **[Emergency Stop & Taking Control](../agents/taking-over-and-emergency-stop.md)** — Freezing runaway processes and revoking leases.

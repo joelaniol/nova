@@ -13,6 +13,7 @@ Choose the problem you can see. You do not need to know whether it belongs to th
 | You need logs or details of a failure | [Diagnostics](#diagnostics) |
 | Nova crashed, GPU driver crashed or high RAM | [Performance, crashes & GPU recovery](performance-and-crashes.md) |
 | Proxy drops connections, DNS fails or scans need approval | [Network & proxy issues](network-and-proxies.md) |
+| Terminal command hangs, exit code missing, or runner pipe fails | [Terminal & console execution](terminal-and-consoles.md) |
 | The problem happens with one particular AI program | [Client-specific quirks](#client-specific-quirks) |
 
 ## Installation
@@ -34,6 +35,10 @@ For a connected agent that avoids Nova, reports missing tools, sees only summary
 ## Network and proxies
 
 For proxy connection drops, 502/504 gateway timeouts, DNS `SERVFAIL`, lame delegations, public scan approval gates, or Path MTU packet loss, see [Network & proxy issues](network-and-proxies.md).
+
+## Terminal and console execution
+
+For commands rejected due to concurrency locks, hanging background commands, missing exit codes, slow consumer view-drops, or named pipe disconnects, follow [Terminal & console execution](terminal-and-consoles.md).
 
 ## Browser and sessions
 
