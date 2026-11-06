@@ -1,71 +1,87 @@
-# Taking Over & Emergency Stop
+# Taking Over, Co-Browsing & Emergency Stop
 
 > [!NOTE]
-> Nova AI Workspace provides multi-tiered intervention controls: surgical tab-level claim release for smooth co-browsing, and an instant global emergency stop that halts all active agent operations immediately.
+> Nova AI Workspace provides multi-tiered intervention controls: surgical tab-level claim release for smooth co-browsing, and an instant global emergency stop (<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Esc</kbd>) that immediately halts all active agent operations across the entire workspace.
 
 ---
 
-## 1. Overview & Intervention Levels
+## 1. Overview & Multi-Tier Intervention Model
 
-When collaborating with an autonomous AI coding agent, maintaining absolute control over your environment is paramount. Nova provides two complementary intervention levels depending on the urgency and scope of the situation:
+When collaborating with an autonomous AI coding agent, maintaining absolute control over your environment is paramount. Nova provides three complementary intervention levels depending on the urgency and scope of the situation:
 
 ```mermaid
 flowchart TD
     Issue["Agent Action Needs Intervention"] --> Decision{"Scope of Intervention?"}
 
-    Decision -->|One Specific Tab| TabLevel["1. Tab Claim Release (Surgical)"]
-    Decision -->|All Work Across App| GlobalLevel["2. Global Emergency Stop (Complete Halt)"]
+    Decision -->|Natural Co-Browsing| ManualPriority["1. Manual Precedence<br/>(Human clicks & keys step ahead of assist cursor)"]
+    Decision -->|Single Specific Tab| TabLevel["2. Tab Claim Release (Surgical)<br/>(nova.tab_release)"]
+    Decision -->|Entire Workspace| GlobalLevel["3. Global Emergency Stop (Hard Freeze)<br/>(Ctrl+Alt+Esc)"]
 
-    TabLevel --> ActionTab["Click 'Release agent' on Sandbox Pill<br>or Activity Details"]
-    ActionTab --> ResultTab["Tab unlocked for human input.<br>Other agent background tasks continue."]
-
-    GlobalLevel --> ActionGlobal["Menu → Emergency stop"]
-    ActionGlobal --> ResultGlobal["All tool calls aborted.<br>Terminal dock halted.<br>Crawlers terminated.<br>MCP server frozen."]
+    ManualPriority --> ResultManual["Agent pauses animation while human types or navigates."]
+    TabLevel --> ResultTab["Tab unlocked for human input.<br/>Other agent background tasks continue."]
+    GlobalLevel --> ResultGlobal["All tool calls aborted.<br/>Terminal dock halted.<br/>Crawlers killed.<br/>MCP server returns 403 Stopped."]
 ```
 
-1. **Tab-Level Takeover (Co-Browsing):** Release an agent's claim on an individual tab so you can type, scroll, or fill out a sensitive form yourself, while allowing background tasks or research routines on other tabs to proceed uninterrupted.
-2. **Global Emergency Stop:** Instantly and completely halt all agent activities, abort running scripts, interrupt terminal dock commands, and freeze Nova's MCP server.
+1. **Manual Input Precedence:** Standard mouse clicks, scrolling, and keyboard shortcuts take immediate precedence over agent cursor animations.
+2. **Tab-Level Takeover (Co-Browsing):** Release an agent's claim on an individual tab so you can type, complete an MFA challenge, or fill out a sensitive form yourself, while allowing background tasks or research routines on other tabs to proceed uninterrupted.
+3. **Global Emergency Stop (<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Esc</kbd>):** Instantly and completely halt all agent activities, abort running scripts, interrupt terminal dock commands, and freeze Nova's MCP server.
 
 ---
 
-## 2. Tab Claims & Co-Browsing
+## 2. Tab Claims & Co-Browsing Etiquette
 
-When an AI agent interacts with a webpage—such as clicking buttons, selecting dropdown options, or filling out text inputs—it acquires a temporary **tab claim lease**:
+When an AI agent interacts with a webpage—such as clicking buttons, selecting dropdown options, or filling out text inputs—it acquires an exclusive **tab claim lease**:
 
-* **Visual Activity Indicator:** The claimed tab's header and sandbox pill in the title bar display an animated **Agent active** badge.
-* **Claim Interaction Protection:** By default, Nova temporarily protects claimed tabs from accidental human mouse clicks and keystrokes. This prevents your natural typing from accidentally corrupting a multi-step form submission.
-* **Natural Co-Browsing:** When you navigate to other tabs or use standard browser hotkeys (`Ctrl+T`, `Ctrl+W`, `Ctrl+Tab`), the AI assist cursor steps aside automatically.
+### 2.1 The Claim Lifecycle ([`nova.tab_claim`](../../mcp-reference/tools/browser-automation/nova-tab-claim.md))
+* **Visual Activity Indicator:** The claimed tab's header and sandbox pill in the title bar display an animated **Agent active** badge with a pulsing visual reticle.
+* **Lease Expiration (`ttlMs`):** Every claim has a bounded Time-To-Live (default 30,000 ms). If an agent crashes or loses network connectivity, the lease automatically expires and unlocks the tab.
+* **Accidental Input Guard:** By default, Nova temporarily protects claimed tabs from accidental human mouse clicks and keystrokes while an agent is mid-step, preventing accidental form submission corruption.
 
-### How to Reclaim an Individual Tab
+### 2.2 Taking Over Control Manually
 If you want to take over manual control of a tab without aborting the agent's entire session:
 1. Look at the tab strip or the window title bar.
-2. Click the **Release agent** button located on the tab's sandbox pill, or open the toolbar activity indicator and click **Release agent**. Clicking into the protected tab also works: Nova asks **Take over control?**, and **Take over** gives you the tab even while the agent is mid-step.
-3. If prompted with **Take over control?**, confirm your choice.
-4. The agent is immediately notified that its lease was revoked and cannot interact with the tab until you permit it. All other tabs remain active.
+2. Click the **Release agent** button located on the tab's sandbox pill, or open the toolbar activity indicator and click **Release agent**.
+3. **Direct Click Takeover:** Clicking directly into the active viewport prompts: **Take over control?** Clicking **Take over** revokes the agent's lease immediately, even mid-step.
+4. The agent's next action fails with `claim_revoked_by_user`, informing the model that the user is now operating the tab.
+
+### 2.3 Programmatic Release ([`nova.tab_release`](../../mcp-reference/tools/browser-automation/nova-tab-release.md))
+Agents release claims cleanly when their subtask completes:
+
+```json
+{
+  "name": "nova.tab_release",
+  "arguments": {
+    "targetId": "tab-101",
+    "finalizeDecision": "keep"
+  }
+}
+```
 
 ---
 
-## 3. Staying in Control
+## 3. Global Emergency Stop (<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Esc</kbd>)
 
-When an agent enters an infinite loop, navigates to an unintended domain, attempts an unwanted action, or when you need everything to stop immediately, use the **Global Emergency Stop**:
+When an agent enters an unexpected loop, navigates to an unintended domain, attempts an unwanted transaction, or when you need everything to freeze immediately, use the **Global Emergency Stop**:
 
-### Triggering the Emergency Stop
-* Click **Menu** (or press `Alt+F`) and select **Emergency stop**.
-* Alternatively, click the dedicated **Emergency stop** action in the activity bar flyout.
+### 3.1 Triggering the Emergency Stop
+* **Global Hotkey:** Press <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Esc</kbd> from any application on your machine.
+* **Menu Action:** Click **Menu** (or press `Alt+F`) and select **Emergency stop**.
+* **Activity Indicator:** Click the **Emergency stop** action inside the main toolbar activity flyout.
+* **Windows System Tray:** Right-click the Nova tray icon and choose **Emergency stop**.
 
-### What Happens Instantly
-1. **Tool Requests Aborted:** Every pending and active MCP tool call immediately fails with an emergency stop cancellation error returned to the AI client.
-2. **Background Processes Killed:** Running web crawlers, surface explorers, and background tasks are terminated on the spot.
-3. **Terminal Dock Interrupted:** All active sessions within Nova's integrated terminal dock—including agent runners and your own command-line prompts—receive an immediate interrupt signal (`SIGINT`/`Ctrl+C`).
-4. **Tab Leases Revoked:** All claimed tabs are released instantly and restored to full manual control.
-5. **Persistent Notice Banner:** Nova displays a persistent yellow status banner across the workspace:
+### 3.2 What Happens Instantly
+1. **MCP Tool Requests Aborted:** Every in-flight and queued MCP tool call immediately fails with a cancellation error returned to the AI client.
+2. **Background Processes Killed:** Active surface exploration crawlers, background tasks, and media transcribers are terminated on the spot.
+3. **Terminal Dock Interrupted:** All running processes inside Nova's integrated ConPTY terminal dock—including dev servers and build scripts—receive an immediate interrupt signal (`SIGINT` / `Ctrl+C`).
+4. **Tab Leases Revoked:** All claimed tabs are released instantly and restored to human manual control.
+5. **Persistent Notice Banner:** Nova displays a prominent warning banner across the window chrome:
    > *Emergency stop active. Agents, the agent interface (MCP), and running scripts were interrupted.*
 
 ---
 
 ## 4. Releasing the Emergency Stop
 
-While the emergency stop remains engaged, Nova's internal MCP engine rejects all incoming commands from Claude Code, Codex, or Antigravity with a `403 Forbidden / Stopped` status code.
+While the emergency stop remains engaged, Nova's internal MCP engine rejects all incoming commands from Claude Code, Codex, or Antigravity with a `403 Forbidden / Stopped` status code, preventing the model from re-initiating unwanted actions.
 
 To resume normal operations after you have reviewed your workspace:
 1. Click **Menu** and select **Release emergency stop** (or click **Release** directly on the notification banner).
@@ -83,4 +99,22 @@ After an emergency stop or manual tab takeover, you can easily inspect what the 
 
 ---
 
-[Back to agents](README.md) · [Watching agent work](watching-agent-work.md) · [Connecting an agent](connecting-an-agent.md) · [Emergency stop step-by-step](../../getting-started/emergency-stop.md) · [All user guides](../README.md)
+## 6. Summary Tool Matrix
+
+| Tool | Capability | Primary Use Case |
+| :--- | :--- | :--- |
+| [`nova.tab_claim`](../../mcp-reference/tools/browser-automation/nova-tab-claim.md) | Acquire tab lease | Lock tab for automated interaction with bounded TTL. |
+| [`nova.tab_release`](../../mcp-reference/tools/browser-automation/nova-tab-release.md) | Release tab lease | Relinquish automation claim and restore tab to manual mode. |
+
+---
+
+## 7. Related Documentation
+
+* **[Agent Awareness Gates (AAG) Architecture](../../core-features/agent-awareness-gates-aag/README.md)** — Architectural enforcement mechanisms for domain notes and directives.
+* **[Watching Agent Work Guide](watching-agent-work.md)** — Understanding the AI assist cursor, HUD overlays, and step cards.
+* **[Connecting an Agent Guide](connecting-an-agent.md)** — Setup instructions for Claude Code, Codex, and Antigravity.
+* **[Keyboard Shortcuts Reference](../browser/keyboard-shortcuts.md)** — Hotkey index including emergency stops.
+
+---
+
+[Back to Agents Hub](README.md) · [All user guides](../README.md)
