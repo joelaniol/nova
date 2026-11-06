@@ -74,12 +74,16 @@ Browser tabs sit immediately to the right of the sandbox pills:
 
 ### 2.3 Tab Management & Context Menu
 Right-click any tab for complete management options:
-* **Pin tab:** Shrinks the tab to its favicon and locks it to the far left of the tab strip. Pinned tabs cannot be accidentally closed and reload automatically on launch.
+* **Pin tab:** Shrinks the tab to its favicon and locks it to the far left of the tab strip. Pinned tabs cannot be accidentally closed and reload automatically on launch. Can be automated via [`nova.tab_pin`](../../mcp-reference/tools/browser-automation/nova-tab-pin.md).
+* **Tab Reordering:** Drag tabs freely or reorder programmatically relative to other tabs using [`nova.tab_move`](../../mcp-reference/tools/browser-automation/nova-tab-move.md).
 * **Color tab:** Assign a vibrant visual accent color from the palette to categorize related tabs into logical task groups.
 * **Mute / Unmute tab:** Silences all HTML5 audio output from that tab without affecting your Windows master volume.
 * **Duplicate tab:** Clones the active URL into a new tab in the same session.
 * **Close other tabs / Close tabs to the right:** Fast bulk cleanup for clutter-free browsing.
 * **Reopen closed tab (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd>):** Restores recently closed tabs in chronological order.
+* **Cross-Tab Data Transfer ([`nova.tab_transfer`](../../mcp-reference/tools/browser-automation/nova-tab-transfer.md)):** Seamlessly reads text from a DOM element in a source tab and injects it directly into an input, textarea, or contenteditable element in a claimed destination tab with optional transformations (`transform="trim"` or `transform="number"`).
+* **Periodic Auto-Reload ([`nova.auto_reload_set`](../../mcp-reference/tools/browser-automation/nova-auto-reload-set.md), [`nova.auto_reload_get`](../../mcp-reference/tools/browser-automation/nova-auto-reload-get.md)):** Configure automated background reload intervals (e.g. `intervalSeconds=60`) on dashboard monitors and build queues without third-party extensions.
+* **Orphan Tab Cleanup ([`nova.tab_cleanup_orphans`](../../mcp-reference/tools/browser-automation/nova-tab-cleanup-orphans.md)):** Automatically identify and close unparented or lingering automation tabs that have exceeded their activity grace period.
 
 ---
 
@@ -158,6 +162,7 @@ When you click the window close button (`X`) while scheduled background tasks or
 
 ## Related Documentation
 
+* **[Tab Lifecycle & Automation Architecture](../../core-features/browser-interaction/tab-lifecycle-and-automation/README.md)** — Tab pinning, cross-tab data transfer, auto-reload loops, and orphan cleanup.
 * **[App Shell & Window Management Architecture](../../core-features/app-shell-and-window-management/README.md)** — Host window geometry, multi-monitor topologies, per-tab zoom, bookmarks, and clipboard automation.
 * **[Keyboard Shortcuts Reference](keyboard-shortcuts.md)** — Complete list of hotkeys.
 * **[Sandboxes & Profile Isolation](../identity-and-security/sandboxes-and-profiles.md)** — Multi-profile setup and title bar pills.
