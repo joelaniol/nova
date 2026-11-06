@@ -55,6 +55,8 @@ Nova allows agents and operators to interact securely with remote servers withou
 * **One-Shot Command Execution (`nova.ssh_run`):** Executes a single command or a batch of commands on a remote Linux/Unix host and returns exit codes, stdout, and stderr. Features aggregate flood protection via `maxTotalOutputBytes` (curling loud streams in the middle while keeping quiet streams intact), ANSI escape stripping, and automated credential masking.
 * **Interactive Shell Sessions (`nova.ssh_shell_open`):** Spawns a persistent, bidirectional SSH pseudo-terminal (PTY). Agents can send keystrokes with `nova.ssh_shell_send`, read reconstructed screen state with `nova.ssh_shell_read`, and resize the virtual window with `nova.ssh_shell_resize`.
 * **Prompt Synchronization & Slicing:** In interactive shells, `nova.ssh_shell_send(waitFor='prompt')` waits for the shell prompt (or a regex pattern) and returns command text immediately in `output.text`. Alternatively, `nova.ssh_shell_read(output='since_last_send')` retrieves output emitted since the last send without manual screen scraping.
+* **Server State Snapshots (`nova.server_snapshot`):** Captures an atomic, read-only system inventory (running/enabled services, failed units, listening TCP/UDP ports, storage mounts, Fail2ban jails, and iptables rules). Noise from ephemeral ports ($\ge 32768$), dynamic PIDs, and transient bans is automatically stripped. Snapshots are stored locally on Windows (DPAPI encrypted) for 90 days with zero server footprint.
+* **Differential Change Verification (`nova.server_snapshot_diff`):** Compares any two snapshots locally without network access, detailing added and removed services, ports, and firewall rules while enforcing the `comparable: false` invariant when a domain was unavailable.
 * **Cryptographic Authentication:** Supports OpenSSH private key files (RSA, ECDSA, Ed25519) and password authentication. Host keys are cryptographically verified against known-host records to defend against man-in-the-middle attacks.
 
 ---
@@ -73,7 +75,7 @@ For transferring web assets, log archives, or test deliverables between your loc
 
 ## 4. Remote Database Queries over SSH (MySQL & MariaDB)
 
-Nova provides dedicated, credential-isolated database querying directly through an active SSH connection via `nova.db_query`:
+Nova provides dedicated, credential-isolated database querying directly through an active SSH connection via `nova.db_query` (see the in-depth [Database Management Architecture Guide](../../core-features/connectors/database/README.md)):
 
 * **No Shell Access Required:** Runs queries without granting interactive shell execution (`process.exec`). Queries are executed by the remote database client via an isolated SSH exec channel.
 * **Zero Credential Exposure:** Database passwords are transmitted to the remote client exclusively via standard input (`--defaults-file=/dev/stdin`). Passwords never appear in process lists, command arguments, or agent transcripts.
@@ -97,7 +99,18 @@ Automating user signups, invoice notifications, and password resets requires rel
 
 ---
 
-## 6. External MCP Server Aggregation
+## 6. Hardware Management & Telemetry (SNMP)
+
+Nova includes native SNMP connector support for interacting with managed enterprise hardware:
+
+* **Hardware Identification:** Query network switches, routers, firewalls, enterprise printers, and NAS appliances to extract hardware model, vendor SMI OID, system uptime, and administrative names (`sysDescr`, `sysObjectID`, `sysName`, `sysUpTime`).
+* **Cryptographic Protocol Support:** Supports both secure SNMPv3 (using AES-128 privacy encryption, SHA-256 digital signatures, and engine ID pinning to protect against replay attacks) and legacy SNMPv2c communities.
+* **Target-Bounded Credential Delivery:** SNMP credentials are bound strictly to explicit IP addresses and subnets (`targets`). Nova never sends credentials to arbitrary internet endpoints.
+* **Network Scanner Synergy:** Configured SNMP connectors automatically feed device telemetry into `nova.net_scan`, allowing autonomous agents to catalog infrastructure assets with high diagnostic confidence.
+
+---
+
+## 7. External MCP Server Aggregation
 
 Nova can act as an MCP hub, bridging external tools directly into the browser's agent interface:
 
@@ -107,18 +120,24 @@ Nova can act as an MCP hub, bridging external tools directly into the browser's 
 
 ---
 
-## 7. Security Governance & Approval Gates
+## 8. Security Governance, Approval Gates & Audit Trail
 
 All connector capabilities operate under Nova's enterprise permission model:
 
 * **Settings Authorization:** Connectors remain disabled until explicitly configured and enabled by a human user in **Menu → Settings → Connectors**.
-* **Stepped Confirmation:** Destructive operations—such as executing remote root commands, deleting remote directories, or sending external emails—can be configured to require stepped user approval in the UI before execution.
+* **Stepped Confirmation:** Destructive operations—such as executing remote root commands, deleting remote directories, restoring databases, or sending external emails—can be configured to require stepped user approval in the UI before execution.
+* **Operational Audit Trail (`nova.connector_history`):** Inspect previous command executions, database mutations, and file transfers to audit state changes and verify operations.
 
 ---
 
-## 7. Related Documentation
+## 9. Related Documentation
 
 * **[Tools Overview](README.md)** — Master hub for all built-in workspace tools.
 * **[Connectors Settings Guide](../settings/connectors.md)** — Configuring server endpoints and credentials.
+* **[Connectors Architecture](../../core-features/connectors/README.md)** — Core connector subsystem and security models.
+* **[SSH Architecture & Server Snapshots](../../core-features/connectors/ssh/server-snapshots-and-auditing/README.md)** — Pre/post-change auditing, noise filtering, and differential verification.
+* **[Database Architecture Guide](../../core-features/connectors/database/README.md)** — SQL isolation, AST validation, and backup/restore pipeline.
+* **[SNMP Architecture Guide](../../core-features/connectors/snmp/README.md)** — In-depth SNMPv3 USM, target CIDR bounding, and telemetry pipeline.
+* **[Network Architecture Hub](../../core-features/network/README.md)** — Complete 5-discipline network architecture.
 * **[Integrated Terminal Dock](terminal.md)** — Local ConPTY terminal dock.
 * **[Scheduled Tasks & Automation](scheduled-tasks.md)** — Running recurring automated jobs.

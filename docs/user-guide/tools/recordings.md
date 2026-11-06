@@ -95,20 +95,49 @@ Session recordings capture extensive data. Nova provides comprehensive privacy p
 
 ---
 
-## 6. AI Agent Integration
+## 6. Screen Video Recording & Timeline Visual Assertions
 
-AI coding agents leverage session recording as a primary tool for self-verification and debugging:
+In addition to tab-scoped event streams, Nova includes a hardware-accelerated **Screen Video Recording** engine designed for capturing live visual evidence, creating demo videos, and validating visual UI assertions:
 
-* [`nova.session_record_start`](../../mcp-reference/tools/session-recording/nova-session-record-start.md): Begins recording a target tab with custom permission classes.
-* [`nova.session_record_query`](../../mcp-reference/tools/session-recording/nova-session-record-query.md): Queries captured events with filtering by timestamp, event type, and status code.
-* [`nova.session_record_interactions`](../../mcp-reference/tools/session-recording/nova-session-record-interactions.md): Lists user and agent clicks, inputs, and element targets.
-* [`nova.session_record_dom_snapshot`](../../mcp-reference/tools/session-recording/nova-session-record-dom-snapshot.md): Retrieves complete serialized DOM keyframes.
-* [`nova.session_record_stop`](../../mcp-reference/tools/session-recording/nova-session-record-stop.md): Finalizes the recording session.
+* **Starting & Stopping Screen Videos:**
+  * Agents initiate window video capture using [`nova.screen_record_start`](../../mcp-reference/tools/visual-evidence/nova-screen-record-start.md).
+  * Video is encoded directly to an MP4 container in Nova's isolated helper process with zero impact on browser responsiveness.
+  * Check live recording state with [`nova.screen_record_status`](../../mcp-reference/tools/visual-evidence/nova-screen-record-status.md) and finalize the video with [`nova.screen_record_stop`](../../mcp-reference/tools/visual-evidence/nova-screen-record-stop.md).
+* **Marking Timeline Checkpoints (`nova.screen_record_mark`):**
+  * When a key event occurs during automation (e.g. navigation starts, a modal opens, or an error banner renders), the agent can mark the moment on the video timeline.
+  * Each mark saves a lossless keyframe image and timestamps the timeline for easy post-mortem navigation.
+* **Automated Visual Assertions (`nova.screen_record_assert`):**
+  * Agents frequently need to verify time-sensitive visual claims, such as *"the confirmation banner appears within two seconds"* or *"the checkout spinner disappears after clicking submit"*.
+  * [`nova.screen_record_assert`](../../mcp-reference/tools/visual-evidence/nova-screen-record-assert.md) continuously checks the visual claim against running video frames.
+  * It records whether the assertion passed or failed, measures the exact elapsed time, and places the result on the video's timeline accompanied by a keyframe image.
+* **Timeline Inspection & Contact Sheets (`nova.screen_record_inspect`):**
+  * Once a screen recording is complete, agents inspect the visual evidence without re-watching the video.
+  * Returns an executive summary, duration, marked timestamps, visual assertion results, and an assembled multi-frame contact sheet.
 
 ---
 
-## Related Documentation
+## 7. AI Agent Integration
+
+AI coding agents leverage session and screen recording as primary tools for self-verification, visual assertions, and debugging:
+
+* **Session Event Tools:**
+  * [`nova.session_record_start`](../../mcp-reference/tools/session-recording/nova-session-record-start.md): Begins recording a target tab with custom permission classes.
+  * [`nova.session_record_query`](../../mcp-reference/tools/session-recording/nova-session-record-query.md): Queries captured events with filtering by timestamp, event type, and status code.
+  * [`nova.session_record_interactions`](../../mcp-reference/tools/session-recording/nova-session-record-interactions.md): Lists user and agent clicks, inputs, and element targets.
+  * [`nova.session_record_dom_snapshot`](../../mcp-reference/tools/session-recording/nova-session-record-dom-snapshot.md): Retrieves complete serialized DOM keyframes.
+  * [`nova.session_record_stop`](../../mcp-reference/tools/session-recording/nova-session-record-stop.md): Finalizes the recording session.
+* **Visual Evidence & Screen Video Tools:**
+  * [`nova.screen_record_start`](../../mcp-reference/tools/visual-evidence/nova-screen-record-start.md): Launches a video capture of the Nova browser window.
+  * [`nova.screen_record_mark`](../../mcp-reference/tools/visual-evidence/nova-screen-record-mark.md): Places a timestamped marker with a lossless frame snapshot.
+  * [`nova.screen_record_assert`](../../mcp-reference/tools/visual-evidence/nova-screen-record-assert.md): Evaluates visual UI assertions against running frames.
+  * [`nova.screen_record_inspect`](../../mcp-reference/tools/visual-evidence/nova-screen-record-inspect.md): Retrieves the timeline, assertion logs, and contact sheet.
+  * [`nova.screen_record_stop`](../../mcp-reference/tools/visual-evidence/nova-screen-record-stop.md): Finalizes the screen recording.
+
+---
+
+## 8. Related Documentation
 
 * **[Core Features: Session Recording](../../core-features/session-recording/README.md)** — In-depth architectural details, encryption mechanics, and stream formats.
+* **[Visual Evidence Tools Reference](../../mcp-reference/tools/visual-evidence/README.md)** — Screenshots, visual diffs, and screen video tools.
 * **[Tools Overview](README.md)** — Other workspace utilities including Transcription and Scheduled Tasks.
 * **[Agent Awareness Gates](../../core-features/agent-awareness-gates-aag/README.md)** — Safety boundaries for agent-initiated operations.

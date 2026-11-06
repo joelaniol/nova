@@ -1,6 +1,6 @@
 # Connectors Architecture & Security
 
-Connectors represent authenticated remote communication channels managed natively by Nova. They enable autonomous agents to interact with mailboxes (IMAP/SMTP), remote file systems (SFTP/FTP), shell environments (SSH), and external Model Context Protocol (MCP) services while keeping credentials strictly isolated on the host.
+Connectors represent authenticated remote communication channels managed natively by Nova. They enable autonomous agents to interact with mailboxes (IMAP/SMTP), remote file systems (SFTP/FTP), shell environments (SSH), external Model Context Protocol (MCP) services, and hardware management endpoints (SNMP) while keeping credentials strictly isolated on the host.
 
 Nova's connector subsystem is governed by a unified security model that decouples credential ownership from agent operations. Credentials are stored write-only via Windows Data Protection API (DPAPI) or resolved dynamically from Nova's encrypted Vault. Access control is enforced through multi-tiered capability grants, workspace boundaries, send limits, and non-destructive diagnostic probes.
 
@@ -31,6 +31,7 @@ flowchart TD
         SshEngine["SSH Command & Stream Manager"]
         DbEngine["Database Client (MySQL & MariaDB via SSH)"]
         FtpEngine["FTP / FTPS Client (Channel TLS)"]
+        SnmpEngine["SNMP Hardware Telemetry (SNMPv2c & SNMPv3 USM)"]
         ExternalMcp["External MCP Process Gateway"]
     end
 
@@ -56,10 +57,11 @@ flowchart TD
 | Subsystem | Underlying Protocols | Primary Capabilities | Core Operations |
 | :--- | :--- | :--- | :--- |
 | **[Mail: IMAP & SMTP](mail/README.md)** | IMAP (RFC 3501) & SMTP (RFC 5321) | `read`, `organize`, `send` | Message search, reading, tagging, drafting, sending, `.eml` exports, background mailbox archiving |
-| **[Secure Shell (SSH)](ssh/README.md)** | SSH-2 (RFC 4251-4254) | `process.exec`, `process.stdin`, `process.pty` | Batch command execution, background long-running sessions, interactive stdin streaming, interactive terminals (PTY) for full-screen programs, stream capture |
-| **[Database: MySQL & MariaDB over SSH](ssh/README.md#database-queries-over-ssh)** | MySQL & MariaDB client over SSH-2 | `db.read`, `db.write`, `db.export`, `db.restore` | Password-isolated SQL queries, single-statement enforcement, read-only transactions, database user privilege audit (`SHOW GRANTS`), multi-database profile management, and verified server-side SQL dumps (`nova.db_export`) |
+| **[Secure Shell (SSH)](ssh/README.md)** | SSH-2 (RFC 4251-4254) | `process.exec`, `process.stdin`, `process.pty` | Batch command execution, background long-running sessions, interactive stdin streaming, interactive terminals (PTY), stream capture, atomic server state snapshots (`nova.server_snapshot`), and differential change verification (`nova.server_snapshot_diff`) |
+| **[Database: MySQL & MariaDB over SSH](database/README.md)** | MySQL & MariaDB client over SSH-2 | `db.read`, `db.write`, `db.export`, `db.restore` | Password-isolated SQL queries, single-statement enforcement, read-only transactions, database user privilege audit (`SHOW GRANTS`), multi-database profile management, and verified server-side SQL dumps (`nova.db_export`) |
 | **[SSH File Transfer (SFTP)](sftp/README.md)** | SFTP over SSH-2 | `read`, `full` | Directory synchronization, resumable uploads/downloads, atomic commit recovery, parallel acceleration |
 | **[FTP & FTPS](ftp-and-ftps/README.md)** | FTP (RFC 959) & FTPS (RFC 4217) | `read`, `full` | Directory listing, explicit/implicit TLS transfers, passive mode negotiation, resumable single-file jobs |
+| **[SNMP: Hardware Telemetry](snmp/README.md)** | SNMPv2c & SNMPv3 USM (UDP 161) | `read` | Target-bounded hardware identification (`sysDescr`, `sysObjectID`, `sysName`), AES-128 encryption, SHA-256 signing, engine ID caching, network scanner integration (`nova.net_scan`) |
 | **[External MCP Servers](external-mcp/README.md)** | stdio, Streamable HTTP, SSE | Aggregated tools | Subprocess orchestration, configuration import (Claude/VS Code), token authentication, tool call proxying |
 
 ---
@@ -329,7 +331,7 @@ Notes are stored locally in the connection database (`notes.db`, schema version 
 
 | Tool | Purpose | Key Parameters |
 | :--- | :--- | :--- |
-| [`nova.connector_list`](../../mcp-reference/tools/connectors-and-mail/nova-connector-list.md) | Lists configured accounts and resolved capability grants | `type` (optional: `mail`, `sftp`, `ftp`) |
+| [`nova.connector_list`](../../mcp-reference/tools/connectors-and-mail/nova-connector-list.md) | Lists configured accounts and resolved capability grants | `type` (optional: `mail`, `sftp`, `ftp`, `snmp`) |
 | [`nova.connector_create`](../../mcp-reference/tools/connectors-and-mail/nova-connector-create.md) | Registers a new mail account or server connection | `displayName`, `type`, `username`, `password`, `passwordFromVault`, `authMode`, `privateKeyPath`, `host`, `port`, `security`, `note` |
 | [`nova.connector_update`](../../mcp-reference/tools/connectors-and-mail/nova-connector-update.md) | Updates existing connection endpoints or credentials | `id`, updated configuration fields, `allowInsecure`, `note` |
 | [`nova.connector_delete`](../../mcp-reference/tools/connectors-and-mail/nova-connector-delete.md) | Removes a connector profile and cleans up orphan secrets | `id` |
@@ -341,6 +343,7 @@ Notes are stored locally in the connection database (`notes.db`, schema version 
 | [`nova.db_restore`](../../mcp-reference/tools/connectors-and-mail/nova-db-restore.md) | Restores a database from one of Nova's exports after backing it up; asks every time | `profileId`, `databaseId`, `exportId`, `restoreId`, `waitSeconds` |
 | [`nova.connector_database_set`](../../mcp-reference/tools/connectors-and-mail/nova-connector-database-set.md) | Configures or updates a database definition linked to an SFTP connection | `profileId`, `databaseId`, `label`, `username`, `passwordFromVault`, `defaultDatabase`, `host`, `port` |
 | [`nova.connector_database_delete`](../../mcp-reference/tools/connectors-and-mail/nova-connector-database-delete.md) | Removes a database definition from an SFTP connection | `profileId`, `databaseId` |
+| [`nova.connector_history`](../../mcp-reference/tools/connectors-and-mail/nova-connector-history.md) | Retrieves encrypted audit journal of remote modifications (commands, uploads, database writes) | `profileId`, `since`, `until`, `agentId`, `limit` |
 
 ---
 
@@ -364,6 +367,10 @@ Notes are stored locally in the connection database (`notes.db`, schema version 
 * **[External MCP Server Orchestration](external-mcp/README.md)**:
   * [Server Lifecycle, Process Isolation & Transports](external-mcp/server-lifecycle-and-transports/README.md): Subprocess lifecycle (`stdio`), Streamable HTTP/SSE transports, token security, and config imports.
   * [Site Discovery & OAuth 2.1 Dynamic Client Registration](external-mcp/site-discovery-and-oauth-negotiation/README.md): Well-known discovery probes (`/.well-known/mcp.json`), RFC 7591 dynamic client registration, and PKCE user consent.
+* **[SNMP Hardware Telemetry (SNMPv2c & SNMPv3)](snmp/README.md)**:
+  * User-based Security Model (USM), SHA-256/SHA-1 authentication, AES-128 privacy encryption, target CIDR bounding (/16 IPv4, /48 IPv6), and engine ID synchronization.
+* **[Database Management (MySQL & MariaDB over SSH)](database/README.md)**:
+  * AST query validation, prepared statement parameterization, read-only transaction envelopes, SHOW GRANTS privilege audits, portable server-side SQL exports, and rollback-protected database restores.
 
 ---
 

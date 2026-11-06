@@ -177,7 +177,17 @@ Agents interact with the recording subsystem through the `session_recording` bun
 
 ---
 
-## 8. Related Architecture Guides
+## 8. Screen Video Recordings & Visual Baseline Assertions
+
+While Session Recording captures internal DOM and network telemetry, Nova also provides video screen recording and pixel baseline testing:
+* **Visual Baseline Regression Testing:** [`nova.screenshot_baseline`](../../mcp-reference/tools/visual-evidence/nova-screenshot-baseline.md) stores named golden-master baselines and computes perceptual diff overlays across application builds.
+* **Timeline Visual Assertions:** [`nova.screen_record_assert`](../../mcp-reference/tools/visual-evidence/nova-screen-record-assert.md) evaluates visual checkpoints against video capture frames during recording.
+* **Recording Lifecycle:** [`nova.screen_record_status`](../../mcp-reference/tools/visual-evidence/nova-screen-record-status.md) queries active frame rates and dropped frame counts, while [`nova.screen_record_stop`](../../mcp-reference/tools/visual-evidence/nova-screen-record-stop.md) closes and exports the MP4 video stream.
+* For complete guidance on visual verification, see [Evidence Verification Mode (EVM)](../../research/evidence-verification-mode-evm/README.md) and the [User Guide: Recordings & Media](../../user-guide/tools/recordings.md).
+
+---
+
+## 9. Related Architecture Guides
 
 * [Closed-Loop System (CLS)](../closed-loop-system-cls/README.md): Outcome verification that validates whether an action achieved its business goal.
 * [Tool Observation Bus (TOB)](../tool-observation-bus-tob/README.md): High-level operational telemetry recording agent tool calls and arguments.

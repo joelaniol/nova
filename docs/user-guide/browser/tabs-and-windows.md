@@ -158,6 +158,7 @@ When you click the window close button (`X`) while scheduled background tasks or
 
 ## Related Documentation
 
+* **[App Shell & Window Management Architecture](../../core-features/app-shell-and-window-management/README.md)** — Host window geometry, multi-monitor topologies, per-tab zoom, bookmarks, and clipboard automation.
 * **[Keyboard Shortcuts Reference](keyboard-shortcuts.md)** — Complete list of hotkeys.
 * **[Sandboxes & Profile Isolation](../identity-and-security/sandboxes-and-profiles.md)** — Multi-profile setup and title bar pills.
 * **[Downloads Panel & Safety](downloads.md)** — Managing downloads and executable file barriers.

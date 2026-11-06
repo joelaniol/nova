@@ -31,6 +31,7 @@ flowchart TD
 | **[Tabular Data Analysis & Document Workflows](data-and-documents.md)** | SQL Queries & Document Creation | Web table extraction (`nova.extract_table`), local SQL queries on CSV/JSON/SQLite (`nova.data_query`), Markdown conversion, Word (`.docx`), Excel (`.xlsx`), and PDF generation. |
 | **[Scheduled Tasks & Automation](scheduled-tasks.md)** | Background Jobs & Cron Scheduling | Recurring background jobs, Claude Code & Codex CLI execution, PowerShell scripts, DPAPI encrypted secrets, run history. |
 | **[Remote Connectors & File Synchronization](connectors.md)** | SSH, SFTP, FTP & Mail Pipelines | Remote Linux SSH command execution and interactive shells, SFTP/FTP file sync, automated IMAP/SMTP email verification, and external MCP tool aggregation. |
+| **[Network Diagnostics & Discovery](network-and-diagnostics.md)** | Network Probing, DNS, MTR & Proxies | Subnet scanning (`nova.net_scan`), device inventory, DNS diagnostics (`nova.net_dns`), ICMP ping, hop-by-hop path probing (`nova.net_probe`), TLS certificate audits, and HTTP interception. |
 | **[Session Recordings](recordings.md)** | Forensics & Time-Travel Debugging | Tamper-resistant, encrypted event streams (network, console, interactions, DOM snapshots) for post-mortem inspection. |
 
 ---

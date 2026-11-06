@@ -2,7 +2,9 @@
 
 WinUI window controls, native OS dialog handling, DevTools panels, setup wizard, and onboarding injection.
 
-* **Core Architecture Guide:** [Core Features: native-dialogs-and-prompts.md](../../../core-features/native-dialogs-and-prompts/README.md)
+* **Core Architecture Guides:**
+  * [Native Dialogs & UI Prompts](../../../core-features/native-dialogs-and-prompts/README.md)
+  * [App Shell, Window Management & Workspace Controls](../../../core-features/app-shell-and-window-management/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

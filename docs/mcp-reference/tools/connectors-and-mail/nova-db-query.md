@@ -20,7 +20,7 @@ Runs one SQL statement on a MySQL or MariaDB database that the user set up on an
 * **Encryption.** The `tls` block says what the server saw: `encrypted`, `cipher`, `version`, and `verified` when the entry's `tls='verify'` (or `required` with a CA file) made the client check the certificate. A failed handshake ends as `status='tls_failed'` with a `hint`; the TLS mode is set on the entry with [`nova.connector_database_set`](nova-connector-database-set.md).
 * **MySQL or MariaDB** is detected on the first query and remembered.
 
-* **Subsystem Overview:** [Secure Shell (SSH)](../../../core-features/connectors/ssh/README.md)
+* **Subsystem Overview:** [Database Management (MySQL & MariaDB over SSH)](../../../core-features/connectors/database/README.md)
 
 ---
 

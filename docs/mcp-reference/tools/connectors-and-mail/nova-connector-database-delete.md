@@ -10,7 +10,7 @@ Nova forgets the entry and deletes the password it stored for it. The database o
 
 * **Not found is reported.** A `databaseId` that does not exist on that connection answers `status='not_found'`, never a silent success.
 
-* **Subsystem Overview:** [Secure Shell (SSH)](../../../core-features/connectors/ssh/README.md)
+* **Subsystem Overview:** [Database Management (MySQL & MariaDB over SSH)](../../../core-features/connectors/database/README.md)
 
 ---
 

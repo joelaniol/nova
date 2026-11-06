@@ -212,12 +212,14 @@ public/docs/core-features/browser-interaction/
 │   │   └── README.md                                 # Physical pointer sequence, ~16ms delays, chunked typing, Monaco/CodeMirror adapters
 │   └── advanced-scrolling-mechanisms/
 │       └── README.md                                 # Smart scrolling container auto-detection, saturation signals, rebound recovery
-└── selectors-and-shadow-dom/
-    ├── README.md                                     # Selectors, shadow DOM & custom components hub
-    ├── shadow-dom-and-ancestor-opacity/
-    │   └── README.md                                 # Shadow DOM >>> combinator, cumulative ancestor opacity product, clipping
-    └── dropdowns-and-component-selection/
-        └── README.md                                 # Native select vs custom ARIA comboboxes, nova.choose_option, safety audits
+├── selectors-and-shadow-dom/
+│   ├── README.md                                     # Selectors, shadow DOM & custom components hub
+│   ├── shadow-dom-and-ancestor-opacity/
+│   │   └── README.md                                 # Shadow DOM >>> combinator, cumulative ancestor opacity product, clipping
+│   └── dropdowns-and-component-selection/
+│       └── README.md                                 # Native select vs custom ARIA comboboxes, nova.choose_option, safety audits
+└── tab-lifecycle-and-automation/
+    └── README.md                                     # Tab pinning, reordering, cross-tab DOM transfer, auto-reload, orphan cleanup, modals
 ```
 
 | Area | Architecture Guide | Scope & Key Concepts | Primary Components |
@@ -227,10 +229,11 @@ public/docs/core-features/browser-interaction/
 | | **[WinUI 3 WebView2 HTML5 Polyfill](drag-and-drop/webview2-html5-polyfill/README.md)** | Addressing the WebView2 limitation where CDP mouse events fail to trigger native OS drag sessions on `draggable="true"` elements, deterministic script handover (`window.__novaDragPolyfillBegin`), culture-invariant floating-point serialization (`CultureInfo.InvariantCulture`), and simulated `DataTransfer` object cascade. | `__novaDragPolyfillBegin`<br>`NovaDataTransfer`<br>`CultureInfo.InvariantCulture`<br>`draggable="true"` |
 | **Input Dispatch** | **[Low-Level Input Dispatch Hub](input-dispatch/README.md)** | Event trust comparison, CDP pipeline overview, hardware frame timing, and code editor adapters overview. | `McpServer.InputInteractionHandlers`<br>`isTrusted: true`<br>`Input.dispatchMouseEvent` |
 | | **[Pointer & Keyboard Pipelines](input-dispatch/pointer-and-keyboard-pipelines/README.md)** | Physical DevTools pointer dispatch (`isTrusted: true`), calibrated ~16 ms hardware frame delays, click count semantics (single, double, triple), window minimization restoration (`SW_RESTORE`), chunked typing with paced micro-delays for rich-text editors, Monaco and CodeMirror model adapters, and strict modifier depression/release ordering. | `nova.input_click`<br>`nova.type_selector`<br>`nova.input_shortcut`<br>`MonacoModelAdapter`<br>`CodeMirrorModelAdapter` |
-| | **[Advanced Scrolling Mechanisms](input-dispatch/advanced-scrolling-mechanisms/README.md)** | Why window-level scrolling fails in modern component architectures, smart scrolling container auto-detection and scoring (`nova.scroll_smart`), feed saturation signal diagnostics, stalled-loader rebound recovery for infinite feeds, route container caching, relative scrolling (`nova.scroll_by`), and physical coordinate wheel events (`nova.input_wheel`). | `nova.scroll_smart`<br>`nova.scroll_by`<br>`nova.scroll_element`<br>`nova.input_wheel`<br>`ReboundManeuver` |
+| | **[Advanced Scrolling Mechanisms](input-dispatch/advanced-scrolling-mechanisms/README.md)** | Why window-level scrolling fails in modern component architectures, smart scrolling container auto-detection and scoring (`nova.scroll_smart`), feed saturation signal diagnostics, stalled-loader rebound recovery for infinite feeds, route container caching, relative scrolling (`nova.scroll_by`), absolute coordinate scrolling (`nova.scroll_to`), and physical coordinate wheel events (`nova.input_wheel`). | `nova.scroll_smart`<br>`nova.scroll_by`<br>`nova.scroll_to`<br>`nova.scroll_element`<br>`nova.input_wheel`<br>`ReboundManeuver` |
 | **Selectors & DOM** | **[Selectors & Shadow DOM Hub](selectors-and-shadow-dom/README.md)** | Selector resolution pipeline, open shadow roots, cumulative ancestor opacity, and custom dropdown selection overview. | `ShadowCombinator`<br>`nova.click_selector`<br>`nova.choose_option` |
 | | **[Shadow DOM & Ancestor Opacity](selectors-and-shadow-dom/shadow-dom-and-ancestor-opacity/README.md)** | Piercing open Shadow DOM boundaries via ` >>> `, iframe query scoping (`frameId`), multiplicative cumulative ancestor opacity calculations, exceptions for invisible click/upload overlays (`opacity: 0`), and visible bounding box viewport clipping. | `ShadowCombinator`<br>`CumulativeOpacityEvaluator`<br>`IframeScopeResolver`<br>`nova.click_selector` |
 | | **[Dropdowns & Custom Component Selection](selectors-and-shadow-dom/dropdowns-and-component-selection/README.md)** | Comparison of native `<select>` elements (`nova.select_option`) vs custom ARIA comboboxes (`nova.choose_option`), matching options by visible label, substring, or index, autonomous popover menu opening/closing verification, and post-action safety audits (Identity Overlay, Loop Guard). | `nova.choose_option`<br>`nova.select_option`<br>`IdentityOverlayDetector`<br>`LoopGuard` |
+| **Tab Lifecycle & Automation** | **[Tab Lifecycle, Session Transfer & Automation](tab-lifecycle-and-automation/README.md)** | WinUI 3 tab strip pinning and reordering, cross-sandbox DOM data transfer, in-engine background auto-reload scheduling, orphan WebView cleanup, history traversal stack, and deep shadow-piercing modal detection. | `nova.tab_pin`<br>`nova.tab_move`<br>`nova.tab_transfer`<br>`nova.tab_cleanup_orphans`<br>`nova.set_active_tab`<br>`nova.auto_reload_get`<br>`nova.auto_reload_set`<br>`nova.history_get`<br>`nova.scroll_to`<br>`nova.wait_for_modal` |
 
 ---
 

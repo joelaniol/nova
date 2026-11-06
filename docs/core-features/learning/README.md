@@ -18,7 +18,7 @@ Episodic Task Memory (ETM) preserves recurring tasks and their progress, while T
 | [Operator Notes](operator-notes/README.md) | Searchable working guidance, preferences and environment context with sandbox scope | `nova.operator_notes_store`, `nova.operator_notes_query`, `nova.operator_notes_list`, `nova.operator_notes_delete` |
 | [Episodic Task Memory (ETM)](episodic-task-memory-etm/README.md) | Recurring tasks and their progress | `nova.task_match`, `nova.task_instance_create`, `nova.task_instance_complete` |
 | [Task URL Coverage (TUC)](task-url-coverage-tuc/README.md) | URL work units, trusted scan evidence and coverage gates | `nova.coverage_scan`, `nova.task_instance_reconcile_coverage` |
-| [Agent Learning Pipeline (ALP)](agent-learning-pipeline-alp/README.md) | How a lesson is checked before it is kept | `nova.learn_suggest`, `nova.learn_generate`, `nova.learn_promote` |
+| [Agent Learning Pipeline (ALP)](agent-learning-pipeline-alp/README.md) | How a lesson is checked before it is kept | `nova.learn_suggest`, `nova.learn_generate`, `nova.learn_promote`, `nova.learn_onboarding_recall` |
 | [Learning Candidate Journal (LCJ)](learning-candidate-journal-lcj/README.md) | Observations and candidate evidence used by the learning pipeline | `nova.memory_stats`, `nova.memory_add_candidate` |
 | [Browser Memory](browser-memory/README.md) | Notes and preferences per site | `nova.memory_note`, `nova.memory_recall`, `nova.memory_forget` |
 | [Agent Knowledge Board](agent-knowledge-board/README.md) | Experimental; currently not enabled for regular use. Investigative records of Nova tool problems | `nova.board_get`, `nova.board_contribute` |

@@ -14,7 +14,7 @@ Compares two stored snapshots of one connection and lists, per part, what was ad
 * **Long lists.** `maxItems` (default 100) limits the listed items per part and side; `addedCount` and `removedCount` are always complete, and `truncated` says when items were left out.
 * **Unknown reference.** A reference that matches no snapshot fails with `snapshot_not_found` and lists the connection's snapshots.
 
-* **Core Architecture Guides:** [SFTP Architecture Hub](../../../core-features/connectors/sftp/README.md)
+* **Core Architecture Guide:** [Server State Snapshots & Differential Auditing](../../../core-features/connectors/ssh/server-snapshots-and-auditing/README.md)
 
 ---
 

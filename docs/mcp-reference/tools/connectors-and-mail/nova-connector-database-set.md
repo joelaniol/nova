@@ -13,7 +13,7 @@ A database entry names a database user and, optionally, the database and where i
 * **Encryption.** `tls` chooses how the database client connects over `host`/`port`: `default` leaves it to the client, `off` turns TLS off, `required` refuses a server without TLS, `verify` also checks the server certificate and the host name. `tlsCaPath` is the CA file on the SSH server for `required`/`verify`; a self-signed or company CA needs it. Nova gives the MariaDB and the MySQL client only the switches each one understands; a MariaDB client checks the certificate already with `required`, because it has no way to enforce TLS without the check.
 * **Entries are listed** in [`nova.connector_list`](nova-connector-list.md) under `connectors[].databases[]`, with `hasPassword`, the detected engine, the server version and the last privilege check.
 
-* **Subsystem Overview:** [Secure Shell (SSH)](../../../core-features/connectors/ssh/README.md)
+* **Subsystem Overview:** [Database Management (MySQL & MariaDB over SSH)](../../../core-features/connectors/database/README.md)
 
 ---
 

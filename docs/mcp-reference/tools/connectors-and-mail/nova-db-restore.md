@@ -24,7 +24,7 @@ Restores a MySQL or MariaDB database from an export that `nova.db_export` made o
 * **`stripDefiners=true`** drops the `DEFINER` clauses while the file is read, so views, triggers and routines of another account import without administrator rights. They then run with the rights of the entry's database user.
 * **A hint, not a proof.** The check reads the file's statements, it does not run them. The database user's privileges are the real boundary, and in a foreign file every SQL error counts as `partial`.
 
-* **Subsystem Overview:** [Secure Shell (SSH)](../../../core-features/connectors/ssh/README.md)
+* **Subsystem Overview:** [Database Management (MySQL & MariaDB over SSH)](../../../core-features/connectors/database/README.md)
 
 ---
 

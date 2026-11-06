@@ -103,17 +103,20 @@ Migrating bookmarks from or to another browser is seamless:
 
 ## 7. AI Agent Integration
 
-AI coding agents can manage favorites autonomously via Nova's Model Context Protocol (MCP) tools:
+AI coding agents can manage favorites and folder hierarchies autonomously via Nova's Model Context Protocol (MCP) tools:
 
 * [`nova.favorites_list`](../../mcp-reference/tools/app-shell-and-ui/nova-favorites-list.md): Retrieves all saved favorites with URLs, titles, and folder structures.
-* [`nova.favorites_add`](../../mcp-reference/tools/app-shell-and-ui/nova-favorites-add.md): Programmatically creates a new favorite.
-* [`nova.favorites_remove`](../../mcp-reference/tools/app-shell-and-ui/nova-favorites-remove.md): Removes an obsolete bookmark by URL.
+* [`nova.favorites_add`](../../mcp-reference/tools/app-shell-and-ui/nova-favorites-add.md): Programmatically creates a new favorite with optional New Tab tile pinning.
+* [`nova.favorites_remove`](../../mcp-reference/tools/app-shell-and-ui/nova-favorites-remove.md): Removes an obsolete bookmark by stable ID or URL.
+* [`nova.favorites_move`](../../mcp-reference/tools/app-shell-and-ui/nova-favorites-move.md): Moves a favorite into a specific folder or to root.
 * [`nova.favorites_open`](../../mcp-reference/tools/app-shell-and-ui/nova-favorites-open.md): Navigates the active tab (or opens a new tab) to a saved bookmark.
+* [`nova.bookmarks_folders_list`](../../mcp-reference/tools/app-shell-and-ui/nova-bookmarks-folders-list.md), [`nova.bookmarks_folder_create`](../../mcp-reference/tools/app-shell-and-ui/nova-bookmarks-folder-create.md), [`nova.bookmarks_folder_rename`](../../mcp-reference/tools/app-shell-and-ui/nova-bookmarks-folder-rename.md), [`nova.bookmarks_folder_delete`](../../mcp-reference/tools/app-shell-and-ui/nova-bookmarks-folder-delete.md): Complete lifecycle management of hierarchical bookmark folder trees.
 
 ---
 
 ## Related Documentation
 
+* **[App Shell & Bookmarks Architecture](../../core-features/app-shell-and-window-management/README.md)** — Architectural specification for bookmarks, windows, and zoom.
 * **[Browsing History](history.md)** — Searching and managing visited pages.
 * **[Workspace Layout & Window Chrome](tabs-and-windows.md)** — Toolbar layout, sandbox pills, and tab strips.
 * **[Keyboard Shortcuts Reference](keyboard-shortcuts.md)** — Complete shortcut reference (`Ctrl+D`, `Ctrl+Shift+B`, etc.).

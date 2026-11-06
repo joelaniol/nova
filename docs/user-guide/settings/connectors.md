@@ -17,6 +17,7 @@ flowchart TD
         Mail["Mail (IMAP / SMTP / EML)"]
         SSH["SSH Remote Shells"]
         SFTP["SFTP / FTP File Transfer"]
+        SNMP["SNMP Hardware Telemetry"]
         ExtMCP["External MCP Servers"]
     end
 
@@ -56,6 +57,7 @@ Nova allows agents and operators to interact directly with remote server infrast
   * **Checksum Verification:** Supports SHA-256 integrity validation (`verifySha256`) to ensure uploaded or downloaded files match remote storage exactly.
   * **Automatic Transfer Resumption:** Enable "Continue interrupted file transfers after Nova starts" under Connectors Settings to automatically resume partial file transfers 30 seconds after application startup.
 * **Remote Database Management (MySQL & MariaDB over SSH):**
+  * See the dedicated [Database Management Architecture Guide](../../core-features/connectors/database/README.md).
   * Configured via **Settings > Connectors > SFTP > Databases…** (or via `nova.connector_database_set`).
   * Connects to MySQL/MariaDB instances running on the SSH host (via localhost, Unix domain sockets, or internal container networks).
   * **Encryption (TLS):** under "Where the database runs, encryption" in the database dialog: the database program's default, off, required, or required with a certificate check, plus an optional certificate authority file on the server. Required encryption needs host and port; it does not work over a socket. The list shows an entry's encryption when it is not the default.
@@ -69,7 +71,25 @@ Nova allows agents and operators to interact directly with remote server infrast
 
 ---
 
-## 4. External MCP Servers & Dynamic Tool Release
+## 4. SNMP Connector (Hardware Telemetry & Discovery)
+
+Nova includes a native SNMP connector subsystem accessible under **Settings > Connectors > SNMP** (or programmatically via `nova.connector_create(type="snmp")`). This enables agents and operators to securely query network infrastructure—including managed switches, routers, firewalls, network-attached storage (NAS), and network printers—without revealing passwords or flooding subnets:
+
+* **Configuring SNMP Access:**
+  * **Account Name:** A recognizable identifier (e.g. "Office Printers" or "MDF Core Switches").
+  * **Target Devices and Networks:** Enter the explicit IP addresses and subnets (one per line) where Nova is permitted to send SNMP requests (e.g. `192.168.1.20` or `192.168.1.0/24`). To protect broad external networks, IPv4 ranges must be at least `/16` and IPv6 ranges at least `/48`.
+  * **Protocol Version:**
+    * **SNMPv3 (Recommended):** Uses the User-based Security Model (USM). Specify the username, security level (`authPriv` to sign and encrypt using AES-128, or `authNoPriv` to sign only), signature algorithm (`SHA-256` or `SHA-1`), and authentication/privacy passphrases.
+    * **SNMPv2c:** Community-based access for legacy devices. The community string is stored securely in DPAPI or resolved from the Nova Vault.
+* **Testing Hardware Reachability:**
+  * Click **Test Connection** to send a non-destructive, single-OID `GetRequest` to the first explicit IP address in the target list.
+  * Nova evaluates and displays clear diagnostic feedback: confirming signed responses, verifying clock synchronization, or diagnosing specific issues such as unrecognized users, incorrect digest signatures, or decryption errors.
+* **Network Scanner Integration:**
+  * When running `nova.net_scan`, matching SNMP credentials are automatically utilized to retrieve device names, hardware models, and firmware versions, significantly improving device classification accuracy in the persistent network inventory.
+
+---
+
+## 5. External MCP Servers & Dynamic Tool Release
 
 In addition to Nova's own native tools, Nova can act as an MCP aggregator, connecting to external MCP servers running on your machine or local network:
 
@@ -81,18 +101,24 @@ In addition to Nova's own native tools, Nova can act as an MCP aggregator, conne
 
 ---
 
-## 5. Security & Permission Grants
+## 6. Security, Permission Grants & Audit Trail
 
 All connector actions operate under Nova's strict agent governance model:
 
 * **Explicit Grant Requirements:** Agents cannot initiate outbound SSH connections, send emails, or transfer files unless the corresponding connector has been granted permission in Settings.
-* **Stepped Confirmation:** Destructive operations—such as deleting remote files via SFTP or transmitting emails—can be configured to require stepped user approval in the UI.
+* **Stepped Confirmation:** Destructive operations—such as deleting remote files via SFTP, restoring database dumps, or transmitting emails—can be configured to require stepped user approval in the UI.
+* **Operational Audit Journal (`nova.connector_history`):**
+  * Nova maintains an encrypted, local journal of all remote mutating actions (SSH commands, SFTP file modifications, database writes, and SQL exports).
+  * Agents and operators can query past operations via `nova.connector_history(profileId="...")` to verify execution outcomes, review timestamps, and audit system state changes without exposing secret credentials.
 
 ---
 
-## 6. Related Documentation
+## 7. Related Documentation
 
 * **[Settings Hub](README.md)** — Main overview of all 14 settings panels.
-* **[Network & Proxies Settings](network-and-proxies.md)** — Proxy routing and TLS inspection.
+* **[Network & Proxies Settings](network-and-proxies.md)** — Proxy routing, scanning approvals, and TLS inspection.
+* **[Connectors Architecture](../../core-features/connectors/README.md)** — Core connector subsystem and security models.
+* **[Database Architecture Guide](../../core-features/connectors/database/README.md)** — SQL isolation, AST validation, and backup/restore pipeline.
+* **[SNMP Architecture Guide](../../core-features/connectors/snmp/README.md)** — In-depth SNMPv3 USM, target CIDR bounding, and telemetry pipeline.
 * **[Tools & Capabilities Settings](tools-and-diagnostics.md)** — Built-in capability bundles and tool inspector.
 * **[Agent Governance & MCP](agent-governance-and-mcp.md)** — Programmatic settings access and curated keys.

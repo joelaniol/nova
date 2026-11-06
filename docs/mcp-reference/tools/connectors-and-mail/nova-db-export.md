@@ -18,7 +18,7 @@ Exports (backs up) a MySQL or MariaDB database that the user set up on an SSH/SF
 * **Some tables only.** `tables=["orders","customers"]` exports just those tables or views (`scope='tables'`, file name `<db>-tables-...`); their triggers come along. A name that does not exist stops the start before anything runs (`db_export.table_not_found`). A view whose tables are not in the selection fails on import.
 * **Tidy up.** `action='list'` shows every export on the server with state, database, size and age; `action='delete'` with `exportId` removes one export folder. A running export is left alone.
 
-* **Subsystem Overview:** [Secure Shell (SSH)](../../../core-features/connectors/ssh/README.md)
+* **Subsystem Overview:** [Database Management (MySQL & MariaDB over SSH)](../../../core-features/connectors/database/README.md)
 
 ---
 

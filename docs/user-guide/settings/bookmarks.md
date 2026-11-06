@@ -71,6 +71,7 @@ Migrating your favorites between browsers is seamless:
 
 ## 6. Related Documentation
 
+* **[App Shell & Bookmarks Architecture](../../core-features/app-shell-and-window-management/README.md)** — Architectural specification for bookmark hierarchies, folder IDs, and MCP favorites lifecycle.
 * **[Settings Hub](README.md)** — Main overview of all 14 settings panels.
 * **[General Settings](general.md)** — Search engine defaults and download destinations.
 * **[Sandboxes & Profiles Settings](sandboxes.md)** — Profile isolation and sandbox start pages.

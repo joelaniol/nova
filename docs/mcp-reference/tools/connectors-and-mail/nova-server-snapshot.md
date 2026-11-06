@@ -16,7 +16,7 @@ Before a firewall change, a service migration or a package upgrade you want to k
 * **Stored only on this PC.** Snapshots are encrypted for your Windows account, kept for 90 days and then deleted. Nothing is written on the server.
 * **Labels.** `label` (for example `before-ufw`) names a snapshot. The same label can be used again; the diff then takes the newest snapshot with that label.
 
-* **Core Architecture Guides:** [SFTP Architecture Hub](../../../core-features/connectors/sftp/README.md)
+* **Core Architecture Guide:** [Server State Snapshots & Differential Auditing](../../../core-features/connectors/ssh/server-snapshots-and-auditing/README.md)
 
 ---
 

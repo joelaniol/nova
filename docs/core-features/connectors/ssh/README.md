@@ -41,6 +41,7 @@ For in-depth protocol mechanics, capability verification, buffering constraints,
 | **[SSH Command Execution & Channel Isolation](command-execution-and-channels/README.md)** | One-shot execution, sequential command batches, channel state independence, exit code accounting, flood protection (64 MB ceiling), and idempotency keys (`operationId`). | [`nova.ssh_run`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-run.md) |
 | **[Background SSH Sessions & Streaming I/O](background-sessions-and-streaming/README.md)** | Long-running process lifecycle, offset-based stdout/stderr streaming cursors, `waitForEndSeconds` zero-polling, interactive stdin injection, and the strict `process.stdin` capability gate. | [`nova.ssh_run_start`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-run-start.md), [`nova.ssh_run_read`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-run-read.md), [`nova.ssh_run_write`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-run-write.md), [`nova.ssh_run_stop`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-run-stop.md), [`nova.ssh_run_list`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-run-list.md) |
 | **[Interactive PTY Terminals & Screen Reconstruction](interactive-pty-terminals/README.md)** | True pseudo-terminal (PTY) emulation for TUI applications (`htop`, `vim`), 2D virtual screen reconstruction, cursor coordinate tracking, mode-aware key dispatch, dynamic window resizing (SIGWINCH), and live visual operator viewing. | [`nova.ssh_shell_open`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-shell-open.md), [`nova.ssh_shell_read`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-shell-read.md), [`nova.ssh_shell_send`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-shell-send.md), [`nova.ssh_shell_resize`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-shell-resize.md), [`nova.ssh_shell_watch`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-shell-watch.md), [`nova.ssh_shell_close`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-shell-close.md), [`nova.ssh_shell_list`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-shell-list.md) |
+| **[Server State Snapshots & Differential Auditing](server-snapshots-and-auditing/README.md)** | Pre- and post-change system inventory, running services, listening sockets, firewall rules, fail2ban jails, noise filtering, and differential verification. | [`nova.server_snapshot`](../../../mcp-reference/tools/connectors-and-mail/nova-server-snapshot.md), [`nova.server_snapshot_diff`](../../../mcp-reference/tools/connectors-and-mail/nova-server-snapshot-diff.md) |
 
 ---
 
@@ -335,6 +336,18 @@ Nova allows autonomous agents to dump MySQL and MariaDB databases directly on th
 
 ---
 
+## Server State Snapshots & Differential Auditing (`nova.server_snapshot`)
+
+Before modifying a server's state (package installations, firewall modifications, systemd configuration changes), agents can establish an atomic, read-only system inventory baseline via [`nova.server_snapshot`](../../../mcp-reference/tools/connectors-and-mail/nova-server-snapshot.md):
+
+* **Fixed Inspection Matrix:** Queries running services (`systemctl`), enabled boot targets, failed units, listening TCP/UDP sockets (`ss`), filesystem mounts (`findmnt`), Fail2ban jails, and packet filter rules (`iptables`/`ip6tables` via non-interactive `sudo -n`).
+* **Noise Elimination:** Automatically filters out ephemeral UDP ports ($\ge 32768$), dynamic process IDs, and transient fail2ban attacker IP bans.
+* **Encrypted Client Ledger:** Snapshots are stored encrypted on the Windows host using DPAPI with 90-day retention; nothing is written to the remote server.
+* **Deterministic Diffing:** [`nova.server_snapshot_diff`](../../../mcp-reference/tools/connectors-and-mail/nova-server-snapshot-diff.md) compares any two snapshots locally without network access, returning exact added and removed items per domain and enforcing the `comparable: false` invariant when a domain was unavailable.
+* **Dedicated Architecture Guide:** Explore the complete workflow, noise invariants, and operational recipes in [Server State Snapshots & Auditing](server-snapshots-and-auditing/README.md).
+
+---
+
 ## SSH Tool Reference
 
 | Tool | Capability Required | Description |
@@ -351,6 +364,8 @@ Nova allows autonomous agents to dump MySQL and MariaDB databases directly on th
 | [`nova.ssh_shell_resize`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-shell-resize.md) | `process.pty` | Requests a new terminal window size |
 | [`nova.ssh_shell_close`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-shell-close.md) | `process.pty` | Closes a terminal (requests termination; never a death proof) |
 | [`nova.ssh_shell_list`](../../../mcp-reference/tools/connectors-and-mail/nova-ssh-shell-list.md) | `read` / `process.pty` | Lists the interactive terminals you own |
+| [`nova.server_snapshot`](../../../mcp-reference/tools/connectors-and-mail/nova-server-snapshot.md) | `process.exec` | Captures an atomic pre/post-change system inventory (services, sockets, mounts, firewall) |
+| [`nova.server_snapshot_diff`](../../../mcp-reference/tools/connectors-and-mail/nova-server-snapshot-diff.md) | None (Local) | Computes a structured diff between two client-side server snapshots |
 | [`nova.db_query`](../../../mcp-reference/tools/connectors-and-mail/nova-db-query.md) | `db.read` / `db.write` | Runs an isolated SQL statement on a MySQL/MariaDB database over SSH |
 | [`nova.db_export`](../../../mcp-reference/tools/connectors-and-mail/nova-db-export.md) | `db.export` | Exports a MySQL/MariaDB database to a verified SQL dump on the server |
 | [`nova.db_restore`](../../../mcp-reference/tools/connectors-and-mail/nova-db-restore.md) | `db.restore` | Restores a database from one of Nova's exports after backing it up; asks every time |

@@ -19,7 +19,7 @@ The [alpha status page](../../ALPHA.md) lists current limitations, including plu
 
 | Page | What it covers | Main MCP tools |
 | :--- | :--- | :--- |
-| [Browser Interaction](browser-interaction/README.md) | How clicks, keys and drags reach the page; open Shadow DOM | `nova.input_click`, `nova.input_drag_humanized`, `nova.click_selector`, `nova.input_text` |
+| [Browser Interaction](browser-interaction/README.md) | Input dispatch, Shadow DOM piercing, drag-and-drop, tab pinning/moving, cross-tab DOM transfer, background auto-reload, and deep modals | `nova.input_click`, `nova.click_selector`, `nova.tab_pin`, `nova.tab_transfer`, `nova.auto_reload_set`, `nova.wait_for_modal` |
 | [DOM Perception & Structured Reading](dom-perception/README.md) | Multimodal fusion perception, HTML5/ARIA landmark reading, table extraction, and deep shadow DOM traversal | `nova.perceive`, `nova.read_text_structured`, `nova.extract_table`, `nova.dom_extract` |
 | [Native Dialogs & UI Prompts](native-dialogs-and-prompts/README.md) | Dialogs outside the web page | `nova.ui_inspect_native_dialog`, `nova.ui_confirm_native_dialog`, `nova.ui_*_prompt_resolve` |
 | [Auth Surface Detection (ASD)](auth-surface-detection-asd/README.md) | Recognising login pages and checking a sign-in worked | `nova.guarded_login`, `nova.ok_observe` |
@@ -28,6 +28,7 @@ The [alpha status page](../../ALPHA.md) lists current limitations, including plu
 | [Device Emulation & Responsive Testing](device-emulation/README.md) | Mobile viewport simulation, 70+ device presets, touch emulation, CSS media features, and localized geo/timezone overrides | `nova.emulation_use_device`, `nova.emulation_set_device_metrics`, `nova.emulation_set_media`, `nova.emulation_set_locale` |
 | [Guarded Interactions & Form Automation](guarded-interactions/README.md) | High-level transactional macros (chat compose-and-send, form submission, login walls) with closed-loop transition contracts | `nova.guarded_send_message`, `nova.guarded_submit_form`, `nova.guarded_login` |
 | [Crawler & Discovery](crawler-and-discovery/README.md) | Exploring whole sites instead of single pages | `nova.crawl_start`, `nova.site_urls`, `nova.explore_surface` |
+| [Visual Evidence & Screen Recording](../research/evidence-verification-mode-evm/README.md) | Responsive screenshots, visual regression diffs, video screen recording, and timeline assertion checkpoints | `nova.capture_screenshot`, `nova.responsive_screenshots`, `nova.screenshot_diff`, `nova.screen_record_*`, `nova.save_pdf` |
 
 ### Verification and safety
 
@@ -57,7 +58,7 @@ The [alpha status page](../../ALPHA.md) lists current limitations, including plu
 | [Multi-Sandbox Session Isolation](sandbox-isolation/README.md) | Separate profiles with their own logins | `nova.sandbox_context`, `nova.resolve_sandbox`, `nova.sandbox_create` |
 | [Site Data Management](site-data-management/README.md) | Cookies, Web Storage, cache cleanup, Cookie Inspector and agent permissions | `nova.cookie_list`, `nova.cookie_set`, `nova.storage_inspect`, `nova.cache_clear` |
 | [Downloads Pipeline & Security Management](downloads/README.md) | Dual-engine download tracking, parked WebView retention, executable security gates, and deterministic agent wait synchronization | `nova.downloads_*`, `nova.ui_download_security_prompt_resolve`, `nova.wait_*` |
-| [Network](network/README.md) | Shared proxy, tab-scoped interception, replay and SSL/TLS diagnostics | `nova.proxy_switch`, `nova.proxy_status`, `nova.network_intercept_*`, `nova.tls_inspect` |
+| [Network](network/README.md) | Proxy routing, in-flight interception, request replay, SSL/TLS analysis, network discovery, device inventory, DNS diagnostics, MTR traceroute, and PMTU | `nova.proxy_*`, `nova.network_intercept_*`, `nova.network_replay`, `nova.tls_inspect`, `nova.net_scan*`, `nova.net_devices*`, `nova.net_dns`, `nova.net_ping`, `nova.net_probe` |
 | [Privacy](privacy/README.md) | Fingerprint protection, browser identity, vault and secret delivery | `nova.fingerprint_*`, `nova.identity_*`, `nova.emulation_*`, `nova.vault_*`, `nova.secret_*`, `nova.type_selector_secret` |
 | [Session Recording & Time-Travel Debugging](session-recording/README.md) | Recording a run to see later what happened | `nova.session_record_start`, `nova.session_record_query`, `nova.session_record_export` |
 
@@ -66,9 +67,10 @@ The [alpha status page](../../ALPHA.md) lists current limitations, including plu
 | Page | What it covers | Main MCP tools |
 | :--- | :--- | :--- |
 | [Desktop Notifications & Unified Inbox](notifications/README.md) | Native Windows toasts, persistent SQLite inbox, deep-link router and web notification permissions | `nova.notifications_list`, `nova.notifications_send`, `nova.notifications_permission_set` |
+| [App Shell & Window Management](app-shell-and-window-management/README.md) | WinUI 3 window geometry, multi-monitor topologies, per-tab optical zoom, bookmarks hierarchy, OS clipboard, native shell flyouts, and MCP resource streaming | `nova.window_*`, `nova.webview_*zoom`, `nova.bookmarks_*`, `nova.favorites_*`, `nova.clipboard_*`, `nova.ui_open_*`, `nova.create_dump`, `nova.list_resources`, `nova.grep_resources` |
 | [Terminal Workspaces & ConPTY Integration](terminal-workspaces/README.md) | Terminals the agent can use | `nova.terminal_open`, `nova.terminal_run_command`, `nova.terminal_read` |
 | [Scheduled Tasks & Background Automation Engine](scheduled-tasks/README.md) | Work that runs on its own | `nova.scheduled_task_create`, `nova.scheduled_task_runs`, `nova.scheduled_task_workspace_*` |
-| [Connectors](connectors/README.md) | Mail, SSH, SFTP, FTP/FTPS and external MCP servers | `nova.connector_*`, `nova.mail_*`, `nova.ssh_run*`, `nova.sftp_*`, `nova.ftp_*`, `nova.external_*` |
+| [Connectors](connectors/README.md) | Mail (IMAP/SMTP), SSH, SFTP, FTP/FTPS, MySQL/MariaDB over SSH, SNMP hardware telemetry, external MCP servers, and audit journal | `nova.connector_*`, `nova.mail_*`, `nova.ssh_run*`, `nova.sftp_*`, `nova.ftp_*`, `nova.db_*`, `nova.external_*` |
 | [Media Intelligence](media-intelligence/README.md) | Speech transcription, local image processing, offline OCR, tabular data queries, archives, PDFs, documents as Markdown, playback, capture and media devices | `nova.media_*`, `nova.image_*`, `nova.ocr_read`, `nova.data_*`, `nova.archive_*`, `nova.read_pdf`, `nova.save_pdf`, `nova.pdf_*`, `nova.convert_to_markdown`, `nova.docx_create`, `nova.xlsx_create`, `nova.hardware_diagnostics_*` |
 | [Agent-Authored Plugins (AAP) & Jint JavaScript Runtime](plugins/README.md) | Reference only: unavailable during the public alpha | `nova.plugin_create`, `nova.plugin_test`, `nova.plugin_inspect` |
 

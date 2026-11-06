@@ -70,13 +70,33 @@ When proxy routing is enabled, Nova maintains an internal diagnostic log of conn
 The panel includes built-in diagnostic tools for inspecting SSL/TLS certificates and encrypted handshakes:
 
 * **Certificate Hierarchy Viewer:** View the complete X.509 certificate chain, issuer authority, expiration dates, and cryptographic cipher suites for any visited origin.
-* **Probing via MCP:** AI agents can perform deep SSL/TLS diagnostics using `nova.tls_inspect(url='https://example.com')` to diagnose expired certificates, cipher mismatches, or certificate authority revocation issues.
+* **Probing via MCP:** AI agents can perform deep SSL/TLS diagnostics using `nova.tls_inspect(url="https://example.com")` to diagnose expired certificates, cipher mismatches, or certificate authority revocation issues.
 
 ---
 
-## 6. Related Documentation
+## 6. Network Scanning & Diagnostic Permissions
 
+Nova includes enterprise-grade network scanning and infrastructure diagnostic capabilities governed by strict operator controls:
+
+* **Local vs. Public Range Governance:**
+  * **Private Subnets:** Scanning local subnets (RFC 1918, CGNAT, link-local) is governed by the general agent scan permission (**Settings > AI & agents > Access permissions > Agent may scan the network without asking**).
+  * **Public IP Ranges:** Scanning external public IP ranges strictly requires interactive operator approval per target range in the UI. Approvals remain valid for the current Nova session. Unattended scheduled runs targeting public IPs without prior confirmation fail with `scan_approval_required`.
+* **Diagnostic Tool Integrations:**
+  * **Network Discovery (`nova.net_scan`):** Multi-probe detection identifying network devices, open services, and security risks.
+  * **Path Diagnostics & Jitter (`nova.net_ping`):** Hop-by-hop traceroute, packet loss tracking, Path MTU discovery, and TCP handshake latency.
+  * **DNS & Mail Inspection (`nova.net_dns`):** Resolving domain records, comparing propagation across providers, and auditing SPF, DMARC, DKIM, and MTA-STS compliance.
+  * **Port Reachability (`nova.net_probe`):** High-speed concurrent TCP port checks with session-scoped host approval.
+
+---
+
+## 7. Related Documentation
+
+* **[Network Diagnostics & Tools Guide](../tools/network-and-diagnostics.md)** — User guide for running network scans, DNS queries, ping, and path probes.
 * **[Settings Hub](README.md)** — Main overview of all 14 settings panels.
+* **[Network Architecture Hub](../../core-features/network/README.md)** — Architectural overview of all 5 network disciplines.
+* **[Network Discovery & Inventory Architecture](../../core-features/network/network-discovery-and-inventory/README.md)** — Detailed multi-probe scanning and device inventory.
+* **[DNS Diagnostics & Mail Security](../../core-features/network/dns-diagnostics/README.md)** — Wire-format DNS queries, DoH proxy integration, and email security.
+* **[Path Diagnostics, MTR & Probing](../../core-features/network/path-diagnostics-and-probing/README.md)** — Hop latency, jitter calculation, and MTU discovery.
 * **[Sandboxes & Profiles Settings](sandboxes.md)** — Profile isolation and sandbox network bindings.
 * **[Agent Governance & MCP](agent-governance-and-mcp.md)** — Programmatic settings access and curated keys.
-* **[Connectors Settings](connectors.md)** — External SFTP, SSH, and mail pipelines.
+* **[Connectors Settings](connectors.md)** — External SFTP, SSH, SNMP, and mail pipelines.
