@@ -44,6 +44,13 @@ flowchart TD
 * **Root Cause:** The emergency proxy kill switch was engaged via [`nova.proxy_disconnect`](../mcp-reference/tools/proxy-and-network/nova-proxy-disconnect.md).
 * **Resolution:** Re-establish traffic flow by calling [`nova.proxy_reconnect`](../mcp-reference/tools/proxy-and-network/nova-proxy-reconnect.md).
 
+### 2.4 WebSocket & SSE Streams Terminate Unexpectedly During Proxy Switch
+* **Symptom:** Long-lived WebSocket connections (e.g. Phoenix channels, Socket.IO, GraphQL subscriptions) or Server-Sent Events (SSE) drop immediately and throw `WebSocket connection to '...' failed` when switching proxies.
+* **Root Cause:** Switching proxy profiles ([`nova.proxy_switch`](../mcp-reference/tools/proxy-and-network/nova-proxy-switch.md)) or engaging the kill switch ([`nova.proxy_disconnect`](../mcp-reference/tools/proxy-and-network/nova-proxy-disconnect.md)) instantly severs underlying full-duplex TCP tunnels to prevent data packets from continuing to leak across the previous egress route.
+* **Resolution:**
+  * Ensure web applications implement standard exponential backoff reconnection logic (e.g. `reconnectAfterMs`).
+  * In automated agent workflows, use [`nova.network_read`](../mcp-reference/tools/dom-and-reading/nova-network-read.md) with `kinds: ["websocket"]` and `waitForMatchMs: 5000` to wait for the client application to complete its automatic re-handshake over the new proxy tunnel before continuing UI interactions.
+
 ---
 
 ## 3. DNS Diagnostics & Name Resolution Failures

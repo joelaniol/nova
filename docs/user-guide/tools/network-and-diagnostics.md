@@ -552,13 +552,158 @@ Replay, edit, and compare HTTP requests outside the browser tab:
 * **Payload Comparison (`compareTo`):** Compare the response against a baseline payload to highlight schema changes or regression diffs.
 * **Isolation Invariant:** Replayed requests execute out-of-band through an independent HTTP client and never trigger tab-scoped interception rules, testing the true remote server.
 
+### 6.5 WebSocket, Server-Sent Events (SSE) & Real-Time Streams
+
+Modern distributed applications rely heavily on persistent, bidirectional communication channels. Nova provides comprehensive visibility and control over full-duplex streams:
+
+```mermaid
+flowchart TD
+    subgraph BrowserClient ["Browser Real-Time Clients"]
+        GqlWs["GraphQL-WS Subscriptions<br/>(graphqlOnly: true)"]
+        Phoenix["Phoenix Channels<br/>(topic + event frames)"]
+        SocketIo["Socket.IO Engine<br/>(connect_error, custom events)"]
+        SseClient["EventSource Streams<br/>(text/event-stream)"]
+    end
+
+    subgraph InspectionLayer ["In-Tab Stream Diagnostics (nova.network_read)"]
+        TapFilter["kinds: ['websocket', 'eventsource']<br/>Decoded Frame Inspection"]
+        ErrorTrap["onlyFailed: true<br/>Captures connect_error & socket drops"]
+    end
+
+    subgraph TransportControl ["Transport & Proxy Control"]
+        UpgradeIntercept["nova.network_intercept_add<br/>Mock HTTP 101 or 426 Upgrade Required"]
+        CircuitBreaker["nova.proxy_disconnect<br/>Instant Socket Severance (Zero Leaks)"]
+    end
+
+    BrowserClient --> TapFilter
+    BrowserClient --> ErrorTrap
+    BrowserClient <--> UpgradeIntercept
+    BrowserClient <--> CircuitBreaker
+```
+
+#### 6.5.1 Capturing Decoded WebSocket & SSE Frames
+
+Inspect real-time payloads without running complex packet sniffers:
+
+```json
+{
+  "name": "nova.network_read",
+  "arguments": {
+    "targetId": "active",
+    "kinds": ["websocket", "eventsource"],
+    "onlyFailed": false,
+    "maxEntries": 50
+  }
+}
+```
+
+* **Framework-Level Frame Parsing:** Automatically decodes structured frames for:
+  * **GraphQL-WS:** Subscriptions filtered by `graphqlOperation`.
+  * **Phoenix Channels:** Parsed `topic`, `event`, and `payload` dictionaries.
+  * **Socket.IO:** Handshake packets, heartbeat pings/pongs, and `connect_error` events.
+  * **Server-Sent Events (SSE):** Parsed `event` names, `data` payloads, and `id` tracking.
+* **Isolating Stream Failures (`onlyFailed: true`):** Surfaces dropped sockets, abnormal closures (e.g. `1006 Abnormal Closure`), and unhandled server errors immediately.
+
+#### 6.5.2 Intercepting WebSocket Handshakes & Transport Downgrade
+
+Test how frontends behave when real-time services degrade by intercepting the initial HTTP `Upgrade: websocket` request:
+
+```json
+{
+  "name": "nova.network_intercept_add",
+  "arguments": {
+    "urlPattern": "*socket.io*",
+    "status": 426,
+    "body": "{\"error\": \"Upgrade Required\"}",
+    "contentType": "application/json"
+  }
+}
+```
+
+* **Graceful Degradation Testing:** Validates whether single-page applications cleanly fall back to long-polling HTTP transports when WebSocket handshakes are rejected.
+* **Filtering WebSocket Noise (`excludeWebSocket: true`):** When testing standard REST APIs on pages with busy background telemetry, pass `excludeWebSocket: true` to suppress high-frequency socket frames.
+
+#### 6.5.3 Stream Persistence Under Proxy Switching & Kill Switches
+
+* **Instant Socket Severance:** When an operator or agent calls [`nova.proxy_switch`](../../mcp-reference/tools/proxy-and-network/nova-proxy-switch.md) or [`nova.proxy_disconnect`](../../mcp-reference/tools/proxy-and-network/nova-proxy-disconnect.md), all active TCP sockets powering WebSockets and SSE streams are terminated immediately. Nova never allows long-lived streams to continue routing across obsolete egress paths.
+* **Automatic Re-Handshake:** Frontend reconnect loops cleanly re-establish tunnels over the newly assigned proxy route. Agents can synchronize post-switch actions using `waitForMatchMs: 5000` in [`nova.network_read`](../../mcp-reference/tools/dom-and-reading/nova-network-read.md).
+
 ---
 
-## 7. Multi-Proxy Routing, Profiles & Emergency Disconnect
+## 7. Remote Web Endpoint & MCP Discovery Probing
+
+Autonomous agents and network engineers operating in modern AI environments frequently need to discover whether a remote web origin exposes machine-readable AI manifests, Agent-to-Agent (A2A) endpoints, or Model Context Protocol (MCP) servers. Nova integrates native discovery probing directly into its network stack:
+
+```mermaid
+flowchart TD
+    Target["Target Web Origin (e.g. https://api.example.com)"] --> Probe["nova.site_discovery_probe<br/>• /.well-known/mcp.json (Server Card)<br/>• /llms.txt & /llms-full.txt (AI Maps)<br/>• Direct SSE & WebSocket MCP Endpoints<br/>• RFC 8414 OAuth 2.1 Metadata"]
+
+    Probe --> Inspect["nova.site_mcp_inspect<br/>• Inspects Advertised Tools & Schemas<br/>• Protocol Versions & Auth Requirements<br/>• Safe Read-Only (Untrusted Metadata)"]
+
+    Inspect --> Connect["nova.site_mcp_connect_request<br/>• Dynamic Client Registration<br/>• PKCE S256 Authorization URL<br/>• Automatic Token Vault Storage"]
+```
+
+### 7.1 Probing Web Origins ([`nova.site_discovery_probe`](../../mcp-reference/tools/external-mcp/nova-site-discovery-probe.md))
+
+Probe any external website or API endpoint for AI discovery assets:
+
+```json
+{
+  "name": "nova.site_discovery_probe",
+  "arguments": {
+    "url": "https://api.example.com",
+    "forceRefresh": false
+  }
+}
+```
+
+* **Standardized Endpoints Probed:**
+  * **MCP Server Cards:** Queries `/.well-known/mcp.json` and direct endpoints (`/mcp/sse`, `/mcp/ws`).
+  * **LLM Site Manifests:** Harvests `/llms.txt` and `/llms-full.txt` for structured documentation.
+  * **OAuth Metadata:** Reads RFC 8414 authorization server endpoints (`/.well-known/oauth-authorization-server`).
+* **Local TTL Caching:** Results are cached for 10 minutes to minimize network probing overhead; pass `forceRefresh: true` to bypass the cache.
+* **Proxy Route Parity:** Probing requests route strictly through `NovaWebTrafficProxy`, ensuring external discovery scans respect the active sandbox proxy tunnel.
+
+### 7.2 Inspecting Discovered MCP Capabilities ([`nova.site_mcp_inspect`](../../mcp-reference/tools/external-mcp/nova-site-mcp-inspect.md))
+
+Read discovery data and preview advertised tools without executing untrusted external code:
+
+```json
+{
+  "name": "nova.site_mcp_inspect",
+  "arguments": {
+    "domain": "api.example.com"
+  }
+}
+```
+
+* **Tool Schema Previews:** Reports advertised tool names, descriptions, and JSON input schemas.
+* **Security & Auth Status:** Identifies required OAuth scopes, supported MCP protocol versions, and authorization server URLs.
+* **Read-Only Safety Guard:** Operates strictly on cached metadata; no remote tool execution occurs.
+
+### 7.3 Initiating Authenticated OAuth 2.1 Connections ([`nova.site_mcp_connect_request`](../../mcp-reference/tools/external-mcp/nova-site-mcp-connect-request.md))
+
+Establish an authenticated connection to an external MCP server:
+
+```json
+{
+  "name": "nova.site_mcp_connect_request",
+  "arguments": {
+    "domain": "api.example.com"
+  }
+}
+```
+
+* **Dynamic Client Registration & PKCE:** Automatically provisions a local OAuth client with S256 code challenge and registers a temporary callback listener.
+* **Interactive Consent:** Returns the authorization URL to open in a tab (`nova.tab_new`), allowing the operator to grant permissions. Tokens are exchanged and stored DPAPI-encrypted in the local vault automatically.
+
+---
+
+## 8. Multi-Proxy Routing, Profiles & Emergency Disconnect
 
 Nova provides native support for routing network traffic through SOCKS5, HTTP, and HTTPS proxies per sandbox profile:
 
-### 7.1 Managing Proxy Profiles
+### 8.1 Managing Proxy Profiles
 * **Create Profile ([`nova.proxy_create`](../../mcp-reference/tools/proxy-and-network/nova-proxy-create.md)):** Configure host, port, protocol, and optional credentials:
   ```json
   {
@@ -572,22 +717,22 @@ Nova provides native support for routing network traffic through SOCKS5, HTTP, a
 * **List Profiles ([`nova.proxy_list`](../../mcp-reference/tools/proxy-and-network/nova-proxy-list.md)):** Inspect all configured proxy endpoints and sandbox bindings.
 * **Remove Profile ([`nova.proxy_remove`](../../mcp-reference/tools/proxy-and-network/nova-proxy-remove.md)):** Delete obsolete proxy profiles.
 
-### 7.2 Dynamic Switching & Health Auditing
+### 8.2 Dynamic Switching & Health Auditing
 * **Dynamic Sandbox Switching ([`nova.proxy_switch`](../../mcp-reference/tools/proxy-and-network/nova-proxy-switch.md)):** Instantly assign a proxy profile to a sandbox or the global profile without browser restarts.
 * **Connectivity & Latency Probe ([`nova.proxy_test`](../../mcp-reference/tools/proxy-and-network/nova-proxy-test.md)):** Verify tunnel health, measure handshake latency, and check reflected external IP.
 * **Status Query ([`nova.proxy_status`](../../mcp-reference/tools/proxy-and-network/nova-proxy-status.md)):** Query active routing endpoints and WebRTC leak state.
 * **Diagnostic Log ([`nova.proxy_log`](../../mcp-reference/tools/proxy-and-network/nova-proxy-log.md)):** Retrieve recent connection events and routing challenges.
 
-### 7.3 Emergency Proxy Disconnect & Reconnect
+### 8.3 Emergency Proxy Disconnect & Reconnect
 * **Emergency Kill Switch ([`nova.proxy_disconnect`](../../mcp-reference/tools/proxy-and-network/nova-proxy-disconnect.md)):** Instantly terminates the proxy tunnel for a target tab or sandbox, dropping all HTTP(S) traffic immediately to prevent accidental data leaks.
 * **Reconnection ([`nova.proxy_reconnect`](../../mcp-reference/tools/proxy-and-network/nova-proxy-reconnect.md)):** Re-establishes the tunnel and verifies end-to-end reachability before restoring traffic flow.
 
-### 7.4 Credential Storage ([`nova.proxy_set_password`](../../mcp-reference/tools/proxy-and-network/nova-proxy-set-password.md))
+### 8.4 Credential Storage ([`nova.proxy_set_password`](../../mcp-reference/tools/proxy-and-network/nova-proxy-set-password.md))
 Securely store or update proxy passwords encrypted via the Windows Data Protection API (DPAPI). Passwords never appear in cleartext logs or agent transcripts.
 
 ---
 
-## 8. Inside-Out Network Auditing: Remote Server Sockets & Firewalls
+## 9. Inside-Out Network Auditing: Remote Server Sockets & Firewalls
 
 Traditional network security relies either entirely on external port scanning (black-box) or ad-hoc terminal commands. Nova bridges these two paradigms by pairing external subnet scanning ([`nova.net_scan`](../../mcp-reference/tools/proxy-and-network/nova-net-scan.md)) with authenticated, inside-out server state auditing via [`nova.server_snapshot`](../../mcp-reference/tools/connectors-and-mail/nova-server-snapshot.md) and [`nova.server_snapshot_diff`](../../mcp-reference/tools/connectors-and-mail/nova-server-snapshot-diff.md):
 
@@ -608,7 +753,7 @@ flowchart LR
     ExternalView <--> InternalView --> DiffAudit
 ```
 
-### 8.1 Capturing Atomic Server Snapshots ([`nova.server_snapshot`](../../mcp-reference/tools/connectors-and-mail/nova-server-snapshot.md))
+### 9.1 Capturing Atomic Server Snapshots ([`nova.server_snapshot`](../../mcp-reference/tools/connectors-and-mail/nova-server-snapshot.md))
 
 Before modifying network firewall rules, upgrading reverse proxies (e.g. NGINX, HAProxy), or deploying microservices, capture a baseline snapshot over an established SSH connection profile:
 
@@ -630,7 +775,7 @@ Before modifying network firewall rules, upgrading reverse proxies (e.g. NGINX, 
 * **Safe Privilege Escalation (`sudo -n`):** Security rules and jail audits execute with `sudo -n` (non-interactive); if root rights are not configured, those specific sections report `unavailable` without crashing the tool.
 * **Encrypted Local Storage:** Snapshots are encrypted with Windows DPAPI on the local machine and retained for 90 days. Zero data or temporary files are stored on the remote host.
 
-### 8.2 Differential Verification & Regression Proofs ([`nova.server_snapshot_diff`](../../mcp-reference/tools/connectors-and-mail/nova-server-snapshot-diff.md))
+### 9.2 Differential Verification & Regression Proofs ([`nova.server_snapshot_diff`](../../mcp-reference/tools/connectors-and-mail/nova-server-snapshot-diff.md))
 
 After executing configuration changes (e.g. adding a UFW rule or restarting a web service), take a second snapshot (`label="after-firewall-update"`) and compute a deterministic diff:
 
@@ -653,7 +798,7 @@ After executing configuration changes (e.g. adding a UFW rule or restarting a we
 
 ---
 
-## 9. Summary Tool Matrix
+## 10. Summary Tool Matrix
 
 | Discipline | MCP Tools | Key Capabilities |
 | :--- | :--- | :--- |
@@ -662,18 +807,20 @@ After executing configuration changes (e.g. adding a UFW rule or restarting a we
 | **Path & Latency** | [`nova.net_ping`](../../mcp-reference/tools/proxy-and-network/nova-net-ping.md)<br>[`nova.net_probe`](../../mcp-reference/tools/proxy-and-network/nova-net-probe.md) | Millisecond ICMP/TCP ping, jitter telemetry, hop-by-hop MTR path discovery, Path MTU discovery, TCP port reachability, and HTTP CONNECT checks. |
 | **TLS/SSL Inspection** | [`nova.tls_inspect`](../../mcp-reference/tools/proxy-and-network/nova-tls-inspect.md) | X.509 certificate chains, multi-host SAN validation, Certificate Transparency log enumeration, cipher suites, and PEM block export. |
 | **Web Traffic, Interception & Replay** | [`nova.network_read`](../../mcp-reference/tools/dom-and-reading/nova-network-read.md)<br>[`nova.network_intercept_add`](../../mcp-reference/tools/proxy-and-network/nova-network-intercept-add.md)<br>[`nova.network_intercept_list`](../../mcp-reference/tools/proxy-and-network/nova-network-intercept-list.md)<br>[`nova.network_intercept_clear`](../../mcp-reference/tools/proxy-and-network/nova-network-intercept-clear.md)<br>[`nova.network_replay`](../../mcp-reference/tools/proxy-and-network/nova-network-replay.md) | In-tab HTTP/GraphQL traffic inspection, body/header capturing, async request waiting (`waitForMatchMs`), mock status injection (503/429), transport error simulation, pattern interception, and standalone cookie-authenticated request replay. |
+| **Remote MCP Discovery** | [`nova.site_discovery_probe`](../../mcp-reference/tools/external-mcp/nova-site-discovery-probe.md)<br>[`nova.site_mcp_inspect`](../../mcp-reference/tools/external-mcp/nova-site-mcp-inspect.md)<br>[`nova.site_mcp_connect_request`](../../mcp-reference/tools/external-mcp/nova-site-mcp-connect-request.md) | Probing remote domains for `/.well-known/mcp.json`, `/llms.txt`, SSE/WebSocket endpoints, inspecting advertised tool schemas, and initiating OAuth 2.1 + PKCE authentication flows. |
 | **Server Sockets & Firewalls** | [`nova.server_snapshot`](../../mcp-reference/tools/connectors-and-mail/nova-server-snapshot.md)<br>[`nova.server_snapshot_diff`](../../mcp-reference/tools/connectors-and-mail/nova-server-snapshot-diff.md) | Inside-out SSH host auditing, internal listening sockets (`ss -tulpn`), firewall rules (`iptables`/`ufw`), Fail2ban jails, noise filtering, and atomic differential change verification. |
 | **Proxy Management** | [`nova.proxy_create`](../../mcp-reference/tools/proxy-and-network/nova-proxy-create.md)<br>[`nova.proxy_update`](../../mcp-reference/tools/proxy-and-network/nova-proxy-update.md)<br>[`nova.proxy_list`](../../mcp-reference/tools/proxy-and-network/nova-proxy-list.md)<br>[`nova.proxy_remove`](../../mcp-reference/tools/proxy-and-network/nova-proxy-remove.md)<br>[`nova.proxy_switch`](../../mcp-reference/tools/proxy-and-network/nova-proxy-switch.md)<br>[`nova.proxy_status`](../../mcp-reference/tools/proxy-and-network/nova-proxy-status.md)<br>[`nova.proxy_test`](../../mcp-reference/tools/proxy-and-network/nova-proxy-test.md)<br>[`nova.proxy_log`](../../mcp-reference/tools/proxy-and-network/nova-proxy-log.md)<br>[`nova.proxy_disconnect`](../../mcp-reference/tools/proxy-and-network/nova-proxy-disconnect.md)<br>[`nova.proxy_reconnect`](../../mcp-reference/tools/proxy-and-network/nova-proxy-reconnect.md)<br>[`nova.proxy_set_password`](../../mcp-reference/tools/proxy-and-network/nova-proxy-set-password.md) | Dynamic proxy routing per sandbox, credential-backed SOCKS5/HTTP profiles, latency testing, DPAPI passwords, and emergency traffic kill switches. |
 
 ---
 
-## 10. Related Documentation
+## 11. Related Documentation
 
 * **[Network Architecture Hub](../../core-features/network/README.md)** — Architectural specification for all 5 network disciplines.
 * **[Network Discovery & Inventory Architecture](../../core-features/network/network-discovery-and-inventory/README.md)** — In-depth discovery pipelines.
 * **[DNS Diagnostics Architecture](../../core-features/network/dns-diagnostics/README.md)** — DNS resolution mechanics and resolver fallbacks.
 * **[Path Diagnostics & Probing Architecture](../../core-features/network/path-diagnostics-and-probing/README.md)** — Path discovery, MTR, and PMTU.
 * **[Settings Guide: Network & Proxies](../settings/network-and-proxies.md)** — Desktop UI instructions for configuring proxy profiles and DNS governance.
+* **[Remote MCP Web Discovery & OAuth](../../core-features/connectors/external-mcp/site-discovery-and-oauth-negotiation/README.md)** — Architectural specification for automated MCP discovery cards, SSE/WebSocket transports, and OAuth 2.1 negotiation.
 * **[Server Snapshots & Auditing Architecture](../../core-features/connectors/ssh/server-snapshots-and-auditing/README.md)** — Architectural specification for atomic SSH snapshots, noise elimination, and differential verification.
 * **[SNMP Connectors & Hardware Telemetry](../../core-features/connectors/snmp/README.md)** — SNMPv3 USM key derivation, target CIDR bounding, and hardware OID queries.
 * **[Remote Connectors Guide](connectors.md)** — SSH command execution, server snapshots, and remote database management.
