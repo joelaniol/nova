@@ -37,10 +37,12 @@ Nova's profile folder is `%LOCALAPPDATA%\nova-cognitive\Nova`; installations fro
    ```
    Expected: `NovaBrowser.McpProxy self-test OK`. If the file is missing, start Nova once; it puts the bridge there.
 3. **Does your AI program point at that bridge?** Its `nova` entry must start exactly this file. An entry with `--pipe` or other unknown switches makes the bridge stop with exit code 2 — those come from outdated instructions; remove them. The only switches are `--antigravity-tool-names` (Antigravity only) and `--mirror-structured-content`.
-4. **Read the bridge log:** `<profile folder>\Logs\novabrowser-mcp-stdio-proxy.log` records each connection attempt and why it failed.
-5. **Same Windows user:** Nova and the AI program must run under the same Windows account. The bridge looks in the profile folder of the account it runs under.
+4. **Read the bridge log:** `<profile folder>\Logs\novabrowser-mcp-stdio-proxy.log` records each connection attempt and why it failed. The log rotates automatically at 10 MB.
+5. **Enable verbose console tracing (`NOVA_MCP_PROXY_STDERR`):** Set `$env:NOVA_MCP_PROXY_STDERR = "1"` in your terminal before launching the agent CLI. The proxy will output diagnostic lines prefixed with `[novabrowser-mcp-proxy]` directly to stderr without interfering with stdio JSON-RPC framing.
+6. **Autostart Lease Lock Contention:** If a previous proxy crashed during browser launch, a stale `mcp-autostart.lock` file may cause subsequent instances to wait as peers. Deleting the file or restarting Nova clears stale locks.
+7. **Same Windows user:** Nova and the AI program must run under the same Windows account. The bridge looks in the profile folder of the account it runs under.
 
-The simplest repair for steps 2–3 is the connection wizard in Nova's settings: it rewrites the entry for the AI program you choose. Restart the AI program afterwards — clients read their MCP configuration only at startup.
+The simplest repair for steps 2–3 is to open **Menu → Settings → AI & agents → Setup** and click **Reinstall runner** (or use the Connection Wizard). Restart the AI program afterwards — clients read their MCP configuration only at startup.
 
 ---
 

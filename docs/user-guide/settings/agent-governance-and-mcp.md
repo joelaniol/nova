@@ -133,7 +133,37 @@ Preferences outside the general catalog are managed through specialized, domain-
 
 ---
 
-## 7. Related Documentation
+## 7. MCP Runner Setup & Maintenance in the Desktop UI
+
+The **AI & agents → Setup** settings panel includes a dedicated status and repair card for the native MCP proxy runner:
+
+```mermaid
+flowchart LR
+    SettingsUI["Menu → Settings → AI & agents → Setup"] --> RunnerCard["Runner Setup Card"]
+    RunnerCard --> Status["Runner Status<br/>('Runner ready: <path>' or 'Runner unavailable')"]
+    RunnerCard --> Reinstall["Reinstall Runner Button<br/>Extracts bundled native binary & repairs config"]
+    RunnerCard --> Activation["Refresh Activation<br/>Regenerates DPAPI tokens & port descriptors"]
+```
+
+### 1. Runner Status Card
+Displays the resolved filesystem path to the native executable:
+* **Normal / Ready:** `Runner ready: C:\Users\<user>\AppData\Local\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe` (or `%LOCALAPPDATA%\NovaBrowser\bin\...`).
+* **Degraded / Unavailable:** Indicates that the executable is missing, corrupt, or blocked by local permissions.
+
+### 2. The "Reinstall Runner" Action
+Clicking **Reinstall runner** initiates an automated self-repair:
+1. Re-extracts the native `NovaBrowser.McpProxy.exe` from bundled assets under a Windows named mutex (`Local\NovaBrowser_McpProxy_DeployMutex`).
+2. Cleans up obsolete legacy scripts and temporary deployment artifacts.
+3. Performs an atomic file replacement dance.
+4. Refreshes the activation metadata file (`mcp-activation.json`) and triggers an external configuration resync for all connected agent programs.
+
+### 3. Token & Port Management
+* **Bearer Token Regeneration:** If an authentication token is ever suspected of exposure, clicking **Regenerate token** creates a fresh cryptographic key, encrypts it via Windows DPAPI, and immediately updates the active listener.
+* **Active Port Display:** Shows the local loopback port assigned to Nova's internal MCP server (default `27183`), useful for custom local scripts.
+
+---
+
+## 8. Related Documentation
 
 * **[Settings Hub](README.md)** — Main overview of all 14 settings panels.
 * **[AI & Agents Settings](ai-and-agents.md)** — Master autonomy and tool confirmation policies.
