@@ -29,7 +29,43 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ---
 
-## Related Tools
+## 3. Protocol Usage
+
+### JSON-RPC Request
+```json
+{
+  "_meta": { "intent": "Inspect historical version before rollback" },
+  "pluginId": "com.example.price-scanner",
+  "historyId": 1
+}
+```
+
+### JSON-RPC Response
+
+```json
+{
+  "ok": true,
+  "pluginId": "com.example.price-scanner",
+  "historyId": 1,
+  "version": "1.0.0",
+  "changeNote": "Initial release",
+  "entryPoint": "index.js",
+  "files": {
+    "index.js": "nova.on('page:load', function() { var price = nova.dom.querySelector('.price'); ... });"
+  }
+}
+```
+
+---
+
+## 4. Operational Best Practices
+
+* **History ID Retrieval:** The parameter is `historyId` (integer), not a semver version string. Obtain valid `historyId` integers from [`nova.plugin_inspect`](nova-plugin-inspect.md) under `versionHistory[].historyId`.
+* **Pre-Rollback Diff Verification:** Retrieve the historical source code to verify exactly what logic will be reinstated before invoking [`nova.plugin_rollback`](nova-plugin-rollback.md).
+
+---
+
+## 5. Related Tools
 
 * [All plugin tools](README.md)
 * [Agent-Authored Plugins](../../../core-features/plugins/README.md)

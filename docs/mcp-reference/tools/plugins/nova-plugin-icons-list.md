@@ -26,7 +26,43 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ---
 
-## Related Tools
+## 3. Protocol Usage
+
+### JSON-RPC Request
+
+```json
+{
+  "_meta": { "intent": "Discover available Fluent UI icons for plugin manifest" }
+}
+```
+
+### JSON-RPC Response
+
+```json
+{
+  "ok": true,
+  "icons": [
+    "chart-line",
+    "bell",
+    "cog",
+    "bookmark",
+    "shield-check",
+    "tag"
+  ]
+}
+```
+
+---
+
+## 4. Operational Best Practices
+
+* **Pre-Manifest Validation:** Query `nova.plugin_icons_list` before authoring or updating `manifest.ui.icon` to select a recognized Fluent asset name.
+* **Graceful Fallback:** Any icon name not present in the returned list gracefully falls back to the default host puzzle-piece icon in browser UI menus.
+* **Zero Parameters:** The tool takes no arguments; callers can invoke it with an empty object or include `_meta.intent` for call tracing.
+
+---
+
+## 5. Related Tools
 
 * [All plugin tools](README.md)
 * [Agent-Authored Plugins](../../../core-features/plugins/README.md)

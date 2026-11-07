@@ -29,7 +29,41 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ---
 
-## Related Tools
+## 3. Protocol Usage
+
+### JSON-RPC Request
+
+```json
+{
+  "_meta": { "intent": "Export plugin bundle including persistent KV storage" },
+  "pluginId": "com.example.price-scanner",
+  "includeKvData": true
+}
+```
+
+### JSON-RPC Response
+
+```json
+{
+  "ok": true,
+  "pluginId": "com.example.price-scanner",
+  "bundleBase64": "UEsDBBQAAAAIA...",
+  "byteLength": 24576,
+  "includedKvData": true
+}
+```
+
+---
+
+## 4. Operational Best Practices
+
+* **Portable Bundle Archive:** The generated `.novaplugin` format is a standard base64-encoded ZIP bundle containing `manifest.json`, source files, and asset trees ready for backup or transfer across workspaces.
+* **Data Privacy in Exports (`includeKvData`):** Keep `includeKvData: false` when distributing plugins to other users or version control to prevent leaking sensitive API keys, cached credentials, or user-specific records.
+* **Automated Backup & Disaster Recovery:** Use `nova.plugin_export` before executing major multi-file updates or schema migrations to capture an out-of-band recovery snapshot.
+
+---
+
+## 5. Related Tools
 
 * [All plugin tools](README.md)
 * [Agent-Authored Plugins](../../../core-features/plugins/README.md)

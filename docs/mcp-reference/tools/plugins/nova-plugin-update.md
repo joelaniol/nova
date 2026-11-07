@@ -33,7 +33,44 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## Related Tools
+## 3. Protocol Usage
+
+### JSON-RPC Request
+```json
+{
+  "_meta": { "intent": "Add discount calculation to price scanner" },
+  "pluginId": "com.example.price-scanner",
+  "code": "nova.on('page:load', function() {\n  var p = nova.dom.querySelector('.price');\n  var d = nova.dom.querySelector('.discount');\n  if (p) nova.storage.local.set('final', d ? p.text + ' (sale)' : p.text);\n});",
+  "changeNote": "Support discount badges",
+  "deferActivation": true
+}
+```
+
+### JSON-RPC Response
+
+```json
+{
+  "ok": true,
+  "pluginId": "com.example.price-scanner",
+  "status": "updated",
+  "state": "testing",
+  "version": "1.0.1",
+  "historyId": 2,
+  "reloaded": true
+}
+```
+
+---
+
+## 4. Operational Best Practices
+
+* **Atomic Version Snapshots:** Every call to `plugin_update` automatically captures the current codebase in `versionHistory` before applying changes. Always provide a clear `changeNote` (max 500 characters) to facilitate auditability and rollbacks.
+* **Hot-Reload Isolation:** Updating a plugin gracefully tears down active instances and re-evaluates the entry point in a fresh Jint engine without restarting Nova.
+* **Permission Delta Fencing:** If an updated manifest declares new review-gated permissions or broader host matches, they enter `pending` status and will not activate until approved.
+
+---
+
+## 5. Related Tools
 
 * [All plugin tools](README.md)
 * [Agent-Authored Plugins](../../../core-features/plugins/README.md)

@@ -32,7 +32,55 @@ Tool category: `high_impact` (highest risk class; Nova's agent permission settin
 
 ---
 
-## Related Tools
+## 3. Protocol Usage
+
+### JSON-RPC Request
+
+```json
+{
+  "_meta": { "intent": "Grant review-gated DOM and host permissions after manual review" },
+  "pluginId": "com.example.price-scanner",
+  "permissions": [
+    "DomRead",
+    "OverlayWrite"
+  ],
+  "grantHostPermissions": true,
+  "grantNetworkAccess": true,
+  "mcpTools": [
+    "get_active_price"
+  ]
+}
+```
+
+### JSON-RPC Response
+
+```json
+{
+  "ok": true,
+  "pluginId": "com.example.price-scanner",
+  "grantedPermissions": [
+    "DomRead",
+    "OverlayWrite"
+  ],
+  "hostPermissionsGranted": true,
+  "networkAccessGranted": true,
+  "mcpToolsGranted": [
+    "get_active_price"
+  ]
+}
+```
+
+---
+
+## 4. Operational Best Practices
+
+* **Mandatory Intent Clause:** As a `high_impact` operation, `_meta.intent` must always be provided with an explicit rationale explaining why elevated scopes are warranted; calls without it are rejected immediately.
+* **Manifest-Bound Verification:** Permissions requested here must be pre-declared in the plugin's manifest; the host will never grant capabilities outside the plugin's declared scope.
+* **Granular Principle of Least Privilege:** Grant permissions incrementally (approving specific `mcpTools` or `permissions` one by one) rather than blanket approvals, minimizing attack surfaces across web origins.
+
+---
+
+## 5. Related Tools
 
 * [All plugin tools](README.md)
 * [Agent-Authored Plugins](../../../core-features/plugins/README.md)

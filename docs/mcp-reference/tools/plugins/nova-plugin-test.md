@@ -32,7 +32,46 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## Related Tools
+## 3. Protocol Usage
+
+### JSON-RPC Request
+```json
+{
+  "_meta": { "intent": "Smoke test price scanner on live shop page" },
+  "pluginId": "com.example.price-scanner",
+  "mode": "smoke",
+  "activateAfterPass": true
+}
+```
+
+### JSON-RPC Response
+
+```json
+{
+  "ok": true,
+  "pluginId": "com.example.price-scanner",
+  "status": "passed",
+  "mode": "smoke",
+  "promotedToInstalled": true,
+  "context": "livePageContext",
+  "issues": [],
+  "warnings": [],
+  "domChanges": 0,
+  "securityEvents": 0
+}
+```
+
+---
+
+## 4. Operational Best Practices
+
+* **Smoke Verification Pipeline (`mode: "smoke"`):** Use `mode: "smoke"` for pre-flight validation. This creates an isolated session, runs execution probes, captures exceptions, and checks epoch fencings.
+* **Automated Promotion (`activateAfterPass: true`):** When testing newly created or updated plugins in the `Testing` state, pass `activateAfterPass: true`. If the smoke test passes with 0 issues, the plugin is automatically promoted to `Installed`.
+* **Reversible Test Mutations:** By default, DOM writes during test runs are discarded. To test style or class injections against a live page, pass `applyWrites: true`; all mutations are automatically rolled back when the smoke session completes.
+
+---
+
+## 5. Related Tools
 
 * [All plugin tools](README.md)
 * [Agent-Authored Plugins](../../../core-features/plugins/README.md)

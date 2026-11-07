@@ -29,7 +29,40 @@ Tool category: `high_impact` (highest risk class; Nova's agent permission settin
 
 ---
 
-## Related Tools
+## 3. Protocol Usage
+
+### JSON-RPC Request
+
+```json
+{
+  "_meta": { "intent": "Uninstall obsolete scraper and clean storage" },
+  "pluginId": "com.example.old-scraper",
+  "deleteData": true
+}
+```
+
+### JSON-RPC Response
+
+```json
+{
+  "ok": true,
+  "pluginId": "com.example.old-scraper",
+  "status": "uninstalled",
+  "dataDeleted": true
+}
+```
+
+---
+
+## 4. Operational Best Practices
+
+* **Mandatory Intent Clause:** Because `nova.plugin_uninstall` is classified as `high_impact`, passing `_meta.intent` is strictly required by the host runtime; missing intent results in immediate call rejection.
+* **Data Retention vs. Purge (`deleteData`):** By default (`deleteData: false`), plugin configuration, logs, and database records are retained so re-installation preserves state. Use `deleteData: true` only when permanently decommissioning the extension.
+* **Cascading Cleanup:** Uninstallation immediately shuts down running engine instances, deregisters dynamic MCP tools (`plugin.{pluginId}.*`), and rolls back any active DOM/CSS injections recorded in the mutation ledger.
+
+---
+
+## 5. Related Tools
 
 * [All plugin tools](README.md)
 * [Agent-Authored Plugins](../../../core-features/plugins/README.md)

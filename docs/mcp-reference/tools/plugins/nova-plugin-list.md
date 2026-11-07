@@ -28,7 +28,52 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ---
 
-## Related Tools
+## 3. Protocol Usage
+
+### JSON-RPC Request
+
+```json
+{
+  "_meta": { "intent": "List all active and uninstalled plugins" },
+  "includeUninstalled": true
+}
+```
+
+### JSON-RPC Response
+
+```json
+{
+  "ok": true,
+  "plugins": [
+    {
+      "pluginId": "com.example.price-scanner",
+      "name": "Price Scanner",
+      "version": "1.2.0",
+      "state": "enabled",
+      "crashCount": 0
+    },
+    {
+      "pluginId": "com.example.old-scraper",
+      "name": "Legacy Scraper",
+      "version": "0.9.1",
+      "state": "uninstalled",
+      "crashCount": 1
+    }
+  ]
+}
+```
+
+---
+
+## 4. Operational Best Practices
+
+* **Initial Catalog Discovery:** Call `nova.plugin_list` during agent workspace initialization to discover available custom extensions, their versions, and current operational states (`enabled`, `disabled`, `testing`).
+* **Stability Monitoring:** Periodically check the `crashCount` field across listed plugins; plugins with non-zero crash counts should be inspected and tested in isolation before continuing production flows.
+* **Tombstone Auditing:** Set `includeUninstalled: true` when checking whether a previously removed extension can be revived or if its ID is already registered in historical records.
+
+---
+
+## 5. Related Tools
 
 * [All plugin tools](README.md)
 * [Agent-Authored Plugins](../../../core-features/plugins/README.md)

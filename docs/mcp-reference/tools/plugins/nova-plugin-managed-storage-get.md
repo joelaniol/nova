@@ -29,7 +29,40 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ---
 
-## Related Tools
+## 3. Protocol Usage
+
+### JSON-RPC Request
+
+```json
+{
+  "_meta": { "intent": "Read managed configuration for enterprise compliance" },
+  "pluginId": "com.example.price-scanner",
+  "key": "apiEndpoint"
+}
+```
+
+### JSON-RPC Response
+
+```json
+{
+  "ok": true,
+  "pluginId": "com.example.price-scanner",
+  "key": "apiEndpoint",
+  "value": "https://api.internal.example.com/v1"
+}
+```
+
+---
+
+## 4. Operational Best Practices
+
+* **Host-Controlled Policy Inspection:** Use this tool to inspect enterprise policies or administrative configurations that are injected into the plugin runtime as read-only data (`nova.storage.managed`).
+* **Selective vs. Full Retrieval:** Omit the `key` parameter to retrieve the complete managed key/value dictionary, or pass a specific `key` for targeted single-value lookup.
+* **Immutable from Plugin JS:** Managed storage cannot be modified from the plugin's own JavaScript runtime; it serves as a secure one-way control channel from the host agent to the extension.
+
+---
+
+## 5. Related Tools
 
 * [All plugin tools](README.md)
 * [Agent-Authored Plugins](../../../core-features/plugins/README.md)

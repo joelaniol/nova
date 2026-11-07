@@ -28,7 +28,51 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ---
 
-## Related Tools
+## 3. Protocol Usage
+
+### JSON-RPC Request
+
+```json
+{
+  "_meta": { "intent": "Inspect plugin runtime state and permissions" },
+  "pluginId": "com.example.price-scanner"
+}
+```
+
+### JSON-RPC Response
+
+```json
+{
+  "ok": true,
+  "pluginId": "com.example.price-scanner",
+  "state": "enabled",
+  "version": "1.2.0",
+  "grantedPermissions": [
+    "DomRead",
+    "OverlayWrite"
+  ],
+  "activeMutations": 2,
+  "storageKeyCount": 5,
+  "contentScriptInventory": {
+    "staticScripts": [
+      "content.js"
+    ],
+    "activeFrames": 1
+  }
+}
+```
+
+---
+
+## 4. Operational Best Practices
+
+* **Pre-Flight Health Audit:** Use `nova.plugin_inspect` before performing updates or sensitive workflow steps to verify current permissions, active content script frames, and runtime execution state.
+* **Resource Leak Detection:** Monitor `activeMutations` and `storageKeyCount` across workflow cycles to ensure the plugin is not leaving abandoned DOM nodes or accumulating unbounded storage keys.
+* **History & Snapshot Verification:** Review the detailed manifest and version metadata to identify target `historyId` records prior to initiating rollbacks via `nova.plugin_rollback`.
+
+---
+
+## 5. Related Tools
 
 * [All plugin tools](README.md)
 * [Agent-Authored Plugins](../../../core-features/plugins/README.md)

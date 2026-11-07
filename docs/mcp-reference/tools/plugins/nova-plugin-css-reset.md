@@ -28,7 +28,39 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## Related Tools
+## 3. Protocol Usage
+
+### JSON-RPC Request
+
+```json
+{
+  "_meta": { "intent": "Reset injected stylesheet on active page" },
+  "pluginId": "com.example.price-scanner"
+}
+```
+
+### JSON-RPC Response
+
+```json
+{
+  "ok": true,
+  "pluginId": "com.example.price-scanner",
+  "status": "reverted",
+  "revertedStylesheets": 1
+}
+```
+
+---
+
+## 4. Operational Best Practices
+
+* **Surgical Stylesheet Purge:** Use `nova.plugin_css_reset` to remove host-managed `<style>` tags injected by a plugin without disturbing other extensions or host browser styles.
+* **Partial Rollback Handling:** If the plugin also applied inline styles or mutated host element class lists directly, the tool returns a `partial` status with `unsupported_mutation_kinds`; full remediation then requires disabling the plugin via `nova.plugin_disable`.
+* **Live Visual Recovery:** Call this tool if a misconfigured plugin stylesheet causes visual regressions or obscures core web page elements during automated workflows.
+
+---
+
+## 5. Related Tools
 
 * [All plugin tools](README.md)
 * [Agent-Authored Plugins](../../../core-features/plugins/README.md)

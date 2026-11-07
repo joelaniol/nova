@@ -31,7 +31,42 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## Related Tools
+## 3. Protocol Usage
+
+### JSON-RPC Request
+```json
+{
+  "_meta": { "intent": "Revert to stable version after runtime exception" },
+  "pluginId": "com.example.price-scanner",
+  "historyId": 1,
+  "changeNote": "Reverted 1.0.1 due to null selector exception",
+  "deferActivation": true
+}
+```
+
+### JSON-RPC Response
+
+```json
+{
+  "ok": true,
+  "pluginId": "com.example.price-scanner",
+  "status": "rolled_back",
+  "restoredVersion": "1.0.0",
+  "state": "testing",
+  "newHistoryId": 3
+}
+```
+
+---
+
+## 4. Operational Best Practices
+
+* **Non-Destructive History:** Rolling back does not erase version history; it creates a new history entry containing the restored codebase.
+* **Post-Rollback Safe Gating (`deferActivation: true`):** Pass `deferActivation: true` during rollbacks to allow smoke-testing the restored code before re-enabling auto-activation on user pages.
+
+---
+
+## 5. Related Tools
 
 * [All plugin tools](README.md)
 * [Agent-Authored Plugins](../../../core-features/plugins/README.md)

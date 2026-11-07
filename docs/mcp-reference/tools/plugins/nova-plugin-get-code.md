@@ -28,7 +28,40 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ---
 
-## Related Tools
+## 3. Protocol Usage
+
+### JSON-RPC Request
+```json
+{
+  "_meta": { "intent": "Audit active scanner implementation" },
+  "pluginId": "com.example.price-scanner"
+}
+```
+
+### JSON-RPC Response
+
+```json
+{
+  "ok": true,
+  "pluginId": "com.example.price-scanner",
+  "version": "1.0.1",
+  "entryPoint": "index.js",
+  "files": {
+    "index.js": "nova.on('page:load', function() { ... });"
+  }
+}
+```
+
+---
+
+## 4. Operational Best Practices
+
+* **Inspection Before Editing:** Always retrieve active source code before executing `nova.plugin_update` to prevent overwriting auxiliary content scripts or losing existing event listener logic.
+* **Multi-File Bundle Awareness:** `plugin_get_code` returns all declared source files under `files`. Ensure you inspect all auxiliary scripts referenced in `contentScripts[]`.
+
+---
+
+## 5. Related Tools
 
 * [All plugin tools](README.md)
 * [Agent-Authored Plugins](../../../core-features/plugins/README.md)

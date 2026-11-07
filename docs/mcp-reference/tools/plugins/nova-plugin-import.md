@@ -29,7 +29,47 @@ Tool category: `high_impact` (highest risk class; Nova's agent permission settin
 
 ---
 
-## Related Tools
+## 3. Protocol Usage
+
+### JSON-RPC Request
+
+```json
+{
+  "_meta": { "intent": "Import trusted pricing assistant bundle" },
+  "bundleBase64": "UEsDBBQAAAAIA...",
+  "overwrite": true
+}
+```
+
+### JSON-RPC Response
+
+```json
+{
+  "ok": true,
+  "pluginId": "com.example.price-scanner",
+  "version": "1.3.0",
+  "status": "installed",
+  "autoGrantedPermissions": [
+    "StorageReadWrite"
+  ],
+  "pendingPermissions": [
+    "DomRead",
+    "OverlayWrite"
+  ]
+}
+```
+
+---
+
+## 4. Operational Best Practices
+
+* **Mandatory Intent Clause:** As a `high_impact` operation, `_meta.intent` must always be provided with a concise explanation; calls missing it are rejected immediately.
+* **Two-Stage Activation Pipeline:** Newly imported plugins are installed with Tier-1 auto-grant permissions only; review-gated permissions (e.g. `DomRead`, network access, MCP tools) remain pending until explicitly granted via `nova.plugin_request_permission`.
+* **Safeguarded Overwrites (`overwrite`):** By default (`overwrite: false`), importing fails if a plugin with the same ID already exists, guarding against accidental state clobbering. Set `overwrite: true` only during intentional version replacements.
+
+---
+
+## 5. Related Tools
 
 * [All plugin tools](README.md)
 * [Agent-Authored Plugins](../../../core-features/plugins/README.md)

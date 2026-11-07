@@ -28,7 +28,39 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## Related Tools
+## 3. Protocol Usage
+
+### JSON-RPC Request
+
+```json
+{
+  "_meta": { "intent": "Unmount all injected overlay elements" },
+  "pluginId": "com.example.price-scanner"
+}
+```
+
+### JSON-RPC Response
+
+```json
+{
+  "ok": true,
+  "pluginId": "com.example.price-scanner",
+  "status": "reverted",
+  "unmountedOverlays": 2
+}
+```
+
+---
+
+## 4. Operational Best Practices
+
+* **Complete Overlay Teardown:** Unmounts all active floating badges, custom sidebars, and shadow root containers created by the plugin, restoring the host DOM tree.
+* **Ledger Synchronization:** Clears corresponding entries in `PluginMutationLedger` and marks mutations as reverted, ensuring accurate state in subsequent calls to `nova.plugin_inspect`.
+* **Non-Destructive Execution:** Unlike disabling or uninstalling, resetting injections preserves the running plugin state, event listeners, and storage, making it ideal for temporary DOM cleanups.
+
+---
+
+## 5. Related Tools
 
 * [All plugin tools](README.md)
 * [Agent-Authored Plugins](../../../core-features/plugins/README.md)

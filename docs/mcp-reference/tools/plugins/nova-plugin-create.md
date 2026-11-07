@@ -32,7 +32,45 @@ Tool category: `high_impact` (highest risk class; Nova's agent permission settin
 
 ---
 
-## Related Tools
+## 3. Protocol Usage
+
+### JSON-RPC Request
+```json
+{
+  "_meta": { "intent": "Install pricing extraction extension" },
+  "manifest": "{\n  \"id\": \"com.example.price-scanner\",\n  \"version\": \"1.0.0\",\n  \"name\": \"Price Scanner\",\n  \"entryPoint\": \"index.js\",\n  \"requestedPermissions\": [\"DomRead\", \"StorageReadWrite\"],\n  \"hostPermissions\": { \"matches\": [\"https://shop.example.com/*\"] }\n}",
+  "code": "nova.on('page:load', function() {\n  var price = nova.dom.querySelector('.price');\n  if (price) nova.storage.local.set('lastPrice', price.text);\n});",
+  "deferActivation": true
+}
+```
+
+### JSON-RPC Response
+
+```json
+{
+  "ok": true,
+  "pluginId": "com.example.price-scanner",
+  "status": "created",
+  "state": "testing",
+  "version": "1.0.0",
+  "permissionsGranted": ["StorageReadWrite"],
+  "permissionsPending": ["DomRead"],
+  "hostMatchesPending": ["https://shop.example.com/*"]
+}
+```
+
+---
+
+## 4. Operational Best Practices
+
+* **Staged Activation Pattern (`deferActivation: true`):** Always create new plugins with `deferActivation: true`. This initializes the extension in the `Testing` state, preventing unvetted code from running automatically on live user tabs until verified via [`nova.plugin_test`](nova-plugin-test.md).
+* **Two-Tier Permission Model:** Installation grants only Auto-Grant permissions (such as `StorageReadWrite` or `BadgeWrite`). Review-gated permissions (such as `DomRead`, `NetworkFetch`, or `OverlayWrite`) and host permissions remain `pending` until approved via [`nova.plugin_request_permission`](nova-plugin-request-permission.md).
+* **Reverse-DNS Identifier Constraint:** Plugin IDs must match regex `[a-z][a-z0-9._-]{1,62}[a-z0-9]` (e.g. `com.vendor.workflow-helper`). Malformed IDs fail immediately with `-32602`.
+* **Mandatory Intent Field:** Calls to `plugin_create` require `_meta.intent`. Omission results in pre-dispatch validation rejection.
+
+---
+
+## 5. Related Tools
 
 * [All plugin tools](README.md)
 * [Agent-Authored Plugins](../../../core-features/plugins/README.md)

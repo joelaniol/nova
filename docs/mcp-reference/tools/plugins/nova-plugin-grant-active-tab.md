@@ -30,7 +30,48 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## Related Tools
+## 3. Protocol Usage
+
+### JSON-RPC Request
+
+```json
+{
+  "_meta": { "intent": "Temporarily grant active tab DOM access for price check" },
+  "pluginId": "com.example.price-scanner",
+  "targetId": "active",
+  "permissions": [
+    "DomRead",
+    "OverlayWrite"
+  ]
+}
+```
+
+### JSON-RPC Response
+
+```json
+{
+  "ok": true,
+  "pluginId": "com.example.price-scanner",
+  "targetId": "tab-8472",
+  "grantedSessionPermissions": [
+    "DomRead",
+    "OverlayWrite"
+  ],
+  "expiresOnNavigation": true
+}
+```
+
+---
+
+## 4. Operational Best Practices
+
+* **Ephemeral Session-Only Access:** Grants issued via `nova.plugin_grant_active_tab` exist only for the specified tab and automatically expire on the next top-level navigation, preventing unintended cross-site privilege leakage.
+* **Scoped Permission Subset:** Only page-scoped permissions (`DomRead`, `OverlayWrite`, `MutationClassWrite`, `MutationStyleWrite`) are permitted; network and host-level grants cannot be acquired through active-tab grants.
+* **Target Identification:** Default to `"active"` or provide explicit tab IDs (`"tab-..."`) to safely target secondary background tabs without changing active user focus.
+
+---
+
+## 5. Related Tools
 
 * [All plugin tools](README.md)
 * [Agent-Authored Plugins](../../../core-features/plugins/README.md)

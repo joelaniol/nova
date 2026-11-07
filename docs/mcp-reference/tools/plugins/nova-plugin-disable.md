@@ -29,7 +29,40 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## Related Tools
+## 3. Protocol Usage
+
+### JSON-RPC Request
+```json
+{
+  "_meta": { "intent": "Disable scanner during portal redesign" },
+  "pluginId": "com.example.price-scanner",
+  "reason": "Temporary deactivation while site DOM is restructured"
+}
+```
+
+### JSON-RPC Response
+
+```json
+{
+  "ok": true,
+  "pluginId": "com.example.price-scanner",
+  "status": "disabled",
+  "state": "disabled",
+  "terminatedInstances": 1
+}
+```
+
+---
+
+## 4. Operational Best Practices
+
+* **Immediate Instance Teardown:** Disabling immediately terminates all active Jint sandbox engines, unregisters event listeners, and unbinds dynamic MCP tools (`plugin.{pluginId}.*`).
+* **Automatic Mutation Rollback:** All DOM classes, styles, and open Shadow DOM overlays injected by the disabled plugin are cleanly rolled back via Nova's `PluginMutationLedger`.
+* **Auditability via `reason`:** Always supply a human-readable `reason` to record why the plugin was deactivated in the audit ledger.
+
+---
+
+## 5. Related Tools
 
 * [All plugin tools](README.md)
 * [Agent-Authored Plugins](../../../core-features/plugins/README.md)

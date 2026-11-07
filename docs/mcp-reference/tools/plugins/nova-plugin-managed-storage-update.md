@@ -31,7 +31,52 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## Related Tools
+## 3. Protocol Usage
+
+### JSON-RPC Request
+
+```json
+{
+  "_meta": { "intent": "Update enterprise backend URL and clear obsolete flags" },
+  "pluginId": "com.example.price-scanner",
+  "values": {
+    "apiEndpoint": "https://api-prod.internal.example.com/v2",
+    "telemetryEnabled": true
+  },
+  "deleteKeys": [
+    "betaFeatures"
+  ],
+  "clearExisting": false
+}
+```
+
+### JSON-RPC Response
+
+```json
+{
+  "ok": true,
+  "pluginId": "com.example.price-scanner",
+  "updatedKeys": [
+    "apiEndpoint",
+    "telemetryEnabled"
+  ],
+  "deletedKeys": [
+    "betaFeatures"
+  ]
+}
+```
+
+---
+
+## 4. Operational Best Practices
+
+* **Atomic Configuration Updates:** Combine `values`, `deleteKeys`, and `clearExisting` in a single call to atomically update configuration parameters without intermediate invalid states.
+* **Reactive Event Dispatch:** Updates automatically emit `storage.onChanged` events with `areaName='managed'` into running plugin engines, enabling live configuration reloads without restarting the plugin.
+* **Complete Overwrites:** Set `clearExisting: true` when enforcing a pristine policy state, purging any obsolete or stray configuration keys previously written.
+
+---
+
+## 5. Related Tools
 
 * [All plugin tools](README.md)
 * [Agent-Authored Plugins](../../../core-features/plugins/README.md)
