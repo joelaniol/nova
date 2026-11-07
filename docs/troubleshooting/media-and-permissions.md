@@ -1,6 +1,6 @@
-# Microphone, Camera, Media Permissions & Barcode Troubleshooting
+# Microphone, Camera, Media Permissions, Barcodes & Video Rendering Troubleshooting
 
-This guide resolves hardware detection failures, microphone level issues, WebRTC connection errors, permission blocks, and barcode or QR code synthesis failures across Nova AI Workspace and connected AI agents.
+This guide resolves hardware detection failures, microphone level issues, WebRTC connection errors, permission blocks, barcode synthesis issues, and programmatic video rendering errors across Nova AI Workspace and connected AI agents.
 
 ---
 
@@ -21,6 +21,12 @@ This guide resolves hardware detection failures, microphone level issues, WebRTC
 | `print_module_too_small` | Specified `printWidthMm` results in individual module size $< 0.25$ mm. | Increase `printWidthMm`, shorten the encoded string, or use `style: "classic"`. |
 | `scan_validation_failed` / `write_failed` | In-memory read-back assertion failed before saving to disk. | The code could not be decoded. Use `style: "classic"`, increase module size (`width`), or improve color contrast. |
 | `barcode_generate.output_exists` | The file specified in `outputPath` already exists on disk. | Choose a new destination file path or leave `outputPath` omitted to save into `Exports/Codes/`. |
+| `export.still_recording` | `nova.video_render` was invoked while screen recording is actively capturing. | Call `nova.screen_record_stop` before attempting to render clips. |
+| `export.no_timeline` | Features requiring timeline evidence (`idle: "auto"`, `keys: true`, `fromMarks: true`, `zoom: "auto"`) called on recording without evidence. | Record sessions with `nova.screen_record_start(evidence=true)`. |
+| `export.no_story` | `fromMarks: true` was passed, but the timeline contains no chapter markers. | Drop semantic marks with `role: "task"`, `"step"`, or `"result"` during the recording session. |
+| `render.proof_covered` | Video reframing (`aspect`) or camera push-in cuts off $> 2\%$ of a declared `protect` area. | Adjust browser window dimensions (`nova.window_set_size`) to match target aspect ratio, or remove conflicting zoom. |
+| `render.claim_before_evidence` | Chapter headline claims an outcome $\ge 1.0\text{ s}$ before the visual mutation appears. | Bind chapter to visual change with `startAt: "nextChange"` or use `fromMarks: true`. |
+| `video.not_owner` | Agent attempted to render a recording captured by a different agent session. | Pass the correct `agentId` or render the active session's own recording. |
 
 ---
 
@@ -206,8 +212,75 @@ Nova enforces strict mathematical check-digit integrity, accessibility contrast 
 
 ---
 
+## 8. Video Editing & Render Errors (`nova.video_render`)
+
+Nova's on-device video rendering engine evaluates strict timeline truthfulness invariants, accessibility contrast thresholds, and process boundaries. Use these resolutions when rendering fails:
+
+### 8.1 Active Recording & Ownership Conflicts (`export.still_recording`, `video.not_owner`)
+* **`export.still_recording`:**
+  * **Symptom:** `nova.video_render` halts with error `export.still_recording`.
+  * **Root Cause:** The browser window is actively capturing frames. A recording cannot be rendered until its MP4 container and evidence timeline are finalized.
+  * **Resolution:** Call `nova.screen_record_stop` before attempting to render clips.
+* **`video.not_owner`:**
+  * **Symptom:** Call fails with `video.not_owner`.
+  * **Root Cause:** The active agent attempted to render a recording captured by a different agent session without authorization.
+  * **Resolution:** Provide the matching `agentId` that initiated the recording, or omit `filePath` to automatically target your session's own most recent recording.
+
+### 8.2 Missing Evidence Timelines (`export.no_timeline`, `export.no_story`)
+* **`export.no_timeline`:**
+  * **Symptom:** Rendering with `idle: "auto"`, `keys: true`, `fromMarks: true`, or `zoom: "auto"` fails with `export.no_timeline`.
+  * **Root Cause:** These features depend on chronological event data recorded in `<name>.evidence/timeline.json`. The source recording was created without evidence capture.
+  * **Resolution:** Re-record the workflow with `nova.screen_record_start(evidence=true)`.
+* **`export.no_story`:**
+  * **Symptom:** Calling with `fromMarks: true` fails with `export.no_story`.
+  * **Root Cause:** The evidence timeline contains no semantic markers (`role: "task"`, `"step"`, or `"result"`). Nova cannot construct a narrative without chapter anchors.
+  * **Resolution:** Drop at least one marker during the recording session using `nova.screen_record_mark(role="task", headline="...")` or specify explicit `chapters: [...]`.
+
+### 8.3 Proof First Refusal & Area Clipping (`render.proof_covered`)
+* **Symptom:** Rendering halts with `render.proof_covered` specifying a timestamp and pixel coordinate.
+* **Root Cause:** Nova enforces a **Proof First Invariant**: if camera reframing (`aspect: "4:5"`), smooth panning, or a zoom effect cuts off more than 2% of a declared proof area (`protect: [...]`), the render is strictly aborted to prevent misleading evidence cuts.
+* **Resolution:**
+  1. Size the browser window prior to recording so that the page content matches the target aspect ratio (e.g. `nova.window_set_size(width=1376, height=1105)` for a 4:5 tab area).
+  2. Broaden the crop window or adjust the camera coordinates in `chapters[].camera`.
+  3. Narrow the `protect` bounding box to the essential text or metric rather than the entire table container.
+
+### 8.4 Premature Claims & Pacing Diagnostics (`render.claim_before_evidence`)
+* **Symptom:** Render check returns warning `render.claim_before_evidence`.
+* **Root Cause:** A chapter headline declared an outcome (e.g. "Report successfully downloaded") more than 1.0 second before the visual DOM mutation actually occurred on screen.
+* **Resolution:**
+  1. Use `startAt: "nextChange"` on the chapter object so Nova automatically reveals the headline in synchronization with the visual change.
+  2. Use `fromMarks: true` with `role: "step"`, which automatically looks backwards up to 5,000 ms (`StepLookBackMs`) to bind to the preceding visual change.
+
+### 8.5 Typography & Contrast Warnings (`render.headline_long`, `render.contrast_low`)
+* **`render.headline_long` / `render.caption_long`:**
+  * **Symptom:** Text appears smaller than standard or check returns `render.headline_long`.
+  * **Root Cause:** The headline or caption exceeded the maximum horizontal line width on the 4:5 scene grid and was automatically scaled down to prevent clipping.
+  * **Resolution:** Keep chapter headlines between 3 and 7 words (under 40 characters) and captions under 80 characters.
+* **`render.contrast_low`:**
+  * **Symptom:** Render check warns of low contrast.
+  * **Root Cause:** Custom style colors (`style.background`, `style.accent`) fall below WCAG readability ratios against the canvas.
+  * **Resolution:** Use Nova's default brand palette (violet `#9270F5`, light accent `#B39DFF`, semantic green `#55D6A4`, slate secondary `#ADB4C4`).
+
+### 8.6 Pre-Flight Simulation & Safe Testing (`dryRun: true`)
+* **Best Practice:** Always run a dry run before rendering a full video:
+  ```json
+  {
+    "name": "nova.video_render",
+    "arguments": {
+      "template": "nova-linkedin",
+      "fromMarks": true,
+      "dryRun": true
+    }
+  }
+  ```
+  This immediately validates all material checks, chapter bindings, and font fits in ~1 second without spending minutes encoding video frames.
+
+---
+
 ## Related Documentation
 
+* **[Programmatic Video Editing Architecture](../core-features/media-intelligence/video-editing/README.md)** — Architectural specification of Outrider video rendering, scene grids, and camera pacing.
+* **[Video Editing Tools Reference](../mcp-reference/tools/video-editing/README.md)** — Parameter specifications and template catalog.
 * **[Barcode, QR Code & Data Chart Synthesis Architecture](../core-features/media-intelligence/barcodes-and-charts/README.md)** — Symbologies, structured payloads, and camera stress tests.
 * **[Hardware Device Routing & Real-Time Diagnostics](../core-features/media-intelligence/devices-and-permissions/hardware-routing-and-diagnostics/README.md)** — Architectural specification of ConPTY, WebRTC diagnostics, and AudioGraph VU meters.
 * **[Permission Hierarchy & The Reason Stack](../core-features/media-intelligence/devices-and-permissions/permission-hierarchy-and-reason-stack/README.md)** — The 8-stage permission resolver and provenance logging.

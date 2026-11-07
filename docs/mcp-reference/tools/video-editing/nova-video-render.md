@@ -2,7 +2,7 @@
 
 > **Turns a screen recording into a clip: an animated GIF, a WebM or MP4 video, or a still.**
 
-* **Core Feature Guide:** [Visual Evidence & Auditing](../../../research/evidence-verification-mode-evm/README.md)
+* **Core Feature Guide:** [Video Composition & Rendering](../../../core-features/media-intelligence/video-editing/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

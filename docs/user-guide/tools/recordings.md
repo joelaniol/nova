@@ -116,9 +116,61 @@ In addition to tab-scoped event streams, Nova includes a hardware-accelerated **
 
 ---
 
-## 7. AI Agent Integration
+## 7. Video Composition, Editing & Template Rendering (`nova.video_render`)
 
-AI coding agents leverage session and screen recording as primary tools for self-verification, visual assertions, and debugging:
+Raw screen recordings frequently capture idle delays, pauses, or off-target window areas that distract human reviewers. Nova includes an on-device video editing engine that transforms raw recordings into concise, branded presentation clips:
+
+```mermaid
+flowchart LR
+    RawRecord["Raw MP4 Recording<br>+ timeline.json"] --> DryRun["1. Pre-Flight Check<br>dryRun: true (Plan in ~1 s)"]
+    DryRun --> RenderPass["2. Outrider Render Pass<br>(MP4, WebM, GIF, Lossless Cut)"]
+    RenderPass --> FormattedClip["3. Styled Presentation Clip<br>(4:5 Scene Grid, Proof Callouts)"]
+```
+
+### 1. Automated Storytelling from Timeline Marks (`fromMarks: true`)
+Rather than calculating manual millisecond cuts, agents instruct Nova to construct the narrative directly from chronological timeline markers dropped during execution:
+```json
+{
+  "name": "nova.video_render",
+  "arguments": {
+    "template": "nova-linkedin",
+    "fromMarks": true,
+    "resultCard": {
+      "title": "Quarterly Reconciled",
+      "sourceLabel": "Source ERP",
+      "targetLabel": "Live Portal"
+    },
+    "endCard": {
+      "text": "Audit Complete.\nZero Discrepancies.",
+      "cta": "Explore Report"
+    }
+  }
+}
+```
+* **Opening Hook:** Markers with `role: "task"` automatically establish the opening chapter, playing for exactly 1.8 seconds.
+* **Mutation Synchronization:** Markers with `role: "step"` bind backwards up to 5,000 ms to the preceding visual DOM mutation ($\ge 25\%$ area), revealing the step text as the page settles.
+* **Semantic Verification:** Concluding chapters (`role: "result"`) are highlighted in semantic green (`#55D6A4`) only if every UI check in the run passed.
+
+### 2. Visual Proof Effects (`proofFocus`) & Automatic Pacing (`proofPace`)
+* **Focus Highlighting:** Verified UI assertions dim the surrounding screen with a dark veil (`#0A0D14` at 50% opacity), spotlighting the exact DOM element box.
+* **Dynamic Morphing:** Consecutive checks within 2.5 seconds morph smoothly between elements in 200 ms, followed by an authoritative green checkmark ($\checkmark$) 133 ms after settlement.
+* **Human-Readable Pacing:** `proofPace: true` ensures that rapid automated checks are held for ~650 ms per item and 1,200 ms on the final check, making high-speed agent interactions easy to follow on video.
+
+### 3. Pre-Flight Dry Runs (`dryRun: true`)
+Before committing to full video rendering, agents test timing, font sizes, contrast, and layout constraints using `dryRun: true`:
+* Compiles the editorial plan and verifies all material and render checks in approximately 1 second.
+* Returns `{ ok, plan, durationMs, checks, segments }` without decoding frames or writing output files.
+
+### 4. Lossless Stream Cuts (`lossless: true`)
+When preparing bug reports or minimal reproduction attachments:
+* Setting `lossless: true` with `format: "mp4"` triggers an instantaneous keyframe stream copy via `Mp4Remux`.
+* Retains original H.264 video bytes and synchronized AAC audio with zero re-encoding loss.
+
+---
+
+## 8. AI Agent Integration
+
+AI coding agents leverage session, screen recording, and video rendering tools for self-verification, visual assertions, and automated reporting:
 
 * **Session Event Tools:**
   * [`nova.session_record_start`](../../mcp-reference/tools/session-recording/nova-session-record-start.md): Begins recording a target tab with custom permission classes.
@@ -132,12 +184,19 @@ AI coding agents leverage session and screen recording as primary tools for self
   * [`nova.screen_record_assert`](../../mcp-reference/tools/visual-evidence/nova-screen-record-assert.md): Evaluates visual UI assertions against running frames.
   * [`nova.screen_record_inspect`](../../mcp-reference/tools/visual-evidence/nova-screen-record-inspect.md): Retrieves the timeline, assertion logs, and contact sheet.
   * [`nova.screen_record_stop`](../../mcp-reference/tools/visual-evidence/nova-screen-record-stop.md): Finalizes the screen recording.
+* **Video Composition & Rendering Tools:**
+  * [`nova.video_render`](../../mcp-reference/tools/video-editing/nova-video-render.md): Compiles screen recordings into styled MP4, WebM, or GIF presentation clips, contact sheets, or lossless cuts.
+  * [`nova.video_template_list`](../../mcp-reference/tools/video-editing/nova-video-template-list.md): Lists all built-in and user-saved video rendering presets.
+  * [`nova.video_template_save`](../../mcp-reference/tools/video-editing/nova-video-template-save.md): Saves reusable aspect ratio, speed, and styling templates.
+  * [`nova.video_template_delete`](../../mcp-reference/tools/video-editing/nova-video-template-delete.md): Deletes custom video templates.
 
 ---
 
-## 8. Related Documentation
+## 9. Related Documentation
 
-* **[Core Features: Session Recording](../../core-features/session-recording/README.md)** — In-depth architectural details, encryption mechanics, and stream formats.
+* **[Programmatic Video Editing Architecture](../../core-features/media-intelligence/video-editing/README.md)** — In-depth architectural details of Outrider video rendering, scene grids, and camera pacing.
+* **[Core Features: Session Recording](../../core-features/session-recording/README.md)** — Architectural details, encryption mechanics, and event stream formats.
+* **[Video Editing Tools Reference](../../mcp-reference/tools/video-editing/README.md)** — Parameter specifications and template catalog.
 * **[Visual Evidence Tools Reference](../../mcp-reference/tools/visual-evidence/README.md)** — Screenshots, visual diffs, and screen video tools.
-* **[Tools Overview](README.md)** — Other workspace utilities including Transcription and Scheduled Tasks.
+* **[Tools Overview](README.md)** — Master hub for all built-in workspace utilities.
 * **[Agent Awareness Gates](../../core-features/agent-awareness-gates-aag/README.md)** — Safety boundaries for agent-initiated operations.

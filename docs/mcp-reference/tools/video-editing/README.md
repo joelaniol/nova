@@ -2,7 +2,7 @@
 
 Nova's video editor: screen recordings turned into GIF, WebM and MP4 clips or stills, with cuts, speed, captions, end cards, zoom, framing for feeds and reusable templates.
 
-* **Core Architecture Guide:** [Evidence Verification Mode (EVM) & Visual Evidence](../../../research/evidence-verification-mode-evm/README.md)
+* **Core Architecture Guide:** [Programmatic Video Editing Architecture](../../../core-features/media-intelligence/video-editing/README.md)
 * **Recording:** [Visual Evidence, Screenshots & Archiving](../visual-evidence/README.md) (`nova.screen_record_*`)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
