@@ -1,6 +1,6 @@
 # `nova.net_monitor_list`
 
-Lists the network monitors with their state, the last 15 minutes, disk size and the free probe budget.
+Lists the network monitors with their state, open events, the last 15 minutes, disk size and the free probe budget.
 
 > **Upcoming in 1.0.0-alpha.21:** this tool is not in a published setup yet.
 
@@ -12,6 +12,7 @@ Lists the network monitors with their state, the last 15 minutes, disk size and 
 
 * **`state`** per monitor: `running`, `starting`, `target_down`, `measurement_degraded` (rounds missed their slot or storage fell behind) or `stopped`.
 * **`last15m`**: measured probes, `probeSuccessPct`, `lossPct`, `p50Ms`, `p95Ms`, `overruns` and `hopProbesNotMeasured` (hop probes skipped to give way to other probes; never counted as loss).
+* **`openEvents`**: what is going on right now - an outage, loss, high latency or unsteady latency - with since when, its probable location and confidence (the same form as the events of [`nova.net_monitor_report`](nova-net-monitor-report.md)); `baselineStatus` says whether a baseline exists yet.
 * **Size**: stored rounds and summaries and an approximate byte count, which is what deleting the monitor frees.
 * **`freeProbesPerSecond`**: how much room is left for new monitors.
 

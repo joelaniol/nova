@@ -1,6 +1,6 @@
 # `nova.net_monitor_report`
 
-What a network monitor measured over a window: probe success, reachability and coverage kept apart, percentiles, RTT variation, gaps with their reason and, with a route, every hop.
+What a network monitor measured over a window: probe success, reachability and coverage kept apart, percentiles, RTT variation, gaps with their reason, outages and other events with their probable location and, with a route, every hop.
 
 > **Upcoming in 1.0.0-alpha.21:** this tool is not in a published setup yet.
 
@@ -16,7 +16,10 @@ What a network monitor measured over a window: probe success, reachability and c
 * **Latency.** `rtt` with min, p50, p95, p99, max and `sampleCount`; `rttVariation` with the mean difference between consecutive answers and a smoothed value (`ewmaMs`, from raw rounds). This is the variation of round-trip times, not RTP jitter, which needs one-way times.
 * **Route.** With a route monitor, `routes` lists each path version and `hops` gives sent, answered and loss per hop; a hop that never answered carries `lossNote: "hop_icmp_silent"` (a router that sends no ICMP, common at providers), and loss at a hop that clearly exceeds the target's loss carries `"icmp_rate_limit_likely"` - a router limiting answers to itself. Neither is lost traffic.
 * **`format: "series"`** adds up to `maxPoints` time buckets with measured, lost, min, average and max; buckets without measurements are left out.
-* **`limitations`** lists what the numbers cannot say. Outage and latency events are not built yet (`events_not_built`).
+* **Events: when did it drop, and where.** `events.items` lists what happened in the window, newest first (at most 50; `total`, `byKind` and `hasMore` count all): `outage`, `loss` (lost probes outside outages), `latency` and `rtt_variation`, plus the points in time `route_changed` and `target_address_changed`. Each carries `opened`, `closed`, `durationSeconds`, `peak`, `threshold` and `closeReason`. Only `recovered` means the condition went away; `monitor_stopped`, a gap reason, `epoch_changed`, `nova_not_running` or `unknown_process_gap` mean it was no longer measured. A recurrence within five minutes names the episode before in `previousEventId`.
+* **Probable location.** An outage or loss carries `location` with `suspectedSegment` (`local_network`, `target`, `path` with a hop range, or `unknown`), `confidence` (`high`, `medium`, `low`), a short `text` and `evidence` for and against as codes with values. It comes from what the monitors measured - other monitors failing at the same time, the gateway, hops that keep or stop answering - and is a hint, not a verdict: routers may simply stop answering ICMP to themselves. Events of several monitors that started together share a `correlationId` and list each other in `relatedEventIds`.
+* **`baseline` and `thresholds`.** The baseline is what is normal for this target, from clean minutes of the last 7 days (`insufficient_data`, `provisional`, `established`). `thresholds` shows each threshold in effect and its `source`: `profile`, `baseline`, your own from `nova.net_monitor_start(thresholds)`, or `needs_baseline` - latency and RTT-variation events wait for a baseline unless you set a threshold.
+* **`limitations`** lists what the numbers cannot say, for example `latency_events_need_baseline`.
 
 ---
 
@@ -64,7 +67,19 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
     "downSeconds": 20,
     "rtt": { "minMs": 17, "p50Ms": 21, "p95Ms": 34, "p99Ms": 61, "maxMs": 240, "sampleCount": 16497, "percentileMethod": "exact" },
     "rttVariation": { "meanAbsDeltaMs": 2.4, "ewmaMs": null, "samplePairs": 16420 },
-    "limitations": ["one_way_delay_not_measured", "events_not_built", "rtt_resolution_1ms", "rtt_variation_ewma_needs_raw"]
+    "events": {
+      "total": 1, "byKind": { "outage": 1 }, "hasMore": false,
+      "items": [ {
+        "eventId": 41, "kind": "outage", "opened": "2026-11-07T03:12:05Z", "closed": "2026-11-07T03:12:25Z",
+        "durationSeconds": 20, "closeReason": "recovered", "correlationId": 40, "relatedEventIds": [40],
+        "location": { "suspectedSegment": "local_network", "confidence": "medium",
+                      "text": "probably the local network (this PC, its connection or the router) (medium confidence)" },
+        "evidence": { "for": [ { "code": "affected_monitors", "value": 2 } ], "against": [] }
+      } ]
+    },
+    "baseline": { "status": "established", "p95Ms": 31, "medianMs": 21, "cleanMinutes": 9480 },
+    "thresholds": { "lossPct": { "value": 5, "source": "profile" }, "latencyP95Ms": { "value": 100, "source": "baseline" } },
+    "limitations": ["one_way_delay_not_measured", "rtt_resolution_1ms", "rtt_variation_ewma_needs_raw"]
   }
 }
 ```

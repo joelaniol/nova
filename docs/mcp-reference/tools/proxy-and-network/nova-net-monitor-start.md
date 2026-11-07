@@ -15,6 +15,7 @@ Starts a long-term connection monitor (like PingPlotter or Smokeping) that keeps
 * **Visible to the user.** While any monitor exists, Nova's toolbar shows a button with each monitor's state, the last 15 minutes and a small chart; the user can pause or delete it there.
 * **No duplicates.** The same host, method and port as an existing monitor answer `status: "already_exists"` with that `monitorId`, so repeating a start after a timeout is harmless.
 * **Limits.** At most 20 monitors and 35 probes per second for all of them together; a start that would exceed this answers `probe_budget_exceeded` with `freeProbesPerSecond`. A host name is looked up again every 5 minutes; a new address starts a new target epoch instead of mixing two hosts.
+* **Events.** Nova notes outages, loss, high or unsteady latency and route or address changes by itself; the report lists them with their probable location. Latency events compare against what is normal for the target (a baseline that needs about an hour of clean measurement) unless you pass your own `thresholds`; `profile: "custom"` means you do and requires them.
 * **`monitorId` alone** resumes a paused monitor as it was stored.
 * **Sent directly from this PC**, never through the browser's proxy. No administrator rights.
 
@@ -33,7 +34,11 @@ Starts a long-term connection monitor (like PingPlotter or Smokeping) that keeps
 | `intervalMs` | `integer` | No | — | 1000–60000 | Time between rounds. Default 1000 (lan), 2000 (wan), 2500 with route; at least 1000, with route at least 2500. Longer intervals are kinder to servers that rate-limit ICMP. |
 | `timeoutMs` | `integer` | No | — | 500–5000 | How long a probe may take before it counts as lost; at most intervalMs. Default 1000 (lan) or 1500. |
 | `payloadBytes` | `integer` | No | `32` | 0–1472 | ICMP payload in bytes. ICMP only. |
-| `profile` | `string` | No | — | `lan`, `wan`, `custom` | Sets the defaults: 'lan' (private address; 1 s, 1 s timeout), 'wan' (public address; 2 s, 1.5 s timeout), 'custom'. Default from the address. |
+| `profile` | `string` | No | — | `lan`, `wan`, `custom` | Sets the defaults: 'lan' (private address; 1 s, 1 s timeout; latency events from 20 ms p95, RTT variation from 5 ms), 'wan' (public address; 2 s, 1.5 s timeout; 100 ms, 20 ms), 'custom' (your own event thresholds - needs 'thresholds'). Default from the address. |
+| `thresholds` | `object` | No | — | — | Your own event thresholds; each set value replaces the profile floor and the baseline rule of its kind. Without them: loss 5 %, latency max(floor, 2x baseline p95), RTT variation max(floor, 3x baseline) - the last two only once a baseline exists. |
+| `thresholds.lossPct` | `number` | No | — | 0.1–50 | Loss event at this % of target probes lost (outside outages) over the loss window; closes below 40 % of it. |
+| `thresholds.latencyP95Ms` | `number` | No | — | 1–10000 | Latency event when the p95 RTT of two consecutive halves (5 min, or 20 rounds at long intervals, at most 30 min each) is above this; closes when both are below 80 % of it. |
+| `thresholds.rttVariationMs` | `number` | No | — | 0.1–5000 | RTT-variation event when the mean \|difference\| of consecutive RTTs in two consecutive halves is above this. |
 | `label` | `string` | No | — | ≤ 80 characters | Name shown in the toolbar and list. Default: host or device name. |
 | `monitorId` | `string` | No | — | ≤ 64 characters | Resume this stopped monitor as it was stored; no other argument with it. |
 

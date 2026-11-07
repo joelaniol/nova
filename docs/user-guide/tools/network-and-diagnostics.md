@@ -371,6 +371,13 @@ with a window such as `"last": "24h"`. It keeps three numbers apart: how many te
 all (`window.coveragePct`). Time when Nova was closed or the PC was asleep is listed as a gap with its reason and is
 never counted as an outage. Single measurements are kept 14 days, summaries 90 days.
 
+Nova also notes what happened: outages, packet loss, high or unsteady latency and changes of the route or the
+target's address, each with when it started and ended. For outages and loss the report names where the problem
+probably is - your local network, the target itself, or a stretch of the route - and how sure that is; ask *"When did
+the connection drop last night, and where?"*. While such a problem is going on, the monitor's line in the toolbar says
+so in words. Events are kept for a year. Latency is judged against what is normal for that target, which Nova learns
+after about an hour of clean measurement; the agent can also set its own thresholds.
+
 ---
 
 ## 5. Cryptographic TLS/SSL Auditing ([`nova.tls_inspect`](../../mcp-reference/tools/proxy-and-network/nova-tls-inspect.md))

@@ -18,8 +18,8 @@ Capability bundles of these tools: `connector_ops`, `page_read_debug`, `proxy_ma
 | **[`nova.net_devices_update`](nova-net-devices-update.md)** | Gives a device of the network inventory a name and a note, or forgets it. |
 | **[`nova.net_dns`](nova-net-dns.md)** | Looks up DNS records like `dig` or `nslookup`, compares several resolvers, and says what the answers mean. |
 | **[`nova.net_monitor_delete`](nova-net-monitor-delete.md)** | Deletes a network monitor with everything it measured. |
-| **[`nova.net_monitor_list`](nova-net-monitor-list.md)** | Lists the network monitors with their state, the last 15 minutes, disk size and the free probe budget. |
-| **[`nova.net_monitor_report`](nova-net-monitor-report.md)** | What a network monitor measured over a window: probe success, reachability and coverage kept apart, percentiles, RTT variation, gaps with their reason and, with a route, every hop. |
+| **[`nova.net_monitor_list`](nova-net-monitor-list.md)** | Lists the network monitors with their state, open events, the last 15 minutes, disk size and the free probe budget. |
+| **[`nova.net_monitor_report`](nova-net-monitor-report.md)** | What a network monitor measured over a window: probe success, reachability and coverage kept apart, percentiles, RTT variation, gaps with their reason, outages and other events with their probable location and, with a route, every hop. |
 | **[`nova.net_monitor_start`](nova-net-monitor-start.md)** | Starts a long-term connection monitor (like PingPlotter or Smokeping) that keeps measuring while Nova runs, or resumes a paused one. |
 | **[`nova.net_monitor_stop`](nova-net-monitor-stop.md)** | Pauses a network monitor; its measurements stay. |
 | **[`nova.net_ping`](nova-net-ping.md)** | Ping, traceroute in rounds (like mtr or PingPlotter), TCP ping and a Path-MTU check from this PC, with findings that say what the numbers mean. |
