@@ -76,7 +76,15 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ---
 
-## 4. Related Tools
+## 4. Operational Best Practices
+
+* **Schema Discovery Before Querying:** Always call `data_inspect` on unknown CSV, TSV, or SQLite files before running `nova.data_query`. This confirms exact column names, inferred data types, delimiter detection, and row count estimates.
+* **Delimiter & Encoding Warnings:** Inspect `warnings` for delimiter ambiguity or malformed header rows. If parsing issues are reported, address formatting before executing complex SQL transformations.
+* **Preview Inspection:** Use the returned `preview` object (columns and first data rows) to understand null value representations (such as `""`, `"N/A"`, or `null`) before writing query filters.
+
+---
+
+## 5. Related Tools
 
 * [`nova.data_query`](nova-data-query.md) to filter, group and total the data.
 * [`nova.convert_to_markdown`](nova-convert-to-markdown.md) to read a small table as text.

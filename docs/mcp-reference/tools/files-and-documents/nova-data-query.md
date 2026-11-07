@@ -82,6 +82,14 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ---
 
-## 4. Related Tools
+## 4. Operational Best Practices
+
+* **SQL Query Constraints:** Queries execute in an in-memory SQLite sandbox against the imported dataset table `data`. Read-only queries (`SELECT`) are permitted; schema modifications (`DROP`, `ALTER`, `CREATE`) or filesystem writes are strictly blocked.
+* **Result Set Budgeting (`limit`):** To avoid exhausting agent token limits on large datasets, specify a reasonable `limit` (e.g. 50–200 rows) or utilize SQL aggregate functions (`COUNT(*)`, `SUM()`, `AVG()`) in the query.
+* **Handling `truncated: true`:** When `truncated: true` is returned, more matching rows exist than the returned limit. Refine SQL `WHERE` clauses or use pagination with `OFFSET` to inspect subsequent data slices.
+
+---
+
+## 5. Related Tools
 
 * [`nova.data_inspect`](nova-data-inspect.md) for the column names and types first.

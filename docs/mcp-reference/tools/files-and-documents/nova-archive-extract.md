@@ -79,7 +79,16 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## 4. Related Tools
+## 4. Operational Best Practices
+
+* **Target Directory Invariant:** If `destinationDir` is specified, it must either not exist yet or be completely empty; `archive_extract` will never overwrite existing files or merge into populated directories.
+* **Selective Extraction with `entries`:** Rather than unpacking gigabyte-sized archives in full, pass an array of exact paths in `entries` (obtained from `nova.archive_inspect`) to extract only the target documents (for example, `entries: ["data/report.pdf"]`).
+* **Disk Space & In-Progress Marker:** Nova halts extraction if free disk space drops below 2 GB (`archive_extract.insufficient_space`). While extraction proceeds asynchronously, a temporary `.nova-extract-in-progress` marker file exists in the destination; never treat the folder as complete until the job reaches a terminal state.
+* **Async Job Polling:** If extraction does not complete within `wait` seconds (default 60), the tool returns `state: "running"` with a `jobId`. Follow progress with [`nova.archive_extract_status`](nova-archive-extract-status.md) rather than re-triggering extraction.
+
+---
+
+## 5. Related Tools
 
 * [`nova.archive_inspect`](nova-archive-inspect.md) to list the entries first.
 * [`nova.archive_extract_status`](nova-archive-extract-status.md) and [`nova.archive_extract_stop`](nova-archive-extract-stop.md) for a large archive.

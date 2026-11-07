@@ -70,7 +70,15 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ---
 
-## 4. Related Tools
+## 4. Operational Best Practices
+
+* **Batch Processing Monitoring:** When batch-processing entire directories of images, use `image_transform_status` to monitor `written`, `failed`, and `otherFilesSkipped`.
+* **Failure Code Inspection:** Check `failures[].reasonCode` (such as `corrupt_file` or `unsupported_format`) to isolate unreadable files without aborting the rest of the batch.
+* **Polling Interval:** Follow `suggestedPollMs` (typically 5000ms) between queries; do not hammer the job status API.
+
+---
+
+## 5. Related Tools
 
 * [`nova.image_transform_stop`](nova-image-transform-stop.md) to end a job and keep the copies written so far.
 * [`nova.image_transform`](nova-image-transform.md), which starts the job.

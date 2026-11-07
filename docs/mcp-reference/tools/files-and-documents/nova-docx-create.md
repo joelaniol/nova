@@ -68,7 +68,15 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## 4. Related Tools
+## 4. Operational Best Practices
+
+* **Clean Markdown Input Formatting:** Format the input `markdown` string with clear GitHub-flavored markdown (headers `#` through `###`, bullet points, bold/italic formatting, and standard pipes for tables). Complex nested HTML tags inside markdown are not rendered.
+* **File Overwrite Protection:** Output documents are saved automatically with timestamped names in Nova's `Exports\Office` directory. To avoid accumulating stale export files, clean up intermediate draft documents after delivery.
+* **Structure Verification:** Review the returned `details` object (`headings`, `paragraphs`, `tables`) to confirm that all sections of the report parsed into native Word structures.
+
+---
+
+## 5. Related Tools
 
 * [`nova.xlsx_create`](nova-xlsx-create.md) for spreadsheets.
 * [`nova.convert_to_markdown`](nova-convert-to-markdown.md) for the opposite direction.

@@ -104,6 +104,14 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ---
 
-## 4. Related Tools
+## 4. Operational Best Practices
+
+* **Dual-Engine Comparison (`engine: "both"`):** When processing low-quality scans, blurry receipts, or faded invoices, select `engine: "both"`. This runs Tesseract and PaddleOCR concurrently, enabling side-by-side confidence comparisons on ambiguous text.
+* **Evaluating OCR Confidence & Warnings:** Inspect `pages[].quality` and `pages[].confidence`. If `quality: "uncertain"` is returned with advice on specific pages, flag critical financial or identity numbers for user verification.
+* **Target Page Scoping (`pages`):** For large documents, specify target pages (such as `pages: "1-3,5"`) rather than running full-document OCR to conserve CPU cycles and avoid long timeouts.
+
+---
+
+## 5. Related Tools
 
 * [`nova.convert_to_markdown`](nova-convert-to-markdown.md) and [`nova.read_pdf`](nova-read-pdf.md) for PDFs that have a text layer: exact text, no recognition errors.

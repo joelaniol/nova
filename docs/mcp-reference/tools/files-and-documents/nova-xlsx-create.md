@@ -83,7 +83,15 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## 4. Related Tools
+## 4. Operational Best Practices
+
+* **Explicit Sheet and Column Definitions:** Provide structured `sheets` arrays containing explicit `name`, `columns`, and `rows`. Ensure data types match across columns (numbers, strings, booleans, dates) to enable native Excel sorting and formula calculations.
+* **Handling Currency and Formats:** Pass pure numbers in data rows; avoid pre-formatting with currency symbols or commas, which coerces numbers into text cells and breaks spreadsheet math.
+* **Multiple Tabs in One Workbook:** Take advantage of the `sheets` array to generate multi-tab workbooks (such as `Summary`, `Monthly Breakdown`, `Raw Data`) in a single call rather than generating disjointed spreadsheets.
+
+---
+
+## 5. Related Tools
 
 * [`nova.data_query`](nova-data-query.md) to compute the numbers first.
 * [`nova.docx_create`](nova-docx-create.md) for a written report.

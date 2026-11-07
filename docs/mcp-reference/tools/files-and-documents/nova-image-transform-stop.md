@@ -56,7 +56,14 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## 4. Related Tools
+## 4. Operational Best Practices
+
+* **Graceful Worker Termination:** Stopping an image transformation job immediately halts the background worker while keeping all successfully written copies up to that moment.
+* **Status Confirmation:** Always query [`nova.image_transform_status`](nova-image-transform-status.md) following a stop request until `status: "stopped"` is confirmed.
+
+---
+
+## 5. Related Tools
 
 * [`nova.image_transform_status`](nova-image-transform-status.md) for the summary after the stop.
 * [`nova.image_transform`](nova-image-transform.md) to start again.

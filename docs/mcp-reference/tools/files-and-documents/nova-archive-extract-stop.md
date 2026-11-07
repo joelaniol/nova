@@ -56,7 +56,14 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## 4. Related Tools
+## 4. Operational Best Practices
+
+* **Safe Cleanup Semantics:** Stopping an extraction does not leave partial, corrupted files behind. Nova's extraction engine cancels the worker and automatically rolls back (deletes) all partially written files in the destination directory.
+* **Confirming Stop with Status:** After invoking `archive_extract_stop`, verify that [`nova.archive_extract_status`](nova-archive-extract-status.md) transitions to `state: "stopped"` and `terminal: true` before attempting a new extraction or reusing the destination directory name.
+
+---
+
+## 5. Related Tools
 
 * [`nova.archive_extract_status`](nova-archive-extract-status.md) to see when the stop has finished.
 * [`nova.archive_extract`](nova-archive-extract.md) to start again.

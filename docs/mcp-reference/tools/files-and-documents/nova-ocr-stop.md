@@ -56,7 +56,14 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## 4. Related Tools
+## 4. Operational Best Practices
+
+* **Preserving Partial Extractions:** Stopping an active OCR job halts further processing while preserving all page transcripts recognized up to the point of interruption.
+* **Terminal Verification:** Poll [`nova.ocr_status`](nova-ocr-status.md) until `state: "stopped"` is confirmed before initiating subsequent file operations.
+
+---
+
+## 5. Related Tools
 
 * [`nova.ocr_status`](nova-ocr-status.md) to get the pages read before the stop.
 * [`nova.ocr_read`](nova-ocr-read.md) to read the remaining pages later.

@@ -107,6 +107,14 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## 4. Related Tools
+## 4. Operational Best Practices
+
+* **Error Correction vs. Data Density:** For QR codes (`type: "qr"`), choose `errorCorrection: "M"` (15% redundancy) for standard clean digital displays, or `"H"` (30% redundancy) if the code will be printed on physical packaging or may experience visual obstruction.
+* **Automatic Read-Back Assertion (`verified: true`):** Nova automatically validates generated barcodes by running internal decode verification before saving. If the generated image cannot be decoded cleanly (e.g. due to excessive data density at small dimensions), generation fails safe rather than producing an unreadable barcode.
+* **Print Geometry Verification:** When preparing codes for physical production, specify `printWidthMm` to ensure individual module sizes meet minimum scan resolution standards (e.g. at least 0.35mm per module).
+
+---
+
+## 5. Related Tools
 
 * [`nova.barcode_decode`](nova-barcode-decode.md) reads codes from images.

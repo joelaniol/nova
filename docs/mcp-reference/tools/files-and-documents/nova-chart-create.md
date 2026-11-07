@@ -105,7 +105,15 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## 4. Related Tools
+## 4. Operational Best Practices
+
+* **Data Structuring Standards:** Pass tabular data as an array of row objects where keys match `xKey` and `series` identifiers. Ensure numeric values are strictly typed as numbers, not formatted currency strings (for example, `1250.5` instead of `"$1,250.50"`).
+* **Choosing Chart Types:** Select `type: "column"` or `type: "bar"` for discrete categorical comparisons, `type: "line"` or `type: "area"` for continuous time series, and `type: "pie"` or `type: "donut"` for fractional parts of a whole (up to 7 slices maximum for readability).
+* **Pre-Aggregating Data:** ScottPlot renders clean vector charts directly from provided data points. Avoid passing raw unaggregated transactional rows; summarize and group metrics via [`nova.data_query`](nova-data-query.md) first.
+
+---
+
+## 5. Related Tools
 
 * [`nova.data_query`](nova-data-query.md) sums up, filters and sorts a table before charting.
 * [`nova.data_inspect`](nova-data-inspect.md) shows which columns a file has.

@@ -71,7 +71,15 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## 4. Related Tools
+## 4. Operational Best Practices
+
+* **Defining Clean Split Segments:** Pass unambiguous page ranges in `ranges` (for example, `[{ "name": "part1", "pages": "1-5" }, { "name": "part2", "pages": "6-10" }]`) to cleanly separate distinct sections or document attachments.
+* **Disk Space Consideration:** Splitting massive multi-hundred-page documents into individual single-page files creates numerous files on disk. Group logical chapters or document sections together rather than extracting single pages unnecessarily.
+* **Downstream Processing:** Split documents are saved in dedicated subfolders; pass split parts directly to [`nova.convert_to_markdown`](nova-convert-to-markdown.md) or [`nova.ocr_read`](nova-ocr-read.md) for focused textual analysis.
+
+---
+
+## 5. Related Tools
 
 * [`nova.pdf_compose`](nova-pdf-compose.md) to merge or reorder pages.
 * [`nova.convert_to_markdown`](nova-convert-to-markdown.md) to read one of the parts.

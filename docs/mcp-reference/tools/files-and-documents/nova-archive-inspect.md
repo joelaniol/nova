@@ -75,7 +75,16 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ---
 
-## 4. Related Tools
+## 4. Operational Best Practices
+
+* **Pre-Flight Path Traversal & Zip-Bomb Auditing:** Always run `nova.archive_inspect` before invoking `nova.archive_extract`. Inspect the returned `warnings` array and individual `entries[].problem` fields: entries with `unsafe_path` (absolute paths or `../` directory traversal attempts) or high compression ratios (>100x, indicative of zip bombs) are flagged in advance.
+* **Format Constraints:** Supported formats are `.zip`, `.tar`, `.tar.gz`, and `.tgz`. Formats such as RAR, 7z, xz, or bzip2 return `archive_inspect.unsupported_format`.
+* **Streaming Compressed TAR Boundaries:** Because compressed TAR archives lack an index table of contents, scanning large backups can take up to two minutes. If `complete: false` is returned, the listing reflects entries read prior to the timeout.
+* **Pagination via `maxEntries`:** On huge archives containing thousands of files, pass `maxEntries: 100` (default, up to 1000) to keep token consumption manageable while inspecting top-level directory structures.
+
+---
+
+## 5. Related Tools
 
 * [`nova.archive_extract`](nova-archive-extract.md) to unpack the archive or chosen entries.
 * [`nova.convert_to_markdown`](nova-convert-to-markdown.md) to read the unpacked documents.

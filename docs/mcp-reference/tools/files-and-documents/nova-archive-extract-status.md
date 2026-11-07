@@ -65,7 +65,15 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ---
 
-## 4. Related Tools
+## 4. Operational Best Practices
+
+* **Suggested Polling Cadence (`suggestedPollMs`):** Honor the returned `suggestedPollMs` (typically 5000ms) between polling attempts. Aggressive tight-loop polling wastes CPU cycles without accelerating extraction.
+* **Terminal State Verification (`terminal: true`):** A job is only finished when `terminal` is `true`. Check `state === "completed"` before attempting to read extracted files, or `state === "failed"` / `"stopped"` to inspect errors and cleaned-up files.
+* **Progress Tracking for Large Archives:** Inspect `progress.bytesWritten` and `progress.currentEntry` to provide meaningful user feedback during long-running background extractions.
+
+---
+
+## 5. Related Tools
 
 * [`nova.archive_extract`](nova-archive-extract.md) starts the job.
 * [`nova.archive_extract_stop`](nova-archive-extract-stop.md) stops it.

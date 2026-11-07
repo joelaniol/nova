@@ -118,6 +118,14 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## 4. Related Tools
+## 4. Operational Best Practices
+
+* **Metadata Sanitization Presets:** Use `removeMetadata: ["privacy"]` to strip personal metadata (GPS location, camera serial numbers, author bylines) while preserving technical camera settings, or `stripMetadata: true` to eliminate all EXIF, XMP, and IPTC segments entirely for minimal file size.
+* **Aspect Ratio Preservation during Resize:** When specifying dimensions in `resize`, supply either `width` or `height` alone to automatically preserve the original aspect ratio without distortion.
+* **Format Conversion for Web Optimization:** Convert uncompressed TIFF or bulky JPEG photos to modern `format: "webp"` with `quality: 80` to drastically reduce storage footprint while preserving visual fidelity.
+
+---
+
+## 5. Related Tools
 
 * [`nova.image_info`](nova-image-info.md) shows size, orientation and metadata first.

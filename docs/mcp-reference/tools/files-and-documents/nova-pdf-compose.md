@@ -70,7 +70,15 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## 4. Related Tools
+## 4. Operational Best Practices
+
+* **Page Indexing Precision:** When specifying pages to merge or reorder in `pages`, use 1-based page numbers or ranges (for example, `"1-5,8,11-14"`). Specifying out-of-range page numbers fails the call with parameter validation errors.
+* **Preserving Original Source Files:** `pdf_compose` produces a new merged document in the `Exports\PDF` folder without altering the original source PDF files.
+* **Pre-Flight Text Layer Check:** Before merging scanned documents, verify with [`nova.read_pdf`](nova-read-pdf.md) whether source PDFs contain selectable text layers or require OCR processing first.
+
+---
+
+## 5. Related Tools
 
 * [`nova.pdf_split`](nova-pdf-split.md) to cut one PDF into several.
 * [`nova.read_pdf`](nova-read-pdf.md) to check the text of the result.

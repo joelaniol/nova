@@ -68,7 +68,15 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ---
 
-## 4. Related Tools
+## 4. Operational Best Practices
+
+* **Tracking Multi-Page Background Jobs:** For long PDF documents running OCR in the background, check `pagesRead` vs. `pagesTotal` to report precise progress.
+* **Intermediate Results Retrieval:** Even while `state: "running"`, `ocr_status` provides access to pages processed so far, allowing agents to begin analyzing early sections before full-document completion.
+* **Polling Cadence:** Respect `suggestedPollMs` (typically 5000ms) between polling requests to avoid saturating MCP transport channels.
+
+---
+
+## 5. Related Tools
 
 * [`nova.ocr_stop`](nova-ocr-stop.md) to end a job and keep what was read.
 * [`nova.ocr_read`](nova-ocr-read.md) and [`nova.convert_to_markdown`](nova-convert-to-markdown.md), which start the jobs.
