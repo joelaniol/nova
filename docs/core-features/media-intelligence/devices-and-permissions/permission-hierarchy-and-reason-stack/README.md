@@ -1,63 +1,46 @@
 # Permission Hierarchy & The Reason Stack
 
 > [!NOTE]
-> Web applications frequently request access to high-risk hardware peripherals—webcams, microphones, speaker audio output, screen-sharing pipelines, and geolocation sensors. **Nova AI Workspace** enforces an 8-stage decision hierarchy and returns complete evaluation provenance via the **`reasonStack`**.
+> Web applications frequently request access to high-risk hardware peripherals—webcams, microphones, speaker audio output, screen-sharing pipelines, and geolocation sensors. **Nova AI Workspace** enforces an 8-stage decision hierarchy and explains every decision with a **`reasonStack`**.
 
 ---
 
 ## 1. The 8-Stage Permission Resolver Architecture
 
-When a website or web application invokes `navigator.mediaDevices.getUserMedia` or `getDisplayMedia`, Nova evaluates effective access through a strict, multi-layered priority chain implemented in `MediaPermissionResolver`:
+When a website invokes `navigator.mediaDevices.getUserMedia` (camera, microphone) or selects an audio output, Nova decides through a fixed chain of eight stages. The first stage that reaches a decision ends the chain; every stage it passes leaves a line in the `reasonStack`:
 
 ```mermaid
 flowchart TD
-    Req["Website invokes getUserMedia()"] --> R0{"1. Automation Hard Deny?<br/>(AutomationHardDenyRule)"}
-    R0 -- "Crawler Context" --> BlockAuto["Deny: automation_hard_deny"]
-    R0 -- "Normal Context" --> R1{"2. User Gesture Present?<br/>(NonUserInitiatedHardDenyRule)"}
-    
-    R1 -- "No Gesture (CDP/Script)" --> BlockGesture["Deny: non_user_initiated_hard_deny"]
-    R1 -- "User Gesture Valid" --> R2{"3. Enterprise DLP Policy?<br/>(EnterpriseOverrideRule)"}
-    
-    R2 -- "EDR Policy Set" --> BlockEnterprise["Apply Enterprise Policy"]
-    R2 -- "Not Configured" --> R3{"4. Windows OS Privacy?<br/>(OsPrivacyRule)"}
-    
-    R3 -- "OS Privacy Switch OFF" --> BlockOS["Deny: os_privacy:camera=block"]
-    R3 -- "OS Privacy Switch ON" --> R4{"5. Stored Site Grant?<br/>(SiteGrantRule)"}
-    
-    R4 -- "allow" --> AllowSite["Allow: site_override:allow"]
-    R4 -- "block" --> BlockSite["Deny: site_override:block"]
-    R4 -- "None" --> R5{"6. Global Policy Mode?<br/>(GlobalModeRule)"}
-    
-    R5 -- "BlockAll" --> BlockGlobal["Deny: global_mode:block_all"]
-    R5 -- "Allow" --> AllowGlobal["Allow: global_mode:allow"]
-    R5 -- "Ask" --> R6{"7. Ephemeral Session Grant?<br/>(SessionGrantRule)"}
-    
-    R6 -- "Session Active" --> AllowSession["Allow: session_grant:active"]
-    R6 -- "No Grant" --> R7["8. Terminal Ask Prompt<br/>(AskUserRule)"]
-    
-    R7 --> PromptUser["Prompt Human Operator in WinUI 3 Dialog"]
+    Req["Website requests camera / microphone / speaker"] --> R0{"1. Hidden automation context?"}
+    R0 -- "Hidden crawl" --> BlockAuto["Deny: automation_hard_deny:hidden_crawl"]
+    R0 -- "No" --> R1{"2. Request without user gesture?"}
+
+    R1 -- "Not user-initiated" --> BlockGesture["Deny: non_user_initiated_hard_deny:auto_blocked"]
+    R1 -- "User-initiated" --> R2["3. Enterprise override<br/>(enterprise_override:not_configured)"]
+
+    R2 --> R3["4. OS privacy<br/>(os_privacy:not_checked)"]
+    R3 --> R4{"5. Stored site setting?"}
+
+    R4 -- "allow / deny" --> SiteDecision["site_grant:Allow / site_grant:Deny"]
+    R4 -- "ask or none" --> R5{"6. Global mode for this device?"}
+
+    R5 -- "Allow / Deny" --> GlobalDecision["global_mode:Camera=Allow / =Deny"]
+    R5 -- "Ask" --> R6{"7. 'Allow once' grant in this session?"}
+
+    R6 -- "Yes" --> AllowSession["Allow: session_grant:active"]
+    R6 -- "No" --> R7["8. Ask the user<br/>(ask_user:default_terminal)"]
 ```
 
-### The 8 Rules in Order of Precedence:
+### The 8 Stages in Order of Precedence
 
-1. **`AutomationHardDenyRule` (Position 0 - Invariant):**
-   * Hidden crawl contexts, automated web scrapers, and headless discovery pipelines are **unconditionally hard-denied** camera and microphone access.
-   * This rule sits at position 0 so that no downstream enterprise policy, OS toggle, or site setting can ever accidentally expose physical cameras to background web scrapers.
-2. **`NonUserInitiatedHardDenyRule`:**
-   * When `BlockNonUserInitiatedMediaRequests` is enabled in settings (default: `true`), requests lacking a verified user gesture are blocked before site grants or global policies are checked.
-   * Protects against autonomous CDP scripts, popups, and tab switches activating microphones silently.
-3. **`EnterpriseOverrideRule`:**
-   * Enterprise Group Policy, DLP software, and endpoint management systems take precedence over user decisions.
-4. **`OsPrivacyRule`:**
-   * Evaluates Windows operating system privacy switches (**Windows Settings → Privacy & Security → Camera / Microphone**). If the operating system level toggle is disabled by the user, browser-level permissions cannot override it.
-5. **`SiteGrantRule`:**
-   * Persistent per-origin permission rules recorded in `settings.json` (e.g. `https://meet.google.com` $ightarrow$ `allow`).
-6. **`GlobalModeRule`:**
-   * Evaluates the global Permission Center policy mode (`BlockAll`, `Ask`, `Allow`).
-7. **`SessionGrantRule`:**
-   * Evaluates transient, in-memory "Allow once" grants valid strictly for the active browser session. Cleared when the tab closes or via `nova.media_permissions_clear_session_grants`.
-8. **`AskUserRule`:**
-   * Terminal fallback rule that displays an interactive WinUI 3 permission dialog to the operator.
+1. **Automation hard deny (always first):** Hidden crawl contexts never get camera or microphone access. Because this stage runs before everything else, no later setting can open a device to a background crawl.
+2. **Non-user-initiated hard deny:** With the protected setting under Settings > Site permissions that blocks camera/microphone requests no user action started (on by default; agents cannot change it), a request that no user action started is denied before site or global settings are read.
+3. **Enterprise override:** Reserved for managed policies; today it records `enterprise_override:not_configured` and passes on.
+4. **OS privacy:** Nova does not read the Windows privacy switches here; the stage records `os_privacy:not_checked`. If Windows blocks the camera or microphone, the device simply delivers no signal even when Nova allows the site.
+5. **Site setting:** The per-site choice from Settings or `nova.media_permission_set` (also per embedding frame). `allow` or `deny` decides; `ask` passes on.
+6. **Global mode:** The default per device type (`Allow`, `Deny` or `Ask`) from the Permission Center.
+7. **Session grant:** An "Allow once" answer for this site, kept in memory for the session; `nova.media_permissions_clear_session_grants` removes it.
+8. **Ask the user:** Nova shows its permission prompt.
 
 ---
 
@@ -77,31 +60,33 @@ Nova manages permissions independently across five distinct peripheral axes:
 
 ## 3. Provenance Chains & The `reasonStack`
 
-When agents query permissions using [`nova.media_permission_get`](../../../../mcp-reference/tools/media-and-transcription/nova-media-permission-get.md), Nova returns the complete evaluation provenance stack:
+[`nova.media_permission_get`](../../../../mcp-reference/tools/media-and-transcription/nova-media-permission-get.md) returns the stored setting, the `effective` value per device and, per device, the `provenance` of today's decision: `state`, the deciding `source`, its `lifetime` and the `reasonStack` of the stages it passed:
 
 ```json
 {
-  "axis": "camera",
-  "origin": "https://meet.google.com",
-  "effective": "allow",
-  "reasonStack": [
-    "automation_hard_deny:skipped",
-    "non_user_initiated_hard_deny:skipped",
-    "enterprise_override:not_configured",
-    "os_privacy:not_configured",
-    "site_grant:allowed",
-    "global_mode:skipped",
-    "session_grant:skipped",
-    "terminal_ask:skipped"
-  ]
+  "origin": "https://meet.example.com",
+  "effective": { "camera": "allow", "microphone": "allow", "speaker": "ask", "screenCapture": "ask", "geolocation": "ask" },
+  "provenance": {
+    "camera": {
+      "state": "allow",
+      "source": "SiteGrant",
+      "lifetime": "persistent",
+      "reasonStack": [
+        "automation_hard_deny:not_in_automation_context",
+        "non_user_initiated_hard_deny:user_initiated",
+        "enterprise_override:not_configured",
+        "os_privacy:not_checked",
+        "site_grant:Allow:https://meet.example.com:Camera"
+      ]
+    }
+  }
 }
 ```
 
-### Security Log Sanitization (`ReasonStackOriginSanitizer`)
-Origin strings originating from untrusted web pages or external MCP parameters are strictly sanitized before being interpolated into reason stack strings:
-* Restricted to ASCII alphanumeric characters and standard punctuation (`[A-Za-z0-9./:_-]`).
-* Replaces newlines, carriage returns, ANSI escape codes, and non-ASCII glyphs with `_`.
-* Prevents log-forging attacks and terminal escape injection.
+Shortened: the result also carries `stored`, `sessionGrants` and the provenance of the other devices.
+
+### Origin Sanitization
+Origins in the reason stack come from web pages and agent arguments, so Nova sanitizes them before writing them into a stack line: only plain ASCII letters, digits and URL punctuation stay, everything else (line breaks, control and escape characters, non-ASCII) becomes `_`. A page cannot forge extra stack lines or terminal output that way.
 
 ---
 

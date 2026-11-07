@@ -231,7 +231,7 @@ Every render execution evaluates a dual diagnostic suite, returning `{ ok: boole
 * **`render.motion_budget`:** Warning if excessive camera zooms occur (more than two zooms within 20 seconds).
 * **`render.proof_covered`:** **Refusal.** Aborts generation if camera reframing cuts off any protected proof area.
 * **`render.claim_before_evidence`:** Warning if an unbound chapter claims an outcome $\ge 1.0\text{ second}$ before the corresponding visual mutation appears on screen.
-* **`render.headline_long` / `render.caption_long`:** Informational notice if text was automatically downscaled below 95% of standard font size to fit width constraints.
+* **`render.task_too_long`:** Warning if a task chapter stands longer than 2,500 ms in the clip; the hook should give way to the story sooner.
 
 ---
 

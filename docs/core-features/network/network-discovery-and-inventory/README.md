@@ -141,7 +141,7 @@ Nova separates device categorization into three independent assertions, each car
 ### Confidence Evaluation Rules:
 * **Independent Source Aggregation:** Evidence must originate from independent network layers. Multiple HTTP headers on the same port count as a single HTTP evidence point.
 * **Non-Misleading Negative Results:**
-  * An ICMP drop is reported as `icmp_no_reply`, not as "device offline" (many secure firewalls and Windows PCs drop ping).
+  * A missing ping answer is never read as "device offline" (many firewalls and Windows PCs drop ping); other probes can still find the device.
   * A TCP port timeout is reported as `no_response`, not `filtered` (without raw socket access, packet filtering cannot be proven).
   * Devices not observed in a single scan are marked `not_seen`, not "removed". A device transitions to `likely_gone` only after multiple consecutive scans over the same network interface fail to observe it.
 
@@ -149,56 +149,7 @@ Nova separates device categorization into three independent assertions, each car
 
 ## 6. Persistent Network Inventory (`netmonitor.db`)
 
-Every device discovered by `nova.net_scan` is automatically stored in Nova's local SQLite database (`netmonitor.db`), accessible via [`nova.net_devices`](../../../mcp-reference/tools/proxy-and-network/nova-net-devices.md):
-
-```mermaid
-erDiagram
-    DEVICES ||--o{ DEVICE_KEYS : "identified by"
-    DEVICES ||--o{ OBSERVATIONS : "verified by"
-    SCANS ||--o{ OBSERVATIONS : "records"
-
-    DEVICES {
-        string deviceId PK
-        string primaryAddress
-        string class
-        float classConfidence
-        string vendor
-        string model
-        string osFamily
-        string friendlyName
-        string operatorNote
-        string presenceState
-        datetime firstSeen
-        datetime lastSeen
-    }
-
-    DEVICE_KEYS {
-        string deviceId FK
-        string keyType
-        string keyValue PK
-    }
-
-    OBSERVATIONS {
-        string observationId PK
-        string deviceId FK
-        string scanId FK
-        string source
-        string transport
-        int port
-        string rawObservation
-        float confidence
-        datetime observedUtc
-    }
-
-    SCANS {
-        string scanId PK
-        string targetScope
-        string profile
-        int deviceCount
-        datetime startedUtc
-        datetime endedUtc
-    }
-```
+Every device discovered by `nova.net_scan` is automatically stored in Nova's local SQLite database (`netmonitor.db`), accessible via [`nova.net_devices`](../../../mcp-reference/tools/proxy-and-network/nova-net-devices.md). Each device carries `deviceId`, `label`, `note`, `class` (value and confidence), `vendor`, `model`, `osFamily`, `addresses`, `macs`, `names`, `openPorts`, `roles`, `presence`, `missCount`, `firstSeenUtc`, `lastSeenUtc` and `lastScanId`.
 
 ### Decoupling Identity from IP Addresses
 In modern DHCP and Wi-Fi networks, IP addresses change frequently. Nova pins device identities to persistent hardware and cryptographic anchors:
@@ -207,7 +158,7 @@ In modern DHCP and Wi-Fi networks, IP addresses change frequently. Nova pins dev
 * **TLS Subject Public Key Info (SPKI):** SHA-256 hash of the public key certificate presented on HTTPS or FTPS ports.
 * **UPnP / WS-Discovery UUID:** Globally unique device identifiers embedded in discovery payloads.
 
-When a device obtains a new DHCP address, Nova detects the address change, updates `primaryAddress`, and marks `isNew: false`, preserving historical notes and telemetry.
+When a device obtains a new DHCP address, Nova recognises it by these anchors and adds the new address to the same device; in the scan result it is not marked `isNew`, and its label and note stay.
 
 ---
 

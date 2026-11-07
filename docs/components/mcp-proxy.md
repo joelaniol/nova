@@ -192,7 +192,7 @@ An agent does not need to restart or dump its entire context with a full `tools/
 }
 ```
 
-When Nova returns the updated contract, the proxy parses the response, updates its `_clientVisibleToolCompatSignatures` record for that specific tool, and immediately removes it from the drift quarantine (`_driftBlockedToolNames`). Subsequent calls to `nova.navigate` succeed instantly.
+When Nova returns the updated contract, the proxy records the tool's new contract and immediately lifts its drift quarantine. Subsequent calls to `nova.navigate` succeed instantly.
 
 ### Additive Growth Tolerance (Mode 2i)
 If a Nova update introduces new tools without altering existing tool signatures, the proxy treats this as additive growth. Existing tools continue executing with zero friction, and newly introduced tools become callable as soon as the client refreshes its tool list.

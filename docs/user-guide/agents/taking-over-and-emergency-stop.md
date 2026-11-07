@@ -42,7 +42,7 @@ If you want to take over manual control of a tab without aborting the agent's en
 1. Look at the tab strip or the window title bar.
 2. Click the **Release agent** button located on the tab's sandbox pill, or open the toolbar activity indicator and click **Release agent**.
 3. **Direct Click Takeover:** Clicking directly into the active viewport prompts: **Take over control?** Clicking **Take over** revokes the agent's lease immediately, even mid-step.
-4. The agent's next action fails with `claim_revoked_by_user`, informing the model that the user is now operating the tab.
+4. The agent's claim ends and any action it had running there is cancelled; its next tool call is stopped once with a `tab_taken_over` notice telling it not to continue in that tab without asking.
 
 ### 2.3 Programmatic Release ([`nova.tab_release`](../../mcp-reference/tools/browser-automation/nova-tab-release.md))
 Agents release claims cleanly when their subtask completes:

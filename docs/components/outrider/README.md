@@ -134,7 +134,7 @@ The Outrider supervisor in Nova enforces strict operational safeguards:
 
 1. **Watchdog Deadlines:** Every native job is assigned an explicit execution deadline (default 60 seconds; up to 180 seconds for modal UI credential dialogs). If an Outrider probe hangs in a driver loop, Nova terminates the helper process with `TerminateProcess` and returns a clean error.
 2. **Instant Cancellation:** When an operator or agent aborts a task (e.g. `nova.media_transcribe_stop` or `nova.net_scan_stop`), Nova terminates the Outrider process immediately. Memory, file handles, and network sockets are instantly reclaimed by the Windows kernel.
-3. **No In-Process Fallback Invariant:** If a native probe fails or crashes in Outrider, Nova **never retries the failed operation inside the interactive browser process**. It reports a degraded result with a descriptive reason code (`timeout`, `driver_hang`, `corrupted_stream`).
+3. **No In-Process Fallback Invariant:** If a native probe fails or crashes in Outrider, Nova **never retries the failed operation inside the interactive browser process**. It reports a degraded result with a reason code instead (for example `timeout`).
 4. **Transient Driver Circuit Breakers:** If repeated camera or audio probes time out consecutively, Nova temporarily suspends further probing to prevent thrashing buggy hardware drivers.
 
 ---

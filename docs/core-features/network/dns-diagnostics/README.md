@@ -163,7 +163,7 @@ flowchart TD
 ## 6. Privacy & Information Disclosure Guards
 
 To prevent accidental data leakage from enterprise or home networks to public resolvers, Nova enforces strict privacy filters:
-1. **Internal Domain Guard:** Single-label hostnames (`server1`), internal top-level domains (`.local`, `.lan`, `.internal`, `.home.arpa`, `.corp`), and private reverse DNS queries (`10.in-addr.arpa`, `168.192.in-addr.arpa`) are **never transmitted to public resolvers** (such as Cloudflare or Google). If public resolvers are requested for internal names, Nova skips them and records them under `context.skippedResolvers`.
+1. **Internal Domain Guard:** Single-label hostnames (`server1`), internal top-level domains (`.local`, `.lan`, `.internal`, `.home.arpa`, `.corp`), and private reverse DNS queries (`10.in-addr.arpa`, `168.192.in-addr.arpa`) are **never transmitted to public resolvers** (such as Cloudflare or Google). If public resolvers are requested for internal names, Nova skips them and lists them under `skipped` (`resolver`, `reason`).
 2. **Untrusted Remote Text Trust Boundary:** All DNS text records (such as `TXT` records, SPF strings, and DMARC policies) originate from remote servers and are tagged with `remoteTextTrust: "untrusted_remote"` to prevent prompt injection when evaluated by LLM agents.
 
 ---

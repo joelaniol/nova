@@ -251,11 +251,11 @@ Nova's on-device video rendering engine evaluates strict timeline truthfulness i
   1. Use `startAt: "nextChange"` on the chapter object so Nova automatically reveals the headline in synchronization with the visual change.
   2. Use `fromMarks: true` with `role: "step"`, which automatically looks backwards up to 5,000 ms (`StepLookBackMs`) to bind to the preceding visual change.
 
-### 8.5 Typography & Contrast Warnings (`render.headline_long`, `render.contrast_low`)
-* **`render.headline_long` / `render.caption_long`:**
-  * **Symptom:** Text appears smaller than standard or check returns `render.headline_long`.
-  * **Root Cause:** The headline or caption exceeded the maximum horizontal line width on the 4:5 scene grid and was automatically scaled down to prevent clipping.
-  * **Resolution:** Keep chapter headlines between 3 and 7 words (under 40 characters) and captions under 80 characters.
+### 8.5 Readability & Contrast Warnings (`render.readability_short`, `render.contrast_low`)
+* **`render.readability_short`:**
+  * **Symptom:** The render check warns that a headline or caption stands still for less than 1,000 ms.
+  * **Root Cause:** The text's stretch of the recording is too short once its entry and exit animation are taken off.
+  * **Resolution:** Give the chapter a longer stretch (`startMs`/`endMs`) or play that part slower.
 * **`render.contrast_low`:**
   * **Symptom:** Render check warns of low contrast.
   * **Root Cause:** Custom style colors (`style.background`, `style.accent`) fall below WCAG readability ratios against the canvas.

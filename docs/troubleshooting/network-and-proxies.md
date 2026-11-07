@@ -70,7 +70,7 @@ flowchart TD
 * **Symptom:** Long-lived WebSocket connections (e.g. Phoenix channels, Socket.IO, GraphQL subscriptions) or Server-Sent Events (SSE) drop immediately and throw `WebSocket connection to '...' failed` when switching proxies.
 * **Root Cause:** Switching proxy profiles ([`nova.proxy_switch`](../mcp-reference/tools/proxy-and-network/nova-proxy-switch.md)) or engaging the kill switch ([`nova.proxy_disconnect`](../mcp-reference/tools/proxy-and-network/nova-proxy-disconnect.md)) instantly severs underlying full-duplex TCP tunnels to prevent data packets from continuing to leak across the previous egress route.
 * **Resolution:**
-  * Ensure web applications implement standard exponential backoff reconnection logic (e.g. `reconnectAfterMs`).
+  * Web applications need their own reconnect logic (for example exponential backoff) to recover.
   * In automated agent workflows, use [`nova.network_read`](../mcp-reference/tools/dom-and-reading/nova-network-read.md) with `kinds: ["websocket"]` and `waitForMatchMs: 5000` to wait for the client application to complete its automatic re-handshake over the new proxy tunnel before continuing UI interactions.
 
 ---
@@ -314,13 +314,13 @@ When scanning large subnets with high concurrency, the local Windows OS can exha
 
 ### 7.6 Asynchronous Scan Jobs & Status Polling
 
-If a scan takes longer than `waitSeconds` (default 15 seconds), Nova returns immediately with `status: "running"` and a unique `scanId`:
+If a scan takes longer than `waitSeconds` (default 20 seconds), Nova returns immediately with `status: "running"` and a unique `scanId`:
 ```json
 {
   "scanId": "scan_8f2b10ca",
   "status": "running",
   "phase": "probes",
-  "progress": { "addressesChecked": 128, "totalAddresses": 254 }
+  "progress": { "addressesTotal": 254, "hostsDiscovered": 12, "portChecksDone": 640, "portChecksTotal": 3048 }
 }
 ```
 

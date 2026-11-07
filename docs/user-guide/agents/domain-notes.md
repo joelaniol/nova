@@ -21,7 +21,7 @@ flowchart TD
     subgraph Enforcement ["Agent Execution & AAG Gate"]
         AgentAction["Agent issues action (e.g. click_selector)"]
         AAGCheck{"AAG Gate Check<br/>Has agent acknowledged<br/>MUST-read domain notes?"}
-        Block["Action Blocked!<br/>reasonCode: domain_note_unacknowledged"]
+        Block["Action Blocked!<br/>reasonCode: site_note.acknowledge_required"]
         Proceed["Action Executes Safely"]
     end
 
@@ -72,7 +72,7 @@ Connected AI agents can inspect, store, and acknowledge Domain Notes through Nov
 
 ### 4.1 Acknowledging MUST-Read Directives ([`nova.domain_note_ack`](../../mcp-reference/tools/task-memory/nova-domain-note-ack.md))
 
-When an agent encounters a blocked action with `domain_note_unacknowledged`, it must read the directive and record technical acknowledgement:
+When an agent encounters a blocked action with `site_note.acknowledge_required`, it reads the message and acknowledges it, either by retrying the same call or explicitly:
 
 ```json
 {
