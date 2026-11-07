@@ -203,6 +203,7 @@ When diagnosing network anomalies or building autonomous workflows, selecting th
 | **Measure packet loss and latency across all hops** | `nova.net_ping(host="example.com", route=true)` | End-to-End Route |
 | **Determine maximum MTU on VPN / WAN connection** | `nova.net_ping(host="vpn.example.com", mtuDiscovery=true)` | Tunnel Path |
 | **Measure TCP handshake latency on ICMP-blocked host** | `nova.net_ping(host="api.example.com", method="tcp", port=443)` | Single Host / Port |
+| **Find up to which hop traffic to a port gets (TCP traceroute)** | `nova.net_ping(host="api.example.com", method="tcp", port=443, route=true)` | Route of one port |
 | **Fast reachability test across multiple ports** | `nova.net_probe(host="192.168.1.50", tcpPorts=[22, 80, 443, 8080])` | Host TCP Ports |
 
 ---
