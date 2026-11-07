@@ -77,7 +77,15 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## 5. Related Tools & Documentation
+## 5. Operational Best Practices
+
+* **Domain Pre-Filtering (`site`):** When preparing login sequences, always pass `site` (for example, `site: "github.com"`) to retrieve only the relevant credentials. Avoid unconstrained listings on personal machines to keep context token overhead low.
+* **Auditing Stored Accounts:** Check `accounts` to see available user profiles. Useful for multi-account testing, staging vs. production environments, and role-based automated workflows.
+* **No Plaintext Leaks:** `vault_list` never lists passwords or secret keys. It reports purely domain, username, and account metadata.
+
+---
+
+## 6. Related Tools & Documentation
 
 * [`nova.vault_prepare_fill`](nova-vault-prepare-fill.md) — Request single-use fill token for a listed account.
 * [`nova.vault_get`](nova-vault-get.md) — Inspect metadata for a specific entry.

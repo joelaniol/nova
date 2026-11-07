@@ -110,7 +110,19 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## 6. Related Tools & Documentation
+## 6. Operational Best Practices
+
+* **Mandatory Loop Closure After Action Execution:** Every automated interaction originating from a PKS playbook must report its outcome (`"success"`, `"failure"`, `"drift"`, or `"not_applicable"`). Failing to report outcomes starves the health scoring engine and prevents playbooks from graduating.
+* **Distinguishing `failure`, `drift`, and `not_applicable`:**
+  * Report `failure` if the selector was clicked but the modal or blocking element failed to disappear.
+  * Report `drift` if the target element's text or visual position changed noticeably.
+  * Report `not_applicable` if the page state simply did not display the expected phenomenon (e.g. a paywall on a free article). `not_applicable` does not penalize playbook health.
+* **Auto-Deprecation Protection (`consecutiveFailures`):** 3 consecutive failures automatically demote an Active playbook to Deprecated (`autoDeprecated: true`), halting automated execution across all agent sessions to prevent bot loops.
+* **Scope Verification:** Ensure `scope` matches the canonical registered domain (for example, `"spiegel.de"` without protocol or path). If `reasonCode: "pks.scope_not_found"` is returned, verify domain spelling against `nova.pks_get`.
+
+---
+
+## 7. Related Tools & Documentation
 
 * [`nova.pks_upsert`](nova-pks-upsert.md) — Create or update phenomenon entries in PKS.
 * [`nova.explain`](nova-explain.md) — Inspect the detailed health score and promotion gate breakdown.

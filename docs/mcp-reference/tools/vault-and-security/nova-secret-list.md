@@ -94,7 +94,16 @@ Task-scoped listings (`scope: "task"`) return a lighter shape per entry: `{ "nam
 
 ---
 
-## 5. Related Tools & Documentation
+## 5. Operational Best Practices
+
+* **Zero-Knowledge Token Boundary:** `secret_list` never reveals secret values. Use it solely to audit inventory, check variable availability, and verify scope associations before invoking commands or background jobs.
+* **Scope Hierarchy Awareness:** Understand that `global` secrets are accessible workspace-wide, `workspace` secrets are bound to a specific terminal workspace ID (`workspaceId`), and `task` secrets are bound exclusively to scheduled tasks (`taskId`).
+* **Pagination on Corporate Deployments:** When listing extensive secret stores, respect the default `limit: 100` (max 500) and check `truncated: true` and `nextOffset` to iterate through pages.
+* **Auditing Before Execution:** Run `secret_list` with `workspaceId` prior to running terminal builds or deploy scripts to ensure all required API keys and deployment tokens are provisioned.
+
+---
+
+## 6. Related Tools & Documentation
 
 * [`nova.secret_set`](nova-secret-set.md) — Store a new DPAPI-encrypted secret.
 * [`nova.vault_list`](nova-vault-list.md) — List web browser login credentials.

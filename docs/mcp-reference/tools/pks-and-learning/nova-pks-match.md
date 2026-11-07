@@ -129,7 +129,16 @@ The response is flat (no nested `bestMatch`/`matches` wrapper): the top-level fi
 
 ---
 
-## 6. Related Tools & Documentation
+## 6. Operational Best Practices
+
+* **Live DOM Signal Matching:** Pass exact DOM signals gathered from [`nova.read_dom`](../dom-and-reading/nova-read-dom.md) or [`nova.perceive`](../dom-and-reading/nova-perceive.md) in `signals`. Ensure the list contains unique, high-signal tokens (such as vendor IDs, distinct modal classes, or button text) rather than generic `div` selectors.
+* **Threshold Gating (`minConfidence`):** The default `minConfidence` is 0.85 (or 0.90 for high-trust operations). If `matched: false` is returned, inspect `topMatches` for near-misses. If the top match has high confidence (e.g. 0.80) and consistent health, consider adjusting `minConfidence` or re-verifying DOM signals before executing manual actions.
+* **Domain vs. Platform Hierarchy (`source`):** Nova checks domain-specific playbooks first (`source: "domain"`). If none match and the site uses a recognized third-party vendor (such as OneTrust or Cookiebot), Nova falls back to global platform heuristics (`source: "platform"`). Note that platform matches do not support contextual route filters (`contextMatch: null`).
+* **Telemetry Loop Closure:** Always follow an executed `pks_match` action with [`nova.telemetry_report`](nova-telemetry-report.md). Without telemetry reports, positive executions will not reinforce playbook health scores, and failures will not register drift warnings.
+
+---
+
+## 7. Related Tools & Documentation
 
 * [`nova.pks_get`](nova-pks-get.md) — Retrieve all phenomena registered for a domain.
 * [`nova.pks_upsert`](nova-pks-upsert.md) — Save new phenomenon fingerprints after successful resolution.

@@ -18,7 +18,8 @@
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
-| `expression` | `string` | Yes | — | — | JS to run; result is JSON-serialized. Several statements are fine and the last expression's value comes back. Top-level 'return' or 'await' work too: the code then runs as an async function body and must end with 'return <value>' (otherwise null and a missing-return warning). |
+| `expression` | `string` | No | — | — | JS to run; result is JSON-serialized. Several statements are fine and the last expression's value comes back. Top-level 'return' or 'await' work too: the code then runs as an async function body and must end with 'return <value>' (otherwise null and a missing-return warning). |
+| `scriptPath` | `string` | No | — | — | Instead of expression: absolute path to a local .js file (UTF-8, at most 256 KB) whose code runs exactly like expression. Saves sending a long script on every call. Needs local file access on, and the user approves each file content once in Nova's dialog (once, this session or always); a changed file asks again. The result names scriptPath and scriptSha256 of the code that ran. Not inside nova.run_sequence. |
 | `timeoutMs` | `integer` | No | `10000` | 1000–30000 | Max ms for the evaluation; keep a margin above any wait inside it. After a timeout the outcome is unknown - do not retry blindly. |
 | `isolate` | `boolean` | No | `true` | — | Main world only: wrap in a function scope. Ignored in the isolated world. |
 | `functionBody` | `boolean` | No | — | — | true: treat expression as an async function body - then you must end with 'return', or the result is null (warning result_undefined_missing_return). Omit otherwise. |

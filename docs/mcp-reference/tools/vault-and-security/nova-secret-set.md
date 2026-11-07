@@ -98,7 +98,16 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ---
 
-## 7. Related Tools & Documentation
+## 7. Operational Best Practices
+
+* **Restricted Name Validation:** Secret names must consist strictly of alphanumeric characters and underscores (1–64 characters). Reserved operating system and application variables (`PATH`, `TEMP`, `NOVA_*`) are rejected with validation errors.
+* **Workspace Existence Verification:** When setting `scope: "workspace"`, ensure `workspaceId` refers to a valid existing terminal workspace created via [`nova.scheduled_task_workspace`](../scheduled-tasks/nova-scheduled-task-workspace.md) or terminal managers.
+* **DPAPI Encryption & Persistence:** Values stored via `secret_set` are immediately encrypted on disk using Windows Data Protection API (DPAPI). They persist across restarts and are decrypted only inside memory buffers of authorized runner processes.
+* **Overwriting Detection (`replaced`):** Check the returned `replaced` boolean. If `true`, an existing secret was overwritten; confirm with workflow requirements if overwriting an existing credential was intended.
+
+---
+
+## 8. Related Tools & Documentation
 
 * [`nova.secret_list`](nova-secret-list.md) — List configured secret names and scopes without reading values.
 * [`nova.vault_prepare_fill`](nova-vault-prepare-fill.md) — Web browser password filling via `SecretRef`.

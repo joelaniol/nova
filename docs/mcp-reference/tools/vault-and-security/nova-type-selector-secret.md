@@ -86,7 +86,16 @@ Tool category: `high_impact` (highest risk class; Nova's agent permission settin
 
 ---
 
-## 7. Related Tools & Documentation
+## 7. Operational Best Practices
+
+* **Agent Awareness Gate (AAG) Prerequisite:** Nova's Automated Actions Guard (AAG) requires a recent perception capture on the target tab before sensitive credential injection can occur. If `aag:safety.perceive_first` is returned, execute [`nova.perceive`](../dom-and-reading/nova-perceive.md) on the active tab and retry with the same unredeemed `secretRef`.
+* **Single-Use Ephemeral Token Lifecycle:** `secretRef` tokens are strictly single-use. Once typed, the token is consumed and cannot be reused. If submission fails or navigation occurs, request a fresh token via [`nova.vault_prepare_fill`](nova-vault-prepare-fill.md).
+* **Strict Origin Binding:** Tokens are cryptographically bound to the origin of the tab where `vault_prepare_fill` was requested. Navigating to another origin or attempting cross-origin injection will result in `vault.secretref_origin_mismatch`.
+* **Handling Autofill Popup Overlays:** If `autofillPopupWarning` is returned, native browser password-manager popups may overlay the field. Use [`nova.input_key`](../browser-automation/nova-input-key.md) with `"Escape"` or click outside the popup before attempting form submission.
+
+---
+
+## 8. Related Tools & Documentation
 
 * [`nova.vault_prepare_fill`](nova-vault-prepare-fill.md) — Request the ephemeral `SecretRef` token.
 * [`nova.type_selector`](../browser-automation/nova-type-selector.md) — For typing non-secret fields (usernames, emails).

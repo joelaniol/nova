@@ -125,7 +125,16 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ---
 
-## 7. Related Tools & Documentation
+## 7. Operational Best Practices
+
+* **Summary Mode First (`outputDetail: "summary"`):** Always query with `outputDetail: "summary"` (the default) when scoping a domain for the first time. This returns the complete inventory of available playbooks and active counts without streaming large DOM fingerprints and action lists into the agent context.
+* **Checking `activePhenomenonCount` vs. `totalPhenomenaCount`:** `totalPhenomenaCount` includes Candidate and Shadow entries that do not run automatically. Check `activePhenomenonCount` to see how many verified, self-executing playbooks exist before attempting automated flows.
+* **Context Filtering for Route-Specific Playbooks:** When dealing with multi-tenant or complex web apps, pass `context: { "routes": ["/checkout"] }` to filter out irrelevant account-setting or homepage playbooks.
+* **Deprecated Status Verification:** Check `deprecated: true` on returned entries. A deprecated phenomenon will not execute automatically; review `deprecatedReason` to determine whether site redesigns invalidated the previous CSS selectors.
+
+---
+
+## 8. Related Tools & Documentation
 
 * [`nova.pks_upsert`](nova-pks-upsert.md) — Store or update verified phenomena in PKS.
 * [`nova.pks_match`](nova-pks-match.md) — Match live DOM observations against known fingerprints.

@@ -109,7 +109,16 @@ The token is single-use and bound to `boundOrigin`; both facts are enforced by `
 
 ---
 
-## 7. Related Tools & Documentation
+## 7. Operational Best Practices
+
+* **Tab-Bound Origin Verification:** `vault_prepare_fill` requires that the target tab (`targetId`) is already navigated to the target `site` (or a valid subdomain). Attempting to prepare credentials for a site while the tab is on a different domain triggers `vault.site_mismatch`.
+* **Account Disambiguation with `username`:** When multiple accounts are stored for a single site, `vault_prepare_fill` returns `ambiguous: true` with a list of usernames. Always inspect `accounts` and supply the explicit `username` in the subsequent call.
+* **Expiration Window (120 Minutes):** The generated `passwordRef` token expires after 120 minutes. Consume it promptly using [`nova.type_selector_secret`](nova-type-selector-secret.md).
+* **Zero Password In-Flight Leakage:** The agent only handles the ephemeral token string (for example, `"A819B02FE4918237..."`), never the cleartext password. Do not attempt to parse or log this token as a credential.
+
+---
+
+## 8. Related Tools & Documentation
 
 * [`nova.type_selector_secret`](nova-type-selector-secret.md) — Redeem the `SecretRef` to type the password.
 * [`nova.vault_list`](nova-vault-list.md) — List available credential sites and usernames.

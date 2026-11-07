@@ -88,7 +88,15 @@ Nova never returns the password itself; `passwordAvailable`/`passwordRedacted` o
 
 ---
 
-## 5. Related Tools & Documentation
+## 5. Operational Best Practices
+
+* **Metadata Discovery without Exposure:** Use `vault_get` to verify account availability and username mappings for a specific domain. The tool confirms `passwordAvailable: true` but always keeps `passwordRedacted: true`; never expect passwords in return payloads.
+* **Transitioning to Fill (`nextTool`):** Notice the returned `nextTool: "nova.vault_prepare_fill"`. Treat `vault_get` as a pre-flight metadata inspection step to obtain the correct `username` or `entryId` before requesting an ephemeral `secretRef`.
+* **Handling Multiple Accounts:** If multiple accounts exist for a domain, `vault_get` returns `matchCount > 1` and prompts for username disambiguation. Always check `matchCount` to ensure you target the right credentials.
+
+---
+
+## 6. Related Tools & Documentation
 
 * [`nova.vault_prepare_fill`](nova-vault-prepare-fill.md) — Request single-use fill token for the resolved entry.
 * [`nova.vault_list`](nova-vault-list.md) — List all stored domains and accounts.
