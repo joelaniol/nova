@@ -44,18 +44,28 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 ```json
 {
   "ok": true,
+  "status": "reset",
   "pluginId": "com.example.price-scanner",
-  "status": "reverted",
-  "revertedStylesheets": 1
+  "reasonCode": null,
+  "activeMutationCount": 0,
+  "activePageSessionCount": 1,
+  "cleanupAttemptedSessions": 1,
+  "cleanupSucceededSessions": 1,
+  "pageCleanupCount": 2,
+  "revertedCount": 2,
+  "unsupportedMutationCount": 0,
+  "warning": null
 }
 ```
+
+`status` is `reset` after a real page cleanup, `partial` when the cleanup could not be fully applied (see `reasonCode`), and `noop` when there was nothing to reset.
 
 ---
 
 ## 4. Operational Best Practices
 
 * **Surgical Stylesheet Purge:** Use `nova.plugin_css_reset` to remove host-managed `<style>` tags injected by a plugin without disturbing other extensions or host browser styles.
-* **Partial Rollback Handling:** If the plugin also applied inline styles or mutated host element class lists directly, the tool returns a `partial` status with `unsupported_mutation_kinds`; full remediation then requires disabling the plugin via `nova.plugin_disable`.
+* **Partial Rollback Handling:** This tool only removes injected CSS. If the plugin also changed classes or inline styles, the result is `status: "partial"` with `reasonCode: "unsupported_mutation_kinds"`; to stop those changes, disable the plugin via `nova.plugin_disable`.
 * **Live Visual Recovery:** Call this tool if a misconfigured plugin stylesheet causes visual regressions or obscures core web page elements during automated workflows.
 
 ---

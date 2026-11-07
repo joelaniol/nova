@@ -44,18 +44,31 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 {
   "ok": true,
   "pluginId": "com.example.price-scanner",
-  "status": "enabled",
-  "state": "installed",
-  "activeInstances": 1
+  "plugin": {
+    "pluginId": "com.example.price-scanner",
+    "name": "Price Scanner",
+    "version": "1.0.0",
+    "installState": "Installed",
+    "runtimeState": "Active",
+    "enabled": true,
+    "errorCount": 0,
+    "crashCount": 0,
+    "permissions": ["StorageReadWrite"],
+    "pendingPermissions": ["DomRead"],
+    "pendingHostMatches": ["https://shop.example.com/*"],
+    "permissionReviewRequired": true
+  }
 }
 ```
+
+`plugin` is the plugin snapshot, shortened here. It also carries the session fields (`currentSession`, `activeSessions`, `lastKnownSession`, `knownSessions`), frame access, content-script counts and the granted and pending host, network and MCP-tool scopes.
 
 ---
 
 ## 4. Operational Best Practices
 
 * **Transition from Testing to Installed:** Use `plugin_enable` to transition a plugin from `Testing` (created via `deferActivation: true`) or `Disabled` into the active `Installed` state.
-* **Auto-Activation Gating:** Once enabled, the plugin automatically evaluates against matching pages declared in `hostPermissions.matches` and registers custom dynamic MCP tools.
+* **Auto-Activation Gating:** Once enabled, the plugin activates on pages that match its approved `hostPermissions.matches`. Its own MCP tools appear only for the entries approved via [`nova.plugin_request_permission`](nova-plugin-request-permission.md) and only while it is active.
 * **Pre-Flight Smoke Verification:** Never enable a plugin without first confirming clean execution via [`nova.plugin_test`](nova-plugin-test.md).
 
 ---

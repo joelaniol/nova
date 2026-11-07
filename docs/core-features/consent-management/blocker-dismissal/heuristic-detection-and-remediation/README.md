@@ -119,7 +119,7 @@ Modern web components and third-party consent providers (such as Usercentrics v3
 
 ## 4. Stage 1 Consent Guard: Pre-Interaction Safety & Tab Aliasing
 
-Before any synthetic click or pointer action is dispatched to dismiss a candidate blocker element, Nova passes the candidate through an authoritative, pure-function decision gate: the **Stage 1 Consent Guard** (`ConsentDecisionGuard`).
+Before any synthetic click or pointer action is dispatched to dismiss a candidate blocker element, Nova passes the candidate through an authoritative decision gate: the **Stage 1 Consent Guard**.
 
 ### 4.1 The Core Invariant: Automation Never Increases Consent
 Modern consent dark patterns frequently manipulate button semantics to coerce visitors into tracking opt-ins. Nova's architecture enforces a non-negotiable principle:
@@ -130,7 +130,7 @@ Modern consent dark patterns frequently manipulate button semantics to coerce vi
 
 ```mermaid
 flowchart TD
-    Candidate["Candidate Button in Overlay"] --> Guard["Stage 1: ConsentDecisionGuard"]
+    Candidate["Candidate Button in Overlay"] --> Guard["Stage 1: Consent Guard"]
 
     subgraph Inspection["Multi-Attribute Candidate Inspection"]
         Guard --> TextCheck{"Visible Text vs.\nAccessible Name Conflict?"}
@@ -154,7 +154,7 @@ flowchart TD
 
 ### 4.2 Guard Verdicts & Machine-Readable Reason Codes
 
-The guard evaluates six candidate dimensions: candidate label, rendered visible text, ARIA accessible name, immediate sibling group labels, the consent context flag (`ConsentContext`), and the dismissive flag:
+The guard looks at the button's label, its visible text and accessible name, the neighbouring buttons in the same group, and whether the dialog is a consent dialog. Every refusal is listed in the result's `actionsTried` with `verdict: "REJECTED"` and one of these reason codes:
 
 | Reason Code | Permitted? | Evaluation Condition | Threat Neutralized |
 | :--- | :---: | :--- | :--- |
@@ -170,9 +170,9 @@ The guard evaluates six candidate dimensions: candidate label, rendered visible 
 
 A common flaw in automated click implementations is a race condition between element discovery and click dispatch: an element may detach, re-render, shift coordinates, or be covered by an interstitial between discovery and execution.
 
-Nova enforces the **Synchronous Act Phase Invariant** (`OnlyTheActPhaseClicks`):
-* Candidate selection, DOM attachment verification, visibility re-evaluation, label sanity checking, and coordinate hit-testing occur in the **exact same synchronous execution pass** as the synthetic pointer dispatch (`DismissBlockerScriptBuilder`).
-* If an element's position shifts, opacity drops to 0, or another element intercepts the target coordinates between passes, the click is refused fail-closed.
+Nova enforces the **Synchronous Act Phase Invariant**:
+* Candidate selection, DOM attachment verification, visibility re-evaluation, label sanity checking, and coordinate hit-testing occur in the **exact same synchronous execution pass** as the synthetic pointer dispatch.
+* If the button was detached, hidden, relabelled or covered in the meantime, the click is refused fail-closed with `TARGET_DRIFT` and a `drift` value (`missing`, `detached`, `hidden`, `label_changed`, `covered`, `click_failed`); no substitute button is clicked in that pass.
 * No click path exists in the script engine outside this guarded act phase.
 
 ### 4.4 Target Tab Aliasing

@@ -74,7 +74,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 ## 4. Operational Best Practices
 
 * **Privacy & EXIF Auditing:** Review `metadata.gps` and `exifValues.gpsLatitude`/`gpsLongitude` before sharing or publishing images. If sensitive location or creator data is detected, pass the file through [`nova.image_transform`](nova-image-transform.md) with `removeMetadata: ["privacy"]`.
-* **Orientation Awareness:** Check `metadata.orientation` to verify whether an image carries EXIF rotation tags (such as orientation 6). `image_transform` automatically normalizes orientation when generating derivatives.
+* **Orientation Awareness:** `width`/`height` are the size as the image is shown. When the file stores it turned by EXIF, the result also has `orientation` and `storedWidth`/`storedHeight`. `image_transform` automatically normalizes orientation when generating derivatives.
 * **Memory Budget Planning:** Check `width` and `height` before submitting images to AI vision models. For huge images (e.g. >4000px), resize them first to avoid unnecessary token and memory consumption.
 
 ---

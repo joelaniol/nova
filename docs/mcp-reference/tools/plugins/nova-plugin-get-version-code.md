@@ -48,11 +48,12 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
   "pluginId": "com.example.price-scanner",
   "historyId": 1,
   "version": "1.0.0",
-  "changeNote": "Initial release",
-  "entryPoint": "index.js",
-  "files": {
-    "index.js": "nova.on('page:load', function() { var price = nova.dom.querySelector('.price'); ... });"
-  }
+  "manifestJson": "{ \"id\": \"com.example.price-scanner\", ... }",
+  "sourceCode": "var handles = JSON.parse(nova.dom.querySelectorAll('.price', 1)); ...",
+  "sourceFileCount": 0,
+  "sourceFiles": [],
+  "changeNote": "Initial code via plugin_create",
+  "createdAtUtc": "2026-11-07T08:00:00.0000000Z"
 }
 ```
 

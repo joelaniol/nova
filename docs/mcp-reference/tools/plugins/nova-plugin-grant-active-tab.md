@@ -53,21 +53,36 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
   "ok": true,
   "pluginId": "com.example.price-scanner",
   "targetId": "tab-8472",
-  "grantedSessionPermissions": [
-    "DomRead",
-    "OverlayWrite"
-  ],
-  "expiresOnNavigation": true
+  "url": "https://shop.example.com/item/42",
+  "origin": "https://shop.example.com",
+  "temporaryPermissions": ["DomRead", "OverlayWrite"],
+  "expiresOnNextNavigation": true,
+  "plugin": {
+    "pluginId": "com.example.price-scanner",
+    "name": "Price Scanner",
+    "version": "1.0.0",
+    "installState": "Installed",
+    "runtimeState": "Active",
+    "enabled": true,
+    "errorCount": 0,
+    "crashCount": 0,
+    "permissions": ["StorageReadWrite"],
+    "pendingPermissions": ["DomRead"],
+    "pendingHostMatches": ["https://shop.example.com/*"],
+    "permissionReviewRequired": true
+  }
 }
 ```
+
+`plugin` is the plugin snapshot, shortened here. It also carries the session fields (`currentSession`, `activeSessions`, `lastKnownSession`, `knownSessions`), frame access, content-script counts and the granted and pending host, network and MCP-tool scopes.
 
 ---
 
 ## 4. Operational Best Practices
 
 * **Ephemeral Session-Only Access:** Grants issued via `nova.plugin_grant_active_tab` exist only for the specified tab and automatically expire on the next top-level navigation, preventing unintended cross-site privilege leakage.
-* **Scoped Permission Subset:** Only page-scoped permissions (`DomRead`, `OverlayWrite`, `MutationClassWrite`, `MutationStyleWrite`) are permitted; network and host-level grants cannot be acquired through active-tab grants.
-* **Target Identification:** Default to `"active"` or provide explicit tab IDs (`"tab-..."`) to safely target secondary background tabs without changing active user focus.
+* **Scoped Permission Subset:** Only page-scoped permissions (`DomRead`, `OverlayWrite`, `MutationClassWrite`, `MutationStyleWrite`) are allowed, and only those the manifest requests. Omit `permissions` to get all of them; host and network approvals are never granted this way.
+* **Target Identification:** Without `targetId` the grant goes to the active browser tab. Pass a tab ID to target another tab without changing focus.
 
 ---
 

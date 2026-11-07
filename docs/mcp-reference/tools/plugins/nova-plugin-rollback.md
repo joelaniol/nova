@@ -50,19 +50,39 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 {
   "ok": true,
   "pluginId": "com.example.price-scanner",
-  "status": "rolled_back",
+  "historyId": 1,
   "restoredVersion": "1.0.0",
-  "state": "testing",
-  "newHistoryId": 3
+  "restoredChangeNote": "Initial code via plugin_create",
+  "restoredCreatedAtUtc": "2026-11-07T07:55:00.0000000Z",
+  "sourceRestored": true,
+  "sourceFileCount": 0,
+  "sourceFilesRestored": 0,
+  "deferActivation": true,
+  "plugin": {
+    "pluginId": "com.example.price-scanner",
+    "name": "Price Scanner",
+    "version": "1.0.0",
+    "installState": "Testing",
+    "runtimeState": "Inactive",
+    "enabled": true,
+    "errorCount": 0,
+    "crashCount": 0,
+    "permissions": ["StorageReadWrite"],
+    "pendingPermissions": ["DomRead"],
+    "pendingHostMatches": ["https://shop.example.com/*"],
+    "permissionReviewRequired": true
+  }
 }
 ```
+
+`plugin` is the plugin snapshot, shortened here. It also carries the session fields (`currentSession`, `activeSessions`, `lastKnownSession`, `knownSessions`), frame access, content-script counts and the granted and pending host, network and MCP-tool scopes.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Non-Destructive History:** Rolling back does not erase version history; it creates a new history entry containing the restored codebase.
-* **Post-Rollback Safe Gating (`deferActivation: true`):** Pass `deferActivation: true` during rollbacks to allow smoke-testing the restored code before re-enabling auto-activation on user pages.
+* **Non-Destructive History:** Rolling back erases nothing. Before restoring, Nova saves the current manifest and source as a new history entry (with your `changeNote`), so the rollback itself can be undone.
+* **Post-Rollback Safe Gating (`deferActivation: true`):** For an `Installed` plugin, `deferActivation: true` keeps the restored version in `Testing` until a passing smoke test or `nova.plugin_enable` promotes it.
 
 ---
 

@@ -158,34 +158,41 @@ Agents inspect crawled pages, links, and extracted content through [`nova.crawl_
 ```json
 {
   "crawlId": "crawl_20261018_01",
-  "totalResults": 38,
-  "returnedResults": 20,
+  "status": "completed",
+  "total": 38,
+  "hasMore": true,
+  "nextOffset": 20,
   "pages": [
     {
+      "sequence": 2,
       "url": "https://docs.example.com/api/authentication",
-      "canonicalUrl": "https://docs.example.com/api/authentication",
       "httpStatusCode": 200,
       "title": "API Authentication Guide",
       "depth": 1,
-      "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "confidence": 0.96,
+      "loadTimeMs": 540,
+      "canonical": "https://docs.example.com/api/authentication",
       "screenshot": {
-        "status": "captured",
-        "path": "screenshots/e3b0c442.jpeg",
+        "attempted": true,
+        "captured": true,
         "width": 800,
         "height": 600
       },
       "textContent": "Authentication is performed using API Bearer tokens...",
+      "contentHash": "e3b0c44298fc1c14...",
       "links": [
         {
-          "targetUrl": "https://docs.example.com/api/tokens",
+          "url": "https://docs.example.com/api/tokens",
           "text": "Generate API Tokens",
-          "isInternal": true
+          "isExternal": false
         }
       ]
     }
   ]
 }
 ```
+
+Shortened: a page also carries headings, meta and Open Graph fields, robots and hreflang data, `linkCount`, duplicate markers (`isDuplicate`, `duplicateOfUrl`) and, with `outputDetail: "full"`, the content blocks.
 
 ### Context-Saving Summary Projection (`summary: true`)
 
@@ -194,20 +201,28 @@ When querying large crawl runs with hundreds of discovered endpoints, fetching a
 ```json
 {
   "crawlId": "crawl_20261018_01",
-  "totalPages": 84,
-  "avgConfidence": 0.94,
-  "avgLoadTimeMs": 620,
-  "totalLinks": 412,
-  "frameworks": {
-    "Next.js": 84
-  },
-  "depthDistribution": {
-    "0": 1,
-    "1": 18,
-    "2": 65
-  },
-  "duplicateContentDetected": 0,
-  "screenshotCoverage": 84
+  "status": "completed",
+  "summary": {
+    "totalPages": 84,
+    "errorPages": 0,
+    "sessionMismatchPages": 0,
+    "readinessFailedPages": 0,
+    "avgConfidence": 0.94,
+    "avgLoadTimeMs": 620,
+    "totalLinks": 412,
+    "uniqueContentHashes": 84,
+    "duplicateContentPages": 0,
+    "hydrationDriftPages": 0,
+    "screenshots": { "attempted": 84, "captured": 84, "skipped": 0, "failed": 0, "bytesTotal": 5242880 },
+    "errorBreakdown": [],
+    "frameworks": [{ "framework": "Next.js", "count": 84, "avgConfidence": 0.9 }],
+    "languages": [{ "lang": "en", "count": 84 }],
+    "depthDistribution": [
+      { "depth": 0, "count": 1 },
+      { "depth": 1, "count": 18 },
+      { "depth": 2, "count": 65 }
+    ]
+  }
 }
 ```
 

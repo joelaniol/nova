@@ -47,24 +47,31 @@ Tool category: `high_impact` (highest risk class; Nova's agent permission settin
 {
   "ok": true,
   "pluginId": "com.example.price-scanner",
-  "version": "1.3.0",
-  "status": "installed",
-  "autoGrantedPermissions": [
-    "StorageReadWrite"
-  ],
-  "pendingPermissions": [
-    "DomRead",
-    "OverlayWrite"
-  ]
+  "plugin": {
+    "pluginId": "com.example.price-scanner",
+    "name": "Price Scanner",
+    "version": "1.0.0",
+    "installState": "Installed",
+    "runtimeState": "Inactive",
+    "enabled": true,
+    "errorCount": 0,
+    "crashCount": 0,
+    "permissions": ["StorageReadWrite"],
+    "pendingPermissions": ["DomRead"],
+    "pendingHostMatches": ["https://shop.example.com/*"],
+    "permissionReviewRequired": true
+  }
 }
 ```
+
+`plugin` is the plugin snapshot, shortened here. It also carries the session fields (`currentSession`, `activeSessions`, `lastKnownSession`, `knownSessions`), frame access, content-script counts and the granted and pending host, network and MCP-tool scopes.
 
 ---
 
 ## 4. Operational Best Practices
 
 * **Mandatory Intent Clause:** As a `high_impact` operation, `_meta.intent` must always be provided with a concise explanation; calls missing it are rejected immediately.
-* **Two-Stage Activation Pipeline:** Newly imported plugins are installed with Tier-1 auto-grant permissions only; review-gated permissions (e.g. `DomRead`, network access, MCP tools) remain pending until explicitly granted via `nova.plugin_request_permission`.
+* **Two-Stage Activation Pipeline:** Imported plugins start with auto-grant permissions only; review-gated permissions (e.g. `DomRead`), host and network scopes and MCP tools stay pending until granted via [`nova.plugin_request_permission`](nova-plugin-request-permission.md). A storage snapshot in the bundle is restored with the plugin.
 * **Safeguarded Overwrites (`overwrite`):** By default (`overwrite: false`), importing fails if a plugin with the same ID already exists, guarding against accidental state clobbering. Set `overwrite: true` only during intentional version replacements.
 
 ---

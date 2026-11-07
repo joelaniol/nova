@@ -48,8 +48,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
   "ok": true,
   "pluginId": "com.example.price-scanner",
   "bundleBase64": "UEsDBBQAAAAIA...",
-  "byteLength": 24576,
-  "includedKvData": true
+  "bundleSizeBytes": 24576
 }
 ```
 
@@ -57,7 +56,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ## 4. Operational Best Practices
 
-* **Portable Bundle Archive:** The generated `.novaplugin` format is a standard base64-encoded ZIP bundle containing `manifest.json`, source files, and asset trees ready for backup or transfer across workspaces.
+* **Portable Bundle Archive:** The `.novaplugin` bundle is a base64-encoded ZIP with the manifest and the source code, and with `includeKvData: true` also the persistent storage snapshot (`storage.local` / `storage.sync`). Restore it with [`nova.plugin_import`](nova-plugin-import.md).
 * **Data Privacy in Exports (`includeKvData`):** Keep `includeKvData: false` when distributing plugins to other users or version control to prevent leaking sensitive API keys, cached credentials, or user-specific records.
 * **Automated Backup & Disaster Recovery:** Use `nova.plugin_export` before executing major multi-file updates or schema migrations to capture an out-of-band recovery snapshot.
 

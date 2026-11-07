@@ -151,7 +151,7 @@ Each scan examines at most 8000 elements (`scanned` reports how many were actual
 * **Mobile Touch-Target Sizing:** When auditing responsive web apps for mobile viewports, set `minTargetSize: 44` (or 48 for WCAG AAA) to identify interactive elements that are too small or clustered too tightly for reliable touch interactions.
 * **Evaluating Dark Mode and Theme Regressions:** Pair `audit_accessibility` with [`nova.emulation_set_media`](../device-emulation/nova-emulation-set-media.md) (`colorScheme: "dark"` or `"light"`) to uncover contrast ratio failures that only manifest under specific color schemes.
 * **Interpreting Contrast Warnings on Semi-Transparent Backgrounds:** Nova's contrast calculation assumes an opaque white background when ancestor elements use alpha-transparency, gradients, or background images. Treat contrast alerts on styled hero banners as advisory leads that require visual verification with [`nova.capture_screenshot`](../visual-evidence/nova-capture-screenshot.md).
-* **Automated QA Assertions in Pipelines:** In continuous testing workflows, assert that `result.summary.violations` is 0 before triggering form submissions or confirming deployment readiness.
+* **Automated QA Assertions in Pipelines:** In continuous testing workflows, assert that `summary.total` is 0 before triggering form submissions or confirming deployment readiness.
 
 ---
 

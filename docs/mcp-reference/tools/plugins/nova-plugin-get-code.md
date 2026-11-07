@@ -44,11 +44,20 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 {
   "ok": true,
   "pluginId": "com.example.price-scanner",
-  "version": "1.0.1",
   "entryPoint": "index.js",
-  "files": {
-    "index.js": "nova.on('page:load', function() { ... });"
-  }
+  "source": "var handles = JSON.parse(nova.dom.querySelectorAll('.price', 1)); ...",
+  "sizeBytes": 312,
+  "contentScripts": [],
+  "sourceFiles": [
+    {
+      "path": "index.js",
+      "exists": true,
+      "source": "var handles = JSON.parse(nova.dom.querySelectorAll('.price', 1)); ...",
+      "sizeBytes": 312,
+      "roles": ["entryPoint"],
+      "error": null
+    }
+  ]
 }
 ```
 
@@ -57,7 +66,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 ## 4. Operational Best Practices
 
 * **Inspection Before Editing:** Always retrieve active source code before executing `nova.plugin_update` to prevent overwriting auxiliary content scripts or losing existing event listener logic.
-* **Multi-File Bundle Awareness:** `plugin_get_code` returns all declared source files under `files`. Ensure you inspect all auxiliary scripts referenced in `contentScripts[]`.
+* **Multi-File Bundle Awareness:** The entry point comes back as `source`; every declared file, including the `contentScripts[]` files, comes back in `sourceFiles[]` with its `roles`. Inspect all of them before an update.
 
 ---
 

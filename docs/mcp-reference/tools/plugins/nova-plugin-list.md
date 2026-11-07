@@ -44,30 +44,29 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 ```json
 {
   "ok": true,
+  "pluginCount": 1,
   "plugins": [
     {
       "pluginId": "com.example.price-scanner",
       "name": "Price Scanner",
       "version": "1.2.0",
-      "state": "enabled",
+      "installState": "Installed",
+      "runtimeState": "Active",
+      "enabled": true,
+      "errorCount": 0,
       "crashCount": 0
-    },
-    {
-      "pluginId": "com.example.old-scraper",
-      "name": "Legacy Scraper",
-      "version": "0.9.1",
-      "state": "uninstalled",
-      "crashCount": 1
     }
   ]
 }
 ```
 
+Each entry is a plugin snapshot (shortened here). With `includeUninstalled: true`, uninstalled plugins appear with `installState: "Uninstalled"` and `runtimeState: "Inactive"`.
+
 ---
 
 ## 4. Operational Best Practices
 
-* **Initial Catalog Discovery:** Call `nova.plugin_list` during agent workspace initialization to discover available custom extensions, their versions, and current operational states (`enabled`, `disabled`, `testing`).
+* **Initial Catalog Discovery:** Call `nova.plugin_list` at the start of a session to see the installed plugins, their versions, `installState` (`Testing`, `Installed`, `Disabled`, ...) and `runtimeState` (`Inactive`, `Active`, `Crashed`, ...).
 * **Stability Monitoring:** Periodically check the `crashCount` field across listed plugins; plugins with non-zero crash counts should be inspected and tested in isolation before continuing production flows.
 * **Tombstone Auditing:** Set `includeUninstalled: true` when checking whether a previously removed extension can be revived or if its ID is already registered in historical records.
 

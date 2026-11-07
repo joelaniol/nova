@@ -212,10 +212,10 @@ A major source of automated browsing flakiness is the physical discrepancy betwe
 1. **Delayed CSS Transitions:** Many CMP SDKs mutate internal state synchronously, but animate the modal away using CSS opacity transitions lasting 500ms–1500ms. If an agent attempts to click a page button immediately after state verification, the click hits the fading modal.
 2. **Orphaned Modal Backdrops:** Defective CMP scripts clear the banner dialog but fail to remove the fixed-position `<div class="modal-backdrop">`, completely freezing pointer events on the page.
 
-To solve this, Nova pairs API verification with an active DOM visibility probe (`CmpHideList.BuildBannerHiddenProbeScript`):
+To solve this, Nova pairs API verification with an active DOM visibility probe:
 
 ```javascript
-// CmpHideList probe executed immediately after state verification
+// Probe executed immediately after state verification
 (() => {
     const bannerSelectors = [
         '#onetrust-banner-sdk',

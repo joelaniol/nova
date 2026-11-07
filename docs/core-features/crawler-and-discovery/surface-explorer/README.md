@@ -138,15 +138,17 @@ flowchart TD
 
 Dispatched interactions are evaluated based on observable evidence rather than the mere dispatch of a synthetic click:
 
-$$\text{Interaction Outcome} \in \{\text{delta\_observed}, \text{no\_delta}, \text{blocked\_by\_guard}, \text{navigation\_rejected}, \text{claim\_lost}\}$$
+The interaction result carries a `status` and the `reasonCodes` that explain it:
 
-| Outcome Code | Meaning | Action & Error Handling |
+| `status` | Meaning | Action & Error Handling |
 | :--- | :--- | :--- |
-| **`delta_observed`** | The trigger successfully expanded a panel, opened a modal, or altered visible DOM content. | Recorded in `exploration_transitions` with DOM mutation diff and optional screenshot. |
-| **`no_delta`** | The click was dispatched without error, but produced no measurable DOM mutation or visual change (e.g., already-open accordion, disabled button). | Recorded as a non-error. Clears consecutive error streaks without failing the run. |
-| **`blocked_by_guard`** | The interaction attempted an unauthorized action (e.g., triggered a file download, opened a popup, or prompted for a file upload) and was halted by the guard. | Interaction aborted; security incident logged in run diagnostics. |
-| **`navigation_rejected`** | The trigger attempted to navigate to an external origin or unsupported route. | Interaction aborted; tab stays on current document. |
-| **`claim_lost`** | The agent lost exclusive lease over the tab mid-flight. | Exploration aborted immediately; agent must re-acquire tab lease. |
+| **`activated`** | The trigger expanded a panel, opened a modal, or changed visible DOM content. | Recorded as a transition with the observed delta. |
+| **`no_delta`** | The click was dispatched without error but produced no measurable change (e.g., already-open accordion, disabled button). Reason code `NO_MEANINGFUL_DELTA`. | Recorded as a non-error. |
+| **`blocked`** | A guard stopped a side effect, e.g. `DOWNLOAD_BLOCKED`, `FILE_CHOOSER_BLOCKED`, `NEW_WINDOW_BLOCKED`, `EXTERNAL_URI_BLOCKED` or `NON_GET_REQUEST_BLOCKED`. | Details in `guardIncidents`. |
+| **`aborted`** | The page navigated unexpectedly (`UNEXPECTED_TOP_LEVEL_NAVIGATION`, `UNEXPECTED_SAME_DOCUMENT_ROUTE_CHANGE`). | The exploration run is closed; start a new `discover` run. |
+| **`failed`** | The trigger no longer matched the page (`TRIGGER_STALE`). | Re-run `discover` to get fresh triggers. |
+
+Interference is reported in `reasonCodes` as well: `CLAIM_LOST`, `TAB_BECAME_HIDDEN` and user input during the interaction (`USER_POINTER_INTERFERENCE`, `USER_KEY_INTERFERENCE`, ...) abort the interaction.
 
 ---
 

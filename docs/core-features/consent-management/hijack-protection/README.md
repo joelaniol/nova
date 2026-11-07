@@ -24,7 +24,7 @@ The Hijack and Dark Pattern Defense architecture is detailed across specialized 
 | Architecture Guide | Focus Areas & Key Invariants | Primary Components |
 | :--- | :--- | :--- |
 | **[Polarity Scoring & Contrast](polarity-scoring-and-contrast/README.md)** | The consent hijack threat model, 3-stage validation cascade, `CmpPolarityScorer` (8 sub-scores in 5 languages), polarity margin $\ge 0.40$, scope threshold $\ge 0.50$, and `CmpSiblingContrastClassifier` cluster taxonomy (`TcfThreeButton`, `RejectAcceptPair`, `SingleButton`, `AmbiguousTwoButton`). | `CmpPolarityScorer`<br>`CmpSiblingContrastClassifier`<br>`CmpIndicatorTokens`<br>`CmpClusterClassification` |
-| **[Cross-Origin & Privilege Boundaries](cross-origin-and-privilege-boundaries/README.md)** | Third-party iframe isolation (Sourcepoint, Didomi), `PrivilegedCrossOriginCmpInteractionEnabled` policy gate, strict `Uri.Host` matching against substring exploits, symmetric frame routing, and persistent security audit trails. | `PrivilegedCrossOriginCmpInteractionEnabled`<br>`SourcepointFramePatterns`<br>`IsAuthorizedVendorFrame`<br>`Serilog Audit Trail` |
+| **[Cross-Origin & Privilege Boundaries](cross-origin-and-privilege-boundaries/README.md)** | Third-party iframe isolation (Sourcepoint, Didomi), user-only policy gate, strict `Uri.Host` matching against substring exploits, symmetric frame routing, and persistent security audit trails. | `PrivilegedCrossOriginCmpInteractionEnabled`<br>`SourcepointFramePatterns`<br>`IsAuthorizedVendorFrame`<br>`Serilog Audit Trail` |
 
 ---
 

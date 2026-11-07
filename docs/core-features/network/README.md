@@ -173,6 +173,8 @@ The `proxy-and-network` capability bundle provides 24 specialized tools:
 | [`nova.net_devices_update`](../../mcp-reference/tools/proxy-and-network/nova-net-devices-update.md) | Inventory | Updates operator-assigned custom names and notes for tracked network inventory devices. |
 | [`nova.net_dns`](../../mcp-reference/tools/proxy-and-network/nova-net-dns.md) | DNS | Queries DNS records via UDP/DoH, compares resolvers, audits mail security, and traces delegation. |
 | [`nova.net_ping`](../../mcp-reference/tools/proxy-and-network/nova-net-ping.md) | Diagnostics | Executes ICMP echo rounds, MTR traceroute, RFC 3550 jitter analysis, and Path MTU discovery. |
+| [`nova.net_monitor_start`](../../mcp-reference/tools/proxy-and-network/nova-net-monitor-start.md), [`_stop`](../../mcp-reference/tools/proxy-and-network/nova-net-monitor-stop.md), [`_delete`](../../mcp-reference/tools/proxy-and-network/nova-net-monitor-delete.md) | Monitoring | Starts, pauses or removes a long-term monitor that keeps measuring ping, TCP connect time or the route while Nova runs (from 1.0.0-alpha.21, not published yet). |
+| [`nova.net_monitor_list`](../../mcp-reference/tools/proxy-and-network/nova-net-monitor-list.md), [`nova.net_monitor_report`](../../mcp-reference/tools/proxy-and-network/nova-net-monitor-report.md) | Monitoring | Lists the monitors and reports a window: probe success, reachability and coverage kept apart, percentiles, gaps with their reason. |
 | [`nova.net_probe`](../../mcp-reference/tools/proxy-and-network/nova-net-probe.md) | Probing | Checks TCP port reachability (up to 32 ports) and verifies HTTP proxy CONNECT tunnels. |
 
 ---

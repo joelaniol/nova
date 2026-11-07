@@ -57,18 +57,42 @@ Tool category: `high_impact` (highest risk class; Nova's agent permission settin
 ```json
 {
   "ok": true,
+  "alreadyGranted": false,
+  "denied": false,
+  "denyReason": null,
   "pluginId": "com.example.price-scanner",
-  "grantedPermissions": [
-    "DomRead",
-    "OverlayWrite"
-  ],
-  "hostPermissionsGranted": true,
-  "networkAccessGranted": true,
-  "mcpToolsGranted": [
-    "get_active_price"
-  ]
+  "grantedPermissions": ["StorageReadWrite", "DomRead", "OverlayWrite"],
+  "grantedHostMatches": ["https://shop.example.com/*"],
+  "grantedNetworkRules": [],
+  "grantedMcpTools": ["get_active_price"],
+  "pendingPermissions": [],
+  "pendingHostMatches": [],
+  "pendingNetworkRules": [],
+  "pendingMcpTools": [],
+  "permissionReviewRequired": false,
+  "grantHostPermissions": true,
+  "grantNetworkAccess": false,
+  "requestedMcpTools": ["get_active_price"],
+  "plugin": {
+    "pluginId": "com.example.price-scanner",
+    "name": "Price Scanner",
+    "version": "1.0.0",
+    "installState": "Installed",
+    "runtimeState": "Active",
+    "enabled": true,
+    "errorCount": 0,
+    "crashCount": 0,
+    "permissions": ["StorageReadWrite"],
+    "pendingPermissions": [],
+    "pendingHostMatches": [],
+    "permissionReviewRequired": false
+  }
 }
 ```
+
+If the user declines, the result has `ok: false`, `denied: true`, `reasonCode: "plugin.permission_denied"` and a `denyReason`; nothing new is granted.
+
+`plugin` is the plugin snapshot, shortened here. It also carries the session fields (`currentSession`, `activeSessions`, `lastKnownSession`, `knownSessions`), frame access, content-script counts and the granted and pending host, network and MCP-tool scopes.
 
 ---
 

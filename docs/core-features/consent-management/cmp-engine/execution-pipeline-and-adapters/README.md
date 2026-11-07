@@ -27,7 +27,7 @@ sequenceDiagram
     autonumber
     actor Agent as Autonomous Agent
     participant Handler as McpCmpApplyHandler
-    participant Registry as CmpAdapterRegistry
+    participant Registry as Adapter Registry
     participant Adapter as ICmpAdapter
     participant Runtime as Target Page Runtime (WebView2)
 
@@ -80,7 +80,7 @@ Prior to executing any script evaluation in the target tab, `McpCmpApplyHandler`
 * If administrative policy has disabled vendor adapters, execution halts immediately with JSON-RPC error code `-32002` (`OperationForbidden`).
 
 #### Stage 2: Ordered Adapter Detection
-The engine delegates tab inspection to `CmpAdapterRegistry.DetectAdapterAsync()`. The registry executes a deterministic probe sequence across registered vendor adapters. If no adapter claims the tab, execution terminates cleanly with:
+The engine delegates tab inspection to the adapter registry. The registry executes a deterministic probe sequence across registered vendor adapters. If no adapter claims the tab, execution terminates cleanly with:
 ```json
 {
   "ok": false,
@@ -111,7 +111,7 @@ For permitted intents (`RejectOptional`, `PreserveExisting`), the adapter execut
 1. **Asynchronous Settle Window:** The engine waits for an internal 50ms settle debounce window to permit background Web Workers, IndexedDB commits, and CMP event listeners to process the state change.
 2. **Post-State Capture:** The adapter reads the mutated `ConsentStateVector`.
 3. **Mathematical Verification:** The engine compares `preState` and `postState` against the requested `intent`. If optional categories remain active, `verified` is set to `false`.
-4. **Visual Teardown Check:** The engine evaluates `CmpHideList.BuildBannerHiddenProbeScript` to verify whether the visual banner DOM was removed alongside the state update.
+4. **Visual Teardown Check:** The engine runs a probe to verify whether the visual banner DOM was removed alongside the state update.
 
 #### Stage 8: Structured Serilog Audit Logging
 Every execution logs an immutable structured telemetry event containing the target tab ID, vendor adapter name, execution latency, pre/post state hashes, and verification outcome.
@@ -124,7 +124,7 @@ Modern enterprise websites frequently accumulate legacy analytics scripts. An or
 
 If an automated engine queried adapters using unordered dictionary traversal or loose CSS class selectors, it would risk selecting a dead legacy wrapper, invoking a broken method, and failing the clearance operation.
 
-Nova's `CmpAdapterRegistry` solves this through **strictly ordered priority detection**:
+Nova's adapter registry solves this through **strictly ordered priority detection**:
 
 ```mermaid
 flowchart TD
@@ -150,16 +150,16 @@ flowchart TD
 
 ### Architectural Invariant: Strict Identity Gates Precede Loose DOM Patterns
 
-The order of `CmpAdapterRegistry` is an **explicit, hard-coded architectural sequence**, not a dictionary or hash map with non-deterministic iteration order:
+The adapter order is an **explicit, fixed sequence**, not a lookup with arbitrary iteration order:
 1. **Preventing Wrapper & Shim Shadowing:** Many enterprise portals embed third-party analytics shims or legacy wrappers alongside active CMP engines. For instance, a site migrating from OneTrust to Sourcepoint TCF v2 often leaves residual OneTrust global variables (`window.OneTrust`) or wrapper DOM containers in the HTML. If an adapter matching loose DOM patterns were queried first, it would claim the tab, dispatch a mutation against dead or unmonitored OneTrust functions, and cause an Apply-Verify infinite loop when the real Sourcepoint banner remains untouched.
-2. **Cryptographic ID Validation First:** By gating Sourcepoint with IAB European Registry ID `cmpId == 6`, Nova guarantees that dedicated TCF implementations take precedence before falling back to generic vendor globals.
+2. **CMP ID Validation First:** By gating Sourcepoint with IAB European Registry ID `cmpId == 6`, Nova guarantees that dedicated TCF implementations take precedence before falling back to generic vendor globals.
 3. **Disjoint Globals:** `window.Cookiebot` and `window.__ucCmp` are fully disjoint from `window.OneTrust`, allowing clean fallback without mutual shadowing.
 
 ### Unadapted Vendors & Heuristic Fallback (Didomi, Klaro, Quantcast)
 
 Modern web properties also deploy other CMP systems, such as Didomi, Klaro, Quantcast Choice, or CookieFirst. Nova's architecture deliberately handles these without bloating the runtime API surface:
 * **TCF Compliance:** If Didomi or Quantcast operates in standard IAB TCF mode, underlying consent signals flow through standardized TCF frames.
-* **Deterministic `no_adapter` Escalation:** When a site deploys Didomi, Klaro, or custom banners lacking a dedicated programmatic adapter, `nova.cmp_apply` fails fast within $<15\text{ ms}$, returning:
+* **Deterministic `no_adapter` Escalation:** When a site deploys Didomi, Klaro, or custom banners lacking a dedicated programmatic adapter, `nova.cmp_apply` fails fast, returning:
   ```json
   {
     "ok": false,
@@ -167,7 +167,7 @@ Modern web properties also deploy other CMP systems, such as Didomi, Klaro, Quan
     "nextAction": "fallback_dismiss_blockers"
   }
   ```
-* **Heuristic & CSS Remediation:** The agent immediately calls `nova.dismiss_blockers`. Nova's heuristic scanner queries comprehensive vendor selector lists (`CmpHideList`), while `ConsentDecisionGuard` evaluates candidate buttons to click legitimate reject options or inject display overrides without risking unintended commercial consent.
+* **Heuristic & CSS Remediation:** The agent immediately calls `nova.dismiss_blockers`. Nova's heuristic scanner uses its built-in vendor selector lists, while the Consent Guard evaluates candidate buttons to click legitimate reject options or inject display overrides without risking unintended commercial consent.
 
 ---
 

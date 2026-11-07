@@ -56,13 +56,10 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 {
   "ok": true,
   "pluginId": "com.example.price-scanner",
-  "updatedKeys": [
-    "apiEndpoint",
-    "telemetryEnabled"
-  ],
-  "deletedKeys": [
-    "betaFeatures"
-  ]
+  "changedKeyCount": 3,
+  "updatedKeys": ["apiEndpoint", "refreshMinutes"],
+  "deletedKeys": ["betaFeatures"],
+  "keyCount": 2
 }
 ```
 
@@ -70,7 +67,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 ## 4. Operational Best Practices
 
-* **Atomic Configuration Updates:** Combine `values`, `deleteKeys`, and `clearExisting` in a single call to atomically update configuration parameters without intermediate invalid states.
+* **One Call per Configuration Change:** Combine `values`, `deleteKeys` and `clearExisting` in a single call. A key that is in both `values` and `deleteKeys` is updated, not deleted.
 * **Reactive Event Dispatch:** Updates automatically emit `storage.onChanged` events with `areaName='managed'` into running plugin engines, enabling live configuration reloads without restarting the plugin.
 * **Complete Overwrites:** Set `clearExisting: true` when enforcing a pristine policy state, purging any obsolete or stray configuration keys previously written.
 

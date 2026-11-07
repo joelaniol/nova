@@ -40,7 +40,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 {
   "_meta": { "intent": "Add discount calculation to price scanner" },
   "pluginId": "com.example.price-scanner",
-  "code": "nova.on('page:load', function() {\n  var p = nova.dom.querySelector('.price');\n  var d = nova.dom.querySelector('.discount');\n  if (p) nova.storage.local.set('final', d ? p.text + ' (sale)' : p.text);\n});",
+  "code": "var p = JSON.parse(nova.dom.querySelectorAll('.price', 1));\nvar d = JSON.parse(nova.dom.querySelectorAll('.discount', 1));\nif (p.length > 0) {\n  var text = nova.dom.getTextContent(p[0]);\n  nova.storage.local.set('final', d.length > 0 ? text + ' (sale)' : text);\n}",
   "changeNote": "Support discount badges",
   "deferActivation": true
 }
@@ -52,13 +52,26 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 {
   "ok": true,
   "pluginId": "com.example.price-scanner",
-  "status": "updated",
-  "state": "testing",
-  "version": "1.0.1",
-  "historyId": 2,
-  "reloaded": true
+  "deferActivation": true,
+  "sourceFileCount": 0,
+  "plugin": {
+    "pluginId": "com.example.price-scanner",
+    "name": "Price Scanner",
+    "version": "1.0.0",
+    "installState": "Testing",
+    "runtimeState": "Inactive",
+    "enabled": true,
+    "errorCount": 0,
+    "crashCount": 0,
+    "permissions": ["StorageReadWrite"],
+    "pendingPermissions": ["DomRead"],
+    "pendingHostMatches": ["https://shop.example.com/*"],
+    "permissionReviewRequired": true
+  }
 }
 ```
+
+`plugin` is the plugin snapshot, shortened here. It also carries the session fields (`currentSession`, `activeSessions`, `lastKnownSession`, `knownSessions`), frame access, content-script counts and the granted and pending host, network and MCP-tool scopes.
 
 ---
 

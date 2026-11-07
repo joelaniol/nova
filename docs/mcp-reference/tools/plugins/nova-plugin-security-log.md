@@ -47,14 +47,16 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 {
   "ok": true,
   "pluginId": "com.example.price-scanner",
-  "violationCount": 1,
+  "eventCount": 1,
+  "recentCount": 1,
   "autoDisableThreshold": 10,
-  "violations": [
+  "recentWindowMinutes": 5,
+  "entries": [
     {
-      "timestamp": "2026-11-07T08:02:10Z",
+      "entryId": 3,
       "kind": "url_blocked",
-      "target": "https://unauthorized.tracker.example.com/collect",
-      "reason": "Host not allowed by manifest.network.allow"
+      "detail": "https://tracker.example.net/collect",
+      "createdAtUtc": "2026-11-07T08:02:10.0000000Z"
     }
   ]
 }
@@ -65,8 +67,8 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 ## 4. Operational Best Practices
 
 * **Auto-Disable Prevention:** The host automatically disables any plugin that triggers 10 or more security policy violations within 5 minutes. Periodically review `nova.plugin_security_log` during development to catch boundary rejections early.
-* **Violation Taxonomy:** Inspect the `kind` field to distinguish between `permission_denied` (calling ungranted APIs), `quota_exceeded` (exceeding memory or storage limits), `url_blocked` (unauthorized fetch origins), and `oversize_attempt`.
-* **Remediation Strategy:** When `url_blocked` or `permission_denied` appears in the log, update `manifest.json` and grant the required permissions via `nova.plugin_request_permission` rather than attempting to bypass host policies.
+* **Violation Taxonomy:** The `kind` field tells the cause, for example `permission_denied` (an API without the grant), `quota_exceeded`, `url_blocked` (a fetch outside `network.allow`), `redirect_blocked`, `script_blocked` and `oversize_attempt`.
+* **Remediation Strategy:** When `url_blocked` or `permission_denied` appears, declare the missing scope in the manifest via [`nova.plugin_update`](nova-plugin-update.md) and grant it via [`nova.plugin_request_permission`](nova-plugin-request-permission.md).
 
 ---
 

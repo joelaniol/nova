@@ -8,7 +8,7 @@ Proxy profile management, authentication, traffic redirection, and CDP network r
 ---
 
 <!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
-## Tool Inventory (24 Tools)
+## Tool Inventory (29 Tools)
 
 Capability bundles of these tools: `connector_ops`, `page_read_debug`, `proxy_management`.
 
@@ -17,6 +17,11 @@ Capability bundles of these tools: `connector_ops`, `page_read_debug`, `proxy_ma
 | **[`nova.net_devices`](nova-net-devices.md)** | Reads Nova's network inventory: every device `nova.net_scan` has found, with what it is, its addresses and open ports, and whether it was seen lately. Also compares two stored scans. |
 | **[`nova.net_devices_update`](nova-net-devices-update.md)** | Gives a device of the network inventory a name and a note, or forgets it. |
 | **[`nova.net_dns`](nova-net-dns.md)** | Looks up DNS records like `dig` or `nslookup`, compares several resolvers, and says what the answers mean. |
+| **[`nova.net_monitor_delete`](nova-net-monitor-delete.md)** | Deletes a network monitor with everything it measured. |
+| **[`nova.net_monitor_list`](nova-net-monitor-list.md)** | Lists the network monitors with their state, the last 15 minutes, disk size and the free probe budget. |
+| **[`nova.net_monitor_report`](nova-net-monitor-report.md)** | What a network monitor measured over a window: probe success, reachability and coverage kept apart, percentiles, RTT variation, gaps with their reason and, with a route, every hop. |
+| **[`nova.net_monitor_start`](nova-net-monitor-start.md)** | Starts a long-term connection monitor (like PingPlotter or Smokeping) that keeps measuring while Nova runs, or resumes a paused one. |
+| **[`nova.net_monitor_stop`](nova-net-monitor-stop.md)** | Pauses a network monitor; its measurements stay. |
 | **[`nova.net_ping`](nova-net-ping.md)** | Ping, traceroute in rounds (like mtr or PingPlotter), TCP ping and a Path-MTU check from this PC, with findings that say what the numbers mean. |
 | **[`nova.net_probe`](nova-net-probe.md)** | Checks from this PC which TCP ports of a host are reachable, and whether an HTTP proxy there opens a CONNECT tunnel. |
 | **[`nova.net_scan`](nova-net-scan.md)** | Scans a network from this PC: finds the devices in a range, checks which TCP ports answer, and names what each device probably is, with the evidence behind it. |

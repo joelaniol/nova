@@ -41,16 +41,12 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 ```json
 {
   "ok": true,
-  "icons": [
-    "chart-line",
-    "bell",
-    "cog",
-    "bookmark",
-    "shield-check",
-    "tag"
-  ]
+  "count": 55,
+  "icons": ["alert", "bell", "bookmark", "chart-bar", "chart-line", "cog"]
 }
 ```
+
+The list is cut short here; call the tool for all names.
 
 ---
 

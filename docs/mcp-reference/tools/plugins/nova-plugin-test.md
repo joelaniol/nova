@@ -49,25 +49,51 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 ```json
 {
   "ok": true,
-  "pluginId": "com.example.price-scanner",
-  "status": "passed",
+  "passed": true,
   "mode": "smoke",
-  "promotedToInstalled": true,
-  "context": "livePageContext",
-  "issues": [],
+  "pluginId": "com.example.price-scanner",
+  "executionOk": true,
+  "returnValue": null,
+  "error": null,
+  "elapsedMs": 84,
+  "errors": [],
   "warnings": [],
-  "domChanges": 0,
-  "securityEvents": 0
+  "securityEvents": [],
+  "domChanges": [],
+  "isolated": true,
+  "syntheticContext": false,
+  "livePageContext": true,
+  "applyWrites": false,
+  "applyWritesActive": false,
+  "activateAfterPass": true,
+  "activationApplied": true,
+  "plugin": {
+    "pluginId": "com.example.price-scanner",
+    "name": "Price Scanner",
+    "version": "1.0.0",
+    "installState": "Installed",
+    "runtimeState": "Inactive",
+    "enabled": true,
+    "errorCount": 0,
+    "crashCount": 0,
+    "permissions": ["StorageReadWrite"],
+    "pendingPermissions": ["DomRead"],
+    "pendingHostMatches": ["https://shop.example.com/*"],
+    "permissionReviewRequired": true
+  }
 }
 ```
+
+A failed smoke run returns `ok: false` and `passed: false` with the reasons in `errors[]` (each `{ code, message }`); `activationApplied` then stays `false`.
+`plugin` is the plugin snapshot, shortened here. It also carries the session fields (`currentSession`, `activeSessions`, `lastKnownSession`, `knownSessions`), frame access, content-script counts and the granted and pending host, network and MCP-tool scopes.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Smoke Verification Pipeline (`mode: "smoke"`):** Use `mode: "smoke"` for pre-flight validation. This creates an isolated session, runs execution probes, captures exceptions, and checks epoch fencings.
-* **Automated Promotion (`activateAfterPass: true`):** When testing newly created or updated plugins in the `Testing` state, pass `activateAfterPass: true`. If the smoke test passes with 0 issues, the plugin is automatically promoted to `Installed`.
-* **Reversible Test Mutations:** By default, DOM writes during test runs are discarded. To test style or class injections against a live page, pass `applyWrites: true`; all mutations are automatically rolled back when the smoke session completes.
+* **Smoke Verification Pipeline (`mode: "smoke"`):** Use `mode: "smoke"` for pre-flight validation. It runs the code in a temporary isolated runtime and reports errors, warnings, security events and DOM changes. `livePageContext: true` means it reused the last real page context; `syntheticContext: true` means it fell back to a test context.
+* **Automated Promotion (`activateAfterPass: true`):** For a plugin in `Testing` or `Disabled`, pass `activateAfterPass: true`. If the smoke test passes, the plugin is promoted to `Installed`; `activationApplied` says whether that happened.
+* **Reversible Test Mutations:** By default, class, style and CSS changes stay preview-only. `applyWrites: true` applies them to the remembered live page and rolls them back when the smoke session ends; without a live page context the run fails closed with `applyWritesActive: false`.
 
 ---
 

@@ -43,7 +43,7 @@ Privileged cross-origin frame interaction is governed by five mandatory security
 
 ```mermaid
 flowchart LR
-    Call["nova.cmp_apply / Frame Interaction"] --> GateCheck{"AppSettings.\nPrivilegedCrossOriginCmpInteractionEnabled\n(Default: false)"}
+    Call["nova.cmp_apply / Frame Interaction"] --> GateCheck{"Cross-origin banner\nsetting on?\n(Default: off)"}
 
     GateCheck -- "Disabled" --> BlockPolicy["Reject Cross-Origin Execution\n(JSON-RPC -32002 Forbidden)"]
 
@@ -64,7 +64,7 @@ flowchart LR
 
 ### Invariant 1: Explicit Administrative Policy Gate
 Cross-origin frame execution is disabled by default:
-* Controlled by `AppSettings.PrivilegedCrossOriginCmpInteractionEnabled` (default: `false`).
+* Controlled by the user-only setting *Also reach into cookie-banner iframes (advanced)* (default: off).
 * When disabled, any attempt to evaluate scripts or dispatch events across cross-origin iframes is blocked immediately with JSON-RPC error code `-32002` (`OperationForbidden`).
 * **Dynamic Per-Call Resolution:** Settings are resolved dynamically per invocation. Toggling this policy does not require restarting the browser process or recreating tabs.
 
@@ -121,18 +121,10 @@ Every attempt to cross an iframe origin boundary is recorded in the structured S
 
 ## 4. Operational Configuration
 
-To enable privileged cross-origin frame clearance for automated browsing tasks on enterprise domains, configure the runtime setting in Nova's Developer Options (`settings.json`) or via [`nova.app_settings_set`](../../../../mcp-reference/tools/app-shell-and-ui/nova-app-settings-set.md):
-
-```json
-{
-  "values": {
-    "PrivilegedCrossOriginCmpInteractionEnabled": true
-  }
-}
-```
+Only the user can turn this on, with the Settings checkbox *Also reach into cookie-banner iframes (advanced)*. Agents cannot change it: it is not one of the settings `nova.app_settings_set` accepts, and the switch is read again on every call, so turning it off takes effect at once.
 
 > [!WARNING]
-> Only enable `PrivilegedCrossOriginCmpInteractionEnabled` when navigating trusted enterprise publishers known to utilize third-party iframe CMPs. Never enable this setting in unconstrained crawling environments where malicious or untrusted third-party domains may be encountered.
+> Only enable this setting when navigating trusted enterprise publishers known to utilize third-party iframe CMPs. Never enable this setting in unconstrained crawling environments where malicious or untrusted third-party domains may be encountered.
 
 ---
 

@@ -56,7 +56,7 @@ Modern websites frequently present modals, cookie banners, or overlays that bloc
     "mode": "conservative"
   }
   ```
-  Nova's heuristic scanner queries `CmpHideList` and evaluates candidate buttons with the Stage 1 Consent Guard.
+  Nova's heuristic scanner uses its built-in vendor selector lists and evaluates candidate buttons with the Stage 1 Consent Guard.
 
 ### 3. `DENY_LABEL_MISMATCH` or `DENY_CONSENT_CLOSE`
 * **Symptom:** An automated click via `nova.dismiss_blockers` is refused with `DENY_LABEL_MISMATCH` or `DENY_CONSENT_CLOSE`.
@@ -67,8 +67,8 @@ Modern websites frequently present modals, cookie banners, or overlays that bloc
 
 ### 4. Cross-Origin Iframe Cookie Banners
 * **Symptom:** Cookie modals embedded in third-party iframes (e.g. Sourcepoint TCF v2 frames like `notice.sp-prod.net`) are not dismissed, and `nova.cmp_apply` reports forbidden.
-* **Root Cause:** `AppSettings.PrivilegedCrossOriginCmpInteractionEnabled` is `false` by default to prevent cross-frame script injection attacks.
-* **Resolution:** On trusted enterprise portals deploying third-party iframe CMPs, enable the setting in Developer Options or via [`nova.app_settings_set`](../mcp-reference/tools/app-shell-and-ui/nova-app-settings-set.md) (`values: { "PrivilegedCrossOriginCmpInteractionEnabled": true }`). Learn more in [Cross-Origin CMP Boundaries](../core-features/consent-management/hijack-protection/cross-origin-and-privilege-boundaries/README.md).
+* **Root Cause:** Running banner scripts inside frames from another site is off by default, so a page cannot use it to get scripts run in foreign frames.
+* **Resolution:** Ask the user to turn on the Settings checkbox *Also reach into cookie-banner iframes (advanced)* for sites where the banner does not respond otherwise; agents cannot change it. Otherwise fall back to `nova.dismiss_blockers`. Learn more in [Cross-Origin CMP Boundaries](../core-features/consent-management/hijack-protection/cross-origin-and-privilege-boundaries/README.md).
 
 ---
 
@@ -93,14 +93,14 @@ Modern websites frequently present modals, cookie banners, or overlays that bloc
 * **Resolution:** Stop active crawls via `nova.crawl_stop` and close open surface exploration sessions via `nova.explore_surface(mode="close", targetId="active", executionSurface="live_tab", guardProfile="phase1_default", close={"runId": "..."})` before requesting scope deletion.
 
 ### 4. `CLAIM_LOST` or `TAB_BECAME_HIDDEN` in Surface Explorer
-* **Symptom:** `nova.explore_surface(mode="activate", ...)` fails with outcome `claim_lost` or `blocked_by_guard` (`TAB_BECAME_HIDDEN`).
+* **Symptom:** `nova.explore_surface(mode="activate", ...)` reports reason code `CLAIM_LOST` or `TAB_BECAME_HIDDEN`.
 * **Root Cause:**
   * `CLAIM_LOST`: The agent's lease on the tab expired, was released, or was claimed by another agent.
   * `TAB_BECAME_HIDDEN`: The human user switched away to another browser tab or sandbox profile during in-flight trigger activation.
 * **Resolution:** Re-acquire the tab lease using `nova.tab_claim` before resuming exploration. Nova strictly refuses to click on background or hidden user tabs to protect user workspaces from invisible clicks.
 
 ### 5. `networkMutationGuard` Tripped in Surface Explorer
-* **Symptom:** Trigger activation fails with a `networkMutationGuard` incident.
+* **Symptom:** Trigger activation ends with `status: "blocked"`, reason code `NON_GET_REQUEST_BLOCKED` and a `networkMutationGuard` entry in `guardIncidents`.
 * **Root Cause:** The clicked trigger initiated a mutating HTTP request (`POST`, `PUT`, `DELETE`, `PATCH`).
 * **Resolution:** Surface Explorer is designed strictly for read-only interface disclosure (tabs, accordions, menus). Mutating actions are safely blocked to prevent unintended database changes or form submissions.
 

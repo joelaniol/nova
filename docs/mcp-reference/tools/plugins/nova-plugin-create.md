@@ -39,7 +39,7 @@ Tool category: `high_impact` (highest risk class; Nova's agent permission settin
 {
   "_meta": { "intent": "Install pricing extraction extension" },
   "manifest": "{\n  \"id\": \"com.example.price-scanner\",\n  \"version\": \"1.0.0\",\n  \"name\": \"Price Scanner\",\n  \"entryPoint\": \"index.js\",\n  \"requestedPermissions\": [\"DomRead\", \"StorageReadWrite\"],\n  \"hostPermissions\": { \"matches\": [\"https://shop.example.com/*\"] }\n}",
-  "code": "nova.on('page:load', function() {\n  var price = nova.dom.querySelector('.price');\n  if (price) nova.storage.local.set('lastPrice', price.text);\n});",
+  "code": "var handles = JSON.parse(nova.dom.querySelectorAll('.price', 1));\nif (handles.length > 0) {\n  nova.storage.local.set('lastPrice', nova.dom.getTextContent(handles[0]));\n}",
   "deferActivation": true
 }
 ```
@@ -50,14 +50,30 @@ Tool category: `high_impact` (highest risk class; Nova's agent permission settin
 {
   "ok": true,
   "pluginId": "com.example.price-scanner",
-  "status": "created",
-  "state": "testing",
-  "version": "1.0.0",
-  "permissionsGranted": ["StorageReadWrite"],
-  "permissionsPending": ["DomRead"],
-  "hostMatchesPending": ["https://shop.example.com/*"]
+  "installState": "Testing",
+  "installPath": "...\\plugins\\com.example.price-scanner",
+  "deferActivation": true,
+  "codeWritten": true,
+  "sourceFileCount": 0,
+  "warning": null,
+  "plugin": {
+    "pluginId": "com.example.price-scanner",
+    "name": "Price Scanner",
+    "version": "1.0.0",
+    "installState": "Testing",
+    "runtimeState": "Inactive",
+    "enabled": true,
+    "errorCount": 0,
+    "crashCount": 0,
+    "permissions": ["StorageReadWrite"],
+    "pendingPermissions": ["DomRead"],
+    "pendingHostMatches": ["https://shop.example.com/*"],
+    "permissionReviewRequired": true
+  }
 }
 ```
+
+`plugin` is the plugin snapshot, shortened here. It also carries the session fields (`currentSession`, `activeSessions`, `lastKnownSession`, `knownSessions`), frame access, content-script counts and the granted and pending host, network and MCP-tool scopes.
 
 ---
 

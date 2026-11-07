@@ -87,7 +87,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ## 6. Operational Best Practices
 
-* **Targeting Promotion vs. Deprecation Inquiries:** Use `nova.explain` to diagnose why a playbook did not run automatically (`level: 1` / Shadow) or why an Active playbook was demoted (`level: 0` / Deprecated). Inspect `explain.kind` (`"promotion"`, `"demotion"`, `"deprecation"`) to understand which rule evaluation triggered.
+* **Targeting Promotion vs. Deprecation Inquiries:** Use `nova.explain` to diagnose why a playbook did not run automatically (`level: 1` / Shadow) or why an Active playbook was demoted or deprecated. Inspect `explain.kind` (`"promotion"`, `"demotion"`, `"deprecation"`) to understand which rule evaluation triggered.
 * **Evaluating `deltaToPass` for Remediation:** When `passed: false` appears on a gate (such as `min_success` or `min_distinct_sessions`), read `deltaToPass` and `remediation`. Do not guess missing requirements; execute the exact number of remaining runs and log them via [`nova.telemetry_report`](nova-telemetry-report.md).
 * **Fingerprint Breakdown Analysis (`observedSignals`):** When diagnosing near-miss fingerprint matches on dynamic sites, pass `observedSignals` containing live DOM indicators (such as `["cmp.didomi.root", "button#didomi-reject"]`). `explain` returns a weighted scoring breakdown showing which signals matched or dragged the score below `minConfidence`.
 * **Parameter Consistency:** Use canonical `stableId` and `observedSignals`. If legacy parameters `stable_id` or `observed_signals` are passed alongside them, they must match identically to avoid JSON-RPC `-32602` validation errors.

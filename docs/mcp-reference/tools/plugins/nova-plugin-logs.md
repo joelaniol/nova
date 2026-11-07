@@ -47,12 +47,14 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 {
   "ok": true,
   "pluginId": "com.example.price-scanner",
+  "entryCount": 1,
   "entries": [
     {
-      "timestamp": "2026-11-07T08:00:00Z",
+      "entryId": 17,
       "level": "error",
-      "message": "TypeError: Cannot read property 'querySelector' of null",
-      "stack": "at scanPrices (content.js:42:15)"
+      "message": "TypeError: Cannot read properties of null",
+      "stack": "at index.js:4:15",
+      "createdAtUtc": "2026-11-07T08:00:00.0000000Z"
     }
   ]
 }

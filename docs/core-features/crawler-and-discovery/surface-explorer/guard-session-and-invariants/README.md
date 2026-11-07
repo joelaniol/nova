@@ -49,9 +49,9 @@ flowchart TD
 A guard session is bound to an active tab leased by the calling agent:
 
 1. **Attachment (`discover` mode):** When `nova.explore_surface(mode='discover')` is called, Nova binds an exploration guard to the target tab. Event listeners are wired to intercept downloads, new windows, permissions, script dialogs, and navigation.
-2. **Arming (`activate` / `hover` modes):** Immediately before dispatching a synthetic pointer or keyboard event, the guard arms its network mutation and navigation traps (`_armed = true`).
+2. **Arming (`activate` / `hover` modes):** Immediately before dispatching a synthetic pointer or keyboard event, the guard switches from observing to enforcing.
 3. **Execution Window:** The simulated input is dispatched to the target DOM element. Any asynchronous side effects triggered by the page within the execution window encounter the armed traps.
-4. **Disarming & Incident Recording:** Once the post-interaction settlement check completes, the guard is disarmed. Any intercepted events are packaged into `GuardIncident` records and reflected in the tool result.
+4. **Disarming & Incident Recording:** Once the post-interaction settlement check completes, the guard is disarmed. Every intercepted event is reported in the tool result under `guardIncidents`.
 5. **Teardown (`close` mode):** When exploration is complete, `nova.explore_surface(mode='close')` detaches all CDP interceptors, unhooks native event listeners, and flushes runtime caches.
 
 ---
@@ -62,7 +62,7 @@ During active exploration, Nova enforces seven strict invariants:
 
 | # | Guard Invariant | Mechanism | Failure Action |
 | :-: | :--- | :--- | :--- |
-| **1** | **Download Trap** | Intercepts `DownloadStarting` events at the WebView2 engine layer. | Cancels the download immediately before any bytes reach disk; marks interaction as `blocked_by_guard`. |
+| **1** | **Download Trap** | Intercepts `DownloadStarting` events at the WebView2 engine layer. | Cancels the download before any bytes reach disk; the interaction ends with `status: "blocked"` and reason code `DOWNLOAD_BLOCKED`. |
 | **2** | **Popup & New Window Trap** | Intercepts `NewWindowRequested` events (`window.open()`, `target="_blank"`). | Sets `Handled = true`; suppresses new window/tab creation entirely. |
 | **3** | **External Protocol Suppression** | Intercepts `LaunchingExternalUriScheme` events (`mailto:`, `tel:`, custom URI protocols). | Cancels launcher execution, preventing external native applications from opening. |
 | **4** | **Script Dialog Auto-Dismissal** | Intercepts `ScriptDialogOpening` events (`alert`, `confirm`, `prompt`, `beforeunload`). | Automatically dismisses the dialog with non-mutating defaults (e.g., Cancel / OK), preventing browser thread deadlocks. |
@@ -83,51 +83,54 @@ flowchart TD
     Interaction["In-Flight Activation Trigger"] --> PreArmCheck{"Pre-Arm Guard Incidents?"}
     PreArmCheck -- "Fatal Event Detected" --> AbortPreArm["Abort Trigger Dispatch"]
     PreArmCheck -- "Clean" --> LeaseCheck{"Agent Tab Lease Valid?"}
-    LeaseCheck -- "Lease Expired / Released" --> FailClaim["Abort Interaction\nOutcome: 'claim_lost'\nReason: CLAIM_LOST"]
+    LeaseCheck -- "Lease Expired / Released" --> FailClaim["Abort Interaction\nReason: CLAIM_LOST"]
     LeaseCheck -- "Lease Active" --> VisCheck{"Tab Currently Active & Visible?"}
-    VisCheck -- "User Switched Tab / Sandbox" --> FailVis["Abort Interaction\nOutcome: 'blocked_by_guard'\nReason: TAB_BECAME_HIDDEN"]
-    VisCheck -- "Tab Visible" --> NavCheck{"Navigation Stays Within Policy?"}
-    NavCheck -- "Cross-Origin Shift" --> FailNav["Abort Interaction\nOutcome: 'navigation_rejected'\nReason: cross_origin_disallowed"]
+    VisCheck -- "User Switched Tab / Sandbox" --> FailVis["Abort Interaction\nReason: TAB_BECAME_HIDDEN"]
+    VisCheck -- "Tab Visible" --> NavCheck{"Unexpected Navigation?"}
+    NavCheck -- "Top-Level Navigation" --> FailNav["status: aborted\nReason: UNEXPECTED_TOP_LEVEL_NAVIGATION"]
     NavCheck -- "Cleared" --> Success["Proceed with State Evaluation"]
 ```
 
 ### 1. Tab Lease Revocation (`CLAIM_LOST`)
 * Before every activation, Nova verifies that the calling agent holds an active tab claim (`tab_claim`).
-* If the lease expired, was explicitly released, force-released by an administrator, or disconnected via SSE orphan cleanup, Nova immediately raises `CLAIM_LOST`.
+* If the claim expired or was released while the interaction runs, Nova immediately raises `CLAIM_LOST`.
 * Activation or teardown under a stale claim is prohibited, preventing orphaned agents from executing actions without authorization.
 
 ### 2. User Visibility Switching (`TAB_BECAME_HIDDEN`)
-* If the human user switches away to a different tab, switches sandbox profiles (`Sandbox A` $\leftrightarrow$ `Sandbox B`), or minimizes the browser window during an in-flight trigger activation, Nova immediately raises `TAB_BECAME_HIDDEN`.
+* If the user switches to a different tab or sandbox while a trigger activation is in flight, Nova immediately raises `TAB_BECAME_HIDDEN`.
 * The action is aborted immediately. Nova never manipulates hidden or background tabs under an active surface exploration lease, preventing invisible clicks on user workspaces.
 
 ### 3. Pre-Arm Incident Preservation
-* Fatal guard events (such as claim loss or trusted user interference) raised during baseline attachment and pre-activation preparation are strictly preserved across `ArmForActivation()`.
+* Fatal guard events (such as claim loss or user interference) raised while the guard attaches and prepares the activation are kept when the guard arms.
 * Nova checks these incidents before dispatching the simulated focus, keyboard, or mouse trigger, ensuring that compromised runs abort cleanly before any DOM input is emitted.
 
-### 4. Navigation Policy Rejection (`navigation_rejected`)
-* If an interactive control attempts to force a cross-origin navigation to an unapproved external domain, Nova traps the navigation attempt before the document unloads.
-* The tab remains on the current document, and the interaction returns outcome `navigation_rejected`.
+### 4. Unexpected Navigation (`UNEXPECTED_TOP_LEVEL_NAVIGATION`)
+* If a control that was not classified as navigation leaves the document, the interaction ends with `status: "aborted"` and reason code `UNEXPECTED_TOP_LEVEL_NAVIGATION` (or `UNEXPECTED_SAME_DOCUMENT_ROUTE_CHANGE` for an unplanned route change inside the page).
+* Nova then closes the exploration run; start a new `discover` run on the page you want to explore.
 
 ---
 
 ## 4. Diagnostic Incident Reporting
 
-When a guard intervenes, details are structured in the `incidents` array of the interaction response:
+When a guard intervenes, the interaction result carries `status: "blocked"`, the reason codes and the `guardIncidents` list:
 
 ```json
 {
-  "triggerId": "trg_upload_btn",
-  "outcome": "blocked_by_guard",
-  "incidents": [
+  "status": "blocked",
+  "reasonCodes": ["FILE_CHOOSER_BLOCKED"],
+  "guardIncidents": [
     {
-      "guard": "fileChooserTrap",
-      "reason": "Trapped native file chooser dialog triggered by input[type='file']",
-      "timestampUtc": "2026-10-18T05:22:10Z"
+      "guard": "fileChooserGuard",
+      "state": "enforce",
+      "action": "blocked",
+      "reasonCode": "FILE_CHOOSER_BLOCKED",
+      "observed": "..."
     }
-  ],
-  "deltaObserved": false
+  ]
 }
 ```
+
+The possible `status` values are `activated`, `no_delta`, `blocked`, `failed` and `aborted`.
 
 ---
 

@@ -350,6 +350,27 @@ Quickly check whether critical TCP ports are open on a target host and test forw
 * **Host Confirmation:** Probing a new host prompts the operator once per session. Known server hosts of working connectors run without prompting.
 * **Troubleshooting:** See [Network, Proxy & Protocol Troubleshooting](../../troubleshooting/network-and-proxies.md) for resolving `connector_approval_required` and proxy tunnel refusals.
 
+### 4.5 Long-Term Connection Monitors ([`nova.net_monitor_start`](../../mcp-reference/tools/proxy-and-network/nova-net-monitor-start.md))
+
+*From version 1.0.0-alpha.21, not published yet.* A one-off ping shows the connection right now; a monitor shows it
+over hours or days, like PingPlotter or Smokeping. Ask your agent, for example: *"Watch the connection to my server
+overnight and tell me tomorrow whether it dropped."* Nova then keeps measuring while it runs, also after a restart,
+and a button in the toolbar shows every running monitor with its state, the last 15 minutes and a small chart, where
+you can pause or delete it, or add one yourself (main menu > Network monitor).
+
+```json
+{
+  "name": "nova.net_monitor_start",
+  "arguments": { "host": "example.com", "route": true, "intervalMs": 2500 }
+}
+```
+
+The agent later reads [`nova.net_monitor_report`](../../mcp-reference/tools/proxy-and-network/nova-net-monitor-report.md)
+with a window such as `"last": "24h"`. It keeps three numbers apart: how many test packets were answered
+(`probeSuccessPct`), how long the target was reachable (`reachabilityPct`) and how much of the window was measured at
+all (`window.coveragePct`). Time when Nova was closed or the PC was asleep is listed as a gap with its reason and is
+never counted as an outage. Single measurements are kept 14 days, summaries 90 days.
+
 ---
 
 ## 5. Cryptographic TLS/SSL Auditing ([`nova.tls_inspect`](../../mcp-reference/tools/proxy-and-network/nova-tls-inspect.md))

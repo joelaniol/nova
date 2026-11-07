@@ -46,9 +46,13 @@ Tool category: `high_impact` (highest risk class; Nova's agent permission settin
 ```json
 {
   "ok": true,
-  "pluginId": "com.example.old-scraper",
   "status": "uninstalled",
-  "dataDeleted": true
+  "pluginId": "com.example.old-scraper",
+  "deleted": true,
+  "wasRegistered": true,
+  "stateUpdated": true,
+  "reasonCode": null,
+  "warning": null
 }
 ```
 
@@ -57,8 +61,8 @@ Tool category: `high_impact` (highest risk class; Nova's agent permission settin
 ## 4. Operational Best Practices
 
 * **Mandatory Intent Clause:** Because `nova.plugin_uninstall` is classified as `high_impact`, passing `_meta.intent` is strictly required by the host runtime; missing intent results in immediate call rejection.
-* **Data Retention vs. Purge (`deleteData`):** By default (`deleteData: false`), plugin configuration, logs, and database records are retained so re-installation preserves state. Use `deleteData: true` only when permanently decommissioning the extension.
-* **Cascading Cleanup:** Uninstallation immediately shuts down running engine instances, deregisters dynamic MCP tools (`plugin.{pluginId}.*`), and rolls back any active DOM/CSS injections recorded in the mutation ledger.
+* **Data Retention vs. Purge (`deleteData`):** By default (`deleteData: false`) the plugin's files stay on disk. `deleteData: true` also deletes its plugin directory; use it only when the plugin is gone for good.
+* **Cascading Cleanup:** Uninstalling stops the running instances and unregisters the plugin, so its MCP tools (`plugin.{pluginId}.*`) disappear. A plugin that was not found returns `ok: false` with a `reasonCode` instead of an error.
 
 ---
 

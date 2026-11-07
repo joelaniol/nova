@@ -211,7 +211,7 @@ only — `ctaRef` and `score` are `cta_detection_v3`-only fields, not part of `s
 * **Mode Selection Precision:** Avoid calling `mode: "full"` in repetitive agent loops. Use `mode: "summary"` for initial orientation and landmark identification, `mode: "state"` for quick status checks, and `mode: "form_analysis"` before filling complex multi-step forms.
 * **Conserving Vision Tokens (`includeScreenshot: false`):** Screenshots consume significant context and vision tokens. Set `includeScreenshot: false` during iterative structural tasks unless visual verification, OCR fallback, or diagram analysis is explicitly required.
 * **Incremental Delta Sync with `sinceRev`:** When tracking changing dynamic web applications (such as live feeds or auction bidding), supply the previous snapshot revision (`sinceRev`) to receive concise incremental delta patches instead of full page rebuilds.
-* **Cross-Boundary Penetration with `deep: true`:** By default, `perceive` operates within the top-level DOM. If interaction targets reside inside Web Components or cross-origin iframes, enable `deep: true` to traverse nested shadow roots and frame hierarchies.
+* **Frames and Shadow DOM with `deep: true`:** By default, `perceive` reads the top-level DOM. `deep: true` also walks same-origin iframes and open shadow roots. Frames from another site are never scanned inside; they are listed as `opaqueFrames[]` with a `frameId` you can pass to `nova.read_text`, `nova.eval` or `nova.click_selector`.
 * **Domain Notes Caching (`knownDomainNotesHash`):** Pass `knownDomainNotesHash` when making repeated perception calls on the same domain. If the domain knowledge base has not changed, Nova omits redundant domain notes from the payload to conserve token context.
 
 ---

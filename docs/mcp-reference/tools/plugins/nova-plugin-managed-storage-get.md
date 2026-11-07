@@ -48,9 +48,12 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
   "ok": true,
   "pluginId": "com.example.price-scanner",
   "key": "apiEndpoint",
-  "value": "https://api.internal.example.com/v1"
+  "exists": true,
+  "value": "https://api.example.com/v1"
 }
 ```
+
+Without `key`, the result has `keyCount` and `values` (the whole managed key/value object) instead of `key`, `exists` and `value`.
 
 ---
 

@@ -46,19 +46,32 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 {
   "ok": true,
   "pluginId": "com.example.price-scanner",
-  "status": "disabled",
-  "state": "disabled",
-  "terminatedInstances": 1
+  "plugin": {
+    "pluginId": "com.example.price-scanner",
+    "name": "Price Scanner",
+    "version": "1.0.0",
+    "installState": "Disabled",
+    "runtimeState": "Inactive",
+    "enabled": false,
+    "errorCount": 0,
+    "crashCount": 0,
+    "permissions": ["StorageReadWrite"],
+    "pendingPermissions": ["DomRead"],
+    "pendingHostMatches": ["https://shop.example.com/*"],
+    "permissionReviewRequired": true
+  }
 }
 ```
+
+`plugin` is the plugin snapshot, shortened here. It also carries the session fields (`currentSession`, `activeSessions`, `lastKnownSession`, `knownSessions`), frame access, content-script counts and the granted and pending host, network and MCP-tool scopes.
 
 ---
 
 ## 4. Operational Best Practices
 
-* **Immediate Instance Teardown:** Disabling immediately terminates all active Jint sandbox engines, unregisters event listeners, and unbinds dynamic MCP tools (`plugin.{pluginId}.*`).
-* **Automatic Mutation Rollback:** All DOM classes, styles, and open Shadow DOM overlays injected by the disabled plugin are cleanly rolled back via Nova's `PluginMutationLedger`.
-* **Auditability via `reason`:** Always supply a human-readable `reason` to record why the plugin was deactivated in the audit ledger.
+* **Immediate Instance Teardown:** Disabling sends the plugin a `disable` event for its own best-effort cleanup, then stops every running instance. Plugin-defined MCP tools (`plugin.{pluginId}.*`) are only listed while the plugin is active.
+* **Tracked Changes Are Closed:** All page changes Nova tracked for the plugin are marked as reverted. To clean a page while the plugin keeps running, use [`nova.plugin_css_reset`](nova-plugin-css-reset.md) or [`nova.plugin_inject_reset`](nova-plugin-inject-reset.md) instead.
+* **Auditability via `reason`:** Supply a short `reason`; it is logged and passed to the plugin's `disable` event.
 
 ---
 
