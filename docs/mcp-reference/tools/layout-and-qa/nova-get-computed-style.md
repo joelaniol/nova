@@ -114,7 +114,17 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 
 ---
 
-## 7. Related Tools & Documentation
+## 7. Operational Best Practices
+
+* **Pre-Interaction Eligibility Verification:** HTML attributes (such as `disabled` or `hidden`) do not always reflect true CSS interactability. Check `visibility.visibility === "visible"`, `boxModel.display !== "none"`, and `boxModel.pointerEvents !== "none"` to verify that an element is physically clickable before triggering interaction tools.
+* **Inspecting CSS Custom Properties & Variables:** Pass specific CSS custom properties in `properties` (such as `["--primary-color", "--border-radius", "grid-template-columns"]`) to inspect design system tokens and runtime theme configurations directly.
+* **Box-Sizing Calculations:** Always evaluate `boxModel.boxSizing` (`border-box` vs `content-box`) alongside padding and border widths when debugging element sizing mismatches or layout overlaps.
+* **Detecting Stacking Contexts and Overlays:** When an element cannot be clicked despite being visible, inspect `boxModel.zIndex` and `boxModel.position` to determine if a transparent overlay or sticky navigation bar sits higher in the stacking context.
+* **Dynamic Transition Awareness:** If querying style properties immediately after a class toggle or user interaction, allow CSS transitions or animations to settle before reading computed values.
+
+---
+
+## 8. Related Tools & Documentation
 
 * [Layout Geometry, Overflow Detection & Computed Styling](../../../core-features/layout-and-web-vitals/layout-geometry-and-overflow/README.md) — Authoritative CSS extraction and box models.
 * [`nova.measure_elements`](nova-measure-elements.md) — Batch geometry and container width measurements.

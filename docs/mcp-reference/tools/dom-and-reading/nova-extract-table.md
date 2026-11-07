@@ -138,7 +138,17 @@ to inspect grid-based layouts instead. A table that exceeds `maxRows` is likewis
 
 ---
 
-## 7. Related Tools & Documentation
+## 7. Operational Best Practices
+
+* **Semantic HTML `<table>` vs. Modern Div Grids:** `extract_table` operates exclusively on semantic `<table>` elements (`<thead>`, `<tbody>`, `<tr>`, `<th>`, `<td>`). If a target page renders data using CSS Grid or Flexbox wrappers (`div.ag-grid`, `div.data-grid`), `extract_table` returns `tableCount: 0`. For modern non-table grids, switch immediately to [`nova.dom_extract`](nova-dom-extract.md) or [`nova.read_text_structured`](nova-read-text-structured.md).
+* **Container Scoping with `selector`:** On complex enterprise web applications or dashboards containing dozens of hidden, layout, or utility tables, avoid passing an empty `selector`. Target the specific container or table ID (for example, `selector: "#invoices-table"`) to prevent exhausting `maxTables` on irrelevant layout tables.
+* **Row and Column Budgeting (`maxRows` & `maxCols`):** Large financial or telemetry tables can easily exhaust token limits. Keep `maxRows` scoped (default 100, or lower like 25-50) and evaluate `truncated: true` on individual table entries to detect whether the dataset was clipped.
+* **Handling Flattened Colspans and Rowspans:** Cells spanning multiple columns or rows are flattened according to structural layout; headers reflect primary column assignments. When analyzing multi-header matrices, verify column alignment against the first row of data.
+* **Caption and Context Verification:** Check the returned `caption` field to ensure the extracted table matches the intended business entity before processing `rows`.
+
+---
+
+## 8. Related Tools & Documentation
 
 * [`nova.dom_extract`](nova-dom-extract.md) — Extract arbitrary grid elements and custom list items.
 * [`nova.read_text_structured`](nova-read-text-structured.md) — Extract page text grouped by landmarks.

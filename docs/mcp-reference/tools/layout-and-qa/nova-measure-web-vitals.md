@@ -108,7 +108,17 @@ There is no overall/aggregate `rating` — read the per-metric values under `rat
 
 ---
 
-## 7. Related Tools & Documentation
+## 7. Operational Best Practices
+
+* **Adequate Settlement Window (`durationMs >= 2000`):** Accurate measurement of Largest Contentful Paint (LCP) and Cumulative Layout Shift (CLS) requires observing dynamic image rendering, font loading, and layout shifts. Set `durationMs` to at least 2000ms (or 3000–5000ms on heavy single-page applications) to ensure all asynchronous lifecycle events settle.
+* **Interaction Reset for Delta Auditing (`reset: true`):** When benchmarking the performance impact of a specific user interaction (such as opening a modal or expanding an accordion), call `measure_web_vitals` with `reset: true` immediately before the action, then measure again to isolate the interaction's specific CLS and INP contributions.
+* **Understanding INP Prerequisites:** Interaction to Next Paint (INP) cannot be measured passively on a static page; if no user interaction occurs during the observation window, `metrics.inpMs` returns `null` with an explanatory note. Always simulate an interaction (for example, via [`nova.click_selector`](../browser-automation/nova-click-selector.md)) during or immediately prior to the sampling window when INP verification is required.
+* **Session CLS vs. Windowed Shift Metrics:** Nova measures layout shifts occurring during the active `durationMs` observation window. Be aware that this reflects windowed shift dynamics rather than the full lifetime session window of a multi-hour browsing session.
+* **Performance Gating in Agent Workflows:** Before certifying a frontend modification or page state as complete, assert that `ratings.lcp === "good"` and `ratings.cls === "good"` to prevent performance regressions from reaching production.
+
+---
+
+## 8. Related Tools & Documentation
 
 * [Real-User Core Web Vitals & Performance Gating](../../../core-features/layout-and-web-vitals/core-web-vitals/README.md) — Two-phase observer architecture and rating thresholds.
 * [`nova.detect_overflow`](nova-detect-overflow.md) — Identify visual overflow and layout shifts.

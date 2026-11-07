@@ -139,7 +139,17 @@ Special values are objects with `$type`: `function`, `getter`, `circular`, `node
 
 ---
 
-## 7. Related Tools & Documentation
+## 7. Operational Best Practices
+
+* **Path-Targeted Queries over Bulk Inspection:** Deep component state trees in React, Vue, or Angular can be enormous. Avoid querying without `paths` or passing empty paths on top-level root components. Specify precise paths (such as `paths: ["props.id", "state.selectedItem", "store.cartTotal"]`) to keep execution times under 5ms and prevent token blowup.
+* **Production Build Fallbacks (`state_not_reachable`):** In production web apps, Svelte and optimized Angular/React builds often strip component fiber references or minify internal state symbols. When `status: "state_not_reachable"` or `"no_framework"` is returned, fall back immediately to DOM inspection via [`nova.dom_extract`](nova-dom-extract.md) or network interception via [`nova.network_read`](nova-network-read.md).
+* **Security & Credential Redaction (`redact: true`):** Always maintain `redact: true` (the default) when inspecting form components, authentication wrappers, or store roots. This prevents accidental exposure of API keys, tokens, or plaintext passwords in the agent context.
+* **Checking `available.store` Before Deep Store Probing:** Inspect the `available` map in the return payload (`props`, `state`, `hooks`, `store`) to confirm which branches exist before formulating subsequent nested path queries.
+* **Targeting Leaf Elements for Component Ancestry:** Provide a CSS selector pointing directly to an interactive inner element (such as a button or input). `inspect_component` traverses upward along the component tree, returning available ancestor component names in `owners`.
+
+---
+
+## 8. Related Tools & Documentation
 
 * [`nova.dom_extract`](nova-dom-extract.md) — Fixed DOM properties of many elements, no page memory.
 * [`nova.eval`](nova-eval.md) — Run your own expression, including page globals with `worldMode='main'`.

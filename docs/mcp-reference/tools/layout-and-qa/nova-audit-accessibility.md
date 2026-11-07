@@ -145,7 +145,17 @@ Each scan examines at most 8000 elements (`scanned` reports how many were actual
 
 ---
 
-## 7. Related Tools & Documentation
+## 7. Operational Best Practices
+
+* **Scoped Auditing over Page-Wide Scans:** A full-page accessibility audit on complex single-page apps scans up to 8,000 elements and can generate dozens of third-party widget warnings. Scope your audit to the specific component under review using `selector: "form#checkout"` or `selector: "nav.primary-menu"` for clean, actionable findings.
+* **Mobile Touch-Target Sizing:** When auditing responsive web apps for mobile viewports, set `minTargetSize: 44` (or 48 for WCAG AAA) to identify interactive elements that are too small or clustered too tightly for reliable touch interactions.
+* **Evaluating Dark Mode and Theme Regressions:** Pair `audit_accessibility` with [`nova.emulation_set_media`](../device-emulation/nova-emulation-set-media.md) (`colorScheme: "dark"` or `"light"`) to uncover contrast ratio failures that only manifest under specific color schemes.
+* **Interpreting Contrast Warnings on Semi-Transparent Backgrounds:** Nova's contrast calculation assumes an opaque white background when ancestor elements use alpha-transparency, gradients, or background images. Treat contrast alerts on styled hero banners as advisory leads that require visual verification with [`nova.capture_screenshot`](../visual-evidence/nova-capture-screenshot.md).
+* **Automated QA Assertions in Pipelines:** In continuous testing workflows, assert that `result.summary.violations` is 0 before triggering form submissions or confirming deployment readiness.
+
+---
+
+## 8. Related Tools & Documentation
 
 * [Automated Accessibility (a11y) & WCAG Compliance Engine](../../../core-features/layout-and-web-vitals/accessibility-audit/README.md) — Architecture and calculation rules.
 * [`nova.detect_overflow`](nova-detect-overflow.md) — Identify visual clipping and container spillages.

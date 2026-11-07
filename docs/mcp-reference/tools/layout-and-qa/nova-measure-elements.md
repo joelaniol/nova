@@ -167,7 +167,17 @@ A miss or unparsable selector is reported as its own entry (`found: false`, `rea
 
 ---
 
-## 7. Related Tools & Documentation
+## 7. Operational Best Practices
+
+* **Diagnosing Container Bursts with `usedWidthRatio`:** When diagnosing layout breaks, look at `widthContext.usedWidthRatio`. A ratio greater than `1.0` (with `overflowsAvailableWidth: true`) indicates that the element exceeds its parent container's available width. Inspect the reported `constrainingAncestor` to identify which wrapper is imposing the boundary.
+* **Batch Element Measurements (Up to 25 Selectors):** Avoid calling `measure_elements` in sequential single-item loops. Pass an array of up to 25 selectors (`selectors: ["header", "aside.sidebar", "main.content", "footer"]`) in a single call to snapshot geometric relationships across the entire viewport synchronously.
+* **Multi-Instance Comparison (`matchMode: "all"`):** By default, `matchMode: "first"` measures only the first matching DOM node. When analyzing recurring UI elements (such as product grid cards or navigation tabs), set `matchMode: "all"` to compare dimensions, heights, and alignment across all instances.
+* **Graceful Failure Tolerance:** A missing or invalid selector in a batch does not fail the entire call; the affected item returns `found: false` with a specific `reasonCode` (`measure.selector_not_found` or `measure.invalid_selector`), while all valid selectors return full measurements. Always verify `item.found` before reading `rect` or `widthContext`.
+* **Viewport Clipping Verification:** Use `widthContext.withinViewportX` and `widthContext.overhangPx` to verify whether an element physically protrudes past the right screen boundary, causing horizontal page wobble.
+
+---
+
+## 8. Related Tools & Documentation
 
 * [Layout Geometry, Overflow Detection & Computed Styling](../../../core-features/layout-and-web-vitals/layout-geometry-and-overflow/README.md) — Constraining ancestors, width ratios, and multi-selector geometry.
 * [`nova.detect_overflow`](nova-detect-overflow.md) — Scan the whole page for clipped text and bleeding containers.

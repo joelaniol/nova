@@ -151,7 +151,17 @@ decide whether to raise the limit.
 
 ---
 
-## 7. Related Tools & Documentation
+## 7. Operational Best Practices
+
+* **Narrow Property Selection over Bulk Extraction:** Avoid querying expensive collections like `attributes` across broad CSS selectors (such as `div` or `li`). Select only the exact properties required for the task (such as `["text", "href", "visible"]`) to keep context token overhead minimal and prevent triggering `dom.output_truncated`.
+* **Traversing Shadow DOM Boundaries:** Use the explicit pierce combinator ` >>> ` when querying elements encased within Shadow Roots or custom Web Components (for example, `user-profile >>> button.save-btn`). Standard CSS combinators cannot cross shadow boundaries.
+* **Pagination via `offset` & `nextOffset`:** When extracting tabular or list data with large element counts, do not exceed `maxItems: 50`. Use `offset` and check the returned `nextOffset` in subsequent calls until `nextOffset` is `null`.
+* **Respecting the Truncation Flag (`truncated: true`):** When `status: "truncated"` and `reasonCode: "dom.output_truncated"` are returned, the result array is incomplete. Narrow the CSS `selector` to a specific container or reduce requested properties before increasing `maxChars`.
+* **CSP-Safe Alternative to In-Page Eval:** Use `nova.dom_extract` instead of `nova.eval` whenever reading element attributes and geometry. `dom_extract` runs via isolated serialization probes that bypass Content Security Policies (CSP) and avoid triggering application mutation listeners.
+
+---
+
+## 8. Related Tools & Documentation
 
 * [`nova.read_text_structured`](nova-read-text-structured.md) — Extract text grouped by page landmarks.
 * [`nova.extract_table`](nova-extract-table.md) — Extract tabular data into headers and rows.

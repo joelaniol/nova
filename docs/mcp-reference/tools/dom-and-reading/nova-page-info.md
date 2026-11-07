@@ -109,7 +109,17 @@ JSON in that case.
 
 ---
 
-## 6. Related Tools & Documentation
+## 6. Operational Best Practices
+
+* **Cheapest Post-Action Health Check:** `page_info` consumes less than 200 tokens and zero vision budget. Call it immediately after clicks or navigations to confirm `readyState === "complete"` and ensure `href` matches the intended destination before launching heavier inspection tools like [`nova.perceive`](nova-perceive.md).
+* **Keyboard Focus Verification (`activeElement`):** Before executing keystroke dispatchers or typing commands (such as [`nova.input_text`](../browser-automation/nova-input-text.md) or [`nova.input_key`](../browser-automation/nova-input-key.md)), check `result.activeElement`. If `activeElement` is `null` or points to `BODY`, typing will trigger page-level keyboard shortcuts instead of filling input fields.
+* **Handling Dynamic Single-Page App (SPA) Titles:** In modern SPAs, `readyState` may transition to `"complete"` before client-side routers update the document `<title>`. Verify both `href` and `title` to ensure the route change has fully settled.
+* **Background Tab Polling:** When orchestrating parallel subagent tasks, pass `targetId` to poll background tab settlement without having to bring the tab into foreground focus with [`nova.set_active_tab`](../browser-automation/nova-set-active-tab.md).
+* **Subtarget Discovery:** When interacting with complex multi-iframe layouts or embedded payment gateways, pass `include: ["subtargets"]` to discover child iframe target IDs for downstream tab targeting.
+
+---
+
+## 7. Related Tools & Documentation
 
 * [`nova.perceive`](nova-perceive.md) — For deeper visual and structural page inspection.
 * [`nova.navigate`](../browser-automation/nova-navigate.md) — For navigating between URLs.

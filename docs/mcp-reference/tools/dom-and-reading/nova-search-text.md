@@ -154,7 +154,17 @@ custom elements were detected). A malformed `match: "regex"` pattern fails the c
 
 ---
 
-## 7. Related Tools & Documentation
+## 7. Operational Best Practices
+
+* **Exact Matching and Tag Filtering to Prevent Container Trapping:** Using `match: "contains"` on common strings (such as `"Save"` or `"Submit"`) often matches large parent containers (`<div>` or `<main>`) that happen to enclose the text. To obtain precise clickable selectors, combine exact matching with element tag constraints: `match: "exact"`, `tag: "button"`, or `tag: "a"`.
+* **Deep Shadow-DOM Traversal (`deep: true`):** When searching modern web apps built with web components, text residing within shadow roots is invisible to standard searches. Set `deep: true` to traverse shadow boundaries; matches inside shadow roots return a ready-to-click pierced selector (`shadowSelector`) using ` >>> ` syntax.
+* **Checking `selectorAmbiguous: true` Before Interacting:** If `result.matches` indicates that a selector is ambiguous, do not pass it blindly to [`nova.click_selector`](../browser-automation/nova-click-selector.md). Use index scoping (`:nth-of-type`) or narrow down matches using parent container IDs.
+* **Regex Pattern Escaping:** When using `match: "regex"`, ensure all special characters (`[`, `]`, `(`, `)`, `.`, `*`, `?`) are properly escaped. Malformed regex patterns immediately fail with JSON-RPC `-32602`.
+* **Case-Sensitivity Optimization:** By default, search is case-insensitive. Set `caseSensitive: true` when distinguishing between similar acronyms or uppercase UI codes (such as `"US"` vs `"us"`).
+
+---
+
+## 8. Related Tools & Documentation
 
 * [`nova.click_selector`](../browser-automation/nova-click-selector.md) — Click the selector returned by `search_text`.
 * [`nova.read_text_structured`](nova-read-text-structured.md) — Read full textual content grouped by landmarks.

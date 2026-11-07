@@ -206,7 +206,17 @@ only — `ctaRef` and `score` are `cta_detection_v3`-only fields, not part of `s
 
 ---
 
-## 8. Related Tools & Documentation
+## 8. Operational Best Practices
+
+* **Mode Selection Precision:** Avoid calling `mode: "full"` in repetitive agent loops. Use `mode: "summary"` for initial orientation and landmark identification, `mode: "state"` for quick status checks, and `mode: "form_analysis"` before filling complex multi-step forms.
+* **Conserving Vision Tokens (`includeScreenshot: false`):** Screenshots consume significant context and vision tokens. Set `includeScreenshot: false` during iterative structural tasks unless visual verification, OCR fallback, or diagram analysis is explicitly required.
+* **Incremental Delta Sync with `sinceRev`:** When tracking changing dynamic web applications (such as live feeds or auction bidding), supply the previous snapshot revision (`sinceRev`) to receive concise incremental delta patches instead of full page rebuilds.
+* **Cross-Boundary Penetration with `deep: true`:** By default, `perceive` operates within the top-level DOM. If interaction targets reside inside Web Components or cross-origin iframes, enable `deep: true` to traverse nested shadow roots and frame hierarchies.
+* **Domain Notes Caching (`knownDomainNotesHash`):** Pass `knownDomainNotesHash` when making repeated perception calls on the same domain. If the domain knowledge base has not changed, Nova omits redundant domain notes from the payload to conserve token context.
+
+---
+
+## 9. Related Tools & Documentation
 
 * [`nova.read_text_structured`](nova-read-text-structured.md) — Extract text grouped by semantic landmarks.
 * [`nova.perceive_snapshot_query`](nova-perceive-snapshot-query.md) — Query cached perception snapshots offline without re-rendering.

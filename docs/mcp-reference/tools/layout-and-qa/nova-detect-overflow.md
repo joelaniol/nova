@@ -118,7 +118,17 @@ The scan examines at most 8000 elements; a larger subtree sets `truncated: true`
 
 ---
 
-## 7. Related Tools & Documentation
+## 7. Operational Best Practices
+
+* **Global Viewport Scrollbar Check First:** Before examining individual component issues, inspect `result.pageHorizontalScroll`. If `true`, the layout suffers from an unintended horizontal scrollbar. Immediately filter `result.issues` for `type: "viewport-bleed"` to locate the elements extending beyond `window.innerWidth`.
+* **Distinguishing Intentional Ellipsis from Layout Bugs:** Modern UI design intentionally truncates long emails, user names, or URLs with CSS `text-overflow: ellipsis`. When reviewing `type: "clipped-text"` issues, check `details.textOverflow`. If set to `"ellipsis"`, the clipping is typically intentional design rather than a broken layout.
+* **Testing Responsive Breakpoints:** Combine `detect_overflow` with [`nova.emulation_set_device_metrics`](../device-emulation/nova-emulation-set-device-metrics.md) across standard responsive breakpoints (375px mobile, 768px tablet, 1440px desktop) to catch media-query overflow regressions.
+* **Scoping Subtree Inspections:** On data-heavy data grids or complex modal trees, pass `selector: ".modal-body"` to isolate overflow detection to the active interactive context.
+* **Correlating with Constraining Ancestors:** When an element displays `type: "container-spill"`, use [`nova.measure_elements`](nova-measure-elements.md) on the reported selector to retrieve the `constrainingAncestor` chain and diagnose whether `overflow: hidden` or `flex-shrink: 0` is missing.
+
+---
+
+## 8. Related Tools & Documentation
 
 * [Layout Geometry, Overflow Detection & Computed Styling](../../../core-features/layout-and-web-vitals/layout-geometry-and-overflow/README.md) — Architectural overview, vertical asymmetry rationale, and constraining ancestors.
 * [`nova.measure_elements`](nova-measure-elements.md) — Measure constraining ancestor widths and `usedWidthRatio`.

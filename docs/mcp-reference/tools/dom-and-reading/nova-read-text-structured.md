@@ -174,7 +174,17 @@ error: it comes back as a region (or the `scope`/`body` fallback) with an empty 
 
 ---
 
-## 7. Related Tools & Documentation
+## 7. Operational Best Practices
+
+* **Scoping Subtrees with `selector`:** By default, `read_text_structured` extracts text across all landmarks (`header`, `nav`, `main`, `aside`, `footer`). To eliminate repetitive navigation headers and legal boilerplate during article reading or documentation analysis, scope extraction directly to the primary container: `selector: "main"` or `selector: "article"`.
+* **Conversation Feed Extraction Invariants:** In `mode: "conversation"`, Nova requires a selector that matches exactly one scrollable container (`selector: ".chat-messages"`). If the selector matches multiple elements or zero elements, the call fails. Always verify the uniqueness of the conversation container selector before running.
+* **Handling Truncation in Long Messages:** Individual regions that exceed `maxCharsPerRegion` (default 50,000) append a `" [truncated]"` marker. When reading lengthy chat histories or document dumps, utilize message offsets to stream transcripts without loss.
+* **Rendered Window vs. Virtualized Feeds:** Virtualized feeds (such as chat feeds or infinite-scroll grids) only keep visible DOM nodes in memory. If older messages are required, scroll the conversation container before reading, or query sequential batches.
+* **Modal Awareness:** When modals or dialogs are active on the page, check the returned `modals` array first. Modal content represents urgent user alerts or blocking dialogs that must be resolved before processing standard `regions`.
+
+---
+
+## 8. Related Tools & Documentation
 
 * [`nova.dom_extract`](nova-dom-extract.md) — Extract specific typed attributes and bounding boxes.
 * [`nova.extract_table`](nova-extract-table.md) — Parse tabular data into structured JSON rows.
