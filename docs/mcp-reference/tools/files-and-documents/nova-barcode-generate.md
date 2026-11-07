@@ -2,7 +2,7 @@
 
 > **Creates a QR code or barcode as a PNG or SVG file, crisp and checked by reading it back.**
 
-* **Core Feature Guide:** [Document Conversion](../../../core-features/media-intelligence/document-conversion/README.md)
+* **Core Feature Guide:** [Barcode, QR Code & Data Chart Synthesis](../../../core-features/media-intelligence/barcodes-and-charts/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

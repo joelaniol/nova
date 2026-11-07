@@ -14,7 +14,7 @@ Choose the problem you can see. You do not need to know whether it belongs to th
 | Nova crashed, GPU driver crashed or high RAM | [Performance, crashes & GPU recovery](performance-and-crashes.md) |
 | Proxy drops connections, DNS fails or scans need approval | [Network & proxy issues](network-and-proxies.md) |
 | Terminal command hangs, exit code missing, or runner pipe fails | [Terminal & console execution](terminal-and-consoles.md) |
-| Microphone or camera blocked, 0% audio levels, or gesture required | [Microphone, camera & permissions](media-and-permissions.md) |
+| Microphone, camera blocked, 0% audio levels, or barcode/QR errors | [Microphone, camera, media & barcodes](media-and-permissions.md) |
 | The problem happens with one particular AI program | [Client-specific quirks](#client-specific-quirks) |
 
 ## Installation
@@ -41,9 +41,9 @@ For proxy connection drops, 502/504 gateway timeouts, DNS `SERVFAIL`, lame deleg
 
 For commands rejected due to concurrency locks, hanging background commands, missing exit codes, slow consumer view-drops, or named pipe disconnects, follow [Terminal & console execution](terminal-and-consoles.md).
 
-## Microphone, camera and permissions
+## Microphone, camera, media and barcodes
 
-For microphone levels showing 0%, `diagnostics.user_gesture_required` errors during automated tests, device busy conflicts (`NotReadableError`), or Windows OS privacy blocks, follow [Microphone, camera & permissions](media-and-permissions.md).
+For microphone levels showing 0%, `diagnostics.user_gesture_required` errors during automated tests, device busy conflicts (`NotReadableError`), Windows OS privacy blocks, or barcode/QR check-digit and contrast errors, follow [Microphone, camera, media & barcodes](media-and-permissions.md).
 
 ## Browser and sessions
 

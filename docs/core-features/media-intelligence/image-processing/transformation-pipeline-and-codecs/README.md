@@ -81,6 +81,7 @@ Extracts codes from photos, screenshots, or scans:
 
 ## 5. Related Documentation
 
+* [Barcode, QR Code & Data Chart Synthesis Architecture](../../barcodes-and-charts/README.md)
 * [Local Image Intelligence & Processing Overview](../README.md)
 * [Image Geometry Audit & Pre-Flight Meta-Tool](../geometry-audit-and-meta-tool/README.md)
 * [Safety Guards & Privacy Commit](../safety-guards-and-privacy-commit/README.md)

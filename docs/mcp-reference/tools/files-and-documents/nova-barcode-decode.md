@@ -2,7 +2,7 @@
 
 > **Reads QR codes and barcodes from a photo, screenshot or scan, and never opens what it finds.**
 
-* **Core Feature Guide:** [Document Conversion](../../../core-features/media-intelligence/document-conversion/README.md)
+* **Core Feature Guide:** [Barcode, QR Code & Data Chart Synthesis](../../../core-features/media-intelligence/barcodes-and-charts/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
 
 ---

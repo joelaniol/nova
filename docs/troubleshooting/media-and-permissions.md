@@ -1,6 +1,6 @@
-# Microphone, Camera & Media Permissions Troubleshooting
+# Microphone, Camera, Media Permissions & Barcode Troubleshooting
 
-This guide resolves hardware detection failures, microphone level issues, WebRTC connection errors, and permission blocks across Nova AI Workspace and connected AI agents.
+This guide resolves hardware detection failures, microphone level issues, WebRTC connection errors, permission blocks, and barcode or QR code synthesis failures across Nova AI Workspace and connected AI agents.
 
 ---
 
@@ -15,6 +15,12 @@ This guide resolves hardware detection failures, microphone level issues, WebRTC
 | `insecure_context` | WebRTC media capture was requested from an unencrypted plain HTTP origin. | WebRTC APIs strictly require a **Secure Context**. Access the site via `https://` or `localhost`. |
 | Microphone level meter shows 0% in test dialog | Input volume is muted in Windows, or wrong microphone endpoint selected. | Open **Settings → Media & permissions → Test hardware**, verify device selection, and check Windows microphone input volume. |
 | Webcam activity LED stays on after closing meeting | Active media stream remained open in a background tab. | Call `nova.media_stop_all` or click **Menu → Emergency stop** (<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Esc</kbd>) to force-close all streams. |
+| `invalid_check_digit` | EAN-13, EAN-8, or UPC-A barcode check digit fails the GS1 Modulo-10 checksum algorithm. | Verify the original product number. Omit the check digit to let Nova calculate it, or fix the final digit to match the required checksum. |
+| `contrast_too_low` / `inverted_colors` | QR code modules are lighter than background or contrast ratio is below 4.5:1. | Darken modules (`foreground`), lighten `background`, or ensure all stops in `gradientTo` satisfy WCAG 4.5:1 contrast. |
+| `logo_no_room` / `logo_needs_ecc_h` | Logo plate collides with structural patterns or error correction is not set to `H`. | Omit `errorCorrection` (Nova auto-selects `H`), shorten content (under 58 characters for Version < 7), or drop the logo. |
+| `print_module_too_small` | Specified `printWidthMm` results in individual module size $< 0.25$ mm. | Increase `printWidthMm`, shorten the encoded string, or use `style: "classic"`. |
+| `scan_validation_failed` / `write_failed` | In-memory read-back assertion failed before saving to disk. | The code could not be decoded. Use `style: "classic"`, increase module size (`width`), or improve color contrast. |
+| `barcode_generate.output_exists` | The file specified in `outputPath` already exists on disk. | Choose a new destination file path or leave `outputPath` omitted to save into `Exports/Codes/`. |
 
 ---
 
@@ -140,9 +146,72 @@ The W3C WebRTC specification mandates that `navigator.mediaDevices.getUserMedia`
 
 ---
 
+## 7. Barcodes & QR Codes Troubleshooting
+
+Nova enforces strict mathematical check-digit integrity, accessibility contrast thresholds, and decode-before-write invariants. When a code cannot be generated or read, use these resolutions:
+
+### 7.1 Check Digit Verification Failures (`invalid_check_digit`)
+* **Symptom:** Generating an EAN-13, EAN-8, or UPC-A barcode fails with:
+  > *"The check digit of 4006381333930 is 0, but these digits need 1. Nova does not correct it; check the number."*
+* **Root Cause:** Nova enforces the GS1 Modulo-10 checksum algorithm. Quietly "repairing" an invalid digit risks labeling the wrong physical product or corrupting inventory databases.
+* **Resolution:**
+  1. Inspect the source product number to verify the digits.
+  2. If you are minting a new barcode and do not know the check digit, pass the number **without the final digit** (e.g. 12 digits for EAN-13, 7 digits for EAN-8, 11 digits for UPC-A). Nova will automatically compute and append the correct check digit.
+
+### 7.2 Styling & Contrast Rejections (`contrast_too_low`, `inverted_colors`)
+* **Symptom:** QR code generation fails with `contrast_too_low` or `inverted_colors`.
+* **Root Cause:**
+  * `inverted_colors`: Module luminance is higher than background luminance (light modules on a dark background). Standard phone cameras fail to scan inverted codes reliably.
+  * `contrast_too_low`: Relative luminance contrast between modules and background is below **`4.5:1`** (WCAG 2.x standard). When using `gradientTo`, Nova checks 4 intermediate color steps along the gradient path; if any step drops below 4.5:1, the design is rejected.
+* **Resolution:**
+  1. Ensure the background is white (`#FFFFFF`) or very light, and modules are dark (e.g. `#000000`, deep blue, dark charcoal).
+  2. If using gradients (`gradientTo`), ensure both start and end colors maintain $\ge 4.5:1$ contrast against the background.
+  3. If your brand palette requires a dark background, place the QR code on a light plate with generous quiet-zone margins.
+
+### 7.3 Logo Embedding & Alignment Pattern Collisions (`logo_no_room`, `logo_needs_ecc_h`)
+* **Symptom:** Generating a QR code with `logoPath` fails with `logo_no_room` or `logo_needs_ecc_h`.
+* **Root Cause:**
+  * `logo_needs_ecc_h`: A logo covers data modules and strictly requires Error Correction Level `H` (30% recovery capacity). Passing `errorCorrection: "M"` or `"L"` with a logo is rejected.
+  * `logo_no_room`: The central logo plate (limited to 28% width share) touches structural patterns. In QR Version 7 and higher symbols (character counts exceeding ~58 characters), an alignment pattern sits in the exact center of the matrix, preventing center logo placement.
+  * `logo_not_allowed`: SEPA GiroCodes (`data.kind: "epc"`) strictly forbid logos under EPC banking standards.
+* **Resolution:**
+  1. Omit the `errorCorrection` parameter when using a logo; Nova will automatically promote the code to Level `H`.
+  2. Shorten the encoded URL or text (e.g. using a vanity shortlink) so the matrix stays below Version 7.
+  3. If the payload cannot be shortened, omit the logo to allow standard module placement.
+
+### 7.4 Physical Print Sizing Floor (`print_module_too_small`)
+* **Symptom:** Generation fails with `print_module_too_small`.
+* **Root Cause:** The requested `printWidthMm` divided by the symbol module count yields individual modules smaller than **`0.25 mm`**. Standard mobile camera sensors cannot resolve modules below this physical size.
+* **Resolution:**
+  1. Increase `printWidthMm` to allocate more physical space for the printed asset.
+  2. Shorten the payload to reduce total module count (e.g. switch from `vcard` to `mecard`).
+  3. Aim for a module size of at least $0.35\text{ mm}$ for optimal outdoor and handheld scanning.
+
+### 7.5 Read-Back Assertion & Safe Write Guards (`scan_validation_failed`, `write_failed`, `output_exists`)
+* **Symptom:** Generation fails with `scan_validation_failed` or `barcode_generate.output_exists`.
+* **Root Cause:**
+  * `scan_validation_failed`: In-memory decode-before-write assertion failed. Even though parameters were mathematically valid, the rendered raster image could not be decoded by Nova's strict decoder (e.g. due to aggressive dot rounding or subtle anti-aliasing).
+  * `barcode_generate.output_exists`: The file specified in `outputPath` already exists. Nova guarantees never to overwrite existing files.
+* **Resolution:**
+  1. For `scan_validation_failed`, switch to `style: "classic"`, increase `width` to give dots more pixels (at least 4 pixels per module), or increase color contrast.
+  2. For `output_exists`, specify an unused output filename or leave `outputPath` omitted to let Nova generate a unique timestamped file in `Exports/Codes/`.
+
+### 7.6 Decoding Failures from Photos or Scans (`foundCount: 0`)
+* **Symptom:** `nova.barcode_decode` returns `foundCount: 0` on an image known to contain a barcode.
+* **Root Cause:** The barcode occupies too few pixels in a high-resolution photo, the edges are blurred by motion, or the code is surrounded by complex background patterns.
+* **Resolution:**
+  1. Use `nova.image_transform` to tightly crop the image around the barcode area (`crop: { x: ..., y: ..., width: ..., height: ... }`).
+  2. Restrict symbologies via `formats: ["qr"]` or `formats: ["ean13"]` to enable targeted decoding heuristics.
+  3. Ensure the source image has adequate lighting and resolution (at least 200–300 DPI for printed documents).
+
+---
+
 ## Related Documentation
 
+* **[Barcode, QR Code & Data Chart Synthesis Architecture](../core-features/media-intelligence/barcodes-and-charts/README.md)** — Symbologies, structured payloads, and camera stress tests.
 * **[Hardware Device Routing & Real-Time Diagnostics](../core-features/media-intelligence/devices-and-permissions/hardware-routing-and-diagnostics/README.md)** — Architectural specification of ConPTY, WebRTC diagnostics, and AudioGraph VU meters.
 * **[Permission Hierarchy & The Reason Stack](../core-features/media-intelligence/devices-and-permissions/permission-hierarchy-and-reason-stack/README.md)** — The 8-stage permission resolver and provenance logging.
 * **[Governance, Kill-Switches & Device Audits](../core-features/media-intelligence/devices-and-permissions/governance-killswitch-and-audit/README.md)** — Salted device ID hashing and emergency stream revocation.
+* **[MCP Barcode Generate Reference](../mcp-reference/tools/files-and-documents/nova-barcode-generate.md)** — Tool parameter definitions.
+* **[MCP Barcode Decode Reference](../mcp-reference/tools/files-and-documents/nova-barcode-decode.md)** — Extraction parameters and security invariants.
 * **[MCP Hardware Diagnostics Start Reference](../mcp-reference/tools/media-and-transcription/nova-hardware-diagnostics-start.md)** — Tool parameter definitions.

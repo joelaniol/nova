@@ -14,7 +14,7 @@ Nova provides dedicated, granular subsystems for different file types and data t
 | Task / Media Type | Specialized Subsystem Guide | MCP Tools |
 | :--- | :--- | :--- |
 | **Local Images** | [Local Image Intelligence & Processing](../image-processing/README.md) | `nova.image_info`<br/>`nova.image_transform` |
-| **QR Codes & Barcodes** | [Local Image Intelligence & Processing](../image-processing/README.md#5-qr-codes--barcodes) | `nova.barcode_generate`<br/>`nova.barcode_decode` |
+| **QR Codes & Barcodes** | [Barcode, QR Code & Data Chart Synthesis](../barcodes-and-charts/README.md) | `nova.barcode_generate`<br/>`nova.barcode_decode` |
 | **Scans, Receipts & Photos** | [Offline Optical Character Recognition (OCR)](../ocr/README.md) | `nova.ocr_read` |
 | **Tabular Data & Queries** | [Tabular Data Analysis & Streaming Queries](../data-analysis/README.md) | `nova.data_inspect`<br/>`nova.data_query` |
 | **PDF Page Manipulation** | [PDF Reading, Export & Page Operations](../pdf/README.md) | `nova.pdf_compose`<br/>`nova.pdf_split`<br/>`nova.read_pdf`<br/>`nova.save_pdf` |
