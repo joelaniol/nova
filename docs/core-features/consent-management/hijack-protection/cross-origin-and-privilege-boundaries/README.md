@@ -121,12 +121,13 @@ Every attempt to cross an iframe origin boundary is recorded in the structured S
 
 ## 4. Operational Configuration
 
-To enable privileged cross-origin frame clearance for automated browsing tasks on enterprise domains, configure the runtime setting via MCP:
+To enable privileged cross-origin frame clearance for automated browsing tasks on enterprise domains, configure the runtime setting in Nova's Developer Options (`settings.json`) or via [`nova.app_settings_set`](../../../../mcp-reference/tools/app-shell-and-ui/nova-app-settings-set.md):
 
 ```json
 {
-  "settingName": "PrivilegedCrossOriginCmpInteractionEnabled",
-  "value": true
+  "values": {
+    "PrivilegedCrossOriginCmpInteractionEnabled": true
+  }
 }
 ```
 

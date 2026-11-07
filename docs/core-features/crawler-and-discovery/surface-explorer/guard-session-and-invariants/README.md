@@ -68,7 +68,7 @@ During active exploration, Nova enforces seven strict invariants:
 | **4** | **Script Dialog Auto-Dismissal** | Intercepts `ScriptDialogOpening` events (`alert`, `confirm`, `prompt`, `beforeunload`). | Automatically dismisses the dialog with non-mutating defaults (e.g., Cancel / OK), preventing browser thread deadlocks. |
 | **5** | **File Chooser Containment** | Attaches Chrome DevTools Protocol (CDP) handler `Page.setInterceptFileChooserDialog`. | Traps file upload prompts and cancels them with `Page.handleFileChooser(action='cancel')`. |
 | **6** | **Screen Capture Suppression** | Intercepts `ScreenCaptureStarting` events. | Denies permission immediately, preventing scripts from requesting host desktop capture. |
-| **7** | **Baseline Network Mutation Guard** | Captures baseline traffic patterns and monitors outgoing `POST`, `PUT`, `DELETE`, and `PATCH` requests during activation. | Intercepts unexpected mutating requests and logs network mutation incidents. |
+| **7** | **Strict Network Mutation Guard** | Captures baseline traffic patterns and monitors outgoing HTTP requests during activation. | Immediately blocks on the **first non-GET/HEAD request** (`POST`, `PUT`, `DELETE`, `PATCH`), preventing accidental server state mutation. |
 
 ---
 
@@ -80,24 +80,31 @@ Nova continuously verifies tab ownership throughout exploration:
 
 ```mermaid
 flowchart TD
-    Interaction["In-Flight Activation Trigger"] --> LeaseCheck{"Agent Tab Lease Valid?"}
-    LeaseCheck -- Lease Expired / Revoked --> FailClaim["Abort Interaction\nOutcome: 'claim_lost'\nReason: lease_expired"]
-    LeaseCheck -- Lease Active --> VisCheck{"Tab Currently Active & Visible?"}
-    VisCheck -- User Switched Tab --> FailVis["Abort Interaction\nOutcome: 'blocked_by_guard'\nReason: tab_became_hidden"]
-    VisCheck -- Tab Visible --> NavCheck{"Navigation Stays Within Policy?"}
-    NavCheck -- Cross-Origin Shift --> FailNav["Abort Interaction\nOutcome: 'navigation_rejected'\nReason: cross_origin_disallowed"]
-    NavCheck -- Cleared --> Success["Proceed with State Evaluation"]
+    Interaction["In-Flight Activation Trigger"] --> PreArmCheck{"Pre-Arm Guard Incidents?"}
+    PreArmCheck -- "Fatal Event Detected" --> AbortPreArm["Abort Trigger Dispatch"]
+    PreArmCheck -- "Clean" --> LeaseCheck{"Agent Tab Lease Valid?"}
+    LeaseCheck -- "Lease Expired / Released" --> FailClaim["Abort Interaction\nOutcome: 'claim_lost'\nReason: CLAIM_LOST"]
+    LeaseCheck -- "Lease Active" --> VisCheck{"Tab Currently Active & Visible?"}
+    VisCheck -- "User Switched Tab / Sandbox" --> FailVis["Abort Interaction\nOutcome: 'blocked_by_guard'\nReason: TAB_BECAME_HIDDEN"]
+    VisCheck -- "Tab Visible" --> NavCheck{"Navigation Stays Within Policy?"}
+    NavCheck -- "Cross-Origin Shift" --> FailNav["Abort Interaction\nOutcome: 'navigation_rejected'\nReason: cross_origin_disallowed"]
+    NavCheck -- "Cleared" --> Success["Proceed with State Evaluation"]
 ```
 
-### 1. Tab Lease Revocation (`claim_lost`)
+### 1. Tab Lease Revocation (`CLAIM_LOST`)
 * Before every activation, Nova verifies that the calling agent holds an active tab claim (`tab_claim`).
-* If the lease expired, was released, or was claimed by another agent, the interaction aborts immediately with outcome `claim_lost`. The agent must re-acquire the claim before further interactions are permitted.
+* If the lease expired, was explicitly released, force-released by an administrator, or disconnected via SSE orphan cleanup, Nova immediately raises `CLAIM_LOST`.
+* Activation or teardown under a stale claim is prohibited, preventing orphaned agents from executing actions without authorization.
 
-### 2. User Visibility Switching (`tab_became_hidden`)
-* If the human user switches away to a different tab, switches sandbox profiles, or minimizes the browser window during an in-flight trigger activation, Nova raises `TAB_BECAME_HIDDEN`.
+### 2. User Visibility Switching (`TAB_BECAME_HIDDEN`)
+* If the human user switches away to a different tab, switches sandbox profiles (`Sandbox A` $\leftrightarrow$ `Sandbox B`), or minimizes the browser window during an in-flight trigger activation, Nova immediately raises `TAB_BECAME_HIDDEN`.
 * The action is aborted immediately. Nova never manipulates hidden or background tabs under an active surface exploration lease, preventing invisible clicks on user workspaces.
 
-### 3. Navigation Policy Rejection (`navigation_rejected`)
+### 3. Pre-Arm Incident Preservation
+* Fatal guard events (such as claim loss or trusted user interference) raised during baseline attachment and pre-activation preparation are strictly preserved across `ArmForActivation()`.
+* Nova checks these incidents before dispatching the simulated focus, keyboard, or mouse trigger, ensuring that compromised runs abort cleanly before any DOM input is emitted.
+
+### 4. Navigation Policy Rejection (`navigation_rejected`)
 * If an interactive control attempts to force a cross-origin navigation to an unapproved external domain, Nova traps the navigation attempt before the document unloads.
 * The tab remains on the current document, and the interaction returns outcome `navigation_rejected`.
 

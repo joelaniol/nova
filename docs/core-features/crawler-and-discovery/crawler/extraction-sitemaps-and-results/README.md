@@ -58,8 +58,22 @@ When `useSitemap: true` is specified:
 
 ---
 
-## 2. Traversal Queue & Canonical URL Normalization
+## 2. Frontier Engine, Canonical Rebind & Queue Management
 
+The crawler's frontier engine manages URL discovery, queue scheduling, and deduplication across single or parallel worker pipelines:
+
+### 2.1 Canonical Redirect Rebind (`sameDomainOnly` / `sameScopeOnly`)
+A common failure mode in web crawlers occurs when crawling a domain configured with root redirects (e.g., `example.com` redirecting via HTTP 301 to `www.example.com`). If an engine blindly enforces the original input host:
+* The seed page loads on `example.com` and redirects to `www.example.com`.
+* All internal links discovered on `www.example.com` fail the strict domain check and are discarded.
+* The crawl terminates after a single page.
+
+Nova solves this via **Canonical Redirect Rebinding**:
+* When `sameDomainOnly: true` (or alias `sameScopeOnly: true`) is configured, Nova tracks the final destination host of the first successfully loaded page.
+* If a canonical redirect occurred (such as naked domain to `www.` subdomain, or HTTP to HTTPS), the effective crawl scope automatically rebinds to that destination host.
+* Subsequent link evaluation permits all links belonging to the canonicalized host, ensuring complete site discovery.
+
+### 2.2 Frontier Deduplication & Filtering Invariants
 To prevent infinite loops, crawler traps, and duplicate page processing, all candidate links pass through five strict normalization rules before entering the breadth-first priority queue:
 
 ```mermaid
@@ -72,13 +86,19 @@ flowchart LR
     Rule5 --> Canonical["Canonical Queue Key"]
 ```
 
-### The Five Normalization Rules
+### 2.3 The Five Normalization Rules
 
-1. **Scheme Validation:** Only absolute `http://` and `https://` URLs are permitted. Internal and client-side protocols (`javascript:`, `mailto:`, `tel:`, `data:`, `file:`, `about:`) are rejected immediately.
+1. **Scheme Validation:** Only absolute `http://` and `https://` URLs are admitted. Internal and client-side protocols (`javascript:`, `mailto:`, `tel:`, `data:`, `file:`, `about:`) are rejected immediately before consuming crawl budget.
 2. **Fragment Stripping:** Anchor identifiers (`#section-2`, `#/deep/link`) are stripped, ensuring that the primary resource document is fetched once.
 3. **Tracking Parameter Scrubbing:** Common marketing and telemetry parameters (`utm_source`, `utm_medium`, `utm_campaign`, `gclid`, `fbclid`, `mc_eid`, `_ga`) are purged. Functional query parameters altering server responses (e.g., `?page=2`, `?id=456`) are strictly preserved.
 4. **Trailing Slash Deduplication:** Paths are normalized so that `/docs` and `/docs/` resolve to an identical canonical queue identity.
 5. **Path Case Preservation:** While domain hostnames are lowercased per RFC 3986, path components preserve their exact casing (e.g., `/API/v2/Endpoints` is not lowercased), avoiding 404 errors on case-sensitive web servers.
+
+### 2.4 Regex Scope Gating (`urlPattern` & `excludePattern`)
+Fine-grained frontier control is enforced via JavaScript-compatible regular expressions:
+* **`urlPattern`:** When provided, only URLs matching this expression are enqueued.
+* **`excludePattern`:** Candidate URLs matching this expression are immediately dropped (e.g., `^.*/(archive|tags|search)/.*$`).
+* Filtering is re-evaluated dynamically mid-crawl if updated via `nova.crawl_update`.
 
 ---
 
@@ -117,18 +137,18 @@ During settlement, Nova extracts outgoing hyperlinks (up to a safety cap of 500 
 
 ## 5. Result Projection with `nova.crawl_results`
 
-Agents inspect crawled pages and extracted knowledge through [`nova.crawl_results`](../../../../mcp-reference/tools/crawler-and-discovery/nova-crawl-results.md):
+Agents inspect crawled pages, links, and extracted content through [`nova.crawl_results`](../../../../mcp-reference/tools/crawler-and-discovery/nova-crawl-results.md):
 
 ```json
 {
   "name": "nova.crawl_results",
   "arguments": {
     "crawlId": "crawl_20261018_01",
-    "limit": 10,
-    "offset": 0,
-    "statusFilter": "success",
-    "includeContent": true,
-    "includeLinks": true
+    "limit": 20,
+    "sortBy": "sequence",
+    "sortOrder": "asc",
+    "screenshotDetail": "meta",
+    "outputDetail": "full"
   }
 }
 ```
@@ -139,17 +159,22 @@ Agents inspect crawled pages and extracted knowledge through [`nova.crawl_result
 {
   "crawlId": "crawl_20261018_01",
   "totalResults": 38,
-  "returnedResults": 10,
+  "returnedResults": 20,
   "pages": [
     {
       "url": "https://docs.example.com/api/authentication",
       "canonicalUrl": "https://docs.example.com/api/authentication",
-      "httpStatus": 200,
+      "httpStatusCode": 200,
       "title": "API Authentication Guide",
       "depth": 1,
       "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "screenshotPath": "screenshots/e3b0c442.png",
-      "text": "Authentication is performed using API Bearer tokens...",
+      "screenshot": {
+        "status": "captured",
+        "path": "screenshots/e3b0c442.jpeg",
+        "width": 800,
+        "height": 600
+      },
+      "textContent": "Authentication is performed using API Bearer tokens...",
       "links": [
         {
           "targetUrl": "https://docs.example.com/api/tokens",
@@ -159,6 +184,30 @@ Agents inspect crawled pages and extracted knowledge through [`nova.crawl_result
       ]
     }
   ]
+}
+```
+
+### Context-Saving Summary Projection (`summary: true`)
+
+When querying large crawl runs with hundreds of discovered endpoints, fetching all full page records wastes excessive context tokens. Calling `nova.crawl_results(crawlId="...", summary=true)` returns aggregate intelligence without returning raw text strings:
+
+```json
+{
+  "crawlId": "crawl_20261018_01",
+  "totalPages": 84,
+  "avgConfidence": 0.94,
+  "avgLoadTimeMs": 620,
+  "totalLinks": 412,
+  "frameworks": {
+    "Next.js": 84
+  },
+  "depthDistribution": {
+    "0": 1,
+    "1": 18,
+    "2": 65
+  },
+  "duplicateContentDetected": 0,
+  "screenshotCoverage": 84
 }
 ```
 

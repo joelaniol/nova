@@ -16,6 +16,8 @@ Choose the problem you can see. You do not need to know whether it belongs to th
 | Terminal command hangs, exit code missing, or runner pipe fails | [Terminal & console execution](terminal-and-consoles.md) |
 | Microphone, camera blocked, 0% audio, or barcode/video render errors | [Media, barcodes & video editing](media-and-permissions.md) |
 | Word, Excel generation fails, formula as text, or conversion locked | [Documents, Word & Excel generation](documents-and-office.md) |
+| Cookie banner blocks click, -32035 error, or dark pattern hijack | [Consent & blocker clearance](agent-behavior.md#cookie-banners-consent--blocker-clearance) |
+| Crawler paused on challengeHold, reset blocked, or explorer lease lost | [Crawling & exploration](agent-behavior.md#deep-web-exploration-crawling--scope-reset) |
 | The problem happens with one particular AI program | [Client-specific quirks](#client-specific-quirks) |
 
 ## Installation
@@ -49,6 +51,14 @@ For microphone levels showing 0%, `diagnostics.user_gesture_required` errors dur
 ## Documents and Office generation
 
 For Word (`.docx`) generation, Excel (`.xlsx`) formulas, spreadsheet auto-formatting, image embedding warnings, file lock conflicts, or Markdown conversion errors, follow [Documents, Word & Excel generation](documents-and-office.md).
+
+## Cookie banners, consent & blocker clearance
+
+For cookie banners blocking clicks, JSON-RPC `-32035` (`accept_all_blocked`) errors, `no_adapter` fallback to heuristic clearance, `DENY_LABEL_MISMATCH` dark pattern detection, or cross-origin iframe CMPs, follow [Cookie banners, consent & blocker clearance](agent-behavior.md#cookie-banners-consent--blocker-clearance).
+
+## Crawling, site discovery & surface exploration
+
+For background crawls paused on bot challenges (`challengeHold`), database write issues (`crawl.persistence_unavailable`), scope reset blocked by active runs (`discovery_reset.active_jobs`), or surface explorer lease loss (`CLAIM_LOST`, `TAB_BECAME_HIDDEN`), follow [Deep web-exploration, crawling & scope reset](agent-behavior.md#deep-web-exploration-crawling--scope-reset).
 
 ## Browser and sessions
 

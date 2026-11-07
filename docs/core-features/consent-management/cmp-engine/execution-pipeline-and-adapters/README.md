@@ -148,6 +148,27 @@ flowchart TD
 | **3** | **Usercentrics Adapter** | Callable functions `window.__ucCmp.getConsentDetails` and `denyAllConsents` (Browser CMP v3). | Disjoint global object. A Usercentrics site in TCF mode also answers `__tcfapi`, but with its own CMP id, so the Sourcepoint gate passes it on. |
 | **4** | **OneTrust Adapter** | Global object `window.OneTrust` and `OneTrust.RejectAll` or group arrays. | Broad enterprise deployment; ordered last to prevent shadowing dedicated TCF implementations. |
 
+### Architectural Invariant: Strict Identity Gates Precede Loose DOM Patterns
+
+The order of `CmpAdapterRegistry` is an **explicit, hard-coded architectural sequence**, not a dictionary or hash map with non-deterministic iteration order:
+1. **Preventing Wrapper & Shim Shadowing:** Many enterprise portals embed third-party analytics shims or legacy wrappers alongside active CMP engines. For instance, a site migrating from OneTrust to Sourcepoint TCF v2 often leaves residual OneTrust global variables (`window.OneTrust`) or wrapper DOM containers in the HTML. If an adapter matching loose DOM patterns were queried first, it would claim the tab, dispatch a mutation against dead or unmonitored OneTrust functions, and cause an Apply-Verify infinite loop when the real Sourcepoint banner remains untouched.
+2. **Cryptographic ID Validation First:** By gating Sourcepoint with IAB European Registry ID `cmpId == 6`, Nova guarantees that dedicated TCF implementations take precedence before falling back to generic vendor globals.
+3. **Disjoint Globals:** `window.Cookiebot` and `window.__ucCmp` are fully disjoint from `window.OneTrust`, allowing clean fallback without mutual shadowing.
+
+### Unadapted Vendors & Heuristic Fallback (Didomi, Klaro, Quantcast)
+
+Modern web properties also deploy other CMP systems, such as Didomi, Klaro, Quantcast Choice, or CookieFirst. Nova's architecture deliberately handles these without bloating the runtime API surface:
+* **TCF Compliance:** If Didomi or Quantcast operates in standard IAB TCF mode, underlying consent signals flow through standardized TCF frames.
+* **Deterministic `no_adapter` Escalation:** When a site deploys Didomi, Klaro, or custom banners lacking a dedicated programmatic adapter, `nova.cmp_apply` fails fast within $<15\text{ ms}$, returning:
+  ```json
+  {
+    "ok": false,
+    "failureCode": "no_adapter",
+    "nextAction": "fallback_dismiss_blockers"
+  }
+  ```
+* **Heuristic & CSS Remediation:** The agent immediately calls `nova.dismiss_blockers`. Nova's heuristic scanner queries comprehensive vendor selector lists (`CmpHideList`), while `ConsentDecisionGuard` evaluates candidate buttons to click legitimate reject options or inject display overrides without risking unintended commercial consent.
+
 ---
 
 ## 4. Supported Vendor Adapters & Runtime Protocols

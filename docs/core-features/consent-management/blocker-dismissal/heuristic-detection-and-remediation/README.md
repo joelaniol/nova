@@ -117,7 +117,79 @@ Modern web components and third-party consent providers (such as Usercentrics v3
 
 ---
 
-## 4. Remediation Modes: Conservative vs. Aggressive
+## 4. Stage 1 Consent Guard: Pre-Interaction Safety & Tab Aliasing
+
+Before any synthetic click or pointer action is dispatched to dismiss a candidate blocker element, Nova passes the candidate through an authoritative, pure-function decision gate: the **Stage 1 Consent Guard** (`ConsentDecisionGuard`).
+
+### 4.1 The Core Invariant: Automation Never Increases Consent
+Modern consent dark patterns frequently manipulate button semantics to coerce visitors into tracking opt-ins. Nova's architecture enforces a non-negotiable principle:
+
+> [!IMPORTANT]
+> **Automatik erhöht nie die Einwilligung (Automation never increases consent).**  
+> An autonomous action never agrees to anything (`accept`, `agree`, *"Got it"*, *"I understand"*). Within a consent dialog or privacy wall, Nova clicks only a rejection button whose legitimacy is conclusively proven either by its own stated scope or by direct contrast against a neighboring acceptance button.
+
+```mermaid
+flowchart TD
+    Candidate["Candidate Button in Overlay"] --> Guard["Stage 1: ConsentDecisionGuard"]
+
+    subgraph Inspection["Multi-Attribute Candidate Inspection"]
+        Guard --> TextCheck{"Visible Text vs.\nAccessible Name Conflict?"}
+        TextCheck -- "Conflict (e.g. text 'Reject' vs ARIA 'Accept')" --> DenyMismatch["DENY_LABEL_MISMATCH\n(Hijack / Dark Pattern Blocked)"]
+        TextCheck -- "Consistent" --> PolarityCheck{"Polarity == Accept?"}
+        PolarityCheck -- "Yes ('agree', 'accept', 'got it')" --> DenyAgree["DENY_AGREE\n(Never Consent Automatically)"]
+        PolarityCheck -- "No" --> DismissiveCheck{"Candidate is Dismissive?"}
+        DismissiveCheck -- "No" --> DenyNotDismissive["DENY_NOT_DISMISSIVE"]
+        DismissiveCheck -- "Yes" --> ContextCheck{"Consent Context Active?\n(cookie / privacy / CMP banner)"}
+    end
+
+    ContextCheck -- "No (Newsletter, Promo, Modal)" --> SafeDismiss["SAFE_DISMISS\n(Action Permitted)"]
+    ContextCheck -- "Yes (Privacy / Tracking Wall)" --> RejectCheck{"Polarity == Reject?"}
+
+    RejectCheck -- "No (Close, Later, Escape, X)" --> DenyClose["DENY_CONSENT_CLOSE\n(Closing banner counts as implicit tracking)"]
+    RejectCheck -- "Yes" --> ProofCheck{"Proven by Scope OR\nProven by Sibling Contrast?"}
+
+    ProofCheck -- "Neither Proven" --> DenyUnproven["DENY_CONSENT_REJECT_UNPROVEN\n(Refuse unverified reject)"]
+    ProofCheck -- "Proven" --> ConsentReject["CONSENT_REJECT\n(Verified Rejection Action Permitted)"]
+```
+
+### 4.2 Guard Verdicts & Machine-Readable Reason Codes
+
+The guard evaluates six candidate dimensions: candidate label, rendered visible text, ARIA accessible name, immediate sibling group labels, the consent context flag (`ConsentContext`), and the dismissive flag:
+
+| Reason Code | Permitted? | Evaluation Condition | Threat Neutralized |
+| :--- | :---: | :--- | :--- |
+| **`SAFE_DISMISS`** | **YES** | Candidate is in a non-consent dialog (newsletter popup, marketing modal, age gate) and carries a dismissive label. | Routine modal dismissal without privacy implications. |
+| **`CONSENT_REJECT`** | **YES** | Candidate is inside a consent context, has verified `Reject` polarity, and is proven either by explicit scope (*"Reject all"*, *"Nur notwendige"*) or by sibling contrast against an accept button. | Legitimate cookie rejection on non-standard banners. |
+| **`DENY_LABEL_MISMATCH`** | **NO** | Rendered visible text conflicts with the element's ARIA accessible name (e.g., visible label displays *"Decline"*, but screen-reader attribute says *"Accept All"*). | **Consent Hijack:** Prevents clicking buttons disguised to fool users or OCR scrapers while committing legal opt-in. |
+| **`DENY_AGREE`** | **NO** | Candidate or its visible text exhibits `Accept` polarity (*"agree"*, *"accept"*, *"allow"*, *"got it"*). | **Forced Opt-In:** Prevents automated agents from agreeing to tracking or commercial profiling. |
+| **`DENY_NOT_DISMISSIVE`** | **NO** | Element lacks dismissive characteristics (e.g., navigation link or form input). | Prevents clicking arbitrary elements within dialog containers. |
+| **`DENY_CONSENT_CLOSE`** | **NO** | Inside a consent context, an element is classified as `Close`, *"later"*, or an *✕* icon. | **Implicit Consent Trap:** On many European websites, closing a cookie modal without making an explicit choice legally defaults to continued tracking. |
+| **`DENY_CONSENT_REJECT_UNPROVEN`** | **NO** | Inside a consent context, a reject button has neither explicit scope nor a contrasting accept button in its immediate decision group. | **Ambiguous Rejection:** Rejects standalone buttons where the legal scope of the action cannot be established. |
+
+### 4.3 The Synchronous Act Phase Invariant
+
+A common flaw in automated click implementations is a race condition between element discovery and click dispatch: an element may detach, re-render, shift coordinates, or be covered by an interstitial between discovery and execution.
+
+Nova enforces the **Synchronous Act Phase Invariant** (`OnlyTheActPhaseClicks`):
+* Candidate selection, DOM attachment verification, visibility re-evaluation, label sanity checking, and coordinate hit-testing occur in the **exact same synchronous execution pass** as the synthetic pointer dispatch (`DismissBlockerScriptBuilder`).
+* If an element's position shifts, opacity drops to 0, or another element intercepts the target coordinates between passes, the click is refused fail-closed.
+* No click path exists in the script engine outside this guarded act phase.
+
+### 4.4 Target Tab Aliasing
+
+When orchestrating blocker clearance across multiple tabs or sandboxes, agents are not restricted to exact GUIDs. The `targetId` parameter for [`nova.dismiss_blockers`](../../../../mcp-reference/tools/guarded-actions/nova-dismiss-blockers.md) (and all guarded action tools) supports canonical tab aliases:
+* `activeBrowserTab`
+* `active_browser_tab`
+* `active-tab`
+* `browserTabActive`
+* `tabActive`
+* `"active"` (or omitting `targetId`)
+
+All of the above aliases resolve deterministically to the user's currently focused browser tab, allowing agents to execute immediate clearance without pre-querying `nova.tabs`.
+
+---
+
+## 5. Remediation Modes: Conservative vs. Aggressive
 
 Nova provides two distinct remediation modes to balance DOM stability against clearance success:
 
@@ -130,13 +202,13 @@ flowchart LR
     ModeChoice -- "mode: 'aggressive'" --> Aggr["Aggressive Mode:\n- Fallback CSS display: none injection\n- Body scroll unlock (overflow: auto)\n- Forced removal of lingering backdrops\n- Guaranteed clearance for stubborn walls"]
 ```
 
-### 4.1 Conservative Mode (`mode: "conservative"`)
+### 5.1 Conservative Mode (`mode: "conservative"`)
 * **Default Mode:** Recommended starting point for all standard automated browsing flows.
 * **Click Discipline:** Strictly refuses to click any button unless its label passes the 3-stage polarity scoring check (`AllowRejectClick`).
 * **Zero Style Mutation:** Does not inject inline CSS or remove DOM nodes; relies purely on native UI triggers and keyboard events.
 * **Best Suited For:** Legitimate news portals, e-commerce checkouts, and web apps where preserving JavaScript component state is critical.
 
-### 4.2 Aggressive Mode (`mode: "aggressive"`)
+### 5.2 Aggressive Mode (`mode: "aggressive"`)
 * **Escalation Mode:** Activated when conservative mode reports `blocked: true` (e.g., persistent backdrops or paywalls).
 * **Forced Display Overrides:** For blocker roots that do not dismiss via clicks or Escape, Nova injects inline CSS overrides:
   ```css
@@ -147,7 +219,7 @@ flowchart LR
 
 ---
 
-## 5. Synthetic Escape Key Injection (`pressEscape`)
+## 6. Synthetic Escape Key Injection (`pressEscape`)
 
 Many modern web dialog libraries (Bootstrap, Tailwind UI, Material UI, React Modal) bind keyboard event listeners to the `Escape` key (`keyCode: 27`, `key: "Escape"`).
 
@@ -178,7 +250,7 @@ If the dialog dismisses in response to the Escape sequence, the engine registers
 
 ---
 
-## 6. Automated Scroll-Lock Recovery
+## 7. Automated Scroll-Lock Recovery
 
 A common failure mode of web modal dismissal is the **orphaned scroll lock**:
 

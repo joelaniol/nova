@@ -34,15 +34,36 @@ flowchart TD
 
 ---
 
-## 1. Tri-State Trigger Classification Engine
+## 1. Trigger Classification Engine & Rule Categories
 
-When scanning an active document in `discover` mode, Nova evaluates interactive controls across three strict tiers:
+When scanning an active document in `discover` mode, Nova evaluates interactive controls across strict semantic categories and safety tiers:
 
-| Classification | Definition & Criteria | Examples | Execution Policy |
+### 1.1 Declarative vs. Semantic Trigger Rules
+
+Surface Explorer categorizes candidate triggers according to their structural predictability:
+
+| Trigger Rule Category | Eligibility Classification | Technical Identification | Activation Safety Gate |
 | :--- | :--- | :--- | :--- |
-| **`SAFE`** | Explicit disclosure controls that toggle visibility without server-side mutations or navigation. | `<details><summary>`, elements with `aria-expanded="false"`, `role="tab"`, menu toggle buttons. | Eligible for automated activation under standard exploration policies. |
-| **`PROBE_REQUIRED`** | Controls that appear to be read-only expansion or navigation, but lack explicit ARIA disclosure markers. | "Load more comments" buttons, pagination controls ("Page 2", "Next"), clickable preview cards. | Requires explicit agent opt-in or human confirmation; cannot be triggered silently. |
-| **`DENY`** | Elements that submit forms, initiate state-mutating actions, handle authentication, or navigate off-site. | `<button type="submit">`, "Delete", "Confirm Purchase", payment buttons, external links. | **Strictly blocked.** The engine refuses to activate these elements under any circumstance. |
+| **`OPEN_DECLARATIVE`** | `ALLOW_OPEN_STRONG` (Phase 1) | Explicit HTML disclosure controls: `<details><summary>`, `role="tab"`, accordion headers, and elements with explicit `aria-expanded` and `aria-controls` targeting an existing DOM panel. | Automatically activatable under standard exploration lease. |
+| **`OPEN_COMPOSITE`** | `ALLOW_OPEN_STRONG` (Phase 1) | Multi-part composite widgets where buttons are coupled with adjacent disclosure panels through explicit DOM hierarchies. | Automatically activatable under standard exploration lease. |
+| **`OPEN_SEMANTIC`** | `ALLOW_OPEN_SEMANTIC` (Phase 1.5) | Controls presenting semantic popup affordances (such as `aria-haspopup="true"` or `aria-haspopup="menu"`) lacking an explicit target container ID. | **Requires Two Gates:** `SurfaceExplorerSemanticTriggersEnabled=true` in settings AND mandatory `userApproved: true` per activation call. |
+| **`DENY`** | `DENY` | Form submissions (`<button type="submit">`), destructive actions (*"Delete"*, *"Remove"*), checkout/payment buttons, and off-site navigation. | **Strictly Blocked.** Refuses activation under all circumstances. |
+
+### 1.2 Long Link Handling & `UserContent` Exceptions
+
+In complex modern web applications (such as social media feeds, mapping portals, webmail clients, and data dashboards), links frequently embed lengthy base64 serialized states, complex query parameters, or deep JSON payloads exceeding 2,000 characters.
+
+* **The False-Positive Trap:** Standard security heuristic filters often treat unusually long hyperlinks as suspicious buffer overflow or code injection attempts.
+* **Nova's `UserContent` Exception Rules:** Nova detects when elements reside within verified user-generated content regions (e.g. `[data-testid="tweet"]`, `.comment-body`, `.feed-item`). Under these exceptions, elongated links and tracking-heavy URLs are inspected gracefully rather than triggering false-positive security rejections, allowing exhaustive surface discovery on complex enterprise feeds.
+
+### 1.3 Run Health Tracking & `no_delta` Invariant
+
+Every Surface Explorer response includes an authoritative `health` object documenting execution stability:
+* **`consecutiveErrors`:** Tracks continuous unexpected failures or guard blocks. Reaching the threshold trips the circuit breaker, pausing further automated activations.
+* **The `no_delta` Invariant:** In dynamic Single-Page Applications, clicking a disclosure trigger may occasionally produce zero observable DOM mutations (e.g., an already-open accordion, an active tab, or a disabled toggle). In Nova's architecture:
+  * A `no_delta` outcome is a **valid non-error outcome**.
+  * It clears the `consecutiveErrors` failure streak just like a successful state disclosure.
+  * It prevents premature circuit-breaker trips while keeping the cumulative `networkMutationGuard` safety counter intact.
 
 ---
 

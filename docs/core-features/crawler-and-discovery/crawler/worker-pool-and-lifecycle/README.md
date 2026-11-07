@@ -120,18 +120,18 @@ stateDiagram-v2
 
 ---
 
-## 5. MCP Tool Contracts
+## 5. Complete Crawler Lifecycle & MCP Operations
 
-Agents manage active and completed crawls through the `crawler_ops` MCP tool bundle:
+Autonomous agents manage active and completed crawls through the crawler toolchain:
 
-### 1. `nova.crawl_start`
-Initiates a new autonomous crawl traversal:
+### 5.1 `nova.crawl_start`: Background Traversal & Early Failure Detection
+Initiates a new autonomous crawl traversal. It starts the background BFS queue and immediately verifies startup health:
 
 ```json
 {
   "name": "nova.crawl_start",
   "arguments": {
-    "url": "https://docs.example.com",
+    "startUrl": "https://docs.example.com",
     "maxDepth": 2,
     "maxPages": 30,
     "parallel": 2,
@@ -141,56 +141,86 @@ Initiates a new autonomous crawl traversal:
     "respectRobotsTxt": true,
     "useSitemap": true,
     "contentSelector": "article.markdown",
-    "captureScreenshots": true
+    "captureScreenshots": true,
+    "screenshotFormat": "jpeg",
+    "screenshotQuality": 75
   }
 }
 ```
 
-### 2. `nova.crawl_status`
-Queries real-time execution telemetry and progress counters:
+#### Early-Failure Detection Gate (~300 ms Window)
+A major risk in autonomous workflows is polling a crawl that died immediately on startup. `nova.crawl_start` launches the background job, pauses for ~300 ms, and evaluates if the job already terminated:
+* **Terminal Launch:** If the start page fails immediately (e.g., DNS resolution failure, private IP/loopback SSRF block, or instant network drop), `status` reflects the terminal state (e.g. `"failed"`), `earlyResult` contains `{ visited: 0, error: "...", detail: "..." }`, and `pollAfterMs` is `null`.
+* **Actionable Agent Contract:** Agents should **always check `earlyResult`** upon return. If `earlyResult` is populated, abort the polling loop immediately and address the target or network issue.
+* **Fail-Closed Persistence Guard:** If the initial `crawl_jobs` start record cannot be queued to `crawl.db`, `crawl_start` fails closed with `reasonCode='crawl.persistence_unavailable'` rather than returning a misleading, unresumable job ID.
+
+### 5.2 `nova.crawl_status`: Telemetry, Rate Control & Challenge Holds
+Queries real-time execution telemetry, active pacing metrics, and automated surface signals:
 
 ```json
 {
   "name": "nova.crawl_status",
   "arguments": {
-    "crawlId": "crawl_20261018_01"
+    "crawlId": "crawl_20261018_01",
+    "outputDetail": "summary"
   }
 }
 ```
 
-**Diagnostic Output:**
+#### Projection Modes (`outputDetail`)
+* **`minimal`:** Lightweight heartbeat returning identity, status, visited/queued counters, watermark sequence, and compact origin rate state. Recommended for tight polling loops.
+* **`summary`:** Adds compact configuration, session counters, settlement readiness, and script completion stats. Custom script bodies are projected as SHA-256 digests and character counts.
+* **`full`:** Complete diagnostic payload including full configuration, settlement advisories, and per-origin telemetry.
+
+#### The `challengeHold` Anti-Bot Barrier
+When a crawler worker encounters an anti-bot challenge (such as Cloudflare Turnstile, Cloudflare 1020/503 challenge pages, or Google reCAPTCHA), Nova does not hammer the firewall:
+1. The crawl pauses immediately at the first hit across all workers.
+2. `crawl_status` reports `status: "paused"` with an active `challengeHold` block containing `{ host, url, holdSinceUtc }`.
+3. The autonomous agent notifies the human operator to solve the challenge in the visible browser.
+4. Once solved, the agent resumes the crawl via `nova.crawl_update(crawlId="...", paused=false)`.
+
+#### Per-Origin `siteArchitecture` Signals
+When available, `crawl_status` projects discovered per-origin automation surfaces:
+* **Direct MCP Endpoints:** Discovered `/.well-known/mcp.json` or `mcp-server` headers.
+* **Server & Agent Cards:** AI agent protocol cards (`/.well-known/agent.json`).
+* **Machine Documentation:** Discovered `/llms.txt` and `/llms-full.txt` catalogs.
+* **OAuth Protected-Resource Metadata:** OAuth 2.0 authorization server endpoints.
+
+### 5.3 `nova.crawl_results`: Token-Efficient Pagination & Incremental Cursor
+Retrieves discovered pages, extracted content, link graphs, and screenshot artifacts from `crawl.db`:
+
 ```json
 {
-  "crawlId": "crawl_20261018_01",
-  "status": "running",
-  "pagesCrawled": 14,
-  "queueSize": 28,
-  "activeWorkers": 2,
-  "errorCount": 0,
-  "elapsedSeconds": 18,
-  "currentDomain": "docs.example.com",
-  "robotsTxtLoaded": true,
-  "sitemapDiscovered": true
-}
-```
-
-### 3. `nova.crawl_update`
-Modifies pacing thresholds, limits, or pause state dynamically on a running job:
-
-```json
-{
-  "name": "nova.crawl_update",
+  "name": "nova.crawl_results",
   "arguments": {
     "crawlId": "crawl_20261018_01",
-    "paused": true,
-    "maxPages": 50,
-    "pageDelayMs": 1000
+    "limit": 20,
+    "sortBy": "sequence",
+    "sortOrder": "asc",
+    "screenshotDetail": "meta",
+    "outputDetail": "summary"
   }
 }
 ```
 
-### 4. `nova.crawl_stop`
-Initiates a graceful shutdown of all active workers:
+#### Token-Saving Aggregate Mode (`summary: true`)
+For large sites, retrieving hundreds of full page objects burns excessive LLM context. Passing `summary: true` returns aggregate statistics without individual page text:
+* Framework breakdown (React, Vue, Next.js, Angular, Svelte, etc.).
+* Depth distribution, average confidence scores, and load latencies.
+* Duplicate content detection and screenshot coverage metrics.
+
+#### Stable Incremental Polling (`sinceSequence`)
+When polling a running crawl, standard `offset`-based pagination suffers from race conditions as newly discovered URLs are enqueued and sorted. Nova provides a stable cursor:
+* Pass `sortBy: "sequence"`, `sortOrder: "asc"`, and `sinceSequence: <lastSeenSequence>`.
+* Returns only pages with `sequence > sinceSequence`, guaranteeing zero duplicate reads and zero skipped pages.
+
+#### Screenshot Payload Control (`screenshotDetail`)
+* **`meta` (Default):** Returns screenshot status, dimensions, and local artifact path without inline base64 data.
+* **`full`:** Inlines the full base64 image payload (use only when image analysis is required).
+* **`off`:** Omits screenshot fields entirely.
+
+### 5.4 `nova.crawl_stop`: Graceful Drain & Result Persistence
+Requests safe cancellation of a running crawl job:
 
 ```json
 {
@@ -200,6 +230,48 @@ Initiates a graceful shutdown of all active workers:
   }
 }
 ```
+
+* **Graceful Worker Unwind:** The job transitions to `status: "cancelling"`. In-flight page settlement finishes cleanly to prevent SQLite corruption.
+* **Finalizing Linger:** Once workers unwind, the job transitions to terminal `cancelled`. If already finishing naturally, crawl_stop reports the completed state without rewriting it.
+* **Durable Results:** All pages, links, and text persisted prior to stopping remain fully accessible through `nova.crawl_results`.
+
+### 5.5 `nova.crawl_update`: Mid-Flight Parameter Mutation
+Modifies limits, pacing rates, or pause status dynamically while a crawl is running:
+
+```json
+{
+  "name": "nova.crawl_update",
+  "arguments": {
+    "crawlId": "crawl_20261018_01",
+    "maxPages": 50,
+    "pageDelayMs": 1000,
+    "paused": true
+  }
+}
+```
+
+* Only supplied parameters are altered; omitted parameters maintain their current value.
+* Updated limits apply before the next URL is dequeued from the BFS queue.
+* Setting `paused: false` resumes a paused crawl or clears a `challengeHold`.
+
+### 5.6 `nova.crawl_links`: Instant In-Tab Link Extraction
+Extracts and classifies all hyperlinks on an active browser tab or sandbox without creating a background crawl job:
+
+```json
+{
+  "name": "nova.crawl_links",
+  "arguments": {
+    "targetId": "active",
+    "sameScopeOnly": true,
+    "includeText": true,
+    "deep": true
+  }
+}
+```
+
+* Returns `links[]` categorized by navigation type, visible link text, and `count`.
+* Traverses open shadow DOM roots and same-origin iframes when `deep: true`.
+* Projects `pageSignals` (title, language, canonical URL, robots meta directives, authentication assessment) and per-origin `agentSignals`.
 
 ---
 

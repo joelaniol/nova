@@ -125,7 +125,7 @@ The index does not rely solely on crawler runs. As agents browse websites, inspe
 
 ## 3. Atomic Scope Eviction with `nova.discovery_reset_scope`
 
-When a website undergoes a structural redesign, changes its domain routing, or when an agent requires a completely clean slate for verification testing, [`nova.discovery_reset_scope`](../../../../mcp-reference/tools/crawler-and-discovery/nova-discovery-reset-scope.md) wipes all accumulated intelligence for that scope:
+When a website undergoes a structural redesign, changes its domain routing, or when an agent requires a completely clean slate for fresh re-indexing, [`nova.discovery_reset_scope`](../../../../mcp-reference/tools/crawler-and-discovery/nova-discovery-reset-scope.md) wipes all accumulated intelligence for that scope:
 
 ```json
 {
@@ -136,11 +136,18 @@ When a website undergoes a structural redesign, changes its domain routing, or w
 }
 ```
 
-### Concurrency Safety Barrier
-Nova protects running processes from destructive data loss:
-* If an active crawl job or surface exploration run is currently operating within the target domain scope, Nova immediately refuses the reset.
-* Returns `status = 'blocked'` with `reasonCode = 'discovery_reset.active_jobs'`.
-* The agent must stop running crawls (`nova.crawl_stop`) or close exploration sessions before the scope can be purged.
+### Scope Aliasing (`domain`, `scopeKey`, `origin`)
+`nova.discovery_reset_scope` requires exactly one scope parameter, accepting flexible aliases:
+* **`domain`:** Legacy primary query (e.g., `"example.com"` or `"www.example.com:8443"`).
+* **`scopeKey`:** Persisted crawler scope key as recorded in `crawl_history`.
+* **`origin`:** Explicit origin-style URI (e.g., `"https://example.com:8443"`).
+The engine uses the same alias-aware host/origin merge as `nova.site_urls` and `nova.crawl_history`, ensuring legacy host-only and modern origin buckets are purged together.
+
+### Concurrency Safety Barrier (`discovery_reset.active_jobs`)
+Nova protects running processes from catastrophic race conditions:
+* If active, pausing, cancelling, or finalizing crawls or open surface exploration runs still exist within the target scope, Nova **refuses the reset fail-closed**.
+* Returns `status: "blocked"` with `reasonCode: "discovery_reset.active_jobs"`.
+* The calling agent must cancel running crawls (`nova.crawl_stop`) and close active exploration sessions (`nova.explore_surface(mode='close')`) before the scope can be purged.
 
 ### Cascading Deletion Scope
 When cleared, Nova executes an atomic transaction in `crawl.db` that cascades across 12 distinct data stores and caches:
