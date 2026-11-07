@@ -10,7 +10,7 @@ Starts a long-term connection monitor (like PingPlotter or Smokeping) that keeps
 
 `nova.net_monitor_start` answers questions such as **"does my connection drop at night?"** or **"watch the server for a few days"**. A one-off [`nova.net_ping`](nova-net-ping.md) shows the connection right now; a monitor keeps measuring and stores the history, so an agent can read it later with [`nova.net_monitor_report`](nova-net-monitor-report.md). There is nothing to poll.
 
-* **What is measured.** One ICMP echo per `intervalMs` (default 1 s in the local network, 2 s otherwise), or with `method: "tcp"` and `port` the TCP connect time for hosts that drop ICMP. With `route: true` (interval at least 2.5 s) every hop on the path is measured too, each about every 10 seconds; the whole path is found again every 5 minutes, and a new path is accepted only after a second identical discovery.
+* **What is measured.** One ICMP echo per `intervalMs` (default 1 s in the local network, 2 s otherwise), or with `method: "tcp"` and `port` the TCP connect time for hosts that drop ICMP. With `route: true` (interval at least 2.5 s) every hop on the path is measured too, each about every 10 seconds; the whole path is found again every 5 minutes, and a new path is accepted only after a second identical discovery. With `method: "tcp"` the route is traced over TCP to that port, the path the service's traffic takes when routers treat ICMP differently: hops show loss and address but no times, the probes of one monitor leave from one local port one after another, and finding the whole path can take a few rounds.
 * **Runs while Nova runs.** Also after a restart: stored monitors start again by themselves. The time Nova was closed or the PC was asleep is recorded as a gap with its reason, never as an outage.
 * **Visible to the user.** While any monitor exists, Nova's toolbar shows a button with each monitor's state, the last 15 minutes and a small chart; the user can pause or delete it there.
 * **No duplicates.** The same host, method and port as an existing monitor answer `status: "already_exists"` with that `monitorId`, so repeating a start after a timeout is harmless.
@@ -28,9 +28,9 @@ Starts a long-term connection monitor (like PingPlotter or Smokeping) that keeps
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `host` | `string` | No | — | ≤ 253 characters | Host name or IP address to monitor (no scheme, path or port). A name resolving to several addresses: the first IPv4 address is used; pass an IPv6 literal for an IPv6 monitor. Exactly one of host or deviceId. |
 | `deviceId` | `string` | No | — | ≤ 64 characters | A device from nova.net_devices instead of host; its current address is followed when the inventory learns a new one. |
-| `method` | `string` | No | `"icmp"` | `icmp`, `tcp` | 'icmp' (default) or 'tcp' (connect time to 'port', for hosts that drop ICMP; no route). |
+| `method` | `string` | No | `"icmp"` | `icmp`, `tcp` | 'icmp' (default) or 'tcp' (connect time to 'port', for hosts that drop ICMP; with route the hops are found over TCP to that port, the path the traffic to the service takes). |
 | `port` | `integer` | No | — | 1–65535 | TCP port for method='tcp' (e.g. 443). |
-| `route` | `boolean` | No | `false` | — | true: also measure every hop of the path (where loss or delay starts). Needs intervalMs >= 2500 and costs about 1.5 probes per second more. |
+| `route` | `boolean` | No | `false` | — | true: also measure every hop of the path (where loss or delay starts). Needs intervalMs >= 2500 and costs about 1.5 probes per second more. With method='tcp' the hops answer without a time (only loss and address) and a route discovery may take several rounds. |
 | `intervalMs` | `integer` | No | — | 1000–60000 | Time between rounds. Default 1000 (lan), 2000 (wan), 2500 with route; at least 1000, with route at least 2500. Longer intervals are kinder to servers that rate-limit ICMP. |
 | `timeoutMs` | `integer` | No | — | 500–5000 | How long a probe may take before it counts as lost; at most intervalMs. Default 1000 (lan) or 1500. |
 | `payloadBytes` | `integer` | No | `32` | 0–1472 | ICMP payload in bytes. ICMP only. |
@@ -81,6 +81,14 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 }
 ```
 
+### The route to a web service over TCP
+```json
+{
+  "name": "nova.net_monitor_start",
+  "arguments": { "host": "example.com", "method": "tcp", "port": 443, "route": true, "intervalMs": 5000 }
+}
+```
+
 ### Resume a paused monitor
 ```json
 {
@@ -95,6 +103,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 
 * **Longer intervals are kinder.** Some servers limit how many pings they answer; 2 to 5 seconds is enough to see drops and latency spikes over a night.
 * **Use `route: true` only when the path matters.** It costs about 1.5 more probes per second per monitor.
+* **A TCP route wants a longer interval.** A silent hop costs up to a second over TCP, and each round asks only what fits before the next one; 5 seconds or more keeps every hop measured often enough.
 * **Read the report later**, for example the next morning with `last: "12h"`; do not call the report in a loop.
 * **Clean up.** A monitor runs until it is stopped or deleted; stop it when the question is answered.
 
