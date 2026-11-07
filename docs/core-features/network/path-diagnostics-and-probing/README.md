@@ -145,10 +145,15 @@ To provide actionable diagnostic context without leaking examined network target
 ## 7. Fast Port Probing & CONNECT Tunnels (`nova.net_probe`)
 
 For scenarios where an agent requires an immediate, low-overhead check across multiple ports before initiating a large workflow, [`nova.net_probe`](../../../mcp-reference/tools/proxy-and-network/nova-net-probe.md) provides high-speed port verification:
-* **Batch Concurrency:** Tests up to 32 TCP ports simultaneously against a single target host.
-* **Immediate Reset Cleanup:** Accepted connections are closed immediately via TCP RST, ensuring zero lingering sockets on the client or server.
-* **HTTP Proxy CONNECT Verification (`proxyTestUrl`):** If an open port is suspected of being an HTTP proxy, Nova sends an `HTTP CONNECT` handshake directed to `proxyTestUrl`. This verifies whether the endpoint functions as an authenticating or open forward proxy.
-* **Session-Scoped Approval Gate:** Initiating a port probe prompts the operator once per target host. Upon confirmation, that specific host remains approved for the duration of the current Nova session.
+* **Batch Concurrency:** Tests up to 32 TCP ports per call, evaluating 8 ports concurrently with configurable timeout (`timeoutMs`, default 3000 ms).
+* **Direct Route Inspection:** Connections originate directly from the host operating system (`route: "direct"`), bypassing browser proxy profiles to provide an objective external view of firewall rules (e.g. `ufw`, `iptables`, `nftables`, or hoster perimeter firewalls).
+* **True TCP State Classification:**
+  * `open`: TCP 3-way handshake accepted (SYN-ACK received). The connection is immediately terminated via TCP RST to prevent lingering socket resources.
+  * `closed`: Connection refused (TCP RST received). The target is reachable, but no process is listening on that port, or an explicit firewall `REJECT` rule fired.
+  * `filtered`: Connect timed out without a reply. Indicates a packet-dropping firewall rule (`DROP`) or an unresponsive transit filter.
+  * `unreachable`: ICMP Destination Unreachable / No route to host returned by local or gateway routing tables.
+* **HTTP Proxy CONNECT Verification (`httpProxyConnect`):** Tests whether an HTTP forward proxy on `port` can open an encrypted tunnel to `target` (e.g. `example.com:443`). Returns `tunnel_established`, `auth_required` (HTTP 407, reporting the `Proxy-Authenticate` scheme), `refused`, `not_http`, or `no_answer`. No credentials are transmitted.
+* **Session-Scoped Host Approval Gate:** Probing arbitrary network hosts prompts the operator once per session. Known server hosts of working connectors (SSH, SFTP, databases configured in Nova) are recognized as user infrastructure and run without prompting.
 
 ---
 
@@ -191,19 +196,24 @@ For scenarios where an agent requires an immediate, low-overhead check across mu
 }
 ```
 
-### Example 4: Rapid Port Reachability Check
+### Example 4: Rapid Port Reachability Check & Proxy Tunnel Test
 ```json
 {
   "name": "nova.net_probe",
   "arguments": {
     "host": "192.168.1.100",
-    "ports": [
+    "tcpPorts": [
       22,
       80,
       443,
       3306,
       8080
-    ]
+    ],
+    "httpProxyConnect": {
+      "port": 3128,
+      "target": "example.com:443"
+    },
+    "timeoutMs": 3000
   }
 }
 ```
@@ -213,6 +223,7 @@ For scenarios where an agent requires an immediate, low-overhead check across mu
 ## 9. Related Documentation
 
 * [Master Network Architecture Hub](../README.md): Overview of all 5 network disciplines and the complete 24-tool reference matrix.
+* [Network & Protocol Troubleshooting](../../../troubleshooting/network-and-proxies.md): Resolving port probe approvals, proxy CONNECT errors, and MTU packet drops.
 * [Network Discovery & Inventory Architecture](../network-discovery-and-inventory/README.md): Active and passive subnet scanning and device tracking.
 * [DNS Diagnostics & Mail Security](../dns-diagnostics/README.md): Resolving domain records, delegation paths, and mail security records.
 * [SSL/TLS Cryptographic Inspection](../tls-inspection/README.md): Deep-dive certificate chain analysis and server cipher evaluation.

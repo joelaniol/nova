@@ -150,3 +150,4 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 * [`nova.net_scan_status`](nova-net-scan-status.md) — Progress or result of a running scan
 * [`nova.net_probe`](nova-net-probe.md) — Checks the ports of one host from this PC, including an HTTP proxy
 * [`nova.tls_inspect`](nova-tls-inspect.md) — Inspects the certificate and TLS setup of an open port
+* [Network & Protocol Troubleshooting](../../../troubleshooting/network-and-proxies.md) — Resolving public scan approval gates, SNMP engine mismatches, NTP clock drift, and socket exhaustion

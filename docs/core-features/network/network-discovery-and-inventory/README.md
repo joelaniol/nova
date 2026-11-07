@@ -211,7 +211,7 @@ When a device obtains a new DHCP address, Nova detects the address change, updat
 
 ---
 
-## 7. Automated Security Findings & Hygiene Audit
+## 7. Deep Protocol Probing & Automated Security Findings
 
 Every scan automatically compiles risk indicators in the `findings` array:
 
@@ -220,17 +220,75 @@ Every scan automatically compiles risk indicators in the `findings` array:
   "severity": "high",
   "code": "telnet_open",
   "deviceId": "dev_4b8f10a2",
-  "text": "192.168.1.45 (camera) exposes unencrypted Telnet management on TCP port 23."
+  "text": "192.168.1.45 (camera): Telnet (plain text, passwords readable on the network) on port 23 is open in the network."
 }
 ```
 
-### Audited Security Risks:
-1. **Unencrypted Remote Access:** Plaintext Telnet (TCP 23) or FTP (TCP 21) reachable on the network.
-2. **Cleartext Admin Consoles:** Web management interfaces prompting for authentication over unencrypted HTTP (TCP 80, 8080) instead of HTTPS.
-3. **SMB Security Hygiene:** Active SMB services running without mandatory packet signing (`signingRequired: false`) or advertising legacy SMBv1 support.
-4. **Exposed Database & Infrastructure Ports:** Databases (MySQL 3306, PostgreSQL 5432, Redis 6379, MongoDB 27017) or Remote Desktop (RDP 3389) exposed to broad subnets without boundary controls.
-5. **NTP Clock Skew:** Local time servers exhibiting substantial clock drift (`clockOffsetMs` $> 5000\text{ ms}$), creating risks for Kerberos ticket validation and TLS certificate verification.
-6. **Host Key Mismatches:** Known devices presenting altered SSH host keys at the same IP address (indicating a machine replacement, reinstall, or potential interception).
+### 7.1 SNMP Hardware Telemetry & Connector Binding
+
+When `snmp` is included in `probes`, Nova queries UDP port 161 on discovered devices using credentials provisioned in SNMP connectors (`nova.connector_create(type="snmp")`):
+
+* **Target CIDR Constraints:** SNMP credentials are bound strictly to specific IP addresses or CIDR blocks. Hostnames are explicitly forbidden to prevent DNS spoofing from redirecting management credentials. Minimum prefix sizes are `/16` for IPv4 and `/48` for IPv6, with a maximum of 64 targets per profile.
+* **Single-OID GetRequest:** Nova sends one standard SNMP GetRequest for exactly 4 fixed system group objects: `sysDescr` (`1.3.6.1.2.1.1.1.0`), `sysObjectID` (`1.3.6.1.2.1.1.2.0`), `sysName` (`1.3.6.1.2.1.1.5.0`), and `sysUpTime` (`1.3.6.1.2.1.1.3.0`). Nova never performs tree walks, `GetBulk`, or `SetRequest` operations.
+* **SNMPv3 USM & Engine Pinning:**
+  * For SNMPv3, Nova performs an initial discovery handshake, derives localized keys, and transmits a signed (and for `authPriv`, AES-128 CFB encrypted) request.
+  * **Engine Pinning (`snmp_engine_id_changed`):** Nova pins the hex `snmpEngineID` upon the first verified response. If a subsequent probe to that IP returns a different engine ID, Nova halts signed requests and emits `snmp_engine_id_changed` (medium severity) to prevent credential replay attacks.
+* **Protocol Findings:**
+  * `snmp_v2c_in_use` (low severity): Emitted when a device answers via SNMPv2c. The community string traverses the network in cleartext, readable by anyone sniffing traffic.
+  * `snmp_v3_auth_no_priv` (low severity): Device answers SNMPv3 signed but unencrypted (`authNoPriv`). Answers cannot be forged, but remain readable on the network.
+  * `snmp_public_address` (medium severity): An SNMP agent responded on a public IP address. SNMP management should strictly be isolated to private out-of-band management subnets.
+
+### 7.2 NTP Time Synchronization & Kerberos Invariants
+
+When `ntp` is included in `probes`, Nova queries UDP port 123 on discovered hosts:
+
+* **RFC 5905 Mode 3 Client Request:** Nova sends standard 48-byte Mode 3 client queries. Dangerous Mode 6 (`control`) or Mode 7 (`monlist`) queries are never used.
+* **RFC 9109 Client Data Minimization:** Nova populates the 8-byte transmit timestamp with cryptographic random bytes. A server response (Mode 4) is accepted only if it echoes this exact random timestamp in its origin timestamp field.
+* **Time Drift & Kerberos Invariants (`ntp_time_offset`):**
+  * Nova measures true clock offset: $\text{Offset} = \frac{(T_2 - T_1) + (T_3 - T_4)}{2}$.
+  * Thresholds: $\ge 5\text{ s}$ (`low`), $\ge 60\text{ s}$ (`medium`), $\ge 300\text{ s}$ (`high`).
+  * **Critical Operational Impact:** In Active Directory and Kerberos realms, clock skew exceeding 5 minutes causes immediate ticket authentication failures (`KRB_AP_ERR_SKEW`). In addition, TLS client/server certificates appear expired or not yet valid.
+* **Unsynchronized Clock (`ntp_unsynchronized`):** Emitted (medium severity) when a server responds on UDP 123 but reports Stratum 16 or Leap Indicator 3 (`alarm`), indicating its clock is free-running and uncalibrated.
+
+### 7.3 Active Directory & LDAP RootDSE Exploration
+
+When probing LDAP ports (TCP 389/3268 for plain/StartTLS and 636/3269 for TLS):
+
+* **Anonymous RootDSE Exploration:** Nova executes a single RFC 4511 BER-encoded search against base `""` with scope `baseObject` and filter `(objectClass=*)`.
+* **Harvested Attributes:** Extracts `dnsHostName`, `defaultNamingContext`, `rootDomainNamingContext`, `domainControllerFunctionality`, `isGlobalCatalogReady`, `vendorName`, and `vendorVersion`.
+* **Zero Bind Policy:** Nova never sends an LDAP bind, never transmits passwords, and never reads objects below the RootDSE.
+* **Port Set Classification:** LDAP ports are classified under `portSets: ["admin"]` (not included in the default `quick` set).
+* **Early Completion:** Nova parses BER application tags `5` (`SearchResultDone`) and `24` (`Notice of Disconnection`) to immediately close the TCP connection once RootDSE metadata is received, rather than waiting for socket timeouts.
+
+### 7.4 SMB Dialects & NTLM Challenge Fingerprinting
+
+When probing SMB on port 445:
+
+* **Dialect Negotiation:** Interrogates supported SMB-2/3 dialects and verifies whether packet signing is enforced (`signingRequired`).
+* **NTLM Challenge Inspection:** Inspects the server's unauthenticated NTLMSSP challenge to observe the NetBIOS computer name, Active Directory domain name, and Windows OS build version. Nova never replies to the challenge or attempts session setup.
+* **Legacy SMBv1 Alert (`smb1_enabled`):** Emitted at `high` severity if the target still supports SMBv1 (the vulnerable protocol exploited by EternalBlue / WannaCry).
+
+### 7.5 Exposed Service Findings Taxonomy
+
+Nova correlates open ports against a hardened risk matrix:
+
+| Finding Code | Default Severity | Monitored Services & Ports | Rationale |
+| :--- | :---: | :--- | :--- |
+| `telnet_open` | `medium` (private) / `high` (public) | TCP 23 | Plaintext terminal management; credentials transmitted unencrypted across the network. |
+| `ftp_open` | `low` (private) / `medium` (public) | TCP 21 | Plaintext file transfer protocol unless explicit TLS is enforced. |
+| `login_without_tls` | `medium` (private) / `high` (public) | TCP 80, 8080 | HTTP service presents a Basic/Digest authentication prompt over unencrypted HTTP. |
+| `rdp_reachable` | `low` (private) / `medium` (public) | TCP 3389 | Microsoft Remote Desktop exposed. |
+| `vnc_reachable` | `medium` (private) / `high` (public) | TCP 5900 | VNC remote desktop, frequently configured without encryption or robust authentication. |
+| `database_reachable` | `medium` (private) / `high` (public) | TCP 1433, 3306, 5432, 6379, 9200, 27017 | Database engine exposed. Redis (6379) is flagged `high` due to lack of default authentication. |
+| `ot_reachable` | `high` (both private and public) | TCP 102 (S7), 502 (Modbus), 44818 (EtherNet/IP) | Operational Technology / Industrial Control System interfaces lacking cryptographic authentication. |
+
+### 7.6 Scanner Resource Limits & Ephemeral Socket Protection
+
+Scanning dense subnets generates high socket turnover. Nova protects local operating system resources:
+
+* **Socket Exhaustion Detection:** If Windows ephemeral ports or socket buffers are exhausted, Nova halts the scan safely with `incompleteReason: "local_resources_exhausted"` rather than misreporting dropped packets as remote firewalls.
+* **Tuning Recommendations:** Reduce `parallel` from default 64 to 16 or 8, and increase `timeoutMs` to 3000 ms.
+* **Asynchronous Scan Execution:** Scans running longer than `waitSeconds` return `status: "running"` with a `scanId`. Agents poll progress using `nova.net_scan_status(scanId="...")` or abort via `nova.net_scan_stop(scanId="...")`.
 
 ---
 
@@ -311,6 +369,7 @@ Every scan automatically compiles risk indicators in the `findings` array:
 ## 9. Related Documentation
 
 * [Master Network Architecture Hub](../README.md): Overview of all 5 network disciplines and the complete 24-tool reference matrix.
+* [Network & Protocol Troubleshooting](../../../troubleshooting/network-and-proxies.md): Resolving port probe approvals, SNMP engine mismatches, NTP clock drift, and socket exhaustion.
 * [SNMP Connectors Architecture](../../connectors/snmp/README.md): Integrating authenticated SNMPv3/v2c hardware telemetry with network scanning.
 * [DNS Diagnostics & Mail Security](../dns-diagnostics/README.md): Resolving domain records, delegation paths, and mail security records.
 * [Path Diagnostics, MTR & Probing](../path-diagnostics-and-probing/README.md): Measuring hop-by-hop packet loss, jitter, and MTU limits to discovered hosts.

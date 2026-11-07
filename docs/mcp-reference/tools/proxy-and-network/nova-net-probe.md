@@ -101,3 +101,4 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 * [`nova.connector_probe`](../connectors-and-mail/nova-connector-probe.md) — Checks one configured connection, including the login
 * [`nova.tls_inspect`](nova-tls-inspect.md) — Inspects the certificate and TLS setup of an open port
 * [`nova.proxy_test`](nova-proxy-test.md) — Tests a proxy configured in Nova
+* [Network & Protocol Troubleshooting](../../../troubleshooting/network-and-proxies.md) — Resolving `connector_approval_required`, proxy tunnel errors, and firewall drops

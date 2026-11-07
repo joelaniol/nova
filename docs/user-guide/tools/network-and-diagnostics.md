@@ -45,19 +45,22 @@ Scans IPv4 CIDR blocks (e.g., `192.168.1.0/24`) using non-disruptive ICMP echoes
   "name": "nova.net_scan",
   "arguments": {
     "targets": ["192.168.1.0/24"],
-    "portSets": ["web", "management"],
-    "discovery": "all",
+    "portSets": ["web", "admin"],
+    "discovery": ["arp", "icmp", "mdns", "ssdp"],
     "timeBudgetSeconds": 60
   }
 }
 ```
 
-* **Target CIDR Ranges (`targets`):** Provide single host IPs or CIDR subnets (e.g. `10.0.0.0/24`).
+* **Target CIDR Ranges (`targets`):** Provide single host IPs, bounded IP ranges (`10.0.0.10-80`), or CIDR subnets (`192.168.1.0/24`, up to `/20`).
 * **Port Profiles (`portSets`):** Select pre-configured port groupings:
-  * `"web"`: Ports 80, 443, 8080, 8443.
-  * `"management"`: SSH (22), RDP (3389), Telnet (23), WinRM (5985).
-  * `"databases"`: MySQL/MariaDB (3306), PostgreSQL (5432), Redis (6379), MongoDB (27017).
-  * `"all_ports"`: Comprehensive multi-port sweep.
+  * `"quick"`: 20 common ports (default).
+  * `"admin"`: Remote management and directories (SSH 22, RDP 3389, Telnet 23, WinRM 5985, LDAP 389/636/3268/3269).
+  * `"web"`: Web ports 80, 443, 8080, 8443.
+  * `"database"`: Database engines (MySQL 3306, PostgreSQL 5432, Redis 6379, MongoDB 27017, MSSQL 1433).
+  * `"mail"`: Mail services (SMTP 25/465/587, IMAP 143/993, POP3 110/995).
+  * `"nas"`, `"printer"`, `"iot"`, `"ot"`: Network storage, IPP printers, smart-home devices, and industrial control (S7, Modbus, EtherNet/IP).
+* **Discovery Methods (`discovery`):** List methods to find devices: `"arp"` (Windows neighbor table), `"icmp"` (ping), `"mdns"`, `"ssdp"`, `"wsd"`, and `"netbios"`.
 * **Public IP Governance (`scan_approval_required`):** Private RFC 1918, CGNAT, link-local, and loopback ranges execute under standard agent permissions. Any scan targeting public IP addresses strictly requires interactive human approval in the desktop UI per target range.
 
 ### 2.2 SNMP Hardware Telemetry & Network Infrastructure Profiling
@@ -263,7 +266,7 @@ flowchart TD
 
     subgraph PortProbe ["nova.net_probe"]
         Ports["tcpPorts: [22, 80, 443, 8080]<br/>Concurrent socket reachability"]
-        Connect["httpProxyConnect: true<br/>Verify HTTP CONNECT tunnel creation"]
+        Connect["httpProxyConnect: {port, target}<br/>Verify HTTP CONNECT tunnel creation"]
     end
 
     PingProbe --> Host
@@ -325,7 +328,7 @@ Nova sets the IP Don't Fragment (DF) flag and probes the path, identifying the e
 
 ### 4.4 Port Reachability & Proxy Tunnel Checks ([`nova.net_probe`](../../mcp-reference/tools/proxy-and-network/nova-net-probe.md))
 
-Quickly check whether critical TCP ports are open on a target host:
+Quickly check whether critical TCP ports are open on a target host and test forward HTTP proxy tunnels:
 
 ```json
 {
@@ -333,12 +336,19 @@ Quickly check whether critical TCP ports are open on a target host:
   "arguments": {
     "host": "198.51.100.50",
     "tcpPorts": [22, 80, 443, 8080],
-    "httpProxyConnect": true
+    "httpProxyConnect": {
+      "port": 8080,
+      "target": "example.com:443"
+    },
+    "timeoutMs": 3000
   }
 }
 ```
 
-* **`httpProxyConnect: true`:** When testing proxy nodes, verifies whether the target host successfully accepts HTTP `CONNECT` tunnel establishment.
+* **`tcpPorts`:** Array of 1 to 32 port numbers evaluated concurrently.
+* **`httpProxyConnect: { port, target }`:** Tests whether an HTTP forward proxy on `port` can open an encrypted tunnel to `target` (e.g. `"example.com:443"`). Returns `tunnel_established`, `auth_required` (reporting the 407 `Proxy-Authenticate` scheme), `refused`, `not_http`, or `no_answer`.
+* **Host Confirmation:** Probing a new host prompts the operator once per session. Known server hosts of working connectors run without prompting.
+* **Troubleshooting:** See [Network, Proxy & Protocol Troubleshooting](../../troubleshooting/network-and-proxies.md) for resolving `connector_approval_required` and proxy tunnel refusals.
 
 ---
 
@@ -816,6 +826,7 @@ After executing configuration changes (e.g. adding a UFW rule or restarting a we
 ## 11. Related Documentation
 
 * **[Network Architecture Hub](../../core-features/network/README.md)** — Architectural specification for all 5 network disciplines.
+* **[Network & Protocol Troubleshooting](../../troubleshooting/network-and-proxies.md)** — Resolving port probe approvals, SNMP engine mismatches, NTP clock drift, and proxy tunnel errors.
 * **[Network Discovery & Inventory Architecture](../../core-features/network/network-discovery-and-inventory/README.md)** — In-depth discovery pipelines.
 * **[DNS Diagnostics Architecture](../../core-features/network/dns-diagnostics/README.md)** — DNS resolution mechanics and resolver fallbacks.
 * **[Path Diagnostics & Probing Architecture](../../core-features/network/path-diagnostics-and-probing/README.md)** — Path discovery, MTR, and PMTU.
