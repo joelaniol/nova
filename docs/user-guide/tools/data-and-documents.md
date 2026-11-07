@@ -78,26 +78,103 @@ Once the schema is known, the agent executes standard SQL queries directly again
 
 ---
 
-## 4. Document Conversion to Markdown
+## 4. Document Conversion to Markdown (`nova.convert_to_markdown`)
 
-Nova provides clean document conversion utilities designed to preserve document semantics while removing distracting web chrome:
+Nova converts local digital documents, presentations, spreadsheets, and web files into clean, structured Markdown for agent analysis without external Python scripts or cloud services:
 
-* **Web to Markdown (`nova.convert_to_markdown`):** Strips navigation menus, cookie banners, tracking scripts, and sidebars, extracting the primary article text formatted in standard GitHub Flavored Markdown.
-* **PDF Reading (`nova.read_pdf`):** Extracts textual layers from local PDF files. For scanned or hybrid PDFs containing image-only pages, it automatically invokes Nova's offline OCR engine to reconstruct text layers transparently.
+* **Supported Document Formats:** PDF, Microsoft Word (`.docx`), Excel (`.xlsx`), PowerPoint (`.pptx`), HTML, EPUB e-books, CSV/TSV, JSON, and plain text.
+* **Content Signature Recognition:** Files are identified by binary magic bytes rather than misleading file extensions, ensuring renamed downloads or mislabeled exports are converted correctly.
+* **Flexible Output Modes:**
+  * `outputMode: "inline"` (default): Returns Markdown directly in the tool response, bounded by `maxChars` (default 30,000 characters).
+  * `outputMode: "file"`: Writes the full, unclipped Markdown document to disk (up to 2,000,000 characters).
+  * `outputMode: "both"`: Returns an inline preview while writing the complete document to disk.
+
+### Example: Converting a Word Contract with File Output
+```json
+{
+  "name": "nova.convert_to_markdown",
+  "arguments": {
+    "path": "C:\\Users\\me\\Downloads\\VendorContract.docx",
+    "outputMode": "both",
+    "outputPath": "C:\\Reports\\VendorContract.md",
+    "maxChars": 20000
+  }
+}
+```
 
 ---
 
 ## 5. Professional Document Generation
 
-Agents can author formatted, production-ready deliverables directly on your Windows desktop:
+Nova empowers agents to author publication-ready deliverables directly on the local machine with zero dependencies on Microsoft Office:
 
-| Document Type | Tool | Capabilities |
-| :--- | :--- | :--- |
-| **Microsoft Word** | `nova.docx_create` | Creates structured `.docx` files with heading hierarchies, bullet lists, callout boxes, styled tables, and embedded images. |
-| **Microsoft Excel** | `nova.xlsx_create` | Creates multi-sheet `.xlsx` workbooks with custom column widths, number formatting (currency, percentages), header styling, and calculated spreadsheet formulas. |
-| **PDF Composition** | `nova.pdf_compose` | Assembles multi-page PDF documents from images, HTML templates, or Markdown documents. |
-| **PDF Splitting** | `nova.pdf_split` | Extracts specific page ranges or splits multi-page PDF scans into individual documents. |
-| **Data Charts** | `nova.chart_create` | Generates publication-ready bar, line, pie, and scatter charts rendered as high-resolution PNG or vector SVG graphics. |
+### Generating Microsoft Word Documents (`nova.docx_create`)
+
+`nova.docx_create` compiles standard GitHub Flavored Markdown into native Word (`.docx`) packages:
+* **Structural Elements:** Headings (`#` through `######`) map directly to native Word heading styles, ensuring Microsoft Word's navigation pane and table of contents function seamlessly.
+* **Tables & Headers:** Markdown pipe tables are rendered at 100% column width with repeating bold header rows (`tblHeader`) on every subsequent page and aligned columns.
+* **Local Image Embedding:** Embeds local PNG, JPEG, GIF, and BMP graphics directly into the document, scaling them proportionally to fit page margins without distortion.
+* **Safety & Integrity:** Uses a two-phase commit: the document is written to a temporary `.nova-part` file and verified via Nova's internal parser before being atomically finalized. Existing files are never overwritten (`output_exists`).
+
+#### Example: Generating an Executive Summary with Embedded Chart
+```json
+{
+  "name": "nova.docx_create",
+  "arguments": {
+    "title": "Quarterly Operations Review",
+    "pageSize": "A4",
+    "markdown": "# Executive Summary\n\nOperational throughput improved by **14.2%** during Q3 across all monitored clusters.\n\n## Performance Breakdown\n\n| Cluster | Target | Achieved | Status |\n| :--- | :---: | ---: | :---: |\n| Alpha | 1,000 | 1,120 | Normal |\n| Beta | 800 | 935 | Normal |\n\n> All metrics were gathered via local telemetry probes.\n\n![Performance Chart](C:/Reports/q3_metrics.png)",
+    "outputPath": "C:\\Reports\\Q3_Operations_Review.docx"
+  }
+}
+```
+
+### Generating Microsoft Excel Workbooks (`nova.xlsx_create`)
+
+`nova.xlsx_create` streams structured data into native OpenXML SpreadsheetML workbooks (`.xlsx`) with automated styling, column width heuristics, and formula evaluation:
+
+* **Formula Safety Invariant:** To prevent spreadsheet formula injection attacks, raw text strings beginning with `=` are stored as inline text strings (`<c t="inlineStr">`) and displayed verbatim. Formulas are authored exclusively via explicit `{ "formula": "..." }` cell descriptors and calculated automatically on open (`fullCalcOnLoad`).
+* **Auto-Formatting (`autoFormat: true`):** Automatically adds a frozen header row (`ySplit="1"`), bold header typography, thin bottom borders, auto-filter dropdowns, and calculates proportional column widths based on cell content.
+* **Typed Formatting:** Format columns as `general`, `text`, `integer`, `decimal`, `currency` (custom `currencySymbol`), `percent`, `date`, or `datetime`.
+* **In-Tab Verification (`openInTab` & `fitToData`):** Immediately opens the newly created workbook in Nova's read-only tabular viewer with auto-zoom for immediate inspection or recording.
+
+#### Example: Multi-Sheet Financial Report with Formulas and Live Tab Preview
+```json
+{
+  "name": "nova.xlsx_create",
+  "arguments": {
+    "autoFormat": true,
+    "currencySymbol": "€",
+    "openInTab": true,
+    "fitToData": true,
+    "sheets": [
+      {
+        "name": "Revenue Summary",
+        "columns": [
+          "Region",
+          { "name": "Q1 Revenue", "format": "currency" },
+          { "name": "Q2 Revenue", "format": "currency" },
+          { "name": "Total", "format": "currency" }
+        ],
+        "rows": [
+          ["North America", 450000.00, 520000.00, { "formula": "SUM(B2:C2)" }],
+          ["Europe", 380000.00, 410000.00, { "formula": "SUM(B3:C3)" }],
+          ["Asia-Pacific", 290000.00, 340000.00, { "formula": "SUM(B4:C4)" }]
+        ]
+      }
+    ]
+  }
+}
+```
+
+### End-to-End Workflow: From Web Scrape to Styled Deliverable
+
+AI agents can chain Nova's data and document tools into seamless pipelines:
+1. Extract tabular data from an intranet portal with `nova.extract_table`.
+2. Clean, filter, and aggregate numbers with SQL using `nova.data_query`.
+3. Synthesize a professional Excel workbook with auto-filters using `nova.xlsx_create`.
+4. Render key trend charts with `nova.chart_create`.
+5. Compile an executive Word report embedding the chart and table summary using `nova.docx_create`.
 
 ---
 
@@ -113,6 +190,7 @@ When dealing with downloaded archives or log bundles:
 ## 7. Related Documentation
 
 * **[Tools Overview](README.md)** — Master hub for all built-in workspace tools.
+* **[Documents, Word & Excel Troubleshooting](../../troubleshooting/documents-and-office.md)** — Diagnosing formula errors, locked files, and conversion issues.
 * **[Media Intelligence, Local OCR & Barcodes](media-and-ocr.md)** — Optical character recognition and barcode decoding.
 * **[Integrated Terminal Dock](terminal.md)** — Running local command-line environments.
 * **[Media Intelligence Core Architecture](../../core-features/media-intelligence/README.md)** — Deep technical specification of document and media engines.

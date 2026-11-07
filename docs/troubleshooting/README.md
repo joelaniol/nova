@@ -15,6 +15,7 @@ Choose the problem you can see. You do not need to know whether it belongs to th
 | Proxy drops connections, DNS fails or scans need approval | [Network & proxy issues](network-and-proxies.md) |
 | Terminal command hangs, exit code missing, or runner pipe fails | [Terminal & console execution](terminal-and-consoles.md) |
 | Microphone, camera blocked, 0% audio, or barcode/video render errors | [Media, barcodes & video editing](media-and-permissions.md) |
+| Word, Excel generation fails, formula as text, or conversion locked | [Documents, Word & Excel generation](documents-and-office.md) |
 | The problem happens with one particular AI program | [Client-specific quirks](#client-specific-quirks) |
 
 ## Installation
@@ -44,6 +45,10 @@ For commands rejected due to concurrency locks, hanging background commands, mis
 ## Media, barcodes and video editing
 
 For microphone levels showing 0%, `diagnostics.user_gesture_required` errors during automated tests, device busy conflicts (`NotReadableError`), Windows OS privacy blocks, barcode/QR check-digit errors, or video render failures (proof clipping, premature claims, missing evidence), follow [Media, barcodes & video editing](media-and-permissions.md).
+
+## Documents and Office generation
+
+For Word (`.docx`) generation, Excel (`.xlsx`) formulas, spreadsheet auto-formatting, image embedding warnings, file lock conflicts, or Markdown conversion errors, follow [Documents, Word & Excel generation](documents-and-office.md).
 
 ## Browser and sessions
 

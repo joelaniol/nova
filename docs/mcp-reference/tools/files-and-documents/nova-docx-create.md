@@ -4,6 +4,7 @@
 
 * **Core Feature Guide:** [Document Conversion](../../../core-features/media-intelligence/document-conversion/README.md)
 * **Master Catalog:** [MCP Tool Catalog](../../tool-catalog.md)
+* **Troubleshooting:** [Documents, Word & Excel Troubleshooting](../../../troubleshooting/documents-and-office.md)
 
 ---
 
