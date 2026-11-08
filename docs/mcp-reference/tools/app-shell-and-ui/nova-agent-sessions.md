@@ -24,6 +24,17 @@ Nova checks each session's processes itself instead of trusting what the session
 
 Your own session (`isCaller: true`) comes with its folder, conversation id and process details. Other sessions are only summarized: state, client and folder name.
 
+An ended session carries `end`:
+
+| Field | Meaning |
+| :--- | :--- |
+| `reason` | `graceful` (the agent exited with code 0), `suspected_failure` (any other exit code, for example a crash or a closed terminal), `unclassified` (Nova only knew the connector, not the agent). |
+| `exitCode` | The agent's exit code, when Nova knew the agent's process. |
+| `openWork` | Why the end looks unfinished: `tool_call_in_flight:<tool>` (a Nova call was still running) or `active_until_end` (the session was working with Nova within its last 2 minutes). |
+| `interrupted` | `true` when the session ended uncleanly with work open. |
+
+When a session you started yourself is interrupted, Nova shows a notification with the folder and, for Claude Code and Codex, the command that resumes exactly that conversation. Runs that Nova started itself (scheduled tasks) are reported by the scheduler instead. `startedByNova` tells the two apart.
+
 ---
 
 ## 2. Parameter Reference
@@ -93,6 +104,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 * **Before taking over work:** check whether the session that started it is still `active` or `idle`. Only `exited` means nobody is working on it any more; `disconnected` means the agent is still running but cannot reach Nova.
 * **Your own id:** `action: "get"` without `sessionId` returns your own session, including the `sessionId` other tools can refer to.
 * **`unknown` is not `exited`:** an older connector cannot be checked. Treat it as possibly still working.
+* **Picking up after a crash:** an `exited` session with `end.interrupted: true` left work unfinished. Check what it last did (folder, `openWork`) before continuing it.
 
 ---
 
