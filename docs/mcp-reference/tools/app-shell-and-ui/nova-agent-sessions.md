@@ -24,6 +24,17 @@ Nova checks each session's processes itself instead of trusting what the session
 
 Your own session (`isCaller: true`) comes with its folder, conversation id and process details. Other sessions are only summarized: state, client and folder name.
 
+Every session also shows what it used:
+
+| Field | Meaning |
+| :--- | :--- |
+| `callCount` | Nova calls of this session since Nova started. |
+| `currentTool` | The Nova call running right now, or `null`. |
+| `usage.tokens` | Tokens the model processed for this session: new input, input written to the prompt cache, and output. Read from the agent's own conversation file (Claude Code, Codex). Cache reads are listed separately in `usage.cacheReadTokens`. |
+| `usage.status` | `ok`, `pending` (Nova is still reading the file), `not_supported` (this client keeps no file Nova can find, e.g. Antigravity), `no_conversation`, `transcript_not_found`. |
+
+The same numbers appear in Nova's toolbar: an agents button next to the address bar shows up while agents are connected and lists them with their state, last activity, calls and tokens. Its **Stop all** button is Nova's emergency stop.
+
 An ended session carries `end`:
 
 | Field | Meaning |

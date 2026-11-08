@@ -25,7 +25,7 @@ A wait started with `resumable=true` stays open until it finishes, expires or is
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
-Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
+Capability bundles: `app_shell_recovery`, `notifications`.
 Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 <!-- /generated:parameters -->
 
