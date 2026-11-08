@@ -20,6 +20,7 @@ Ping, traceroute in rounds (like mtr or PingPlotter), TCP ping and a Path-MTU ch
   * A slow hop that later hops do not inherit is slow at answering ICMP itself; traffic through it is not delayed.
   * A silent hop, a silent gateway or a silent end of the trace is not an outage.
   * Several routers at one hop is load balancing, not a route change.
+  * The same routers answering again and again further down the route, or an echo that expired on the way, is `routing_loop_likely`: the packets circle and never reach the target (an address that is not routed looks the same). This also works for the TCP traceroute.
   * Loss is tied to a section of the route only when it happens in the same rounds as the loss at the target, and then only as `likely`.
 * **What it cannot show** is listed in `limitations`: RTT differences between hops are not link latencies, and the way back can differ from the way there.
 * **Sent directly from this PC** (`route: "direct"`), never through the browser's proxy. At most 20 probes per second across all calls.
