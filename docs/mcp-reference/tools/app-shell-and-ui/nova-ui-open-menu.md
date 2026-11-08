@@ -17,6 +17,7 @@
 | `reload` | Reload, hard reload, auto-reload |
 | `tab` | The right-click menu of the tab given as `targetId` |
 | `device` | The address bar's device picker for the active tab: phones, tablets, *Custom size*, and while a device is shown *End emulation* |
+| `sandbox` | *(Upcoming in v1.0.0-alpha.21 - not in a published release yet.)* The right-click menu of the sandbox pill given as `targetId` (a sandbox id such as `A`): proxy, mark, sandbox colour, allow tabs in this sandbox, hide, clear data. A paused or hidden sandbox has no pill and answers `menu.sandbox_not_visible` |
 
 Panels that open from the toolbar (the device picker, the sandbox overview, the favorites panel) are read and pressed the same way as menus. A check row such as *Touch* is a `toggle` with `checked`; field values such as *Width: 412* are listed as texts. To apply a size of your own, use `nova.emulation_set_device_metrics`.
 
@@ -31,8 +32,8 @@ What a pressed entry does counts as the agent's action: a tab closed this way ap
 <!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
-| `menu` | `string` | Yes | — | `main`, `back`, `forward`, `reload`, `tab`, `device` | Which menu: 'main', 'back', 'forward', 'reload', 'tab' (needs targetId) or 'device'. |
-| `targetId` | `string` | No | — | — | Browser tab id from nova.tabs whose tab menu to open. Only with menu='tab'. |
+| `menu` | `string` | Yes | — | `main`, `back`, `forward`, `reload`, `tab`, `device`, `sandbox` | Which menu: 'main', 'back', 'forward', 'reload', 'tab' (needs targetId), 'device' or 'sandbox' (needs targetId). |
+| `targetId` | `string` | No | — | — | With menu='tab': the browser tab id from nova.tabs whose tab menu to open. With menu='sandbox': the sandbox id (kind='sandbox' in nova.tabs, e.g. 'A') whose pill menu to open. Not used with the other menus. |
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
 Tool category: `normal` (standard risk class in Nova's agent permission settings).

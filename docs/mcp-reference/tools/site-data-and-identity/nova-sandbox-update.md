@@ -8,6 +8,8 @@ Updates configuration, display name, color tag, or purpose of an existing sandbo
 
 `nova.sandbox_update` modifies metadata for a sandbox profile: display name, color tag, start URL, purpose/account/alias routing hints, and the `isPaused` flag. A paused sandbox is hidden from the tab strip and from agent-visible targets, but its profile data and settings are kept (pausing is not deletion).
 
+**Tabs of a paused sandbox (upcoming in v1.0.0-alpha.21 - not in a published release yet):** its open tabs are kept asleep, stay in the saved session and come back when the sandbox is unpaused; a call with one of their tab ids answers `target.sandbox_hidden` until then.
+
 * **Core Architecture Guide:** [Sandbox Lifecycle Tools & Dynamic Switching](../../../core-features/sandbox-isolation/mcp-governance/lifecycle-tools-and-switching/README.md)
 
 ---

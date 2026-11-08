@@ -33,7 +33,7 @@ Every session also shows what it used:
 | `usage.tokens` | Tokens the model processed for this session: new input, input written to the prompt cache, and output. Read from the agent's own conversation file (Claude Code, Codex). Cache reads are listed separately in `usage.cacheReadTokens`. |
 | `usage.status` | `ok`, `pending` (Nova is still reading the file), `not_supported` (this client keeps no file Nova can find, e.g. Antigravity), `no_conversation`, `transcript_not_found`. |
 
-The same numbers appear in Nova's toolbar: an agents button next to the address bar shows up while agents are connected and lists them with their state, last activity, calls and tokens. Its **Stop all** button is Nova's emergency stop.
+The same numbers appear in Nova's toolbar: an agents button next to the address bar shows up while agents are connected and opens a side panel that lists them with their state, last activity, calls and tokens. Clicking a session shows its details, including the token breakdown, how it ended and the command that resumes its conversation. The panel's **Stop all** button is Nova's emergency stop.
 
 An ended session carries `end`:
 
