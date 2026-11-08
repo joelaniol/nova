@@ -29,7 +29,7 @@ Every tool exposed by **Nova AI Workspace**, grouped by operational domain. Clic
 - [20. Media Intelligence & Whisper Speech-to-Text](#20-media-intelligence--whisper-speech-to-text) (24)
 - [21. Site Data, Fingerprinting & Sandboxes](#21-site-data-fingerprinting--sandboxes) (21)
 - [22. Episodic Task Memory & Guidance](#22-episodic-task-memory--guidance) (33)
-- [23. App Shell, Dialogs & DevTools](#23-app-shell-dialogs--devtools) (66)
+- [23. App Shell, Dialogs & DevTools](#23-app-shell-dialogs--devtools) (67)
 - [24. Agent-Authored Plugins](#24-agent-authored-plugins) (22)
 <!-- /generated:catalog-toc -->
 
@@ -671,6 +671,7 @@ WinUI window controls, native OS dialog handling, DevTools panels, setup wizard,
 | Tool Name | Parameters | Description |
 | :--- | :--- | :--- |
 | **[`nova.agent_activity_summary`](tools/app-shell-and-ui/nova-agent-activity-summary.md)** | `agentId?`, `sinceMinutes?` | Returns a per-agent summary of this session's MCP tool calls: call counts, tab targets, and failure reason codes. |
+| **[`nova.agent_sessions`](tools/app-shell-and-ui/nova-agent-sessions.md)** | `action?`, `sessionId?` | Lists the agent sessions connected to Nova and whether each one is still working. |
 | **[`nova.app_info`](tools/app-shell-and-ui/nova-app-info.md)** | *(none)* | Returns runtime environment metadata: app version, WebView2/OS runtime info, MCP endpoint, and storage paths. |
 | **[`nova.app_quit`](tools/app-shell-and-ui/nova-app-quit.md)** | `force?`, `reason?` | Gracefully terminates the Nova host application process and all child WebView2 runtimes. |
 | **[`nova.bookmarks_folder_create`](tools/app-shell-and-ui/nova-bookmarks-folder-create.md)** | `name`, `parentId?` | Creates a hierarchical folder in the browser bookmark collection. |
