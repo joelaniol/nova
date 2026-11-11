@@ -21,6 +21,7 @@ Retrieves metadata and account identifiers for a stored vault entry, resolving u
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `site` | `string` | Yes | — | — | Domain or URL fragment to match (e.g. 'github.com'). |
 | `username` | `string` | No | — | — | Optional specific username. Required after selecting one when multiple accounts remain for the site. |
+| `entryId` | `string` | No | — | — | Optional: the id of exactly one entry (vault_list or accounts[].id of an ambiguous answer). Needed when one account is stored for two sites with the same username. |
 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
 

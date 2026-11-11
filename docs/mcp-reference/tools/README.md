@@ -20,6 +20,7 @@ Looking for a tool by what it does rather than by area? The [tool catalog](../to
 | [Downloads Management & Queue Control](downloads/README.md) | 17 | Download tracking, pause/resume, security prompt resolution, and directory management. |
 | [Episodic Task Memory & Guidance](task-memory/README.md) | 33 | Task instance tracking, guidance logs, coverage scans, and operator domain notes. |
 | [External MCP Servers & Site-Provided Automation](external-mcp/README.md) | 14 | Registering, running, and dynamically calling secondary MCP servers through Nova's unified host, plus the probes that find the automation a website offers itself (MCP endpoints, agent cards, `llms.txt`). |
+| [Fastlanes: Events, Conditions & Actions](fastlanes/README.md) | 11 | > [!NOTE] |
 | [Guarded Actions & Blocker Clearance](guarded-actions/README.md) | 7 | High-impact interaction macros with pre-flight safety gates, auth surface verification, and cookie banner dismissals. |
 | [Headless Terminal Workspaces & TTY](terminal-ops/README.md) | 12 | Isolated pseudo-terminals (ConPTY), command execution streams, terminal dock control, and session persistence. |
 | [Layout Quality, Geometry & Web Vitals](layout-and-qa/README.md) | 7 | Bounding box measurements, container width constraints, text clipping, WCAG accessibility audits, and Core Web Vitals. |
@@ -34,5 +35,5 @@ Looking for a tool by what it does rather than by area? The [tool catalog](../to
 | [Video Editing](video-editing/README.md) | 4 | Nova's video editor: screen recordings turned into GIF, WebM and MP4 clips or stills, with cuts, speed, captions, end cards, zoom, framing for feeds and reusable templates. |
 | [Visual Evidence, Screenshots & Archiving](visual-evidence/README.md) | 12 | Lossless cropped screenshots, pixel-by-pixel diffing, persistent baselines, and print-to-PDF generation. |
 
-**519 tools in total.**
+**530 tools in total.**
 <!-- /generated:area-list -->

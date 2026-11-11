@@ -49,6 +49,7 @@ sequenceDiagram
 | `targetId` | `string` | No | — | — | Tab ID or 'active'. The SecretRef will be bound to this tab's origin. |
 | `site` | `string` | Yes | — | — | Site to match in the vault (e.g. 'github.com'). |
 | `username` | `string` | No | — | — | Optional: specific username to match. |
+| `entryId` | `string` | No | — | — | Optional: the id of exactly one entry (vault_list or accounts[].id of a vault.ambiguous_account answer). Among several matches an entry stored for exactly the asked site wins on its own; entryId picks one when that does not decide. |
 
 **`_meta.intent` is required.** Pass a short reason for the call, e.g. `"_meta": { "intent": "why this call is needed" }`; calls without it are rejected.
 

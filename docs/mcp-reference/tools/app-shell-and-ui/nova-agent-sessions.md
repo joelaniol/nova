@@ -46,6 +46,18 @@ An ended session carries `end`:
 
 When a session you started yourself is interrupted, Nova shows a notification with the folder and, for Claude Code and Codex, the command that resumes exactly that conversation. Runs that Nova started itself (scheduled tasks) are reported by the scheduler instead. `startedByNova` tells the two apart.
 
+### Usage history
+
+`action: "history"` answers how much Nova was used in a period, from the history Nova keeps on your PC (sessions 30 days, totals 13 months). These are the numbers the agents panel shows under **Usage**.
+
+| Parameter | Meaning |
+| :--- | :--- |
+| `range` | `today` (local hours since midnight), `7d` or `30d` (local calendar days including today). |
+| `scope` | `self`: your own session, identified by Nova's connector, never by an argument. `summary`: all sessions, only as totals per client family and project folder name. |
+| `series` | With `scope: "self"`: also return one bar per hour (today) or per day. A summary never has a time series. |
+
+`calls` counts Nova work calls; looking up sessions does not count. `tokens` are the tokens counted from the agents' own conversation files while they worked with Nova. Calls of a client without such a file (for example Antigravity) are counted in `untrackedCalls`, so `tokenCoverage` says how complete `tokens` is: `complete`, `partial` (a lower bound), `unavailable` (`tokens` is `null`) or `no_calls`. A single session's detail is kept for 8 days; `dataSinceUtc` says from when a 30-day answer is complete. If the history file cannot be read, the result is `ok: false` with `reasonCode: "history_unavailable"`.
+
 ---
 
 ## 2. Parameter Reference
@@ -53,8 +65,11 @@ When a session you started yourself is interrupted, Nova shows a notification wi
 <!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
-| `action` | `string` | No | `"list"` | `list`, `get` | list: all sessions known since Nova started. get: one session (default: your own). |
-| `sessionId` | `string` | No | — | — | For action=get: the session to show. Omit for your own session. |
+| `action` | `string` | No | `"list"` | `list`, `get`, `history` | list: all sessions known since Nova started. get: one session (default: your own). history: Nova calls and counted tokens over a period, kept across Nova restarts (sessions 30 days, totals 13 months). |
+| `sessionId` | `string` | No | — | — | For action=get: the session to show. Omit for your own session. Not accepted by action=history, which always means your own session or the summary. |
+| `range` | `string` | No | `"today"` | `today`, `7d`, `30d` | For action=history: today (local hours since midnight), 7d or 30d (local calendar days including today). |
+| `scope` | `string` | No | `"self"` | `self`, `summary` | For action=history: self = your own session (needs Nova's connector); summary = all sessions as totals per client family and project folder name, without a time series. |
+| `series` | `boolean` | No | `false` | — | For action=history with scope=self: also return the bars (one per local hour for today, per local day otherwise). |
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 Tool category: `safe` (lowest risk class in Nova's agent permission settings).
@@ -108,6 +123,35 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 }
 ```
 
+### History request
+```json
+{
+  "name": "nova_agent_sessions",
+  "arguments": { "action": "history", "scope": "summary", "range": "7d" }
+}
+```
+
+### History response
+```json
+{
+  "structuredContent": {
+    "scope": "summary",
+    "range": "7d",
+    "startUtc": "2026-11-02T23:00:00+00:00",
+    "endUtc": "2026-11-09T23:00:00+00:00",
+    "timeZone": "W. Europe Standard Time",
+    "calls": 412,
+    "untrackedCalls": 37,
+    "tokens": 1830000,
+    "tokenCoverage": "partial",
+    "callsByClientFamily": { "claude": 301, "codex": 74, "antigravity": 37 },
+    "projects": [
+      { "name": "shop", "calls": 288, "untrackedCalls": 0, "tokens": 1410000, "clientFamilies": ["claude", "codex"] }
+    ]
+  }
+}
+```
+
 ---
 
 ## 4. Operational Best Practices
@@ -115,6 +159,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 * **Before taking over work:** check whether the session that started it is still `active` or `idle`. Only `exited` means nobody is working on it any more; `disconnected` means the agent is still running but cannot reach Nova.
 * **Your own id:** `action: "get"` without `sessionId` returns your own session, including the `sessionId` other tools can refer to.
 * **`unknown` is not `exited`:** an older connector cannot be checked. Treat it as possibly still working.
+* **Your own usage:** `action: "history"` without further arguments returns your session's calls and tokens for today. Nova does not tell agents to save tokens; the numbers are there when you or the user ask for them.
 * **Picking up after a crash:** an `exited` session with `end.interrupted: true` left work unfinished. Check what it last did (folder, `openWork`) before continuing it.
 
 ---

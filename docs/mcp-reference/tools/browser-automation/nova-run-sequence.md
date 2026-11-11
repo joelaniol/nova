@@ -29,7 +29,7 @@
 | `options.compactTrace` | `boolean` | No | `true` | — | If true, return condensed per-step results (status + timing only). |
 | `options.includeTabState` | `boolean` | No | `true` | — | If true, include tab URL/title after the sequence completes. |
 | `options.includeSummary` | `boolean` | No | `true` | — | If true, include pass/fail/skip counts after the sequence completes. |
-| `options.verboseStepResults` | `boolean` | No | `false` | — | If true, include the full tool result in each step trace. This can be large. |
+| `options.verboseStepResults` | `boolean` | No | `false` | — | If true, include each step's tool result in the trace, shaped by that step's own outputDetail (outputDetail='minimal' on a step keeps its trace entry lean; navigation steps default to compact). This can be large. |
 | `options.maxTraceSteps` | `integer` | No | `200` | 1–500 | Maximum number of trace entries (including retries) before truncation. |
 | `options.pksMode` | `string` | No | `"match"` | `off`, `match`, `telemetry` | off suppresses PKS hints, match returns compact PKS hints, telemetry returns the full PKS payload and advice. |
 

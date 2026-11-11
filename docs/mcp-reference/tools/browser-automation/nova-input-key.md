@@ -47,6 +47,8 @@ When navigating custom comboboxes or dropdown search bars (e.g. search bars with
 | `observe.texts` | `boolean` | No | `true` | — | List text that became visible after the action in newTexts: an error next to a field, a toast, a banner, a changed price. Entries inside an alert or live region carry alert:true. false skips the comparison. |
 | `observe.maxTexts` | `integer` | No | `8` | 1–50 | Most new texts listed; newTextsOmitted counts the rest. |
 | `observe.after` | `object` | No | — | — | Read an element once the traffic settled, like nova.dom_extract: {selector, properties}. |
+| `waitForChange` | `object` | No | — | — | Wait until the content of a selector is different from before this action and then holds still - for a result list that reloads after a search, filter or page click while the old list is still shown. Implies observe (defaults, waitMs 10000); the outcome is observed.contentChange (changed, settled, stopReason, countBefore, countAfter), and observe.after is read once it settled. |
+| `waitForChange.selector` | `string` | Yes | — | 1–2000 characters | CSS selector of the content to compare, e.g. the result list or its rows (the text of all matches counts). |
 | `key` | `string` | Yes | — | — | Key name: Enter, Tab, Escape, Backspace, Delete, ArrowUp, ArrowDown, ArrowLeft, ArrowRight, Home, End, PageUp, PageDown, F1-F24, Space. |
 
 Capability bundles: `browser_automation`, `form_submission`.

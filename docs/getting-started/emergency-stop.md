@@ -8,7 +8,9 @@ Use **Menu → Emergency stop** when you want to interrupt agent work in Nova. Y
 2. Choose **Emergency stop**.
 3. Nova shows **Emergency stop active**. The menu entry changes to **Release emergency stop**.
 
-The stop blocks new agent/tool actions in Nova and interrupts running work. It stays active in the current Nova session until you release it. There is no keyboard shortcut for Emergency stop.
+The stop blocks new agent/tool actions in Nova and interrupts running work. It stays active until you release it. There is no keyboard shortcut for Emergency stop.
+
+> **Upcoming in v1.0.0-alpha.21 - not in a published release yet:** the stop also stays on when you close and reopen Nova. Nova then shows a notice at start with **Release emergency stop**. In the current release it ends with the Nova session.
 
 > [!IMPORTANT]
 > **Your own Nova terminals are affected too.** Emergency stop terminates sessions managed by Nova's terminal service, including terminals you opened in the dock. Save work before deliberately trying it out.
@@ -40,6 +42,12 @@ For example, tell your agent:
 > I interrupted the task with Nova's Emergency stop and have now released it. Check what was completed and what is still pending. Tell me before retrying anything that could duplicate a change.
 
 Releasing the stop enables work again; it does not restore terminated shells or undo completed actions. Scheduled work can become eligible again, so review or disable unwanted schedules before releasing the stop.
+
+## Block one agent instead
+
+> **Upcoming in v1.0.0-alpha.21 - not in a published release yet.**
+
+To stop a single agent without stopping everything, open the agents panel from the agents button next to the address bar, click the session and choose **Block Nova access**. The agent program keeps running, but Nova refuses its calls until you choose **Allow Nova access again**; a call already running finishes first. The block also holds after a restart and ends on its own after 7 days. For a run Nova started itself (a scheduled task) the button reads **End run** and cancels that run.
 
 ## Take over one tab instead
 
