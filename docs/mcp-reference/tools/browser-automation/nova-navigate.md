@@ -36,7 +36,7 @@ Allows capturing a visual proof crop in the exact same round-trip. If screenshot
 <!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
-| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
+| `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. Omitted: the active tab, unless it shows a page the user opened - then nothing is navigated and the answer carries reasonCode 'navigate.implicit_user_tab'. Work in your own tab (nova.tab_new with url and claim) and pass its tabId; pass 'active' only to replace the user's page on purpose. |
 | `url` | `string` | Yes | — | — | Absolute URL to navigate to. Browser targets support allowed schemes such as https:// and trusted local file:// review pages. |
 | `waitForLoad` | `boolean` | No | `false` | — | If true, wait for page load before returning. |
 | `waitForLoadTimeoutMs` | `integer` | No | `10000` | 0–30000 | Max ms to wait for load (0-30000). Only used when waitForLoad=true. Default 10000 fits typical static pages; SPA-heavy domains (LinkedIn, X, Reddit, large dashboards) often need 15000-20000 — bump explicitly on retry after navigation.wait_for_load_timeout if structuredContent.pageUrl matches the request (URL committed, DOM still settling). |

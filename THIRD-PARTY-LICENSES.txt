@@ -595,7 +595,8 @@ Copyright Google Inc. and the Tesseract OCR contributors
 (Same Apache License 2.0 text as above.)
 
 ----------------------------------------------------------------------
-Tesseract language data (deu, eng from tessdata_fast; osd from tessdata, tag 4.1.0)
+Tesseract language data (deu, eng, heb, ben, guj, kat, hye, khm from tessdata_fast;
+osd from tessdata, tag 4.1.0)
 License: Apache 2.0
 Source:  https://github.com/tesseract-ocr/tessdata_fast
          https://github.com/tesseract-ocr/tessdata
@@ -646,10 +647,14 @@ Copyright BobLd and RapidOcrNet contributors
 (Same Apache License 2.0 text as above.)
 
 ----------------------------------------------------------------------
-PaddleOCR models (PP-OCRv5 mobile detection, Latin recognition, text line
-orientation; shipped via RapidOcrNet)
+PaddleOCR models (PP-OCRv5 mobile detection, text line orientation and the
+recognition models for Latin, Chinese/Japanese, Korean, Cyrillic, Greek,
+Arabic, Thai, Devanagari, Tamil and Telugu; Latin, detection and orientation
+shipped via RapidOcrNet, the other recognition models as the ONNX exports of
+RapidOCR 3.10.0)
 License: Apache 2.0
 Source:  https://github.com/PaddlePaddle/PaddleOCR
+         https://github.com/RapidAI/RapidOCR
 ----------------------------------------------------------------------
 
 Copyright (c) PaddlePaddle Authors. All Rights Reserved.

@@ -7,6 +7,33 @@ All text recognition engines and machine learning runtimes execute locally insid
 > [!NOTE]
 > **Upcoming.** Native dual-engine OCR arrives with 1.0.0-alpha.21, which is not published yet. Installed versions up to 1.0.0-alpha.20 do not have it.
 
+## Supported Languages
+
+Every recognition model ships with Nova - nothing is downloaded when a page in another language comes along. By default (`script: "auto"`) Nova detects the writing system of each page and reads it with the matching model; when the detection is unsure, the page is read with that script and with Latin, and the better reading is kept. An agent that knows the language passes `script`, which is the safer choice for photos with little text, such as a trading card.
+
+| Writing system (`script`) | Languages | Engine |
+| :--- | :--- | :--- |
+| Latin (`latin`) | English, German, French, Spanish, Italian, Portuguese, Dutch, Polish, Czech, Turkish, Vietnamese and the other Latin-script languages | Tesseract (German and English language data) and PaddleOCR |
+| Chinese and Japanese (`chinese_japanese`) | Chinese (simplified and traditional), Japanese | PaddleOCR |
+| Korean (`korean`) | Korean | PaddleOCR |
+| Cyrillic (`cyrillic`) | Russian, Ukrainian, Belarusian, Bulgarian, Serbian, Macedonian, Kazakh, Mongolian and other Cyrillic-script languages | PaddleOCR |
+| Greek (`greek`) | Greek | PaddleOCR |
+| Arabic (`arabic`) | Arabic, Persian, Urdu | PaddleOCR |
+| Hebrew (`hebrew`) | Hebrew | Tesseract |
+| Thai (`thai`) | Thai | PaddleOCR |
+| Devanagari (`devanagari`) | Hindi, Marathi, Nepali and other Devanagari-script languages | PaddleOCR |
+| Tamil (`tamil`) | Tamil | PaddleOCR |
+| Telugu (`telugu`) | Telugu | PaddleOCR |
+| Bengali (`bengali`) | Bengali, Assamese | Tesseract |
+| Gujarati (`gujarati`) | Gujarati | Tesseract, pass `script` |
+| Georgian (`georgian`) | Georgian | Tesseract, pass `script` |
+| Armenian (`armenian`) | Armenian | Tesseract, pass `script` |
+| Khmer (`khmer`) | Khmer | Tesseract, pass `script`; needs large text |
+
+"Pass `script`": the automatic detection does not recognise these writing systems and reads such a page as Latin (or Khmer as Thai); it then comes back as `poor`, and its hint names `script`. Khmer at ordinary screen size (about 16 px) reads poorly; a photo or a zoomed-in capture with larger text reads well.
+
+Not supported: handwriting, and writing systems without a row in the table (for example Kannada, Malayalam, Sinhala, Lao or Amharic). Such a page is read as Latin, comes back as `poor`, and its hint says so.
+
 ```mermaid
 flowchart TD
     subgraph InputStage["1. Image & Scanned Document Ingestion"]
@@ -55,7 +82,7 @@ Nova integrates both paradigms into a complementary, two-stage pipeline:
 | OCR Engine | Architecture & Model | Primary Strength | Engine Scale Grade Thresholds |
 | :--- | :--- | :--- | :--- |
 | **Tesseract 5** | Classical LSTM with language models (`deu+eng`, `tessdata_fast 4.1.0`) | Structured typography, high-resolution scanned letters, multi-column print documents | Good: $\ge 0.85$<br/>Uncertain: $0.65$–$0.84$<br/>Poor: $< 0.65$ |
-| **PaddleOCR** | Deep Learning PP-OCRv5 Mobile Latin (`RapidOcrNet` via ONNX Runtime) | Low-contrast scans, mobile camera photos, receipt text boxes, distorted fonts, tabular receipts | Good: $\ge 0.90$<br/>Uncertain: $0.80$–$0.89$<br/>Poor: $< 0.80$ |
+| **PaddleOCR** | Deep Learning PP-OCRv5 Mobile, one recognition model per writing system (`RapidOcrNet` via ONNX Runtime) | Low-contrast scans, mobile camera photos, receipt text boxes, distorted fonts, tabular receipts | Good: $\ge 0.90$<br/>Uncertain: $0.80$–$0.89$<br/>Poor: $< 0.80$ |
 
 ### Intelligent Auto-Arbitration (`engine: "auto"`)
 
@@ -109,6 +136,11 @@ The top-level response aggregates operational recommendations for the agent's ne
 
 ### Long Scans Run in the Background
 A page takes 2 to 12 seconds, so an 80-page scan takes minutes - longer than most agent programs wait for a single call. `nova.ocr_read` and `nova.convert_to_markdown` therefore start a job and wait at most `wait` seconds (default 45). A short document is finished by then and the answer looks as usual; otherwise it is `status: "running"` with a `jobId` and the pages read so far. `nova.ocr_status(jobId, wait)` returns the finished result, `nova.ocr_stop(jobId)` ends the job and keeps what was read. One recognition runs at a time; a second job waits its turn (`state: "queued"`).
+
+A single image is finished well within that time, so it comes back in the same call.
+
+### A Part of the Page, and Where Each Line Stands
+`region` reads only one part of every page - the corner of a card photo with its number, the label on a device. That part is read at the file's full resolution and faster than the whole photo. `boxes: true` returns every recognised line with its box as fractions of the whole page, so an agent knows where a text stands and can crop or click it.
 
 `nova.convert_to_markdown` uses the same engines for the scanned pages of a PDF (`ocr: "auto"`, the default): their text takes the place of the empty page, under a line `> [Nova OCR: ...]` that names the engine and quality, so a later reader of the Markdown knows the text was recognised.
 

@@ -44,4 +44,4 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 ## 4. Related Tools
 
 * [`nova.fastlane_preview`](nova-fastlane-preview.md) - checks a contract built from the catalog.
-* [`nova.fastlane_create`](nova-fastlane-create.md) - proposes it to the user.
+* [`nova.fastlane_create`](nova-fastlane-create.md) - sets it up.

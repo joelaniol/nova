@@ -15,7 +15,7 @@ flowchart TD
     end
 
     subgraph AgentSpace["Autonomous Agent Automation Space"]
-        AgentTools["MCP Terminal Ops (nova.terminal_*)\n• Opaque session IDs (term_{hex})\n• Concurrency cap of 8 sessions\n• Sanitized PowerShell environment\n• CWD allowed-root policy\n• Ephemeral scratch auto-cleanup"]
+        AgentTools["MCP Terminal Ops (nova.terminal_*)\n• Opaque session IDs (term_{hex})\n• Concurrency cap of 40 sessions (8 before 1.0.0-alpha.21)\n• Sanitized PowerShell environment\n• CWD allowed-root policy\n• Ephemeral scratch auto-cleanup"]
     end
 
     Dock -.->|Isolated| Barrier
@@ -31,7 +31,7 @@ Explore the dedicated architecture guides within this domain:
 ### 1. [Registry Isolation & Concurrency Governance](registry-isolation-and-concurrency/README.md)
 * **Physical Registry Separation:** Why agent-owned headless sessions are registered in an isolated in-memory registry (`TerminalMcpSessionManager`) and hidden from the human dock tabs.
 * **Opaque Session Handles:** Mapping external integer runner IDs to cryptographic handles (`term_{hex}`) to prevent cross-agent session tampering.
-* **Concurrency Quotas & Eviction:** Enforcing a hard ceiling of **8 concurrent agent sessions** per profile, combined with automated eviction of exited sessions.
+* **Concurrency Quotas & Eviction:** Enforcing a hard ceiling of **40 concurrent agent sessions** per profile (from 1.0.0-alpha.21, which is not released yet; 8 before), combined with automated eviction of exited sessions.
 
 ### 2. [Shell Hygiene & CWD Path Governance](shell-hygiene-and-cwd-policies/README.md)
 * **PowerShell Sanitization:** Mandatory unloading of `PSReadLine` (`Remove-Module PSReadLine`) to eliminate multiline escape noise and cursor rewriting artifacts.

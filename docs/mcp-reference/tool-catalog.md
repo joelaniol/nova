@@ -203,7 +203,7 @@ Reading and reshaping files on disk: documents as Markdown, CSV/Excel tables wit
 | **[`nova.image_transform`](tools/files-and-documents/nova-image-transform.md)** | `path?`, `folder?`, `recursive?`, `wait?`, `outputPath?`, `format?`, `crop?`, `rotate?`, `flip?`, `resize?`, `quality?`, `stripMetadata?`, `removeMetadata?` | Writes a changed copy of a local image: crop, rotate, flip, resize, convert or remove metadata. The original stays untouched. |
 | **[`nova.image_transform_status`](tools/files-and-documents/nova-image-transform-status.md)** | `jobId`, `wait?` | Follows a folder job of nova.image_transform: progress while it runs, the summary once it is done. |
 | **[`nova.image_transform_stop`](tools/files-and-documents/nova-image-transform-stop.md)** | `jobId` | Stops a folder job of nova.image_transform and keeps every copy already written. |
-| **[`nova.ocr_read`](tools/files-and-documents/nova-ocr-read.md)** | `path`, `pages?`, `engine?`, `maxChars?`, `timeoutSeconds?`, `wait?` | Reads the text of a scanned PDF or an image by text recognition, locally and offline, and says per page how far it can be trusted. |
+| **[`nova.ocr_read`](tools/files-and-documents/nova-ocr-read.md)** | `path`, `pages?`, `engine?`, `maxChars?`, `timeoutSeconds?`, `wait?`, `region?`, `script?`, `boxes?` | Reads the text of a scanned PDF or an image by text recognition, locally and offline, and says per page how far it can be trusted. |
 | **[`nova.ocr_status`](tools/files-and-documents/nova-ocr-status.md)** | `jobId`, `wait?` | Reads an OCR job: its progress while it runs, the finished result once it is done. |
 | **[`nova.ocr_stop`](tools/files-and-documents/nova-ocr-stop.md)** | `jobId` | Stops a running OCR job and keeps the pages read so far. |
 | **[`nova.pdf_compose`](tools/files-and-documents/nova-pdf-compose.md)** | `sources`, `outputPath?` | Builds one new PDF from pages of local PDFs: merge files, keep or drop pages, change their order. |
@@ -780,8 +780,8 @@ Event-driven automation an agent proposes and the user approves: Nova waits for 
 | :--- | :--- | :--- |
 | **[`nova.fastlane_catalog`](tools/fastlanes/nova-fastlane-catalog.md)** | *(none)* | Lists what a fastlane can react to and do: event sources with their conditions, the instances that exist, actions, defaults and limits. |
 | **[`nova.fastlane_preview`](tools/fastlanes/nova-fastlane-preview.md)** | `contract` | Checks a fastlane contract without storing it and shows what the user will be asked to approve. |
-| **[`nova.fastlane_create`](tools/fastlanes/nova-fastlane-create.md)** | `name`, `contract` | Proposes a fastlane; it runs only after the user approves it. |
-| **[`nova.fastlane_update`](tools/fastlanes/nova-fastlane-update.md)** | `fastlaneId`, `contract` | Proposes a new revision of a fastlane; the approved one keeps running until the user approves the change. |
+| **[`nova.fastlane_create`](tools/fastlanes/nova-fastlane-create.md)** | `name`, `contract` | Sets up a fastlane; one that starts a run or calls the internet asks the user first. |
+| **[`nova.fastlane_update`](tools/fastlanes/nova-fastlane-update.md)** | `fastlaneId`, `contract` | Changes a fastlane by a new revision; one that needs the user's answer waits while the running one goes on. |
 | **[`nova.fastlane_list`](tools/fastlanes/nova-fastlane-list.md)** | *(none)* | Lists the fastlanes of this Nova profile with their state. |
 | **[`nova.fastlane_get`](tools/fastlanes/nova-fastlane-get.md)** | `fastlaneId` | Shows one fastlane: whether it runs, its revisions in plain words and what it did lately. |
 | **[`nova.fastlane_set_state`](tools/fastlanes/nova-fastlane-set-state.md)** | `fastlaneId`, `state` | Pauses or resumes an approved fastlane. |

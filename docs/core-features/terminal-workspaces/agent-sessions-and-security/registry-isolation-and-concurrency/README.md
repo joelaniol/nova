@@ -13,7 +13,7 @@ flowchart TD
 
         subgraph InMemManager["TerminalMcpSessionManager"]
             AgentRegistry["Isolated Headless Registry\n(Opaque term_{hex} Handles)"]
-            QuotaEngine["Concurrency Quota Gate (Max 8 Sessions)"]
+            QuotaEngine["Concurrency Quota Gate (Max 40 Sessions from alpha.21, 8 before)"]
             EvictionEngine["Automated Exited Session Eviction"]
         end
 
@@ -75,21 +75,21 @@ _agentSessions[publicId] = new AgentSessionEntry
 
 To protect the host machine from resource exhaustion caused by runaway agent loops:
 
-$$\text{ActiveAgentSessions} \le 8$$
+$$\text{ActiveAgentSessions} \le 40$$
 
 ```mermaid
 flowchart TD
-    Req["nova.terminal_open request"] --> CountCheck{"Active Sessions < 8?"}
+    Req["nova.terminal_open request"] --> CountCheck{"Active Sessions < 40?"}
     CountCheck -- Yes --> Provision["Spawn New Session in TerminalRunner"]
     CountCheck -- No --> ScanExited{"Any Exited Sessions in Registry?"}
     ScanExited -- Yes --> Evict["Evict Oldest Exited Session\n(Reclaim Memory & Scratch Directory)"]
     Evict --> Provision
-    ScanExited -- No --> Reject["Reject Request:\n-32001 Terminal session limit reached (8 max)"]
+    ScanExited -- No --> Reject["Reject Request:\n-32001 Terminal session limit reached (40 max)"]
 ```
 
-1. **Strict Concurrency Ceiling:** Nova caps active agent sessions at **8 concurrent instances**.
+1. **Strict Concurrency Ceiling:** Nova caps active agent sessions at **40 concurrent instances** (from 1.0.0-alpha.21, which is not released yet; 8 before).
 2. **Automated Exited Eviction:** When a session exits naturally (e.g., the child shell executed `exit`), its record remains temporarily available so the agent can inspect final exit codes via [`nova.terminal_get_state`](../../../../mcp-reference/tools/terminal-ops/nova-terminal-get-state.md).
-3. **Smart Recycling:** If the 8-session limit is reached and a new session is requested, Nova automatically prunes the oldest exited session before evaluating the rejection gate. If all 8 sessions are actively running, the request is rejected with clear remediation guidance.
+3. **Smart Recycling:** If the 40-session limit is reached and a new session is requested, Nova automatically prunes the oldest exited session before evaluating the rejection gate. If all 40 sessions are actively running, the request is rejected with clear remediation guidance.
 
 ---
 

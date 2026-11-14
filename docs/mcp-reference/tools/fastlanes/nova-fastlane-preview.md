@@ -21,7 +21,7 @@ A broken contract answers `status: "invalid_contract"` with every error at once,
 <!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
-| `contract` | `object` | Yes | — | — | The fastlane as parts from nova.fastlane_catalog, never code: {source:{kind:'net_monitor', monitorIds:[...]}, condition:{kind:'on_event'\|'event_persists'\|'on_recovery', eventKinds:[...], forSeconds}, actions:[{kind:'notify', title} \| {kind:'http_callback', url}], coalesce:{windowSeconds}, limits:{deliveriesPerHour}, delivery:{wake:'session'} (optional: also wake this session; Nova binds it)}. An unknown field is an error. |
+| `contract` | `object` | Yes | — | — | The fastlane as parts from nova.fastlane_catalog, never code: {source:{kind:'net_monitor', monitorIds:[...]} \| {kind:'time', schedule:'weekdays 07:30'\|'every 15m'\|..., timeZone, onMissed:'once'\|'skip'} \| {kind:'file', folder, pattern:'*.csv', subfolders}, condition: per source - net_monitor {kind:'on_event'\|'event_persists'\|'on_recovery', eventKinds:[...], forSeconds}, time {kind:'on_schedule'} (may be left out), file {kind:'on_event', eventKinds:['created'\|'changed'\|'deleted'\|'renamed'], settleSeconds}, actions:[{kind:'notify', title, windowsNotification:false (optional: Nova's notification center only, no Windows notification)} \| {kind:'http_callback', url}], coalesce:{windowSeconds}, limits:{deliveriesPerHour}, delivery:{wake:'session'} (optional: also wake this session; Nova binds it) \| {wake:'run'} with execution:{agent:'claude', task, tools:[...], limits:{runsPerDay, maxTurns, maxBudgetUsd, timeoutMinutes}} (Nova starts a run limited to the listed Nova tools), replaces:{scheduledTask:'<task id>'} (optional: this fastlane takes the place of that scheduled task; Nova adds its name, always asks the user, and switches the task off for good once approved)}. An unknown field is an error. |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
@@ -52,4 +52,4 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 ## 4. Related Tools
 
 * [`nova.fastlane_catalog`](nova-fastlane-catalog.md) - the parts a contract may use.
-* [`nova.fastlane_create`](nova-fastlane-create.md) - stores the checked contract as a proposal.
+* [`nova.fastlane_create`](nova-fastlane-create.md) - sets up the checked contract.
