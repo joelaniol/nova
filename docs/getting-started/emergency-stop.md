@@ -21,7 +21,7 @@ The stop blocks new agent/tool actions in Nova and interrupts running work. It s
 |---|---|
 | Agent requests and tool actions | Pending requests are cancelled; new actions are blocked while the stop is active. |
 | Running crawls | Active crawls are cancelled. |
-| Scheduled task runs | Running tasks are cancelled; scheduled work is blocked while the stop is active. |
+| Fastlanes and their runs | Running runs are cancelled; fastlanes do not react while the stop is active, and what fell due meanwhile is not caught up (upcoming release; replaces scheduled tasks). |
 | Nova terminal sessions and scripts | Sessions managed by Nova's terminal service are terminated, including your own dock terminals. |
 | Connections from Nova to external MCP servers | Nova stops its external MCP sessions. |
 | Agent claims on browser tabs | Every claim is released; the tabs are yours again and stay unclaimed after you release the stop. |
@@ -47,7 +47,7 @@ Releasing the stop enables work again; it does not restore terminated shells or 
 
 > **Upcoming in v1.0.0-alpha.21 - not in a published release yet.**
 
-To stop a single agent without stopping everything, open the agents panel from the agents button next to the address bar, click the session and choose **Block Nova access**. The agent program keeps running, but Nova refuses its calls until you choose **Allow Nova access again**; a call already running finishes first. The block also holds after a restart and ends on its own after 7 days. For a run Nova started itself (a scheduled task) the button reads **End run** and cancels that run.
+To stop a single agent without stopping everything, open the agents panel from the agents button next to the address bar, click the session and choose **Block Nova access**. The agent program keeps running, but Nova refuses its calls until you choose **Allow Nova access again**; a call already running finishes first. The block also holds after a restart and ends on its own after 7 days. For a run Nova started itself (a fastlane run) the button reads **End run** and cancels that run.
 
 ## Take over one tab instead
 

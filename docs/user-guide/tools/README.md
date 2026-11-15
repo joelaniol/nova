@@ -12,7 +12,7 @@ Rather than requiring a patchwork of external utilities, desktop command-line ap
 ```mermaid
 flowchart TD
     subgraph UI ["Nova AI Workspace Tools Suite"]
-        T1["Terminal & Execution<br/>• Integrated Terminal Dock<br/>• Scheduled Tasks & Cron"]
+        T1["Terminal & Execution<br/>• Integrated Terminal Dock<br/>• Fastlanes"]
         T2["Media & Perception<br/>• Audio/Video Transcription<br/>• Offline OCR & Barcodes"]
         T3["Data & Office Deliverables<br/>• Tabular Data & SQL Queries<br/>• Word, Excel & PDF Generation"]
         T4["Infrastructure & Forensics<br/>• Remote Connectors (SSH/SFTP/Mail)<br/>• Session Time-Travel Recordings"]
@@ -29,7 +29,7 @@ flowchart TD
 | **[Audio & Video Transcription](transcription.md)** | Offline Whisper Speech-to-Text | 100% local speech-to-text via `whisper.cpp`, multi-language support, local model downloads, text and `.srt`/`.vtt` subtitle export. |
 | **[Media Intelligence, Local OCR & Barcodes](media-and-ocr.md)** | Offline OCR, Barcodes & Image Processing | Local OCR on images and scanned PDFs (Tesseract + PaddleOCR), number verification, 1D/2D barcode scanning and generation, contact sheets. |
 | **[Tabular Data Analysis & Document Workflows](data-and-documents.md)** | SQL Queries & Document Creation | Web table extraction (`nova.extract_table`), local SQL queries on CSV/JSON/SQLite (`nova.data_query`), Markdown conversion, Word (`.docx`), Excel (`.xlsx`), and PDF generation. |
-| **[Scheduled Tasks & Automation](scheduled-tasks.md)** | Background Jobs & Cron Scheduling | Recurring background jobs, Claude Code & Codex CLI execution, PowerShell scripts, DPAPI encrypted secrets, run history. |
+| **[Fastlanes](fastlanes.md)** *(upcoming)* | Event-Driven Automation | Automations your agent sets up once and you approve: react to network monitors, a schedule or files in a folder with notifications or web calls; optional agent wake. Replaces scheduled tasks. |
 | **[Remote Connectors & File Synchronization](connectors.md)** | SSH, SFTP, FTP & Mail Pipelines | Remote Linux SSH command execution and interactive shells, SFTP/FTP file sync, automated IMAP/SMTP email verification, and external MCP tool aggregation. |
 | **[Network Diagnostics & Discovery](network-and-diagnostics.md)** | Network Probing, DNS, MTR & Proxies | Subnet scanning (`nova.net_scan`), device inventory, DNS diagnostics (`nova.net_dns`), ICMP ping, hop-by-hop path probing (`nova.net_probe`), TLS certificate audits, and HTTP interception. |
 | **[Session Recordings](recordings.md)** | Forensics & Time-Travel Debugging | Tamper-resistant, encrypted event streams (network, console, interactions, DOM snapshots) for post-mortem inspection. |

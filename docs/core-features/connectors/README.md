@@ -119,7 +119,7 @@ Permissions are evaluated dynamically through a multi-dimensional capability mod
 
 ### Grant Modes
 
-* **`ask` (Default):** Interactive mode. Prompts the human operator for confirmation upon the first use within a session. In unattended or scheduled task contexts (`unattended=true`), calls requiring an `ask` confirmation fail closed immediately with error code `-32033` (`connector_approval_required`).
+* **`ask` (Default):** Interactive mode. Prompts the human operator for confirmation upon the first use within a session. In unattended contexts such as background fastlane runs (`unattended=true`), calls requiring an `ask` confirmation fail closed immediately with error code `-32033` (`connector_approval_required`).
 * **`always`:** Autonomous execution permitted. Bypasses interactive prompts for that specific capability. For mail read operations, an `always` grant can be further constrained by explicit folder and sender allow-lists.
 * **`blocked`:** Explicit administrative block. Any attempt to invoke the capability is rejected immediately.
 
@@ -129,7 +129,7 @@ When an agent requests a capability, Nova resolves grants using a strictest-cont
 
 $$\text{Active Grant} = \text{Lookup}(\text{Workspace}) \succ \text{Lookup}(\text{Sandbox}) \succ \text{Lookup}(\text{Global}) \succ \text{Default}(\text{ask})$$
 
-1. **Workspace Scope:** Bound to Nova's host-verified terminal or scheduled task workspace directory. A grant configured at workspace level overrides broader sandbox and global rules (e.g., an account can be set to `always` in the accounting project workspace but remain `blocked` elsewhere). Workspace context is validated via host-issued signed tokens; caller-supplied context IDs are rejected.
+1. **Workspace Scope:** Bound to Nova's host-verified terminal workspace directory. A grant configured at workspace level overrides broader sandbox and global rules (e.g., an account can be set to `always` in the accounting project workspace but remain `blocked` elsewhere). Workspace context is validated via host-issued signed tokens; caller-supplied context IDs are rejected.
 2. **Sandbox Scope:** Bound to an isolated browsing profile container (`A`, `B`, etc.).
 3. **Global Scope:** System-wide baseline applied when no workspace or sandbox grant exists.
 

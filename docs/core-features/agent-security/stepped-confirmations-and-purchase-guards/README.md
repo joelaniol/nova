@@ -52,7 +52,7 @@ Every tool in Nova's catalog belongs to one of four functional hazard categories
 | :--- | :--- | :--- | :--- |
 | **Critical Actions** | Reading cookie values, granting website permissions, accepting untrusted TLS certificates. | **Always Ask** (Agent must provide explicit intent rationale). | `nova.cookie_list`, `nova.permission_prompt`, `nova.tls_inspect` |
 | **Modify Websites** | Modifying web state, form inputs, navigation, email sending, remote commands, and terminal executions. | Dispatches automatically under default autonomy settings. | `nova.click_selector`, `nova.type_selector`, `nova.navigate`, `nova.mail_send`, `nova.terminal_run_command` |
-| **Permanent Data** | Persisting notes, learned knowledge, scheduled tasks, connector configurations, and network proxy rules. | Dispatches automatically; prompts user on destructive overwrites. | `nova.domain_note`, `nova.operator_notes_store`, `nova.pks_upsert`, `nova.scheduled_task_create` |
+| **Permanent Data** | Persisting notes, learned knowledge, connector configurations, and network proxy rules. | Dispatches automatically; prompts user on destructive overwrites. | `nova.domain_note`, `nova.operator_notes_store`, `nova.pks_upsert` |
 | **Sensitive Reads** | Extracting page text, capturing full screenshots, recording microphone/video, reading vault secrets. | Dispatches automatically within granted tab permissions. | `nova.perceive`, `nova.capture_screenshot`, `nova.vault_get` |
 
 Human operators configure the baseline autonomy profile under **Settings → Agents → Autonomy level**, choosing between supervised, balanced, and fully autonomous operation.
@@ -79,7 +79,7 @@ stateDiagram-v2
 
 ### 3.1 Escalation Invariants *(from alpha.21)*
 * **Mandatory Prompts for Data Exfiltration:** Any action that could transmit data outside the local machine requires explicit human approval: opening a URL, clicking links, typing text, uploading files, sending emails, running remote SSH commands, or evaluating in-page scripts. This holds **even if the user previously set the action group to "never ask"**.
-* **Mandatory Prompts for Durable State:** Writing or updating domain notes, operator memory, learned PKS knowledge, scheduled tasks, or proxy credentials requires confirmation for every invocation.
+* **Mandatory Prompts for Durable State:** Writing or updating domain notes, operator memory, learned PKS knowledge, or proxy credentials requires confirmation for every invocation.
 * **Revocation of Session Allowances:** The option *"Allow for this session"* is disabled during active risk states. Every critical invocation requires a standalone approval.
 * **Uninhibited Housekeeping:** Purely cosmetic operations (scrolling, zooming, window repositioning, tab switching) continue without prompts, ensuring the browser remains responsive without compromising security.
 

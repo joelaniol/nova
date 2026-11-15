@@ -82,7 +82,7 @@ graph LR
 
 1. **`process.exec` Capability:**
    - Authorizes spawning remote commands and background sessions.
-   - `process.exec` is its own grant and is **not** covered by the `full` file-transfer grant: being allowed to write files never silently allows a remote shell. When it is unset, the first command asks once ("Always" stores the grant); an unattended run such as a scheduled task fails closed until the grant is set. *(Up to 1.0.0-alpha.18, commands ran on the `full` grant; since alpha.19 they need this stage.)*
+   - `process.exec` is its own grant and is **not** covered by the `full` file-transfer grant: being allowed to write files never silently allows a remote shell. When it is unset, the first command asks once ("Always" stores the grant); an unattended run such as a background fastlane run fails closed until the grant is set. *(Up to 1.0.0-alpha.18, commands ran on the `full` grant; since alpha.19 they need this stage.)*
 2. **`process.stdin` Capability (Strict Opt-In):**
    - Authorizes feeding live, interactive standard input into a running background process (`allowStdin=true` and `nova.ssh_run_write`).
    - Because open stdin channels allow arbitrary command chaining and interactive shell escape, `process.stdin` is **strictly opt-in and never inherits weaker grants**.

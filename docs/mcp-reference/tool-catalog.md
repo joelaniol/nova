@@ -11,7 +11,7 @@ Every tool exposed by **Nova AI Workspace**, grouped by operational domain. Clic
 - [2. DOM Perception & Content Extraction](#2-dom-perception--content-extraction) (21)
 - [3. Layout Quality & Measuring QA](#3-layout-quality--measuring-qa) (7)
 - [4. Input & Interaction](#4-input--interaction) (18)
-- [5. Guarded Actions & Blocker Clearance](#5-guarded-actions--blocker-clearance) (7)
+- [5. Guarded Actions & Blocker Clearance](#5-guarded-actions--blocker-clearance) (8)
 - [6. Visual Evidence & Screenshots](#6-visual-evidence--screenshots) (16)
 - [7. Local Files, Documents & Archives](#7-local-files-documents--archives) (23)
 - [8. Knowledge & Phenomenological Store (PKS)](#8-knowledge--phenomenological-store-pks) (21)
@@ -24,14 +24,13 @@ Every tool exposed by **Nova AI Workspace**, grouped by operational domain. Clic
 - [15. Proxy Routing & Network Interception](#15-proxy-routing--network-interception) (29)
 - [16. Site Crawler & URL Discovery Index](#16-site-crawler--url-discovery-index) (13)
 - [17. Session Tracing & DOM Event Recording](#17-session-tracing--dom-event-recording) (14)
-- [18. Scheduled Tasks, Cron & Workspaces](#18-scheduled-tasks-cron--workspaces) (25)
-- [19. Connectors, Mail & File Transfer](#19-connectors-mail--file-transfer) (62)
-- [20. Media Intelligence & Whisper Speech-to-Text](#20-media-intelligence--whisper-speech-to-text) (24)
-- [21. Site Data, Fingerprinting & Sandboxes](#21-site-data-fingerprinting--sandboxes) (21)
-- [22. Episodic Task Memory & Guidance](#22-episodic-task-memory--guidance) (33)
-- [23. App Shell, Dialogs & DevTools](#23-app-shell-dialogs--devtools) (67)
-- [24. Agent-Authored Plugins](#24-agent-authored-plugins) (22)
-- [25. Fastlanes: Events, Conditions & Actions](#25-fastlanes-events-conditions--actions) (11)
+- [18. Connectors, Mail & File Transfer](#18-connectors-mail--file-transfer) (62)
+- [19. Media Intelligence & Whisper Speech-to-Text](#19-media-intelligence--whisper-speech-to-text) (24)
+- [20. Site Data, Fingerprinting & Sandboxes](#20-site-data-fingerprinting--sandboxes) (21)
+- [21. Episodic Task Memory & Guidance](#21-episodic-task-memory--guidance) (33)
+- [22. App Shell, Dialogs & DevTools](#22-app-shell-dialogs--devtools) (67)
+- [23. Agent-Authored Plugins](#23-agent-authored-plugins) (22)
+- [24. Fastlanes: Events, Conditions & Actions](#24-fastlanes-events-conditions--actions) (11)
 <!-- /generated:catalog-toc -->
 
 ---
@@ -130,13 +129,13 @@ Bot-resilient input execution with natural Bézier physics and Shadow-DOM traver
 | **[`nova.input_drag_humanized`](tools/browser-automation/nova-input-drag-humanized.md)** | `targetId?`, `startX?`, `startY?`, `endX?`, `endY?`, `fromX?`, `fromY?`, `toX?`, `toY?`, `selector?`, `durationMs?`, `jitterPx?` | Performs a drag-and-drop gesture with an eased motion path, overshoot, correction moves, and jitter — aimed at drag-based bot checks that flag perfectly linear mouse vectors. |
 | **[`nova.input_move`](tools/browser-automation/nova-input-move.md)** | `x`, `y`, `targetId?`, `activateIfNeeded?`, `restoreActiveTarget?` | Moves the mouse cursor to specified viewport coordinates with a single mouse-move event. |
 | **[`nova.input_shortcut`](tools/browser-automation/nova-input-shortcut.md)** | `combo`, `targetId?` | Dispatches a multi-key keyboard shortcut (e.g. Ctrl+A, Control+C, Shift+Enter) to the active element. |
-| **[`nova.input_text`](tools/browser-automation/nova-input-text.md)** | `text`, `targetId?` | Sends a raw text string into the currently focused DOM element. |
+| **[`nova.input_text`](tools/browser-automation/nova-input-text.md)** | `text`, `targetId?`, `inputMode?` | Sends a raw text string into the currently focused DOM element. |
 | **[`nova.input_wheel`](tools/browser-automation/nova-input-wheel.md)** | `x`, `y`, `deltaY`, `targetId?`, `activateIfNeeded?`, `restoreActiveTarget?`, `deltaX?` | Dispatches a physical mouse wheel scroll event at specific coordinates with deltaX and deltaY. |
 | **[`nova.run_sequence`](tools/browser-automation/nova-run-sequence.md)** | `steps`, `targetId?`, `agentId?`, `totalTimeoutMs?`, `record?`, `defaults?`, `options?` | Executes an ordered sequence of tool calls (navigation, click, type, wait, and more) in a single RPC round-trip. |
 | **[`nova.scroll_by`](tools/browser-automation/nova-scroll-by.md)** | `deltaY`, `targetId?`, `deltaX?`, `containerSelector?` | Scrolls the page or active container by relative pixel offsets (deltaX, deltaY). |
 | **[`nova.scroll_element`](tools/browser-automation/nova-scroll-element.md)** | `selector`, `deltaY`, `targetId?` | Shifts a specific DOM element's internal scroll offset (scrollTop) by a pixel delta. |
 | **[`nova.scroll_to`](tools/browser-automation/nova-scroll-to.md)** | `y`, `targetId?`, `x?` | Scrolls the target tab viewport to absolute pixel coordinates (x, y). |
-| **[`nova.select_option`](tools/browser-automation/nova-select-option.md)** | `selector`, `targetId?`, `observe?`, `waitForChange?`, `value?`, `values?`, `text?`, `texts?`, `verify?`, `timeoutMs?`, `autoDismissBlockers?`, `autoDismissMode?`, `includeScreenshot?`, `screenshotMaxWidth?`, `screenshotMaxHeight?`, `screenshotFormat?`, `screenshotQuality?` | Selects an option in a standard HTML <select> dropdown by its value attribute or visible text. |
+| **[`nova.select_option`](tools/browser-automation/nova-select-option.md)** | `selector`, `targetId?`, `observe?`, `waitForChange?`, `value?`, `values?`, `text?`, `texts?`, `verify?`, `inputMode?`, `timeoutMs?`, `autoDismissBlockers?`, `autoDismissMode?`, `includeScreenshot?`, `screenshotMaxWidth?`, `screenshotMaxHeight?`, `screenshotFormat?`, `screenshotQuality?` | Selects an option in a standard HTML <select> dropdown by its value attribute or visible text. |
 
 ---
 
@@ -147,6 +146,7 @@ High-impact macros that run safety pre-checks to prevent destructive loops or se
 | Tool Name | Parameters | Description |
 | :--- | :--- | :--- |
 | **[`nova.guarded_send_message`](tools/guarded-actions/nova-guarded-send-message.md)** | `targetId?`, `activateIfNeeded?`, `restoreActiveTarget?`, `selector?`, `frameId?`, `ctaRef?`, `ctaRev?`, `button?`, `clickCount?`, `timeoutMs?`, `autoDismissBlockers?`, `autoDismissMode?`, `pksMode?`, `pksAdviceMode?`, `verify?`, `verifyTimeout?`, `waitForNavigation?`, `navigationStrict?`, `waitForNavigationTimeoutMs?`, `includeScreenshot?`, `screenshotPolicy?`, `screenshotMaxWidth?`, `screenshotMaxHeight?`, `screenshotFormat?`, `screenshotQuality?`, `outputDetail?`, `transitionContract?`, `text?`, `message?`, `waitForReplyMs?` | High-level guarded macro for chat interfaces (ChatGPT, Claude.ai, Gemini, Slack, Teams): auto-discovers the composer, types text with read-back verification, resolves the send button, clicks it, and verifies delivery in a single atomic operation. |
+| **[`nova.account_rule`](tools/guarded-actions/nova-account-rule.md)** | `action`, `targetId?`, `domain?`, `sandboxId?`, `sandboxRef?`, `scope?`, `includeSubdomains?`, `minActionGapMs?`, `minSubmitGapMs?`, `maxSubmitsPerDay?`, `submitHints?`, `reason?`, `ruleId?`, `actionId?`, `outcome?`, `agentId?` | Sets how fast agents may act on one site in one account, and keeps two agents from posting the same thing twice. |
 | **[`nova.guarded_submit_form`](tools/guarded-actions/nova-guarded-submit-form.md)** | `targetId?`, `activateIfNeeded?`, `restoreActiveTarget?`, `selector?`, `frameId?`, `ctaRef?`, `ctaRev?`, `button?`, `clickCount?`, `timeoutMs?`, `autoDismissBlockers?`, `autoDismissMode?`, `pksMode?`, `pksAdviceMode?`, `verify?`, `verifyTimeout?`, `waitForNavigation?`, `navigationStrict?`, `waitForNavigationTimeoutMs?`, `includeScreenshot?`, `screenshotPolicy?`, `screenshotMaxWidth?`, `screenshotMaxHeight?`, `screenshotFormat?`, `screenshotQuality?`, `outputDetail?`, `transitionContract?` | High-level guarded macro for form submissions, wrapping click dispatch in an automated transition contract to verify validation rules, prevent duplicate submissions, and confirm post-submit transitions. |
 | **[`nova.guarded_login`](tools/guarded-actions/nova-guarded-login.md)** | `targetId?`, `activateIfNeeded?`, `restoreActiveTarget?`, `selector?`, `frameId?`, `ctaRef?`, `ctaRev?`, `button?`, `clickCount?`, `timeoutMs?`, `autoDismissBlockers?`, `autoDismissMode?`, `pksMode?`, `pksAdviceMode?`, `verify?`, `verifyTimeout?`, `waitForNavigation?`, `navigationStrict?`, `waitForNavigationTimeoutMs?`, `includeScreenshot?`, `screenshotPolicy?`, `screenshotMaxWidth?`, `screenshotMaxHeight?`, `screenshotFormat?`, `screenshotQuality?`, `outputDetail?`, `transitionContract?` | High-level guarded macro for login form submissions, featuring integrated Auth Surface Detection (ASD) that distinguishes between authentication rejections and multi-factor (2FA/MFA) follow-up states. |
 | **[`nova.cmp_apply`](tools/guarded-actions/nova-cmp-apply.md)** | `targetId`, `agentId?`, `intent?`, `mode?` | Applies a typed privacy consent policy directly through recognized Consent Management Platform (CMP) vendor JavaScript APIs (OneTrust, Sourcepoint, Cookiebot, Usercentrics v3), verifying consent vector state before and after execution. |
@@ -254,9 +254,9 @@ Form auto-fill without leaking plaintext secrets to the LLM context.
 | **[`nova.vault_get`](tools/vault-and-security/nova-vault-get.md)** | `site`, `username?`, `entryId?` | Retrieves metadata and account identifiers for a stored vault entry, resolving username ambiguity without exposing password credentials. |
 | **[`nova.vault_prepare_fill`](tools/vault-and-security/nova-vault-prepare-fill.md)** | `site`, `targetId?`, `username?`, `entryId?` | Prepares stored credentials from the secure Vault for automated form-filling, returning an ephemeral, origin-bound, and single-use `SecretRef` token instead of the raw password string. |
 | **[`nova.type_selector_secret`](tools/vault-and-security/nova-type-selector-secret.md)** | `selector`, `secretRef`, `targetId?`, `clear?` | Types a vault password into a target form field using an ephemeral `SecretRef` token, setting the value through the field's native value setter and dispatching input/change events, without exposing plaintext secrets to the agent. |
-| **[`nova.secret_set`](tools/vault-and-security/nova-secret-set.md)** | `name`, `value`, `scope`, `workspaceId?`, `taskId?` | Stores an encrypted secret (such as API keys, tokens, or private credentials) into Nova's user-managed secure store with Windows DPAPI encryption. |
-| **[`nova.secret_list`](tools/vault-and-security/nova-secret-list.md)** | `scope?`, `workspaceId?`, `taskId?`, `limit?`, `offset?` | Lists registered secret names, scopes, and association identifiers from Nova's user-managed keystore without disclosing secret values. |
-| **[`nova.secret_delete`](tools/vault-and-security/nova-secret-delete.md)** | `name`, `scope`, `workspaceId?`, `taskId?` | Deletes an encrypted environment variable or API key secret from the DPAPI store. |
+| **[`nova.secret_set`](tools/vault-and-security/nova-secret-set.md)** | `name`, `value`, `scope`, `workspaceId?` | Stores an encrypted secret (such as API keys, tokens, or private credentials) into Nova's user-managed secure store with Windows DPAPI encryption. |
+| **[`nova.secret_list`](tools/vault-and-security/nova-secret-list.md)** | `scope?`, `workspaceId?`, `limit?`, `offset?` | Lists registered secret names, scopes, and association identifiers from Nova's user-managed keystore without disclosing secret values. |
+| **[`nova.secret_delete`](tools/vault-and-security/nova-secret-delete.md)** | `name`, `scope`, `workspaceId?` | Deletes an encrypted environment variable or API key secret from the DPAPI store. |
 | **[`nova.vault_delete`](tools/vault-and-security/nova-vault-delete.md)** | `id` | Deletes a stored website login credential entry from the encrypted vault. |
 | **[`nova.vault_set`](tools/vault-and-security/nova-vault-set.md)** | `site`, `username`, `password`, `createdBy?` | Stores or updates a username and password login credential in the encrypted vault. |
 
@@ -455,41 +455,7 @@ Network HAR capture, user interaction timelines, DOM change snapshots, and repla
 
 ---
 
-## 18. Scheduled Tasks, Cron & Workspaces
-
-Background task automation, cron expressions, file-system watches, task workspaces, and execution logs.
-
-| Tool Name | Parameters | Description |
-| :--- | :--- | :--- |
-| **[`nova.scheduled_task_create`](tools/scheduled-tasks/nova-scheduled-task-create.md)** | `displayName`, `prompt`, `intervalSeconds?`, `cronExpression?`, `timeZoneId?`, `executorKind?`, `autonomyMode?`, `command?`, `argsTemplate?`, `workingDirectory?`, `timeoutSeconds?`, `maxTurns?`, `maxBudgetUsd?`, `mcpAccess?`, `extraSystemPrompt?`, `oneShot?`, `catchUpMissed?`, `triggerNextTaskId?`, `triggerOnStatus?`, `triggerConditionKey?`, `concurrencyPolicy?`, `totalBudgetCapUsd?`, `watchPath?`, `taskProfileId?`, `workspaceId?`, `workspaceDisplayName?`, `installOnboarding?` | Creates a new scheduled task running on cron expressions, intervals, or filesystem change events. |
-| **[`nova.scheduled_task_list`](tools/scheduled-tasks/nova-scheduled-task-list.md)** | *(none)* | Lists all scheduled tasks with enabled state, next run time, last result, and cumulative cost. |
-| **[`nova.scheduled_task_get`](tools/scheduled-tasks/nova-scheduled-task-get.md)** | `taskId` | Retrieves full details of a scheduled task including prompt, schedule, chaining, and budget settings. |
-| **[`nova.scheduled_task_update`](tools/scheduled-tasks/nova-scheduled-task-update.md)** | `taskId`, `displayName?`, `prompt?`, `intervalSeconds?`, `timeoutSeconds?`, `maxTurns?`, `maxBudgetUsd?`, `mcpAccess?`, `extraSystemPrompt?`, `catchUpMissed?`, `cronExpression?`, `timeZoneId?`, `executorKind?`, `autonomyMode?`, `command?`, `argsTemplate?`, `workingDirectory?`, `oneShot?`, `triggerNextTaskId?`, `triggerOnStatus?`, `triggerConditionKey?`, `concurrencyPolicy?`, `totalBudgetCapUsd?`, `watchPath?`, `taskProfileId?`, `workspaceId?` | Updates fields (prompt, schedule, budget, timeouts, chaining) of an existing scheduled task. |
-| **[`nova.scheduled_task_delete`](tools/scheduled-tasks/nova-scheduled-task-delete.md)** | `taskId`, `cleanupWorkspace?` | Permanently deletes a scheduled task, its configuration, and associated run history. |
-| **[`nova.scheduled_task_enable`](tools/scheduled-tasks/nova-scheduled-task-enable.md)** | `taskId` | Enables a paused or circuit-broken scheduled task and resets failure counters. |
-| **[`nova.scheduled_task_disable`](tools/scheduled-tasks/nova-scheduled-task-disable.md)** | `taskId` | Pauses execution of a scheduled task without modifying its configuration or history. |
-| **[`nova.scheduled_task_trigger`](tools/scheduled-tasks/nova-scheduled-task-trigger.md)** | `taskId`, `inputs?` | Manually triggers an immediate run of a scheduled task with optional dynamic inputs. |
-| **[`nova.scheduled_task_runs`](tools/scheduled-tasks/nova-scheduled-task-runs.md)** | `taskId`, `limit?` | Retrieves the run execution history (status, duration, exit code, cost) of a scheduled task. |
-| **[`nova.scheduled_task_run_output`](tools/scheduled-tasks/nova-scheduled-task-run-output.md)** | `runId`, `stream?`, `maxLines?` | Memory-safe tail reader for stdout and stderr log streams of a specific task run. |
-| **[`nova.scheduled_task_run_cancel`](tools/scheduled-tasks/nova-scheduled-task-run-cancel.md)** | `runId` | Requests cancellation of an in-flight background task run asynchronously. |
-| **[`nova.scheduled_task_active_runs`](tools/scheduled-tasks/nova-scheduled-task-active-runs.md)** | *(none)* | Lists all currently executing task runs across all background tasks. |
-| **[`nova.scheduled_task_templates`](tools/scheduled-tasks/nova-scheduled-task-templates.md)** | *(none)* | Lists pre-built task templates for common automation scenarios (monitoring, reporting, maintenance). |
-| **[`nova.scheduled_task_export`](tools/scheduled-tasks/nova-scheduled-task-export.md)** | *(none)* | Exports all scheduled task definitions as a structured array (excluding secrets and history). |
-| **[`nova.scheduled_task_import`](tools/scheduled-tasks/nova-scheduled-task-import.md)** | `tasksJson`, `enable?` | Imports scheduled task definitions from a JSON array, creating fresh task IDs and isolated workspaces. |
-| **[`nova.scheduled_task_secret_set`](tools/scheduled-tasks/nova-scheduled-task-secret-set.md)** | `taskId`, `key`, `value` | Stores an encrypted secret (API key, auth token) for a task using Windows DPAPI encryption. |
-| **[`nova.scheduled_task_secret_list`](tools/scheduled-tasks/nova-scheduled-task-secret-list.md)** | `taskId`, `limit?`, `offset?` | Lists registered secret key names for a task without exposing plaintext secret values. |
-| **[`nova.scheduled_task_var_set`](tools/scheduled-tasks/nova-scheduled-task-var-set.md)** | `taskId`, `key`, `value` | Sets a persistent key-value state variable for a task that survives across runs. |
-| **[`nova.scheduled_task_var_get`](tools/scheduled-tasks/nova-scheduled-task-var-get.md)** | `taskId`, `key` | Retrieves the current value of a persistent state variable for a task. |
-| **[`nova.scheduled_task_var_list`](tools/scheduled-tasks/nova-scheduled-task-var-list.md)** | `taskId`, `limit?`, `offset?`, `includeValues?` | Lists persistent variable keys and value previews configured for a task. |
-| **[`nova.scheduled_task_var_delete`](tools/scheduled-tasks/nova-scheduled-task-var-delete.md)** | `taskId`, `key` | Deletes a persistent state variable from a task. |
-| **[`nova.scheduled_task_workspace`](tools/scheduled-tasks/nova-scheduled-task-workspace.md)** | `taskId` | Returns the task's workspace paths, a page of its shared files, and the status of its last run. |
-| **[`nova.scheduled_task_workspace_list`](tools/scheduled-tasks/nova-scheduled-task-workspace-list.md)** | `taskId`, `relativePath?`, `limit?`, `offset?` | Lists files and subdirectories located within a task’s shared workspace folder. |
-| **[`nova.scheduled_task_workspace_read`](tools/scheduled-tasks/nova-scheduled-task-workspace-read.md)** | `taskId`, `relativePath` | Reads a UTF-8 text file from a task’s shared workspace folder. |
-| **[`nova.scheduled_task_workspace_write`](tools/scheduled-tasks/nova-scheduled-task-workspace-write.md)** | `taskId`, `relativePath`, `content` | Atomically writes a UTF-8 text file into a task’s shared workspace folder (temp-file + rename). |
-
----
-
-## 19. Connectors, Mail & File Transfer
+## 18. Connectors, Mail & File Transfer
 
 IMAP/SMTP email client automation, EML exports, SFTP/FTP server operations, and credential access grants.
 
@@ -560,7 +526,7 @@ IMAP/SMTP email client automation, EML exports, SFTP/FTP server operations, and 
 
 ---
 
-## 20. Media Intelligence & Whisper Speech-to-Text
+## 19. Media Intelligence & Whisper Speech-to-Text
 
 In-browser audio/video recording, local OpenAI Whisper transcription, model management, and camera/mic permissions.
 
@@ -593,7 +559,7 @@ In-browser audio/video recording, local OpenAI Whisper transcription, model mana
 
 ---
 
-## 21. Site Data, Fingerprinting & Sandboxes
+## 20. Site Data, Fingerprinting & Sandboxes
 
 Cookie jars, localStorage/sessionStorage, cache purging, browser fingerprint spoofing, and sandbox isolation.
 
@@ -623,7 +589,7 @@ Cookie jars, localStorage/sessionStorage, cache purging, browser fingerprint spo
 
 ---
 
-## 22. Episodic Task Memory & Guidance
+## 21. Episodic Task Memory & Guidance
 
 Task instance tracking, guidance logs, coverage scans, surface exploration, and operator domain notes.
 
@@ -665,7 +631,7 @@ Task instance tracking, guidance logs, coverage scans, surface exploration, and 
 
 ---
 
-## 23. App Shell, Dialogs & DevTools
+## 22. App Shell, Dialogs & DevTools
 
 WinUI window controls, native OS dialog handling, DevTools panels, setup wizard, and onboarding injection.
 
@@ -741,7 +707,7 @@ WinUI window controls, native OS dialog handling, DevTools panels, setup wizard,
 
 ---
 
-## 24. Agent-Authored Plugins
+## 23. Agent-Authored Plugins
 
 Write, test, and ship agent-authored browser plugins that change how pages behave.
 
@@ -772,7 +738,7 @@ Write, test, and ship agent-authored browser plugins that change how pages behav
 
 ---
 
-## 25. Fastlanes: Events, Conditions & Actions
+## 24. Fastlanes: Events, Conditions & Actions
 
 Event-driven automation an agent proposes and the user approves: Nova waits for the event and acts without AI (upcoming release).
 

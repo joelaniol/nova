@@ -57,8 +57,8 @@ Bundles group the tools for one kind of task; a tool can be part of several bund
 | **13** | **`device_emulation`** | See a page as another device: viewport, touch, user agent, dark mode, print, locale. | `emulation`, `mobile`, `responsive` | [`emulation_use_device`](tools/device-emulation/nova-emulation-use-device.md), [`emulation_set_media`](tools/device-emulation/nova-emulation-set-media.md), [`emulation_set_locale`](tools/device-emulation/nova-emulation-set-locale.md), [`emulation_set_touch`](tools/device-emulation/nova-emulation-set-touch.md) |
 | **14** | **`identity_management`** | Change which browser Nova claims to be: persistent identity presets and custom user agents. | `identity`, `user agent`, `ua` | [`identity_get`](tools/site-data-and-identity/nova-identity-get.md), [`identity_set`](tools/site-data-and-identity/nova-identity-set.md), [`identity_presets`](tools/site-data-and-identity/nova-identity-presets.md) |
 | **15** | **`fingerprint_protection`** | Control Canvas/Audio/WebGL/Hardware fingerprint spoofing per tab, per sandbox, or globally. | `fingerprint`, `canvas spoof` | [`fingerprint_get`](tools/site-data-and-identity/nova-fingerprint-get.md), [`fingerprint_set_global`](tools/site-data-and-identity/nova-fingerprint-set-global.md), [`fingerprint_set_sandbox`](tools/site-data-and-identity/nova-fingerprint-set-sandbox.md), [`fingerprint_set_tab`](tools/site-data-and-identity/nova-fingerprint-set-tab.md) |
-| **16** | **`scheduled_tasks`** | Run work later or repeatedly: cron, file watches, chain triggers, run history, task workspaces, persistent state variables. | `scheduled`, `cron`, `task automation` | [`scheduled_task_create`](tools/scheduled-tasks/nova-scheduled-task-create.md), [`scheduled_task_runs`](tools/scheduled-tasks/nova-scheduled-task-runs.md), [`scheduled_task_trigger`](tools/scheduled-tasks/nova-scheduled-task-trigger.md), [`scheduled_task_var_set`](tools/scheduled-tasks/nova-scheduled-task-var-set.md), [`scheduled_task_var_get`](tools/scheduled-tasks/nova-scheduled-task-var-get.md), [`scheduled_task_var_list`](tools/scheduled-tasks/nova-scheduled-task-var-list.md), [`scheduled_task_var_delete`](tools/scheduled-tasks/nova-scheduled-task-var-delete.md), [`scheduled_task_workspace_*`](tools/scheduled-tasks/nova-scheduled-task-workspace.md) |
-| **17** | **`secret_store`** | Give an agent an API key it can use but never read back: write-only DPAPI-encrypted env vars & task secrets. | `secret`, `secrets`, `env secrets` | [`secret_set`](tools/vault-and-security/nova-secret-set.md), [`secret_list`](tools/vault-and-security/nova-secret-list.md), [`secret_delete`](tools/vault-and-security/nova-secret-delete.md), [`scheduled_task_secret_set`](tools/scheduled-tasks/nova-scheduled-task-secret-set.md), [`scheduled_task_secret_list`](tools/scheduled-tasks/nova-scheduled-task-secret-list.md) |
+| **16** | **`fastlanes`** *(upcoming release)* | Let Nova react to events on its own: network monitor events, a schedule or files in a folder, with notifications, web calls or an optional agent wake. The user approves. | `fastlane`, `automation`, `schedule`, `event` | [`fastlane_catalog`](tools/fastlanes/nova-fastlane-catalog.md), [`fastlane_preview`](tools/fastlanes/nova-fastlane-preview.md), [`fastlane_create`](tools/fastlanes/nova-fastlane-create.md), [`fastlane_list`](tools/fastlanes/nova-fastlane-list.md), [`fastlane_set_state`](tools/fastlanes/nova-fastlane-set-state.md), [`fastlane_subscribe`](tools/fastlanes/nova-fastlane-subscribe.md) |
+| **17** | **`secret_store`** | Give an agent an API key it can use but never read back: write-only DPAPI-encrypted env vars. | `secret`, `secrets`, `env secrets` | [`secret_set`](tools/vault-and-security/nova-secret-set.md), [`secret_list`](tools/vault-and-security/nova-secret-list.md), [`secret_delete`](tools/vault-and-security/nova-secret-delete.md) |
 | **18** | **`connector_ops`** | Use the user's configured e-mail accounts and SFTP/FTP servers: send, read, list, transfer. | `connector`, `mail accounts`, `sftp`, `imap`, `smtp` | [`connector_*`](tools/connectors-and-mail/README.md), [`mail_folders`](tools/connectors-and-mail/nova-mail-folders.md), [`mail_list`](tools/connectors-and-mail/nova-mail-list.md), [`mail_read`](tools/connectors-and-mail/nova-mail-read.md), [`mail_send`](tools/connectors-and-mail/nova-mail-send.md), [`sftp_*`](tools/connectors-and-mail/nova-sftp-list.md), [`ftp_*`](tools/connectors-and-mail/nova-ftp-list.md) |
 | **19** | **`external_mcp`** | Run and call other MCP servers through Nova: add, start, stop, discover tools, invoke them. | `external`, `external mcp`, `mcp servers` | [`external_servers`](tools/external-mcp/nova-external-servers.md), [`external_server_add`](tools/external-mcp/nova-external-server-add.md), [`external_tools`](tools/external-mcp/nova-external-tools.md), [`external_tool_call`](tools/external-mcp/nova-external-tool-call.md) |
 | **20** | **`proxy_management`** | Route traffic through a proxy: profiles, global/sandbox switching, health checks, credentials. | `proxy`, `proxies`, `proxy management` | [`proxy_list`](tools/proxy-and-network/nova-proxy-list.md), [`proxy_create`](tools/proxy-and-network/nova-proxy-create.md), [`proxy_switch`](tools/proxy-and-network/nova-proxy-switch.md), [`proxy_test`](tools/proxy-and-network/nova-proxy-test.md), [`proxy_status`](tools/proxy-and-network/nova-proxy-status.md) |
@@ -72,61 +72,42 @@ Bundles group the tools for one kind of task; a tool can be part of several bund
 
 ## 3. Variables, Secrets & State Injection
 
-Nova distinguishes four tiers of runtime variables and cryptographic secrets across autonomous operations:
+Nova distinguishes three tiers of runtime variables and cryptographic secrets across autonomous operations:
 
 ```mermaid
 flowchart LR
-    subgraph PersistentState["1. Persistent Task State Variables"]
-        TV_SET["nova.scheduled_task_var_set"]
-        TV_GET["nova.scheduled_task_var_get"]
-        TV_LIST["nova.scheduled_task_var_list"]
-        TV_DEL["nova.scheduled_task_var_delete"]
-    end
-
-    subgraph EncryptedEnv["2. DPAPI-Encrypted Env Vars & Secrets"]
+    subgraph EncryptedEnv["1. DPAPI-Encrypted Env Vars & Secrets"]
         SEC_SET["nova.secret_set"]
         SEC_LIST["nova.secret_list"]
         SEC_DEL["nova.secret_delete"]
-        TS_SET["nova.scheduled_task_secret_set"]
-        TS_LIST["nova.scheduled_task_secret_list"]
     end
 
-    subgraph BridgeEnv["3. Bridge Environment Variables"]
+    subgraph BridgeEnv["2. Bridge Environment Variables"]
         AUTOSTART["NOVA_MCP_AUTOSTART"]
         COLDSTART["NOVA_MCP_COLD_START_MS"]
     end
 
-    subgraph CallParams["4. Global Parameter Variables"]
+    subgraph CallParams["3. Global Parameter Variables"]
         TID["targetId"]
         OUT["outputDetail"]
         TO["timeoutMs"]
     end
 ```
 
-### A. Task State Variables (`nova.scheduled_task_var_*`)
-Lightweight key-value state retained across scheduled task executions and browser restarts. Tasks track watermarks, timestamps, pagination cursors, and counters (up to 64 KB per value; supports JSON strings) without creating intermediate files on disk:
-* **[`nova.scheduled_task_var_set`](tools/scheduled-tasks/nova-scheduled-task-var-set.md):** Stores or updates a persistent variable for a task.
-* **[`nova.scheduled_task_var_get`](tools/scheduled-tasks/nova-scheduled-task-var-get.md):** Reads the current value of a task variable.
-* **[`nova.scheduled_task_var_list`](tools/scheduled-tasks/nova-scheduled-task-var-list.md):** Lists variable keys and value previews configured for a task.
-* **[`nova.scheduled_task_var_delete`](tools/scheduled-tasks/nova-scheduled-task-var-delete.md):** Removes a state variable when no longer needed.
-* *Architecture guide:* [Scheduled Tasks & Cron Engine](../core-features/scheduled-tasks/README.md).
-
-### B. Encrypted Environment Variables & Secrets (`nova.secret_*`)
+### A. Encrypted Environment Variables & Secrets (`nova.secret_*`)
 Write-only cryptographic storage for API keys and auth tokens (`OPENAI_API_KEY`, `GITHUB_TOKEN`, etc.) protected at rest via Windows Data Protection API (DPAPI). Plaintext values are never returned by any tool; instead, Nova injects them directly as process environment variables into authorized terminal sessions and background task runners:
-* **[`nova.secret_set`](tools/vault-and-security/nova-secret-set.md):** Stores an encrypted secret with strict injection scopes (`workspace`, `task`, `global`). Rejects reserved system names (`PATH`, `TEMP`, `NOVA_*`).
+* **[`nova.secret_set`](tools/vault-and-security/nova-secret-set.md):** Stores an encrypted secret with strict injection scopes (`workspace`, `global`). Rejects reserved system names (`PATH`, `TEMP`, `NOVA_*`).
 * **[`nova.secret_list`](tools/vault-and-security/nova-secret-list.md):** Lists registered secret names, scopes, and target IDs without exposing plaintext values.
 * **[`nova.secret_delete`](tools/vault-and-security/nova-secret-delete.md):** Permanently revokes and purges an encrypted secret.
-* **[`nova.scheduled_task_secret_set`](tools/scheduled-tasks/nova-scheduled-task-secret-set.md):** Stores a DPAPI-encrypted secret scoped specifically to a scheduled task.
-* **[`nova.scheduled_task_secret_list`](tools/scheduled-tasks/nova-scheduled-task-secret-list.md):** Lists registered secret keys bound to a task without disclosing values.
 * *Architecture guide:* [Password Vault & DPAPI Keystore](../core-features/privacy/vault-and-secrets/README.md).
 
-### C. Bridge Environment Variables
+### B. Bridge Environment Variables
 OS environment variables controlling the lifecycle and timing of Nova's native stdio bridge (`NovaBrowser.McpProxy.exe`):
 * **`NOVA_MCP_AUTOSTART`:** Set to `0` to disable automatic launch of Nova when client connects.
 * **`NOVA_MCP_COLD_START_MS`:** Configures bridge cold-start timeout in milliseconds (default `90000`, range `5000`–`300000`).
 * *Specification:* [MCP Protocol & Transport Contract](protocol-and-transport.md#a-stdio-bridge-novabrowsermcpproxyexe).
 
-### D. Secondary Server Environment Variables
+### C. Secondary Server Environment Variables
 * **[`nova.external_server_update`](tools/external-mcp/nova-external-server-update.md):** Updates environment variables, endpoints, and transport arguments for secondary external MCP server processes.
 
 ---
@@ -166,7 +147,7 @@ These conventions recur across many tools. The parameter table on each [tool pag
   * [Phenomenological Knowledge Store & Self-Learning](tools/pks-and-learning/README.md)
   * [Guarded Actions & Blocker Clearance](tools/guarded-actions/README.md)
   * [Headless Terminal Workspaces & TTY](tools/terminal-ops/README.md)
-  * [Scheduled Tasks, Cron & Workspaces](tools/scheduled-tasks/README.md)
+  * [Fastlanes: Events, Conditions & Actions](tools/fastlanes/README.md)
   * [Media Intelligence & Whisper Speech-to-Text](tools/media-and-transcription/README.md)
   * [Downloads Management & Queue Control](tools/downloads/README.md)
   * [Connectors, Mail & File Transfer](tools/connectors-and-mail/README.md)

@@ -78,7 +78,7 @@ To solve this, Nova's deployment engine (`McpProxyLauncher`):
 
 ## 3. Lazy Autostart & Process Breakaway Engine
 
-Autonomous agents frequently run scheduled tasks or CLI commands when Nova is closed. The proxy runner includes an intelligent **Lazy Autostart Engine**:
+Autonomous agents frequently run CLI commands when Nova is closed. The proxy runner includes an intelligent **Lazy Autostart Engine**:
 
 ```mermaid
 sequenceDiagram

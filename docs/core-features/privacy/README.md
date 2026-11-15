@@ -17,7 +17,7 @@ flowchart TD
         FPResolver["Fingerprint Protection Engine<br/>(Early document injection, seeded noise, toString mask)"]
         IdentityEngine["Browser Identity & Client Hints Engine<br/>(User-Agent, Sec-CH-UA, platform spoofing)"]
         VaultStore["Assistant Password Vault (DPAPI)<br/>(SecretRef single-use tokens, zero plaintexts in context)"]
-        SecretStore["Scoped Secret Store<br/>(Env-var injection for terminal & scheduled tasks)"]
+        SecretStore["Scoped Secret Store<br/>(Env-var injection for terminal sessions)"]
         LeakProtector["Anti-Tracking & Leak Protection<br/>(WebRTC IP shielding, session recording redaction)"]
     end
 
@@ -46,7 +46,7 @@ Explore the complete modular documentation suite across the three privacy domain
 ### Domain 1: Password Vault & Scoped Secrets
 * **[Password Vault & Secrets Hub](vault-and-secrets/README.md)**: Zero-knowledge autofill architecture, Windows DPAPI encryption, and threat modeling.
   * **[DPAPI Assistant Vault & SecretRef Tokens](vault-and-secrets/dpapi-vault-and-secretref-tokens/README.md)**: Zero-knowledge fill flow, DPAPI `vault.dat` storage, ephemeral 128-bit `SecretRef` token minting, strict origin binding, 2-hour TTL, native property setter DOM injection (`HTMLInputElement.prototype.value`), and instant token destruction.
-  * **[Scoped Environment Secrets & Execution Audit](vault-and-secrets/scoped-environment-secrets-and-audit/README.md)**: Scoped secret store (`nova.secret_*`), process environment variable delivery into ConPTY terminal runners and scheduled tasks, zero command-line/shell history leaks, task-scoped workspace isolation, and audit trail guarantees.
+  * **[Scoped Environment Secrets & Execution Audit](vault-and-secrets/scoped-environment-secrets-and-audit/README.md)**: Scoped secret store (`nova.secret_*`), process environment variable delivery into ConPTY terminal runners, zero command-line/shell history leaks, workspace isolation, and audit trail guarantees.
 
 ### Domain 2: Fingerprint Protection & Browser Identity
 * **[Fingerprint Protection & Identity Hub](fingerprint-and-identity/README.md)**: Multi-tiered hardware noise injection, scope resolution, and identity presets.
@@ -132,7 +132,7 @@ Agents interact with the privacy subsystem through dedicated tool bundles:
 * [Network Proxy Routing & Traffic Control](../network/proxy/README.md): SOCKS5, HTTP(S), and PAC proxy tunnels.
 * [Session Recording & Time-Travel Debugging](../session-recording/README.md): Encrypted multi-stream capture and capture-time credential redaction.
 * [Terminal Workspaces Architecture](../terminal-workspaces/README.md): ConPTY terminal runners and scoped environment delivery.
-* [Scheduled Tasks Architecture](../scheduled-tasks/README.md): Autonomous background tasks and secret binding.
+* [Fastlanes](../fastlanes/README.md): Event-driven background automation and its approval model.
 
 ---
 

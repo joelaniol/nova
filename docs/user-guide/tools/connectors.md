@@ -140,4 +140,4 @@ All connector capabilities operate under Nova's enterprise permission model:
 * **[SNMP Architecture Guide](../../core-features/connectors/snmp/README.md)** — In-depth SNMPv3 USM, target CIDR bounding, and telemetry pipeline.
 * **[Network Architecture Hub](../../core-features/network/README.md)** — Complete 5-discipline network architecture.
 * **[Integrated Terminal Dock](terminal.md)** — Local ConPTY terminal dock.
-* **[Scheduled Tasks & Automation](scheduled-tasks.md)** — Running recurring automated jobs.
+* **[Fastlanes](fastlanes.md)** — Letting Nova react to events and schedules after you approve it (upcoming release).

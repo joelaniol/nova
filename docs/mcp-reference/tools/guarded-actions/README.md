@@ -8,12 +8,13 @@ High-impact interaction macros with pre-flight safety gates, auth surface verifi
 ---
 
 <!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
-## Tool Inventory (7 Tools)
+## Tool Inventory (8 Tools)
 
 Capability bundles of these tools: `browser_automation`, `form_submission`, `system_tools`, `vault_auth`.
 
 | Tool | What it does |
 | :--- | :--- |
+| **[`nova.account_rule`](nova-account-rule.md)** | Sets how fast agents may act on one site in one account, and keeps two agents from posting the same thing twice. |
 | **[`nova.cmp_apply`](nova-cmp-apply.md)** | Applies a typed privacy consent policy directly through recognized Consent Management Platform (CMP) vendor JavaScript APIs (OneTrust, Sourcepoint, Cookiebot, Usercentrics v3), verifying consent vector state before and after execution. |
 | **[`nova.dismiss_blockers`](nova-dismiss-blockers.md)** | Identifies and removes click-blocking overlays, cookie consent banners, notification prompts, and modal backdrops. |
 | **[`nova.guarded_login`](nova-guarded-login.md)** | High-level guarded macro for login form submissions, featuring integrated Auth Surface Detection (ASD) that distinguishes between authentication rejections and multi-factor (2FA/MFA) follow-up states. |

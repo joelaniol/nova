@@ -36,7 +36,7 @@ flowchart LR
     Recording[Recording directory] --> Validator[ReplayValidator]
 ```
 
-The diagram shows responsibility, rather than a promise that every box is always running. ReplayValidator is invoked separately; opening Nova does not automatically start a recording analysis. Scheduled task executors also have their own launch lifecycle and should not all be attributed to TerminalRunner.
+The diagram shows responsibility, rather than a promise that every box is always running. ReplayValidator is invoked separately; opening Nova does not automatically start a recording analysis. Windowless agent runs started by a fastlane also have their own launch lifecycle and should not be attributed to TerminalRunner.
 
 ## Choose the Page for Your Question
 

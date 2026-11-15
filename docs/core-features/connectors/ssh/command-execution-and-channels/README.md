@@ -93,7 +93,7 @@ To prevent Man-in-the-Middle (MitM) attacks, Nova mandates host-key trust:
 ### Capability Stages
 Command execution requires the dedicated **`process.exec`** capability stage:
 * The `process.exec` grant is independent of the file-transfer `full` grant: being authorized to upload files via SFTP does not silently authorize executing arbitrary commands.
-* If `process.exec` is unset, interactive runs prompt once ("Always" persists the grant). Unattended runs (such as scheduled tasks) fail closed until the grant is configured.
+* If `process.exec` is unset, interactive runs prompt once ("Always" persists the grant). Unattended runs (such as background fastlane runs) fail closed until the grant is configured.
 
 ---
 

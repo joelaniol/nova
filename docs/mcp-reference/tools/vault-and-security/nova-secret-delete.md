@@ -19,9 +19,8 @@
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `name` | `string` | Yes | — | — | Secret name. |
-| `scope` | `string` | Yes | — | `global`, `workspace`, `task` | Scope the secret lives in. |
+| `scope` | `string` | Yes | — | `global`, `workspace` | Scope the secret lives in. |
 | `workspaceId` | `string` | No | — | — | Terminal workspace id (required for scope='workspace'). |
-| `taskId` | `string` | No | — | — | Task id (required for scope='task'). |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 
@@ -57,7 +56,6 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
     "name": "PROD_DB_API_KEY",
     "scope": "global",
     "workspaceId": null,
-    "taskId": null,
     "deleted": true,
     "found": true
   }

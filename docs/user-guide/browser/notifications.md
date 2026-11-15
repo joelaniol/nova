@@ -1,7 +1,7 @@
 # Desktop Notifications & Notification Center
 
 > [!NOTE]
-> Nova AI Workspace unifies alerts from websites, background downloads, scheduled tasks, and local AI coding agents into a central Notification Center and delivers native Windows desktop toast banners.
+> Nova AI Workspace unifies alerts from websites, background downloads, fastlanes, and local AI coding agents into a central Notification Center and delivers native Windows desktop toast banners.
 
 ---
 

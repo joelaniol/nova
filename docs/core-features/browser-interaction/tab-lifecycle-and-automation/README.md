@@ -224,7 +224,7 @@ The Tab Lifecycle & Automation subsystem includes **10 specialized tools**:
 * [Browser Interaction Architecture](../README.md) — Low-level input dispatch, click mechanics, and physical frame timings.
 * [Advanced Scrolling Mechanisms](../input-dispatch/advanced-scrolling-mechanisms/README.md) — Dynamic container scoring, feed saturation, and rebound recovery.
 * [Multi-Sandbox Session Isolation](../../sandbox-isolation/README.md) — Partitioned profiles, indestructible disk anchors, and identity routing.
-* [Scheduled Tasks & Background Automation Engine](../../scheduled-tasks/README.md) — Persistent cron jobs and recurring background execution.
+* [Fastlanes: Event-Driven Automation](../../fastlanes/README.md) — Events, conditions and actions that run in the background after the user approves them.
 * [User Guide: Tabs & Windows](../../../user-guide/browser/tabs-and-windows.md) — Desktop UI instructions for managing browser tabs and windows.
 
 [Browser interaction overview](../README.md) · [All core features](../../README.md)

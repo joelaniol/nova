@@ -76,7 +76,7 @@ Every tool call is classified before it runs. Nova groups calls by what they can
 |---|---|
 | Critical actions | Reading cookie values, granting site permissions, accepting an untrusted certificate |
 | Actions that modify websites | Navigating, clicking, typing, submitting forms, sending mail, remote shells and file transfer |
-| Save data permanently | Notes, learned site knowledge, scheduled tasks, connectors, proxy settings |
+| Save data permanently | Notes, learned site knowledge, connectors, proxy settings |
 | Read passwords and private data | Reading page content and screenshots, recording audio, vault entries |
 
 Critical actions require the agent to state a reason, and Nova asks the user every time by default. The other groups do not ask by default, so normal work runs without interruptions. "Always allow" in the confirmation dialog changes this for a group. **Settings → Agents → Autonomy level** sets the overall style, from fully automatic to supervised.
@@ -84,7 +84,7 @@ Critical actions require the agent to state a reason, and Nova asks the user eve
 **While a risk is active, Nova tightens these settings on its own:**
 
 - Actions through which data can leave the machine ask **every time**: opening a URL, clicking, typing, submitting, uploading, sending mail, remote commands and running script in the page. This holds even if you set them to never ask *(from alpha.21)*.
-- Lasting changes that later agents would read ask every time too: notes, memory, learned site knowledge, scheduled tasks, connectors and proxy changes *(from alpha.21)*.
+- Lasting changes that later agents would read ask every time too: notes, memory, learned site knowledge, connectors and proxy changes *(from alpha.21)*.
 - An approval covers that one call only. "Allow for this session" is not offered.
 - Housekeeping stays unasked: scrolling, zoom, window size and tab management. Asking for those would stop the work without protecting anything.
 

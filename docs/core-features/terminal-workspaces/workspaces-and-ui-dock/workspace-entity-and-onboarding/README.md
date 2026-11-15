@@ -115,18 +115,8 @@ To ensure developers and AI agents utilize the modern cross-platform PowerShell 
 
 ---
 
-## 4. Scheduled Tasks Workspace Integration
-
-Nova's [Scheduled Tasks & Automation Engine](../../../scheduled-tasks/README.md) integrates directly with terminal workspaces:
-
-* Background automation jobs can bind to a `workspaceId`, inheriting its root directory and environment configuration.
-* Tasks exchange files and reports through the workspace's `shared/` directory under a strict **1 MiB UTF-8 byte boundary**.
-
----
-
-## 5. Related Documentation
+## 4. Related Documentation
 
 * [Workspaces, UI Dock & Appearance Overview](../README.md)
 * [WinUI Dock Chrome, Theming & Activity Monitoring](../winui-dock-chrome-and-theming/README.md)
-* [Scheduled Tasks Engine Architecture](../../../scheduled-tasks/README.md)
 * [Terminal Open Tool Reference](../../../../mcp-reference/tools/terminal-ops/nova-terminal-open.md)

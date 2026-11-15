@@ -242,4 +242,4 @@ Terminates an instance that cannot satisfy its completion criteria due to perman
 * **[Episodic Task Memory Overview](README.md)** — Architectural hub, taxonomy, and system integrations.
 * **[Task Profiles & Matching Engine](task-profiles-and-matching.md)** — Profile blueprints, multi-factor scoring, and confidence tuning.
 * **[Completion Evaluator & Evidence Verification](completion-evaluator-and-evidence-verification.md)** — Completion modes, TOB evidence ledgers, and gates.
-* **[Guidance Lifecycle & Scheduled Execution](guidance-lifecycle-and-scheduled-execution.md)** — Logging emergent tips, promotion pipelines, and cron triggers.
+* **[Guidance Lifecycle & Promotion](guidance-lifecycle-and-scheduled-execution.md)** — Logging emergent tips, and promotion pipelines.

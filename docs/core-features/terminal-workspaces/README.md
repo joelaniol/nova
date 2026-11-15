@@ -71,7 +71,7 @@ flowchart LR
 | **IPC Named Pipe Wire Protocol** | Duplex named pipe protocol, 9-byte binary header framing, atomic pre-composed writes, dual-channel single-writer architecture, synchronous sink registration invariant, JSON control frames, and `PtyOutputRing` circular buffer. | [IPC Wire Protocol](ipc-wire-protocol/README.md) |
 | **Agent Sessions & Security** | Physical separation between human dock sessions and headless agent sessions, PowerShell sanitization (`Remove-Module PSReadLine`), CWD allowed-root policy, concurrency cap of 8 with automatic exited eviction, and ephemeral directory reclamation. | [Agent Sessions & Security](agent-sessions-and-security/README.md) |
 | **Command Execution & Sentinel Protocol** | `terminal_run_command` mechanics, unique nonce sentinels (`NOVAEXIT_{nonce}`), high-efficiency tail scanning (256-byte overlap margin), `$?` vs `$LASTEXITCODE` exit code resolution, `RunGate` semaphore, and non-destructive timeouts. | [Command Execution & Sentinels](command-execution-and-sentinels/README.md) |
-| **Workspaces, UI Dock & Appearance** | `TerminalWorkspace` persistent entity model, `.nova/` onboarding injection, scheduled task workspaces, PowerShell discovery engine, real-time activity monitoring (2s/6s pulsing dot), mount failure recovery, WinUI 3 dock chrome, permission gating, and `NO_COLOR` environment toggles. | [Workspaces, UI Dock & Appearance](workspaces-and-ui-dock/README.md) |
+| **Workspaces, UI Dock & Appearance** | `TerminalWorkspace` persistent entity model, `.nova/` onboarding injection, PowerShell discovery engine, real-time activity monitoring (2s/6s pulsing dot), mount failure recovery, WinUI 3 dock chrome, permission gating, and `NO_COLOR` environment toggles. | [Workspaces, UI Dock & Appearance](workspaces-and-ui-dock/README.md) |
 
 ---
 
@@ -170,7 +170,7 @@ Explore the dedicated deep-dive guides for technical specifications, protocol fr
 ## Related Documentation
 
 * **[Remote SSH Pseudo-Terminal (PTY) Architecture](../connectors/ssh/README.md)** — Interactive remote terminals and streaming execution over SSH.
-* **[Scheduled Tasks & Automation Engine](../scheduled-tasks/README.md)** — Automated task runs bound to terminal workspaces.
+* **[Fastlanes: Event-Driven Automation](../fastlanes/README.md)** — Automations that react to events in the background.
 * **[TerminalRunner Component Reference](../../components/terminal-runner.md)** — Standalone component specification for `NovaBrowser.TerminalRunner.exe`.
 * **[Outrider Process Boundary](../../components/outrider/README.md)** — Nova's disposable native OS and hardware diagnostic process.
 * **[MCP Reference & Capability Bundles](../../mcp-reference/README.md)** — Complete catalog of all MCP tools and discovery bundles.

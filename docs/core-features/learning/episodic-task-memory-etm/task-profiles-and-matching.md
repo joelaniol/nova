@@ -229,4 +229,4 @@ Creates or updates an operational task profile.
 * **[Episodic Task Memory Overview](README.md)** — Architectural hub, taxonomy, and system integrations.
 * **[Instances, Work Units & Progress](instances-work-units-and-progress.md)** — Task execution runs, frontier freezing, and state transitions.
 * **[Completion Evaluator & Evidence Verification](completion-evaluator-and-evidence-verification.md)** — Completion modes, TOB evidence ledgers, and gates.
-* **[Guidance Lifecycle & Scheduled Execution](guidance-lifecycle-and-scheduled-execution.md)** — Logging emergent tips, promotion pipelines, and cron triggers.
+* **[Guidance Lifecycle & Promotion](guidance-lifecycle-and-scheduled-execution.md)** — Logging emergent tips, and promotion pipelines.

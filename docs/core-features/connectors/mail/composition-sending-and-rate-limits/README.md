@@ -106,7 +106,7 @@ stateDiagram-v2
 
 ### Tier 1: Capability Authorizer (`send`)
 The connector profile must have the `send` capability granted:
-* In unattended runs (e.g. background scheduled tasks), calling `nova.mail_send` on an account configured with `ask` fails closed with error code `-32033` (`connector_approval_required`).
+* In unattended runs (e.g. background fastlane runs), calling `nova.mail_send` on an account configured with `ask` fails closed with error code `-32033` (`connector_approval_required`).
 * An explicit `always` grant must be set in Nova Settings or via `nova.connector_grant_set`.
 
 ### Tier 2: Recipient Allow-List Policy (`AllowedRecipients`)

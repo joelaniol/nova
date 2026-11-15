@@ -6,10 +6,10 @@ Lists registered secret names, scopes, and association identifiers from Nova's u
 
 ## 1. Overview
 
-`nova.secret_list` provides inventory visibility into environment variables and secrets configured across workspaces and scheduled tasks. In accordance with zero-trust architectural design, secret values are omitted entirely from response payloads, guaranteeing that no LLM or prompt inspection can leak credentials.
+`nova.secret_list` provides inventory visibility into environment variables and secrets configured globally and per workspace. In accordance with zero-trust architectural design, secret values are omitted entirely from response payloads, guaranteeing that no LLM or prompt inspection can leak credentials.
 
 * **Zero Value Disclosures:** Only names, scopes, and creation metadata are returned.
-* **Granular Filtering:** Filter by `scope` (`global`, `workspace`, or `task`), or restrict to a specific `workspaceId` or `taskId`.
+* **Granular Filtering:** Filter by `scope` (`global` or `workspace`), or restrict to a specific `workspaceId`.
 * **Paginated Output:** Supports `limit` and `offset` for large corporate deployments.
 
 ---
@@ -19,9 +19,8 @@ Lists registered secret names, scopes, and association identifiers from Nova's u
 <!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
-| `scope` | `string` | No | — | `global`, `workspace`, `task` | Optional scope filter. |
+| `scope` | `string` | No | — | `global`, `workspace` | Optional scope filter. |
 | `workspaceId` | `string` | No | — | — | Optional: only secrets scoped or granted to this workspace. |
-| `taskId` | `string` | No | — | — | Task id (required for scope='task'). |
 | `limit` | `integer` | No | `100` | 1–500 | Maximum entries to return (1-500). Default: 100. |
 | `offset` | `integer` | No | `0` | ≥ 0 | Number of entries to skip before returning this page. Default: 0. |
 
@@ -40,15 +39,6 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 {
   "_meta": { "intent": "Verifying required environment variables are set before starting build" },
   "workspaceId": "ws-backend-deploy"
-}
-```
-
-### Inspect Secrets Dedicated to a Scheduled Task
-```json
-{
-  "_meta": { "intent": "Checking backup runner credentials" },
-  "scope": "task",
-  "taskId": "task-nightly-backup"
 }
 ```
 
@@ -90,14 +80,12 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
 }
 ```
 
-Task-scoped listings (`scope: "task"`) return a lighter shape per entry: `{ "name": ..., "scope": "task", "taskId": ... }`.
-
 ---
 
 ## 5. Operational Best Practices
 
 * **Zero-Knowledge Token Boundary:** `secret_list` never reveals secret values. Use it solely to audit inventory, check variable availability, and verify scope associations before invoking commands or background jobs.
-* **Scope Hierarchy Awareness:** Understand that `global` secrets are accessible workspace-wide, `workspace` secrets are bound to a specific terminal workspace ID (`workspaceId`), and `task` secrets are bound exclusively to scheduled tasks (`taskId`).
+* **Scope Hierarchy Awareness:** Understand that `global` secrets are accessible workspace-wide, and `workspace` secrets are bound to a specific terminal workspace ID (`workspaceId`).
 * **Pagination on Corporate Deployments:** When listing extensive secret stores, respect the default `limit: 100` (max 500) and check `truncated: true` and `nextOffset` to iterate through pages.
 * **Auditing Before Execution:** Run `secret_list` with `workspaceId` prior to running terminal builds or deploy scripts to ensure all required API keys and deployment tokens are provisioned.
 

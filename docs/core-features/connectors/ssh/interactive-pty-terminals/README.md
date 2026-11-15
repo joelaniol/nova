@@ -62,7 +62,7 @@ Nova's PTY subsystem allocates a dedicated **pseudo-terminal device** (`/dev/pts
 The pseudo-terminal is the most capable execution mode in Nova's SSH subsystem:
 * **Atomic Grant:** Because a PTY session can spawn interactive shells, feed keystrokes, and navigate file systems, opening a terminal requires the **`process.pty`** capability. Granting `process.pty` atomically authorizes `process.exec` + `process.stdin` + `process.pty` in a single prompt.
 * **Strict Opt-In:** `process.pty` is never implicitly inherited from weaker file-transfer (`read`, `full`) or one-shot execution (`process.exec`) permissions.
-* **Unattended Restriction:** In unattended runs (e.g. background scheduled tasks), calling `nova.ssh_shell_open` without a prior persistent `always` grant fails closed immediately with error code `-32033` (`connector_approval_required`).
+* **Unattended Restriction:** In unattended runs (e.g. background fastlane runs), calling `nova.ssh_shell_open` without a prior persistent `always` grant fails closed immediately with error code `-32033` (`connector_approval_required`).
 
 ---
 

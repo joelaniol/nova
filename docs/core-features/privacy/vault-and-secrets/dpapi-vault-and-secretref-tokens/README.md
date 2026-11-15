@@ -160,7 +160,7 @@ Once the agent has filled the username field using standard interaction tools, i
 
 ## 7. Related Documentation
 
-* [Scoped Environment Secrets & Task Delivery](../scoped-environment-secrets-and-audit/README.md): Environment variable injection for ConPTY terminals and scheduled tasks.
+* [Scoped Environment Secrets & Task Delivery](../scoped-environment-secrets-and-audit/README.md): Environment variable injection for ConPTY terminals.
 * [Password Vault & Secrets Hub](../README.md): Overview of credential management and threat models.
 * [Anti-Tracking & Leak Protection](../../anti-tracking-and-leak-protection/README.md): WebRTC IP leak prevention and capture-time redaction.
 * [Vault Prepare Fill Tool Reference](../../../../mcp-reference/tools/vault-and-security/nova-vault-prepare-fill.md) · [Type Selector Secret Reference](../../../../mcp-reference/tools/vault-and-security/nova-type-selector-secret.md)

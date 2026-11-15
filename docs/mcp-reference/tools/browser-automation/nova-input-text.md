@@ -20,6 +20,7 @@
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
 | `text` | `string` | Yes | — | — | Text to type. Maximum 500000 characters; use nova.type_selector for selector-focused typing. |
+| `inputMode` | `string` | No | `"native"` | `native`, `keyboard` | 'native' inserts the text in one go. 'keyboard' presses one key per character on the user's keyboard layout, 40-160 ms apart (trusted keydown/keyup, for pages that listen to keys); characters without a key go in as text one by one; up to 500 characters; result.keyboardInput counts what was typed. |
 
 Capability bundle: `browser_automation` (load it with `nova.tools_bundle(bundle='browser_automation')`).
 Tool category: `normal` (standard risk class in Nova's agent permission settings).

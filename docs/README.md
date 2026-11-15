@@ -44,7 +44,7 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 | [Browser](user-guide/browser/README.md) | Tabs, favorites, history, downloads, private browsing and shortcuts |
 | [Identity & security](user-guide/identity-and-security/README.md) | Passwords, permissions, certificates, sandboxes and proxies |
 | [Agents](user-guide/agents/README.md) | Connection, watching work, taking over, Domain Notes and onboarding |
-| [Tools](user-guide/tools/README.md) | Terminal, transcription, OCR, tabular data, documents, scheduled tasks and connectors |
+| [Tools](user-guide/tools/README.md) | Terminal, transcription, OCR, tabular data, documents, fastlanes and connectors |
 | [Settings](user-guide/settings/README.md) | Workspace preferences, 14 settings panels, storage persistence and agent governance |
 
 ## Agent integration
@@ -87,7 +87,7 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 | [Crawler and discovery](mcp-reference/tools/crawler-and-discovery/) | Crawling sites and mapping their pages |
 | [PKS and learning](mcp-reference/tools/pks-and-learning/) | Learned site knowledge and its review |
 | [Task memory](mcp-reference/tools/task-memory/) | Task profiles, progress and memory notes |
-| [Scheduled tasks](mcp-reference/tools/scheduled-tasks/) | Jobs that run on a schedule |
+| [Fastlanes](mcp-reference/tools/fastlanes/) | Event-driven automations the user approves (upcoming release) |
 | [Session recording](mcp-reference/tools/session-recording/) | Recording and replaying a session |
 | [Media and transcription](mcp-reference/tools/media-and-transcription/) | Camera, microphone, capture, speech to text |
 | [Notifications](mcp-reference/tools/notifications/) | Site notifications and their permissions |
@@ -168,7 +168,7 @@ Explore how Nova acts, verifies and learns; identify its helper processes; or lo
 | Page | What it covers |
 |---|---|
 | [Terminal Workspaces & ConPTY Integration](core-features/terminal-workspaces/README.md) | Terminals the agent can use |
-| [Scheduled Tasks & Background Automation Engine](core-features/scheduled-tasks/README.md) | Work that runs on its own |
+| [Fastlanes: Event-Driven Automation](core-features/fastlanes/README.md) | Work that runs on its own, after you approve it (upcoming release) |
 | [Connectors](core-features/connectors/README.md) | Mail, SSH, SFTP, FTP/FTPS and external MCP servers |
 | [Media Intelligence](core-features/media-intelligence/README.md) | Speech transcription, image viewing, PDFs, playback, capture and media devices |
 | [Agent-Authored Plugins (AAP) & Jint JavaScript Runtime](core-features/plugins/README.md) | Small scripts an agent writes for a site |

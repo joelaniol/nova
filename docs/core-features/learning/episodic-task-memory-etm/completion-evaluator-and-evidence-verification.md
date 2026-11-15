@@ -216,6 +216,6 @@ When a task instance operates on URL work units (`unitSource: site_urls`), ETM a
 * **[Episodic Task Memory Overview](README.md)** — Architectural hub, taxonomy, and system integrations.
 * **[Task Profiles & Matching Engine](task-profiles-and-matching.md)** — Profile blueprints, multi-factor scoring, and confidence tuning.
 * **[Instances, Work Units & Progress](instances-work-units-and-progress.md)** — Task execution runs, frontier freezing, and state transitions.
-* **[Guidance Lifecycle & Scheduled Execution](guidance-lifecycle-and-scheduled-execution.md)** — Logging emergent tips, promotion pipelines, and cron triggers.
+* **[Guidance Lifecycle & Promotion](guidance-lifecycle-and-scheduled-execution.md)** — Logging emergent tips, and promotion pipelines.
 * **[Task URL Coverage (TUC)](../task-url-coverage-tuc/README.md)** — URL work units, trusted scan evidence, and coverage gates.
 * **[Tool Observation Bus (TOB)](../../tool-observation-bus-tob/README.md)** — Immutable execution log, claims, and visit windows.

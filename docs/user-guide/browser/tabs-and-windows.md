@@ -33,7 +33,7 @@ flowchart TD
         ToolBar["Navigation & Omnibox Toolbar<br/>• History Navigation (Back, Forward, Reload)<br/>• Address Bar with Scoped Search (@bookmarks, @history)<br/>• Dynamic Status Badges (Downloads, Agent, Notifications, Bell)"]
         BookmarkBar["Bookmarks Bar (Optional Ctrl+Shift+B)<br/>• Quick-access folders and speed dials"]
         Viewport["Main Viewport & Overlays<br/>• High-performance WebView2 rendering<br/>• Integrated ConPTY Terminal Dock<br/>• Real-time AI Assist Cursor & HUD Overlay"]
-        Tray["Windows System Tray & Background Service<br/>• Background task scheduler & MCP server bridge<br/>• Tray status tooltip & emergency stop"]
+        Tray["Windows System Tray & Background Service<br/>• Background fastlanes & MCP server bridge<br/>• Tray status tooltip & emergency stop"]
     end
 
     TitleBar --> ToolBar

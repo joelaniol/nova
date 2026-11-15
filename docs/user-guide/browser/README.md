@@ -65,7 +65,7 @@ Explore the complete suite of daily browser guides covering navigation, tab mana
 * **[User Guide Overview](../README.md)** — Master table of contents for all user features.
 * **[Identity & Security](../identity-and-security/README.md)** — Passwords, sandboxes, origin permissions, and proxy tunnels.
 * **[Agent Collaboration](../agents/README.md)** — Connecting, observing, and directing AI coding agents.
-* **[Workspace Tools](../tools/README.md)** — Terminal dock, Whisper transcription, and background scheduled tasks.
+* **[Workspace Tools](../tools/README.md)** — Terminal dock, Whisper transcription, and fastlanes (upcoming).
 
 ---
 

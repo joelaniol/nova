@@ -117,5 +117,5 @@ When an agent transcribes media, the same safety guarantees apply: inference rem
 ## Related Documentation
 
 * **[Core Features: Media Intelligence](../../core-features/media-intelligence/README.md)** — Architectural deep-dive into Outrider, audio extraction, and crash isolation.
-* **[Tools Overview](README.md)** — Other built-in tools including the Terminal Dock, Recordings, and Scheduled Tasks.
+* **[Tools Overview](README.md)** — Other built-in tools including the Terminal Dock, Recordings, and Fastlanes.
 * **[Settings Guide](../settings/README.md)** — Managing workspace preferences and model downloads.

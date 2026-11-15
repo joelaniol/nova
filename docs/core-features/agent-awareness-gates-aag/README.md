@@ -124,7 +124,7 @@ sequenceDiagram
         AAG-->>Agent: CallToolResult { isError: true, reasonCode: "storage.low_free_space" }
     end
 
-    GW->>GW: Stage 2: Scheduled Task & Parameter Validation (-32602)
+    GW->>GW: Stage 2: Parameter Validation (-32602)
     GW->>AAG: Stage 3: PrepareToolsCallExecutionPlanAsync
     Note over AAG: Evaluates Bootstrap, Perceive-First, Tab Claims,<br/>Site Notes, SPA Guards, Sandbox Ambiguity
 

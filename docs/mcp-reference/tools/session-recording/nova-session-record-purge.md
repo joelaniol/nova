@@ -75,11 +75,11 @@ The response does not report freed disk space — only counts of scanned/retaine
 
 * **Intent Required:** As a destructive file-deletion tool, Nova enforces mandatory `_meta.intent` declaration.
 * **TTL Protects Active Sessions:** Since a running recording's hard TTL cap is 60 minutes, no directory can still be "active" once it is a day or more old — the minimum `olderThanDays` value — so a purge call never has to choose between an active and a finalized recording.
-* **Automated Housekeeping:** Recommended for scheduled weekly cron cleanup tasks.
+* **Automated Housekeeping:** Recommended for periodic cleanup, for example from a fastlane on a weekly schedule.
 
 ---
 
 ## 5. Related Tools
 
 * [`nova.session_record_export`](nova-session-record-export.md) — Export before purging if archiving is needed.
-* [`nova.scheduled_task_create`](../scheduled-tasks/nova-scheduled-task-create.md) — Schedule periodic maintenance.
+* [`nova.fastlane_create`](../fastlanes/nova-fastlane-create.md) — Set up periodic maintenance (a time source with a run).

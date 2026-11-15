@@ -135,7 +135,7 @@ stateDiagram-v2
 ```
 
 * **Master Gate (`AppSettings.EnableNotifications`):** When turned off globally, all OS toasts are suppressed.
-* **Do Not Disturb & Urgent Override:** Routine notifications are suppressed during active Windows Focus Assist periods. However, notifications marked with `Urgent = true` (such as failed scheduled tasks or critical security warnings) escalate to the Windows `Urgent` scenario, breaking through Focus Assist.
+* **Do Not Disturb & Urgent Override:** Routine notifications are suppressed during active Windows Focus Assist periods. However, notifications marked with `Urgent = true` (such as critical security warnings) escalate to the Windows `Urgent` scenario, breaking through Focus Assist.
 * **Per-Source Gate:** Users can independently toggle OS toasts for Websites, Nova system alerts, and AI Agents in Settings.
 * **Registration Self-Healing:** On unpackaged WinUI 3 boots where Windows shell registration is momentarily delayed, toasts are safely enqueued and flushed once registration succeeds.
 

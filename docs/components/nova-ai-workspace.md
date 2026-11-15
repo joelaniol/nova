@@ -10,7 +10,7 @@ The product name is Nova AI Workspace, or Nova. Helper executable names retain t
 
 Nova delegates particular workloads instead of putting every operation in the interactive app: native probes go to [Outrider](outrider/README.md), consoles to [TerminalRunner](terminal-runner.md), and agent transport adaptation to [McpProxy](mcp-proxy.md). Each boundary has its own purpose and lifetime.
 
-Quitting Nova stops its in-app scheduler and interactive tool server. Keeping Nova running in the background leaves the application alive. Hosted terminal processes can remain in TerminalRunner; that does not mean scheduled tasks continue being dispatched after the main process exits.
+Quitting Nova stops its in-app automation (fastlanes) and interactive tool server. Keeping Nova running in the background leaves the application alive. Hosted terminal processes can remain in TerminalRunner; that does not mean fastlanes continue reacting after the main process exits.
 
 ## What the Main Process Owns
 
@@ -20,7 +20,7 @@ Quitting Nova stops its in-app scheduler and interactive tool server. Keeping No
 | Website profiles | Selecting the ordinary, private or sandbox profile used by a WebView. |
 | Agent tools | Publishing capabilities, receiving MCP calls and coordinating actions with Nova's policy and permission checks. |
 | Knowledge and evidence | Coordinating learning, stored knowledge, task experience and recordings through the relevant subsystems. |
-| Background automation | Dispatching scheduled tasks while the application process is running. |
+| Background automation | Fastlanes reacting to events while the application process is running (upcoming release). |
 | Helper coordination | Starting native jobs and connecting console or transport helpers to the features that need them. |
 
 These responsibilities do not mean every operation runs on the UI thread. They identify the application that coordinates the work. The browser engine, native probes and console programs have their own process boundaries.
@@ -33,12 +33,12 @@ An action involving a console or native device can cross another boundary. Nova 
 
 ## Window Visibility and Application Lifetime
 
-**Keep running in the background** hides Nova in the Windows notification area while its process remains alive. Scheduled tasks can still be dispatched in this mode. **Quit Nova** ends the application; the in-app scheduler and MCP server then stop. A hidden window is therefore different from an exited process.
+**Keep running in the background** hides Nova in the Windows notification area while its process remains alive. Fastlanes keep reacting in this mode. **Quit Nova** ends the application; fastlanes and the MCP server then stop. A hidden window is therefore different from an exited process.
 
 TerminalRunner may still host a shell after Nova exits. Conversely, a running MCP proxy may attempt to start Nova when a client needs it. Seeing either helper does not establish that the main app is currently ready to accept tools.
 
 ## Learn More
 
 * [Workspace layout](../user-guide/browser/tabs-and-windows.md)
-* [Scheduled tasks](../core-features/scheduled-tasks/README.md)
+* [Fastlanes](../core-features/fastlanes/README.md)
 * [All components](README.md)

@@ -70,7 +70,7 @@ Nova maintains an immutable, hardened catalog of file extensions capable of exec
 
 ## 3. Unattended Surface Protection (Fail-Closed)
 
-When an autonomous agent runs a scheduled task, background research subagent, or headless crawl, there is no interactive human user present to inspect security dialogs.
+When an autonomous agent runs a background fastlane run, background research subagent, or headless crawl, there is no interactive human user present to inspect security dialogs.
 
 In this scenario, Nova enforces a strict **Fail-Closed Policy**:
 1. When `SaveFileSecurityCheckStarting` fires for any extension present in the `AlwaysBlockedExtensions` catalog, Nova inspects the active surface context.

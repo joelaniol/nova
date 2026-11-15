@@ -35,7 +35,7 @@ Those concepts should not be read as separate virtual machines or separate Windo
 
 ## Understanding Other Entries
 
-Windows console infrastructure, such as a console-host process, can also accompany ConPTY sessions. A terminal shell may launch a compiler, development server or agent CLI. A scheduled task may launch its configured executor. Those programs can create their own child processes, with names and lifetimes determined by the workload. A running Node.js process, for example, is not enough to identify which agent or server is using it.
+Windows console infrastructure, such as a console-host process, can also accompany ConPTY sessions. A terminal shell may launch a compiler, development server or agent CLI. A fastlane may start a windowless agent run. Those programs can create their own child processes, with names and lifetimes determined by the workload. A running Node.js process, for example, is not enough to identify which agent or server is using it.
 
 For an unfamiliar process, first identify its executable path, parent and the feature active at the time. Then use the relevant component page: native device work belongs with Outrider, consoles with TerminalRunner, and an agent's stdio MCP connection with McpProxy. Process count alone cannot establish a leak or a duplicate installation.
 
@@ -43,5 +43,5 @@ For an unfamiliar process, first identify its executable path, parent and the fe
 
 * [Sandbox isolation](../core-features/sandbox-isolation/README.md)
 * [TerminalRunner](terminal-runner.md)
-* [Scheduled tasks](../core-features/scheduled-tasks/README.md)
+* [Fastlanes](../core-features/fastlanes/README.md)
 * [All components](README.md)

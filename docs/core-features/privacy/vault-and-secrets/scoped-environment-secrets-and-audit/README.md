@@ -2,7 +2,7 @@
 
 While the Assistant Password Vault specializes in interactive browser form filling via `SecretRef` tokens, autonomous workflows frequently require access to non-interactive credentials: API keys for external services, database connection strings, deployment tokens, and private SSH passphrases. In standard CLI automation, embedding secrets into shell commands or script files risks exposing them in process tables (`Get-Process`), shell history files (`.bash_history`, `ConsoleHost_history.txt`), and agent transcripts.
 
-Nova AI Workspace resolves this challenge through the **Scoped Secret Store**: an encrypted repository that delivers credentials directly into target child execution contexts (ConPTY terminal sessions, background tasks, and containerized jobs) as ephemeral environment variables.
+Nova AI Workspace resolves this challenge through the **Scoped Secret Store**: an encrypted repository that delivers credentials directly into target child execution contexts (ConPTY terminal sessions and containerized jobs) as ephemeral environment variables.
 
 ---
 
@@ -27,7 +27,7 @@ flowchart TD
 
     subgraph ExecutionContexts ["Ephemeral Injection Targets"]
         TerminalRunner["ConPTY Terminal Session<br/>(nova.terminal_open / run_command)"]
-        ScheduledTask["Scheduled Background Task<br/>(Scheduled Task Engine)"]
+        ScheduledTask["Background run<br/>(unattended)"]
         OutriderProcess["Outrider Native OS Probe<br/>(External Helper Process)"]
     end
 
@@ -52,7 +52,7 @@ Agents and operators manage scoped credentials using the `vault-and-security` to
 
 ## 3. Dynamic Environment Variable Injection
 
-When an agent launches a terminal session via [`nova.terminal_open`](../../../../mcp-reference/tools/terminal-ops/nova-terminal-open.md) or initiates a scheduled task, secrets are delivered strictly as **process environment variables**:
+When an agent launches a terminal session via [`nova.terminal_open`](../../../../mcp-reference/tools/terminal-ops/nova-terminal-open.md), secrets are delivered strictly as **process environment variables**:
 
 ```mermaid
 sequenceDiagram
@@ -78,17 +78,7 @@ sequenceDiagram
 
 ---
 
-## 4. Scheduled Task Secret Chaining
-
-Autonomous background routines and recurring maintenance tasks managed by Nova's [Scheduled Tasks](../../../scheduled-tasks/README.md) subsystem often require ongoing credential access:
-
-* **Task-Scoped Bindings:** Using [`nova.scheduled_task_secret_set`](../../../../mcp-reference/tools/scheduled-tasks/nova-scheduled-task-secret-set.md), operators can bind specific secrets to individual scheduled task definitions.
-* **Workspace Isolation:** Tasks running in isolated sandbox directories receive only the secrets explicitly mapped to their profile. A task configured to perform website health checks cannot access deployment credentials bound to a production release task.
-* **Zero Transcript Exposure:** When tasks generate execution summaries or error logs, Nova's capture redactor cross-references active secret fingerprints, replacing any accidentally printed tokens with `[redacted:secret]`.
-
----
-
-## 5. Audit Logging & Compliance Guarantees
+## 4. Audit Logging & Compliance Guarantees
 
 Every interaction with the Scoped Secret Store is recorded in Nova's local diagnostic audit trail:
 
@@ -107,14 +97,13 @@ Every interaction with the Scoped Secret Store is recorded in Nova's local diagn
 ### Governance Invariants
 * **Key-Only Logging:** Audit logs record only the key name, timestamp, and target context. Credential values are cryptographically blocked from appearing in host logs.
 * **Tamper-Resistant Storage:** Secret files (`secrets.dat`) are guarded by Windows DPAPI tied to the active Windows user account, preventing offline data theft.
-* **Enterprise Key Rotation:** Updating a secret key via `nova.secret_set` immediately updates all subsequent terminal launches and scheduled task executions without requiring an application restart.
+* **Enterprise Key Rotation:** Updating a secret key via `nova.secret_set` immediately updates all subsequent terminal launches without requiring an application restart.
 
 ---
 
-## 6. Related Documentation
+## 5. Related Documentation
 
 * [DPAPI Assistant Vault & SecretRef Tokens](../dpapi-vault-and-secretref-tokens/README.md): Interactive browser form filling and single-use token mechanics.
 * [Password Vault & Secrets Hub](../README.md): Overview of credential management and threat models.
 * [Terminal Workspaces](../../../terminal-workspaces/README.md): ConPTY architecture and agent command execution.
-* [Scheduled Tasks Architecture](../../../scheduled-tasks/README.md): Headless background workers and task chaining.
 * [Secret Set Tool Reference](../../../../mcp-reference/tools/vault-and-security/nova-secret-set.md) · [Secret List Tool Reference](../../../../mcp-reference/tools/vault-and-security/nova-secret-list.md)

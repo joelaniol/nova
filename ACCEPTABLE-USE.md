@@ -1,6 +1,6 @@
 # Acceptable Use Policy / Nutzungsrichtlinie
 
-*Last updated: November 3, 2026*
+*Last updated: November 15, 2026*
 
 ---
 
@@ -29,6 +29,7 @@ Authorized testing requires express permission from a person or organization ent
 - Personal browsing and productivity
 - Authorized testing and automation of your own websites and services
 - AI agent workflows on websites where you have explicit permission or where the site's terms of service allow automated access. Where a site asks agents to identify themselves, as Amazon does, let your agent do so with **Agent identification** (Settings → Privacy & Security, from version 1.0.0-alpha.21)
+  - Agents can type, choose and click with real key and mouse input (`inputMode='keyboard'`, from version 1.0.0-alpha.21, not published yet), because some pages only react to that. This makes an agent's input work on such pages; it is not permission from the site. Whether automated use is allowed there is decided by the site's terms, and you check them. An account rule (`nova.account_rule`) keeps agents to a pace you choose and stops a second send; it protects your account, it does not make automated use allowed.
 - Research and development within legal boundaries
 - Connecting MCP-compatible tools and agents for legitimate purposes
 - Inspecting, intercepting and replaying network traffic of your own sites and services — and of third-party services only within a scope their operator has authorized in writing
@@ -48,6 +49,7 @@ You may **not** use Nova AI Workspace to:
 - **Scrape or harvest data** in violation of a website's terms of service, robots.txt, or applicable law
 - **Distribute malware** — use Nova's automation, MCP server, or agent capabilities to create, distribute, or deploy malicious software
 - **Spam or abuse** — send unsolicited messages, create fake accounts, manipulate reviews, or engage in any form of automated abuse
+- **Getting around a block or suspension** — keep acting on a service through an account it has blocked or suspended, or open another account there to get around the block, through an agent or otherwise. Contacting the service about the block is of course allowed. When Nova locks an account because the site blocked it, only you can lift the lock; clear the matter with the service through its official way first
 - **Impersonation** — use browser identity features to impersonate other individuals or organizations for fraudulent purposes
 - **Denial of service** — use crawling, automation, or agent features to overload or disrupt third-party services
 - **Surveillance** — use Nova's capabilities to monitor, track, or surveil individuals without a valid legal basis or lawful authority
@@ -102,6 +104,7 @@ Autorisierte Prüfungen setzen die ausdrückliche Genehmigung einer dazu befugte
 - Persönliches Browsen und Produktivität
 - Autorisiertes Testen und Automatisieren eigener Websites und Dienste
 - KI-Agenten-Workflows auf Websites, für die du ausdrückliche Erlaubnis hast oder deren Nutzungsbedingungen automatisierten Zugriff erlauben. Verlangt eine Seite wie Amazon, dass sich Agenten zu erkennen geben, lass deinen Agenten das mit der **Kennung für Agenten** tun (Einstellungen → Datenschutz & Sicherheit, ab Version 1.0.0-alpha.21)
+  - Agenten können mit echten Tastatur- und Mauseingaben tippen, auswählen und klicken (`inputMode='keyboard'`, ab Version 1.0.0-alpha.21, noch nicht veröffentlicht), weil manche Seiten nur darauf reagieren. Damit funktioniert die Eingabe eines Agenten auf solchen Seiten; eine Erlaubnis der Seite ist das nicht. Ob automatisierte Nutzung dort erlaubt ist, entscheiden die Nutzungsbedingungen der Seite, und die prüfst du. Eine Kontoregel (`nova.account_rule`) hält Agenten in einem Tempo, das du wählst, und verhindert eine zweite Absendung; sie schützt dein Konto, sie macht automatisierte Nutzung nicht erlaubt.
 - Forschung und Entwicklung innerhalb gesetzlicher Grenzen
 - Anbindung MCP-kompatibler Tools und Agenten für legitime Zwecke
 - Beobachten, Abfangen und erneutes Senden von Netzwerkverkehr eigener Websites und Dienste — bei Drittanbieterdiensten nur in einem Rahmen, den deren Betreiber schriftlich genehmigt hat
@@ -121,6 +124,7 @@ Du darfst Nova AI Workspace **nicht** verwenden für:
 - **Daten-Scraping oder -Sammlung** unter Verstoß gegen Nutzungsbedingungen, robots.txt oder geltendes Recht einer Website
 - **Verbreitung von Schadsoftware** — Nutzung von Novas Automation, MCP-Server oder Agentenfunktionen zur Erstellung, Verbreitung oder Bereitstellung von Malware
 - **Spam oder Missbrauch** — Versand unerwünschter Nachrichten, Erstellung gefälschter Konten, Bewertungsmanipulation oder jede Form automatisierten Missbrauchs
+- **Umgehen einer Sperre** — über ein Konto weiter handeln, das der Dienst gesperrt oder stillgelegt hat, oder dort ein weiteres Konto anlegen, um die Sperre zu umgehen, mit einem Agenten oder anders. Den Dienst wegen der Sperre zu kontaktieren ist selbstverständlich erlaubt. Sperrt Nova ein Konto, weil die Seite es gesperrt hat, kannst nur du die Sperre aufheben; kläre die Sache vorher mit dem Dienst über dessen offiziellen Weg
 - **Identitätstäuschung** — Nutzung der Browser-Identitätsfunktionen zur betrügerischen Nachahmung anderer Personen oder Organisationen
 - **Dienstverweigerungsangriffe** — Nutzung von Crawling, Automation oder Agentenfunktionen zur Überlastung oder Störung von Drittanbieterdiensten
 - **Überwachung** — Nutzung von Novas Fähigkeiten zur Beobachtung, Verfolgung oder Überwachung von Personen ohne gültige Rechtsgrundlage oder rechtmäßige Befugnis

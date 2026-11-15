@@ -35,6 +35,7 @@
 | `text` | `string` | No | — | — | Visible option label to select when the value attribute is unknown. Whitespace is normalized before matching. |
 | `texts` | `array` of `string` | No | — | — | Visible option labels to select for <select multiple>. Each item must be a string and is whitespace-normalized before matching. |
 | `verify` | `boolean` | No | `true` | — | If true (default), verify that the final selected option or option set matches the requested selection. |
+| `inputMode` | `string` | No | `"native"` | `native`, `keyboard` | 'native' sets the option and dispatches input/change from script. 'keyboard' chooses like a person: a real click opens the select, arrow keys walk to the option, Enter takes it - the page sees one trusted input/change. Single-choice selects that open as a list only; if the click does not open it, no key is pressed (select.keyboard_not_open). result.keyboardInput counts the presses. |
 | `timeoutMs` | `integer` | No | `10000` | 0–300000 | Max ms to wait for the select element to become visible and ready. |
 | `autoDismissBlockers` | `boolean` | No | `false` | — | If true, explicitly auto-dismiss overlays/modals blocking the target element before selecting. Default false: use overlayDetected plus cmp_apply/dismiss_blockers for consent banners. |
 | `autoDismissMode` | `string` | No | `"conservative"` | `conservative`, `aggressive` | Blocker dismissal strategy. 'conservative': common banners only. 'aggressive': all overlay/fixed-position blockers. |

@@ -170,7 +170,7 @@ For exhaustive architectural breakdowns, schemas, and implementation details, ex
 * **[Task Profiles, Matching Engine & Confidence Tuning](task-profiles-and-matching.md)** — Profile blueprints, multi-factor scoring algorithms, dynamic thresholds, and confidence tuning formulas.
 * **[Task Instances, Work Units & Progress Tracking](instances-work-units-and-progress.md)** — Execution runs, work unit and discovery state machines, automated unit ingestion, event sourcing, and multi-session resuming.
 * **[Completion Evaluator, TOB Evidence & Verification Contracts](completion-evaluator-and-evidence-verification.md)** — Exhaustive/threshold/exploratory modes, mandatory check cross-referencing, verification contracts, and TOB evidence ledgers.
-* **[Guidance Lifecycle, Promotion & Scheduled Tasks](guidance-lifecycle-and-scheduled-execution.md)** — Staged guidance lifecycle, recurrence deduplication, promotion pipelines, scheduled cron tasks, and reflection gates.
+* **[Guidance Lifecycle & Promotion](guidance-lifecycle-and-scheduled-execution.md)** — Staged guidance lifecycle, recurrence deduplication, promotion pipelines, and reflection gates.
 
 ---
 

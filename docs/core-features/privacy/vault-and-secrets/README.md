@@ -6,7 +6,7 @@ Nova AI Workspace completely eliminates this vulnerability through an **Assistan
 1. Credentials are encrypted on disk with **Windows DPAPI** (`DataProtectionScope.CurrentUser`).
 2. Neither vault discovery tools nor secret injection tools ever return the plaintext password to the agent or context window.
 3. Password delivery uses an ephemeral, single-use, host-bound **`SecretRef` token**, redeemed directly into the browser DOM by the host process.
-4. A complementary **Scoped Secret Store** delivers API tokens and keys to terminal sessions and scheduled tasks as environment variables without exposing them in transcripts.
+4. A complementary **Scoped Secret Store** delivers API tokens and keys to terminal sessions as environment variables without exposing them in transcripts.
 
 ---
 
@@ -22,14 +22,14 @@ The Password Vault & Scoped Secrets subsystem is divided into two specialized te
 |                                         | 128-bit SecretRef tokens, DOM injection.|
 +-----------------------------------------+-----------------------------------------+
 | 2. Scoped Environment Secrets & Audit   | Scoped secret store, ConPTY environment |
-|                                         | injection, scheduled tasks, audit trail.|
+|                                         | injection, audit trail.                 |
 +-----------------------------------------------------------------------------------+
 ```
 
 | Guide | Focus Area | Core Architectural Concepts |
 | :--- | :--- | :--- |
 | **[DPAPI Vault & SecretRef Tokens](dpapi-vault-and-secretref-tokens/README.md)** | Browser Credential Autofill | Windows DPAPI encryption (`vault.dat`), zero-knowledge delivery sequence, ephemeral 128-bit `SecretRef` token minting, strict origin binding, 2-hour TTL, native property setter DOM injection (`HTMLInputElement.prototype.value`), and instant token destruction. |
-| **[Scoped Environment Secrets & Audit](scoped-environment-secrets-and-audit/README.md)** | CLI & Background Task Credentials | Scoped secret store (`nova.secret_*`), process environment variable delivery into ConPTY terminal runners and scheduled tasks, zero command-line/shell history leaks, task-scoped workspace isolation, and tamper-resistant audit logs. |
+| **[Scoped Environment Secrets & Audit](scoped-environment-secrets-and-audit/README.md)** | CLI Credentials | Scoped secret store (`nova.secret_*`), process environment variable delivery into ConPTY terminal runners, zero command-line/shell history leaks, workspace isolation, and tamper-resistant audit logs. |
 
 ---
 
@@ -97,7 +97,7 @@ Agents interact with the vault and secret stores through the `vault-and-security
 ## 5. Related Architecture Guides
 
 * [DPAPI Assistant Vault & SecretRef Tokens](dpapi-vault-and-secretref-tokens/README.md): Detailed autofill mechanics, native setter injection, and phishing guards.
-* [Scoped Environment Secrets & Audit](scoped-environment-secrets-and-audit/README.md): Terminal runner environment injection and scheduled task integration.
+* [Scoped Environment Secrets & Audit](scoped-environment-secrets-and-audit/README.md): Terminal runner environment injection.
 * [Privacy Architecture Hub](../README.md): High-level privacy overview, threat modeling, and defense layers.
 * [Fingerprint Protection & Identity](../fingerprint-and-identity/README.md): Canvas/audio noise injection and User-Agent spoofing.
 * [Anti-Tracking & Leak Protection](../anti-tracking-and-leak-protection/README.md): WebRTC IP shielding and capture-time credential redaction.

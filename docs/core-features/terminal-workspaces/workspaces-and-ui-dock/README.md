@@ -7,7 +7,7 @@ Nova AI Workspace provides a persistent **`TerminalWorkspace` Entity Model**, **
 ```mermaid
 flowchart TD
     subgraph WorkspacesDomain["Workspaces, Dock & Appearance Architecture"]
-        Model["1. Workspace Entity & Onboarding\n(terminal-workspaces.json, .nova/ onboarding, pwsh discovery & scheduled tasks)"]
+        Model["1. Workspace Entity & Onboarding\n(terminal-workspaces.json, .nova/ onboarding, pwsh discovery)"]
         Dock["2. WinUI 3 Dock Chrome & Theming\n(Presentation states, permission gating, activity rings & NO_COLOR)"]
     end
 
@@ -24,7 +24,6 @@ Explore the dedicated architecture guides within this domain:
 * **The Persistent Entity Model:** Storage layout in `%LOCALAPPDATA%\NovaBrowser\terminal-workspaces.json`, tracking directory paths, custom startup CLIs (`pwsh`, `cmd`, `claude`, `codex`), and favorites.
 * **`.nova/` Onboarding Injection:** Automatically bootstrapping environment scripts, setting project environment variables, and pre-loading developer aliases upon shell launch.
 * **PowerShell Discovery Engine:** Detecting modern PowerShell 7+ (`pwsh.exe`) across standard Windows install paths versus falling back to Windows PowerShell 5.1.
-* **Scheduled Task Workspace Binding:** Linking background automation runs to persistent project roots.
 
 ### 2. [WinUI 3 Dock Chrome, Theming & Activity Monitoring](winui-dock-chrome-and-theming/README.md)
 * **Dock Presentation States:** Managing `expanded`, `collapsed`, and `hidden` presentation modes via [`nova.terminal_dock_get_state`](../../../mcp-reference/tools/terminal-ops/nova-terminal-dock-get-state.md).

@@ -48,7 +48,7 @@ flowchart TD
 2. **Elevated Execution Boundary:**
    If Nova is executed in an elevated administrator context (e.g. during specific developer debugging sessions), the Windows Shell intentionally blocks standard COM activation callbacks to protect against privilege escalation. Nova gracefully adapts by guaranteeing that **all notifications are persistently committed to the SQLite inbox (`notifications.db`)**, ensuring zero data loss even if shell toasts are suppressed.
 3. **Cold-Boot Queueing (`QueueUntilRegistered`):**
-   If a background scheduled task or quick-start tab triggers a notification before the Windows App SDK finishes its registration handshake with the shell, Nova intercepts the event, buffers it in a thread-safe queue (`_pendingRegistrationQueue`), and flushes it immediately upon registration confirmation.
+   If a background fastlane or quick-start tab triggers a notification before the Windows App SDK finishes its registration handshake with the shell, Nova intercepts the event, buffers it in a thread-safe queue (`_pendingRegistrationQueue`), and flushes it immediately upon registration confirmation.
 
 ---
 

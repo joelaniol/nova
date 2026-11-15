@@ -1,7 +1,7 @@
-# Guidance Lifecycle, Promotion & Scheduled Tasks
+# Guidance Lifecycle & Promotion
 
 > [!NOTE]
-> This guide details the evolutionary learning loop of Episodic Task Memory (ETM): how emergent operational tips are captured without corrupting stable profiles, how recurrence metrics promote battle-tested guidance, and how headless scheduled tasks execute recurring ETM instances.
+> This guide details the evolutionary learning loop of Episodic Task Memory (ETM): how emergent operational tips are captured without corrupting stable profiles, how recurrence metrics promote battle-tested guidance, and how the reflection gate keeps knowledge from being discarded.
 
 ---
 
@@ -110,42 +110,7 @@ Calling `nova.task_promote_guidance` executes an atomic database transaction:
 
 ---
 
-## 4. Integration with Scheduled Tasks
-
-ETM provides the core state engine for **Scheduled Tasks** (Nova's built-in cron and automation scheduler). When a scheduled job runs headless in the background, it executes through an ETM instance:
-
-```mermaid
-sequenceDiagram
-    autonumber
-    participant Cron as Scheduled Task Scheduler
-    participant ETM as Episodic Task Memory
-    participant TUC as Task URL Coverage
-    participant Browser as Headless Browser Sandbox
-
-    Cron->>Cron: Cron Trigger Fires (e.g. daily at 02:00)
-    Cron->>ETM: Create Task Instance from Profile (profileId="daily-audit")
-    ETM-->>Cron: Returns instanceId="inst-cron-99"
-    
-    loop Work Units
-        Cron->>Browser: Navigate to target URL
-        Cron->>TUC: Perform coverage scan & capture telemetry
-        Cron->>ETM: Update unit status (checked / findings)
-    end
-    
-    Cron->>ETM: Request completion (nova.task_instance_complete)
-    ETM->>ETM: Evaluate completion condition & evidence
-    ETM-->>Cron: Return completed: true
-    Cron->>Cron: Record run history & metrics
-```
-
-### Benefits of ETM for Scheduled Jobs
-* **Zero Lost Work on Crash:** If a background runner process terminates unexpectedly, the next scheduled run detects the unfinished instance and can resume seamlessly.
-* **Deterministic Completion:** Background jobs cannot exit early with false success; the completion evaluator enforces all stop metrics and mandatory checks.
-* **Telemetry & History:** Every scheduled run produces full event logs, finding tallies, and TOB evidence records.
-
----
-
-## 5. The Reflection Gate Breakpoint
+## 4. The Reflection Gate Breakpoint
 
 At critical execution milestones, Nova's **Agent Awareness Gate (AAG) Reflection Gate** monitors tool dispatches to ensure agents do not discard valuable knowledge.
 
@@ -157,7 +122,7 @@ When an agent calls `nova.task_instance_complete`:
 
 ---
 
-## 6. MCP Tool Reference: Guidance & Promotion
+## 5. MCP Tool Reference: Guidance & Promotion
 
 ### 1. `nova.task_guidance_log_add`
 Records an emergent operational observation during task execution.
