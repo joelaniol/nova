@@ -21,7 +21,8 @@ Only the session the running, approved contract binds may claim; the binding is 
 <!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
-| `deliveryId` | `integer` | Yes | — | ≥ 1 | Delivery id from nova.fastlane_subscribe (invitation.deliveryId) or nova.fastlane_claim. |
+| `deliveryId` | `integer` | No | — | ≥ 1 | Delivery id from nova.fastlane_subscribe (invitation.deliveryId) or nova.fastlane_claim. |
+| `interactionId` | `string` | No | — | ≤ 64 characters | Instead of deliveryId: the interactionId of your toast question asked with nova.notifications_send(reply, wake='session') (structuredContent.reply.interactionId). |
 
 The tool also accepts the optional `_meta` object for call metadata, such as `_meta.intent` (a short reason for the call).
 

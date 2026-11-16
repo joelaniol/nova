@@ -21,7 +21,8 @@
 <!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
-| `deliveryId` | `integer` | Yes | — | ≥ 1 | Delivery id from nova.fastlane_subscribe (invitation.deliveryId) or nova.fastlane_claim. |
+| `deliveryId` | `integer` | No | — | ≥ 1 | Delivery id from nova.fastlane_subscribe (invitation.deliveryId) or nova.fastlane_claim. |
+| `interactionId` | `string` | No | — | ≤ 64 characters | Instead of deliveryId: the interactionId of your toast question asked with nova.notifications_send(reply, wake='session') (structuredContent.reply.interactionId). |
 | `epoch` | `integer` | Yes | — | ≥ 1 | epoch from the nova.fastlane_claim that took this delivery. |
 | `result` | `string` | Yes | — | `done`, `failed` | 'done' (handled as approved) or 'failed' (could not handle it; say why in summary). |
 | `summary` | `string` | No | — | ≤ 500 characters | Optional: what you did or why it failed, in one or two sentences for the user. |
