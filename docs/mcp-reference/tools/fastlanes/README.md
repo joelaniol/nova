@@ -11,7 +11,7 @@ A fastlane is an automation an agent describes once and Nova then runs on its ow
 ---
 
 <!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
-## Tool Inventory (11 Tools)
+## Tool Inventory (12 Tools)
 
 Capability bundles of these tools: `fastlanes`.
 
@@ -22,6 +22,7 @@ Capability bundles of these tools: `fastlanes`.
 | **[`nova.fastlane_claim`](nova-fastlane-claim.md)** | Takes the events of a delivery, with an epoch for the acknowledgement. |
 | **[`nova.fastlane_create`](nova-fastlane-create.md)** | Sets up a fastlane; one that starts a run or calls the internet asks the user first. |
 | **[`nova.fastlane_delete`](nova-fastlane-delete.md)** | Deletes a fastlane; it stops reacting at once. |
+| **[`nova.fastlane_emit`](nova-fastlane-emit.md)** | Raises your own event on a channel; every fastlane listening there acts on it. |
 | **[`nova.fastlane_get`](nova-fastlane-get.md)** | Shows one fastlane: whether it runs, its revisions in plain words and what it did lately. |
 | **[`nova.fastlane_list`](nova-fastlane-list.md)** | Lists the fastlanes of this Nova profile with their state. |
 | **[`nova.fastlane_preview`](nova-fastlane-preview.md)** | Checks a fastlane contract without storing it and shows what the user will be asked to approve. |

@@ -13,14 +13,14 @@ Looking for a tool by what it does rather than by area? The [tool catalog](../to
 | [App Shell, Dialogs & DevTools](app-shell-and-ui/README.md) | 67 | WinUI window controls, native OS dialog handling, DevTools panels, setup wizard, and onboarding injection. |
 | [Browser Navigation & Physical Automation](browser-automation/README.md) | 40 | Page navigation, tab strip lifecycle management, physical clicks, humanized typing, scroll mechanics, and file uploads. |
 | [Connectors, Mail & File Transfer](connectors-and-mail/README.md) | 62 | IMAP/SMTP email client automation, EML exports, SFTP/FTP server operations, and credential access grants. |
-| [Credentials, Vault & DPAPI Secret Keystore](vault-and-security/README.md) | 9 | Password autofill via ephemeral origin-bound SecretRef tokens, credential discovery, and write-only encrypted environment variables. |
+| [Credentials, Vault & DPAPI Secret Keystore](vault-and-security/README.md) | 14 | Password autofill via ephemeral origin-bound SecretRef tokens, credential discovery, and write-only encrypted environment variables. |
 | [DOM Perception & Semantic Extraction](dom-and-reading/README.md) | 21 | Token-efficient text extraction, structured landmark reading, typed DOM attributes, and multi-modal fusion perception. |
 | [Desktop Notifications & Alerts](notifications/README.md) | 11 | Native OS notification dispatch, unread inbox management, and per-origin notification permissions. |
 | [Device Emulation & Responsive Testing](device-emulation/README.md) | 11 | Mobile viewport simulation, touch event emulation, user agent overriding, and dark mode toggles. |
 | [Downloads Management & Queue Control](downloads/README.md) | 17 | Download tracking, pause/resume, security prompt resolution, and directory management. |
 | [Episodic Task Memory & Guidance](task-memory/README.md) | 33 | Task instance tracking, guidance logs, coverage scans, and operator domain notes. |
 | [External MCP Servers & Site-Provided Automation](external-mcp/README.md) | 14 | Registering, running, and dynamically calling secondary MCP servers through Nova's unified host, plus the probes that find the automation a website offers itself (MCP endpoints, agent cards, `llms.txt`). |
-| [Fastlanes: Events, Conditions & Actions](fastlanes/README.md) | 11 | > [!NOTE] |
+| [Fastlanes: Events, Conditions & Actions](fastlanes/README.md) | 12 | > [!NOTE] |
 | [Guarded Actions & Blocker Clearance](guarded-actions/README.md) | 8 | High-impact interaction macros with pre-flight safety gates, auth surface verification, and cookie banner dismissals. |
 | [Headless Terminal Workspaces & TTY](terminal-ops/README.md) | 12 | Isolated pseudo-terminals (ConPTY), command execution streams, terminal dock control, and session persistence. |
 | [Layout Quality, Geometry & Web Vitals](layout-and-qa/README.md) | 7 | Bounding box measurements, container width constraints, text clipping, WCAG accessibility audits, and Core Web Vitals. |
@@ -34,5 +34,5 @@ Looking for a tool by what it does rather than by area? The [tool catalog](../to
 | [Video Editing](video-editing/README.md) | 4 | Nova's video editor: screen recordings turned into GIF, WebM and MP4 clips or stills, with cuts, speed, captions, end cards, zoom, framing for feeds and reusable templates. |
 | [Visual Evidence, Screenshots & Archiving](visual-evidence/README.md) | 12 | Lossless cropped screenshots, pixel-by-pixel diffing, persistent baselines, and print-to-PDF generation. |
 
-**506 tools in total.**
+**512 tools in total.**
 <!-- /generated:area-list -->

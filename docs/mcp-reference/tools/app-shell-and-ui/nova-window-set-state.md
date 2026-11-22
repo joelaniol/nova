@@ -18,7 +18,7 @@
 <!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
-| `state` | `string` | Yes | — | `minimize`, `maximize`, `restore`, `foreground` | Target state. 'minimize' uses normal OS minimize. 'foreground' restores if needed and brings the window to front. |
+| `state` | `string` | Yes | — | `minimize`, `maximize`, `restore`, `foreground`, `restore_no_activate`, `minimize_no_activate` | Target state. 'minimize' uses normal OS minimize. 'foreground' restores if needed and brings the window to front. 'restore' un-minimizes and activates the window. 'restore_no_activate' un-minimizes to the previous size (maximized stays maximized) without activating it, so the person keeps typing where they are. 'minimize_no_activate' minimizes without activating another window. From the notification area Nova always comes to the front. |
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
 Tool category: `normal` (standard risk class in Nova's agent permission settings).

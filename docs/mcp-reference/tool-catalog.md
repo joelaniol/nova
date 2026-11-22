@@ -15,7 +15,7 @@ Every tool exposed by **Nova AI Workspace**, grouped by operational domain. Clic
 - [6. Visual Evidence & Screenshots](#6-visual-evidence--screenshots) (16)
 - [7. Local Files, Documents & Archives](#7-local-files-documents--archives) (23)
 - [8. Knowledge & Phenomenological Store (PKS)](#8-knowledge--phenomenological-store-pks) (21)
-- [9. Credentials & Secure Vault](#9-credentials--secure-vault) (9)
+- [9. Credentials & Secure Vault](#9-credentials--secure-vault) (14)
 - [10. Terminal Workspaces & Headless CLI](#10-terminal-workspaces--headless-cli) (12)
 - [11. Downloads Management & Queue Control](#11-downloads-management--queue-control) (17)
 - [12. Desktop Notifications & Alerts](#12-desktop-notifications--alerts) (11)
@@ -30,7 +30,7 @@ Every tool exposed by **Nova AI Workspace**, grouped by operational domain. Clic
 - [21. Episodic Task Memory & Guidance](#21-episodic-task-memory--guidance) (33)
 - [22. App Shell, Dialogs & DevTools](#22-app-shell-dialogs--devtools) (67)
 - [23. Agent-Authored Plugins](#23-agent-authored-plugins) (22)
-- [24. Fastlanes: Events, Conditions & Actions](#24-fastlanes-events-conditions--actions) (11)
+- [24. Fastlanes: Events, Conditions & Actions](#24-fastlanes-events-conditions--actions) (12)
 <!-- /generated:catalog-toc -->
 
 ---
@@ -252,6 +252,11 @@ Form auto-fill without leaking plaintext secrets to the LLM context.
 | :--- | :--- | :--- |
 | **[`nova.vault_list`](tools/vault-and-security/nova-vault-list.md)** | `site?` | Lists stored credential entries (site domain, associated usernames, and creation source) without returning passwords. |
 | **[`nova.vault_get`](tools/vault-and-security/nova-vault-get.md)** | `site`, `username?`, `entryId?` | Retrieves metadata and account identifiers for a stored vault entry, resolving username ambiguity without exposing password credentials. |
+| **[`nova.vault_card_delete`](tools/vault-and-security/nova-vault-card-delete.md)** | `cardId` | **Upcoming release:** this tool ships with the next Nova version and is not in the published setup yet. |
+| **[`nova.vault_card_fill`](tools/vault-and-security/nova-vault-card-fill.md)** | `fields`, `targetId?`, `cardId?`, `submit?`, `agentId?` | **Upcoming release:** this tool ships with the next Nova version and is not in the published setup yet. |
+| **[`nova.vault_card_list`](tools/vault-and-security/nova-vault-card-list.md)** | *(none)* | **Upcoming release:** this tool ships with the next Nova version and is not in the published setup yet. |
+| **[`nova.vault_card_set`](tools/vault-and-security/nova-vault-card-set.md)** | `cardId?`, `label?`, `holder?`, `number?`, `expMonth?`, `expYear?`, `cvc?`, `removeCvc?` | **Upcoming release:** this tool ships with the next Nova version and is not in the published setup yet. |
+| **[`nova.vault_card_submit`](tools/vault-and-security/nova-vault-card-submit.md)** | `targetId?`, `agentId?` | **Upcoming release:** this tool ships with the next Nova version and is not in the published setup yet. |
 | **[`nova.vault_prepare_fill`](tools/vault-and-security/nova-vault-prepare-fill.md)** | `site`, `targetId?`, `username?`, `entryId?` | Prepares stored credentials from the secure Vault for automated form-filling, returning an ephemeral, origin-bound, and single-use `SecretRef` token instead of the raw password string. |
 | **[`nova.type_selector_secret`](tools/vault-and-security/nova-type-selector-secret.md)** | `selector`, `secretRef`, `targetId?`, `clear?` | Types a vault password into a target form field using an ephemeral `SecretRef` token, setting the value through the field's native value setter and dispatching input/change events, without exposing plaintext secrets to the agent. |
 | **[`nova.secret_set`](tools/vault-and-security/nova-secret-set.md)** | `name`, `value`, `scope`, `workspaceId?` | Stores an encrypted secret (such as API keys, tokens, or private credentials) into Nova's user-managed secure store with Windows DPAPI encryption. |
@@ -755,6 +760,7 @@ Event-driven automation an agent proposes and the user approves: Nova waits for 
 | **[`nova.fastlane_subscribe`](tools/fastlanes/nova-fastlane-subscribe.md)** | `fastlaneId` | Tells the agent session a fastlane wakes whether events wait for it. |
 | **[`nova.fastlane_claim`](tools/fastlanes/nova-fastlane-claim.md)** | `deliveryId?`, `interactionId?` | Takes the events of a delivery, with an epoch for the acknowledgement. |
 | **[`nova.fastlane_ack`](tools/fastlanes/nova-fastlane-ack.md)** | `epoch`, `result`, `deliveryId?`, `interactionId?`, `summary?` | Closes a claimed delivery with the agent's result. |
+| **[`nova.fastlane_emit`](tools/fastlanes/nova-fastlane-emit.md)** | `channel`, `title?`, `text?`, `data?` | Raises your own event on a channel; every fastlane listening there acts on it. |
 
 ---
 

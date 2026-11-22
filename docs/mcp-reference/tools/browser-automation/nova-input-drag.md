@@ -20,7 +20,7 @@
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
 | `activateIfNeeded` | `boolean` | No | `true` | — | For an explicit concrete inactive targetId, temporarily activate that Nova target before physical pointer dispatch (the person sees that tab for that moment). Defaults true. Omitted/'active' targets are never auto-retargeted, and Nova never foregrounds the app window. |
-| `restoreActiveTarget` | `boolean` | No | `true` | — | After automatic activation and an unambiguous non-navigation success, restore the previously active Nova target if no user or competing target switch occurred. Ignored when no automatic activation happened. |
+| `restoreActiveTarget` | `boolean` | No | `true` | — | After automatic activation, restore the previously active Nova target whatever the outcome (navigation, popup, failure) if no user or competing target switch occurred. Ignored when no automatic activation happened. |
 | `startX` | `number` | No | — | — | Preferred start X coordinate (CSS px, viewport-relative). Legacy alias: fromX. If both are provided, values must match. |
 | `startY` | `number` | No | — | — | Preferred start Y coordinate (CSS px, viewport-relative). Legacy alias: fromY. If both are provided, values must match. |
 | `endX` | `number` | No | — | — | Preferred end X coordinate (CSS px, viewport-relative). Legacy alias: toX. If both are provided, values must match. |

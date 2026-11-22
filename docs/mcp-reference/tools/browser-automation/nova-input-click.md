@@ -30,7 +30,7 @@
 | `waitForChange` | `object` | No | — | — | Wait until the content of a selector is different from before this action and then holds still - for a result list that reloads after a search, filter or page click while the old list is still shown. Implies observe (defaults, waitMs 10000); the outcome is observed.contentChange (changed, settled, stopReason, countBefore, countAfter), and observe.after is read once it settled. |
 | `waitForChange.selector` | `string` | Yes | — | 1–2000 characters | CSS selector of the content to compare, e.g. the result list or its rows (the text of all matches counts). |
 | `activateIfNeeded` | `boolean` | No | `true` | — | For an explicit concrete inactive targetId, temporarily activate that Nova target before physical pointer dispatch (the person sees that tab for that moment). Defaults true. Omitted/'active' targets are never auto-retargeted, and Nova never foregrounds the app window. |
-| `restoreActiveTarget` | `boolean` | No | `true` | — | After automatic activation and an unambiguous non-navigation success, restore the previously active Nova target if no user or competing target switch occurred. Ignored when no automatic activation happened. |
+| `restoreActiveTarget` | `boolean` | No | `true` | — | After automatic activation, restore the previously active Nova target whatever the outcome (navigation, popup, failure) if no user or competing target switch occurred. Ignored when no automatic activation happened. |
 | `x` | `number` | Yes | — | — | X coordinate in CSS pixels relative to viewport left edge. |
 | `y` | `number` | Yes | — | — | Y coordinate in CSS pixels relative to viewport top edge. |
 | `button` | `string` | No | `"left"` | `left`, `middle`, `right` | Mouse button to click. |

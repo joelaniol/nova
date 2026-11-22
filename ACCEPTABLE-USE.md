@@ -1,6 +1,6 @@
 # Acceptable Use Policy / Nutzungsrichtlinie
 
-*Last updated: November 15, 2026*
+*Last updated: November 21, 2026*
 
 ---
 
@@ -35,6 +35,7 @@ Authorized testing requires express permission from a person or organization ent
 - Inspecting, intercepting and replaying network traffic of your own sites and services — and of third-party services only within a scope their operator has authorized in writing
 - Checking the TLS certificate and TLS configuration of a server (`nova.tls_inspect`) — what every server presents to every client that connects. The check covers one host per call, stays within a fixed handshake budget and does not attack the server
 - Scanning networks you run (`nova.net_scan`, from version 1.0.0-alpha.21, not published yet) — your home or office network, your VPN, your own servers — to see which devices are there and which ports answer. Other networks only with the permission of whoever runs them
+- Paying with your own payment cards, or cards you are allowed to use, through an agent (`nova.vault_card_fill`, from version 1.0.0-alpha.21, not published yet). You approve each fill with your Nova PIN, and the click on the pay button only when you tick it in the same dialog, which names the card, the shop and the payment provider. Whether automated purchases are allowed in a shop is decided by its terms
 
 ### Prohibited Use
 
@@ -72,6 +73,7 @@ You may **not** use Nova AI Workspace to:
 - **Emergency Stop exists for a reason** — If agent behavior is unexpected, use it
 - **An armed interception rule stays your rule** — Nova shows it in the toolbar, binds it to one tab and a URL scope, and lets it expire by itself, but everything it does while armed is done on your behalf. Clear it when the task is over
 - **Captured traffic can contain secrets** — headers and bodies may hold tokens, cookies and personal data, and they can reach an agent's transcript. Use `redact`, and treat a recording like the data it contains
+- **An approved card payment is your purchase** — the approval covers exactly the card, shop, payment provider and agent shown in the dialog, and only for the time you chose. This does not transfer responsibility for defects in Nova's checks to you. Close the checkout tab when the purchase is done
 
 ### Alpha Risks and Mandatory Rights
 
@@ -110,6 +112,7 @@ Autorisierte Prüfungen setzen die ausdrückliche Genehmigung einer dazu befugte
 - Beobachten, Abfangen und erneutes Senden von Netzwerkverkehr eigener Websites und Dienste — bei Drittanbieterdiensten nur in einem Rahmen, den deren Betreiber schriftlich genehmigt hat
 - Prüfen des TLS-Zertifikats und der TLS-Konfiguration eines Servers (`nova.tls_inspect`) — das, was jeder Server jedem Client zeigt, der sich verbindet. Die Prüfung umfasst einen Host pro Aufruf, bleibt in einem festen Handshake-Budget und greift den Server nicht an
 - Scannen eigener Netze (`nova.net_scan`, ab Version 1.0.0-alpha.21, noch nicht veröffentlicht) — Heim- oder Büronetz, eigenes VPN, eigene Server —, um zu sehen, welche Geräte dort sind und welche Ports antworten. Fremde Netze nur mit Erlaubnis dessen, der sie betreibt
+- Bezahlen mit deinen eigenen Zahlungskarten oder Karten, die du nutzen darfst, über einen Agenten (`nova.vault_card_fill`, ab Version 1.0.0-alpha.21, noch nicht veröffentlicht). Du gibst jede Füllung mit deiner Nova-PIN frei und den Klick auf den Bezahlknopf nur, wenn du ihn im selben Dialog ankreuzt; der Dialog nennt Karte, Shop und Zahlungsanbieter. Ob automatisierte Käufe in einem Shop erlaubt sind, entscheiden dessen Bedingungen
 
 ### Verbotene Nutzung
 
@@ -147,6 +150,7 @@ Du darfst Nova AI Workspace **nicht** verwenden für:
 - **Emergency Stop existiert aus gutem Grund** — Bei unerwartetem Agentenverhalten sofort nutzen
 - **Eine scharfe Abfang-Regel bleibt deine Regel** — Nova zeigt sie in der Symbolleiste, bindet sie an einen Tab und einen URL-Bereich und lässt sie von selbst ablaufen; alles, was sie tut, solange sie scharf ist, geschieht in deinem Namen. Räume sie auf, wenn die Aufgabe erledigt ist
 - **Aufgezeichneter Verkehr kann Geheimnisse enthalten** — Header und Inhalte können Tokens, Cookies und personenbezogene Daten tragen und in das Transcript eines Agenten gelangen. Nutze `redact` und behandle eine Aufzeichnung wie die Daten, die sie enthält
+- **Eine freigegebene Kartenzahlung ist dein Kauf** — die Freigabe gilt genau für Karte, Shop, Zahlungsanbieter und Agent aus dem Dialog und nur für die Zeit, die du gewählt hast. Die Verantwortung für Fehler in Novas Prüfungen geht dadurch nicht auf dich über. Schließe den Checkout-Tab, wenn der Kauf erledigt ist
 
 ### Alpha-Risiken und zwingende Rechte
 
