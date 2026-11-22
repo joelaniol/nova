@@ -44,7 +44,7 @@ flowchart TD
 | :--- | :--- | :--- |
 | **[Heuristic Probing & Tri-State Logic](heuristic-probing-and-tri-state-logic/README.md)** | Three-valued logic (`Yes`, `No`, `Unknown`), continuous confidence scoring $[0.0, 1.0]$, multi-signal DOM heuristics, and host-level `HttpOnly` cookie inspection. | Tri-state model, 6 stages (`auth.stage`), `current-password`, `one-time-code`, host cookie jar, TOB facts |
 | **[Identity Overlays & SSO Detection](identity-overlays-and-sso-detection/README.md)** | Four provider families (Consumer SSO, Enterprise IdP, SaaS IdP, Web Components), negative pattern filtering, and `safety.identity_overlay` advisory warnings. | Google One Tap, Entra, Okta, Clerk, negative exclusion, geometry scoring, AAG warning |
-| **[Surface Safety & Crawler Shield](surface-safety-and-crawler-shield/README.md)** | Multi-lingual lexicon shield (`dangerous.json`, `high-risk-identity.json`), 4 persistence tiers, crawler target parity, SSRF defense, and guarded login contracts. | Lexicon shield, Hard Deny, persistence tiers, SSRF blocking, Ghost Surface Reaper, `nova.guarded_login`, Windows Hello |
+| **[Surface Safety & Crawler Shield](surface-safety-and-crawler-shield/README.md)** | Multi-lingual lexicon shield (`dangerous.json`, `high-risk-identity.json`), 4 persistence tiers, crawler target parity, SSRF defense, and guarded login contracts. | Lexicon shield, Hard Deny, persistence tiers, SSRF blocking, Ghost Surface Reaper, `nova.guarded_login`, re-auth gate |
 
 ---
 
@@ -501,9 +501,8 @@ Nova routes these challenges through native UI dialog handlers:
 When an operator or agent attempts to reveal or export credentials stored inside Nova's Password Vault, software-only permissions are insufficient.
 
 Nova enforces the **Sensitive Action Re-Authentication Gate**:
-* **Hardware Biometrics First:** Triggers Windows Hello (`UserConsentVerifier`) requiring biometric verification (fingerprint or facial recognition).
-* **Credential UI Fallback:** If biometrics are unavailable, falls back to Win32 Credential UI (`CredUIPromptForWindowsCredentials`) verified via secure local `LogonUser`.
-* **Hardware-Backed TTL:** Upon successful biometric confirmation, an in-memory stopwatch cache suppresses re-prompts for a strictly limited Time-To-Live (TTL). The cache is invalidated immediately if settings are modified or the application restarts.
+* **Windows Password Prompt:** Shows the Windows credential prompt (`CredUIPromptForWindowsCredentials`), verified locally via `LogonUser`. Windows Hello (`UserConsentVerifier`) needs package identity, which the installed Nova does not have, so the setup build always uses the password prompt.
+* **Short TTL:** Upon successful confirmation, an in-memory stopwatch cache suppresses re-prompts for a strictly limited Time-To-Live (TTL). The cache is invalidated immediately if settings are modified or the application restarts.
 
 ---
 
@@ -522,7 +521,7 @@ Nova enforces the **Sensitive Action Re-Authentication Gate**:
 | **Guarded Login Contract** | Executes login form submission under Closed-Loop verification. | Requires `auth.loginWallVisible == true`; non-idempotent retry policy. | Reports intermediate MFA challenges; prevents blind re-submission. |
 | **PKS Knowledge Redaction** | Learns interaction sequences while scrubbing credentials and tokens. | Zero credential ingestion; query tokens redacted. | Protects secrets from persistent knowledge logs. |
 | **Native Auth Dialogs** | Resolves HTTP 401 Basic, Digest, and Client Certificate prompts. | Bridges network-layer challenges without DOM script exposure. | Securely answers prompts using stored vault entries. |
-| **Sensitive Re-Auth Gate** | Protects password export and plaintext credential reveal. | Windows Hello / CredUI hardware confirmation required. | Blocks credential disclosure without operator presence. |
+| **Sensitive Re-Auth Gate** | Protects password export and plaintext credential reveal. | Windows password confirmation (CredUI) required. | Blocks credential disclosure without operator presence. |
 
 ---
 

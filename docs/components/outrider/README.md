@@ -38,7 +38,7 @@ flowchart TD
         NetScan["High-Concurrency Sockets (--net-scan-once)"]
         Assembler["MP4 Stream Multiplexing (--media-assemble-once)"]
         GPU["DirectX / Vulkan GPU Probing (--gpu-capability-once)"]
-        Creds["Windows Hello / Sign-In (--credential-verify-once)"]
+        Creds["Windows Sign-In (--credential-verify-once)"]
     end
 
     Supervisor <-->|Low-Latency IPC| Pipe <--> OutriderPersistent
@@ -93,7 +93,7 @@ Heavy compute tasks, machine learning inference, file exports, and operations wi
 | **`--net-scan-once`** | High-concurrency network scanning. Spawns raw sockets, ARP queries, and application handshakes without socket leaks. | [`nova.net_scan`](../../mcp-reference/tools/proxy-and-network/nova-net-scan.md) |
 | **`--media-assemble-once`** | Multiplexes downloaded HLS and DASH video/audio fragments into standard MP4 containers without lossy re-encoding. | Video Downloader |
 | **`--gpu-capability-once`** | Probes physical GPU adapters, DirectX 12 feature levels, and Vulkan availability for local AI acceleration. | Settings > Transcription |
-| **`--credential-verify-once`** | Displays the Windows Hello / OS sign-in prompt when exporting vault passwords. Kept isolated from WinUI thread loops. | Vault Password Export |
+| **`--credential-verify-once`** | Displays the Windows sign-in prompt when revealing or exporting vault passwords. Kept isolated from WinUI thread loops. | Vault Password Export |
 
 ---
 

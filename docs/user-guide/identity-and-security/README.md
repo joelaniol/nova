@@ -17,7 +17,7 @@ flowchart TD
     end
 
     subgraph Layer2 ["Layer 2: Hardware-Bound Credentials"]
-        DpapiVault["Password Vault<br/>• Windows DPAPI master key encryption<br/>• Windows Hello biometric gates<br/>• Direct form injection (no plaintext leaks)"]
+        DpapiVault["Password Vault<br/>• Windows DPAPI master key encryption<br/>• Windows password check before reveal and export<br/>• Direct form injection (no plaintext leaks)"]
     end
 
     subgraph Layer3 ["Layer 3: Egress & Network Routing"]
@@ -47,7 +47,7 @@ Explore the comprehensive guides covering each facet of Nova's identity and secu
 | Guide | Primary Focus | Key Security Capabilities & Controls |
 | :--- | :--- | :--- |
 | **[Sandboxes & Profile Isolation](sandboxes-and-profiles.md)** | Session Partitioning | Multi-account isolation without container extensions, title-bar sandbox pills, Sandbox Tabs for seamless SSO/OAuth, boundary traversal guards (*"This page wants to leave the sandbox"*), and disk-anchor crash recovery. |
-| **[Passwords & Vault](passwords-and-vault.md)** | Credential Protection | Local DPAPI encryption, password vault management, Windows Hello biometric prompts, form autofill, and secure secret injection for agents without exposing plaintext keys to LLM contexts. |
+| **[Passwords & Vault](passwords-and-vault.md)** | Credential Protection | Local DPAPI encryption, password vault management, Windows password check before reveal and export, form autofill, and secure secret injection for agents without exposing plaintext keys to LLM contexts. |
 | **[Proxies & Network Routing](proxies.md)** | Egress & Privacy | Dedicated per-sandbox proxies (HTTP, HTTPS, SOCKS5), WebRTC private IP leak prevention, PAC script support, live connection logging, and DNS leak shielding. |
 | **[Website & Agent Permissions](permissions.md)** | Access Control & Gates | The dual-pillar model separating origin device access (camera, microphone, speaker routing, location) from agent autonomy levels (*Fully automatic*, *Semi-automatic*, *Supervised*), guarded actions, and session grants. |
 | **[Agent Identification](agent-identification.md)** | Telling Sites an Agent Acts | Lets an agent mark its own tab as an agent on sites you list (such as Amazon, which asks for it), with your normal browser identity unchanged everywhere else. |

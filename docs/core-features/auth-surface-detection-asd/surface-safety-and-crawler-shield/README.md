@@ -181,9 +181,8 @@ Network-layer challenges (HTTP 401 Basic, Digest, TLS Client Certificates) bypas
 
 ### 4.4 Sensitive Action Re-Authentication Gate
 Revealing or exporting credentials from Nova's Password Vault requires operator presence:
-* **Hardware Biometrics First:** Triggers Windows Hello (`UserConsentVerifier`) requiring fingerprint or facial recognition.
-* **Credential UI Fallback:** Falls back to Win32 Credential UI (`CredUIPromptForWindowsCredentials`).
-* **Hardware-Backed TTL:** A successful biometric confirmation suppresses re-prompts for a strictly limited Time-To-Live (TTL) cache.
+* **Windows Password Prompt:** Shows the Windows credential prompt (`CredUIPromptForWindowsCredentials`) and checks the Windows account password locally (`LogonUser`). Windows Hello (`UserConsentVerifier`) needs package identity, which the installed Nova does not have, so the setup build always uses the password prompt.
+* **Short TTL:** A successful confirmation suppresses re-prompts for a strictly limited Time-To-Live (TTL) cache.
 
 ---
 

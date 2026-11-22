@@ -10,7 +10,7 @@
 Managing passwords in an AI-assisted browser requires higher security standards than traditional browsers. If an AI agent automates a website on your behalf, raw credentials must never leak into AI prompts or token contexts.
 
 * **DPAPI Hardware/User Key Binding:** Passwords and secrets are encrypted with cryptographic keys bound to your Windows user logon session.
-* **Biometric & PIN Protection:** Viewing or editing a saved password in the settings requires Windows Hello authentication (PIN, fingerprint, or facial recognition).
+* **Windows Password Check:** Revealing or exporting saved passwords in the settings asks for your Windows account password first. A confirmation stays valid for 5 minutes; you can switch the check off in the vault settings.
 * **Agent-Safe Secret Injection:** AI coding agents can log in to websites using Nova's automated fill tools without ever seeing, reading, or transmitting the raw plaintext password.
 * **Cross-Sandbox Isolation:** Credentials can be scoped globally or restricted to specific sandbox profiles, ensuring client accounts remain separated.
 
@@ -51,7 +51,7 @@ Open **Menu → Settings → Identity & security → Password manager & vault**:
 
 ### Finding & Inspecting Entries
 * **Filter Bar:** Type a domain name (e.g., `github.com`) or a username to instantly filter the list.
-* **View Password:** Click the **Eye icon** next to the masked password. For security, Windows prompts for your **Windows Hello PIN, fingerprint, or Windows account password** before revealing the plaintext characters.
+* **View Password:** Click the **Eye icon** next to the masked password. For security, Windows prompts for your **Windows account password** before revealing the plaintext characters.
 * **Copy Password:** Click **Copy** to place the password into your Windows clipboard. The action is logged to the local audit trail for security accountability.
 * **Edit Entry:** Modify the URL, username, password, or associated notes.
 * **Delete Entry:** Removes the credential permanently from `vault.db`.
