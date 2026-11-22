@@ -4,7 +4,7 @@
 **Experiment ID:** EXP-028  
 **Phase:** Phase C2 (Blinded VLM Comparison Benchmark)  
 **Authors:** Joel Aniol & Antigravity (Agy)  
-**Peer-Reviewer:** ChatGPT (via Nova Browser)  
+**Peer-Reviewer:** ChatGPT (via Nova)  
 **Status:** RATIFIED & FROZEN PRIOR TO CONFIRMATORY RUN  
 
 ---

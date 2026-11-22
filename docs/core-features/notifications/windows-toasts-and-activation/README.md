@@ -74,7 +74,7 @@ flowchart TD
 
 ### Visual Components:
 * **Hero Image (`HeroImagePath`):** A large 16:9 banner rendered at the top of the toast above the title. Nova background jobs use this for rich previews (such as screenshots captured by completed scheduled tasks).
-* **App Logo Override (`IconPath`):** Replaces the default Nova browser icon in the toast corner with the originating website's favicon or a custom agent avatar.
+* **App Logo Override (`IconPath`):** Replaces the default Nova icon in the toast corner with the originating website's favicon or a custom agent avatar.
 * **Circle Logo Styling (`UseCircleAppLogo`):** Renders the logo in a circular contact-avatar crop rather than the standard square box.
 * **Inline Action Button (`ActionButtonLabel`):** Adds a native Windows push button that triggers the primary activation action directly from the desktop banner.
 

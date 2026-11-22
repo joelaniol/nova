@@ -17,7 +17,7 @@ Saving pages as favorites allows you to quickly return to important sites, organ
 
 ```
 +-----------------------------------------------------------------------------------+
-|  [<-] [->] [Reload] | https://github.com/nova-workspace  [Star Active] | [Menu]  |
+|  [<-] [->] [Reload] | https://github.com/example-org     [Star Active] | [Menu]  |
 +-----------------------------------------------------------------------------------+
 |  [Folder: Work]  [GitHub]  [AWS Console]  [Staging Portal]  [Documentation]  [>>] |
 +-----------------------------------------------------------------------------------+

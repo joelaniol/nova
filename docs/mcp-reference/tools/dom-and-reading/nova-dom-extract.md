@@ -120,7 +120,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
       {
         "index": 0,
         "values": {
-          "text": "Getting Started with Nova Workspace",
+          "text": "Getting Started with Nova",
           "href": "https://example.com/docs/getting-started",
           "rect": { "x": 120, "y": 240, "width": 540, "height": 32 },
           "visible": true

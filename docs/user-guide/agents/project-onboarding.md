@@ -1,7 +1,7 @@
 # Project Onboarding & In-Engine Reference Documentation
 
 > [!NOTE]
-> Project Onboarding equips AI coding agents (such as Claude Code, Codex, and Antigravity) with standardized Nova browser guidelines written directly into your repository (e.g. `AGENTS.md`). In addition, Nova provides an offline in-engine reference library accessible via MCP without internet dependencies.
+> Project Onboarding equips AI coding agents (such as Claude Code, Codex, and Antigravity) with standardized Nova guidelines written directly into your repository (e.g. `AGENTS.md`). In addition, Nova provides an offline in-engine reference library accessible via MCP without internet dependencies.
 
 ---
 

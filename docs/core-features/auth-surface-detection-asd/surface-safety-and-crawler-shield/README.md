@@ -140,7 +140,7 @@ sequenceDiagram
     autonumber
     actor Agent as MCP Agent
     participant Vault as Password Vault
-    participant Nova as Nova Browser Host
+    participant Nova as Nova Host
     participant Page as Web Page / DOM
     participant ASD as Auth Surface Detection
 

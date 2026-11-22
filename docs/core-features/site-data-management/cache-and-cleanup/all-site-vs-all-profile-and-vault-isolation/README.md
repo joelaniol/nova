@@ -88,7 +88,7 @@ flowchart TD
 The operational blast radius of any cache clear is governed by the target profile's container model:
 
 ```
-Nova Workspace Container Hierarchy
+Nova AI Workspace Container Hierarchy
 ├── Shared Browser Tabs Profile ("Tabs")
 │   ├── Tab 1: https://app.example.com
 │   ├── Tab 2: https://github.com

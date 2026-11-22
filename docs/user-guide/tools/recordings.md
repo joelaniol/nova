@@ -179,7 +179,7 @@ AI coding agents leverage session, screen recording, and video rendering tools f
   * [`nova.session_record_dom_snapshot`](../../mcp-reference/tools/session-recording/nova-session-record-dom-snapshot.md): Retrieves complete serialized DOM keyframes.
   * [`nova.session_record_stop`](../../mcp-reference/tools/session-recording/nova-session-record-stop.md): Finalizes the recording session.
 * **Visual Evidence & Screen Video Tools:**
-  * [`nova.screen_record_start`](../../mcp-reference/tools/visual-evidence/nova-screen-record-start.md): Launches a video capture of the Nova browser window.
+  * [`nova.screen_record_start`](../../mcp-reference/tools/visual-evidence/nova-screen-record-start.md): Launches a video capture of the Nova window.
   * [`nova.screen_record_mark`](../../mcp-reference/tools/visual-evidence/nova-screen-record-mark.md): Places a timestamped marker with a lossless frame snapshot.
   * [`nova.screen_record_assert`](../../mcp-reference/tools/visual-evidence/nova-screen-record-assert.md): Evaluates visual UI assertions against running frames.
   * [`nova.screen_record_inspect`](../../mcp-reference/tools/visual-evidence/nova-screen-record-inspect.md): Retrieves the timeline, assertion logs, and contact sheet.

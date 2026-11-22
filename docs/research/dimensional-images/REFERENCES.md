@@ -50,5 +50,5 @@
 
 13. **Aniol, J. (2026).** *E3-K12: Orthogonal Polynomial Visual Latent Transport for Zero-Decoder Video Comprehension.* Dimensional Images Experimental Working Paper Series (V1.1), EXP-001–EXP-026.
     * Status: Experimental working paper / In-progress research.
-14. **Nova AI Research (2026).** *Evidence Verification Mode (EVM): Grounding Autonomous Agent Claims via Verifiable Spatiotemporal Traces.* Nova Browser Architecture Documentation.
+14. **Nova AI Research (2026).** *Evidence Verification Mode (EVM): Grounding Autonomous Agent Claims via Verifiable Spatiotemporal Traces.* Nova AI Workspace Architecture Documentation.
     * Available: `public/docs/research/evidence-verification-mode-evm/README.md`.

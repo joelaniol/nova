@@ -64,7 +64,7 @@ flowchart TD
 sequenceDiagram
     autonumber
     actor Agent as Autonomous Agent
-    participant Nova as Nova Browser Memory Engine
+    participant Nova as Nova Memory Engine
     participant DB as SQLite Storage (pks.db)
 
     Note over Agent: Agent begins workflow on github.com

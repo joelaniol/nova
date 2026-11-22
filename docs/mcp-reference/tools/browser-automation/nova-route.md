@@ -65,7 +65,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 ### Direct PushState Transition
 ```json
 {
-  "url": "/app/projects/nova-workspace/settings",
+  "url": "/app/projects/example-project/settings",
   "waitForRoute": true,
   "waitForRouteTimeoutMs": 4000
 }

@@ -78,7 +78,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
   "result": {
     "ok": true,
     "href": "https://example.com/app/settings",
-    "title": "Account Settings - Nova Workspace",
+    "title": "Account Settings - Example App",
     "readyState": "complete",
     "viewport": {
       "innerWidth": 1440,

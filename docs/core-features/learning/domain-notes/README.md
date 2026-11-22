@@ -70,7 +70,7 @@ sequenceDiagram
     autonumber
     actor User as Human Operator
     actor Agent as Autonomous Agent
-    participant Nova as Nova Browser & AAG Gate
+    participant Nova as Nova & AAG Gate
     participant Web as Web Target DOM
 
     User->>Nova: Create Note for checkout.com: "Assert total < $500" (Level: MUST read)
