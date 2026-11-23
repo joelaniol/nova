@@ -1,5 +1,8 @@
 # Installation & System Requirements
 
+> [!WARNING]
+> **Download currently unavailable.** The previous setups (up to 1.0.0-alpha.20) have been withdrawn because Nova 1.0.0-alpha.21 is about to be released. The new setup will appear on the [Releases](https://github.com/joelaniol/nova/releases) page as soon as it is published. Existing installations keep working.
+
 > [!IMPORTANT]
 > **Upgrading from alpha.17 or earlier?** Those versions cannot detect alpha.18 automatically because the product name and updater changed. Download and run the [current setup](https://github.com/joelaniol/nova/releases) once manually. It updates your existing installation; automatic updates work again from alpha.18 onward.
 
@@ -53,6 +56,9 @@ If installation or connection fails, use [Troubleshooting](../troubleshooting/RE
 ---
 
 # Nova AI Workspace installieren
+
+> [!WARNING]
+> **Download derzeit nicht verfügbar.** Die bisherigen Setups (bis 1.0.0-alpha.20) wurden zurückgezogen, weil Nova 1.0.0-alpha.21 in Kürze erscheint. Das neue Setup steht auf der Seite [Releases](https://github.com/joelaniol/nova/releases), sobald es veröffentlicht ist. Bestehende Installationen laufen weiter.
 
 > [!IMPORTANT]
 > **Upgrade von alpha.17 oder älter?** Diese Versionen erkennen alpha.18 wegen des Namens- und Updater-Wechsels nicht automatisch. Lade das [aktuelle Setup](https://github.com/joelaniol/nova/releases) einmal manuell herunter und führe es aus. Es aktualisiert die bestehende Installation; ab alpha.18 funktionieren automatische Updates wieder.

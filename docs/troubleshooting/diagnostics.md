@@ -10,7 +10,7 @@ Note what you were doing, the time, the visible error and the AI program involve
 2. Choose **Open log folder** to open the logs in Explorer.
 3. Find the recent application or bridge log using the table below. Keep the original file; copy the relevant excerpt for review.
 
-If Nova cannot open, press **Win + R**, enter `%LOCALAPPDATA%\nova-cognitive\Nova` and press Enter. If that folder does not exist, try `%LOCALAPPDATA%\NovaBrowser`. Check `bootstrap.log` and the `Logs` folder.
+If Nova cannot open, press **Win + R**, enter `%LOCALAPPDATA%\nova-cognitive\Nova` and press Enter. If that folder does not exist, try `%LOCALAPPDATA%\nova-cognitive\Nova`. Check `bootstrap.log` and the `Logs` folder.
 
 You can ask a connected agent:
 
@@ -23,7 +23,7 @@ For reporting, ask the agent for Nova's bug-report instructions. Review excerpts
 Nova keeps its data, logs and crash artifacts in one profile folder per Windows user:
 
 * `%LOCALAPPDATA%\nova-cognitive\Nova\` on new installations.
-* `%LOCALAPPDATA%\NovaBrowser\` on installations from version 1.0.0-alpha.17 or older. The setup of a newer version moves this folder to the new location; if the move is not possible, Nova keeps using the old folder.
+* `%LOCALAPPDATA%\nova-cognitive\Nova\` on installations from version 1.0.0-alpha.17 or older. The setup of a newer version moves this folder to the new location; if the move is not possible, Nova keeps using the old folder.
 
 The paths below are relative to that profile folder:
 
@@ -47,7 +47,7 @@ The paths below are relative to that profile folder:
 Many of these files and folders appear only after the feature was first used.
 
 > [!TIP]
-> In Nova, **Settings → Developer options → Logs** lists every log channel, and **Open log folder** opens the `Logs` folder in Explorer. Outside Nova, press `Win + R`, paste `%LOCALAPPDATA%\nova-cognitive\Nova` (or `%LOCALAPPDATA%\NovaBrowser`) and press Enter.
+> In Nova, **Settings → Developer options → Logs** lists every log channel, and **Open log folder** opens the `Logs` folder in Explorer. Outside Nova, press `Win + R`, paste `%LOCALAPPDATA%\nova-cognitive\Nova` (or `%LOCALAPPDATA%\nova-cognitive\Nova`) and press Enter.
 
 **Crash dumps.** The setup registers Nova with Windows Error Reporting, so that a native crash of `NovaAIWorkspace.exe` or of its terminal helper leaves a minidump in `%LOCALAPPDATA%\nova-cognitive\CrashDumps` (up to five per program are kept). The folder sits beside the profile folder, not inside it. A crash-dump setup for Nova's processes that someone else made in Windows is left unchanged. If the registration goes missing, Nova says so once at startup and offers a repair; if Windows Error Reporting itself is turned off on the computer, Nova says that instead.
 

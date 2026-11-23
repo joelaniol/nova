@@ -81,7 +81,7 @@ To prevent ambiguity, Nova defines distinct boundaries for terminal concepts:
 
 | Entity | Lifecycle & Storage | Ownership & Visibility |
 | :--- | :--- | :--- |
-| **Terminal Workspace** | Stored in `%LOCALAPPDATA%\NovaBrowser\terminal-workspaces.json`. Identifies a directory, optional startup CLI (`claude`, `codex`, `powershell`), onboarding configuration, and favorites status. | Shared project entity. Visible in UI dock picker and accessible to scheduled task automation. |
+| **Terminal Workspace** | Stored in `%LOCALAPPDATA%\nova-cognitive\Nova\terminal-workspaces.json`. Identifies a directory, optional startup CLI (`claude`, `codex`, `powershell`), onboarding configuration, and favorites status. | Shared project entity. Visible in UI dock picker and accessible to scheduled task automation. |
 | **Runner Session** | Persistent ConPTY instance hosted in `NovaBrowser.TerminalRunner.exe`. Assigned an integer ID. Tracks cumulative output offsets and child process state. | External helper level. Survives browser restarts; cleaned up when explicitly terminated or when the 24-hour orphan timer expires. |
 | **Agent Session** | Headless wrapper tracked by `TerminalMcpSessionManager` in memory. Identified by an opaque public ID (`term_{hex}`). | Exclusively automation-owned. **Completely hidden from and isolated from human dock terminals.** |
 | **Command Execution** | Discrete execution lifecycle within a session. Managed via `nova.terminal_run_command`. | Bounded by a timeout. **A command timeout never closes or kills the session.** |

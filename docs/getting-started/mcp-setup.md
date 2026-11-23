@@ -10,19 +10,19 @@ Nova's built-in **Connection Wizard** (**Menu → Settings → AI & agents → S
 
 When an AI program connects to Nova, it communicates with Nova's native proxy runner:
 ```
-%LOCALAPPDATA%\NovaBrowser\bin\NovaBrowser.McpProxy.exe
+%LOCALAPPDATA%\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe
 ```
 
 ```mermaid
 flowchart LR
-    Agent["External AI Program<br/>(Claude Code, Codex, Antigravity)"] -->|Standard I/O (stdio)| Runner["Native MCP Proxy Runner<br/>(%LOCALAPPDATA%\NovaBrowser\bin\NovaBrowser.McpProxy.exe)"]
+    Agent["External AI Program<br/>(Claude Code, Codex, Antigravity)"] -->|Standard I/O (stdio)| Runner["Native MCP Proxy Runner<br/>(%LOCALAPPDATA%\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe)"]
     Runner -->|Local HTTP / SSE<br/>http://127.0.0.1:27183/mcp| Nova["Nova AI Workspace<br/>(Desktop UI & Tool Engine)"]
 ```
 
 ### Why Does the Configuration Point to `%LOCALAPPDATA%`?
 Software updates or developer rebuilds periodically wipe and regenerate the application directory (`dist/`). If client configurations pointed directly to the build folder, every update would break your AI program's connection. 
 
-Nova deploys a rebuild-stable, mutex-synchronized copy of the proxy executable into `%LOCALAPPDATA%\NovaBrowser\bin\`. This path remains permanent across updates, reboots, and workspace rebuilds.
+Nova deploys a rebuild-stable, mutex-synchronized copy of the proxy executable into `%LOCALAPPDATA%\nova-cognitive\Nova\bin\`. This path remains permanent across updates, reboots, and workspace rebuilds.
 
 ---
 
@@ -45,7 +45,7 @@ When Nova's Connection Wizard configures an AI program, it registers the native 
 {
   "mcpServers": {
     "nova": {
-      "command": "C:\\Users\\<user>\\AppData\\Local\\NovaBrowser\\bin\\NovaBrowser.McpProxy.exe"
+      "command": "C:\\Users\\<user>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe"
     }
   }
 }
@@ -54,7 +54,7 @@ When Nova's Connection Wizard configures an AI program, it registers the native 
 ### OpenAI Codex (`~/.codex/config.toml`)
 ```toml
 [mcp_servers.nova]
-command = "C:\\Users\\<user>\\AppData\\Local\\NovaBrowser\\bin\\NovaBrowser.McpProxy.exe"
+command = "C:\\Users\\<user>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe"
 ```
 
 ### Claude Desktop (`%APPDATA%\Claude\claude_desktop_config.json`)
@@ -62,7 +62,7 @@ command = "C:\\Users\\<user>\\AppData\\Local\\NovaBrowser\\bin\\NovaBrowser.McpP
 {
   "mcpServers": {
     "nova": {
-      "command": "C:\\Users\\<user>\\AppData\\Local\\NovaBrowser\\bin\\NovaBrowser.McpProxy.exe"
+      "command": "C:\\Users\\<user>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe"
     }
   }
 }
@@ -73,7 +73,7 @@ command = "C:\\Users\\<user>\\AppData\\Local\\NovaBrowser\\bin\\NovaBrowser.McpP
 {
   "mcpServers": {
     "nova": {
-      "command": "C:\\Users\\<user>\\AppData\\Local\\NovaBrowser\\bin\\NovaBrowser.McpProxy.exe",
+      "command": "C:\\Users\\<user>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe",
       "args": ["--antigravity-tool-names"]
     }
   }

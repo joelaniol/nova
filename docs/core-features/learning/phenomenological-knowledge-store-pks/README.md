@@ -567,7 +567,7 @@ When interacting with web UI situations, agents follow Nova's standard operation
 
 PKS is built for robust local execution within Nova's client runtime:
 
-* **Storage Engine:** Persisted in SQLite (`pks.db`) located in Nova's local application data directory (`%LOCALAPPDATA%\NovaBrowser\pks.db`), operating with Write-Ahead Logging (`WAL`) mode enabled.
+* **Storage Engine:** Persisted in SQLite (`pks.db`) located in Nova's local application data directory (`%LOCALAPPDATA%\nova-cognitive\Nova\pks.db`), operating with Write-Ahead Logging (`WAL`) mode enabled.
 * **Actor-Model Concurrency (`PksDb`):** SQLite allows only one writer at a time. Nova routes all PKS operations through a dedicated Channel-based worker thread. MCP tool requests enqueue operations asynchronously, eliminating SQLite database lock contention across multiple tabs, background agents, and revalidation probes.
 * **Granular Merging & Revision Guards (`SaveDomainMerge`):** Domain upserts perform granular merging per `stable_id` rather than destructive rewrites. Monotonic `content_rev` revisions are bumped only when structural child contents genuinely change, preserving cache validity.
 * **Automated Intelligent Pruning (`PruneIntelligently`):** Background maintenance purges permanently deprecated phenomena with $\ge 5$ consecutive failures after grace periods (60–180 days) and cleans up empty domain entries.

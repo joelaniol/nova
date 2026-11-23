@@ -77,7 +77,7 @@ Understanding the boundary between composite categories prevents accidental loss
 Nova distinguishes between the browser engine's internal password autosave mechanism and Nova's external DPAPI-encrypted credential store:
 
 1. **Browser Password Autosave:** The built-in Chromium password store that offers to save passwords via browser popups. This store lives inside the browser profile and is purged when `allProfile` is cleared.
-2. **Nova Encrypted Vault (`vault.dat`):** Nova's enterprise credential manager, secured with Windows Data Protection API (DPAPI) and isolated in `%LOCALAPPDATA%\NovaBrowser\vault.dat`.
+2. **Nova Encrypted Vault (`vault.dat`):** Nova's enterprise credential manager, secured with Windows Data Protection API (DPAPI) and isolated in `%LOCALAPPDATA%\nova-cognitive\Nova\vault.dat`.
 3. **Absolute Invariant:** Executing `allProfile` or `allSite` clears will **never touch or alter secrets stored in Nova's Vault**. Credentials registered via `nova.vault_set` remain cryptographically intact.
 
 ---

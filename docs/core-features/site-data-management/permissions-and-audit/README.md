@@ -122,7 +122,7 @@ Users can inspect and revoke active session grants at any time without restartin
 Nova maintains a tamper-resistant operational log of all site-data interactions in the user data directory:
 
 ```
-%LOCALAPPDATA%\NovaBrowser\Logs\site-data-audit.jsonl
+%LOCALAPPDATA%\nova-cognitive\Nova\Logs\site-data-audit.jsonl
 ```
 
 ### Record Schema

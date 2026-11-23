@@ -91,7 +91,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 {
   "structuredContent": {
     "ok": true,
-    "outputPath": "C:\\Users\\me\\AppData\\Local\\NovaBrowser\\Exports\\Charts\\Sales and costs, Q1-20261017-101500.png",
+    "outputPath": "C:\\Users\\me\\AppData\\Local\\nova-cognitive\\Nova\\Exports\\Charts\\Sales and costs, Q1-20261017-101500.png",
     "format": "png",
     "chartType": "column",
     "width": 1200,

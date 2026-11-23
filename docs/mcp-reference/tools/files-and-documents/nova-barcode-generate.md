@@ -95,7 +95,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
     "ok": true,
     "type": "qr",
     "encodedContent": "https://nova-cognitive.com",
-    "outputPath": "C:\\Users\\me\\AppData\\Local\\NovaBrowser\\Exports\\Codes\\qr-20261017-101500.png",
+    "outputPath": "C:\\Users\\me\\AppData\\Local\\nova-cognitive\\Nova\\Exports\\Codes\\qr-20261017-101500.png",
     "format": "png",
     "width": 594,
     "height": 594,

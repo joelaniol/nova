@@ -61,13 +61,13 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
     "status": "ok",
     "jobId": "ax_5f0c2a9e41b7d3c8a6e29f10",
     "state": "completed",
-    "destinationDir": "C:\\Users\\me\\AppData\\Local\\NovaBrowser\\Exports\\Archives\\report-files-20261016-091500",
+    "destinationDir": "C:\\Users\\me\\AppData\\Local\\nova-cognitive\\Nova\\Exports\\Archives\\report-files-20261016-091500",
     "createdDestination": true,
     "extractedCount": 1,
     "directoryCount": 0,
     "totalBytes": 46973,
     "extracted": [
-      { "path": "report.pdf", "outputPath": "C:\\Users\\me\\AppData\\Local\\NovaBrowser\\Exports\\Archives\\report-files-20261016-091500\\report.pdf", "size": 46973 }
+      { "path": "report.pdf", "outputPath": "C:\\Users\\me\\AppData\\Local\\nova-cognitive\\Nova\\Exports\\Archives\\report-files-20261016-091500\\report.pdf", "size": 46973 }
     ],
     "truncated": false,
     "skipped": [],

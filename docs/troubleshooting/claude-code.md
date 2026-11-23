@@ -38,7 +38,7 @@ flowchart TD
    & "$env:LOCALAPPDATA\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe" --self-test
    ```
    * **Expected output:** `NovaBrowser.McpProxy self-test OK`.
-   * Installations from version 1.0.0-alpha.17 or older use `%LOCALAPPDATA%\NovaBrowser` instead of `%LOCALAPPDATA%\nova-cognitive\Nova`; see [Diagnostics](diagnostics.md#1-local-filesystem-locations).
+   * Installations from version 1.0.0-alpha.17 or older use `%LOCALAPPDATA%\nova-cognitive\Nova` instead of `%LOCALAPPDATA%\nova-cognitive\Nova`; see [Diagnostics](diagnostics.md#1-local-filesystem-locations).
    * If the proxy executable is missing, launch Nova once; it places the proxy binary in `bin\` during initialization.
 
 ---

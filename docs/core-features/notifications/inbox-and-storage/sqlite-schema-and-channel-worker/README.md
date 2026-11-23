@@ -9,7 +9,7 @@ This sub-guide details the persistence layer of Nova AI Workspace's unified noti
 All notifications emitted within Nova AI Workspace—whether from web applications, host browser features, or autonomous MCP agents—are persisted to a high-performance SQLite database:
 
 ```
-%LOCALAPPDATA%\NovaBrowser\notifications.db
+%LOCALAPPDATA%\nova-cognitive\Nova\notifications.db
 ```
 
 ### Table Schema Specification: `notifications`

@@ -66,7 +66,7 @@ flowchart TD
     --> Serialize["JSON Serialization to UTF-8"]
     Serialize --> DPAPI["Windows DPAPI Encryption<br/>Scope: DataProtectionScope.CurrentUser<br/>(CryptProtectData)"]
     DPAPI --> AtomicSwap["Atomic File Replacement<br/>Write to vault.dat.tmp -> Replace vault.dat"]
-    AtomicSwap --> StorageDisk["Encrypted Storage on Disk<br/>%LOCALAPPDATA%\NovaBrowser\vault.dat"]
+    AtomicSwap --> StorageDisk["Encrypted Storage on Disk<br/>%LOCALAPPDATA%\nova-cognitive\Nova\vault.dat"]
 ```
 
 ### Cryptographic Guarantees

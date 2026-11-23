@@ -26,7 +26,7 @@ A standard Nova connection looks like this:
 }
 ```
 
-`YourName` is an example username. Use the actual path supplied by Nova's wizard. Older installations may use `AppData\Local\NovaBrowser\bin` instead. In JSON, `\\` represents one Windows path backslash.
+`YourName` is an example username. Use the actual path supplied by Nova's wizard. Older installations may use `AppData\Local\nova-cognitive\Nova\bin` instead. In JSON, `\\` represents one Windows path backslash.
 
 This example shows only the Nova connection. Keep other server entries and settings; Nova preserves them when updating its entry. The bridge handles Nova's local authentication, so this standard entry contains no access token.
 

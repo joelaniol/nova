@@ -1,7 +1,7 @@
 # MCP Stdio Proxy — Agent Connection Bridge & Process Runner
 
 **Binary:** `NovaBrowser.McpProxy.exe`  
-**Distribution Locations:** Shipped bundled in `dist/tools/NovaBrowser.McpProxy.exe`; automatically deployed and synchronized by Nova into the rebuild-stable user directory `%LOCALAPPDATA%\NovaBrowser\bin\NovaBrowser.McpProxy.exe`.
+**Distribution Locations:** Shipped bundled in `dist/tools/NovaBrowser.McpProxy.exe`; automatically deployed and synchronized by Nova into the rebuild-stable user directory `%LOCALAPPDATA%\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe`.
 
 The **MCP Stdio Proxy** (often referred to as the **MCP Proxy Runner**) is a high-performance, single-file native executable built with .NET NativeAOT. It acts as the persistent, zero-dependency communication bridge between external AI agent command-line interfaces (such as Anthropic Claude Code, OpenAI Codex, Google Antigravity, Cursor, and Claude Desktop) and Nova's internal Model Context Protocol (MCP) HTTP/SSE server.
 
@@ -60,7 +60,7 @@ When integrating with external AI tools, clients save absolute file paths to the
 
 ```mermaid
 flowchart LR
-    Dist["dist/tools/NovaBrowser.McpProxy.exe<br/>(Volatile Clean Build Target)"] -->|"McpProxyLauncher.EnsureDeployed"| LauncherDir["%LOCALAPPDATA%\NovaBrowser\bin\<br/>(Rebuild-Stable User Directory)"]
+    Dist["dist/tools/NovaBrowser.McpProxy.exe<br/>(Volatile Clean Build Target)"] -->|"McpProxyLauncher.EnsureDeployed"| LauncherDir["%LOCALAPPDATA%\nova-cognitive\Nova\bin\<br/>(Rebuild-Stable User Directory)"]
     LauncherDir -->|"Stable Absolute Path"| Configs["Client Global Configs<br/>(~/.claude.json, ~/.codex/config.toml)"]
 ```
 
@@ -68,7 +68,7 @@ flowchart LR
 During software compilation, updates, or git workspace cleans, the build output directory (`dist/`) is completely wiped and regenerated. If agent configurations pointed directly to `dist/tools/NovaBrowser.McpProxy.exe`, every clean rebuild would delete the binary and permanently break agent connectivity. 
 
 To solve this, Nova's deployment engine (`McpProxyLauncher`):
-1. **Synchronizes the Binary:** Automatically copies the bundled native proxy into `%LOCALAPPDATA%\NovaBrowser\bin\NovaBrowser.McpProxy.exe` on application boot.
+1. **Synchronizes the Binary:** Automatically copies the bundled native proxy into `%LOCALAPPDATA%\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe` on application boot.
 2. **Mutex-Protected Upgrades:** Uses a per-user Windows named mutex (`Local\NovaBrowser_McpProxy_DeployMutex`) to serialize upgrades across parallel processes.
 3. **Atomic Rename Dance:** Staged file copies and atomic file moves ensure that binary updates never leave a half-written executable on disk.
 4. **Lock Deferral (`DeferredLocked`):** If an active AI agent currently holds the proxy executable open, Nova defers file replacement until the next launch rather than crashing active agent sessions.
@@ -111,7 +111,7 @@ sequenceDiagram
 * **Thundering-Herd Protection (`mcp-autostart.lock`):** If multiple agent CLIs (e.g. two parallel terminal windows plus an IDE extension) connect simultaneously while Nova is closed, the proxy uses an exclusive file lease. Exactly one proxy instance launches the browser (`Owned`); all other instances wait as observers (`JoinedPeer`), preventing duplicate browser windows.
 * **Environment Variable Scrubbing:** Before launching the browser, the proxy scrubs sensitive or volatile environment variables (such as `NOVA_MCP_*` or `NOVA_TEST_*`) from the child environment block to prevent test profile contamination.
 * **Rebuild Grace Window (`ExeMissingGraceMs`):** During local compilation or installer updates, `NovaAIWorkspace.exe` may temporarily disappear from disk for several seconds. Instead of failing immediately, the proxy maintains a 15-second grace window, retrying discovery until compilation completes.
-* **Boot Status Diagnostics:** If the browser encounters a startup failure, it writes error markers to `%LOCALAPPDATA%\NovaBrowser\mcp-boot-status.json`. The proxy inspects this file to return clear diagnostic messages instead of hanging indefinitely.
+* **Boot Status Diagnostics:** If the browser encounters a startup failure, it writes error markers to `%LOCALAPPDATA%\nova-cognitive\Nova\mcp-boot-status.json`. The proxy inspects this file to return clear diagnostic messages instead of hanging indefinitely.
 
 ---
 
@@ -282,7 +282,7 @@ If a client sends an unrecognized, malformed, or nonsensical protocol string (su
 The proxy runner is designed to survive hostile disk, network, and memory states:
 
 ### Cache Self-Healing (Modes 21 & 21b)
-The offline tools cache is stored at `%LOCALAPPDATA%\NovaBrowser\mcp-proxy-tools-cache.json`. If this file is corrupted (e.g. truncated during a sudden system power cut, containing invalid JSON syntax, or missing required schema properties):
+The offline tools cache is stored at `%LOCALAPPDATA%\nova-cognitive\Nova\mcp-proxy-tools-cache.json`. If this file is corrupted (e.g. truncated during a sudden system power cut, containing invalid JSON syntax, or missing required schema properties):
 * The proxy does not crash.
 * It safely ignores the corrupted cache file and serves an actionable warmup message.
 * Upon successfully connecting to Nova's `/health` endpoint, it fetches the authoritative catalog and atomically overwrites the corrupted file with a fresh, valid JSON document.
@@ -301,13 +301,13 @@ When a tool call cannot be completed, Nova's proxy returns a standard JSON-RPC r
 
 | Reason Code | Category | Root Cause & Trigger Condition | Prescribed Client / Agent Action |
 | :--- | :--- | :--- | :--- |
-| `proxy.update_required` | Version Drift | Nova was updated to a newer version that requires an updated proxy protocol. | Restart the agent CLI session to load the updated proxy runner from `%LOCALAPPDATA%\NovaBrowser\bin\`. |
+| `proxy.update_required` | Version Drift | Nova was updated to a newer version that requires an updated proxy protocol. | Restart the agent CLI session to load the updated proxy runner from `%LOCALAPPDATA%\nova-cognitive\Nova\bin\`. |
 | `proxy.catalog_drift` | Schema Drift | Nova restarted with modified tool schemas. Stale parameters are blocked from delivery. | Run `tools/list` or inspect the specific tool via `nova.tools_bundle(toolName='<tool>')` to acknowledge the new contract. |
 | `proxy.outcome_unknown` | In-Flight Drop | Connection dropped mid-flight after request delivery, or HTTP response was truncated. | **DO NOT BLINDLY RETRY.** Inspect current browser state (`nova.tabs`, `nova.perceive`) before repeating actions. |
 | `nova.down_before_delivery` | Pre-Delivery Drop | Nova terminated or dropped the socket before the request was delivered upstream. | Zero browser actions took place. Start Nova if stopped and retry the tool call safely. |
 | `nova.not_running` | Service Down | Nova AI Workspace is not running, and automatic autostart was disabled or failed to boot. | Launch Nova AI Workspace desktop application, wait for UI ready, and re-run the tool. |
 | `nova.not_installed` | Environment | Activation metadata (`mcp-activation.json`) or runtime configuration is missing. | Launch Nova once interactively to initialize the profile and configure agent permissions. |
-| `nova.blocked` | Modal / Security | Browser is blocked by a mandatory user sign-in prompt, trial license gate, or modal dialog. | Check `%LOCALAPPDATA%\NovaBrowser\mcp-boot-status.json` or switch to Nova's window to resolve the dialog. |
+| `nova.blocked` | Modal / Security | Browser is blocked by a mandatory user sign-in prompt, trial license gate, or modal dialog. | Check `%LOCALAPPDATA%\nova-cognitive\Nova\mcp-boot-status.json` or switch to Nova's window to resolve the dialog. |
 | `nova.exe_missing` | Compile / Update | `NovaAIWorkspace.exe` is temporarily absent during software build or installer update. | Wait for compilation to finish. The proxy provides a 15-second grace window and a 30-second retry-after. |
 
 ---
@@ -335,10 +335,10 @@ Usage: NovaBrowser.McpProxy.exe [--version | --self-test] | [--antigravity-tool-
 Operators can monitor and manage the proxy runner directly from Nova's graphical user interface under **Menu → Settings → AI & agents → Setup**:
 
 * **Runner Status Indicator:** Displays the active runner state:
-  * `Runner ready: C:\Users\<user>\AppData\Local\NovaBrowser\bin\NovaBrowser.McpProxy.exe`
+  * `Runner ready: C:\Users\<user>\AppData\Local\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe`
   * `Runner unavailable: <path>` (accompanied by repair instructions).
 * **Reinstall Runner Button:** Re-extracts the bundled native binary, cleans up legacy scripts, re-synchronizes global client configurations, and verifies executable file integrity.
-* **Activation & Bearer Token Refresh:** Refreshes connection metadata in `%LOCALAPPDATA%\NovaBrowser\mcp-activation.json` and updates encrypted DPAPI tokens.
+* **Activation & Bearer Token Refresh:** Refreshes connection metadata in `%LOCALAPPDATA%\nova-cognitive\Nova\mcp-activation.json` and updates encrypted DPAPI tokens.
 
 ---
 
@@ -349,7 +349,7 @@ When troubleshooting agent connectivity, technicians should consult the followin
 ### 1. Shared Proxy Log File
 The proxy writes lifecycle and connection events to:
 ```
-%LOCALAPPDATA%\NovaBrowser\Logs\novabrowser-mcp-stdio-proxy.log
+%LOCALAPPDATA%\nova-cognitive\Nova\Logs\novabrowser-mcp-stdio-proxy.log
 ```
 * **Thread-Safe Shared Append:** Configured with `FileShare.ReadWrite | FileShare.Delete` so multiple concurrent proxy instances can log simultaneously without file contention.
 * **Bounded Retention:** Automatically rotates to `.old` once the file exceeds 10 MB to prevent unbounded disk growth.

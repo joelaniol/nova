@@ -61,7 +61,7 @@ Nova utilizes quantized GGML models hosted upstream on Hugging Face. Each offici
 
 Official speech models reside centrally in the local application data directory:
 ```
-%LOCALAPPDATA%\NovaBrowser\WhisperModels\
+%LOCALAPPDATA%\nova-cognitive\Nova\WhisperModels\
 ```
 Model files survive application updates and browser restarts without requiring re-downloading.
 

@@ -1,7 +1,7 @@
 # TerminalRunner — Persistent Console Host & ConPTY Automation Engine
 
 **Binary:** `NovaBrowser.TerminalRunner.exe`  
-**Distribution Locations:** Shipped bundled in `dist/tools/NovaBrowser.TerminalRunner.exe`; automatically deployed and synchronized by Nova into `%LOCALAPPDATA%\NovaBrowser\bin\NovaBrowser.TerminalRunner.exe`.
+**Distribution Locations:** Shipped bundled in `dist/tools/NovaBrowser.TerminalRunner.exe`; automatically deployed and synchronized by Nova into `%LOCALAPPDATA%\nova-cognitive\Nova\bin\NovaBrowser.TerminalRunner.exe`.
 
 The **Terminal Runner** is an external, dedicated helper process built with .NET. It hosts native Windows pseudo consoles (**ConPTY**) and their attached child shell processes (such as PowerShell 7, Windows PowerShell, Command Prompt, or CLI agents like Claude Code and Codex) outside the main browser application.
 

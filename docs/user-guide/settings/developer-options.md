@@ -172,7 +172,7 @@ When testing responsive layouts or simulating mobile screens (`nova.emulation_us
 
 For diagnosing performance bottlenecks or application faults:
 
-* **Log Files:** Nova writes structured Serilog diagnostic events to `%LOCALAPPDATA%\NovaBrowser\Logs\`.
+* **Log Files:** Nova writes structured Serilog diagnostic events to `%LOCALAPPDATA%\nova-cognitive\Nova\Logs\`.
 * **Crash Dumps & WER Minidumps:**
   * When native errors occur, Windows Error Reporting writes minidumps to `%LOCALAPPDATA%\nova-cognitive\CrashDumps\`.
   * **On-Demand Minidump Generation ([`nova.create_dump`](../../mcp-reference/tools/app-shell-and-ui/nova-create-dump.md)):** Create a diagnostic memory dump on demand to capture thread state and memory footprints during testing.

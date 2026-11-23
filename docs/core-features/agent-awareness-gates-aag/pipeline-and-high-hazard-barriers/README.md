@@ -198,7 +198,7 @@ When an operator clicks "Emergency Stop" in the Nova host UI, the application en
 
 Browser automation generates significant disk volume: WebView2 profile caches, screenshot buffers, DOM snapshots, network interception dumps, and SQLite task ledgers.
 
-* **Threshold:** The pre-dispatch engine queries available disk headroom on the `%LOCALAPPDATA%\NovaBrowser` drive. If available space drops below $500\text{ MB}$ ($524{,}288{,}000\text{ bytes}$), the barrier trips.
+* **Threshold:** The pre-dispatch engine queries available disk headroom on the `%LOCALAPPDATA%\nova-cognitive\Nova` drive. If available space drops below $500\text{ MB}$ ($524{,}288{,}000\text{ bytes}$), the barrier trips.
 * **Fail-Closed Protection:** All mutating operations, file uploads, screenshot captures, and database writes are rejected. Read-only DOM and text inspection remain operational.
 * **Resolution Pathway:** System storage must be freed on the host. The agent can invoke diagnostic queries (`nova.device_diagnostics`) to inspect drive utilization.
 

@@ -72,7 +72,7 @@ flowchart LR
 
 ### Private Tab Invariants:
 1. **In-Memory Cache Only:** Permission decisions made inside a private tab are recorded solely in a thread-safe in-memory cache scoped to that specific browsing session.
-2. **Zero Disk Footprint:** Under no circumstances are private tab permissions written to `%LOCALAPPDATA%\NovaBrowser\settings.json`.
+2. **Zero Disk Footprint:** Under no circumstances are private tab permissions written to `%LOCALAPPDATA%\nova-cognitive\Nova\settings.json`.
 3. **Lifecycle Destruction:** When the private tab is closed, or when Nova terminates, the ephemeral memory cache is immediately freed, leaving zero trace of the visited origin or its granted privileges.
 4. **Partition Separation:** Grants made inside private tabs do not contaminate or modify existing permanent rules for standard sandbox tabs (`Sandbox A`, `Sandbox B`).
 

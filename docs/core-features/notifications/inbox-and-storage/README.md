@@ -9,7 +9,7 @@ This document specifies the persistence architecture, thread-safe asynchronous w
 All notifications—originating from live websites, Nova background services, or MCP agent calls—are stored in a dedicated SQLite database located in the active user profile:
 
 ```
-%LOCALAPPDATA%\NovaBrowser\notifications.db
+%LOCALAPPDATA%\nova-cognitive\Nova\notifications.db
 ```
 
 ### Relational Schema Specification

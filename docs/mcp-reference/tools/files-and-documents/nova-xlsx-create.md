@@ -73,7 +73,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
   "structuredContent": {
     "ok": true,
     "status": "ok",
-    "outputPath": "C:\\Users\\me\\AppData\\Local\\NovaBrowser\\Exports\\Office\\Revenue-20261016-101500.xlsx",
+    "outputPath": "C:\\Users\\me\\AppData\\Local\\nova-cognitive\\Nova\\Exports\\Office\\Revenue-20261016-101500.xlsx",
     "size": 3870,
     "details": { "sheets": [ { "name": "Revenue", "rows": 3, "columns": 3 } ] },
     "warnings": []

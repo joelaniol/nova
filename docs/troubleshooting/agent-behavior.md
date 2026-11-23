@@ -85,7 +85,7 @@ Modern websites frequently present modals, cookie banners, or overlays that bloc
 ### 2. `crawl.persistence_unavailable` on Start
 * **Symptom:** `nova.crawl_start` fails immediately with `reasonCode: "crawl.persistence_unavailable"`.
 * **Root Cause:** Nova could not bootstrap or lock the local SQLite database (`crawl.db`) in application data (e.g. disk full, file permissions, or external file lock).
-* **Resolution:** Check local disk space, inspect file locks on `%LOCALAPPDATA%\NovaBrowser\crawl.db`, and restart Nova if another process locked SQLite.
+* **Resolution:** Check local disk space, inspect file locks on `%LOCALAPPDATA%\nova-cognitive\Nova\crawl.db`, and restart Nova if another process locked SQLite.
 
 ### 3. `discovery_reset.active_jobs` on Scope Eviction
 * **Symptom:** `nova.discovery_reset_scope` returns `status: "blocked"` with `reasonCode: "discovery_reset.active_jobs"`.

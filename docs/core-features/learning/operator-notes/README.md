@@ -273,7 +273,7 @@ Nova automatically executes an internal query against the active sandbox scope:
 
 Since 1.0.0-alpha.19, Operator Notes are stored in a local SQLite database in the user profile directory, together with domain notes and connector extras:
 ```
-%LOCALAPPDATA%\NovaBrowser\notes.db
+%LOCALAPPDATA%\nova-cognitive\Nova\notes.db
 ```
 
 Versions up to 1.0.0-alpha.18 used `operator-notes.json`. On the first start of a version with `notes.db`, Nova imports that file once and leaves it unchanged as a frozen fallback.

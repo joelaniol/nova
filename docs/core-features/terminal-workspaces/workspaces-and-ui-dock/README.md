@@ -21,7 +21,7 @@ flowchart TD
 Explore the dedicated architecture guides within this domain:
 
 ### 1. [Workspace Entity Model & Project Onboarding](workspace-entity-and-onboarding/README.md)
-* **The Persistent Entity Model:** Storage layout in `%LOCALAPPDATA%\NovaBrowser\terminal-workspaces.json`, tracking directory paths, custom startup CLIs (`pwsh`, `cmd`, `claude`, `codex`), and favorites.
+* **The Persistent Entity Model:** Storage layout in `%LOCALAPPDATA%\nova-cognitive\Nova\terminal-workspaces.json`, tracking directory paths, custom startup CLIs (`pwsh`, `cmd`, `claude`, `codex`), and favorites.
 * **`.nova/` Onboarding Injection:** Automatically bootstrapping environment scripts, setting project environment variables, and pre-loading developer aliases upon shell launch.
 * **PowerShell Discovery Engine:** Detecting modern PowerShell 7+ (`pwsh.exe`) across standard Windows install paths versus falling back to Windows PowerShell 5.1.
 

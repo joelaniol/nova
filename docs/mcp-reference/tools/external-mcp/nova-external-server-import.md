@@ -93,6 +93,7 @@ Imported servers are never auto-started unless `autoStart: true` is passed; `sta
 ## 4. Operational Best Practices
 
 * **Deduplication:** An entry is skipped as "Already exists" when its transport, command (or endpoint URL), arguments, and working directory all match an already-configured server.
+* **Nova's own entry:** The client configs Nova registers itself in also list Nova. That entry is skipped with its reason under `skipped`, whatever it is called: a server whose program is Nova's MCP proxy, or whose URL is Nova's own local endpoint, would send every call back to Nova.
 
 ---
 

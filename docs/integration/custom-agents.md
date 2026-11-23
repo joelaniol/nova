@@ -40,7 +40,7 @@ For a JSON-based client that supports dotted names but needs the data copied int
 }
 ```
 
-`YourName` is an example username. Use the actual command path supplied by Nova's wizard. Older installations may use `AppData\Local\NovaBrowser\bin`. In JSON, `\\` represents one Windows path backslash. Keep other settings and server entries; this is only the Nova connection. The bridge handles Nova's local authentication, so no access token appears in this entry.
+`YourName` is an example username. Use the actual command path supplied by Nova's wizard. Older installations may use `AppData\Local\nova-cognitive\Nova\bin`. In JSON, `\\` represents one Windows path backslash. Keep other settings and server entries; this is only the Nova connection. The bridge handles Nova's local authentication, so no access token appears in this entry.
 
 If you launch the bridge directly from your runner, the equivalent command is:
 

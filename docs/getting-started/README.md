@@ -1,5 +1,8 @@
 # Start Using Nova
 
+> [!WARNING]
+> **Download currently unavailable.** The previous setups (up to 1.0.0-alpha.20) have been withdrawn because Nova 1.0.0-alpha.21 is about to be released. The new setup will appear on the [Releases](https://github.com/joelaniol/nova/releases) page as soon as it is published. Existing installations keep working.
+
 > [!IMPORTANT]
 > **Upgrading from alpha.17 or earlier?** Those versions cannot detect alpha.18 automatically because the product name and updater changed. Download and run the [current setup](https://github.com/joelaniol/nova/releases) once manually. It updates your existing installation; automatic updates work again from alpha.18 onward.
 

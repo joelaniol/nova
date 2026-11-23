@@ -56,8 +56,8 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
     "ok": true,
     "status": "ok",
     "outputs": [
-      { "path": "C:\\Users\\me\\AppData\\Local\\NovaBrowser\\Exports\\Pdf\\report-split-20261016-101500\\report_part01.pdf", "pageCount": 3, "size": 61840 },
-      { "path": "C:\\Users\\me\\AppData\\Local\\NovaBrowser\\Exports\\Pdf\\report-split-20261016-101500\\report_part02.pdf", "pageCount": 5, "size": 90122 }
+      { "path": "C:\\Users\\me\\AppData\\Local\\nova-cognitive\\Nova\\Exports\\Pdf\\report-split-20261016-101500\\report_part01.pdf", "pageCount": 3, "size": 61840 },
+      { "path": "C:\\Users\\me\\AppData\\Local\\nova-cognitive\\Nova\\Exports\\Pdf\\report-split-20261016-101500\\report_part02.pdf", "pageCount": 5, "size": 90122 }
     ],
     "sources": [
       { "path": "C:\\Users\\me\\Downloads\\report.pdf", "pageCount": 8 }

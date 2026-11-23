@@ -100,7 +100,7 @@ TerminalRunner operates as an independent external process (`NovaBrowser.Termina
 
 ### 3.2 Authorization Failures (`unauthorized`)
 * **Symptom:** The runner immediately closes pipe connections with error code `unauthorized`.
-* **Cause:** The capability secret token stored in `%LOCALAPPDATA%\NovaBrowser` does not match the token passed by the client during the `hello` handshake.
+* **Cause:** The capability secret token stored in `%LOCALAPPDATA%\nova-cognitive\Nova` does not match the token passed by the client during the `hello` handshake.
 * **Resolution:**
   * Open Nova and navigate to **Menu → Settings → AI & agents → Setup**.
   * Click **Reinstall runner**. Nova will refresh its internal authentication tokens and re-synchronize the launcher binaries.

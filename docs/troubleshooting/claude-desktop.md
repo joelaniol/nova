@@ -53,7 +53,7 @@ If `claude_desktop_config.json` contains invalid JSON (such as single backslashe
 #### Cause 3: Pointing Directly to Nova's GUI Executable
 Claude Desktop expects an MCP server that communicates over standard input/output (`stdio`).
 * **Incorrect:** Pointing to `NovaAIWorkspace.exe` (or `Nova.exe`). Nova is a WinUI 3 graphical browser shell, not a stdio console process.
-* **Correct:** Pointing to `NovaBrowser.McpProxy.exe` located in your `%LOCALAPPDATA%\nova-cognitive\Nova\bin\` directory. Installations from version 1.0.0-alpha.17 or older use `%LOCALAPPDATA%\NovaBrowser` instead of `%LOCALAPPDATA%\nova-cognitive\Nova`; see [Diagnostics](diagnostics.md#1-local-filesystem-locations). The proxy acts as the lightweight stdio-to-HTTP bridge.
+* **Correct:** Pointing to `NovaBrowser.McpProxy.exe` located in your `%LOCALAPPDATA%\nova-cognitive\Nova\bin\` directory. Installations from version 1.0.0-alpha.17 or older use `%LOCALAPPDATA%\nova-cognitive\Nova` instead of `%LOCALAPPDATA%\nova-cognitive\Nova`; see [Diagnostics](diagnostics.md#1-local-filesystem-locations). The proxy acts as the lightweight stdio-to-HTTP bridge.
 
 ---
 

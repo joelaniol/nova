@@ -1,7 +1,7 @@
 # Passwords & Vault
 
 > [!NOTE]
-> Nova AI Workspace includes a built-in, local-only **Password Manager & Vault**. It securely stores web credentials, HTTP Basic/Digest authentication logins, and automation secrets. All credentials are encrypted using the **Windows Data Protection API (DPAPI)** and stored exclusively on your local disk in `%LOCALAPPDATA%\NovaBrowser\vault.db`—never uploaded to cloud servers or synced across the internet.
+> Nova AI Workspace includes a built-in, local-only **Password Manager & Vault**. It securely stores web credentials, HTTP Basic/Digest authentication logins, and automation secrets. All credentials are encrypted using the **Windows Data Protection API (DPAPI)** and stored exclusively on your local disk in `%LOCALAPPDATA%\nova-cognitive\Nova\vault.dat`—never uploaded to cloud servers or synced across the internet.
 
 ---
 
@@ -54,7 +54,7 @@ Open **Menu → Settings → Identity & security → Password manager & vault**:
 * **View Password:** Click the **Eye icon** next to the masked password. For security, Windows prompts for your **Windows account password** before revealing the plaintext characters.
 * **Copy Password:** Click **Copy** to place the password into your Windows clipboard. The action is logged to the local audit trail for security accountability.
 * **Edit Entry:** Modify the URL, username, password, or associated notes.
-* **Delete Entry:** Removes the credential permanently from `vault.db`.
+* **Delete Entry:** Removes the credential permanently from `vault.dat`.
 
 ---
 
@@ -102,7 +102,7 @@ You can migrate passwords from Google Chrome, Microsoft Edge, Firefox, Bitwarden
 4. Choose conflict resolution:
    * **Skip existing entries (Recommended):** Keeps existing Nova entries and imports only new logins.
    * **Overwrite existing entries:** Replaces existing credentials with matching domains and usernames.
-5. Nova parses and encrypts each entry into `vault.db`. Delete the unencrypted `.csv` file from your disk after import.
+5. Nova parses and encrypts each entry into `vault.dat`. Delete the unencrypted `.csv` file from your disk after import.
 
 ### Exporting Vault Backups
 Click **Export vault backup** to save your credentials into a password-protected, encrypted backup file for migration to another Windows PC.

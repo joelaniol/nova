@@ -78,7 +78,7 @@ flowchart TD
 
 ### Browser Password Autosave vs. Nova Encrypted Vault
 1. **Browser Password Autosave:** The built-in Chromium mechanism that prompts "Save password for this site?". This data is stored within the browser profile directory and is purged when `allProfile` is selected.
-2. **Nova Encrypted Vault (`vault.dat`):** Nova's enterprise credential management subsystem. Secrets stored in the vault are encrypted using the Windows Data Protection API (DPAPI) and persisted outside the browser engine profile in `%LOCALAPPDATA%\NovaBrowser\vault.dat`.
+2. **Nova Encrypted Vault (`vault.dat`):** Nova's enterprise credential management subsystem. Secrets stored in the vault are encrypted using the Windows Data Protection API (DPAPI) and persisted outside the browser engine profile in `%LOCALAPPDATA%\nova-cognitive\Nova\vault.dat`.
 3. **The Absolute Invariant:** No cache clearing operation—regardless of whether `allSite`, `allProfile`, or individual categories are specified—can access, modify, or erase secrets in Nova's Vault. Credentials managed through `nova.vault_set` and `nova.vault_get` remain permanently protected.
 
 ---
@@ -107,7 +107,7 @@ Nova AI Workspace Container Hierarchy
 ### Isolation Guarantees
 
 * **Standard Browser Tabs:** All standard tabs share a single underlying browser user profile (`all_browser_tabs`). Executing `nova.cache_clear` on any standard tab clears that data category across **every standard tab** in the workspace.
-* **Isolated Sandboxes:** Each sandbox operates within its own dedicated profile on disk (`%LOCALAPPDATA%\NovaBrowser\Sandboxes\<SandboxId>\`). A cache clear executed in `sandbox-finance` has zero impact on `sandbox-staging` or standard tabs.
+* **Isolated Sandboxes:** Each sandbox operates within its own dedicated profile on disk (`%LOCALAPPDATA%\nova-cognitive\Nova\Sandboxes\<SandboxId>\`). A cache clear executed in `sandbox-finance` has zero impact on `sandbox-staging` or standard tabs.
 * **Ephemeral Private Tabs:** Private tabs utilize temporary, in-memory profiles (`private-*`). Clearing data in a private tab purges temporary session storage without touching persistent sandboxes or standard tabs.
 
 ---

@@ -22,7 +22,7 @@ flowchart TD
    ```powershell
    & "$env:LOCALAPPDATA\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe" --self-test
    ```
-   Installations from version 1.0.0-alpha.17 or older use `%LOCALAPPDATA%\NovaBrowser` instead of `%LOCALAPPDATA%\nova-cognitive\Nova`; see [Diagnostics](diagnostics.md#1-local-filesystem-locations).
+   Installations from version 1.0.0-alpha.17 or older use `%LOCALAPPDATA%\nova-cognitive\Nova` instead of `%LOCALAPPDATA%\nova-cognitive\Nova`; see [Diagnostics](diagnostics.md#1-local-filesystem-locations).
 2. **Verify Nova is running:** Ensure Nova AI Workspace is open on your desktop and the health check responds:
    ```powershell
    Invoke-RestMethod http://127.0.0.1:27183/health

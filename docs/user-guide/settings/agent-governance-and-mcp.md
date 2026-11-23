@@ -147,7 +147,7 @@ flowchart LR
 
 ### 1. Runner Status Card
 Displays the resolved filesystem path to the native executable:
-* **Normal / Ready:** `Runner ready: C:\Users\<user>\AppData\Local\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe` (or `%LOCALAPPDATA%\NovaBrowser\bin\...`).
+* **Normal / Ready:** `Runner ready: C:\Users\<user>\AppData\Local\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe` (or `%LOCALAPPDATA%\nova-cognitive\Nova\bin\...`).
 * **Degraded / Unavailable:** Indicates that the executable is missing, corrupt, or blocked by local permissions.
 
 ### 2. The "Reinstall Runner" Action

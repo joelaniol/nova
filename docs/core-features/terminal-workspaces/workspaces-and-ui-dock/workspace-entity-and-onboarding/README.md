@@ -7,7 +7,7 @@ Nova AI Workspace structures project folders into persistent **`TerminalWorkspac
 ```mermaid
 flowchart TD
     subgraph Storage["Persistent Storage"]
-        Json["terminal-workspaces.json\n(%LOCALAPPDATA%\\NovaBrowser\\)"]
+        Json["terminal-workspaces.json\n(%LOCALAPPDATA%\\nova-cognitive\\Nova\\)"]
     end
 
     subgraph Entity["TerminalWorkspace Model"]
@@ -37,7 +37,7 @@ flowchart TD
 
 ## 1. The `TerminalWorkspace` Schema
 
-Workspaces are stored centrally in the operator's local application data directory (`%LOCALAPPDATA%\NovaBrowser\terminal-workspaces.json`):
+Workspaces are stored centrally in the operator's local application data directory (`%LOCALAPPDATA%\nova-cognitive\Nova\terminal-workspaces.json`):
 
 ```json
 {

@@ -82,7 +82,7 @@ flowchart TD
 Recordings are written to a dedicated folder in the Nova user profile:
 
 ```
-%LOCALAPPDATA%\NovaBrowser\Recordings\<recording-id>\
+%LOCALAPPDATA%\nova-cognitive\Nova\Recordings\<recording-id>\
 ```
 
 Inside this directory, the recording is structured as follows:

@@ -92,7 +92,7 @@ All sandbox profiles reside in the operator's local application data directory:
 ```
 
 > [!NOTE]
-> Installations upgraded from earlier preview builds may retain `%LOCALAPPDATA%\NovaBrowser\` as their local data root. Nova's path resolver detects legacy directories automatically and maintains full backward compatibility.
+> Installations upgraded from earlier preview builds may retain `%LOCALAPPDATA%\nova-cognitive\Nova\` as their local data root. Nova's path resolver detects legacy directories automatically and maintains full backward compatibility.
 
 ### System Limits & Identification Contracts
 

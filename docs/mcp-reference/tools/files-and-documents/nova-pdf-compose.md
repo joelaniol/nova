@@ -57,7 +57,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
     "ok": true,
     "status": "ok",
     "outputs": [
-      { "path": "C:\\Users\\me\\AppData\\Local\\NovaBrowser\\Exports\\Pdf\\invoice-1042-composed-20261016-101500.pdf", "pageCount": 3, "size": 118204 }
+      { "path": "C:\\Users\\me\\AppData\\Local\\nova-cognitive\\Nova\\Exports\\Pdf\\invoice-1042-composed-20261016-101500.pdf", "pageCount": 3, "size": 118204 }
     ],
     "sources": [
       { "path": "C:\\Users\\me\\Downloads\\invoice-1042.pdf", "pageCount": 1 },

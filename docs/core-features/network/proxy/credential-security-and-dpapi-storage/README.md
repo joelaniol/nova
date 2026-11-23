@@ -39,7 +39,7 @@ Nova resolves these risks by isolating credential storage from settings configur
 Proxy passwords are never stored in `settings.json`. Instead, `settings.json` contains only a stable indirection key (`PasswordSecretId`). The corresponding password is encrypted and persisted in a protected binary datastore:
 
 ```
-%LOCALAPPDATA%\NovaBrowser\proxy-credentials.dat
+%LOCALAPPDATA%\nova-cognitive\Nova\proxy-credentials.dat
 ```
 
 ```mermaid

@@ -55,7 +55,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
     "ok": true,
     "status": "ok",
     "jobId": "img_8c41d0e2a97b3f5d16e0c482",
-    "outputFolder": "C:\\Users\\me\\AppData\\Local\\NovaBrowser\\Exports\\Images\\Urlaub-20261017-201500",
+    "outputFolder": "C:\\Users\\me\\AppData\\Local\\nova-cognitive\\Nova\\Exports\\Images\\Urlaub-20261017-201500",
     "filesTotal": 380,
     "written": 379,
     "failed": 1,

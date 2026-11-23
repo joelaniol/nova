@@ -2,6 +2,9 @@
 
 # Nova AI Workspace
 
+> [!WARNING]
+> **Download currently unavailable.** The previous setups (up to 1.0.0-alpha.20) have been withdrawn because Nova 1.0.0-alpha.21 is about to be released. The new setup will appear on the [Releases](https://github.com/joelaniol/nova/releases) page as soon as it is published. Existing installations keep working.
+
 <div align="center">
 
 ### Your AI agent can use a browser. That doesn't mean you have to give up control.
@@ -157,6 +160,9 @@ Explore the comprehensive documentation for operators, developers, and AI agents
 
 <a name="nova-ai-workspace-deutsch"></a>
 ## 🇩🇪 Nova AI Workspace (Deutsch)
+
+> [!WARNING]
+> **Download derzeit nicht verfügbar.** Die bisherigen Setups (bis 1.0.0-alpha.20) wurden zurückgezogen, weil Nova 1.0.0-alpha.21 in Kürze erscheint. Das neue Setup steht auf der Seite [Releases](https://github.com/joelaniol/nova/releases), sobald es veröffentlicht ist. Bestehende Installationen laufen weiter.
 
 **Dein KI-Agent kann einen Browser bedienen. Deshalb musst du die Kontrolle nicht abgeben.**  
 Sieh deinem Agenten in echten, angemeldeten Browser-Tabs bei der Arbeit zu. Übernimm, wenn nötig. Halte Konten getrennt und lass Nova sich nützliche Abläufe auf Websites merken.

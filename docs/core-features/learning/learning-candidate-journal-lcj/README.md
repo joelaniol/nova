@@ -47,10 +47,10 @@ Nova maintains multiple distinct memory stores with dedicated retention, access 
 
 | Memory Subsystem | Database File | Data Stored | Trust & Lifecycle Model |
 | :--- | :--- | :--- | :--- |
-| **Learning Candidate Journal (LCJ)** | `%LOCALAPPDATA%\NovaBrowser\Memory\memory.db` | MCP tool events, component hypotheses, observations, promotion audit events | Empirical evidence store; 30-day hot retention with reference protection; feeds ALP. |
-| **Phenomenological Knowledge Store (PKS)** | `%LOCALAPPDATA%\NovaBrowser\Pks\pks.db` | UI interaction playbooks, CSS selectors, domain hints, platform templates | Curated, high-trust operational knowledge; staged trust levels (L1 Shadow, L2 Active); drift-gated. |
-| **[Browser Memory](../browser-memory/README.md)** | `%LOCALAPPDATA%\NovaBrowser\Pks\pks.db` | Domain notes, user preferences, short-lived session context | Half-life exponential decay; guidance for future agent sessions. |
-| **[Episodic Task Memory (ETM)](../episodic-task-memory-etm/README.md)** | `%LOCALAPPDATA%\NovaBrowser\Memory\memory.db` | Task profiles, execution checklists, guidance logs, coverage scans | Task-scoped operational tracking; unit-level verification and replay logs. |
+| **Learning Candidate Journal (LCJ)** | `%LOCALAPPDATA%\nova-cognitive\Nova\Memory\memory.db` | MCP tool events, component hypotheses, observations, promotion audit events | Empirical evidence store; 30-day hot retention with reference protection; feeds ALP. |
+| **Phenomenological Knowledge Store (PKS)** | `%LOCALAPPDATA%\nova-cognitive\Nova\Pks\pks.db` | UI interaction playbooks, CSS selectors, domain hints, platform templates | Curated, high-trust operational knowledge; staged trust levels (L1 Shadow, L2 Active); drift-gated. |
+| **[Browser Memory](../browser-memory/README.md)** | `%LOCALAPPDATA%\nova-cognitive\Nova\Pks\pks.db` | Domain notes, user preferences, short-lived session context | Half-life exponential decay; guidance for future agent sessions. |
+| **[Episodic Task Memory (ETM)](../episodic-task-memory-etm/README.md)** | `%LOCALAPPDATA%\nova-cognitive\Nova\Memory\memory.db` | Task profiles, execution checklists, guidance logs, coverage scans | Task-scoped operational tracking; unit-level verification and replay logs. |
 
 ---
 
@@ -461,7 +461,7 @@ Agents inspect this audit history using [`nova.learn_feedback`](../../../mcp-ref
 
 LCJ persists data in SQLite at:
 ```
-%LOCALAPPDATA%\NovaBrowser\Memory\memory.db
+%LOCALAPPDATA%\nova-cognitive\Nova\Memory\memory.db
 ```
 This is physically isolated from `pks.db`, ensuring heavy ingestion writes never block PKS playbook lookups.
 

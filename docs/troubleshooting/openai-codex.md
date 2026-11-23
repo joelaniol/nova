@@ -28,7 +28,7 @@ flowchart TD
    ```powershell
    & "$env:LOCALAPPDATA\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe" --self-test
    ```
-   Expected: `NovaBrowser.McpProxy self-test OK`. Installations from version 1.0.0-alpha.17 or older use `%LOCALAPPDATA%\NovaBrowser` instead of `%LOCALAPPDATA%\nova-cognitive\Nova`; see [Diagnostics](diagnostics.md#1-local-filesystem-locations).
+   Expected: `NovaBrowser.McpProxy self-test OK`. Installations from version 1.0.0-alpha.17 or older use `%LOCALAPPDATA%\nova-cognitive\Nova` instead of `%LOCALAPPDATA%\nova-cognitive\Nova`; see [Diagnostics](diagnostics.md#1-local-filesystem-locations).
 
 ---
 

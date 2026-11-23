@@ -38,7 +38,7 @@ The entry Nova generates looks like this:
 }
 ```
 
-`YourName` is an example username. Use the actual path supplied by Nova's wizard. Older installations may use `AppData\Local\NovaBrowser\bin`. In JSON, `\\` represents one Windows path backslash. This example shows only the Nova connection; keep other settings and servers. The bridge manages Nova's local authentication, so this standard entry contains no access token.
+`YourName` is an example username. Use the actual path supplied by Nova's wizard. Older installations may use `AppData\Local\nova-cognitive\Nova\bin`. In JSON, `\\` represents one Windows path backslash. This example shows only the Nova connection; keep other settings and servers. The bridge manages Nova's local authentication, so this standard entry contains no access token.
 
 ## Why Antigravity needs compatibility mode
 

@@ -25,7 +25,7 @@ If Nova is connected but the agent still chooses the wrong way to work, use [Age
 ### How the connection works
 Your AI program starts Nova's stdio bridge, `NovaBrowser.McpProxy.exe`. The bridge reads Nova's current address and access token from Nova's profile folder and forwards every request to Nova's local server (`http://127.0.0.1:27183/mcp` by default). If Nova is not running, the bridge starts it and waits up to 90 seconds for it to become ready.
 
-Nova's profile folder is `%LOCALAPPDATA%\nova-cognitive\Nova`; installations from before the product rename use `%LOCALAPPDATA%\NovaBrowser`. Use whichever exists on your machine in the commands below.
+Nova's profile folder is `%LOCALAPPDATA%\nova-cognitive\Nova`; installations from before the product rename use `%LOCALAPPDATA%\nova-cognitive\Nova`. Use whichever exists on your machine in the commands below.
 
 ### Diagnosis, step by step
 1. **Is Nova's server up?** With Nova running:
@@ -165,7 +165,7 @@ When the proxy fails to reach Nova during initial autostart, it returns specific
 
 | Reason Code | Root Cause | Operator / Agent Resolution |
 | :--- | :--- | :--- |
-| `nova.blocked` | Nova is waiting on an interactive sign-in prompt, trial license activation, or critical modal dialog. | Open the visible Nova desktop application window and complete the pending dialog or login step. Diagnostic details are written to `%LOCALAPPDATA%\NovaBrowser\mcp-boot-status.json`. |
+| `nova.blocked` | Nova is waiting on an interactive sign-in prompt, trial license activation, or critical modal dialog. | Open the visible Nova desktop application window and complete the pending dialog or login step. Diagnostic details are written to `%LOCALAPPDATA%\nova-cognitive\Nova\mcp-boot-status.json`. |
 | `nova.not_installed` | The profile activation metadata (`mcp-activation.json`) or runtime configuration is missing. | Start Nova interactively at least once to create its initial profile and enable agent control in **Settings → AI & agents**. |
 | `nova.exe_missing` | `NovaAIWorkspace.exe` is temporarily absent from its expected directory (typically during software builds or installer upgrades). | Wait for compilation or installation to finish. The proxy maintains a 15-second grace window and provides a 30-second retry-after recommendation. |
 

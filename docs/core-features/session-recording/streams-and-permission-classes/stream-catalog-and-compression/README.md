@@ -8,7 +8,7 @@ This guide provides the complete specification of all 14 stream formats, the Bro
 
 ## 1. The Fourteen Encrypted Stream Files
 
-When a recording is active, events are filtered and routed into one or more of the following stream files within the recording folder (`%LOCALAPPDATA%\NovaBrowser\Recordings\<recording-id>\`):
+When a recording is active, events are filtered and routed into one or more of the following stream files within the recording folder (`%LOCALAPPDATA%\nova-cognitive\Nova\Recordings\<recording-id>\`):
 
 | Stream Filename | Primary Event Types | Sensitivity Tier | Enabling Permission Class |
 | :--- | :--- | :--- | :--- |

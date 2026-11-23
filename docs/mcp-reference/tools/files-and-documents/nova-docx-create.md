@@ -58,7 +58,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
   "structuredContent": {
     "ok": true,
     "status": "ok",
-    "outputPath": "C:\\Users\\me\\AppData\\Local\\NovaBrowser\\Exports\\Office\\Quarterly report-20261016-101500.docx",
+    "outputPath": "C:\\Users\\me\\AppData\\Local\\nova-cognitive\\Nova\\Exports\\Office\\Quarterly report-20261016-101500.docx",
     "size": 6214,
     "details": { "headings": 1, "paragraphs": 1, "listItems": 0, "tables": 1, "links": 0 },
     "warnings": []

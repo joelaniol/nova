@@ -55,7 +55,7 @@ Tool category: `safe` (lowest risk class in Nova's agent permission settings).
     "jobId": "ax_5f0c2a9e41b7d3c8a6e29f10",
     "state": "running",
     "terminal": false,
-    "destinationDir": "C:\\Users\\me\\AppData\\Local\\NovaBrowser\\Exports\\Archives\\server-backup-20261016-091500",
+    "destinationDir": "C:\\Users\\me\\AppData\\Local\\nova-cognitive\\Nova\\Exports\\Archives\\server-backup-20261016-091500",
     "progress": { "bytesWritten": 18253611008, "filesWritten": 48211, "currentEntry": "var/lib/mysql/ibdata1" },
     "suggestedPollMs": 5000,
     "nextAction": "poll_archive_extract_status"

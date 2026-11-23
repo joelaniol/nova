@@ -96,7 +96,7 @@ Once processing completes (or while reviewing in progress):
 
 Open **Menu → Settings → Media & transcription** to manage offline models:
 
-* **Download Models:** Click **Download** next to any model variant (`tiny`, `base`, `small`, `medium`). Downloads are verified via SHA-256 checksums and saved to `%LOCALAPPDATA%\NovaBrowser\models\`.
+* **Download Models:** Click **Download** next to any model variant (`tiny`, `base`, `small`, `medium`). Downloads are verified via SHA-256 checksums and saved to `%LOCALAPPDATA%\nova-cognitive\Nova\models\`.
 * **Remove Models:** Click **Remove** to free disk space when a large model is no longer needed.
 * **Hardware Acceleration:** Outrider automatically detects CPU instruction sets (AVX2, AVX512, FMA) to optimize local inference performance.
 

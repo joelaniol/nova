@@ -54,7 +54,7 @@ In addition to OS-level pipe ACLs, Nova requires a cryptographic capability toke
 ```
 
 1. **Token Generation:** When `TerminalRunner` launches, it generates 32 bytes of cryptographically secure random data (`RandomNumberGenerator.GetBytes(32)`).
-2. **Restricted Storage:** The token is written to `%LOCALAPPDATA%\NovaBrowser\terminal-runner.token` (or the isolated test profile root) with an explicit Windows security descriptor granting access *only* to the current user's security identifier.
+2. **Restricted Storage:** The token is written to `%LOCALAPPDATA%\nova-cognitive\Nova\terminal-runner.token` (or the isolated test profile root) with an explicit Windows security descriptor granting access *only* to the current user's security identifier.
 3. **Handshake Verification:** Upon connecting, `NovaAIWorkspace.exe` reads the token from disk and submits it in the initial `HandshakeReq`. If the token is invalid or missing, the runner disconnects the pipe immediately.
 
 ---

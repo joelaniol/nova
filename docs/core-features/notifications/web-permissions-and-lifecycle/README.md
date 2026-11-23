@@ -106,7 +106,7 @@ flowchart TD
     CloseTab --> Purge["Discarded from RAM<br>(Zero Disk Footprint)"]
 ```
 
-* **Zero Disk Leakage:** When a user grants notification permission inside a private tab, the grant is held strictly in volatile memory. It is never written to `%LOCALAPPDATA%\NovaBrowser\settings.json`.
+* **Zero Disk Leakage:** When a user grants notification permission inside a private tab, the grant is held strictly in volatile memory. It is never written to `%LOCALAPPDATA%\nova-cognitive\Nova\settings.json`.
 * **Instant Destruction:** When the private tab closes, all associated permission grants and notification tracking references are immediately purged from memory.
 
 ---

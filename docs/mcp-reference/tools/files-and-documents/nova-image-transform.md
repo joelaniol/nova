@@ -102,7 +102,7 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
 {
   "structuredContent": {
     "ok": true,
-    "outputPath": "C:\\Users\\me\\AppData\\Local\\NovaBrowser\\Exports\\Images\\IMG_2041-20261017-101500.webp",
+    "outputPath": "C:\\Users\\me\\AppData\\Local\\nova-cognitive\\Nova\\Exports\\Images\\IMG_2041-20261017-101500.webp",
     "inputFormat": "jpeg",
     "outputFormat": "webp",
     "inputSize": { "width": 3024, "height": 4032 },

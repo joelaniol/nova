@@ -21,7 +21,7 @@ Nova's MCP server speaks **Streamable HTTP**. Clients reach it either directly o
 
 ### A. Stdio bridge (`NovaBrowser.McpProxy.exe`)
 * **Standard way in for CLI and desktop clients** (Claude Code, Claude Desktop, OpenAI Codex, Google Antigravity). Nova registers it with these clients automatically.
-* **Location:** `%LOCALAPPDATA%\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe` (installations from before the product rename: `%LOCALAPPDATA%\NovaBrowser\bin\`). Nova keeps this copy current; clients point here rather than into the installation folder, so updates do not break their config.
+* **Location:** `%LOCALAPPDATA%\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe` (installations from before the product rename: `%LOCALAPPDATA%\nova-cognitive\Nova\bin\`). Nova keeps this copy current; clients point here rather than into the installation folder, so updates do not break their config.
 * Reads JSON-RPC messages from standard input and writes responses to standard output. Both newline-delimited JSON and `Content-Length`-framed messages are accepted; answers use the framing the client sent.
 * Reads endpoint and access token from Nova's runtime file (`mcp.json` in the same profile folder) and reconnects transparently when Nova restarts. If Nova is not running, the bridge starts it.
 * **Command-line switches** (the first two can be combined; an unknown switch is refused with exit code 2 instead of being ignored):

@@ -28,7 +28,7 @@ Where the GDPR applies, the following bases are used for the specified purposes;
 | --- | --- |
 | License activation, renewal, device allocation and contract-related support | Providing and administering the license agreement: Article 6(1)(b) GDPR. Required fields are necessary to activate and administer the licensed service; without them activation cannot be completed. |
 | License API security and event records | Preventing unauthorized activation, investigating errors, and defending the license service: Article 6(1)(f) GDPR, subject to the balancing of those legitimate interests and your rights. Records include event time, success/failure, license/activation identifiers, entered email where applicable, a hash of the IP address, request user agent, and the technical fields listed under License Activation. This is service-security logging, not browsing analytics. |
-| Nova version and profile-layout state used to plan compatibility updates | Maintaining supported installations and avoiding data loss when retiring compatibility code: Article 6(1)(f) GDPR, subject to balancing your rights. |
+| Nova version (up to version 1.0.0-alpha.20 also the profile-layout state) used to plan compatibility updates | Maintaining supported installations and avoiding data loss when retiring compatibility code: Article 6(1)(f) GDPR, subject to balancing your rights. |
 | Optional crash reports | Your specific, voluntary consent to send the displayed report: Article 6(1)(a) GDPR. Declining does not prevent normal use of Nova. You may withdraw consent for further processing by contacting us; withdrawal does not invalidate earlier lawful processing. |
 | Requests, objections, and privacy correspondence | Responding to a contract-related request: Article 6(1)(b); handling applicable legal duties or data-subject rights: Article 6(1)(c); other necessary correspondence: Article 6(1)(f), subject to balancing your rights. |
 
@@ -75,9 +75,9 @@ Nova is a licensed application. To activate your license and keep it valid, Nova
 - Your **device name** (Windows hostname) in plain text, so you can recognize your own devices when managing activations
 - Basic **environment info**: Windows edition and build, CPU architecture, and UI language
 - The **Nova version** you are running
-- Whether Nova's **data folder** has already been moved to its current location (one of two fixed words, `current` or `legacy` — never a path or user name)
+- Up to version 1.0.0-alpha.20: whether Nova's **data folder** has already been moved to its current location (one of two fixed words, `current` or `legacy` — never a path or user name). From version 1.0.0-alpha.21 (not published yet) this is no longer sent.
 
-**Why this data is used:** to validate the license, enforce the number of allowed devices per license, and let you manage your own activations and deactivations. The Nova version and the data-folder state are also used to **plan updates**: they tell us when compatibility code for older installations can be removed without leaving anyone's data behind. It is **not** used for advertising, cross-site tracking, or behavioral profiling.
+**Why this data is used:** to validate the license, enforce the number of allowed devices per license, and let you manage your own activations and deactivations. The Nova version (and, up to version 1.0.0-alpha.20, the data-folder state) is also used to **plan updates**: it tells us when compatibility code for older installations can be removed without leaving anyone's data behind. It is **not** used for advertising, cross-site tracking, or behavioral profiling.
 
 **Where it is sent:**
 - Endpoint: `nova-cognitive.com`
@@ -278,7 +278,7 @@ All application data is stored locally on your machine:
 %LOCALAPPDATA%\nova-cognitive\Nova\
 ```
 
-Installations up to version 1.0.0-alpha.17 used `%LOCALAPPDATA%\NovaBrowser\`. The setup of a newer version moves that folder to the new location; if the move is not possible, the data stays in the old folder.
+Installations up to version 1.0.0-alpha.17 used `%LOCALAPPDATA%\NovaBrowser\`. The setups of versions 1.0.0-alpha.18 to 1.0.0-alpha.20 move that folder to the new location. From version 1.0.0-alpha.21 (not published yet) Nova uses only the new location and no longer moves the old folder: data still in `%LOCALAPPDATA%\NovaBrowser\` is no longer read, stays on your computer, and is removed together with the new folder when you choose to delete your personal data in the uninstaller.
 
 This includes settings, browser profiles, history, favorites, vault entries, knowledge stores, conversation archives, logs, and task workspaces. You can delete this folder at any time to remove all Nova data. The uninstaller offers this option as well.
 
@@ -342,7 +342,7 @@ Soweit die DSGVO gilt, werden für die angegebenen Zwecke folgende Grundlagen ve
 | --- | --- |
 | Lizenzaktivierung, Verlängerung, Gerätezuordnung und vertragsbezogener Support | Bereitstellung und Verwaltung der Lizenzvereinbarung: Art. 6 Abs. 1 lit. b DSGVO. Erforderliche Angaben sind für Aktivierung und Verwaltung des lizenzierten Dienstes notwendig; ohne sie ist die Aktivierung nicht möglich. |
 | Sicherheit und Ereignisprotokolle der Lizenz-API | Verhinderung unbefugter Aktivierung, Fehlerklärung und Schutz des Lizenzdienstes: Art. 6 Abs. 1 lit. f DSGVO unter Abwägung dieser berechtigten Interessen und deiner Rechte. Protokolle enthalten Ereigniszeit, Erfolg/Fehler, Lizenz-/Aktivierungskennungen, gegebenenfalls eingegebene E-Mail, einen Hash der IP-Adresse, den User-Agent der Anfrage und die unter Lizenzaktivierung genannten technischen Angaben. Das ist Protokollierung zur Dienstsicherheit, keine Surfverhaltensanalyse. |
-| Nova-Version und Profilpfadstatus für Kompatibilitätsplanung | Erhalt unterstützter Installationen und Vermeidung von Datenverlust beim Abbau von Kompatibilitätscode: Art. 6 Abs. 1 lit. f DSGVO unter Abwägung deiner Rechte. |
+| Nova-Version (bis Version 1.0.0-alpha.20 auch der Profilpfadstatus) für Kompatibilitätsplanung | Erhalt unterstützter Installationen und Vermeidung von Datenverlust beim Abbau von Kompatibilitätscode: Art. 6 Abs. 1 lit. f DSGVO unter Abwägung deiner Rechte. |
 | Optionale Crashberichte | Deine konkrete, freiwillige Einwilligung in die Übermittlung des angezeigten Berichts: Art. 6 Abs. 1 lit. a DSGVO. Ablehnung verhindert nicht die normale Nutzung. Du kannst die Einwilligung für weitere Verarbeitung durch Kontaktaufnahme widerrufen; die Rechtmäßigkeit vorheriger Verarbeitung bleibt unberührt. |
 | Anfragen, Einwände und Datenschutzkorrespondenz | Vertragsbezogene Anfragen: Art. 6 Abs. 1 lit. b; geltende Rechtspflichten oder Betroffenenrechte: Art. 6 Abs. 1 lit. c; sonstige erforderliche Korrespondenz: Art. 6 Abs. 1 lit. f jeweils unter Abwägung deiner Rechte. |
 
@@ -389,9 +389,9 @@ Nova ist eine lizenzierte Anwendung. Um deine Lizenz zu aktivieren und gültig z
 - Dein **Gerätename** (Windows-Hostname) im Klartext, damit du deine eigenen Geräte bei der Verwaltung der Aktivierungen wiedererkennst
 - Grundlegende **Umgebungsinfos**: Windows-Edition und -Build, CPU-Architektur und UI-Sprache
 - Die **Nova-Version**, die du nutzt
-- Ob Novas **Datenordner** schon an seinem aktuellen Ort liegt (eines von zwei festen Wörtern, `current` oder `legacy` — nie ein Pfad oder Benutzername)
+- Bis Version 1.0.0-alpha.20: ob Novas **Datenordner** schon an seinem aktuellen Ort liegt (eines von zwei festen Wörtern, `current` oder `legacy` — nie ein Pfad oder Benutzername). Ab Version 1.0.0-alpha.21 (noch nicht veröffentlicht) wird das nicht mehr gesendet.
 
-**Wozu diese Daten dienen:** um die Lizenz zu validieren, die Anzahl erlaubter Geräte pro Lizenz durchzusetzen und dir die Verwaltung deiner eigenen Aktivierungen/Deaktivierungen zu ermöglichen. Nova-Version und Lage des Datenordners dienen außerdem der **Update-Planung**: Sie zeigen, wann Kompatibilitätscode für ältere Installationen entfernt werden kann, ohne dass jemandes Daten zurückbleiben. Sie werden **nicht** für Werbung, seitenübergreifendes Tracking oder Verhaltensprofiling verwendet.
+**Wozu diese Daten dienen:** um die Lizenz zu validieren, die Anzahl erlaubter Geräte pro Lizenz durchzusetzen und dir die Verwaltung deiner eigenen Aktivierungen/Deaktivierungen zu ermöglichen. Die Nova-Version (und bis Version 1.0.0-alpha.20 die Lage des Datenordners) dient außerdem der **Update-Planung**: Sie zeigt, wann Kompatibilitätscode für ältere Installationen entfernt werden kann, ohne dass jemandes Daten zurückbleiben. Sie werden **nicht** für Werbung, seitenübergreifendes Tracking oder Verhaltensprofiling verwendet.
 
 **Wohin es gesendet wird:**
 - Endpunkt: `nova-cognitive.com`
@@ -601,7 +601,7 @@ Alle Anwendungsdaten werden lokal auf deinem Rechner gespeichert:
 %LOCALAPPDATA%\nova-cognitive\Nova\
 ```
 
-Installationen bis Version 1.0.0-alpha.17 nutzten `%LOCALAPPDATA%\NovaBrowser\`. Das Setup einer neueren Version verschiebt diesen Ordner an den neuen Ort; ist das nicht möglich, bleiben die Daten im alten Ordner.
+Installationen bis Version 1.0.0-alpha.17 nutzten `%LOCALAPPDATA%\NovaBrowser\`. Die Setups der Versionen 1.0.0-alpha.18 bis 1.0.0-alpha.20 verschieben diesen Ordner an den neuen Ort. Ab Version 1.0.0-alpha.21 (noch nicht veröffentlicht) nutzt Nova nur noch den neuen Ort und verschiebt den alten Ordner nicht mehr: Daten, die noch in `%LOCALAPPDATA%\NovaBrowser\` liegen, werden nicht mehr gelesen, bleiben auf deinem Computer und werden zusammen mit dem neuen Ordner entfernt, wenn du im Deinstaller das Löschen deiner persönlichen Daten wählst.
 
 Dies umfasst Einstellungen, Browser-Profile, Verlauf, Favoriten, Vault-Einträge, Wissensspeicher, Gesprächsarchive, Logs und Task-Workspaces. Du kannst diesen Ordner jederzeit löschen, um alle Nova-Daten zu entfernen. Der Deinstaller bietet diese Option ebenfalls an.
 

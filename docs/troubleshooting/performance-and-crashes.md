@@ -49,7 +49,7 @@ When an unhandled exception or critical process termination occurs, Nova generat
 
 * **Minidump Directory:** `%LOCALAPPDATA%\nova-cognitive\CrashDumps\` (beside the profile folder, written by Windows Error Reporting)
   * Minidump files (`.dmp`) capture memory stack traces, active threads, and faulting instruction addresses at the moment of failure.
-* **Application Logs:** `%LOCALAPPDATA%\nova-cognitive\Nova\Logs\` (older installations: `%LOCALAPPDATA%\NovaBrowser\Logs\`)
+* **Application Logs:** `%LOCALAPPDATA%\nova-cognitive\Nova\Logs\` (older installations: `%LOCALAPPDATA%\nova-cognitive\Nova\Logs\`)
   * Serilog rolling log files record timestamped trace messages, MCP requests, and error call stacks.
 * **Reporting Crashes:** When reporting an issue, locate the most recent `.dmp` and `.log` file matching the crash timestamp. Never edit or delete dump files before collecting diagnostic information.
 
