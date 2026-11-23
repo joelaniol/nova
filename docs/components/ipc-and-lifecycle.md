@@ -28,9 +28,9 @@ flowchart TD
         WebView["msedgewebview2.exe<br/>(Chromium Multiprocess Runtimes)"]
     end
 
-    Nova <-->|Authenticated Named Pipe (Protocol v2)| Outrider
-    Nova <-->|Inverted Named Pipe (Pty Demux)| Runner
-    Proxy <-->|Local Streamable HTTP (Bearer Auth)| Nova
+    Nova <-->|"Authenticated Named Pipe (Protocol v2)"| Outrider
+    Nova <-->|"Inverted Named Pipe (Pty Demux)"| Runner
+    Proxy <-->|"Local Streamable HTTP (Bearer Auth)"| Nova
     Nova <-->|Direct3D / WinUI XAML Composition| WebView
     Validator -.->|Offline Forensic Analysis| RecordingDir["Recording Storage"]
 ```

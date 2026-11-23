@@ -38,13 +38,13 @@ graph TD
     Node["Element Under Audit"] --> TypeCheck{"Element Category"}
 
     TypeCheck -->|img or role='img'| ImgCheck["Inspect 'alt' Attribute"]
-    ImgCheck -->|Has alt (including alt='')| PassImg["Compliant"]
+    ImgCheck -->|"Has alt (including alt='')"| PassImg["Compliant"]
     ImgCheck -->|Attribute Missing| FlagAlt["Flag: missing-alt<br>Type: img"]
 
     TypeCheck -->|Form Input / Select / Textarea| FormCheck["Inspect Associated Labels"]
     FormCheck -->|aria-label / aria-labelledby| PassForm["Compliant"]
     FormCheck -->|title attribute| PassForm
-    FormCheck -->|label for='id' (CSS.escape safe)| PassForm
+    FormCheck -->|"label for='id' (CSS.escape safe)"| PassForm
     FormCheck -->|Ancestor label wrapper| PassForm
     FormCheck -->|None Present| FlagLabel["Flag: missing-label<br>Provide label association hint"]
 

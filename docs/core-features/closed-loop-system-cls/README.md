@@ -441,7 +441,7 @@ flowchart TD
     CheckCommit -->|Yes| Block["Block: Requires explicit contract"]
     CheckCommit -->|No| CheckStore{"Promoted candidates in OutcomeCandidateStore?"}
     CheckStore -->|None| Unguarded["Execute plain interaction (unguarded)"]
-    CheckStore -->|Promoted (10+ evals @ 90%+ agreement)| Synthesize["Synthesize learned:<id> contract"]
+    CheckStore -->|"Promoted (10+ evals @ 90%+ agreement)"| Synthesize["Synthesize learned:<id> contract"]
 
     Synthesize --> Dispatch["Dispatch Action"]
     Dispatch --> Verify["Run Postcondition Polling Loop"]

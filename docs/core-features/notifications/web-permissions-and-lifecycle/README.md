@@ -135,8 +135,8 @@ flowchart LR
     Click --> ActiveMap
     Close --> ActiveMap
 
-    ActiveMap -->|ReportClicked()| OnClick
-    ActiveMap -->|ReportClosed()| OnClose
+    ActiveMap -->|"ReportClicked()"| OnClick
+    ActiveMap -->|"ReportClosed()"| OnClose
 ```
 
 ### Supported Lifecycle Hooks:

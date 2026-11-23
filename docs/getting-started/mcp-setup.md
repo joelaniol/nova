@@ -15,7 +15,7 @@ When an AI program connects to Nova, it communicates with Nova's native proxy ru
 
 ```mermaid
 flowchart LR
-    Agent["External AI Program<br/>(Claude Code, Codex, Antigravity)"] -->|Standard I/O (stdio)| Runner["Native MCP Proxy Runner<br/>(%LOCALAPPDATA%\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe)"]
+    Agent["External AI Program<br/>(Claude Code, Codex, Antigravity)"] -->|"Standard I/O (stdio)"| Runner["Native MCP Proxy Runner<br/>(%LOCALAPPDATA%\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe)"]
     Runner -->|Local HTTP / SSE<br/>http://127.0.0.1:27183/mcp| Nova["Nova AI Workspace<br/>(Desktop UI & Tool Engine)"]
 ```
 

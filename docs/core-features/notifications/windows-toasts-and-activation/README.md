@@ -141,13 +141,13 @@ The activation router (`NotificationActivationRouter.RouteToPageAsync`) ensures 
 ```mermaid
 flowchart TD
     Activation["Notification Activated"] --> CheckAction{"Action == 'open'?"}
-    CheckAction -->|No (Dismiss)| Dismiss["Dismiss from Inbox"]
+    CheckAction -->|"No (Dismiss)"| Dismiss["Dismiss from Inbox"]
     CheckAction -->|Yes| TabSearch{"Is Target Tab Open?"}
 
     TabSearch -->|Tab Found| RestoreTab["1. Focus Window<br>2. Select Sandbox<br>3. Activate Tab Strip Item"]
     TabSearch -->|Tab Closed| SandboxResolve{"Target Sandbox Known?"}
 
-    SandboxResolve -->|Yes (e.g. Sandbox B)| LaunchSandbox["Open New Tab in Sandbox B at Origin URL"]
+    SandboxResolve -->|"Yes (e.g. Sandbox B)"| LaunchSandbox["Open New Tab in Sandbox B at Origin URL"]
     SandboxResolve -->|No| LaunchDefault["Open New Tab in Active Profile"]
 
     RestoreTab --> Callback["Dispatch ReportClicked to Page"]

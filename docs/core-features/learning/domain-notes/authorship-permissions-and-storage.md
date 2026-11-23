@@ -153,19 +153,11 @@ flowchart TD
 1. **Thread Synchronization:** All load-mutate-save cycles synchronize on a process-wide lock (`DomainNotesStore.GlobalWriteLock`).
 2. **Differential Saves:** A save writes only what changed since the list was loaded, inside one database transaction. A note is deleted only when the caller removed it from a list it had loaded. A save that did not start from a loaded list never deletes anything, so a failed read can no longer wipe the store.
 3. **Per-Domain Reads:** Hot paths such as `nova.perceive` and the site-note gate read only the notes of the current domain (with parent-domain fallback) through an index instead of the whole store.
-4. **Damage Handling:** A database that fails its integrity check, including one that becomes unreadable while Nova runs, is moved aside as `notes.corrupt.<time>.db` and rebuilt; the moved file stays on disk for recovery.
+4. **Damage Handling:** A database that fails its integrity check, including one that becomes unreadable while Nova runs, is moved aside as `notes.corrupt.<time>.db` and replaced by its newest readable daily copy (kept for seven days), or by an empty database if there is none; the moved file stays on disk for recovery.
 
-### One-Time Import of the Earlier JSON File
+### Earlier JSON File
 
-Versions up to 1.0.0-alpha.18 stored Domain Notes in `domain-notes.json`. On the first start of a version with `notes.db`, Nova imports that file once, together with the earlier operator-note and connector files. The old files are left unchanged as a frozen fallback; an unreadable old file is logged and does not stop the import of the others.
-
----
-
-### Backward-Compatibility Wire Migrations
-
-When importing an older `domain-notes.json`, Nova applies these one-time migrations:
-1. **Stable GUID Assignment:** Legacy notes authored before the introduction of note IDs receive a stable GUID during the import (duplicate IDs are replaced the same way). This ensures that per-tab acknowledgment caches remain stable across app restarts.
-2. **Punycode Domain Key Migration:** Stored domain keys containing Unicode characters (e.g. `münchen.de`) are converted to ASCII wire form (`xn--mnchen-3ya.de`), ensuring future lookups align with WebView2 host reporting.
+Versions up to 1.0.0-alpha.18 stored Domain Notes in `domain-notes.json`; versions 1.0.0-alpha.18 to 1.0.0-alpha.20 imported it once into `notes.db`, together with the earlier operator-note and connector files. From 1.0.0-alpha.21 (upcoming, not published yet) Nova no longer reads those files; a profile without `notes.db` starts with an empty one.
 
 ---
 

@@ -283,7 +283,7 @@ flowchart TD
     ExhaustiveCheck -->|No| AllowSilent
     ExhaustiveCheck -->|Yes| SchemaCheck
 
-    SchemaCheck -->|No (< 2)| AllowSilent
+    SchemaCheck -->|"No (< 2)"| AllowSilent
     SchemaCheck -->|Yes| AlreadyWarned
 
     AlreadyWarned -->|Yes: Already warned| AllowSilent

@@ -15,7 +15,7 @@ graph TD
 
     DropdownType -->|Native HTML <select>| NativeSelect["nova.select_option\n- Manipulates <select> by value attribute\n- Emulates change and input events\n- Matches technical value strings"]
 
-    DropdownType -->|Custom UI Component\n(Radix, Headless UI, React Select, AntD)| CustomSelect["nova.choose_option\n- Matches by visible label, substring, or index\n- Auto-opens menu, scrolls item into view, selects\n- Verifies popover closure\n- Dual-compatible with native <select>"]
+    DropdownType -->|"Custom UI Component<br/>(Radix, Headless UI, React Select, AntD)"| CustomSelect["nova.choose_option\n- Matches by visible label, substring, or index\n- Auto-opens menu, scrolls item into view, selects\n- Verifies popover closure\n- Dual-compatible with native <select>"]
 ```
 
 ---

@@ -94,7 +94,7 @@ A malicious or misconfigured website must not set cookies on top-level domains (
 flowchart TD
     Req["nova.cookie_set(domain: '.co.uk')"] --> CheckPSL{"Check against Mozilla Public Suffix List"}
     CheckPSL -->|Domain is a Public Suffix| Reject["Reject: Setting cookie on public suffix is forbidden (-32602)"]
-    CheckPSL -->|Valid Private Domain (example.co.uk)| Allow["Proceed with Prefix & Security Checks"]
+    CheckPSL -->|"Valid Private Domain (example.co.uk)"| Allow["Proceed with Prefix & Security Checks"]
 ```
 
 When setting a cookie via [`nova.cookie_set`](../../../../mcp-reference/tools/site-data-and-identity/nova-cookie-set.md), Nova validates the requested `domain` against the active Public Suffix List:

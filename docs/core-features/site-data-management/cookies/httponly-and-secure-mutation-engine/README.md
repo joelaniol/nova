@@ -48,7 +48,7 @@ Nova enforces an architectural boundary between **cookie metadata** and **raw co
 flowchart TD
     Call["nova.cookie_list(includeValues: boolean)"] --> Check{"includeValues == true?"}
 
-    Check -->|No (Default: false)| Safe["Safe Read (Auto-Allowed)<br/>• Returns name, domain, path, expires, flags<br/>• Values are redacted/omitted<br/>• Zero credential leak risk"]
+    Check -->|"No (Default: false)"| Safe["Safe Read (Auto-Allowed)<br/>• Returns name, domain, path, expires, flags<br/>• Values are redacted/omitted<br/>• Zero credential leak risk"]
     Check -->|Yes| Gate["High-Impact Secret Read<br/>• Requires explicit domainFilter<br/>• Gated by SiteDataPermissionGate<br/>• Prompts user for approval"]
 
     Gate --> Decision{"User Decision"}

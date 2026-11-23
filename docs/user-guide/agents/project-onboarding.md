@@ -20,7 +20,7 @@ Without onboarding guidelines, agents frequently default to the **Headless Brows
 flowchart TD
     Repo["Software Repository"] --> Check{"Does Repository have Nova Instructions?"}
     Check -->|No| Confusion["Agent attempts to install Playwright/Selenium,<br>download headless binaries, and duplicate logins"]
-    Check -->|Yes (Onboarded)| Native["Agent calls Nova's MCP tools directly<br>(nova.navigate, nova.click_selector, nova.read_dom)"]
+    Check -->|"Yes (Onboarded)"| Native["Agent calls Nova's MCP tools directly<br>(nova.navigate, nova.click_selector, nova.read_dom)"]
 
     Native --> UserSession["Uses existing desktop tabs & logins"]
     Native --> Visible["Renders visible AI assist cursor"]

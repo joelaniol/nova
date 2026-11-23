@@ -79,11 +79,11 @@ flowchart TD
 
     InputType -->|Simple Input / Search Bar| FastText["nova.input_text\n- Direct Input.insertText\n- Near-instantaneous string insertion\n- Focused element required"]
 
-    InputType -->|Rich-Text Editor\n(ProseMirror, Slate, Lexical, Draft.js)| ChunkedType["nova.type_selector\n- Paced chunked typing with micro-delays\n- Hardware Ctrl+A + Backspace clearing\n- Read-back verification"]
+    InputType -->|"Rich-Text Editor<br/>(ProseMirror, Slate, Lexical, Draft.js)"| ChunkedType["nova.type_selector\n- Paced chunked typing with micro-delays\n- Hardware Ctrl+A + Backspace clearing\n- Read-back verification"]
 
-    InputType -->|Monaco Code Editor\n(VS Code Web, GitHub Codespaces)| MonacoModel["Monaco Model Adapter\n- Direct model.setValue() via main world\n- In-expression SHA-256 hash verification\n- Zero character drops"]
+    InputType -->|"Monaco Code Editor<br/>(VS Code Web, GitHub Codespaces)"| MonacoModel["Monaco Model Adapter\n- Direct model.setValue() via main world\n- In-expression SHA-256 hash verification\n- Zero character drops"]
 
-    InputType -->|CodeMirror Editor\n(CodeMirror 5/6, DevTools, REPLs)| CodeMirrorModel["CodeMirror Model Adapter\n- Direct view.dispatch() transaction\n- Text hash validation"]
+    InputType -->|"CodeMirror Editor<br/>(CodeMirror 5/6, DevTools, REPLs)"| CodeMirrorModel["CodeMirror Model Adapter\n- Direct view.dispatch() transaction\n- Text hash validation"]
 
     InputType -->|Functional Keys & Hotkeys| KeyShortcut["nova.input_key & nova.input_shortcut\n- Windows Virtual Key mapping\n- Strict modifier sequences (Ctrl, Shift, Alt, Meta)"]
 ```

@@ -36,8 +36,8 @@ flowchart TD
     Eval --> Hier
     Hier --> Hash
     Hash --> Counter
-    Counter -->|Yes (or First Run)| Full
-    Counter -->|No (Repeated Notice)| Stub
+    Counter -->|"Yes (or First Run)"| Full
+    Counter -->|"No (Repeated Notice)"| Stub
     Full --> Wire
     Stub --> Wire
 ```

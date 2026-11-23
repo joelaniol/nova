@@ -138,8 +138,8 @@ flowchart TD
     CommitCheck -->|Yes| Gate["Missing-Contract Gate: Block Execution"]
     CommitCheck -->|No| StoreCheck{"OutcomeCandidateStore has promoted candidate?"}
 
-    StoreCheck -->|No (Fewer than 10 evals)| Plain["Dispatch Unguarded Interaction"]
-    StoreCheck -->|Yes (10+ evals @ 90%+ agreement)| Synthesize["Synthesize learned:<id> Contract"]
+    StoreCheck -->|"No (Fewer than 10 evals)"| Plain["Dispatch Unguarded Interaction"]
+    StoreCheck -->|"Yes (10+ evals @ 90%+ agreement)"| Synthesize["Synthesize learned:<id> Contract"]
 
     Synthesize --> Dispatch["Dispatch Click"]
     Dispatch --> Polling["Run Stability Polling Loop"]

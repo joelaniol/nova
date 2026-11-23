@@ -35,7 +35,7 @@ flowchart TD
     NormalEval -->|Approved by Policy| Execute
     NormalEval -->|Confirmation Needed| UserDialog
 
-    StrictEval -->|Housekeeping (Scroll/Zoom)| Execute
+    StrictEval -->|"Housekeeping (Scroll/Zoom)"| Execute
     StrictEval -->|Data Exfil / Mutation| UserDialog
 
     UserDialog -->|User Approves| Execute

@@ -108,7 +108,7 @@ graph TD
 
     Hard & Soft --> AttStatus{"Evidence Found?"}
     AttStatus -->|Yes| S1["status: 'detected'<br/>(Reports filenames, sizes, labels)"]
-    AttStatus -->|No (Container Searched)| S2["status: 'none_detected'"]
+    AttStatus -->|"No (Container Searched)"| S2["status: 'none_detected'"]
     AttStatus -->|No Container Specified| S3["status: 'unknown'<br/>(Refuses to scan global body)"]
 
     Send --> BtnStatus{"Button Evaluation"}

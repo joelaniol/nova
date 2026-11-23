@@ -276,7 +276,7 @@ Since 1.0.0-alpha.19, Operator Notes are stored in a local SQLite database in th
 %LOCALAPPDATA%\nova-cognitive\Nova\notes.db
 ```
 
-Versions up to 1.0.0-alpha.18 used `operator-notes.json`. On the first start of a version with `notes.db`, Nova imports that file once and leaves it unchanged as a frozen fallback.
+Versions up to 1.0.0-alpha.18 used `operator-notes.json`; versions 1.0.0-alpha.18 to 1.0.0-alpha.20 imported it once into `notes.db`. From 1.0.0-alpha.21 (upcoming, not published yet) Nova no longer reads that file.
 
 ### Concurrency & Saves
 * **Global Write Lock:** All read-modify-write sequences are synchronized under an internal global lock, preventing race conditions between parallel MCP tool calls and the desktop UI.

@@ -57,8 +57,8 @@ flowchart TD
     Luminance --> Ratio
     Ratio --> Evaluate
 
-    Evaluate -->|Font < 24px (Normal)| CheckAA{"CR >= 4.5:1?"}
-    Evaluate -->|Font >= 24px OR (>=18.66px AND Bold)| CheckLarge{"CR >= 3.0:1?"}
+    Evaluate -->|"Font < 24px (Normal)"| CheckAA{"CR >= 4.5:1?"}
+    Evaluate -->|"Font >= 24px OR (>=18.66px AND Bold)"| CheckLarge{"CR >= 3.0:1?"}
 
     CheckAA -->|Yes| Pass["Pass"]
     CheckAA -->|No| FailAA["Flag: contrast issue (threshold: 4.5)"]
