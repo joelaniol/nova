@@ -1,24 +1,12 @@
 # Acceptable Use Policy / Nutzungsrichtlinie
 
-*Last updated: November 21, 2026*
+*Last updated: November 23, 2026*
 
 ---
 
 ## English
 
 This policy describes permitted use and misuse of Nova AI Workspace. Contractual consequences depend on the terms validly agreed with you; publication of this page does not by itself amend an existing contract. See the [EULA](EULA.md) for license rights, statutory warranty, liability, and suspension procedures.
-
-### Arms-Industry and Military-Use Restrictions
-
-**No business licenses for arms companies.** Nova may not be acquired or used for professional or commercial purposes by or on behalf of a company that develops, manufactures, markets, or trades weapons, ammunition, military explosives, or components, systems, or services specifically designed for military combat. This also covers use through employees, contractors, or other intermediaries, and applies to paid, free, trial, and evaluation use.
-
-**Military technology is included.** The company exclusion also covers providers of software, AI, data analysis, military intelligence, targeting, or combat command systems specifically designed or adapted for military combat. It applies even if the company also serves civilian customers.
-
-**No use for weapons or military combat.** No user may use Nova to develop, manufacture, market, trade, or procure weapons, ammunition, or military explosives, or to plan, conduct, or directly support military combat operations. This includes technical, procurement, and logistical workflows serving those purposes.
-
-Employment by such a company does not prevent genuinely private use unrelated to these prohibited purposes. Civilian explosives applications, such as mining or construction, are not prohibited solely because they involve explosives. Providing general-purpose civilian goods or services alone does not make a company an arms company under this definition. Journalism, historical research, humanitarian aid, and disarmament or explosive-ordnance disposal are not prohibited solely because they concern weapons or conflict; the business-customer exclusion above still applies.
-
-These restrictions concern Nova-owned software. They do not restrict rights granted independently by third-party or open-source licenses. Publishing this revision does not by itself retroactively change existing contracts; applicable contractual terms and mandatory legal rights remain unaffected.
 
 ### Authorized Testing
 
@@ -84,18 +72,6 @@ Nova is alpha software; see the [technical risk notice](DISCLAIMER.md). Alpha st
 ## Deutsch
 
 Diese Richtlinie beschreibt erlaubte Nutzung und Missbrauch von Nova AI Workspace. Vertragliche Folgen richten sich nach den wirksam mit dir vereinbarten Bedingungen; die Veröffentlichung dieser Seite ändert für sich genommen keinen bestehenden Vertrag. Nutzungsrechte, Mängelrechte, Haftung und Sperrverfahren stehen in der [EULA](EULA.md#deutsch).
-
-### Ausschluss der Rüstungswirtschaft und militärischer Nutzung
-
-**Keine geschäftlichen Lizenzen für Rüstungsunternehmen.** Nova darf nicht für berufliche oder gewerbliche Zwecke durch oder im Auftrag eines Unternehmens erworben oder genutzt werden, das Waffen, Munition, militärische Sprengstoffe oder speziell für militärische Kampfhandlungen konzipierte Komponenten, Systeme oder Dienstleistungen entwickelt, herstellt, vermarktet oder damit handelt. Dies erfasst auch die Nutzung über Beschäftigte, Auftragnehmer oder andere Vermittler und gilt für bezahlte, kostenlose, Test- und Evaluierungsnutzung.
-
-**Militärtechnologie ist eingeschlossen.** Der Unternehmensausschluss erfasst auch Anbieter von Software, KI, Datenanalyse, militärischen Aufklärungs-, Zielerfassungs- oder Gefechtsführungssystemen, die speziell für militärische Kampfhandlungen konzipiert oder angepasst sind. Er gilt auch dann, wenn das Unternehmen zusätzlich zivile Kunden bedient.
-
-**Keine Nutzung für Waffen oder militärische Kampfhandlungen.** Niemand darf Nova zur Entwicklung, Herstellung, Vermarktung, zum Handel oder zur Beschaffung von Waffen, Munition oder militärischen Sprengstoffen oder zur Planung, Durchführung oder unmittelbaren Unterstützung militärischer Kampfhandlungen einsetzen. Dies umfasst technische, Beschaffungs- und Logistikabläufe, die diesen Zwecken dienen.
-
-Die Beschäftigung bei einem solchen Unternehmen schließt eine tatsächlich private Nutzung ohne Bezug zu diesen verbotenen Zwecken nicht aus. Zivile Sprengstoffanwendungen, etwa im Bergbau oder Bauwesen, sind nicht allein wegen des Einsatzes von Sprengstoffen verboten. Das bloße Anbieten allgemeiner ziviler Waren oder Dienstleistungen macht ein Unternehmen nach dieser Definition nicht zum Rüstungsunternehmen. Journalismus, historische Forschung, humanitäre Hilfe sowie Abrüstung oder Kampfmittelbeseitigung sind nicht allein deshalb verboten, weil sie Waffen oder Konflikte betreffen; der oben geregelte Ausschluss als Geschäftskunde bleibt bestehen.
-
-Diese Grenzen betreffen Nova-eigene Software. Sie beschränken keine Rechte, die Drittanbieter- oder Open-Source-Lizenzen unabhängig gewähren. Die Veröffentlichung dieser Überarbeitung ändert bestehende Verträge nicht für sich genommen rückwirkend; anwendbare Vertragsbedingungen und zwingende gesetzliche Rechte bleiben unberührt.
 
 ### Autorisierte Prüfungen
 

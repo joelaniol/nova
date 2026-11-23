@@ -1,6 +1,6 @@
 # End User License Agreement / Endnutzer-Lizenzvereinbarung
 
-*Version 1.4-alpha · Revision: November 1, 2026 / Stand: 1. November 2026*
+*Version 1.4-alpha · Revision: November 23, 2026 / Stand: 23. November 2026*
 
 > [!IMPORTANT]
 > **Upcoming revision, to be shipped with setup 1.0.0-alpha.21.** Setups 1.0.0-alpha.20 and earlier show revision 1.3-alpha. This revision is shown and accepted in the setup wizard from the version that ships it. An update installed silently by Nova's built-in updater is not an acceptance of it, and it does not retrospectively change contracts concluded earlier; the validly agreed version governs. This is a working revision without completed legal review.
@@ -28,7 +28,7 @@ An accessible text version of the contact details can be requested through the [
 
 ## English
 
-NOVA AI WORKSPACE — END USER LICENSE AGREEMENT (EULA) Version 1.4-alpha · Revision date: November 1, 2026
+NOVA AI WORKSPACE — END USER LICENSE AGREEMENT (EULA) Version 1.4-alpha · Revision date: November 23, 2026
 
 ### 1. PARTIES AND SCOPE
 
@@ -67,14 +67,6 @@ The User may not use Nova AI Workspace to access systems or accounts without aut
 An authorization applies only within its actual scope, such as specified actions, targets, and time periods. It is not blanket consent to arbitrary future agent actions. The User is responsible for configuring, authorizing, and reasonably supervising connected agents to the extent these actions are within the User's control and legally attributable to them. Third-party providers are responsible for their models and services under the applicable rules. This does not exclude the Licensor's responsibility for defects in Nova, including permission checks or execution. Sections 10 and 11 govern statutory warranty and liability.
 
 The Acceptable Use Policy explains these restrictions. Its publication or subsequent amendment alone does not constitute acceptance of new contractual obligations; the validly agreed terms govern.
-
-No business licenses for arms companies: Nova may not be acquired or used for professional or commercial purposes by or on behalf of a company that develops, manufactures, markets, or trades weapons, ammunition, military explosives, or components, systems, or services specifically designed for military combat. This also covers use through employees, contractors, or other intermediaries, and applies to paid, free, trial, and evaluation use.
-
-Military technology is included: The company exclusion also covers providers of software, AI, data analysis, military intelligence, targeting, or combat command systems specifically designed or adapted for military combat. It applies even if the company also serves civilian customers.
-
-No use for weapons or military combat: No user may use Nova to develop, manufacture, market, trade, or procure weapons, ammunition, or military explosives, or to plan, conduct, or directly support military combat operations. This includes technical, procurement, and logistical workflows serving those purposes.
-
-Employment by such a company does not prevent genuinely private use unrelated to these prohibited purposes. Civilian explosives applications, such as mining or construction, are not prohibited solely because they involve explosives. Providing general-purpose civilian goods or services alone does not make a company an arms company under this definition. Journalism, historical research, humanitarian aid, and disarmament or explosive-ordnance disposal are not prohibited solely because they concern weapons or conflict; the business-customer exclusion above still applies.
 
 The tools for reading, intercepting, modifying and replaying network traffic are additionally subject to the following: the User applies them to third-party services only to the extent their operator has authorized it. It is in particular prohibited to use them to bypass payment, licensing, quotas, client-side validation, consent dialogs or security mechanisms of a third-party service, or to replay recorded requests without authorization; the technical ability to reuse an existing session is not authorization from the service. Where the User thereby records personal data of third parties, the User is responsible for handling it lawfully; which data Nova AI Workspace itself processes is set out in the privacy notice.
 
@@ -132,7 +124,7 @@ A copy of this EULA is installed together with Nova AI Workspace. Questions and 
 
 ## Deutsch
 
-NOVA AI WORKSPACE — ENDNUTZER-LIZENZVEREINBARUNG (EULA) Version 1.4-alpha · Stand: 1. November 2026
+NOVA AI WORKSPACE — ENDNUTZER-LIZENZVEREINBARUNG (EULA) Version 1.4-alpha · Stand: 23. November 2026
 
 ### 1. VERTRAGSPARTNER UND GELTUNG
 
@@ -171,14 +163,6 @@ Der Nutzer darf Nova AI Workspace nicht einsetzen, um ohne Berechtigung auf Syst
 Eine Freigabe gilt nur innerhalb ihres tatsächlichen Umfangs, etwa für bestimmte Aktionen, Ziele und Zeiträume. Sie ist keine pauschale Zustimmung zu beliebigen zukünftigen Agentenaktionen. Der Nutzer ist für Konfiguration, Autorisierung und angemessene Beaufsichtigung verbundener Agenten verantwortlich, soweit diese Handlungen in seinem Einflussbereich liegen und ihm rechtlich zurechenbar sind. Drittanbieter verantworten ihre Modelle und Dienste nach den jeweils anwendbaren Regeln. Die Verantwortung des Lizenzgebers für Fehler in Nova, insbesondere bei Rechteprüfung oder Ausführung, wird dadurch nicht ausgeschlossen. Für Mängel und Haftung gelten Abschnitte 10 und 11.
 
 Die Nutzungsrichtlinie erläutert diese Grenzen. Ihre Veröffentlichung oder spätere Änderung begründet allein keine Zustimmung zu neuen Vertrags- pflichten; maßgeblich sind die wirksam vereinbarten Bedingungen.
-
-Keine geschäftlichen Lizenzen für Rüstungsunternehmen: Nova darf nicht für berufliche oder gewerbliche Zwecke durch oder im Auftrag eines Unternehmens erworben oder genutzt werden, das Waffen, Munition, militärische Sprengstoffe oder speziell für militärische Kampfhandlungen konzipierte Komponenten, Systeme oder Dienstleistungen entwickelt, herstellt, vermarktet oder damit handelt. Dies erfasst auch die Nutzung über Beschäftigte, Auftragnehmer oder andere Vermittler und gilt für bezahlte, kostenlose, Test- und Evaluierungsnutzung.
-
-Militärtechnologie ist eingeschlossen: Der Unternehmensausschluss erfasst auch Anbieter von Software, KI, Datenanalyse, militärischen Aufklärungs-, Zielerfassungs- oder Gefechtsführungssystemen, die speziell für militärische Kampfhandlungen konzipiert oder angepasst sind. Er gilt auch dann, wenn das Unternehmen zusätzlich zivile Kunden bedient.
-
-Keine Nutzung für Waffen oder militärische Kampfhandlungen: Niemand darf Nova zur Entwicklung, Herstellung, Vermarktung, zum Handel oder zur Beschaffung von Waffen, Munition oder militärischen Sprengstoffen oder zur Planung, Durchführung oder unmittelbaren Unterstützung militärischer Kampfhandlungen einsetzen. Dies umfasst technische, Beschaffungs- und Logistikabläufe, die diesen Zwecken dienen.
-
-Die Beschäftigung bei einem solchen Unternehmen schließt eine tatsächlich private Nutzung ohne Bezug zu diesen verbotenen Zwecken nicht aus. Zivile Sprengstoffanwendungen, etwa im Bergbau oder Bauwesen, sind nicht allein wegen des Einsatzes von Sprengstoffen verboten. Das bloße Anbieten allgemeiner ziviler Waren oder Dienstleistungen macht ein Unternehmen nach dieser Definition nicht zum Rüstungsunternehmen. Journalismus, historische Forschung, humanitäre Hilfe sowie Abrüstung oder Kampfmittelbeseitigung sind nicht allein deshalb verboten, weil sie Waffen oder Konflikte betreffen; der oben geregelte Ausschluss als Geschäftskunde bleibt bestehen.
 
 Für die Werkzeuge zum Mitlesen, Abfangen, Verändern und erneuten Senden von Netzwerkverkehr gilt zusätzlich: Der Nutzer setzt sie gegen fremde Dienste nur ein, soweit deren Betreiber dies genehmigt hat. Untersagt ist insbesondere, damit Bezahlung, Lizenzierung, Kontingente, clientseitige Prüfungen, Zustimmungsdialoge oder Sicherheitsmechanismen eines fremden Dienstes zu umgehen sowie aufgezeichnete Anfragen ohne Genehmigung erneut zu senden; die technische Möglichkeit, eine bestehende Sitzung wiederzuverwenden, ersetzt keine Genehmigung des Dienstes. Zeichnet der Nutzer dabei personenbezogene Daten Dritter auf, ist er für den zulässigen Umgang damit verantwortlich; welche Daten Nova AI Workspace selbst verarbeitet, steht in der Datenschutzerklärung.
 
