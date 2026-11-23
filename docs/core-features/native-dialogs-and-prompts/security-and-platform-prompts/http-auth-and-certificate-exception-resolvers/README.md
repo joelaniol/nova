@@ -60,7 +60,7 @@ sequenceDiagram
     participant Vault as DPAPI Password Vault
 
     Server->>Browser: HTTP 401 Unauthorized (WWW-Authenticate: Basic realm="Internal")
-    Browser->>Browser: Suspend navigation; surface Auth Prompt
+    Browser->>Browser: Suspend navigation, surface Auth Prompt
     
     Agent->>Browser: nova.ui_inspect_native_dialog()
     Browser-->>Agent: { isOpen: true, kind: "http_auth", origin: "https://router.corp" }

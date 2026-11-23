@@ -54,7 +54,7 @@ sequenceDiagram
     participant Perm as Permission Center
 
     Page->>WV: navigator.mediaDevices.getUserMedia({ video: true })
-    WV->>WV: Suspend promise; surface Permission Prompt
+    WV->>WV: Suspend promise, surface Permission Prompt
     
     Agent->>WV: nova.ui_inspect_native_dialog()
     WV-->>Agent: { isOpen: true, promptType: "permission", permissionKind: "camera" }

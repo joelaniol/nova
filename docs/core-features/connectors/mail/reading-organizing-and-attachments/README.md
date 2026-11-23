@@ -163,7 +163,7 @@ flowchart TD
     Request["nova.mail_attachment_save\n(folder, uid, attachmentIndex, localPath)"] --> SandboxCheck{"Filesystem Sandbox Check\nIs localPath within Downloads or Workspace?"}
     
     SandboxCheck -- "No (Path Escapes Sandbox)" --> RejectSandbox["Abort: Error -32602\n(local_path_outside_sandbox)"]
-    SandboxCheck -- "Yes (Sandboxed)" --> NameSanitizer["MIME Filename Sanitization\n- Strip ../ traversal & null bytes\n- Normalize Windows reserved chars (: * ? \" < > |)\n- Max 255 chars, preserve surrogate pairs"]
+    SandboxCheck -- "Yes (Sandboxed)" --> NameSanitizer["MIME Filename Sanitization\n- Strip ../ traversal & null bytes\n- Normalize Windows reserved chars (: * ? #quot; < > |)\n- Max 255 chars, preserve surrogate pairs"]
     
     NameSanitizer --> ThreatCheck{"Threat Evaluation\nIs extension executable/script-like?\n(.exe, .dll, .bat, .cmd, .ps1, .vbs, .js, .hta, .msi, etc.)"}
     

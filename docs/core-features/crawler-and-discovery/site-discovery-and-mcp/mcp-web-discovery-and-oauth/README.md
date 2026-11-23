@@ -102,7 +102,7 @@ sequenceDiagram
         Server-->>Nova: Issue Bearer Access & Refresh Tokens
         Nova->>Nova: Encrypt Tokens with Windows DPAPI
         Nova->>Nova: Register Server in Nova External MCP Catalog
-        Nova-->>Agent: Connection Established; Server Ready
+        Nova-->>Agent: Connection Established, Server Ready
     else User Rejects
         User-->>Nova: Consent Denied
         Nova-->>Agent: Error -32033: User denied connection consent

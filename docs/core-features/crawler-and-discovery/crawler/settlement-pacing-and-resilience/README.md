@@ -74,7 +74,7 @@ sequenceDiagram
     Engine->>Engine: Dispatch navigation to requested URL
     Engine->>Probe: Read observed URL after settlement
     alt Canonical-Equivalent Difference (slash, fragment, tracker)
-        Engine->>Engine: Normalize URL; treat as successful route
+        Engine->>Engine: Normalize URL, treat as successful route
     else Genuine SPA Route Shift
         Engine->>PKS: Record hydration drift rule for domain
         Engine->>Engine: Enqueue genuine destination route

@@ -243,7 +243,7 @@ sequenceDiagram
 
     Agent->>Nova: nova.terminal_run_command(command="npm test", timeoutSeconds=30)
     Note over Nova: Generates nonce: NOVAEXIT_a1b2c3d4<br/>Appends isolated sentinel line
-    Nova->>PTY: npm testWrite-Output "NOVAEXIT_a1b2c3d4_$(if($?){0}elseif($LASTEXITCODE){$LASTEXITCODE}else{1})_END"
+    Nova->>PTY: npm test<br/>Write-Output "NOVAEXIT_a1b2c3d4_$(if($?){0}elseif($LASTEXITCODE){$LASTEXITCODE}else{1})_END"
     
     PTY-->>Nova: Live command output bytes (captured in ring buffer)
     Note over Nova: Polls every 50ms (256-byte scan overlap)<br/>Scans for pattern: NOVAEXIT_a1b2c3d4_(-?\d+)_END

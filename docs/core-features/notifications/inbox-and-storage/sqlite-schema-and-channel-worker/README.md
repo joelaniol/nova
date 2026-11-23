@@ -92,7 +92,7 @@ flowchart TD
         Commit["Commit Transaction"]
     end
 
-    subgraph Storage[("SQLite Database")]
+    subgraph Storage["SQLite Database"]
         DBFile["notifications.db (WAL Mode)"]
     end
 

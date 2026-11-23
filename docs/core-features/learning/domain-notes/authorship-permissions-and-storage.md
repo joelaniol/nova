@@ -170,7 +170,7 @@ mindmap
   root((Capacity &<br/>Validation Limits))
     Keys & Values
       Key: Max 50 Chars
-      Key Regex: ^[a-zA-Z0-9_\- ]+$
+      KeyRegex["Key Regex: ^[a-zA-Z0-9_\- ]+$"]
       Value: Max 100,000 Chars
     Store Capacities
       Max 1,000,000 Domains

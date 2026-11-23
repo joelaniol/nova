@@ -208,7 +208,7 @@ stateDiagram-v2
     Unnavigated --> Navigated: nova.navigate / route / reload / back / forward
     Navigated --> ObservationRequired: Flagged (Target Tab Stale)
     ObservationRequired --> MutatingAttempt: Agent calls click_selector / type_selector
-    MutatingAttempt --> Blocked: Mode == Block (Returns isError:true + hint)
+    MutatingAttempt --> Blocked: Mode == Block (Returns isError = true + hint)
     MutatingAttempt --> Warned: Mode == Warn / ShadowBlock (Executes + injects warning)
     ObservationRequired --> Observed: Agent calls perceive / read_text / read_dom / eval / wait_for_selector
     Observed --> Interacting: Flag cleared; mutating tools execute normally

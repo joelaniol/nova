@@ -17,14 +17,14 @@ stateDiagram-v2
     [*] --> Fresh: New Observation inserted
     Fresh --> Fresh: Identical Value (Reinforce support_count++)
     
-    Fresh --> Conflicted: Conflicting Value (Incoming loses: confidence < existing + 0.15)
+    Fresh --> Conflicted: Conflicting Value (Incoming loses, confidence < existing + 0.15)
     Conflicted --> Fresh: Conflicting Value resolved (Incoming wins)
     
-    Fresh --> Superseded: Conflicting Value (Incoming wins: confidence >= existing + 0.15)
+    Fresh --> Superseded: Conflicting Value (Incoming wins, confidence >= existing + 0.15)
     Superseded --> [*]: valid_to = now, superseded_by_fact_id set
     
     Fresh --> ObservationOnly: Tentative claim with differing value
-    ObservationOnly --> Fresh: Observation logged; Fact untouched
+    ObservationOnly --> Fresh: Observation logged, Fact untouched
 ```
 
 ---

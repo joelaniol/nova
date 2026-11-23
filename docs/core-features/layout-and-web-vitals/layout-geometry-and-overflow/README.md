@@ -43,13 +43,13 @@ The overflow detection engine inspects rendered DOM nodes (capped at 8,000 nodes
 ```mermaid
 flowchart TD
     El[Rendered Element] --> CheckX{scrollWidth > clientWidth + 1?}
-    CheckX -- "Yes" --> CheckClipX{textOverflow == 'ellipsis' OR<br/>overflowX in ['hidden','clip']?}
+    CheckX -- "Yes" --> CheckClipX{"textOverflow == 'ellipsis' OR<br/>overflowX in ['hidden','clip']?"}
     CheckClipX -- "Yes" --> FlagClipX["Issue: clipped-text (x-axis)"]
     CheckClipX -- "No" --> FlagOverX["Issue: overflow (x-axis)"]
     
-    CheckX -- "No" --> CheckY{scrollHeight > clientHeight + 1 AND<br/>overflowY in ['hidden','clip']?}
+    CheckX -- "No" --> CheckY{"scrollHeight > clientHeight + 1 AND<br/>overflowY in ['hidden','clip']?"}
     CheckY -- "Yes" --> FlagClipY["Issue: clipped-text (y-axis)<br/>(Content Silently Cut Off)"]
-    CheckY -- "No" --> CheckBleed{position not in ['fixed','sticky'] AND<br/>rect.right > vw + 2 AND rect.left < vw?}
+    CheckY -- "No" --> CheckBleed{"position not in ['fixed','sticky'] AND<br/>rect.right > vw + 2 AND rect.left < vw?"}
     CheckBleed -- "Yes" --> FlagBleed["Issue: viewport-bleed<br/>(Calculates overhangPx)"]
     CheckBleed -- "No" --> Next[Pass]
 ```

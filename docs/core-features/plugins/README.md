@@ -269,7 +269,7 @@ flowchart LR
 
         HostElement --> ShadowRoot
         ShadowRoot --> PluginUI
-        PageCSS -.x|Styles Blocked| PluginUI
+        PageCSS -.-x|Styles Blocked| PluginUI
     end
 ```
 

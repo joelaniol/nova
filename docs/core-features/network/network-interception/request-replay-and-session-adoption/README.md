@@ -61,20 +61,20 @@ Replay operations follow a deterministic four-stage state machine keyed by an ag
 
 ```mermaid
 stateDiagram-v2
-    [*] --> Prepared: action: "prepare"
+    [*] --> Prepared: action = "prepare"
     note right of Prepared: Validates parameters, extracts session (if requested),<br/>freezes draft, returns replayId & redacted preview.
 
-    Prepared --> Completed: action: "send"
+    Prepared --> Completed: action = "send"
     note right of Completed: Dispatches request over wire exactly once.<br/>Captures status, headers, body bytes, and timing.
 
-    Completed --> Completed: action: "send" (Idempotent)
+    Completed --> Completed: action = "send" (Idempotent)
     note right of Completed: Re-sending the same replayId returns the<br/>cached result without firing duplicate requests.
 
-    Completed --> Completed: action: "get"
+    Completed --> Completed: action = "get"
     note right of Completed: Reads status, captured response, or baseline diff.
 
-    Prepared --> [*]: action: "discard"
-    Completed --> [*]: action: "discard"
+    Prepared --> [*]: action = "discard"
+    Completed --> [*]: action = "discard"
     note right of [*]: Purges draft and response bytes from memory.<br/>(Automatic 10-minute TTL expiry).
 ```
 

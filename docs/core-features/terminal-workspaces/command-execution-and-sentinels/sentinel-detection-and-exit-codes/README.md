@@ -13,7 +13,7 @@ sequenceDiagram
 
     Agent->>Nova: nova.terminal_run_command(sessionId="term_123", command="git status")
     Nova->>Nova: Generate 16-hex nonce: "7a8b9c0d1e2f3a4b"
-    Nova->>Shell: Inject: git status; <sentinel_payload>
+    Nova->>Shell: Inject: git status, then the sentinel line
     Note over Shell: Shell executes "git status", streams stdout/stderr
     Shell-->>Nova: Raw PTY Byte Chunks (Channel 2)
     Nova->>Nova: Sliding-Window Scan (256-byte overlap)

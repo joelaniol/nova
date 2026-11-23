@@ -136,7 +136,7 @@ sequenceDiagram
         SE->>Web: Passive Shadow Probe (Read-Only querySelector)
         Web-->>SE: Probe Results
         alt Element Missing or Mismatched
-            SE->>PKS: No recovery; Quarantine clock advances
+            SE->>PKS: No recovery, Quarantine clock advances
         else Element Matches & Closed-Loop Invariants Hold (x3)
             SE->>State: VerifiedShadowRecovery = true
             State->>PKS: Transition Quarantined -> Healthy

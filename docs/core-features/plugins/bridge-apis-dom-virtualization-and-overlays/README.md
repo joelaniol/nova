@@ -197,8 +197,8 @@ flowchart LR
     HostDiv --> ShadowRoot
     ShadowRoot --> Card
     Card --> Button
-    PageStyles -.x|Styles Blocked by Shadow Boundary| Card
-    PageScripts -.x|Keystrokes Blocked from Page Listeners| Button
+    PageStyles -.-x|Styles Blocked by Shadow Boundary| Card
+    PageScripts -.-x|Keystrokes Blocked from Page Listeners| Button
 ```
 
 ### 6.1 Two-Way Style Encapsulation

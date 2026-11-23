@@ -177,7 +177,7 @@ graph LR
     end
 
     subgraph IMAPQuery["RFC 3501 Search Syntax"]
-        Compiled["UID SEARCH FROM accounting@vendor.com SUBJECT \"Invoice 2026\" SINCE 01-Oct-2026 UNSEEN"]
+        Compiled["UID SEARCH FROM accounting@vendor.com SUBJECT #quot;Invoice 2026#quot; SINCE 01-Oct-2026 UNSEEN"]
     end
 
     F1 & F2 & F3 & F4 & F5 --> Parser --> Compiled

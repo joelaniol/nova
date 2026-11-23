@@ -98,7 +98,7 @@ sequenceDiagram
         OS-->>Nova: Spawns independent desktop process
         Note over Proxy,Nova: Polls /health & mcp-boot-status.json (up to 90s)
     else Lease Held by Peer
-        Note over Proxy: Joins peer wait loop; monitors existing boot
+        Note over Proxy: Joins peer wait loop, monitors existing boot
     end
 
     Nova-->>Proxy: http://127.0.0.1:27183/health returns status: "ready"

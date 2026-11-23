@@ -110,7 +110,7 @@ sequenceDiagram
 
     Agent->>Nova: nova.ui_confirm_native_dialog()
     Nova->>Win32: BM_CLICK / WM_COMMAND(IDOK) with VK_RETURN Fallback
-    Win32-->>Nova: Dialog closes; OS returns file handle to browser
+    Win32-->>Nova: Dialog closes, OS returns file handle to browser
     Nova-->>Agent: { ok: true, confirmed: true, dialogStillOpen: false }
 
     Agent->>Agent: Follow-up check: Verify in-page upload result

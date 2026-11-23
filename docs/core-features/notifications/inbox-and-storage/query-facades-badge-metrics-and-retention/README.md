@@ -23,7 +23,7 @@ flowchart TD
         Summary["GetNotificationSummaryAsync()<br>Source breakdowns & metrics"]
     end
 
-    subgraph Database[("SQLite (WAL Mode)")]
+    subgraph Database["SQLite (WAL Mode)"]
         Table["notifications Table"]
         Idx["idx_notifications_unread"]
     end

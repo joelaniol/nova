@@ -22,7 +22,7 @@ stateDiagram-v2
     WindowsDefault --> ActionCenter: Quiet Hours / Focus Assist Active<br/>(Routes silently to Action Center)
     WindowsDefault --> NormalBanner: Normal Desktop Hours<br/>(Displays standard popup banner)
 
-    WindowsUrgent --> BreakthroughBanner: BREAKTHROUGH:<br/>Bypasses Focus Assist / DND<br/>(Immediate intrusive desktop banner)
+    WindowsUrgent --> BreakthroughBanner: BREAKTHROUGH<br/>Bypasses Focus Assist / DND<br/>(Immediate intrusive desktop banner)
 ```
 
 ### Scenario Mapping & Behaviors
