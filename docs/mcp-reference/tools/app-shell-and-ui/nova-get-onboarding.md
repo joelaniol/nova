@@ -61,9 +61,12 @@ Tool category: `normal` (standard risk class in Nova's agent permission settings
       {
         "path": "CLAUDE.md",
         "mode": "append_or_replace_between_markers",
-        "startMarker": "<!-- NOVA-BROWSER-MCP-START",
+        "startMarker": "<!-- NOVA-MCP-START",
         "startMarkerMatch": "line_prefix",
-        "endMarker": "<!-- NOVA-BROWSER-MCP-END -->",
+        "endMarker": "<!-- NOVA-MCP-END -->",
+        "legacyStartMarker": "<!-- NOVA-BROWSER-MCP-START",
+        "legacyEndMarker": "<!-- NOVA-BROWSER-MCP-END -->",
+        "legacyMarkerNote": "...",
         "createIfMissing": true,
         "createIfMissingNote": "..."
       }

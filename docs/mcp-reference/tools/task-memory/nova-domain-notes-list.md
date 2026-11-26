@@ -21,6 +21,9 @@ Lists all stored procedural notes and operator instructions for a specific domai
 | `scope` | `string` | No | `"current_sandbox"` | `current_sandbox`, `global`, `all`, `orphaned` | Filter scope: 'current_sandbox' (default) = active sandbox + global; 'global' = only global notes; 'all' = no filter; 'orphaned' = notes anchored to deleted sandboxes (cleanup view). |
 | `sandboxId` | `string` | No | — | — | Optional explicit sandbox letter-id to override the active-target resolution. Requires sandboxRef. On list this is additive (global + that sandbox); on domain_note_delete, sandboxId without scope is sandbox-only. |
 | `sandboxRef` | `string` | No | — | — | Opaque PersistentUid token from nova.tabs / nova.sandbox_context. Mandatory when sandboxId is set. |
+| `query` | `string` | No | — | — | Only notes whose key or text contains every word of this search, case-insensitive (e.g. 'Angebot beenden'). matchedOf in the result says how many notes there were before filtering. |
+| `keys` | `array` of `string` | No | — | ≤ 100 items | Only the notes with these exact keys (case-insensitive). Use it to read the full text of notes found with detail='summary'. |
+| `detail` | `string` | No | `"full"` | `full`, `summary` | 'summary' returns key and firstLine (up to 200 characters) instead of the full value: a cheap overview of a site with many notes. 'full' (default) returns the whole value. |
 
 Capability bundle: `system_tools` (load it with `nova.tools_bundle(bundle='system_tools')`).
 Tool category: `safe` (lowest risk class in Nova's agent permission settings).
