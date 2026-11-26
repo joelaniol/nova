@@ -13,7 +13,7 @@ Looking for a tool by what it does rather than by area? The [tool catalog](../to
 | [App Shell, Dialogs & DevTools](app-shell-and-ui/README.md) | 67 | WinUI window controls, native OS dialog handling, DevTools panels, setup wizard, and onboarding injection. |
 | [Browser Navigation & Physical Automation](browser-automation/README.md) | 40 | Page navigation, tab strip lifecycle management, physical clicks, humanized typing, scroll mechanics, and file uploads. |
 | [Connectors, Mail & File Transfer](connectors-and-mail/README.md) | 62 | IMAP/SMTP email client automation, EML exports, SFTP/FTP server operations, and credential access grants. |
-| [Credentials, Vault & DPAPI Secret Keystore](vault-and-security/README.md) | 14 | Password autofill via ephemeral origin-bound SecretRef tokens, credential discovery, and write-only encrypted environment variables. |
+| [Credentials, Vault & DPAPI Secret Keystore](vault-and-security/README.md) | 15 | Password autofill via ephemeral origin-bound SecretRef tokens, credential discovery, and write-only encrypted environment variables. |
 | [DOM Perception & Semantic Extraction](dom-and-reading/README.md) | 21 | Token-efficient text extraction, structured landmark reading, typed DOM attributes, and multi-modal fusion perception. |
 | [Desktop Notifications & Alerts](notifications/README.md) | 11 | Native OS notification dispatch, unread inbox management, and per-origin notification permissions. |
 | [Device Emulation & Responsive Testing](device-emulation/README.md) | 11 | Mobile viewport simulation, touch event emulation, user agent overriding, and dark mode toggles. |
@@ -34,5 +34,5 @@ Looking for a tool by what it does rather than by area? The [tool catalog](../to
 | [Video Editing](video-editing/README.md) | 4 | Nova's video editor: screen recordings turned into GIF, WebM and MP4 clips or stills, with cuts, speed, captions, end cards, zoom, framing for feeds and reusable templates. |
 | [Visual Evidence, Screenshots & Archiving](visual-evidence/README.md) | 12 | Lossless cropped screenshots, pixel-by-pixel diffing, persistent baselines, and print-to-PDF generation. |
 
-**512 tools in total.**
+**513 tools in total.**
 <!-- /generated:area-list -->

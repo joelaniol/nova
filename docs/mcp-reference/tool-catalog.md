@@ -15,7 +15,7 @@ Every tool exposed by **Nova AI Workspace**, grouped by operational domain. Clic
 - [6. Visual Evidence & Screenshots](#6-visual-evidence--screenshots) (16)
 - [7. Local Files, Documents & Archives](#7-local-files-documents--archives) (23)
 - [8. Knowledge & Phenomenological Store (PKS)](#8-knowledge--phenomenological-store-pks) (21)
-- [9. Credentials & Secure Vault](#9-credentials--secure-vault) (14)
+- [9. Credentials & Secure Vault](#9-credentials--secure-vault) (15)
 - [10. Terminal Workspaces & Headless CLI](#10-terminal-workspaces--headless-cli) (12)
 - [11. Downloads Management & Queue Control](#11-downloads-management--queue-control) (17)
 - [12. Desktop Notifications & Alerts](#12-desktop-notifications--alerts) (11)
@@ -257,6 +257,7 @@ Form auto-fill without leaking plaintext secrets to the LLM context.
 | **[`nova.vault_card_list`](tools/vault-and-security/nova-vault-card-list.md)** | *(none)* | **Upcoming release:** this tool ships with the next Nova version and is not in the published setup yet. |
 | **[`nova.vault_card_set`](tools/vault-and-security/nova-vault-card-set.md)** | `cardId?`, `label?`, `holder?`, `number?`, `expMonth?`, `expYear?`, `cvc?`, `removeCvc?` | **Upcoming release:** this tool ships with the next Nova version and is not in the published setup yet. |
 | **[`nova.vault_card_submit`](tools/vault-and-security/nova-vault-card-submit.md)** | `targetId?`, `agentId?` | **Upcoming release:** this tool ships with the next Nova version and is not in the published setup yet. |
+| **[`nova.purchase_budget_status`](tools/vault-and-security/nova-purchase-budget-status.md)** | *(none)* | **Upcoming release:** this tool ships with the next Nova version and is not in the published setup yet. |
 | **[`nova.vault_prepare_fill`](tools/vault-and-security/nova-vault-prepare-fill.md)** | `site`, `targetId?`, `username?`, `entryId?` | Prepares stored credentials from the secure Vault for automated form-filling, returning an ephemeral, origin-bound, and single-use `SecretRef` token instead of the raw password string. |
 | **[`nova.type_selector_secret`](tools/vault-and-security/nova-type-selector-secret.md)** | `selector`, `secretRef`, `targetId?`, `clear?` | Types a vault password into a target form field using an ephemeral `SecretRef` token, setting the value through the field's native value setter and dispatching input/change events, without exposing plaintext secrets to the agent. |
 | **[`nova.secret_set`](tools/vault-and-security/nova-secret-set.md)** | `name`, `value`, `scope`, `workspaceId?` | Stores an encrypted secret (such as API keys, tokens, or private credentials) into Nova's user-managed secure store with Windows DPAPI encryption. |

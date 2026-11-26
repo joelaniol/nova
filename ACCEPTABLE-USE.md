@@ -1,6 +1,6 @@
 # Acceptable Use Policy / Nutzungsrichtlinie
 
-*Last updated: November 23, 2026*
+*Last updated: November 25, 2026*
 
 ---
 
@@ -24,6 +24,7 @@ Authorized testing requires express permission from a person or organization ent
 - Checking the TLS certificate and TLS configuration of a server (`nova.tls_inspect`) — what every server presents to every client that connects. The check covers one host per call, stays within a fixed handshake budget and does not attack the server
 - Scanning networks you run (`nova.net_scan`, from version 1.0.0-alpha.21, not published yet) — your home or office network, your VPN, your own servers — to see which devices are there and which ports answer. Other networks only with the permission of whoever runs them
 - Paying with your own payment cards, or cards you are allowed to use, through an agent (`nova.vault_card_fill`, from version 1.0.0-alpha.21, not published yet). You approve each fill with your Nova PIN, and the click on the pay button only when you tick it in the same dialog, which names the card, the shop and the payment provider. Whether automated purchases are allowed in a shop is decided by its terms
+  - Within a purchase budget you set in Nova's settings and switch on (from version 1.0.0-alpha.21, not published yet), an agent's purchase that the remaining budget covers, in the budget's currency, goes ahead without the dialog and without your PIN. Anything the budget does not cover, and every purchase while it is off, asks you as before. Only you set and refill the budget. It is a limit Nova keeps, not a limit of your card or your bank
 
 ### Prohibited Use
 
@@ -62,6 +63,7 @@ You may **not** use Nova AI Workspace to:
 - **An armed interception rule stays your rule** — Nova shows it in the toolbar, binds it to one tab and a URL scope, and lets it expire by itself, but everything it does while armed is done on your behalf. Clear it when the task is over
 - **Captured traffic can contain secrets** — headers and bodies may hold tokens, cookies and personal data, and they can reach an agent's transcript. Use `redact`, and treat a recording like the data it contains
 - **An approved card payment is your purchase** — the approval covers exactly the card, shop, payment provider and agent shown in the dialog, and only for the time you chose. This does not transfer responsibility for defects in Nova's checks to you. Close the checkout tab when the purchase is done
+- **A purchase budget is an approval in advance** — while it is on, agents may spend it without asking you, but only on what you asked them to buy. Nova lists every such purchase under Settings → Passwords → Purchase budget; set an amount you are comfortable with and switch it off when you do not need it. This does not transfer responsibility for defects in Nova's checks to you
 
 ### Alpha Risks and Mandatory Rights
 
@@ -89,6 +91,7 @@ Autorisierte Prüfungen setzen die ausdrückliche Genehmigung einer dazu befugte
 - Prüfen des TLS-Zertifikats und der TLS-Konfiguration eines Servers (`nova.tls_inspect`) — das, was jeder Server jedem Client zeigt, der sich verbindet. Die Prüfung umfasst einen Host pro Aufruf, bleibt in einem festen Handshake-Budget und greift den Server nicht an
 - Scannen eigener Netze (`nova.net_scan`, ab Version 1.0.0-alpha.21, noch nicht veröffentlicht) — Heim- oder Büronetz, eigenes VPN, eigene Server —, um zu sehen, welche Geräte dort sind und welche Ports antworten. Fremde Netze nur mit Erlaubnis dessen, der sie betreibt
 - Bezahlen mit deinen eigenen Zahlungskarten oder Karten, die du nutzen darfst, über einen Agenten (`nova.vault_card_fill`, ab Version 1.0.0-alpha.21, noch nicht veröffentlicht). Du gibst jede Füllung mit deiner Nova-PIN frei und den Klick auf den Bezahlknopf nur, wenn du ihn im selben Dialog ankreuzt; der Dialog nennt Karte, Shop und Zahlungsanbieter. Ob automatisierte Käufe in einem Shop erlaubt sind, entscheiden dessen Bedingungen
+  - Innerhalb eines Einkaufsbudgets, das du in Novas Einstellungen festlegst und einschaltest (ab Version 1.0.0-alpha.21, noch nicht veröffentlicht), läuft ein Kauf eines Agenten, den das verbleibende Budget in seiner Währung deckt, ohne Dialog und ohne deine PIN. Was das Budget nicht deckt, und jeder Kauf, solange es aus ist, fragt dich wie bisher. Festlegen und auffüllen kannst nur du. Es ist eine Grenze, die Nova einhält, kein Limit deiner Karte oder deiner Bank
 
 ### Verbotene Nutzung
 
@@ -127,6 +130,7 @@ Du darfst Nova AI Workspace **nicht** verwenden für:
 - **Eine scharfe Abfang-Regel bleibt deine Regel** — Nova zeigt sie in der Symbolleiste, bindet sie an einen Tab und einen URL-Bereich und lässt sie von selbst ablaufen; alles, was sie tut, solange sie scharf ist, geschieht in deinem Namen. Räume sie auf, wenn die Aufgabe erledigt ist
 - **Aufgezeichneter Verkehr kann Geheimnisse enthalten** — Header und Inhalte können Tokens, Cookies und personenbezogene Daten tragen und in das Transcript eines Agenten gelangen. Nutze `redact` und behandle eine Aufzeichnung wie die Daten, die sie enthält
 - **Eine freigegebene Kartenzahlung ist dein Kauf** — die Freigabe gilt genau für Karte, Shop, Zahlungsanbieter und Agent aus dem Dialog und nur für die Zeit, die du gewählt hast. Die Verantwortung für Fehler in Novas Prüfungen geht dadurch nicht auf dich über. Schließe den Checkout-Tab, wenn der Kauf erledigt ist
+- **Ein Einkaufsbudget ist eine Freigabe im Voraus** — solange es an ist, dürfen Agenten es ohne Rückfrage ausgeben, aber nur für das, was du ihnen zu kaufen aufgetragen hast. Nova führt jeden solchen Kauf unter Einstellungen → Passwörter → Einkaufsbudget auf; wähle einen Betrag, mit dem du gut leben kannst, und schalte es aus, wenn du es nicht brauchst. Die Verantwortung für Fehler in Novas Prüfungen geht dadurch nicht auf dich über
 
 ### Alpha-Risiken und zwingende Rechte
 

@@ -12,7 +12,9 @@ You name the card fields and their roles (`number`, `expiry` or `expMonth`/`expY
 
 From the moment the user is asked, the checkout tab gives agents nothing: no screenshot, page text, DOM, network data or script results. Close it with `nova.tab_close` when you are done and read the order result in a new tab of the same sandbox. With `submit` you register the pay button: the user approves "fill and pay" in one dialog, and [`nova.vault_card_submit`](nova-vault-card-submit.md) then clicks exactly that button.
 
-The answer names the roles that were filled and a `status` (`completed`, `partial`, `refused`) with a `reasonCode`, never values. A fill is refused while a screen recording runs.
+When the user has set a purchase budget (see [`nova.purchase_budget_status`](nova-purchase-budget-status.md)) and it covers the order total, a fill with `submit` needs no PIN and no dialog; only a security code that is not stored is still asked. An order the budget does not cover goes to the dialog with the reason.
+
+The answer names the roles that were filled and a `status` (`completed`, `partial`, `refused`) with a `reasonCode`, never values. A fill is refused while a screen recording runs and for a card that has expired (`card.expired`).
 
 ---
 
@@ -24,7 +26,7 @@ The answer names the roles that were filled and a `status` (`completed`, `partia
 | `targetId` | `string` | No | — | — | Tab ID of the checkout, or 'active'. The tab is locked for agents from the approval on. |
 | `cardId` | `string` | No | — | — | Card id from nova.vault_card_list. Optional when exactly one card is stored. |
 | `fields` | `array` of `object` | Yes | — | 1–6 items | The card fields of the form. Each role once; a number field is required; all embedded fields must belong to one payment provider. |
-| `submit` | `object` | No | — | — | Optional pay button to register. The user approves 'fill and pay' in one dialog; afterwards nova.vault_card_submit clicks exactly this button (twice at most). |
+| `submit` | `object` | No | — | — | Optional pay button to register. The user approves 'fill and pay' in one dialog; afterwards nova.vault_card_submit clicks exactly this button (twice at most; once when the purchase budget covers the order). |
 | `submit.selector` | `string` | Yes | — | — | CSS selector of the pay button (button, input type=submit, or link). |
 | `submit.frameId` | `string` | No | — | — | Frame of the button, when it sits in a frame. |
 | `submit.label` | `string` | No | — | — | The button's visible text, shown to the user in the dialog (e.g. 'Jetzt kaufen'). |

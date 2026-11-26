@@ -8,7 +8,12 @@ Clicks the pay button that was registered with a card fill and approved by the u
 
 ## 1. Overview
 
-Only the button named in `submit` of [`nova.vault_card_fill`](nova-vault-card-fill.md) can be clicked, and only when the user approved "fill and pay". Nova clicks it only if it is still the same element, at most twice. The answer is always `status: accepted` and says nothing about what happened, because the checkout tab gives agents no content. Close the tab afterwards and check the order in a new tab of the same sandbox.
+Only the button named in `submit` of [`nova.vault_card_fill`](nova-vault-card-fill.md) can be clicked, only if it is still the same element, and only by the agent session that filled the card.
+
+- **The user approved "fill and pay":** at most two clicks. The answer is always `status: accepted` and says nothing about what happened, because the checkout tab gives agents no content.
+- **The user's purchase budget covered the order** (see [`nova.purchase_budget_status`](nova-purchase-budget-status.md)): one click. Nova reads the total again right before it. The answer is `status: accepted`, or `status: refused` with a `reasonCode` when Nova did not click, for example because the order changed, the budget no longer covers it, or the pay button changed. After a refusal do not retry and do not pay another way; tell the user.
+
+Close the tab afterwards and check the order in a new tab of the same sandbox.
 
 ---
 

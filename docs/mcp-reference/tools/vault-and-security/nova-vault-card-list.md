@@ -8,7 +8,7 @@ Lists the payment cards stored in Nova without their numbers.
 
 ## 1. Overview
 
-Use it to pick the `cardId` for [`nova.vault_card_fill`](nova-vault-card-fill.md). Each card comes with its label, brand, last 4 digits, expiry and whether a security code is stored. The card number and the security code are never returned. An empty list means the user has not stored a card yet; they add cards in Nova's settings.
+Use it to pick the `cardId` for [`nova.vault_card_fill`](nova-vault-card-fill.md). Each card comes with its label, brand, last 4 digits, expiry, whether it has expired (`expired`; an expired card is refused by the fill) and whether a security code is stored. The card number and the security code are never returned. An empty list means the user has not stored a card yet; they add cards in Nova's settings.
 
 ---
 

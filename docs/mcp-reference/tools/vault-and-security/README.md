@@ -8,12 +8,13 @@ Password autofill via ephemeral origin-bound SecretRef tokens, credential discov
 ---
 
 <!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
-## Tool Inventory (14 Tools)
+## Tool Inventory (15 Tools)
 
 Capability bundles of these tools: `secret_store`, `vault_auth`.
 
 | Tool | What it does |
 | :--- | :--- |
+| **[`nova.purchase_budget_status`](nova-purchase-budget-status.md)** | **Upcoming release:** this tool ships with the next Nova version and is not in the published setup yet. |
 | **[`nova.secret_delete`](nova-secret-delete.md)** | Deletes an encrypted environment variable or API key secret from the DPAPI store. |
 | **[`nova.secret_list`](nova-secret-list.md)** | Lists registered secret names, scopes, and association identifiers from Nova's user-managed keystore without disclosing secret values. |
 | **[`nova.secret_set`](nova-secret-set.md)** | Stores an encrypted secret (such as API keys, tokens, or private credentials) into Nova's user-managed secure store with Windows DPAPI encryption. |

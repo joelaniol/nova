@@ -26,7 +26,7 @@ A page without a resolvable composer answers `ok: false` with a `reasonCode` (`c
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `targetId` | `string` | No | `"active"` | — | Target ID from nova.tabs (sandbox or browser tab ID), or 'active' / 'activeBrowserTab'. |
-| `selector` | `string` | No | — | ≤ 10000 characters | Optional CSS selector for the composer input. Omit to let Nova resolve the composer (cache, then heuristics). |
+| `selector` | `string` | No | — | ≤ 10000 characters | Optional CSS selector for the composer input. Omit to let Nova find the composer on the page. |
 | `frameId` | `string` | No | — | — | Optional frame ID from nova.perceive(deep=true).structuredContent: frames[] (same-origin) or opaqueFrames[] (another site; reading needs no setting). |
 
 Capability bundle: `page_read_debug` (load it with `nova.tools_bundle(bundle='page_read_debug')`).
