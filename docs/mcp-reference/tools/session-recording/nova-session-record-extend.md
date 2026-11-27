@@ -18,7 +18,7 @@ Extends an active recording’s time-to-live (TTL) to prevent premature expirati
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
 | `recordingId` | `string` | Yes | — | — | Recording ID returned from session_record_start. |
-| `additionalMs` | `integer` | Yes | — | 1000–3600000 | Additional time to add to the recording's expiry, in milliseconds. |
+| `additionalMs` | `integer` | Yes | — | 1000–259200000 | Additional time to add to the recording's expiry, in milliseconds. |
 
 Capability bundle: `session_recording` (load it with `nova.tools_bundle(bundle='session_recording')`).
 Tool category: `normal` (standard risk class in Nova's agent permission settings).

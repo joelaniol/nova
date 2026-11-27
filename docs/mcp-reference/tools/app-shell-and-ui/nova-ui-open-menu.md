@@ -32,7 +32,7 @@ What a pressed entry does counts as the agent's action: a tab closed this way ap
 <!-- generated:parameters (from the live tool catalog; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
 | Parameter | Type | Required | Default | Allowed | Description |
 | :--- | :--- | :---: | :--- | :--- | :--- |
-| `menu` | `string` | Yes | — | `main`, `back`, `forward`, `reload`, `tab`, `device`, `sandbox` | Which menu: 'main', 'back', 'forward', 'reload', 'tab' (needs targetId), 'device' or 'sandbox' (needs targetId). |
+| `menu` | `string` | Yes | — | `main`, `back`, `forward`, `reload`, `tab`, `device`, `sandbox`, `agents` | Which menu: 'main', 'back', 'forward', 'reload', 'tab' (needs targetId), 'device', 'sandbox' (needs targetId) or 'agents'. |
 | `targetId` | `string` | No | — | — | With menu='tab': the browser tab id from nova.tabs whose tab menu to open. With menu='sandbox': the sandbox id (kind='sandbox' in nova.tabs, e.g. 'A') whose pill menu to open. Not used with the other menus. |
 
 Capability bundle: `app_shell_recovery` (load it with `nova.tools_bundle(bundle='app_shell_recovery')`).
