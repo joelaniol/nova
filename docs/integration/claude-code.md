@@ -20,7 +20,7 @@ A standard Nova connection looks like this:
 {
   "mcpServers": {
     "nova": {
-      "command": "C:\\Users\\YourName\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe"
+      "command": "C:\\Users\\YourName\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaAIWorkspace.McpProxy.exe"
     }
   }
 }

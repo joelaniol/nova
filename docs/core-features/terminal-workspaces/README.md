@@ -1,7 +1,7 @@
 # Terminal Workspaces & ConPTY Integration
 
 > [!NOTE]
-> **Nova AI Workspace** features an enterprise-grade terminal execution environment built on the native Windows Pseudo Console (**ConPTY**) and modern virtual terminal emulation via **xterm.js**. Console processes run inside an external helper process—**`NovaBrowser.TerminalRunner.exe`**—which operates independently of the main browser UI process (`NovaAIWorkspace.exe`). This architecture ensures that development servers, compilations, test suites, and shell processes survive browser crashes, window reloads, and software updates without interruption.
+> **Nova AI Workspace** features an enterprise-grade terminal execution environment built on the native Windows Pseudo Console (**ConPTY**) and modern virtual terminal emulation via **xterm.js**. Console processes run inside an external helper process—**`NovaAIWorkspace.TerminalRunner.exe`**—which operates independently of the main browser UI process (`NovaAIWorkspace.exe`). This architecture ensures that development servers, compilations, test suites, and shell processes survive browser crashes, window reloads, and software updates without interruption.
 
 ---
 
@@ -35,7 +35,7 @@ flowchart TD
         Pipe["9-Byte Binary Framing (Control, PtyOutput, PtyInput)"]
     end
 
-    subgraph RunnerProcess ["Persistent Console Host (NovaBrowser.TerminalRunner.exe)"]
+    subgraph RunnerProcess ["Persistent Console Host (NovaAIWorkspace.TerminalRunner.exe)"]
         Server["RunnerPipeServer (Loopback Auth Handshake)"]
         SessionMgr["RunnerSessionManager"]
         ConPTY["Windows Pseudo Console (ConPTY)"]
@@ -82,7 +82,7 @@ To prevent ambiguity, Nova defines distinct boundaries for terminal concepts:
 | Entity | Lifecycle & Storage | Ownership & Visibility |
 | :--- | :--- | :--- |
 | **Terminal Workspace** | Stored in `%LOCALAPPDATA%\nova-cognitive\Nova\terminal-workspaces.json`. Identifies a directory, optional startup CLI (`claude`, `codex`, `powershell`), onboarding configuration, and favorites status. | Shared project entity. Visible in UI dock picker and accessible to scheduled task automation. |
-| **Runner Session** | Persistent ConPTY instance hosted in `NovaBrowser.TerminalRunner.exe`. Assigned an integer ID. Tracks cumulative output offsets and child process state. | External helper level. Survives browser restarts; cleaned up when explicitly terminated or when the 24-hour orphan timer expires. |
+| **Runner Session** | Persistent ConPTY instance hosted in `NovaAIWorkspace.TerminalRunner.exe`. Assigned an integer ID. Tracks cumulative output offsets and child process state. | External helper level. Survives browser restarts; cleaned up when explicitly terminated or when the 24-hour orphan timer expires. |
 | **Agent Session** | Headless wrapper tracked by `TerminalMcpSessionManager` in memory. Identified by an opaque public ID (`term_{hex}`). | Exclusively automation-owned. **Completely hidden from and isolated from human dock terminals.** |
 | **Command Execution** | Discrete execution lifecycle within a session. Managed via `nova.terminal_run_command`. | Bounded by a timeout. **A command timeout never closes or kills the session.** |
 
@@ -171,7 +171,7 @@ Explore the dedicated deep-dive guides for technical specifications, protocol fr
 
 * **[Remote SSH Pseudo-Terminal (PTY) Architecture](../connectors/ssh/README.md)** — Interactive remote terminals and streaming execution over SSH.
 * **[Fastlanes: Event-Driven Automation](../fastlanes/README.md)** — Automations that react to events in the background.
-* **[TerminalRunner Component Reference](../../components/terminal-runner.md)** — Standalone component specification for `NovaBrowser.TerminalRunner.exe`.
+* **[TerminalRunner Component Reference](../../components/terminal-runner.md)** — Standalone component specification for `NovaAIWorkspace.TerminalRunner.exe`.
 * **[Outrider Process Boundary](../../components/outrider/README.md)** — Nova's disposable native OS and hardware diagnostic process.
 * **[MCP Reference & Capability Bundles](../../mcp-reference/README.md)** — Complete catalog of all MCP tools and discovery bundles.
 

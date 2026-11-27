@@ -18,7 +18,7 @@ flowchart TD
         FastProbe["Fast Container Probe\n(nova.media_file_info)"]
     end
 
-    subgraph OutriderSandbox["3. Outrider Helper Process (NovaBrowser.Outrider.exe)"]
+    subgraph OutriderSandbox["3. Outrider Helper Process (NovaAIWorkspace.Outrider.exe)"]
         CPUGate["CPU Hardware Instruction Gate\n(AVX2, AVX, FMA Check)"]
         WMFDecoder["Windows Media Foundation (WMF) Decoder\n(In-Memory 16 kHz Mono PCM Transcoding)"]
         WhisperCore["whisper.cpp Native Inference Core\n(Pinned GGML Models: base, small, large-v3-turbo)"]
@@ -56,7 +56,7 @@ flowchart LR
 
 | Sub-System | Scope & Responsibilities | Deep Dive Specification |
 | :--- | :--- | :--- |
-| **Outrider Process & CPU Gates** | Native process isolation in `NovaBrowser.Outrider.exe`, uncatchable access violation containment, `0xC000001D` illegal instruction protection, managed AVX2/FMA hardware pre-flight verification, and stdio protocol separation (`stdout` JSON / `stderr` native logs). | [Outrider Process & CPU Gates](outrider-process-and-cpu-gates/README.md) |
+| **Outrider Process & CPU Gates** | Native process isolation in `NovaAIWorkspace.Outrider.exe`, uncatchable access violation containment, `0xC000001D` illegal instruction protection, managed AVX2/FMA hardware pre-flight verification, and stdio protocol separation (`stdout` JSON / `stderr` native logs). | [Outrider Process & CPU Gates](outrider-process-and-cpu-gates/README.md) |
 | **WMF Transcoding & Model Store** | In-memory container decoding via Windows Media Foundation, zero disk scratch leaks, automatic video track dropping, pre-flight container probing (`nova.media_file_info`), and pinned GGML speech models on Hugging Face with SHA-256 verification. | [WMF Transcoding & Models](wmf-transcoding-and-models/README.md) |
 | **Execution Lifecycle & Subtitles** | Multi-stage state machine (`queued`, `converting`, `loading_model`, `recognizing`), synchronous inline wait (`waitMs`), compute budgets and stall protection, acoustic coverage metrics (`uncoveredAudible`), omission of synthetic confidence scores, and multi-format subtitle export. | [Lifecycle, Coverage & Subtitles](lifecycle-coverage-and-subtitles/README.md) |
 
@@ -67,7 +67,7 @@ flowchart LR
 Explore the dedicated deep-dive guides for technical specifications, protocol frame layouts, and edge-case behaviors across speech transcription:
 
 ### 1. [Outrider Helper Process & Hardware Instruction Gates](outrider-process-and-cpu-gates/README.md)
-* **The Native Process Boundary:** Isolation of unmanaged `whisper.cpp` code inside `NovaBrowser.Outrider.exe` to contain native crashes.
+* **The Native Process Boundary:** Isolation of unmanaged `whisper.cpp` code inside `NovaAIWorkspace.Outrider.exe` to contain native crashes.
 * **CPU Vector Instruction Set Gates:** Managed verification of AVX, AVX2, and FMA instructions before native loading, eliminating fatal `0xC000001D` faults.
 * **Worker Concurrency & Orphan Prevention:** Single-slot queue enforcement and Windows Job Object cleanup (`KILL_ON_JOB_CLOSE`).
 

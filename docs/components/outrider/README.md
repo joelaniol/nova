@@ -1,7 +1,7 @@
 # Nova Outrider — Native Process Boundary & Hardware Engine
 
-**Binary:** `NovaBrowser.Outrider.exe`  
-**Distribution Locations:** Shipped at the application root (`dist/NovaBrowser.Outrider.exe`) and in the dependency-isolated directory `dist/OutriderIsolated/NovaBrowser.Outrider.exe`.
+**Binary:** `NovaAIWorkspace.Outrider.exe`  
+**Distribution Locations:** Shipped at the application root (`dist/NovaAIWorkspace.Outrider.exe`) and in the dependency-isolated directory `dist/OutriderIsolated/NovaAIWorkspace.Outrider.exe`.
 
 **Nova Outrider** is Nova's supervised native helper process. It provides an unmanaged process boundary for operating-system tasks, hardware probes, media processing, computer vision, and machine-learning inference that can hang, leak kernel handles, or crash outside managed .NET exception handling.
 
@@ -104,7 +104,7 @@ Before launching heavy machine-learning jobs in Outrider, Nova executes strict p
 ```mermaid
 flowchart LR
     Job["Agent: nova.media_transcribe_start"] --> Preflight{"TranscribeProbe.IsCpuSupported()"}
-    Preflight -- "AVX2 + FMA Supported" --> Launch["Spawn NovaBrowser.Outrider.exe --transcribe-once"]
+    Preflight -- "AVX2 + FMA Supported" --> Launch["Spawn NovaAIWorkspace.Outrider.exe --transcribe-once"]
     Preflight -- "Missing Instructions" --> RejectEarly["Reject with cpu_unsupported (-32004)<br/>No Process Spawned · Zero Crash Risk"]
     Launch --> NativeInference["Execute whisper.cpp Tensor Calculations"]
 ```
@@ -117,8 +117,8 @@ flowchart LR
 ## 4. The Isolated Deployment Footprint (`OutriderIsolated`)
 
 Nova's installation includes two copies of the Outrider binary:
-1. `dist/NovaBrowser.Outrider.exe` (Root application directory).
-2. `dist/OutriderIsolated/NovaBrowser.Outrider.exe` (Dedicated native isolation subdirectory).
+1. `dist/NovaAIWorkspace.Outrider.exe` (Root application directory).
+2. `dist/OutriderIsolated/NovaAIWorkspace.Outrider.exe` (Dedicated native isolation subdirectory).
 
 ### Why Outrider Has an Isolated Directory:
 Heavy native tasks depend on third-party C/C++ dynamic libraries (such as `whisper.dll`, `libtesseract`, `SkiaSharp`, `HarfBuzzSharp`, and Media Foundation transforms). Placing these native DLLs in a dedicated `OutriderIsolated/` subdirectory:
@@ -146,14 +146,14 @@ Technicians, automated test suites, and operators can verify Outrider's native l
 ### Basic Native Self-Test
 Validates Named Pipe framing, DirectShow COM interfaces, WinRT capabilities, and image rendering:
 ```powershell
-dist\NovaBrowser.Outrider.exe --self-test
+dist\NovaAIWorkspace.Outrider.exe --self-test
 ```
 *(Expected output: `Nova Outrider self-test OK`).*
 
 ### Full Self-Test with OCR Engines
 Verifies that Tesseract and Windows Media OCR dictionaries are correctly installed and functional:
 ```powershell
-dist\NovaBrowser.Outrider.exe --self-test --require-ocr
+dist\NovaAIWorkspace.Outrider.exe --self-test --require-ocr
 ```
 *(Expected output: `Nova Outrider self-test OK (OCR verified)`).*
 

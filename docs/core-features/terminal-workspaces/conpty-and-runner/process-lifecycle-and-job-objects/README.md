@@ -2,11 +2,11 @@
 
 Executing terminal commands in modern AI environments requires the full interactive capabilities of a real terminal: color escape sequences, cursor addressing, dynamic progress bars, and prompt interaction. Naive process spawning (`Process.Start`) cannot satisfy these requirements because Windows console applications behave differently when disconnected from a valid Windows Pseudo Console (**ConPTY**).
 
-Nova AI Workspace's external runner process (`NovaBrowser.TerminalRunner.exe`) initializes native ConPTY instances and groups every spawned shell inside a Windows Job Object.
+Nova AI Workspace's external runner process (`NovaAIWorkspace.TerminalRunner.exe`) initializes native ConPTY instances and groups every spawned shell inside a Windows Job Object.
 
 ```mermaid
 flowchart TD
-    subgraph Runner["NovaBrowser.TerminalRunner.exe"]
+    subgraph Runner["NovaAIWorkspace.TerminalRunner.exe"]
         Alloc["1. Ensure Console Handle\n(AllocConsole / AttachConsole)"] --> CreatePipes["2. Create In/Out Pipe Pairs\n(CreatePipe for PTY Input/Output)"]
         CreatePipes --> ConPTY["3. Initialize ConPTY\n(CreatePseudoConsole with HPCON)"]
         ConPTY --> Job["4. Create Windows Job Object\n(KILL_ON_JOB_CLOSE limit)"]

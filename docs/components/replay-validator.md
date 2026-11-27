@@ -1,6 +1,6 @@
 # ReplayValidator — Recording Validation Tool
 
-**Executable:** `NovaBrowser.ReplayValidator.exe`.
+**Executable:** `NovaAIWorkspace.ReplayValidator.exe`.
 
 ReplayValidator is a headless diagnostic CLI for session-recording artifacts. Its current `--analyze` command reads and checks the unencrypted manifest and inventories the available JSONL sidecars. It does not decrypt and fully replay the encrypted recording streams.
 
@@ -25,9 +25,9 @@ This is a manifest and artifact-inventory check. It does not parse every sidecar
 Run the tool from the installation directory, using a recording directory you intend to inspect:
 
 ```powershell
-.\NovaBrowser.ReplayValidator.exe --analyze "<recording-directory>" --format json
-.\NovaBrowser.ReplayValidator.exe --list-fixtures
-.\NovaBrowser.ReplayValidator.exe --run-fixture "<category>/<name>" --format junit
+.\NovaAIWorkspace.ReplayValidator.exe --analyze "<recording-directory>" --format json
+.\NovaAIWorkspace.ReplayValidator.exe --list-fixtures
+.\NovaAIWorkspace.ReplayValidator.exe --run-fixture "<category>/<name>" --format junit
 ```
 
 Replace the angle-bracket placeholders with actual values. `--list-fixtures` supplies the declared fixture names. The format option accepts `json`, `junit` or `sarif`; JSON is the default. Reports describe individual checks, their status and warnings, allowing a diagnostic workflow to distinguish unsupported input from an actual failed check.

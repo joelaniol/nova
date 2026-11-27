@@ -9,7 +9,7 @@
 
 Nova AI Workspace provides full Model Context Protocol (MCP) server support, enabling popular code editors and AI development tools to directly inspect web applications, automate testing, and interact with live browser tabs during coding sessions.
 
-Connection is established using Nova's high-performance stdio proxy bridge (`NovaBrowser.McpProxy.exe`). The proxy communicates with your editor via standard input/output (`stdio`) and forwards tool requests to Nova's local authenticated server.
+Connection is established using Nova's high-performance stdio proxy bridge (`NovaAIWorkspace.McpProxy.exe`). The proxy communicates with your editor via standard input/output (`stdio`) and forwards tool requests to Nova's local authenticated server.
 
 ```mermaid
 flowchart LR
@@ -18,7 +18,7 @@ flowchart LR
     end
 
     subgraph Bridge ["Nova Stdio Bridge"]
-        Proxy["NovaBrowser.McpProxy.exe"]
+        Proxy["NovaAIWorkspace.McpProxy.exe"]
     end
 
     subgraph Workspace ["Nova AI Workspace"]
@@ -42,13 +42,13 @@ Cursor includes native MCP client support:
 3. Enter the following parameters:
    * **Name:** `nova`
    * **Type:** `command`
-   * **Command:** `C:\Users\<YourUsername>\AppData\Local\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe --mirror-structured-content`
+   * **Command:** `C:\Users\<YourUsername>\AppData\Local\nova-cognitive\Nova\bin\NovaAIWorkspace.McpProxy.exe --mirror-structured-content`
 4. Alternatively, edit your Cursor MCP configuration JSON file directly:
    ```json
    {
      "mcpServers": {
        "nova": {
-         "command": "C:\\Users\\<YourUsername>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe",
+         "command": "C:\\Users\\<YourUsername>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaAIWorkspace.McpProxy.exe",
          "args": ["--mirror-structured-content"]
        }
      }
@@ -69,7 +69,7 @@ VS Code extensions such as **Roo Code** and **Cline** manage MCP servers through
    {
      "mcpServers": {
        "nova": {
-         "command": "C:\\Users\\<YourUsername>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe",
+         "command": "C:\\Users\\<YourUsername>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaAIWorkspace.McpProxy.exe",
          "args": ["--mirror-structured-content"]
        }
      }
@@ -89,7 +89,7 @@ Windsurf supports MCP servers through its global configuration file:
    {
      "mcpServers": {
        "nova": {
-         "command": "C:\\Users\\<YourUsername>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe",
+         "command": "C:\\Users\\<YourUsername>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaAIWorkspace.McpProxy.exe",
          "args": ["--mirror-structured-content"]
        }
      }

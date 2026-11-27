@@ -7,7 +7,7 @@
 
 ## 1. Outrider Process Boundary (Fault Containment)
 
-All native image decoding, matrix transforms, and codec compression execute inside Nova's external helper process: **Nova Outrider** (`NovaBrowser.Outrider.exe`).
+All native image decoding, matrix transforms, and codec compression execute inside Nova's external helper process: **Nova Outrider** (`NovaAIWorkspace.Outrider.exe`).
 
 ```mermaid
 flowchart TD

@@ -13,7 +13,7 @@ When OpenAI Codex CLI reports that Nova tools are disconnected or fails to invok
 flowchart TD
     Issue["Codex CLI Fails to Connect to Nova"] --> CheckTOML["Inspect ~/.codex/config.toml Syntax"]
     CheckTOML --> PathCheck["Verify Path Quoting (Double Escapes or Literal Strings)"]
-    PathCheck --> TestProxy["Run NovaBrowser.McpProxy.exe --self-test"]
+    PathCheck --> TestProxy["Run NovaAIWorkspace.McpProxy.exe --self-test"]
     TestProxy --> TestHealth["Verify Nova HTTP Health Endpoint (127.0.0.1:27183)"]
     TestHealth --> RunCodex["Launch Codex with Verbose Logging"]
 ```
@@ -26,7 +26,7 @@ flowchart TD
    If Nova's server is down, start **Nova AI Workspace** and verify that agent access is enabled in **Menu → Settings → AI & agents**.
 3. **Execute the bridge self-test:**
    ```powershell
-   & "$env:LOCALAPPDATA\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe" --self-test
+   & "$env:LOCALAPPDATA\nova-cognitive\Nova\bin\NovaAIWorkspace.McpProxy.exe" --self-test
    ```
    Expected: `NovaBrowser.McpProxy self-test OK`. Installations from version 1.0.0-alpha.17 or older use `%LOCALAPPDATA%\nova-cognitive\Nova` instead of `%LOCALAPPDATA%\nova-cognitive\Nova`; see [Diagnostics](diagnostics.md#1-local-filesystem-locations).
 
@@ -42,17 +42,17 @@ In TOML configuration files, standard double-quoted strings treat backslashes as
 * **Incorrect (Double Quotes with Single Backslashes):**
   ```toml
   [mcp_servers.nova]
-  command = "C:\Users\Username\AppData\Local\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe"
+  command = "C:\Users\Username\AppData\Local\nova-cognitive\Nova\bin\NovaAIWorkspace.McpProxy.exe"
   ```
 * **Correct Option 1 (Escaped Double Backslashes):**
   ```toml
   [mcp_servers.nova]
-  command = "C:\\Users\\Username\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe"
+  command = "C:\\Users\\Username\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaAIWorkspace.McpProxy.exe"
   ```
 * **Correct Option 2 (Literal String with Single Quotes):**
   ```toml
   [mcp_servers.nova]
-  command = 'C:\Users\Username\AppData\Local\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe'
+  command = 'C:\Users\Username\AppData\Local\nova-cognitive\Nova\bin\NovaAIWorkspace.McpProxy.exe'
   ```
 
 ---
@@ -81,7 +81,7 @@ Below is the verified configuration entry for OpenAI Codex:
 
 ```toml
 [mcp_servers.nova]
-command = "C:\\Users\\<YourUsername>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe"
+command = "C:\\Users\\<YourUsername>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaAIWorkspace.McpProxy.exe"
 ```
 
 *(Replace `<YourUsername>` with your Windows account name, or use single quotes for a literal path string).*

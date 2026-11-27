@@ -5,10 +5,10 @@ Nova uses several processes with different lifetimes. Seeing more than one Nova-
 | Process | Purpose | When to expect it |
 | :--- | :--- | :--- |
 | [`NovaAIWorkspace.exe`](nova-ai-workspace.md) | The main app, tabs, settings and agent tool server. | While Nova is running, including notification-area background mode. |
-| [`NovaBrowser.Outrider.exe`](outrider/README.md) | Supervised native hardware probes and local speech work. | When a feature needs native work; helper sessions or one-shot jobs. |
-| [`NovaBrowser.McpProxy.exe`](mcp-proxy.md) | Connects an agent's standard-input/output MCP transport to Nova. | While a configured agent client is connected through the proxy. |
-| [`NovaBrowser.TerminalRunner.exe`](terminal-runner.md) | Hosts pseudo consoles separately from the browser. | While terminal sessions need it; it can outlive the Nova window. |
-| [`NovaBrowser.ReplayValidator.exe`](replay-validator.md) | Checks recording manifests and inventories artifacts; current replay coverage is limited. | When explicitly invoked for recording diagnostics or validation. |
+| [`NovaAIWorkspace.Outrider.exe`](outrider/README.md) | Supervised native hardware probes and local speech work. | When a feature needs native work; helper sessions or one-shot jobs. |
+| [`NovaAIWorkspace.McpProxy.exe`](mcp-proxy.md) | Connects an agent's standard-input/output MCP transport to Nova. | While a configured agent client is connected through the proxy. |
+| [`NovaAIWorkspace.TerminalRunner.exe`](terminal-runner.md) | Hosts pseudo consoles separately from the browser. | While terminal sessions need it; it can outlive the Nova window. |
+| [`NovaAIWorkspace.ReplayValidator.exe`](replay-validator.md) | Checks recording manifests and inventories artifacts; current replay coverage is limited. | When explicitly invoked for recording diagnostics or validation. |
 | [`msedgewebview2.exe`](webview2-and-child-processes.md) | Microsoft's Chromium-based browser runtime. | While Nova's WebViews are active; multiple subprocesses are normal. |
 | [IPC & Lifecycle Architecture](ipc-and-lifecycle.md) | Host-bridge communication, watchdog budgets, and crash containment across all processes. | Active throughout workspace execution. |
 

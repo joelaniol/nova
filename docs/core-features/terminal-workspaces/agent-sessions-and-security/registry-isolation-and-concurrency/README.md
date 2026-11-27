@@ -17,7 +17,7 @@ flowchart TD
             EvictionEngine["Automated Exited Session Eviction"]
         end
 
-        subgraph RunnerHost["NovaBrowser.TerminalRunner.exe"]
+        subgraph RunnerHost["NovaAIWorkspace.TerminalRunner.exe"]
             ConPTY1["ConPTY Session 1 (User)"]
             ConPTY2["ConPTY Session 2 (Agent)"]
             ConPTY3["ConPTY Session 3 (Agent)"]

@@ -20,7 +20,7 @@ flowchart LR
     end
 
     subgraph Bridge["Local Stdio Bridge"]
-        Proxy["NovaBrowser.McpProxy.exe"]
+        Proxy["NovaAIWorkspace.McpProxy.exe"]
         TokenStore[("%LOCALAPPDATA%\nova-cognitive\Nova\mcp-identity.dat<br>(DPAPI Protected)")]
     end
 
@@ -35,7 +35,7 @@ flowchart LR
     Server <-->|Direct Control & DOM Access| Tabs
 ```
 
-* **Zero Token Juggling:** The local bridge (`NovaBrowser.McpProxy.exe`) automatically locates your running Nova instance and attaches the session bearer token. You do not need to manually copy and paste API keys into client configurations.
+* **Zero Token Juggling:** The local bridge (`NovaAIWorkspace.McpProxy.exe`) automatically locates your running Nova instance and attaches the session bearer token. You do not need to manually copy and paste API keys into client configurations.
 * **Process Autostart:** When you launch a prompt in your connected AI client, the bridge automatically launches Nova if it is not already running.
 * **Sandbox Privacy:** Agents operate within the sandbox profile specified by their tool commands, preserving account separation between your personal and work profiles.
 
@@ -63,7 +63,7 @@ For most users, the integrated setup wizard provides a one-click connection expe
 Nova supports all major local agent ecosystems:
 
 ### Claude Code CLI & Claude Desktop
-* **Configuration Target:** Nova writes an entry named `nova` pointing to `NovaBrowser.McpProxy.exe`.
+* **Configuration Target:** Nova writes an entry named `nova` pointing to `NovaAIWorkspace.McpProxy.exe`.
 * **Restart Requirement:** Exit Claude Code or fully quit Claude Desktop (via the tray icon in the taskbar) and relaunch.
 * **More Details:** See the [Claude Code Integration Guide](../../integration/claude-code.md) and [Claude Desktop Integration Guide](../../integration/claude-desktop.md).
 
@@ -76,13 +76,13 @@ Nova supports all major local agent ecosystems:
 * **More Details:** See the [Google Antigravity Integration Guide](../../integration/google-antigravity.md).
 
 ### Custom Scripts & Other MCP Clients
-For custom Python scripts, TypeScript frameworks, or emerging tools supporting MCP, you can register `NovaBrowser.McpProxy.exe` as a standard stdio command:
+For custom Python scripts, TypeScript frameworks, or emerging tools supporting MCP, you can register `NovaAIWorkspace.McpProxy.exe` as a standard stdio command:
 
 ```json
 {
   "mcpServers": {
     "nova": {
-      "command": "C:\\Users\\<YourUsername>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe",
+      "command": "C:\\Users\\<YourUsername>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaAIWorkspace.McpProxy.exe",
       "args": []
     }
   }

@@ -18,9 +18,9 @@ flowchart TD
     ResultFormat -->|Summary Only Seen| AddMirror["Add --mirror-structured-content to Args"]
 ```
 
-1. **Test the proxy executable:** Open PowerShell and verify that `NovaBrowser.McpProxy.exe` executes cleanly:
+1. **Test the proxy executable:** Open PowerShell and verify that `NovaAIWorkspace.McpProxy.exe` executes cleanly:
    ```powershell
-   & "$env:LOCALAPPDATA\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe" --self-test
+   & "$env:LOCALAPPDATA\nova-cognitive\Nova\bin\NovaAIWorkspace.McpProxy.exe" --self-test
    ```
    Installations from version 1.0.0-alpha.17 or older use `%LOCALAPPDATA%\nova-cognitive\Nova` instead of `%LOCALAPPDATA%\nova-cognitive\Nova`; see [Diagnostics](diagnostics.md#1-local-filesystem-locations).
 2. **Verify Nova is running:** Ensure Nova AI Workspace is open on your desktop and the health check responds:
@@ -41,13 +41,13 @@ Most VS Code extensions (including Roo Code and Cline) and Cursor configure MCP 
 * **Incorrect:**
   ```json
   {
-    "command": "C:\Users\Username\AppData\Local\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe"
+    "command": "C:\Users\Username\AppData\Local\nova-cognitive\Nova\bin\NovaAIWorkspace.McpProxy.exe"
   }
   ```
 * **Correct:**
   ```json
   {
-    "command": "C:\\Users\\Username\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe"
+    "command": "C:\\Users\\Username\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaAIWorkspace.McpProxy.exe"
   }
   ```
 
@@ -65,7 +65,7 @@ Add the `--antigravity-tool-names` compatibility flag to your configuration. In 
 {
   "mcpServers": {
     "nova": {
-      "command": "C:\\Users\\<YourUsername>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe",
+      "command": "C:\\Users\\<YourUsername>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaAIWorkspace.McpProxy.exe",
       "args": ["--antigravity-tool-names"]
     }
   }
@@ -86,7 +86,7 @@ If your extension supports dotted names but drops structured JSON payloads, add 
 {
   "mcpServers": {
     "nova": {
-      "command": "C:\\Users\\<YourUsername>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe",
+      "command": "C:\\Users\\<YourUsername>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaAIWorkspace.McpProxy.exe",
       "args": ["--mirror-structured-content"]
     }
   }
@@ -102,7 +102,7 @@ If your extension supports dotted names but drops structured JSON payloads, add 
 {
   "mcpServers": {
     "nova": {
-      "command": "C:\\Users\\<YourUsername>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe",
+      "command": "C:\\Users\\<YourUsername>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaAIWorkspace.McpProxy.exe",
       "args": ["--mirror-structured-content"]
     }
   }
@@ -114,7 +114,7 @@ If your extension supports dotted names but drops structured JSON payloads, add 
 {
   "mcpServers": {
     "nova": {
-      "command": "C:\\Users\\<YourUsername>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe",
+      "command": "C:\\Users\\<YourUsername>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaAIWorkspace.McpProxy.exe",
       "args": ["--mirror-structured-content"]
     }
   }
@@ -127,7 +127,7 @@ If your extension supports dotted names but drops structured JSON payloads, add 
 
 ## 4. Reading Extension Diagnostic Logs
 
-* **VS Code Output Pane:** Open **View → Output** and select the extension's channel from the dropdown (e.g. *Roo Code*, *Cline*, or *MCP*). Look for child process exit codes or stderr output from `NovaBrowser.McpProxy.exe`.
+* **VS Code Output Pane:** Open **View → Output** and select the extension's channel from the dropdown (e.g. *Roo Code*, *Cline*, or *MCP*). Look for child process exit codes or stderr output from `NovaAIWorkspace.McpProxy.exe`.
 * **Nova Proxy Log:** Check `%LOCALAPPDATA%\nova-cognitive\Nova\Logs\novabrowser-mcp-stdio-proxy.log` for bridge connection traces.
 
 ---

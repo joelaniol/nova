@@ -10,7 +10,7 @@ Every tool exposed by **Nova AI Workspace**, grouped by operational domain. Clic
 - [1. Browser Navigation & Tab Strip](#1-browser-navigation--tab-strip) (22)
 - [2. DOM Perception & Content Extraction](#2-dom-perception--content-extraction) (21)
 - [3. Layout Quality & Measuring QA](#3-layout-quality--measuring-qa) (7)
-- [4. Input & Interaction](#4-input--interaction) (18)
+- [4. Input & Interaction](#4-input--interaction) (21)
 - [5. Guarded Actions & Blocker Clearance](#5-guarded-actions--blocker-clearance) (8)
 - [6. Visual Evidence & Screenshots](#6-visual-evidence--screenshots) (16)
 - [7. Local Files, Documents & Archives](#7-local-files-documents--archives) (23)
@@ -30,7 +30,7 @@ Every tool exposed by **Nova AI Workspace**, grouped by operational domain. Clic
 - [21. Episodic Task Memory & Guidance](#21-episodic-task-memory--guidance) (33)
 - [22. App Shell, Dialogs & DevTools](#22-app-shell-dialogs--devtools) (67)
 - [23. Agent-Authored Plugins](#23-agent-authored-plugins) (22)
-- [24. Fastlanes: Events, Conditions & Actions](#24-fastlanes-events-conditions--actions) (12)
+- [24. Fastlanes: Events, Conditions & Actions](#24-fastlanes-events-conditions--actions) (14)
 <!-- /generated:catalog-toc -->
 
 ---
@@ -131,6 +131,9 @@ Bot-resilient input execution with natural Bézier physics and Shadow-DOM traver
 | **[`nova.input_shortcut`](tools/browser-automation/nova-input-shortcut.md)** | `combo`, `targetId?` | Dispatches a multi-key keyboard shortcut (e.g. Ctrl+A, Control+C, Shift+Enter) to the active element. |
 | **[`nova.input_text`](tools/browser-automation/nova-input-text.md)** | `text`, `targetId?`, `inputMode?` | Sends a raw text string into the currently focused DOM element. |
 | **[`nova.input_wheel`](tools/browser-automation/nova-input-wheel.md)** | `x`, `y`, `deltaY`, `targetId?`, `activateIfNeeded?`, `restoreActiveTarget?`, `deltaX?` | Dispatches a physical mouse wheel scroll event at specific coordinates with deltaX and deltaY. |
+| **[`nova.run_rows`](tools/browser-automation/nova-run-rows.md)** | `targetId?`, `agentId?`, `steps?`, `defaults?`, `rows?`, `rowsPath?`, `rowKey?`, `requestKey?`, `startRow?`, `onlyRows?`, `rowDelayMs?`, `rowJitterMs?`, `maxConsecutiveFailures?`, `runTimeoutMs?`, `rowTimeoutMs?`, `resumeRunId?`, `takeover?`, `retryRows?`, `wait?` | Runs the same steps once for every row of a list, in the background on one tab, for minutes to days. |
+| **[`nova.run_rows_status`](tools/browser-automation/nova-run-rows-status.md)** | `runId?`, `cursor?`, `limit?`, `rowState?`, `wait?` | Reads a nova.run_rows run: state, counts, reasons and one page of row results. |
+| **[`nova.run_rows_stop`](tools/browser-automation/nova-run-rows-stop.md)** | `runId` | Stops a nova.run_rows run; an action already under way finishes first. |
 | **[`nova.run_sequence`](tools/browser-automation/nova-run-sequence.md)** | `steps`, `targetId?`, `agentId?`, `totalTimeoutMs?`, `record?`, `defaults?`, `options?` | Executes an ordered sequence of tool calls (navigation, click, type, wait, and more) in a single RPC round-trip. |
 | **[`nova.scroll_by`](tools/browser-automation/nova-scroll-by.md)** | `deltaY`, `targetId?`, `deltaX?`, `containerSelector?` | Scrolls the page or active container by relative pixel offsets (deltaX, deltaY). |
 | **[`nova.scroll_element`](tools/browser-automation/nova-scroll-element.md)** | `selector`, `deltaY`, `targetId?` | Shifts a specific DOM element's internal scroll offset (scrollTop) by a pixel delta. |
@@ -761,6 +764,8 @@ Event-driven automation an agent proposes and the user approves: Nova waits for 
 | **[`nova.fastlane_subscribe`](tools/fastlanes/nova-fastlane-subscribe.md)** | `fastlaneId` | Tells the agent session a fastlane wakes whether events wait for it. |
 | **[`nova.fastlane_claim`](tools/fastlanes/nova-fastlane-claim.md)** | `deliveryId?`, `interactionId?` | Takes the events of a delivery, with an epoch for the acknowledgement. |
 | **[`nova.fastlane_ack`](tools/fastlanes/nova-fastlane-ack.md)** | `epoch`, `result`, `deliveryId?`, `interactionId?`, `summary?` | Closes a claimed delivery with the agent's result. |
+| **[`nova.fastlane_memory_get`](tools/fastlanes/nova-fastlane-memory-get.md)** | `deliveryId`, `epoch`, `keys?`, `prefix?` | Reads the notes earlier wake-ups of a fastlane kept for the next one. |
+| **[`nova.fastlane_memory_set`](tools/fastlanes/nova-fastlane-memory-set.md)** | `deliveryId`, `epoch`, `key`, `expectedVersion`, `text?`, `delete?` | Writes or deletes a note a fastlane's agent keeps for its next wake-up. |
 | **[`nova.fastlane_emit`](tools/fastlanes/nova-fastlane-emit.md)** | `channel`, `title?`, `text?`, `data?` | Raises your own event on a channel; every fastlane listening there acts on it. |
 
 ---

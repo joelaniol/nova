@@ -23,7 +23,7 @@ If Nova is connected but the agent still chooses the wrong way to work, use [Age
 * The agent says it has no browser tools, or its Nova calls time out.
 
 ### How the connection works
-Your AI program starts Nova's stdio bridge, `NovaBrowser.McpProxy.exe`. The bridge reads Nova's current address and access token from Nova's profile folder and forwards every request to Nova's local server (`http://127.0.0.1:27183/mcp` by default). If Nova is not running, the bridge starts it and waits up to 90 seconds for it to become ready.
+Your AI program starts Nova's stdio bridge, `NovaAIWorkspace.McpProxy.exe`. The bridge reads Nova's current address and access token from Nova's profile folder and forwards every request to Nova's local server (`http://127.0.0.1:27183/mcp` by default). If Nova is not running, the bridge starts it and waits up to 90 seconds for it to become ready.
 
 Nova's profile folder is `%LOCALAPPDATA%\nova-cognitive\Nova`; installations from before the product rename use `%LOCALAPPDATA%\nova-cognitive\Nova`. Use whichever exists on your machine in the commands below.
 
@@ -35,7 +35,7 @@ Nova's profile folder is `%LOCALAPPDATA%\nova-cognitive\Nova`; installations fro
    `status : ready` means yes. If you changed Nova's port in the settings, use that port. No answer: start Nova and check that **Allow agents to control the browser** is ticked in its settings (it is by default).
 2. **Does the bridge exist and work?**
    ```powershell
-   & "$env:LOCALAPPDATA\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe" --self-test
+   & "$env:LOCALAPPDATA\nova-cognitive\Nova\bin\NovaAIWorkspace.McpProxy.exe" --self-test
    ```
    Expected: `NovaBrowser.McpProxy self-test OK`. If the file is missing, start Nova once; it puts the bridge there.
 3. **Does your AI program point at that bridge?** Its `nova` entry must start exactly this file. An entry with `--pipe` or other unknown switches makes the bridge stop with exit code 2 — those come from outdated instructions; remove them. The only switches are `--antigravity-tool-names` (Antigravity only) and `--mirror-structured-content`.
@@ -52,7 +52,7 @@ The simplest repair for steps 2–3 is to open **Menu → Settings → AI & agen
 
 ### Causes & Diagnosis
 1. **Invalid JSON escaping:** In `%APPDATA%\Claude\claude_desktop_config.json`, every backslash in a Windows path must be doubled. A single backslash makes the whole file invalid.
-2. **Wrong program:** The entry must start `NovaBrowser.McpProxy.exe`, not `NovaAIWorkspace.exe` — Nova itself is a window application, not an MCP server on stdio.
+2. **Wrong program:** The entry must start `NovaAIWorkspace.McpProxy.exe`, not `NovaAIWorkspace.exe` — Nova itself is a window application, not an MCP server on stdio.
 3. **Claude Desktop still running in the tray:** it reads the config only when it starts. Quit it from the system tray, then start it again.
 
 ### Resolution
@@ -61,7 +61,7 @@ The simplest repair for steps 2–3 is to open **Menu → Settings → AI & agen
   {
     "mcpServers": {
       "nova": {
-        "command": "C:\\Users\\<you>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe"
+        "command": "C:\\Users\\<you>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaAIWorkspace.McpProxy.exe"
       }
     }
   }
@@ -93,7 +93,7 @@ Add `--mirror-structured-content` to the `args` of that program's `nova` entry:
 {
   "mcpServers": {
     "nova": {
-      "command": "C:\\Users\\<you>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe",
+      "command": "C:\\Users\\<you>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaAIWorkspace.McpProxy.exe",
       "args": ["--mirror-structured-content"]
     }
   }

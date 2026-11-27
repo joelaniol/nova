@@ -37,7 +37,7 @@ Nova AI Workspace is built on modern, performant Windows desktop technologies:
 * **Application Shell:** WinUI 3 powered by the Windows App SDK, providing fluid Windows design, dark/light theme integration, and hardware-accelerated desktop windowing.
 * **Core Framework:** Modern **.NET 10** running self-contained, ensuring high-speed concurrency and memory safety without external runtime dependencies.
 * **Rendering Engine:** Microsoft WebView2 (Evergreen Chromium), delivering compatibility with modern web standards, HTML5 video, WebAssembly, and CSS grid layouts.
-* **Outrider Process:** `NovaBrowser.Outrider.exe`, Nova's external native helper process used for isolated hardware probes, crash isolation, and process sandboxing.
+* **Outrider Process:** `NovaAIWorkspace.Outrider.exe`, Nova's external native helper process used for isolated hardware probes, crash isolation, and process sandboxing.
 
 ---
 

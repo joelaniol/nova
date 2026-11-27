@@ -147,12 +147,12 @@ flowchart LR
 
 ### 1. Runner Status Card
 Displays the resolved filesystem path to the native executable:
-* **Normal / Ready:** `Runner ready: C:\Users\<user>\AppData\Local\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe` (or `%LOCALAPPDATA%\nova-cognitive\Nova\bin\...`).
+* **Normal / Ready:** `Runner ready: C:\Users\<user>\AppData\Local\nova-cognitive\Nova\bin\NovaAIWorkspace.McpProxy.exe` (or `%LOCALAPPDATA%\nova-cognitive\Nova\bin\...`).
 * **Degraded / Unavailable:** Indicates that the executable is missing, corrupt, or blocked by local permissions.
 
 ### 2. The "Reinstall Runner" Action
 Clicking **Reinstall runner** initiates an automated self-repair:
-1. Re-extracts the native `NovaBrowser.McpProxy.exe` from bundled assets under a Windows named mutex (`Local\NovaBrowser_McpProxy_DeployMutex`).
+1. Re-extracts the native `NovaAIWorkspace.McpProxy.exe` from bundled assets under a Windows named mutex (`Local\NovaBrowser_McpProxy_DeployMutex`).
 2. Cleans up obsolete legacy scripts and temporary deployment artifacts.
 3. Performs an atomic file replacement dance.
 4. Refreshes the activation metadata file (`mcp-activation.json`) and triggers an external configuration resync for all connected agent programs.

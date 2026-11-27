@@ -18,10 +18,10 @@ flowchart TD
     end
 
     subgraph Satellites ["Supervised Satellite Helpers"]
-        Outrider["NovaBrowser.Outrider.exe<br/>(Bounded Native OS Probes & OCR)"]
-        Runner["NovaBrowser.TerminalRunner.exe<br/>(Inverted Long-Lived ConPTY Daemon)"]
-        Proxy["NovaBrowser.McpProxy.exe<br/>(NativeAOT Stdio-to-HTTP Adapter)"]
-        Validator["NovaBrowser.ReplayValidator.exe<br/>(Standalone Forensic Validator)"]
+        Outrider["NovaAIWorkspace.Outrider.exe<br/>(Bounded Native OS Probes & OCR)"]
+        Runner["NovaAIWorkspace.TerminalRunner.exe<br/>(Inverted Long-Lived ConPTY Daemon)"]
+        Proxy["NovaAIWorkspace.McpProxy.exe<br/>(NativeAOT Stdio-to-HTTP Adapter)"]
+        Validator["NovaAIWorkspace.ReplayValidator.exe<br/>(Standalone Forensic Validator)"]
     end
 
     subgraph Engine ["Browser Engine"]
@@ -41,17 +41,17 @@ flowchart TD
 
 Nova implements three distinct supervision models tailored to the operational requirements of each helper process:
 
-### 1. Bounded Lazy Utility (`NovaBrowser.Outrider.exe`)
+### 1. Bounded Lazy Utility (`NovaAIWorkspace.Outrider.exe`)
 * **Role:** Executes risky native OS interactions that could deadlock or crash the process: DirectShow COM camera enumeration, hardware audio loopback probes, Whisper speech-to-text models, PaddleOCR and Tesseract character recognition, and video remuxing.
 * **Supervision Model:** Lazy and supervised. Nova spawns Outrider only when an agent or user invokes a native probe.
 * **Failure Containment:** If a buggy third-party webcam driver hangs during DirectShow COM initialization, Nova's internal watchdog timer trips. Nova terminates Outrider forcefully, logs the incident, and returns a clean error payload. The main browser window, open tabs, and active logins remain completely unaffected.
 
-### 2. Inverted Persistent Daemon (`NovaBrowser.TerminalRunner.exe`)
+### 2. Inverted Persistent Daemon (`NovaAIWorkspace.TerminalRunner.exe`)
 * **Role:** Hosts Windows Pseudo Consoles (ConPTY) and manages active shell processes (PowerShell, Command Prompt, bash).
 * **Supervision Model:** Inverted persistence. While Outrider is a child that dies when Nova closes, TerminalRunner is designed to **outlive the main window**.
 * **Independence:** If you close the Nova window while a background build or scheduled script is running, TerminalRunner stays alive in the background. When you reopen Nova, the app automatically reconnects to the running TerminalRunner pipe server, restores terminal output streams, and resumes session monitoring.
 
-### 3. Headless Transport Adapter (`NovaBrowser.McpProxy.exe`)
+### 3. Headless Transport Adapter (`NovaAIWorkspace.McpProxy.exe`)
 * **Role:** Bridges AI coding agents communicating via standard input/output (`stdio`) to Nova's internal authenticated HTTP listener.
 * **Supervision Model:** Compiled with NativeAOT for instant sub-millisecond startup and zero runtime overhead.
 * **Auto-Launch Coordination:** When an agent client (such as Claude Code or Cursor) invokes the proxy while Nova is closed, the proxy automatically launches `NovaAIWorkspace.exe` in the background and polls the health endpoint for up to 90 seconds until the workspace is ready.

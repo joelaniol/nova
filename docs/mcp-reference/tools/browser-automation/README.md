@@ -8,7 +8,7 @@ Page navigation, tab strip lifecycle management, physical clicks, humanized typi
 ---
 
 <!-- generated:tool-list (from the tool pages in this folder; do not edit by hand, regenerate with NOVA_UPDATE_PUBLIC_TOOL_DOCS=1) -->
-## Tool Inventory (40 Tools)
+## Tool Inventory (43 Tools)
 
 Capability bundles of these tools: `browser_automation`, `form_submission`, `page_read_debug`, `visual_evidence`.
 
@@ -34,6 +34,9 @@ Capability bundles of these tools: `browser_automation`, `form_submission`, `pag
 | **[`nova.navigate`](nova-navigate.md)** | Navigates an existing browser tab to a specified absolute URL with optional load synchronization, SPA settlement, and screenshot delivery. |
 | **[`nova.reload`](nova-reload.md)** | Reloads the active tab with configurable cache bypassing, SPA settlement verification, session-destruction protection, and stuck-renderer recovery. |
 | **[`nova.route`](nova-route.md)** | Performs Single Page Application (SPA) client-side routing within the same document, preserving in-memory JavaScript frameworks, Vue/React component states, and ephemeral authentication tokens. |
+| **[`nova.run_rows`](nova-run-rows.md)** | Runs the same steps once for every row of a list, in the background on one tab, for minutes to days. |
+| **[`nova.run_rows_status`](nova-run-rows-status.md)** | Reads a nova.run_rows run: state, counts, reasons and one page of row results. |
+| **[`nova.run_rows_stop`](nova-run-rows-stop.md)** | Stops a nova.run_rows run; an action already under way finishes first. |
 | **[`nova.run_sequence`](nova-run-sequence.md)** | Executes an ordered sequence of tool calls (navigation, click, type, wait, and more) in a single RPC round-trip. |
 | **[`nova.scroll_by`](nova-scroll-by.md)** | Scrolls the page or active container by relative pixel offsets (deltaX, deltaY). |
 | **[`nova.scroll_element`](nova-scroll-element.md)** | Shifts a specific DOM element's internal scroll offset (scrollTop) by a pixel delta. |

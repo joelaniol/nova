@@ -102,7 +102,7 @@ Write-only cryptographic storage for API keys and auth tokens (`OPENAI_API_KEY`,
 * *Architecture guide:* [Password Vault & DPAPI Keystore](../core-features/privacy/vault-and-secrets/README.md).
 
 ### B. Bridge Environment Variables
-OS environment variables controlling the lifecycle and timing of Nova's native stdio bridge (`NovaBrowser.McpProxy.exe`):
+OS environment variables controlling the lifecycle and timing of Nova's native stdio bridge (`NovaAIWorkspace.McpProxy.exe`):
 * **`NOVA_MCP_AUTOSTART`:** Set to `0` to disable automatic launch of Nova when client connects.
 * **`NOVA_MCP_COLD_START_MS`:** Configures bridge cold-start timeout in milliseconds (default `90000`, range `5000`–`300000`).
 * *Specification:* [MCP Protocol & Transport Contract](protocol-and-transport.md#a-stdio-bridge-novabrowsermcpproxyexe).

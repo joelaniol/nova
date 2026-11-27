@@ -1,6 +1,6 @@
 # Identity Hashing, Runner Lifecycles & Acceptance Testing
 
-When decoupling terminal execution into an external helper process (`NovaBrowser.TerminalRunner.exe`), the system must guarantee strict cross-user isolation, deterministic pipe binding, and robust lifecycle management. The runner must not run indefinitely when unused, nor should it terminate prematurely while long-running background tasks (like compilation or local test servers) are executing.
+When decoupling terminal execution into an external helper process (`NovaAIWorkspace.TerminalRunner.exe`), the system must guarantee strict cross-user isolation, deterministic pipe binding, and robust lifecycle management. The runner must not run indefinitely when unused, nor should it terminate prematurely while long-running background tasks (like compilation or local test servers) are executing.
 
 Nova AI Workspace enforces deterministic profile hashing, cryptographic loopback tokens, three-tiered lifecycle timers, and automated self-test verification.
 
@@ -90,7 +90,7 @@ stateDiagram-v2
 Before Nova attempts to dispatch commands or open terminal docks, it verifies runner functionality using its built-in automated self-test:
 
 ```powershell
-dist\NovaBrowser.TerminalRunner.exe --self-test
+dist\NovaAIWorkspace.TerminalRunner.exe --self-test
 ```
 
 ### Self-Test Validation Steps

@@ -6,16 +6,16 @@ Nova's built-in **Connection Wizard** (**Menu → Settings → AI & agents → S
 
 ---
 
-## 1. The MCP Proxy Runner (`NovaBrowser.McpProxy.exe`)
+## 1. The MCP Proxy Runner (`NovaAIWorkspace.McpProxy.exe`)
 
 When an AI program connects to Nova, it communicates with Nova's native proxy runner:
 ```
-%LOCALAPPDATA%\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe
+%LOCALAPPDATA%\nova-cognitive\Nova\bin\NovaAIWorkspace.McpProxy.exe
 ```
 
 ```mermaid
 flowchart LR
-    Agent["External AI Program<br/>(Claude Code, Codex, Antigravity)"] -->|"Standard I/O (stdio)"| Runner["Native MCP Proxy Runner<br/>(%LOCALAPPDATA%\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe)"]
+    Agent["External AI Program<br/>(Claude Code, Codex, Antigravity)"] -->|"Standard I/O (stdio)"| Runner["Native MCP Proxy Runner<br/>(%LOCALAPPDATA%\nova-cognitive\Nova\bin\NovaAIWorkspace.McpProxy.exe)"]
     Runner -->|Local HTTP / SSE<br/>http://127.0.0.1:27183/mcp| Nova["Nova AI Workspace<br/>(Desktop UI & Tool Engine)"]
 ```
 
@@ -29,7 +29,7 @@ Nova deploys a rebuild-stable, mutex-synchronized copy of the proxy executable i
 ## 2. Lazy Autostart & Reconnection
 
 You do not need to keep Nova open before launching your AI tools:
-* **Automatic Cold-Start:** When an agent CLI issues a tool call while Nova is closed, `NovaBrowser.McpProxy.exe` automatically starts Nova in the background (using an autostart lease to prevent duplicate instances).
+* **Automatic Cold-Start:** When an agent CLI issues a tool call while Nova is closed, `NovaAIWorkspace.McpProxy.exe` automatically starts Nova in the background (using an autostart lease to prevent duplicate instances).
 * **Job Object Breakaway:** The browser is spawned with process breakaway guarantees (`CREATE_BREAKAWAY_FROM_JOB`), ensuring the browser stays open even if your agent terminal session terminates.
 * **Zero Token Management:** The proxy automatically reads the current access token from encrypted local storage (`mcp-identity.dat`). You never need to manually paste bearer tokens into client config files.
 * **Transparent Reconnection:** If Nova restarts or reloads, the proxy runner reconnects upstream automatically without interrupting the AI program's active session.
@@ -45,7 +45,7 @@ When Nova's Connection Wizard configures an AI program, it registers the native 
 {
   "mcpServers": {
     "nova": {
-      "command": "C:\\Users\\<user>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe"
+      "command": "C:\\Users\\<user>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaAIWorkspace.McpProxy.exe"
     }
   }
 }
@@ -54,7 +54,7 @@ When Nova's Connection Wizard configures an AI program, it registers the native 
 ### OpenAI Codex (`~/.codex/config.toml`)
 ```toml
 [mcp_servers.nova]
-command = "C:\\Users\\<user>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe"
+command = "C:\\Users\\<user>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaAIWorkspace.McpProxy.exe"
 ```
 
 ### Claude Desktop (`%APPDATA%\Claude\claude_desktop_config.json`)
@@ -62,7 +62,7 @@ command = "C:\\Users\\<user>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBro
 {
   "mcpServers": {
     "nova": {
-      "command": "C:\\Users\\<user>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe"
+      "command": "C:\\Users\\<user>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaAIWorkspace.McpProxy.exe"
     }
   }
 }
@@ -73,7 +73,7 @@ command = "C:\\Users\\<user>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBro
 {
   "mcpServers": {
     "nova": {
-      "command": "C:\\Users\\<user>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe",
+      "command": "C:\\Users\\<user>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaAIWorkspace.McpProxy.exe",
       "args": ["--antigravity-tool-names"]
     }
   }
@@ -99,7 +99,7 @@ Once restarted, verify that your AI program recognizes Nova:
 2. Ask your agent: *"What tabs are open in Nova?"* or prompt it to call [`nova.app_info`](../mcp-reference/tools/app-shell-and-ui/nova-app-info.md).
 3. If the connection fails, verify the runner using the built-in self-test:
    ```powershell
-   & "$env:LOCALAPPDATA\NovaBrowser\bin\NovaBrowser.McpProxy.exe" --self-test
+   & "$env:LOCALAPPDATA\NovaBrowser\bin\NovaAIWorkspace.McpProxy.exe" --self-test
    ```
    *(Expected output: `NovaBrowser.McpProxy self-test OK`).*
 

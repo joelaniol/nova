@@ -41,7 +41,7 @@ flowchart TD
     end
 
     subgraph Layer4["4. Isolated Native Outrider Helper Process"]
-        OutriderProcess["Nova Outrider\n(NovaBrowser.Outrider.exe)"]
+        OutriderProcess["Nova Outrider\n(NovaAIWorkspace.Outrider.exe)"]
         WMFDecoder["Windows Media Foundation (WMF)\n(In-Memory 16 kHz Mono Transcoding)"]
         CPUGate["CPU Vector Gate\n(AVX2, AVX, FMA Hardware Check)"]
         WhisperCore["whisper.cpp Inference Engine\n(Pinned GGML Models)"]
@@ -98,7 +98,7 @@ flowchart TD
 
 Speech recognition relies on native C/C++ inference engines (`whisper.cpp`). In modern .NET runtimes, native memory access violations, illegal CPU instructions, or unhandled exceptions in native libraries cannot be caught by standard `try / catch` blocks and terminate the host process immediately.
 
-Nova enforces a strict architectural boundary by executing all Whisper speech inference inside an external helper process: **Nova Outrider** (`NovaBrowser.Outrider.exe`).
+Nova enforces a strict architectural boundary by executing all Whisper speech inference inside an external helper process: **Nova Outrider** (`NovaAIWorkspace.Outrider.exe`).
 * **Fault Containment:** If a corrupted audio stream, malformed model file, or native library flaw causes an access violation, only the Outrider helper process terminates. Nova's main browser window, open tabs, active sandbox profiles, and MCP server connections remain unaffected.
 * **Controlled Termination:** When an agent cancels a transcription job via `nova.media_transcribe_stop` or when a job exceeds its compute budget, Nova terminates the Outrider worker process immediately. Memory is reclaimed instantly by the operating system without waiting for native inference loops to unwind.
 * **Stdio Channel Separation:** Outrider writes structured JSON progress frames exclusively to `stdout` (one JSON object per line), while redirecting all native C++ loggers to `stderr`. This ensures native log output never corrupts or tears JSON progress frames read by the main browser process.

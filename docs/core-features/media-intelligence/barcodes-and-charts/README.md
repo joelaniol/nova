@@ -3,7 +3,7 @@
 > [!NOTE]
 > Nova provides high-precision on-device generation and decoding of 1D linear and 2D matrix barcodes, alongside deterministic programmatic rendering of data charts. It allows AI agents to synthesize scannable codes, decode visual badges, and transform tabular records into clean vector and raster visualizations without third-party cloud APIs, external Python dependencies, or licensing overhead.
 
-All barcode rendering, decoding verification, and chart visualization execute locally within Nova's native Outrider helper process (`NovaBrowser.Outrider.exe`), ensuring hardware crash isolation, zero context-window bloat, and strict data privacy.
+All barcode rendering, decoding verification, and chart visualization execute locally within Nova's native Outrider helper process (`NovaAIWorkspace.Outrider.exe`), ensuring hardware crash isolation, zero context-window bloat, and strict data privacy.
 
 ---
 
@@ -269,7 +269,7 @@ Charts can be populated via two primary methods:
 
 ## 5. Security & Isolation Invariants
 
-1. **Outrider Fault Isolation:** All image generation, font rasterization, and barcode parsing run inside the isolated `NovaBrowser.Outrider.exe` helper process. A segmentation fault, heap exhaustion, or crash in underlying graphic libraries cannot compromise the browser shell.
+1. **Outrider Fault Isolation:** All image generation, font rasterization, and barcode parsing run inside the isolated `NovaAIWorkspace.Outrider.exe` helper process. A segmentation fault, heap exhaustion, or crash in underlying graphic libraries cannot compromise the browser shell.
 2. **Zero Base64 Memory Injection:** Barcode and chart outputs are saved directly to permitted local disk paths. Nova never pushes megabytes of raw image data directly into the agent's LLM context window.
 3. **Password Masking Invariant:** Wi-Fi passwords generated via `data.kind: "wifi"` are omitted from response objects and logs (`encodedContentHidden: "contains the network password"`).
 4. **Offline Local Execution:** Barcode generation, barcode reading, and chart rendering are 100% offline. No telemetry, image hashes, or chart contents are ever transmitted to external cloud servers.

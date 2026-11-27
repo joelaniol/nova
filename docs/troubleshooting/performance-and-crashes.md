@@ -79,20 +79,20 @@ Chromium-based engines normally throttle JavaScript timers and animation frames 
 
 Nova delegates native hardware operations, unmanaged media codecs, and agent transport handling to dedicated helper processes:
 
-### 6.1 Native Hardware & Driver Probing (`NovaBrowser.Outrider.exe`)
+### 6.1 Native Hardware & Driver Probing (`NovaAIWorkspace.Outrider.exe`)
 Native driver calls (DirectShow, WinRT, Media Foundation, Whisper AI, Tesseract OCR) can fail in ways managed exception handling cannot catch. Outrider acts as a disposable process boundary:
 * **Camera / Audio Driver Hangs:** If a virtual webcam or audio driver deadlocks during enumeration, Nova's watchdog terminates the Outrider session after its deadline (60s) and returns a degraded result (`timeout`) without freezing your browser tabs.
 * **Transcription CPU Gate (`cpu_unsupported` / -32004):** Whisper speech recognition requires AVX2 and FMA vector instructions. If your CPU lacks these instructions, Nova rejects the request safely before execution, preventing fatal `0xC000001D` Illegal Instruction crashes.
 * **Diagnostic Self-Test:** Run Outrider's internal self-test directly from PowerShell to verify native libraries and drivers:
   ```powershell
-  dist\NovaBrowser.Outrider.exe --self-test
+  dist\NovaAIWorkspace.Outrider.exe --self-test
   ```
   *(See the [Nova Outrider Architecture Specification](../components/outrider/README.md) for complete details).*
 
-### 6.2 Agent Stdio Transport Bridge (`NovaBrowser.McpProxy.exe`)
+### 6.2 Agent Stdio Transport Bridge (`NovaAIWorkspace.McpProxy.exe`)
 Manages bidirectional stdio communication with external AI agents:
 * **Automatic Reconnection:** If Nova restarts during an active agent session, the proxy runner automatically reconnects upstream once `/health` is ready.
-* **Runner Diagnostics:** Run `& "$env:LOCALAPPDATA\NovaBrowser\bin\NovaBrowser.McpProxy.exe" --self-test` to verify JSON-RPC framing and profile paths.
+* **Runner Diagnostics:** Run `& "$env:LOCALAPPDATA\NovaBrowser\bin\NovaAIWorkspace.McpProxy.exe" --self-test` to verify JSON-RPC framing and profile paths.
 
 ---
 

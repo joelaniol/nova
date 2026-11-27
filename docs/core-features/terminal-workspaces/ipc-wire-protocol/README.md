@@ -1,6 +1,6 @@
 # IPC Named Pipe Wire Protocol Hub
 
-Communication between Nova AI Workspace (`NovaAIWorkspace.exe`) and the console host (`NovaBrowser.TerminalRunner.exe`) operates over high-performance local Windows named pipes. Because terminal sessions stream raw VT/ANSI escape bytes, binary keystrokes, and structured JSON control messages simultaneously, the IPC transport must prevent stream tearing, message interleaving, and thread deadlocks.
+Communication between Nova AI Workspace (`NovaAIWorkspace.exe`) and the console host (`NovaAIWorkspace.TerminalRunner.exe`) operates over high-performance local Windows named pipes. Because terminal sessions stream raw VT/ANSI escape bytes, binary keystrokes, and structured JSON control messages simultaneously, the IPC transport must prevent stream tearing, message interleaving, and thread deadlocks.
 
 Nova's **Named Pipe Wire Protocol** defines a strict, 9-byte framed binary multiplexing protocol combined with an atomic single-writer architecture and circular memory buffers.
 

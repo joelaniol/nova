@@ -33,7 +33,7 @@ For a JSON-based client that supports dotted names but needs the data copied int
 {
   "mcpServers": {
     "nova": {
-      "command": "C:\\Users\\YourName\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe",
+      "command": "C:\\Users\\YourName\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaAIWorkspace.McpProxy.exe",
       "args": ["--mirror-structured-content"]
     }
   }
@@ -45,7 +45,7 @@ For a JSON-based client that supports dotted names but needs the data copied int
 If you launch the bridge directly from your runner, the equivalent command is:
 
 ```powershell
-& "C:\Users\YourName\AppData\Local\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe" --mirror-structured-content
+& "C:\Users\YourName\AppData\Local\nova-cognitive\Nova\bin\NovaAIWorkspace.McpProxy.exe" --mirror-structured-content
 ```
 
 This starts a **stdio MCP server**: your runner must communicate through its standard input and output. It is not an interactive task command. Use the actual path from Nova's wizard.

@@ -19,7 +19,7 @@ Nova writes a standard entry in this form:
 ```toml
 [mcp_servers.nova]
 enabled = true
-command = "C:\\Users\\YourName\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe"
+command = "C:\\Users\\YourName\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaAIWorkspace.McpProxy.exe"
 ```
 
 `YourName` is an example username. Use the actual command path supplied by Nova's wizard. Older installations may use `AppData\Local\nova-cognitive\Nova\bin`. In a TOML double-quoted string, `\\` represents one Windows path backslash.

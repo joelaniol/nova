@@ -12,7 +12,7 @@ This guide resolves common execution failures, timeouts, concurrency blocks, and
 | `command_rejected` ("The previous terminal_run_command... ended before its command finished...") | A prior command timed out or was cancelled, and is still running in the background. | Read output via `nova.terminal_read`, or send `nova.terminal_send_key(sessionId=..., key='Ctrl+C')` to interrupt it. |
 | `command_rejected` ("Multi-line commands are not supported...") | The command string contains embedded newline characters (`\r` or `\n`). | Send single-line commands with `nova.terminal_run_command`, or send raw multi-line scripts using `nova.terminal_write`. |
 | Tool times out after 30 seconds (`timedOut: true`) | The command took longer than `timeoutSeconds` to output its completion sentinel. | Increase `timeoutSeconds` (up to 3600), or inspect ongoing progress via `nova.terminal_read`. |
-| Named pipe connection fails (`protocol_version`) | Nova was updated while an older `NovaBrowser.TerminalRunner.exe` is still active. | Close Nova, terminate old runner processes in Task Manager, or click **Reinstall runner** in Settings. |
+| Named pipe connection fails (`protocol_version`) | Nova was updated while an older `NovaAIWorkspace.TerminalRunner.exe` is still active. | Close Nova, terminate old runner processes in Task Manager, or click **Reinstall runner** in Settings. |
 | Runner terminates with exit code `3` | Windows console handle acquisition failed. | Ensure TerminalRunner is executed in a standard desktop logon session capable of allocating a console handle. |
 
 ---
@@ -67,7 +67,7 @@ Nova's terminal subsystem enforces strict safeguards against typing collisions. 
 * Subsequent commands are blocked.
 
 ### Key Behavioral Guarantee: Shell Processes Survive Timeouts
-Reaching `timeoutSeconds` terminates only the waiting RPC tool call; **it does not terminate the underlying process.** The compilation or build script continues running inside `NovaBrowser.TerminalRunner.exe`.
+Reaching `timeoutSeconds` terminates only the waiting RPC tool call; **it does not terminate the underlying process.** The compilation or build script continues running inside `NovaAIWorkspace.TerminalRunner.exe`.
 
 ### Resolution Workflow:
 1. **Never immediately re-run the same command.** Re-running creates duplicate processes and locks workspace files.
@@ -88,14 +88,14 @@ Reaching `timeoutSeconds` terminates only the waiting RPC tool call; **it does n
 
 ## 3. Terminal Runner Disconnects & Handshake Failures
 
-TerminalRunner operates as an independent external process (`NovaBrowser.TerminalRunner.exe`) communicating over a duplex named pipe (`novabrowser-terminal-runner-{profileId}`).
+TerminalRunner operates as an independent external process (`NovaAIWorkspace.TerminalRunner.exe`) communicating over a duplex named pipe (`novabrowser-terminal-runner-{profileId}`).
 
 ### 3.1 Protocol Version Mismatches (`protocol_version`)
 * **Symptom:** Terminal initialization fails, or `nova.terminal_open` returns an error stating that the terminal runner version does not match Nova.
-* **Cause:** Nova AI Workspace was updated to a newer version, but a background `NovaBrowser.TerminalRunner.exe` process from the previous installation is still running in memory, holding active sessions.
+* **Cause:** Nova AI Workspace was updated to a newer version, but a background `NovaAIWorkspace.TerminalRunner.exe` process from the previous installation is still running in memory, holding active sessions.
 * **Resolution:**
   1. Close Nova.
-  2. Open Windows Task Manager and end any remaining `NovaBrowser.TerminalRunner.exe` processes.
+  2. Open Windows Task Manager and end any remaining `NovaAIWorkspace.TerminalRunner.exe` processes.
   3. Start Nova again. Nova will automatically launch the updated runner executable.
 
 ### 3.2 Authorization Failures (`unauthorized`)
@@ -106,7 +106,7 @@ TerminalRunner operates as an independent external process (`NovaBrowser.Termina
   * Click **Reinstall runner**. Nova will refresh its internal authentication tokens and re-synchronize the launcher binaries.
 
 ### 3.3 Exit Code 3 on Startup (`ConsoleBootstrap.ConsoleMode.Failed`)
-* **Symptom:** `NovaBrowser.TerminalRunner.exe` terminates immediately with exit code `3`.
+* **Symptom:** `NovaAIWorkspace.TerminalRunner.exe` terminates immediately with exit code `3`.
 * **Cause:** ConPTY requires an active Win32 console handle (`AllocConsole` / `AttachConsole`). If the process is launched inside a restricted non-interactive Windows service or headless session without desktop window station access, console allocation fails.
 * **Resolution:** Ensure Nova and TerminalRunner are executed within a standard interactive Windows user logon session.
 
@@ -132,7 +132,7 @@ To prevent runaway memory consumption when a process outputs data faster than Wi
 ## 5. Development Server Continuity & The 24-Hour Orphan Policy
 
 ### Why Dev Servers Survive Nova Reboots
-When you launch a development server (e.g. `npm run dev` or Python web service) inside a terminal workspace, the process lives inside `NovaBrowser.TerminalRunner.exe`. If you close Nova, reload the window, or install an update:
+When you launch a development server (e.g. `npm run dev` or Python web service) inside a terminal workspace, the process lives inside `NovaAIWorkspace.TerminalRunner.exe`. If you close Nova, reload the window, or install an update:
 * The runner helper stays alive in the background.
 * Your server continues listening on its local port (e.g. `http://localhost:3000`).
 * Reopening Nova automatically rediscovers the existing terminal runner and restores the connection.

@@ -117,7 +117,7 @@ flowchart TD
         WebView["Microsoft WebView2 Runtimes<br>(Isolated Sandbox Partitions)"]
     end
 
-    subgraph OutriderWorker["Outrider Subprocess (NovaBrowser.Outrider.exe)"]
+    subgraph OutriderWorker["Outrider Subprocess (NovaAIWorkspace.Outrider.exe)"]
         Whisper["Whisper.cpp Local Speech Ingestion"]
         AudioParser["Native Audio Duration Probes"]
         HardProbes["Hardware & Device Probes"]

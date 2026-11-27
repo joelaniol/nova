@@ -120,7 +120,7 @@ Nova exposes a curated set of runtime preferences to connected agents while stri
 
 ---
 
-## 6. The Outrider Helper Process (`NovaBrowser.Outrider.exe`)
+## 6. The Outrider Helper Process (`NovaAIWorkspace.Outrider.exe`)
 
 Certain operating system operations—such as low-level hardware probing, deep file metadata extraction, and killable network probes—carry stability risks. 
 

@@ -14,7 +14,7 @@ The terminal subsystem operates in two complementary modes:
 ```mermaid
 flowchart TD
     subgraph Engine ["Nova Terminal Subsystem (ConPTY Engine)"]
-        Runner["Isolated Terminal Runner Service<br/>(NovaBrowser.TerminalRunner.exe)"]
+        Runner["Isolated Terminal Runner Service<br/>(NovaAIWorkspace.TerminalRunner.exe)"]
         Sessions["Persistent Session Manager<br/>(PowerShell, pwsh, Claude Code, Codex, bash)"]
         Runner --> Sessions
     end

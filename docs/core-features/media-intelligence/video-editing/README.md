@@ -3,7 +3,7 @@
 > [!NOTE]
 > Nova provides an integrated, 100% on-device video composition and rendering engine. It empowers autonomous AI agents to transform raw screen recordings into professional, structured video assets—complete with timeline trimming, chapter headlines, animated captions, visual verification callouts, result summary cards, and branded end cards—without third-party editing suites, cloud rendering pipelines, or external Python scripts.
 
-All video decoding, frame-accurate compositing, subtitle rendering, and encoding execute locally on the host workstation within an isolated native helper process (`NovaBrowser.Outrider.exe`), ensuring hardware crash isolation, zero context-window bloat, and strict data privacy.
+All video decoding, frame-accurate compositing, subtitle rendering, and encoding execute locally on the host workstation within an isolated native helper process (`NovaAIWorkspace.Outrider.exe`), ensuring hardware crash isolation, zero context-window bloat, and strict data privacy.
 
 ---
 

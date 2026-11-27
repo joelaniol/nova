@@ -17,7 +17,7 @@ flowchart TD
 
     subgraph SafetyGate["2. Safety & Process Boundary (Outrider Isolation)"]
         DecompressionGuard["Decompression Bomb Guard\n(Max 200 Megapixels & 512 MB Pre-Check)"]
-        HelperProcess["Nova Outrider Helper\n(NovaBrowser.Outrider.exe / SkiaSharp)"]
+        HelperProcess["Nova Outrider Helper\n(NovaAIWorkspace.Outrider.exe / SkiaSharp)"]
     end
 
     subgraph TransformPipeline["3. Deterministic Transformation Engine (nova.image_transform)"]

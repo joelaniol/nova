@@ -35,7 +35,7 @@ flowchart TD
    * If the command fails with connection refused, launch **Nova AI Workspace** and verify that **Menu → Settings → AI & agents → Allow agents to control the browser** is enabled.
 3. **Run the stdio bridge self-test:**
    ```powershell
-   & "$env:LOCALAPPDATA\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe" --self-test
+   & "$env:LOCALAPPDATA\nova-cognitive\Nova\bin\NovaAIWorkspace.McpProxy.exe" --self-test
    ```
    * **Expected output:** `NovaBrowser.McpProxy self-test OK`.
    * Installations from version 1.0.0-alpha.17 or older use `%LOCALAPPDATA%\nova-cognitive\Nova` instead of `%LOCALAPPDATA%\nova-cognitive\Nova`; see [Diagnostics](diagnostics.md#1-local-filesystem-locations).
@@ -53,14 +53,14 @@ Claude Code stores its global MCP server registry in your user profile at `%USER
 **Incorrect:**
 ```json
 {
-  "command": "C:\Users\Username\AppData\Local\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe"
+  "command": "C:\Users\Username\AppData\Local\nova-cognitive\Nova\bin\NovaAIWorkspace.McpProxy.exe"
 }
 ```
 
 **Correct:**
 ```json
 {
-  "command": "C:\\Users\\Username\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe"
+  "command": "C:\\Users\\Username\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaAIWorkspace.McpProxy.exe"
 }
 ```
 
@@ -104,7 +104,7 @@ Below is the verified, minimal configuration entry for Claude Code:
 {
   "mcpServers": {
     "nova": {
-      "command": "C:\\Users\\<YourUsername>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaBrowser.McpProxy.exe"
+      "command": "C:\\Users\\<YourUsername>\\AppData\\Local\\nova-cognitive\\Nova\\bin\\NovaAIWorkspace.McpProxy.exe"
     }
   }
 }

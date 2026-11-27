@@ -2,7 +2,7 @@
 
 Windows command-line execution in modern AI agent environments requires full terminal emulation, VT/ANSI escape sequence fidelity, and process crash resilience. Flat subprocess spawning (`Process.Start` or `child_process.exec`) cannot handle interactive prompts, progress indicators, or curses-like interfaces, and drops all child processes if the host browser reloads or crashes.
 
-Nova AI Workspace decouples terminal execution from the browser process by hosting console sessions inside an external, persistent helper process: **`NovaBrowser.TerminalRunner.exe`**, powered by the native Windows Pseudo Console (**ConPTY**).
+Nova AI Workspace decouples terminal execution from the browser process by hosting console sessions inside an external, persistent helper process: **`NovaAIWorkspace.TerminalRunner.exe`**, powered by the native Windows Pseudo Console (**ConPTY**).
 
 ```mermaid
 flowchart TD
@@ -14,7 +14,7 @@ flowchart TD
         AgentEngine --- Client
     end
 
-    subgraph RunnerProcess["Persistent Helper (NovaBrowser.TerminalRunner.exe)"]
+    subgraph RunnerProcess["Persistent Helper (NovaAIWorkspace.TerminalRunner.exe)"]
         Server["RunnerPipeServer (Loopback Auth)"]
         ConPTY["Native Windows Pseudo Console (ConPTY)"]
         Job["Windows Job Object (Tree Containment)"]
@@ -42,7 +42,7 @@ Explore the dedicated architecture guides within this domain:
 * **Deterministic Profile Identity:** Hashing the browser base directory, user logon SID, and integrity level to compute unique, profile-scoped pipe names (`novabrowser-terminal-runner-{profileId}`).
 * **Loopback Security:** Enforcing OS-level security via `PipeOptions.CurrentUserOnly` and a 256-bit cryptographically random capability token.
 * **Runner Lifecycle Modes:** The 10-second idle shutdown timer, 24-hour orphan session safety timer, and browser lifetime synchronization.
-* **Dual-Stage Acceptance Gate:** Automated validation via `NovaBrowser.TerminalRunner.exe --self-test` before client connections are permitted.
+* **Dual-Stage Acceptance Gate:** Automated validation via `NovaAIWorkspace.TerminalRunner.exe --self-test` before client connections are permitted.
 
 ---
 

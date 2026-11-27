@@ -1,7 +1,7 @@
 # Outrider Helper Process & Hardware Instruction Gates
 
 > [!NOTE]
-> High-performance speech-to-text recognition in **Nova AI Workspace** relies on native C/C++ inference routines powered by `whisper.cpp`. In modern .NET runtimes, native memory access violations, illegal CPU vector instructions, or unhandled exceptions inside unmanaged binaries cannot be caught by managed `try / catch` blocks and immediately terminate the host process. Nova isolates all native Whisper inference inside an external helper process: **Nova Outrider** (`NovaBrowser.Outrider.exe`).
+> High-performance speech-to-text recognition in **Nova AI Workspace** relies on native C/C++ inference routines powered by `whisper.cpp`. In modern .NET runtimes, native memory access violations, illegal CPU vector instructions, or unhandled exceptions inside unmanaged binaries cannot be caught by managed `try / catch` blocks and immediately terminate the host process. Nova isolates all native Whisper inference inside an external helper process: **Nova Outrider** (`NovaAIWorkspace.Outrider.exe`).
 
 ---
 
@@ -28,7 +28,7 @@ flowchart TD
         StdErr["stderr (whisper.cpp Unformatted Native Logs)"]
     end
 
-    subgraph OutriderHelper ["External Native Worker (NovaBrowser.Outrider.exe)"]
+    subgraph OutriderHelper ["External Native Worker (NovaAIWorkspace.Outrider.exe)"]
         CPUGate["CPU Vector Instruction Preflight"]
         NativeEngine["whisper.cpp Native Inference Core"]
         MemoryMgr["In-Memory Sample Buffer"]
@@ -59,7 +59,7 @@ High-throughput Whisper inference relies heavily on Advanced Vector Extensions (
 ```mermaid
 flowchart LR
     JobRequest["Transcription Request"] --> ManagedCheck["TranscribeProbe.IsCpuSupported()"]
-    ManagedCheck -->|Has AVX2 + FMA| LaunchOutrider["Spawn NovaBrowser.Outrider.exe"]
+    ManagedCheck -->|Has AVX2 + FMA| LaunchOutrider["Spawn NovaAIWorkspace.Outrider.exe"]
     ManagedCheck -->|Missing Instructions| RejectEarly["Fail Immediately with cpu_unsupported\n(Error -32004)"]
 
     LaunchOutrider --> NativeLoad["Load whisper.cpp GGML Binaries"]

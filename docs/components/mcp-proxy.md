@@ -1,7 +1,7 @@
 # MCP Stdio Proxy — Agent Connection Bridge & Process Runner
 
-**Binary:** `NovaBrowser.McpProxy.exe`  
-**Distribution Locations:** Shipped bundled in `dist/tools/NovaBrowser.McpProxy.exe`; automatically deployed and synchronized by Nova into the rebuild-stable user directory `%LOCALAPPDATA%\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe`.
+**Binary:** `NovaAIWorkspace.McpProxy.exe`  
+**Distribution Locations:** Shipped bundled in `dist/tools/NovaAIWorkspace.McpProxy.exe`; automatically deployed and synchronized by Nova into the rebuild-stable user directory `%LOCALAPPDATA%\nova-cognitive\Nova\bin\NovaAIWorkspace.McpProxy.exe`.
 
 The **MCP Stdio Proxy** (often referred to as the **MCP Proxy Runner**) is a high-performance, single-file native executable built with .NET NativeAOT. It acts as the persistent, zero-dependency communication bridge between external AI agent command-line interfaces (such as Anthropic Claude Code, OpenAI Codex, Google Antigravity, Cursor, and Claude Desktop) and Nova's internal Model Context Protocol (MCP) HTTP/SSE server.
 
@@ -13,7 +13,7 @@ flowchart TD
         Client <--> Transport
     end
 
-    subgraph McpProxy ["NovaBrowser.McpProxy.exe (Native Runner)"]
+    subgraph McpProxy ["NovaAIWorkspace.McpProxy.exe (Native Runner)"]
         StdioBridge["JSON-RPC 2.0 Stdio Parser"]
         DriftGate{"Schema Drift Gate<br/>catalogHash / compatHash"}
         ToolCache[("Offline Tools Cache<br/>mcp-proxy-tools-cache.json")]
@@ -60,15 +60,15 @@ When integrating with external AI tools, clients save absolute file paths to the
 
 ```mermaid
 flowchart LR
-    Dist["dist/tools/NovaBrowser.McpProxy.exe<br/>(Volatile Clean Build Target)"] -->|"McpProxyLauncher.EnsureDeployed"| LauncherDir["%LOCALAPPDATA%\nova-cognitive\Nova\bin\<br/>(Rebuild-Stable User Directory)"]
+    Dist["dist/tools/NovaAIWorkspace.McpProxy.exe<br/>(Volatile Clean Build Target)"] -->|"McpProxyLauncher.EnsureDeployed"| LauncherDir["%LOCALAPPDATA%\nova-cognitive\Nova\bin\<br/>(Rebuild-Stable User Directory)"]
     LauncherDir -->|"Stable Absolute Path"| Configs["Client Global Configs<br/>(~/.claude.json, ~/.codex/config.toml)"]
 ```
 
 ### Why the Launcher Lives in `%LOCALAPPDATA%`
-During software compilation, updates, or git workspace cleans, the build output directory (`dist/`) is completely wiped and regenerated. If agent configurations pointed directly to `dist/tools/NovaBrowser.McpProxy.exe`, every clean rebuild would delete the binary and permanently break agent connectivity. 
+During software compilation, updates, or git workspace cleans, the build output directory (`dist/`) is completely wiped and regenerated. If agent configurations pointed directly to `dist/tools/NovaAIWorkspace.McpProxy.exe`, every clean rebuild would delete the binary and permanently break agent connectivity. 
 
 To solve this, Nova's deployment engine (`McpProxyLauncher`):
-1. **Synchronizes the Binary:** Automatically copies the bundled native proxy into `%LOCALAPPDATA%\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe` on application boot.
+1. **Synchronizes the Binary:** Automatically copies the bundled native proxy into `%LOCALAPPDATA%\nova-cognitive\Nova\bin\NovaAIWorkspace.McpProxy.exe` on application boot.
 2. **Mutex-Protected Upgrades:** Uses a per-user Windows named mutex (`Local\NovaBrowser_McpProxy_DeployMutex`) to serialize upgrades across parallel processes.
 3. **Atomic Rename Dance:** Staged file copies and atomic file moves ensure that binary updates never leave a half-written executable on disk.
 4. **Lock Deferral (`DeferredLocked`):** If an active AI agent currently holds the proxy executable open, Nova defers file replacement until the next launch rather than crashing active agent sessions.
@@ -84,7 +84,7 @@ Autonomous agents frequently run CLI commands when Nova is closed. The proxy run
 sequenceDiagram
     autonumber
     actor Agent as AI Agent CLI (e.g. Claude Code)
-    participant Proxy as NovaBrowser.McpProxy.exe
+    participant Proxy as NovaAIWorkspace.McpProxy.exe
     participant Lock as mcp-autostart.lock
     participant OS as Windows Kernel (CreateProcessW)
     participant Nova as NovaAIWorkspace.exe
@@ -317,7 +317,7 @@ When a tool call cannot be completed, Nova's proxy returns a standard JSON-RPC r
 Different AI clients implement variations of the Model Context Protocol. Nova's proxy runner provides built-in compatibility adaptations:
 
 ```
-Usage: NovaBrowser.McpProxy.exe [--version | --self-test] | [--antigravity-tool-names] [--mirror-structured-content]
+Usage: NovaAIWorkspace.McpProxy.exe [--version | --self-test] | [--antigravity-tool-names] [--mirror-structured-content]
 ```
 
 | Switch / Flag | Target Clients | Technical Behavior & Compatibility Rationale |
@@ -335,7 +335,7 @@ Usage: NovaBrowser.McpProxy.exe [--version | --self-test] | [--antigravity-tool-
 Operators can monitor and manage the proxy runner directly from Nova's graphical user interface under **Menu → Settings → AI & agents → Setup**:
 
 * **Runner Status Indicator:** Displays the active runner state:
-  * `Runner ready: C:\Users\<user>\AppData\Local\nova-cognitive\Nova\bin\NovaBrowser.McpProxy.exe`
+  * `Runner ready: C:\Users\<user>\AppData\Local\nova-cognitive\Nova\bin\NovaAIWorkspace.McpProxy.exe`
   * `Runner unavailable: <path>` (accompanied by repair instructions).
 * **Reinstall Runner Button:** Re-extracts the bundled native binary, cleans up legacy scripts, re-synchronizes global client configurations, and verifies executable file integrity.
 * **Activation & Bearer Token Refresh:** Refreshes connection metadata in `%LOCALAPPDATA%\nova-cognitive\Nova\mcp-activation.json` and updates encrypted DPAPI tokens.

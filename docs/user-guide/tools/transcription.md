@@ -1,7 +1,7 @@
 # Audio & Video Transcription (Whisper)
 
 > [!NOTE]
-> Nova AI Workspace includes a built-in, fully offline speech-to-text engine powered by [Whisper](https://github.com/ggerganov/whisper.cpp). All audio processing and model inference run locally on your Windows computer inside Nova's sandboxed helper process (`NovaBrowser.Outrider.exe`). No audio files, recordings, or transcripts are ever transmitted to external cloud services or third-party APIs.
+> Nova AI Workspace includes a built-in, fully offline speech-to-text engine powered by [Whisper](https://github.com/ggerganov/whisper.cpp). All audio processing and model inference run locally on your Windows computer inside Nova's sandboxed helper process (`NovaAIWorkspace.Outrider.exe`). No audio files, recordings, or transcripts are ever transmitted to external cloud services or third-party APIs.
 
 ---
 
@@ -71,7 +71,7 @@ You can open the Transcription tool in several ways:
 
 ### Step 3: Run the Transcription
 * Click the primary **Transcribe** button.
-* Nova launches `NovaBrowser.Outrider.exe` to decode audio and run model inference.
+* Nova launches `NovaAIWorkspace.Outrider.exe` to decode audio and run model inference.
 * The progress bar displays elapsed time, total audio length, and estimated completion time (e.g. *"Transcribing… 00:45 of 02:30, about 00:30 left"*).
 * Live recognized text segments stream directly into the transcript viewer in real time.
 * **Need to stop early?** The button turns into **Cancel** while running. If canceled, all text transcribed up to that point is preserved in the viewer.

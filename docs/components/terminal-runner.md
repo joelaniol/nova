@@ -1,7 +1,7 @@
 # TerminalRunner — Persistent Console Host & ConPTY Automation Engine
 
-**Binary:** `NovaBrowser.TerminalRunner.exe`  
-**Distribution Locations:** Shipped bundled in `dist/tools/NovaBrowser.TerminalRunner.exe`; automatically deployed and synchronized by Nova into `%LOCALAPPDATA%\nova-cognitive\Nova\bin\NovaBrowser.TerminalRunner.exe`.
+**Binary:** `NovaAIWorkspace.TerminalRunner.exe`  
+**Distribution Locations:** Shipped bundled in `dist/tools/NovaAIWorkspace.TerminalRunner.exe`; automatically deployed and synchronized by Nova into `%LOCALAPPDATA%\nova-cognitive\Nova\bin\NovaAIWorkspace.TerminalRunner.exe`.
 
 The **Terminal Runner** is an external, dedicated helper process built with .NET. It hosts native Windows pseudo consoles (**ConPTY**) and their attached child shell processes (such as PowerShell 7, Windows PowerShell, Command Prompt, or CLI agents like Claude Code and Codex) outside the main browser application.
 
@@ -22,7 +22,7 @@ flowchart TD
         NamedPipe[("Duplex Named Pipe<br/>novabrowser-terminal-runner-{profileId}<br/>9-byte Binary Framing")]
     end
 
-    subgraph TerminalRunnerProcess ["Persistent Console Host (NovaBrowser.TerminalRunner.exe)"]
+    subgraph TerminalRunnerProcess ["Persistent Console Host (NovaAIWorkspace.TerminalRunner.exe)"]
         PipeServer["RunnerPipeServer (Loopback Auth)"]
         
         subgraph ChannelMux ["Dual-Channel Multiplexer"]
@@ -57,7 +57,7 @@ In modern developer workflows, web browsing and terminal execution are intimatel
 * **Fate Sharing & Process Termination:** If the browser reloads, updates its application package, or encounters an unexpected fault, all running child processes, dev servers, and active test suites would be terminated instantly.
 
 TerminalRunner solves this through architectural separation:
-1. **Window vs. Console Decoupling:** Shell processes run side-by-side with `NovaBrowser.TerminalRunner.exe`. Nova's terminal dock acts strictly as a presentation view rendered via `xterm.js`.
+1. **Window vs. Console Decoupling:** Shell processes run side-by-side with `NovaAIWorkspace.TerminalRunner.exe`. Nova's terminal dock acts strictly as a presentation view rendered via `xterm.js`.
 2. **Contrast with Outrider:** While [Outrider](outrider/README.md) is a supervised, disposable worker designed for short-lived multimedia and diagnostic probes, TerminalRunner is a **persistent, stateful host** designed for long-running process continuity.
 3. **User Permission Alignment:** TerminalRunner does not act as an OS sandbox; hosted shells execute with the full security context and file permissions of the active Windows user.
 
@@ -153,7 +153,7 @@ When Nova connects to the runner's named pipe server, it executes an explicit ha
 sequenceDiagram
     autonumber
     participant Nova as Nova AI Workspace
-    participant Runner as NovaBrowser.TerminalRunner.exe
+    participant Runner as NovaAIWorkspace.TerminalRunner.exe
 
     Nova->>Runner: ControlFrame: hello { token, protocolVersion: 1 }
     
@@ -192,7 +192,7 @@ Terminal processes frequently spawn child trees (e.g. PowerShell launching Node.
 
 To prevent zombie processes, `TerminalConPtyHost` groups every child process into a native **Windows Job Object**:
 * Configured with `JOB_OBJECT_LIMIT_KILL_ON_JOB_CLOSE`.
-* When a terminal session is closed, or if `NovaBrowser.TerminalRunner.exe` crashes or terminates, the Windows kernel automatically closes the job handle.
+* When a terminal session is closed, or if `NovaAIWorkspace.TerminalRunner.exe` crashes or terminates, the Windows kernel automatically closes the job handle.
 * The kernel terminates the entire descendant process tree immediately and synchronously, providing a hardware-enforced **fail-closed zero-orphan guarantee**.
 
 ---
@@ -292,10 +292,10 @@ The terminal subsystem exposes configuration knobs over MCP via `nova.terminal_s
 
 ## 12. CLI Diagnostic Switches & Self-Test Suite
 
-Operators and diagnostic scripts can execute `NovaBrowser.TerminalRunner.exe` directly from the console to verify subsystem health:
+Operators and diagnostic scripts can execute `NovaAIWorkspace.TerminalRunner.exe` directly from the console to verify subsystem health:
 
 ```powershell
-& "$env:LOCALAPPDATA\NovaBrowser\bin\NovaBrowser.TerminalRunner.exe" --self-test
+& "$env:LOCALAPPDATA\NovaBrowser\bin\NovaAIWorkspace.TerminalRunner.exe" --self-test
 ```
 
 | Switch / Argument | Operational Purpose & Validation Scope |

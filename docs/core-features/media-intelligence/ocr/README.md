@@ -44,7 +44,7 @@ flowchart TD
     end
 
     subgraph OutriderStage["2. Dual-Engine Inference in Isolated Outrider"]
-        OutriderEnv["Nova Outrider Isolated Helper\n(NovaBrowser.Outrider.exe)"]
+        OutriderEnv["Nova Outrider Isolated Helper\n(NovaAIWorkspace.Outrider.exe)"]
         TesseractEngine["Stage 1: Tesseract 5 Engine\n(deu + eng, tessdata_fast 4.1.0)"]
         PaddleEngine["Stage 2: PaddleOCR PP-OCRv5 Engine\n(RapidOcrNet / ONNX Runtime Mobile Latin)"]
         LineAssembler["Bounding Box Line Assembler\n(Chains Receipt Items & Currency Amounts)"]
@@ -148,7 +148,7 @@ A single image is finished well within that time, so it comes back in the same c
 
 ## 4. Native Process Isolation & Security Invariants
 
-* **Isolated Native Helper (Outrider):** Tesseract, Leptonica, PaddleOCR, and ONNX Runtime are native C/C++ libraries. Nova runs them inside a dedicated one-shot Outrider process (`NovaBrowser.Outrider.exe --ocr-once`). If an anomalous image triggers an illegal instruction or memory violation, only that single Outrider task terminates; Nova's browser tabs and MCP connections remain uninterrupted.
+* **Isolated Native Helper (Outrider):** Tesseract, Leptonica, PaddleOCR, and ONNX Runtime are native C/C++ libraries. Nova runs them inside a dedicated one-shot Outrider process (`NovaAIWorkspace.Outrider.exe --ocr-once`). If an anomalous image triggers an illegal instruction or memory violation, only that single Outrider task terminates; Nova's browser tabs and MCP connections remain uninterrupted.
 * **Zero Intermediate Disk Scratch Files:** Rasterized page pixels are transferred directly in-memory to Leptonica and ONNX Runtime, preventing unencrypted temporary image files from lingering on disk.
 * **Untrusted Document Content Tagging:** All OCR results carry `contentTrust: "untrusted_document"`. Agents are instructed to treat recognized text as passive data, mitigating prompt injection attacks embedded inside scanned documents.
 
